@@ -12,7 +12,7 @@
 
 package com.sharefile.api.models;
 
-public enum SFSFTool {
+public enum SFTool {
 	DriveMapping,
 	EnterpriseSync,
 	FTP,

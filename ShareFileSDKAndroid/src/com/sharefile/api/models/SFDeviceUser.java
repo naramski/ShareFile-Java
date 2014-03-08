@@ -32,7 +32,7 @@ public class SFDeviceUser extends SFODataObject {
 	private SFDeviceActionInitiatorRole mWipeInitiatorRole;
 	private String mLockInitiator;
 	private SFDeviceActionInitiatorRole mLockInitiatorRole;
-	private SFSFTool mDeviceType;
+	private SFTool mDeviceType;
 	private String mLastErrorMessage;
 
 	public SFAccount getAccount() {
@@ -147,11 +147,11 @@ public class SFDeviceUser extends SFODataObject {
 	public void setLockInitiatorRole(SFDeviceActionInitiatorRole lockinitiatorrole) {
 		mLockInitiatorRole = lockinitiatorrole;
 	}
-	public SFSFTool getDeviceType() {
+	public SFTool getDeviceType() {
 		return mDeviceType;
 	}
 
-	public void setDeviceType(SFSFTool devicetype) {
+	public void setDeviceType(SFTool devicetype) {
 		mDeviceType = devicetype;
 	}
 	public String getLastErrorMessage() {

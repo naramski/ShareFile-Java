@@ -16,18 +16,18 @@ import java.util.Date;
 
 public class SFDevice extends SFODataObject {
 
-	private SFSFTool mTool;
+	private SFTool mTool;
 	private String mToolRaw;
 	private SFUser mOwner;
 	private Date mCreated;
 	private String mToolVersion;
 	private Boolean mJustRegistered;
 
-	public SFSFTool getTool() {
+	public SFTool getTool() {
 		return mTool;
 	}
 
-	public void setTool(SFSFTool tool) {
+	public void setTool(SFTool tool) {
 		mTool = tool;
 	}
 	public String getToolRaw() {
