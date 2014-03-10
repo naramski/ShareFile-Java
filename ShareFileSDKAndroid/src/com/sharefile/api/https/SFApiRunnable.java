@@ -1,6 +1,5 @@
 package com.sharefile.api.https;
 
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -14,13 +13,15 @@ import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
-	private final Class<T> mInnerType ;
 	private static final String TAG = "-SFApiThread";
+	
+	private final Class<T> mInnerType ;	
 	private final SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
@@ -86,9 +87,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFLog.d2(TAG, "%s",Log.getStackTraceString(ex));
 		}		
 		
-		//processResponse();
-		
-		mResponseListener.sfapiSuccess(createInstanceForSuccessResponse());
+		processResponse();				
 	}		 
 		
 	/**
@@ -116,10 +115,20 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private void callSuccessResponseHandler()
 	{
 		if(mResponseListener!=null)
-		{			
-			Class<T> classType = null;
-			T object = SFODataObject.createInstance(classType);
-			mResponseListener.sfapiSuccess(object);
+		{						
+			T object = createInstanceForSuccessResponse();
+			if(object!=null)
+			{
+				try 
+				{
+					object.parseFromJson(mResponseString);
+					mResponseListener.sfapiSuccess(object);
+				} 
+				catch (SFJsonException e) 
+				{					
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -141,8 +150,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	}		
 	
 	public T createInstanceForSuccessResponse()
-	{
-		
+	{		
 		T object =	null;
 		
 		try 

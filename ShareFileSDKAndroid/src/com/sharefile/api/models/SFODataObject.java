@@ -155,19 +155,5 @@ public class SFODataObject implements SFJsonInterface{
 			
 			return null;
 		}		
-	}			
-	
-	public static <T> T createInstance(Class<T> classType) 
-	{		
-		try 
-		{
-			return classType.newInstance();
-		} 		 
-		catch (Exception e) 
-		{			
-			SFLog.d2("","Exception createInstance: %s",Log.getStackTraceString(e));
-		}
-		
-		return null;
-	}
+	}					
 }

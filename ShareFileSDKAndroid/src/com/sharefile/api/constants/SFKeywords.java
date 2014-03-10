@@ -9,6 +9,14 @@ public final class SFKeywords
 	public static final String URL = "url";
 	public static final String Id = "Id";
 		
+	public static final String PRINCIPAL = "Principal";
+	public static final String AUTHENTICATION_TYPE = "AuthenticationType";
+	public static final String TOOL = "Tool";
+	public static final String VERSION = "Version";
+	public static final String IS_AUTHENTICATED = "IsAuthenticated";
+	public static final String NAME = "NAME";
+	public static final String DEVICE_USER = "DEVICE_USER";
+			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";
 	public static final String REFRESH_TOKEN = "refresh_token";
@@ -44,5 +52,5 @@ public final class SFKeywords
 	//Informative stack trace mesage for exceptions thrown by us
 	public static final String EXCEPTION_MSG_INVALID_PARAMETER_TO_QUERY = "setId and addIds are multually exclusive. only one of them can be called on a query object";
 	public static final String EXCEPTION_MSG_NOT_IMPLEMENTED = "function not implemented";
-	
+		
 }
