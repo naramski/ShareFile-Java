@@ -12,6 +12,14 @@
 
 package com.sharefile.api.models;
 
+/**
+ *  A principal object represents some authority in the ShareFile system, 
+ *  that can login and/or be given AccessControl permissions to Items. 
+ *  Principals include Users, Groups and Zones. Groups cannot authenticate, 
+ *  but can be part of Items Access Control lists. Zones can authenticate 
+ *  to perform zone management operations - such as copying items to another 
+ *  zone. Users are the typical users, represented by email and domain.
+ */
 public class SFPrincipal extends SFODataObject {
 
 	private String mName;

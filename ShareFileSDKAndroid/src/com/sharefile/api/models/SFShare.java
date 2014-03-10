@@ -16,6 +16,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.sharefile.api.enumerations.SFShareType;
+
 public class SFShare extends SFODataObject {
 
 	private String mAliasID;

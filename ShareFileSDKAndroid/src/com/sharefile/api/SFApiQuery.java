@@ -2,12 +2,12 @@ package com.sharefile.api;
 
 import java.util.ArrayList;
 
+import com.sharefile.api.enumerations.SFTreeMode;
+import com.sharefile.api.enumerations.SFUploadMethod;
+import com.sharefile.api.enumerations.SFVRootType;
+import com.sharefile.api.enumerations.SFZoneService;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
-import com.sharefile.api.models.SFTreeMode;
-import com.sharefile.api.models.SFUploadMethod;
-import com.sharefile.api.models.SFVRootType;
-import com.sharefile.api.models.SFZoneService;
 
 public class SFApiQuery<T> 
 {
@@ -77,32 +77,32 @@ public class SFApiQuery<T>
 	}
 
 	public void addQueryString(String key, SFVRootType rootType) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	public void addQueryString(String key, ArrayList<String> ids) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	public void addQueryString(String key, Integer size) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	public void addQueryString(String key, SFUploadMethod method) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	public void addQueryString(String key, Long fileSize) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	public void addQueryString(String key, SFApiQuery<SFSearchResults> query) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 			

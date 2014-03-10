@@ -14,6 +14,9 @@ package com.sharefile.api.models;
 
 import java.util.Date;
 
+import com.sharefile.api.enumerations.SFAsyncOperationState;
+import com.sharefile.api.enumerations.SFAsyncOperationType;
+
 public class SFAsyncOperation extends SFODataObject {
 
 	private SFAsyncOperationType mOperation;

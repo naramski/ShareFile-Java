@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.entities.SFZonesEntity;
+import com.sharefile.api.enumerations.SFZoneService;
 import com.sharefile.api.models.SFMetadata;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFZone;
-import com.sharefile.api.models.SFZoneService;
 
 
 public class SFZonesEntityInternal extends SFZonesEntity

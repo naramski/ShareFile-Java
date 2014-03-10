@@ -14,6 +14,9 @@ package com.sharefile.api.models;
 
 import java.util.Date;
 
+import com.sharefile.api.enumerations.SFDeviceActionInitiatorRole;
+import com.sharefile.api.enumerations.SFTool;
+
 public class SFDeviceUser extends SFODataObject {
 
 	private SFAccount mAccount;

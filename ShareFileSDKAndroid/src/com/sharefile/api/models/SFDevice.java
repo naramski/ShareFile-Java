@@ -14,6 +14,8 @@ package com.sharefile.api.models;
 
 import java.util.Date;
 
+import com.sharefile.api.enumerations.SFTool;
+
 public class SFDevice extends SFODataObject {
 
 	private SFTool mTool;

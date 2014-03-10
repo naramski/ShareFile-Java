@@ -12,6 +12,8 @@
 
 package com.sharefile.api.models;
 
+import com.sharefile.api.enumerations.SFTreeMode;
+
 public class SFItemInfo extends SFODataObject {
 
 	private SFAccessControl mCurrentAccessControl;

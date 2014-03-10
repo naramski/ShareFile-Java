@@ -12,6 +12,8 @@
 
 package com.sharefile.api.models;
 
+import com.sharefile.api.enumerations.SFPinLockType;
+
 public class SFMobileSecuritySettings extends SFODataObject {
 
 	private Integer mPoisonPillInterval;

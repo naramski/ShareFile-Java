@@ -12,6 +12,8 @@
 
 package com.sharefile.api.models;
 
+import com.sharefile.api.enumerations.SFUXMode;
+
 public class SFAccountPreferences extends SFODataObject {
 
 	private Boolean mEnableViewOnly;

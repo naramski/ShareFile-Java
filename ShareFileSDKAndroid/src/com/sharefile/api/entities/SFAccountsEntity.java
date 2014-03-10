@@ -13,7 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
-import com.sharefile.api.SFToDoReminderException;
+import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.models.SFAccessControlDomains;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFAccountPreferences;

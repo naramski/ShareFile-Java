@@ -12,6 +12,8 @@
 
 package com.sharefile.api.models;
 
+import com.sharefile.api.enumerations.SFCapabilityName;
+
 public class SFCapability extends SFODataObject {
 
 	private SFCapabilityName mName;

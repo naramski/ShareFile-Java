@@ -12,6 +12,8 @@
 
 package com.sharefile.api.models;
 
+import com.sharefile.api.enumerations.SFDeviceLogEntryAction;
+
 public class SFDeviceLogEntry extends SFODataObject {
 
 	private String mFileName;

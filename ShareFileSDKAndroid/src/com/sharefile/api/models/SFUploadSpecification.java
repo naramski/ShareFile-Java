@@ -14,6 +14,8 @@ package com.sharefile.api.models;
 
 import java.net.URI;
 
+import com.sharefile.api.enumerations.SFUploadMethod;
+
 public class SFUploadSpecification extends SFODataObject {
 
 	private SFUploadMethod mMethod;

@@ -15,6 +15,8 @@ package com.sharefile.api.models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.sharefile.api.enumerations.SFUserRole;
+
 public class SFUser extends SFPrincipal {
 
 	private SFAccount mAccount;

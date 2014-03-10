@@ -12,6 +12,8 @@
 
 package com.sharefile.api.models;
 
+import com.sharefile.api.enumerations.SFFileVirusStatus;
+
 public class SFFile extends SFItem {
 
 	private String mFilePath;

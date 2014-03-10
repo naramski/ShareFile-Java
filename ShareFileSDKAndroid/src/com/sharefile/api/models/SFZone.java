@@ -14,6 +14,9 @@ package com.sharefile.api.models;
 
 import java.util.ArrayList;
 
+import com.sharefile.api.enumerations.SFZoneService;
+import com.sharefile.api.enumerations.SFZoneType;
+
 public class SFZone extends SFPrincipal {
 
 	private String mSecret;

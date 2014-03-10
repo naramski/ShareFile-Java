@@ -14,6 +14,8 @@ package com.sharefile.api.models;
 
 import java.util.ArrayList;
 
+import com.sharefile.api.enumerations.SFAccessControlFilter;
+
 public class SFAccessControlDomains extends SFODataObject {
 
 	private SFAccessControlFilter mAccessControlType;
