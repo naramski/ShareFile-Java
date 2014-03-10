@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFODataFeed;
@@ -32,7 +33,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 		query.setFrom("AccessControls");
 		query.addIds("principalid", principalid);
 		query.addIds("itemid", itemid);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -47,8 +48,8 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFAccessControl>> query = new SFApiQuery<SFODataFeed<SFAccessControl>>();
 		query.setFrom("Items");
 		query.setAction("AccessControls");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -79,13 +80,13 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 		SFApiQuery<SFAccessControl> query = new SFApiQuery<SFAccessControl>();
 		query.setFrom("Items");
 		query.setAction("AccessControls");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("recursive", recursive);
 		query.addQueryString("sendDefaultNotification", sendDefaultNotification);
 		//accessControl.Properties["message"] = message;
 		SFToDoReminderException.throwTODOException("handle parameter filing here");
 		query.setBody(accessControl);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -112,10 +113,10 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 		SFApiQuery<SFAccessControl> query = new SFApiQuery<SFAccessControl>();
 		query.setFrom("Items");
 		query.setAction("AccessControls");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("recursive", recursive);
 		query.setBody(accessControl);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -132,7 +133,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 		query.setFrom("AccessControls");
 		query.addIds("principalid", principalid);
 		query.addIds("itemid", itemid);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 

@@ -13,9 +13,9 @@
 package com.sharefile.api.enumerations;
 
 public enum SFTreeMode {
-	Standard,
-	Copy,
-	Move,
-	Sync,
-	Manage
+	Standard{@Override public String toString() {return "Standard";}},
+	Copy{@Override public String toString() {return "Copy";}},
+	Move{@Override public String toString() {return "Move";}},
+	Sync{@Override public String toString() {return "Sync";}},
+	Manage{@Override public String toString() {return "Manage";}}
 }

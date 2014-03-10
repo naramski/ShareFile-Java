@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFSession;
 
 
@@ -25,11 +26,11 @@ public class SFSessionsEntity extends SFODataEntityBase
 	* not trigger the SAML authentication flow - use /Sessions/Login instead.
 	* @return The current authentication Context, based on the request SF_APIAuthId Cookie
     */
-	public SFApiQuery<SFSession> get()
+	public static SFApiQuery<SFSession> get()
 	{
 		SFApiQuery<SFSession> query = new SFApiQuery<SFSession>();
 		query.setFrom("Sessions");
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -37,11 +38,11 @@ public class SFSessionsEntity extends SFODataEntityBase
 	* Logout
 	* Logout the current session - invalidate the current Session ID
     */
-	public SFApiQuery delete()
+	public SFApiQuery<SFSession> delete()
 	{
-		SFApiQuery query = new SFApiQuery();
+		SFApiQuery<SFSession> query = new SFApiQuery<SFSession>();
 		query.setFrom("Sessions");
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -76,7 +77,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 		query.setAction("Login");
 		query.addQueryString("authmethod", authmethod);
 		query.addQueryString("authcomparison", authcomparison);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -85,7 +86,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 		SFApiQuery<SFSession> query = new SFApiQuery<SFSession>();
 		query.setFrom("Sessions");
 		query.setAction("Acs");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

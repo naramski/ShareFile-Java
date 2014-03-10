@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.models.SFAccessControlDomains;
 import com.sharefile.api.models.SFAccount;
@@ -30,8 +31,6 @@ import com.sharefile.api.models.SFSSOAccountProvider;
 import com.sharefile.api.models.SFSSOInfo;
 
 
-
-
 public class SFAccountsEntity extends SFODataEntityBase
 {
     /**
@@ -43,7 +42,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFAccount> query = new SFApiQuery<SFAccount>();
 		query.setFrom("Accounts");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -58,7 +57,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFAccount> query = new SFApiQuery<SFAccount>();
 		query.setFrom("Accounts");
 		query.setAction("Branding");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -73,7 +72,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
 		query.setFrom("Accounts");
 		query.setAction("Employees");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -89,7 +88,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
 		query.setFrom("Accounts");
 		query.setAction("Clients");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -109,7 +108,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setAction("AddressBook");
 		query.addQueryString("type", type);
 		query.addQueryString("searchTerm", searchTerm);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -123,7 +122,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFMobileSecuritySettings> query = new SFApiQuery<SFMobileSecuritySettings>();
 		query.setFrom("Accounts");
 		query.setAction("MobileSecuritySettings");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -132,7 +131,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFProductDefaults> query = new SFApiQuery<SFProductDefaults>();
 		query.setFrom("Accounts");
 		query.setAction("ProductDefaults");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -141,7 +140,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFAccountPreferences> query = new SFApiQuery<SFAccountPreferences>();
 		query.setFrom("Accounts");
 		query.setAction("Preferences");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -156,7 +155,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("SSO");
 		query.addQueryString("provider", provider);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -183,7 +182,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setAction("SSO");
 		query.addQueryString("provider", provider);
 		query.setBody(sso);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -214,7 +213,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		*/
 		SFToDoReminderException.throwTODOException("handle parameter filing here");
 		query.setBody(parameters);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -230,7 +229,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("SendToEmail");
 		query.addQueryString("email", email);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -247,7 +246,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFAccessControlDomains> query = new SFApiQuery<SFAccessControlDomains>();
 		query.setFrom("Accounts");
 		query.setAction("LoginAccessControlDomains");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -266,7 +265,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		SFApiQuery<SFAccessControlDomains> query = new SFApiQuery<SFAccessControlDomains>();
 		query.setFrom("Accounts");
 		query.setAction("FolderAccessControlDomains");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -286,7 +285,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("LoginAccessControlDomains");
 		query.setBody(accessControlDomains);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -306,7 +305,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("FolderAccessControlDomains");
 		query.setBody(accessControlDomains);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -327,7 +326,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("LoginAccessControlDomains");
 		query.setBody(accessControlDomains);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -349,7 +348,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("FolderAccessControlDomains");
 		query.setBody(accessControlDomains);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -370,7 +369,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("LoginAccessControlDomains");
 		query.setBody(accessControlDomains);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -391,7 +390,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("FolderAccessControlDomains");
 		query.setBody(accessControlDomains);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -410,7 +409,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.addQueryString("subdomain", subdomain);
 		query.addQueryString("username", username);
 		query.addQueryString("singlePlane", singlePlane);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -427,7 +426,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setAction("RequireSubdomain");
 		query.addQueryString("username", username);
 		query.addQueryString("singlePlane", singlePlane);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -450,7 +449,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setAction("FindSubdomain");
 		query.addQueryString("singlePlane", singlePlane);
 		query.setBody(findSubdomainParams);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -465,7 +464,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		query.setFrom("Accounts");
 		query.setAction("SSOInfo");
 		query.addQueryString("subdomain", subdomain);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

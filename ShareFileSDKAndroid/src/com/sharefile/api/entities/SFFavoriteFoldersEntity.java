@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFFavoriteFolder;
 import com.sharefile.api.models.SFODataFeed;
 
@@ -29,8 +30,8 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFODataFeed<SFFavoriteFolder>> query = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>();
 		query.setFrom("User");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -45,9 +46,9 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
 		query.setFrom("User");
 		query.setAction("FavoriteFolders");
-		query.addIds(id);
+		query.setId(id);
 		query.addActionIds(actionsids);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -64,7 +65,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 		query.setFrom("FavoriteFolders");
 		query.addIds("userid", userid);
 		query.addIds("itemid", itemid);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -84,10 +85,10 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
 		query.setFrom("User");
 		query.setAction("FavoriteFolders");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("alias", alias);
 		query.setBody(folder);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -102,9 +103,9 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("User");
 		query.setAction("FavoriteFolders");
-		query.addIds(itemid);
+		query.setId(itemid);
 		query.addActionIds(id);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -113,9 +114,9 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("User");
 		query.setAction("FavoriteFolders");
-		query.addIds(userId);
+		query.setId(userId);
 		query.addActionIds(itemId);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 

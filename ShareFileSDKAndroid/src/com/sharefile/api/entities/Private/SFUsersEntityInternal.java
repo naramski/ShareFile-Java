@@ -14,6 +14,7 @@ package com.sharefile.api.entities.Private;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.entities.SFUsersEntity;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFUserSecurity;
 
 
@@ -31,8 +32,8 @@ public class SFUsersEntityInternal extends SFUsersEntity
 		SFApiQuery<SFUserSecurity> query = new SFApiQuery<SFUserSecurity>();
 		query.setFrom("Users");
 		query.setAction("Security");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

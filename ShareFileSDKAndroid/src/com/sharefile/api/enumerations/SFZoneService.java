@@ -13,8 +13,8 @@
 package com.sharefile.api.enumerations;
 
 public enum SFZoneService {
-	None,
-	StorageZone,
-	NetworkShareConnector,
-	SharepointConnector
+	None{@Override public String toString() {return "None";}},
+	StorageZone{@Override public String toString() {return "StorageZone";}},
+	NetworkShareConnector{@Override public String toString() {return "NetworkShareConnector";}},
+	SharepointConnector{@Override public String toString() {return "SharepointConnector";}}
 }

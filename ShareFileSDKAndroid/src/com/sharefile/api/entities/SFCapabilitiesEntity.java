@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFODataFeed;
 
@@ -35,7 +36,7 @@ public class SFCapabilitiesEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFODataFeed<SFCapability>> query = new SFApiQuery<SFODataFeed<SFCapability>>();
 		query.setFrom("Capabilities");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

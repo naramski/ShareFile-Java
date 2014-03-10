@@ -10,27 +10,70 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.interfaces.SFJsonInterface;
 import com.sharefile.api.models.SFODataObject;
 
-
 public class SFOAuth2Token implements SFJsonInterface
 {
-	public String mAccessToken = "";
-	public String mRefreshToken = "";
-	public String mTokenType = "";
-	public String mAppcp = "";
-	public String mApicp = "";
-	public String mSubdomain = "";
-	public int mExpiresIn = 0;
-
+	private String mAccessToken = "";
+	private String mRefreshToken = "";
+	private String mTokenType = "";
+	private String mAppcp = "";
+	private String mApicp = "";
+	private String mSubdomain = "";
+	private long mExpiresIn = 0;
+	
+	public String getAccessToken()
+	{
+		return mAccessToken;
+	}
+	
+	public String getRefreshToken()
+	{
+		return mRefreshToken;
+	}
+	
+	public String getTokenType()
+	{
+		return mTokenType;
+	}
+	
+	public String getAppCP()
+	{
+		return mAppcp;
+	}
+	
+	public String getApiCP()
+	{
+		return mApicp;
+	}
+	
+	public String getSubdomain()
+	{
+		return mSubdomain;
+	}
+	
+	public long getExpiryTime()
+	{
+		return mExpiresIn;
+	}
+	
+	/**
+	 *   subdomain.sf-api.com
+	 */
+	public String getApiServer()
+	{
+		return mSubdomain +"." + SFSDK.API_SERVER;
+	}
+	
 	/*
 	public SFOAuth2Token()
 	{
-		mAccessToken = "default_accesstoke";
-		mRefreshToken = "default_refresh_toke";
+		mAccessToken = "default_accesstoken";
+		mRefreshToken = "default_refresh_token";
 		mTokenType = "default_tokenType";
 		mAppcp = "default_appcp";
 		mApicp = "default_apicp";
@@ -106,7 +149,7 @@ public class SFOAuth2Token implements SFJsonInterface
 			mAppcp = SFGsonHelper.getString(json,SFKeywords.APP_CP , null);
 			mApicp = SFGsonHelper.getString(json,SFKeywords.API_CP , null);
 			mSubdomain = SFGsonHelper.getString(json,SFKeywords.SUBDOMAIN , null);
-			mExpiresIn = SFGsonHelper.getInt(json,SFKeywords.EXPIRES_IN , 0);
+			mExpiresIn = SFGsonHelper.getLong(json,SFKeywords.EXPIRES_IN , 0);
 		}
 		else
 		{

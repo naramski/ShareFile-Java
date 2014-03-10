@@ -1,5 +1,8 @@
 package com.sharefile.api.entities;
 
-public class SFStream {
+import com.sharefile.api.models.SFODataObject;
+
+public class SFStream extends SFODataObject 
+{
 
 }

@@ -14,6 +14,7 @@ package com.sharefile.api.entities.Private;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.entities.SFDevicesEntity;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFDevice;
 import com.sharefile.api.models.SFDeviceStatus;
 import com.sharefile.api.models.SFDeviceUser;
@@ -31,7 +32,7 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 	{
 		SFApiQuery<SFODataFeed<SFDeviceUser>> query = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
 		query.setFrom("Devices");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -43,8 +44,8 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 	{
 		SFApiQuery<SFDevice> query = new SFApiQuery<SFDevice>();
 		query.setFrom("Devices");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -53,8 +54,8 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 		SFApiQuery<SFODataFeed<SFDeviceUser>> query = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
 		query.setFrom("User");
 		query.setAction("Devices");
-		query.addIds(userId);
-		query.setHttpMethod("GET");
+		query.setId(userId);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -67,8 +68,8 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Devices");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -77,9 +78,9 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("User");
 		query.setAction("Devices");
-		query.addIds(userId);
+		query.setId(userId);
 		query.addActionIds(deviceId);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -88,10 +89,10 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 		SFApiQuery<SFDeviceUser> query = new SFApiQuery<SFDeviceUser>();
 		query.setFrom("User");
 		query.setAction("Devices");
-		query.addIds(userId);
+		query.setId(userId);
 		query.addActionIds(deviceId);
 		query.setBody(du);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -106,9 +107,9 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Devices");
 		query.setAction("Wipe");
-		query.addIds(deviceID);
+		query.setId(deviceID);
 		query.addQueryString("userid", userid);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -145,10 +146,10 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Devices");
 		query.setAction("WipeDone");
-		query.addIds(deviceID);
+		query.setId(deviceID);
 		query.addQueryString("singlePlane", singlePlane);
 		query.setBody(deviceWipeReport);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -162,8 +163,8 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
 		SFApiQuery<SFDeviceStatus> query = new SFApiQuery<SFDeviceStatus>();
 		query.setFrom("Devices");
 		query.setAction("Status");
-		query.addIds(deviceID);
-		query.setHttpMethod("GET");
+		query.setId(deviceID);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

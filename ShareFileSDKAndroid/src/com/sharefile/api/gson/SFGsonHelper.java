@@ -50,6 +50,20 @@ public class SFGsonHelper
     	return ret;
     }
     
+    public static long getLong(JsonObject json,String memberName,long defaultValue)
+    {
+    	long ret = defaultValue;
+    	
+    	JsonElement element = json.get(memberName);
+    	
+    	if(element!=null)
+    	{
+    		ret = element.getAsLong();
+    	}
+    	
+    	return ret;
+    }
+    
     public static boolean getBoolean(JsonObject json,String memberName,boolean defaultValue)
     {
     	boolean ret = defaultValue;

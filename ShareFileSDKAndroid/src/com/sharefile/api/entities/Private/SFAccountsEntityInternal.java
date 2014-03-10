@@ -14,6 +14,7 @@ package com.sharefile.api.entities.Private;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.entities.SFAccountsEntity;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.Private.SFOutlookInformation;
 
 public class SFAccountsEntityInternal extends SFAccountsEntity
@@ -27,7 +28,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		SFApiQuery<SFOutlookInformation> query = new SFApiQuery<SFOutlookInformation>();
 		query.setFrom("Accounts");
 		query.setAction("OutlookInformation");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

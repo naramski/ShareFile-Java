@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFMetadata;
 import com.sharefile.api.models.SFODataFeed;
 
@@ -36,7 +37,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 		query.setFrom("Metadata");
 		query.addIds("name", name);
 		query.addIds("itemid", itemid);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -51,8 +52,8 @@ public class SFMetadataEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFMetadata>> query = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		query.setFrom("Items");
 		query.setAction("Metadata");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -71,9 +72,9 @@ public class SFMetadataEntity extends SFODataEntityBase
 		SFApiQuery<SFMetadata> query = new SFApiQuery<SFMetadata>();
 		query.setFrom("Items");
 		query.setAction("Metadata");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(metadata);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -92,9 +93,9 @@ public class SFMetadataEntity extends SFODataEntityBase
 		SFApiQuery<SFMetadata> query = new SFApiQuery<SFMetadata>();
 		query.setFrom("Items");
 		query.setAction("Metadata");
-		query.addIds(metadataId);
+		query.setId(metadataId);
 		query.setBody(metadata);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -115,7 +116,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 		query.addIds("name", name);
 		query.addIds("itemid", itemid);
 		query.setBody(metadata);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -131,9 +132,9 @@ public class SFMetadataEntity extends SFODataEntityBase
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
 		query.setAction("Metadata");
-		query.addIds(metadataId);
+		query.setId(metadataId);
 		query.addActionIds(id);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -150,7 +151,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 		query.setFrom("Metadata");
 		query.addIds("name", name);
 		query.addIds("itemid", itemid);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 

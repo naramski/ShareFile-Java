@@ -14,6 +14,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
 
 import android.os.Environment;
 import android.util.Log;
@@ -57,7 +58,7 @@ public class SFLog
     private static final DateFormat FLOG_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");    
     private static final File LOG_DIR = new File(Environment.getExternalStorageDirectory() + File.separator + "alog");    
     private static boolean fileLogging = false;
-    private static String tag = SFKeywords.TAG;
+    private static String tag = SFKeywords.TAG+SFSDK.VERSION;
     private static Level level = Level.V;
     private static final BlockingQueue<String> logQueue = new LinkedBlockingQueue<String>();
     

@@ -15,6 +15,7 @@ package com.sharefile.api.entities;
 import java.util.ArrayList;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFContact;
 import com.sharefile.api.models.SFGroup;
 import com.sharefile.api.models.SFODataFeed;
@@ -31,7 +32,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFODataFeed<SFGroup>> query = new SFApiQuery<SFODataFeed<SFGroup>>();
 		query.setFrom("Groups");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -44,8 +45,8 @@ public class SFGroupsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFGroup> query = new SFApiQuery<SFGroup>();
 		query.setFrom("Groups");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -58,8 +59,8 @@ public class SFGroupsEntity extends SFODataEntityBase
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Groups");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -78,9 +79,9 @@ public class SFGroupsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFGroup> query = new SFApiQuery<SFGroup>();
 		query.setFrom("Groups");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(group);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -101,9 +102,9 @@ public class SFGroupsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFGroup> query = new SFApiQuery<SFGroup>();
 		query.setFrom("Groups");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(group);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -118,8 +119,8 @@ public class SFGroupsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
 		query.setFrom("Groups");
 		query.setAction("Contacts");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -137,9 +138,9 @@ public class SFGroupsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
 		query.setFrom("Groups");
 		query.setAction("Contacts");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(contacts);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -161,9 +162,9 @@ public class SFGroupsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
 		query.setFrom("Groups");
 		query.setAction("Contacts");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(contacts);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 

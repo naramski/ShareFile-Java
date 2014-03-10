@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.entities.SFStorageCentersEntity;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFMetadata;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFStorageCenter;
@@ -31,8 +32,8 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 	{
 		SFApiQuery<SFStorageCenter> query = new SFApiQuery<SFStorageCenter>();
 		query.setFrom("StorageCenters");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -50,9 +51,9 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 	{
 		SFApiQuery<SFStorageCenter> query = new SFApiQuery<SFStorageCenter>();
 		query.setFrom("StorageCenters");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(sc);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -64,8 +65,8 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("StorageCenters");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -80,8 +81,8 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 		SFApiQuery<SFODataFeed<SFStorageCenter>> query = new SFApiQuery<SFODataFeed<SFStorageCenter>>();
 		query.setFrom("Zones");
 		query.setAction("StorageCenters");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -102,9 +103,9 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 		SFApiQuery<SFStorageCenter> query = new SFApiQuery<SFStorageCenter>();
 		query.setFrom("Zones");
 		query.setAction("StorageCenters");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(storageCenter);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -126,10 +127,10 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 		SFApiQuery<SFStorageCenter> query = new SFApiQuery<SFStorageCenter>();
 		query.setFrom("Zones");
 		query.setAction("StorageCenters");
-		query.addIds(zid);
+		query.setId(zid);
 		query.addActionIds(scid);
 		query.setBody(storageCenter);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -144,9 +145,9 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Zones");
 		query.setAction("StorageCenters");
-		query.addIds(zid);
+		query.setId(zid);
 		query.addActionIds(scid);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -162,10 +163,10 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 		SFApiQuery<SFODataFeed<SFMetadata>> query = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		query.setFrom("Zones");
 		query.setAction("StorageCenters");
-		query.addIds(zid);
+		query.setId(zid);
 		query.addActionIds(scid);
 		query.addSubAction("Metadata");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -187,11 +188,11 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 		SFApiQuery<SFODataFeed<SFMetadata>> query = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		query.setFrom("Zones");
 		query.setAction("StorageCenters");
-		query.addIds(zid);
+		query.setId(zid);
 		query.addActionIds(scid);
 		query.addSubAction("Metadata");
 		query.setBody(metadata);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -208,11 +209,11 @@ public class SFStorageCentersEntityInternal extends SFStorageCentersEntity
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Zones");
 		query.setAction("StorageCenters");
-		query.addIds(zid);
+		query.setId(zid);
 		query.addActionIds(scid);
 		query.addSubAction("Metadata");
 		query.addQueryString("name", name);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 

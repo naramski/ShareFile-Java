@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
@@ -38,7 +39,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		query.setFrom("Users");
 		query.addQueryString("id", id);
 		query.addQueryString("emailAddress", emailAddress);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -78,7 +79,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		query.addQueryString("notify", notify);
 		query.addQueryString("ifNecessary", ifNecessary);
 		query.setBody(user);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -127,7 +128,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		query.addQueryString("notify", notify);
 		query.addQueryString("ifNecessary", ifNecessary);
 		query.setBody(user);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -158,9 +159,9 @@ public class SFUsersEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
 		query.setFrom("Users");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(user);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -187,10 +188,10 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
 		query.setFrom("Users");
 		query.setAction("Roles");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("parentid", parentid);
 		query.setBody(user);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -217,10 +218,10 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
 		query.setFrom("Users");
 		query.setAction("Roles");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("parentid", parentid);
 		query.setBody(user);
-		query.setHttpMethod("PUT");
+		query.setHttpMethod(SFHttpMethod.PUT);
 		return query;
 	}
 
@@ -256,7 +257,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		query.setAction("AccountUser");
 		query.addActionIds(id);
 		query.setBody(user);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -271,8 +272,8 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Users");
 		query.setAction("HomeFolder");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -281,8 +282,8 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Users");
 		query.setAction("TopFolders");
-		query.addIds(userId);
-		query.setHttpMethod("GET");
+		query.setId(userId);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -291,8 +292,8 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Users");
 		query.setAction("Box");
-		query.addIds(userId);
-		query.setHttpMethod("GET");
+		query.setId(userId);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -308,8 +309,8 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFUserPreferences> query = new SFApiQuery<SFUserPreferences>();
 		query.setFrom("Users");
 		query.setAction("Preferences");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -335,10 +336,10 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
 		query.setFrom("Users");
 		query.setAction("ResetPassword");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("notify", notify);
 		query.setBody(properties);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -352,8 +353,8 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Users");
 		query.setAction("ResendWelcome");
-		query.addIds(id);
-		query.setHttpMethod("POST");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -367,9 +368,9 @@ public class SFUsersEntity extends SFODataEntityBase
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Users");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("completely", completely);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -383,7 +384,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Users");
 		query.setAction("AllSharedFolders");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -399,7 +400,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Users");
 		query.setAction("TopFolders");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -413,7 +414,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Users");
 		query.setAction("NetworkShareConnectors");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -427,7 +428,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Users");
 		query.setAction("SharepointConnectors");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -453,7 +454,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		query.setFrom("Users");
 		query.setAction("Confirm");
 		query.setBody(settings);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -466,7 +467,7 @@ public class SFUsersEntity extends SFODataEntityBase
 		SFApiQuery<SFUserInfo> query = new SFApiQuery<SFUserInfo>();
 		query.setFrom("Users");
 		query.setAction("Info");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

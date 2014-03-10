@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFAsyncOperation;
 import com.sharefile.api.models.SFODataFeed;
 
@@ -31,8 +32,8 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFAsyncOperation> query = new SFApiQuery<SFAsyncOperation>();
 		query.setFrom("AsyncOperations");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -48,7 +49,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 		query.setFrom("AsyncOperations");
 		query.setAction("GetByBatch");
 		query.addActionIds(id);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -64,7 +65,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 		query.setFrom("AsyncOperations");
 		query.setAction("GetByFolder");
 		query.addActionIds(id);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -79,8 +80,8 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 		SFApiQuery<SFAsyncOperation> query = new SFApiQuery<SFAsyncOperation>();
 		query.setFrom("AsyncOperations");
 		query.setAction("Cancel");
-		query.addIds(id);
-		query.setHttpMethod("POST");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -93,8 +94,8 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("AsyncOperations");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -111,7 +112,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 		query.setFrom("AsyncOperations");
 		query.setAction("CancelBatch");
 		query.addActionIds(id);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -127,9 +128,9 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFAsyncOperation> query = new SFApiQuery<SFAsyncOperation>();
 		query.setFrom("AsyncOperations");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(newAsyncOp);
-		query.setHttpMethod("PUT");
+		query.setHttpMethod(SFHttpMethod.PUT);
 		return query;
 	}
 

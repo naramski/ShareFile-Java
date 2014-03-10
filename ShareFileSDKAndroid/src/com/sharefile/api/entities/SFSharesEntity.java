@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFShare;
@@ -32,7 +33,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFODataFeed<SFShare>> query = new SFApiQuery<SFODataFeed<SFShare>>();
 		query.setFrom("Shares");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -45,8 +46,8 @@ public class SFSharesEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
 		query.setFrom("Shares");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -64,9 +65,9 @@ public class SFSharesEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFShareAlias>> query = new SFApiQuery<SFODataFeed<SFShareAlias>>();
 		query.setFrom("Shares");
 		query.setAction("Recipients");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("id", parentid);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -81,9 +82,9 @@ public class SFSharesEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Shares");
 		query.setAction("Items");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("id", parentid);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
     
@@ -109,11 +110,11 @@ public class SFSharesEntity extends SFODataEntityBase
 		SFApiQuery<SFStream> query = new SFApiQuery<SFStream>();
 		query.setFrom("Shares");
 		query.setAction("Download");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("Name", Name);
 		query.addQueryString("Email", Email);
 		query.addQueryString("Company", Company);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -158,7 +159,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		query.setFrom("Shares");
 		query.addQueryString("notify", notify);
 		query.setBody(share);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -179,9 +180,9 @@ public class SFSharesEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
 		query.setFrom("Shares");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(share);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -194,8 +195,8 @@ public class SFSharesEntity extends SFODataEntityBase
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Shares");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -215,10 +216,10 @@ public class SFSharesEntity extends SFODataEntityBase
 		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
 		query.setFrom("Shares");
 		query.setAction("Alias");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("email", email);
 		query.addQueryString("notify", notify);
-		query.setHttpMethod("DELETE");
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -234,7 +235,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		query.setFrom("Shares");
 		query.setAction("Send");
 		query.setBody(parameters);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -250,7 +251,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		query.setFrom("Shares");
 		query.setAction("Request");
 		query.setBody(parameters);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 

@@ -13,6 +13,7 @@
 package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFGenericConfig;
 import com.sharefile.api.models.SFODataFeed;
 
@@ -23,7 +24,7 @@ public class SFConfigsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFODataFeed<SFGenericConfig>> query = new SFApiQuery<SFODataFeed<SFGenericConfig>>();
 		query.setFrom("Configs");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 

@@ -12,10 +12,13 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFJsonException;
 
 public class SFOAuthSimpleAuthenticator 
 {
+	
+	private static final String TAG = "-simpleauth";
 
 	/**
 	 * Authenticate via username/password
@@ -53,15 +56,15 @@ public class SFOAuthSimpleAuthenticator
 		}
 		
 		queryString.deleteCharAt(queryString.length() - 1);
-		SFLog.d2(SFKeywords.TAG,"%s", queryString);
+		SFLog.d2(TAG,"%s", queryString);
 
 		HttpsURLConnection connection = (HttpsURLConnection) grantUrl
 				.openConnection();
-		connection.setRequestMethod(SFKeywords.POST);
+		connection.setRequestMethod(SFHttpMethod.POST.toString());
 		connection.addRequestProperty(SFKeywords.CONTENT_TYPE,SFKeywords.APPLICATION_FORM_URLENCODED);
 		
 		connection.setDoOutput(true);
-		SFLog.d2(SFKeywords.TAG, "%s", connection.getRequestMethod() + " "+ connection.getURL());
+		SFLog.d2(TAG, "%s", connection.getRequestMethod() + " "+ connection.getURL());
 		connection.connect();
 
 		connection.getOutputStream().write(queryString.toString().getBytes());
@@ -74,8 +77,8 @@ public class SFOAuthSimpleAuthenticator
 		}
 
 		// print http response code/message and response body
-		SFLog.d2(SFKeywords.TAG,"%s",connection.getResponseCode() + " "+ connection.getResponseMessage());
-		SFLog.d2(SFKeywords.TAG,"%s",response);
+		SFLog.d2(TAG,"%s",connection.getResponseCode() + " "+ connection.getResponseMessage());
+		SFLog.d2(TAG,"%s",response);
 
 		if(connection.getResponseCode() == HttpsURLConnection.HTTP_OK)
 		{

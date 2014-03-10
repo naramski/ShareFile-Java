@@ -14,6 +14,7 @@ package com.sharefile.api.entities.Private;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFAdvancedSearchResults;
 import com.sharefile.api.models.SFSearchQuery;
 import com.sharefile.api.models.SFSimpleSearchQuery;
@@ -55,7 +56,7 @@ public class SFItemsEntityInternal extends SFItemsEntity
 		query.setFrom("Items");
 		query.setAction("AdvancedSimpleSearch");
 		query.setBody(simpleSearchQuery);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -94,7 +95,7 @@ public class SFItemsEntityInternal extends SFItemsEntity
 		query.setFrom("Items");
 		query.setAction("AdvancedSimpleSearch");
 		query.setBody(searchQuery);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 

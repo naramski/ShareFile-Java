@@ -15,6 +15,7 @@ package com.sharefile.api.entities;
 import java.util.ArrayList;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFTreeMode;
 import com.sharefile.api.enumerations.SFUploadMethod;
 import com.sharefile.api.enumerations.SFVRootType;
@@ -45,7 +46,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -60,8 +61,8 @@ public class SFItemsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -76,14 +77,14 @@ public class SFItemsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("treeMode", treeMode);
 		query.addQueryString("sourceId", sourceId);
 		query.addQueryString("rootId", rootId);
 		query.addQueryString("rootType", rootType);
 		query.addQueryString("canCreateRootFolder", canCreateRootFolder);
 		query.addQueryString("fileBox", fileBox);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -102,9 +103,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Items");
 		query.setAction("Stream");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("includeDeleted", includeDeleted);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -122,7 +123,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.setFrom("Items");
 		query.setAction("ByPath");
 		query.addQueryString("path", path);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -139,10 +140,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("ByPath");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("parentid", parentid);
 		query.addQueryString("path", path);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -157,8 +158,8 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Parent");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -175,8 +176,8 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Children");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -192,8 +193,8 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItemInfo> query = new SFApiQuery<SFItemInfo>();
 		query.setFrom("Items");
 		query.setAction("Info");
-		query.addIds(id);
-		query.setHttpMethod("GET");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -211,9 +212,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFDownloadSpecification> query = new SFApiQuery<SFDownloadSpecification>();
 		query.setFrom("Items");
 		query.setAction("Download");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("redirect", redirect);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -240,11 +241,11 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Folder");
-		query.addIds(parentid);
+		query.setId(parentid);
 		query.addQueryString("overwrite", overwrite);
 		query.addQueryString("passthrough", passthrough);
 		query.setBody(folder);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -264,9 +265,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Note");
-		query.addIds(parentid);
+		query.setId(parentid);
 		query.setBody(note);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -287,9 +288,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Link");
-		query.addIds(parentid);
+		query.setId(parentid);
 		query.setBody(link);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -322,10 +323,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFSymbolicLink> query = new SFApiQuery<SFSymbolicLink>();
 		query.setFrom("Items");
 		query.setAction("SymbolicLink");
-		query.addIds(parentid);
+		query.setId(parentid);
 		query.addQueryString("overwrite", overwrite);
 		query.setBody(symlink);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -348,9 +349,9 @@ public class SFItemsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFODataObject> query = new SFApiQuery<SFODataObject>();
 		query.setFrom("Items");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(item);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -373,10 +374,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Link");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("notify", notify);
 		query.setBody(link);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -398,10 +399,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Note");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("notify", notify);
 		query.setBody(note);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -422,9 +423,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFSymbolicLink> query = new SFApiQuery<SFSymbolicLink>();
 		query.setFrom("Items");
 		query.setAction("SymbolicLink");
-		query.addIds(id);
+		query.setId(id);
 		query.setBody(symlink);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -432,10 +433,10 @@ public class SFItemsEntity extends SFODataEntityBase
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("singleversion", singleversion);
 		query.addQueryString("forceSync", forceSync);
-		query.setHttpMethod("PATCH");
+		query.setHttpMethod(SFHttpMethod.PATCH);
 		return query;
 	}
 
@@ -451,10 +452,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
 		query.setAction("BulkDelete");
-		query.addIds(parentid);
+		query.setId(parentid);
 		query.addQueryString("ids", ids);
 		query.addQueryString("forceSync", forceSync);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -470,9 +471,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFStream> query = new SFApiQuery<SFStream>();
 		query.setFrom("Items");
 		query.setAction("Thumbnail");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("size", size);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -491,10 +492,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Items");
 		query.setAction("Breadcrumbs");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("path", path);
 		query.addQueryString("vroot", vroot);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -513,10 +514,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
 		query.setAction("Copy");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("targetid", targetid);
 		query.addQueryString("overwrite", overwrite);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -586,7 +587,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFUploadSpecification> query = new SFApiQuery<SFUploadSpecification>();
 		query.setFrom("Items");
 		query.setAction("Upload");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("method", method);
 		query.addQueryString("raw", raw);
 		query.addQueryString("fileName", fileName);
@@ -607,7 +608,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.addQueryString("responseFormat", responseFormat);
 		query.addQueryString("notify", notify);
 		query.addQueryString("expirationDays", expirationDays);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -623,9 +624,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
 		query.setAction("CheckIn");
-		query.addIds(id);
+		query.setId(id);
 		query.addQueryString("message", message);
-		query.setHttpMethod("POST");
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -640,8 +641,8 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
 		query.setAction("CheckOut");
-		query.addIds(id);
-		query.setHttpMethod("POST");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
@@ -657,7 +658,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.setFrom("Items");
 		query.setAction("Search");
 		query.addQueryString("query", querystring);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -673,8 +674,8 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFODataFeed<SFItemProtocolLink>> query = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
 		query.setFrom("Items");
 		query.setAction("ProtocolLinks");
-		query.addIds(parentid);
-		query.setHttpMethod("GET");
+		query.setId(parentid);
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
@@ -690,9 +691,9 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItemProtocolLink> query = new SFApiQuery<SFItemProtocolLink>();
 		query.setFrom("Items");
 		query.setAction("ProtocolLinks");
-		query.addIds(parentid);
+		query.setId(parentid);
 		query.addActionIds(id);
-		query.setHttpMethod("GET");
+		query.setHttpMethod(SFHttpMethod.GET);
 		return query;
 	}
 
