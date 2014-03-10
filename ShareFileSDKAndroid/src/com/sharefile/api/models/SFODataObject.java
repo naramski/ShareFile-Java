@@ -17,6 +17,8 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 
+import android.util.Log;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -25,6 +27,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.gson.SFGsonHelper;
@@ -153,4 +156,18 @@ public class SFODataObject implements SFJsonInterface{
 			return null;
 		}		
 	}			
+	
+	public static <T> T createInstance(Class<T> classType) 
+	{		
+		try 
+		{
+			return classType.newInstance();
+		} 		 
+		catch (Exception e) 
+		{			
+			SFLog.d2("","Exception createInstance: %s",Log.getStackTraceString(e));
+		}
+		
+		return null;
+	}
 }

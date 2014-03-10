@@ -1,5 +1,6 @@
 package com.sharefile.api.https;
 
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -11,23 +12,29 @@ import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
+import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.models.SFSession;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
+	private final Class<T> mInnerType ;
 	private static final String TAG = "-SFApiThread";
 	private final SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
 	
-	public SFApiRunnable(SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token) throws SFInvalidStateException
-	{		
+	private int mHttpErrorCode = 0;
+	private V3Error mV3Error = null;
+	private String mResponseString = null;
+		
+	public SFApiRunnable(Class<T> innerType, SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token) throws SFInvalidStateException
+	{	
+		mInnerType = innerType;
 		mQuery = query;
 		mResponseListener = responseListener;
-		mOauthToken = token;
+		mOauthToken = token;		
 	}
 	
 	@Override
@@ -37,10 +44,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	}
 	
 	public void executeQuery() 
-	{				
-		int httpErrorCode = 0;
-		V3Error v3Error = null;
-		
+	{								
 		String server = mOauthToken.getApiServer();		
 		String urlstr = mQuery.buildQueryUrlString(server);
 				
@@ -55,35 +59,101 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			
 			connection.connect();
 			
-			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);
+			mHttpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);
 			
+			//Use the bearer token currently. ignore the cookies untill we have a good cookie mgr. might impact sharepoint testing without cookies. 
 			//v3Error = SFHttpsCaller.handleErrorAndCookies(connection, httpErrorCode, url);
 		    
-			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
+			if(mHttpErrorCode == HttpsURLConnection.HTTP_OK)
 			{											
-				String responseString = SFHttpsCaller.readResponse(connection);
-				
-				SFSession session = new SFSession();
-				
-				session.parseFromJson(responseString);
+				mResponseString = SFHttpsCaller.readResponse(connection);								
+			}
+			else if(mHttpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
+			{
+				//no content. might be valid. let the listeners handle this.
 			}
 			else
 			{
-				String errorResonseString = SFHttpsCaller.readErrorResponse(connection);
+				mResponseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
 			SFHttpsCaller.disconnect(connection);
 		}
 		catch(Exception ex)
 		{
+			mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+			//mResponseString =?? TODO: Fill the response string with a customized error describing the exception in this case.
 			SFLog.d2(TAG, "%s",Log.getStackTraceString(ex));
 		}		
+		
+		//processResponse();
+		
+		mResponseListener.sfapiSuccess(createInstanceForSuccessResponse());
 	}		 
 		
+	/**
+	 * 	the mHttpErrorCode and mResponseString are expected to be filled appropriately by this stage.
+	 */
+	private void processResponse()
+	{
+		switch(mHttpErrorCode)
+		{
+			case HttpsURLConnection.HTTP_OK:
+				
+				callSuccessResponseHandler();
+			break;	
+			
+			case HttpsURLConnection.HTTP_NO_CONTENT:
+				callEmptyResponseHandler();
+			break;
+			
+			default:
+				callFailureResponseHandler();
+			break;				
+		}
+	}
+	
+	private void callSuccessResponseHandler()
+	{
+		if(mResponseListener!=null)
+		{			
+			Class<T> classType = null;
+			T object = SFODataObject.createInstance(classType);
+			mResponseListener.sfapiSuccess(object);
+		}
+	}
+	
+	private void callFailureResponseHandler()
+	{
+		
+	}
+	
+	private void callEmptyResponseHandler()
+	{
+		
+	}
+	
 	public Thread startNewThread()
 	{
 		Thread sfApithread = new Thread(this);		
 		sfApithread.start();
 		return sfApithread;
 	}		
+	
+	public T createInstanceForSuccessResponse()
+	{
+		
+		T object =	null;
+		
+		try 
+		{
+			object = mInnerType.newInstance();	
+		} 
+		catch (Exception e) 
+		{			
+			e.printStackTrace();
+		} 		
+						
+		return object;
+	}
 }

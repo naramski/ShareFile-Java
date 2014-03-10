@@ -1,5 +1,6 @@
 package com.sharefile.api;
 
+import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFSessionsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
@@ -26,21 +27,23 @@ public class SFApiClient
 	private SFApiResponseListener<SFSession> mListnererGetSession = new SFApiResponseListener<SFSession>() 
 	{
 		@Override
-		public void sfapiSuccess(SFSession object) 
+		public void sfapiSuccess(SFSession sfsession) 
 		{			
-			mSession = object; //TODO: deep copy needed?
+			mSession = sfsession; //TODO: deep copy needed?
+			SFLog.d2(TAG, "API SUCCESS. Session object = %s", sfsession.getName());			
 		}
 
 		@Override
 		public void sfApiError(int errorCode, String errorMessage,SFApiQuery<SFSession> asApiqueri) 
-		{			
+		{		
+			SFLog.d2(TAG, "API FAILURE. error code = %d", errorCode);
 		}
 	};
 	
 	public void init() throws SFInvalidStateException
 	{
-		SFApiQuery<SFSession> sfQueryGetSession = SFSessionsEntity.get();		
-		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(sfQueryGetSession, mListnererGetSession, mOAuthToken);
+		SFApiQuery<SFSession> sfQueryGetSession = SFSessionsEntity.get();				
+		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(SFSession.class,sfQueryGetSession, mListnererGetSession, mOAuthToken);
 		sfApiRunnable.startNewThread();
 	}
 
