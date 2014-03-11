@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sharefile.api.models.SFODataObject;
 
 public class SFGsonHelper
 {	
@@ -16,10 +17,10 @@ public class SFGsonHelper
     	return new GsonBuilder().registerTypeAdapter(type, object).create();    	    	
     }
             
-    public static void fromJson(String jsonString, Type type, Type typeToken, Object deserializer)
+    public static SFODataObject fromJson(String jsonString, Type type, Type typeToken, Object deserializer)
     {
     	Gson gson = SFGsonHelper.getGsonBuilder(type, deserializer);        	        
-    	gson.fromJson(jsonString, typeToken);
+    	return gson.fromJson(jsonString, typeToken);
     }
     
     public static String getString(JsonObject json,String memberName,String defaultValue)
@@ -104,21 +105,17 @@ public class SFGsonHelper
     	return ret;
     }
         
-    public static <T> T getSFODataObject(Class<T> clazz,JsonObject json,String memberName,T defaultValue)
+    public static SFODataObject getSFODataObject(Class clazz,JsonObject json,String memberName,SFODataObject defaultValue)
     {
-    	T ret = defaultValue;
+    	SFODataObject ret = defaultValue;
     	    	    		    	    		    		    	
     	JsonElement element = json.get(memberName);
     	
     	if(element!=null)
     	{    		    		
     		try 
-    		{
-    			T retnew = clazz.newInstance();
-    			
-				//((SFODataObject) retnew).parseFromJson(element.toString()); //TODO
-				
-				ret = retnew;
+    		{    							
+				ret = SFGsonParser.parseFromJson(clazz,element.toString()); 
 			} 
     		catch (Exception e) 
     		{				
