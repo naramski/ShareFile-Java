@@ -12,28 +12,11 @@
 
 package com.sharefile.api.models;
 
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.Map;
-import java.util.Set;
-
-import android.util.Log;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import com.sharefile.api.android.utils.SFLog;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.exceptions.SFJsonException;
-import com.sharefile.api.gson.SFGsonHelper;
-import com.sharefile.api.interfaces.SFJsonInterface;
 
-public class SFODataObject implements SFJsonInterface{
+public class SFODataObject extends Object{
 
 	@SerializedName("odata.metadata")
 	private String mMetadata;
@@ -80,80 +63,5 @@ public class SFODataObject implements SFJsonInterface{
 
 	public void setProperties(Map<String, String> properties) {
 		mProperties = properties;
-	}
-	
-	@Override
-	public String toJsonString() throws SFJsonException
-	{			
-		try
-        {
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty(SFKeywords.ODATA_METADATA, mMetadata);
-			jsonObject.addProperty(SFKeywords.Id, mId);
-			jsonObject.addProperty(SFKeywords.URL, murl.toString());
-			
-			//TODO: This needs to be corrected
-			if(mProperties!=null && mProperties.size()>0)
-			{
-				Set<String> keySet = mProperties.keySet();
-				
-				if(keySet!=null)
-				{
-					for(String property:keySet)
-					{
-						jsonObject.addProperty(property, mProperties.get(property));
-					}
-				}
-			}
-			
-        	return jsonObject.toString();
-        }
-        catch(JsonSyntaxException ex)
-        {
-        	throw new SFJsonException(ex);
-        }				
-	}
-	
-	@Override
-	public void parseFromJson(String jsonString) throws SFJsonException 
-	{				        
-        try
-        {        	
-        	SFGsonHelper.fromJson(jsonString, SFODataObject.class, new TypeToken<SFODataObject>(){}.getType(), new SFGsonDeserializer());
-        }
-        catch(JsonSyntaxException ex)
-        {
-        	throw new SFJsonException(ex);
-        }        		
-	}
-	
-	private class SFGsonDeserializer implements JsonDeserializer<SFODataObject>
-	{
-		@Override
-		public SFODataObject deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext context) throws JsonParseException 
-		{			
-			JsonObject jsonObject = jsonelement.getAsJsonObject();
-			
-			mMetadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);			
-			mId = SFGsonHelper.getString(jsonObject, SFKeywords.Id, null);
-			murl = SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null);
-			
-			//TODO: need to parse properties. 			
-			/*
-			if(mProperties!=null && mProperties.size()>0)
-			{
-				Set<String> keySet = mProperties.keySet();
-				
-				if(keySet!=null)
-				{
-					for(String property:keySet)
-					{
-						jsonObject.addProperty(property, mProperties.get(property));
-					}
-				}
-			}*/
-			
-			return null;
-		}		
-	}					
+	}							
 }

@@ -68,23 +68,7 @@ public class SFOAuth2Token implements SFJsonInterface
 	{
 		return mSubdomain +"." + SFSDK.API_SERVER;
 	}
-	
-	/*
-	public SFOAuth2Token()
-	{
-		mAccessToken = "default_accesstoken";
-		mRefreshToken = "default_refresh_token";
-		mTokenType = "default_tokenType";
-		mAppcp = "default_appcp";
-		mApicp = "default_apicp";
-		mSubdomain = "default_subdomain";
-		mExpiresIn = 99;		
-	}
-	
-	public SFOAuth2Token(boolean b)
-	{				
-	}*/
-	
+			
 	public SFOAuth2Token(JsonObject json) 
 	{
 		parse(json);

@@ -14,6 +14,7 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFJsonException;
+import com.sharefile.api.gson.SFGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 
@@ -121,7 +122,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			{
 				try 
 				{
-					object.parseFromJson(mResponseString);
+					//object.parseFromJson(mResponseString);
+					SFGsonParser.parseFromJson(object, mResponseString);
 					mResponseListener.sfapiSuccess(object);
 				} 
 				catch (SFJsonException e) 

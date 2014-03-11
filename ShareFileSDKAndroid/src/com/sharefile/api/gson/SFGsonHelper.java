@@ -8,9 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sharefile.api.exceptions.SFJsonException;
-import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.models.SFPrincipal;
 
 public class SFGsonHelper
 {	
@@ -106,31 +103,7 @@ public class SFGsonHelper
     	
     	return ret;
     }
-    
-    /*
-    public static SFPrincipal getPrincipal(JsonObject json,String memberName,SFPrincipal defaultValue)
-    {
-    	SFPrincipal ret = defaultValue;
-    	
-    	JsonElement element = json.get(memberName);
-    	
-    	if(element!=null)
-    	{    		    		
-    		try 
-    		{
-    			SFPrincipal retnew = new SFPrincipal();
-				retnew.parseFromJson(element.getAsString());
-				ret = retnew;
-			} 
-    		catch (SFJsonException e) 
-    		{				
-				e.printStackTrace();
-			}    		    		    				
-    	}
-    	
-    	return ret;
-    }*/
-    
+        
     public static <T> T getSFODataObject(Class<T> clazz,JsonObject json,String memberName,T defaultValue)
     {
     	T ret = defaultValue;
@@ -143,7 +116,7 @@ public class SFGsonHelper
     		{
     			T retnew = clazz.newInstance();
     			
-				((SFODataObject) retnew).parseFromJson(element.toString());
+				//((SFODataObject) retnew).parseFromJson(element.toString()); //TODO
 				
 				ret = retnew;
 			} 

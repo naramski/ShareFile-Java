@@ -12,19 +12,6 @@
 
 package com.sharefile.api.models;
 
-import java.lang.reflect.Type;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.exceptions.SFJsonException;
-import com.sharefile.api.gson.SFGsonHelper;
-
 
 public class SFSession extends SFODataObject {
 
@@ -84,52 +71,5 @@ public class SFSession extends SFODataObject {
 
 	public void setDeviceUser(SFDeviceUser deviceuser) {
 		mDeviceUser = deviceuser;
-	}
-	
-	
-	@Override
-	public String toJsonString() throws SFJsonException
-	{			
-		try
-        {
-			return super.toJsonString();
-        }
-        catch(JsonSyntaxException ex)
-        {
-        	throw new SFJsonException(ex);
-        }				
-	}
-	
-	@Override
-	public void parseFromJson(String jsonString) throws SFJsonException 
-	{				        
-        try
-        {        
-        	super.parseFromJson(jsonString);
-        	SFGsonHelper.fromJson(jsonString, SFSession.class, new TypeToken<SFSession>(){}.getType(), new SFGsonDeserializer());
-        }
-        catch(JsonSyntaxException ex)
-        {
-        	throw new SFJsonException(ex);
-        }        		
-	}
-	
-	private class SFGsonDeserializer implements JsonDeserializer<SFODataObject>
-	{
-		@Override
-		public SFODataObject deserialize(JsonElement jsonelement, Type type, JsonDeserializationContext context) throws JsonParseException 
-		{			
-			JsonObject jsonObject = jsonelement.getAsJsonObject();
-			
-			mPrincipal = SFGsonHelper.getSFODataObject(SFPrincipal.class, jsonObject, SFKeywords.PRINCIPAL, null);
-			mAuthenticationType = SFGsonHelper.getString(jsonObject, SFKeywords.AUTHENTICATION_TYPE, null);
-			mTool = SFGsonHelper.getString(jsonObject, SFKeywords.TOOL, null);
-			mVersion = SFGsonHelper.getString(jsonObject, SFKeywords.VERSION, null);
-			mName = SFGsonHelper.getString(jsonObject, SFKeywords.NAME, null);
-			mDeviceUser = SFGsonHelper.getSFODataObject(SFDeviceUser.class, jsonObject, SFKeywords.DEVICE_USER, null);
-			mIsAuthenticated = SFGsonHelper.getBoolean(jsonObject, SFKeywords.IS_AUTHENTICATED, false);
-			
-			return null;
-		}		
-	}
+	}			
 }
