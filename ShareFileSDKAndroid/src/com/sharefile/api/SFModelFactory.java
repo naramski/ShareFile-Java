@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.reflect.TypeToken;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;

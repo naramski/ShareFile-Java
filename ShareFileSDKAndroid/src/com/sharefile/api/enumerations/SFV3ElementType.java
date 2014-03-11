@@ -1,4 +1,4 @@
-package com.sharefile.api;
+package com.sharefile.api.enumerations;
 
 public enum SFV3ElementType 
 {
