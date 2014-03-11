@@ -62,6 +62,25 @@ public class SFModelFactory
 		return ret;
 	}
 	
+	public static final SFV3ElementType getElementTypeFromMetaData(String metadata)
+	{
+		SFV3ElementType ret = null;
+		
+		Set<SFV3ElementType> keySet = mMapTypeClassPair.keySet();
+		
+		for(SFV3ElementType s:keySet)
+		{
+			if(compare(metadata, s.toString()))
+			{
+				ret = s;
+				
+				break;
+			}
+		}
+		
+		return ret;
+	}
+	
 	
 	public static final SFODataObject createNewObjectFromClassName(String className)
 	{
