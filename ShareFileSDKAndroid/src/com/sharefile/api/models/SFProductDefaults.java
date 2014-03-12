@@ -14,133 +14,133 @@ package com.sharefile.api.models;
 
 public class SFProductDefaults extends SFODataObject {
 
-	private String mProductName;
-	private String mDefaultWindowTitle;
-	private String mTopLevelDomain;
-	private String mAPITopLevelDomain;
-	private String mDefaultApiVersion;
-	private String mDefaultSmtpServer;
-	private String mNoReplyUserName;
-	private String mNoReplyUserEmail;
-	private String mSupportUserName;
-	private String mSupportUserEmail;
-	private String mDefaultEmailFooter;
-	private String mDefaultEmailFooterHtml;
-	private String mDefaultEmailFooterPlaintext;
-	private String mDefaultEmailOverview;
-	private String mSupportUserNotificationEmail;
-	private String mSystemType;
+	private String ProductName;
+	private String DefaultWindowTitle;
+	private String TopLevelDomain;
+	private String APITopLevelDomain;
+	private String DefaultApiVersion;
+	private String DefaultSmtpServer;
+	private String NoReplyUserName;
+	private String NoReplyUserEmail;
+	private String SupportUserName;
+	private String SupportUserEmail;
+	private String DefaultEmailFooter;
+	private String DefaultEmailFooterHtml;
+	private String DefaultEmailFooterPlaintext;
+	private String DefaultEmailOverview;
+	private String SupportUserNotificationEmail;
+	private String SystemType;
 
 	public String getProductName() {
-		return mProductName;
+		return ProductName;
 	}
 
 	public void setProductName(String productname) {
-		mProductName = productname;
+		ProductName = productname;
 	}
 	public String getDefaultWindowTitle() {
-		return mDefaultWindowTitle;
+		return DefaultWindowTitle;
 	}
 
 	public void setDefaultWindowTitle(String defaultwindowtitle) {
-		mDefaultWindowTitle = defaultwindowtitle;
+		DefaultWindowTitle = defaultwindowtitle;
 	}
 	public String getTopLevelDomain() {
-		return mTopLevelDomain;
+		return TopLevelDomain;
 	}
 
 	public void setTopLevelDomain(String topleveldomain) {
-		mTopLevelDomain = topleveldomain;
+		TopLevelDomain = topleveldomain;
 	}
 	public String getAPITopLevelDomain() {
-		return mAPITopLevelDomain;
+		return APITopLevelDomain;
 	}
 
 	public void setAPITopLevelDomain(String apitopleveldomain) {
-		mAPITopLevelDomain = apitopleveldomain;
+		APITopLevelDomain = apitopleveldomain;
 	}
 	public String getDefaultApiVersion() {
-		return mDefaultApiVersion;
+		return DefaultApiVersion;
 	}
 
 	public void setDefaultApiVersion(String defaultapiversion) {
-		mDefaultApiVersion = defaultapiversion;
+		DefaultApiVersion = defaultapiversion;
 	}
 	public String getDefaultSmtpServer() {
-		return mDefaultSmtpServer;
+		return DefaultSmtpServer;
 	}
 
 	public void setDefaultSmtpServer(String defaultsmtpserver) {
-		mDefaultSmtpServer = defaultsmtpserver;
+		DefaultSmtpServer = defaultsmtpserver;
 	}
 	public String getNoReplyUserName() {
-		return mNoReplyUserName;
+		return NoReplyUserName;
 	}
 
 	public void setNoReplyUserName(String noreplyusername) {
-		mNoReplyUserName = noreplyusername;
+		NoReplyUserName = noreplyusername;
 	}
 	public String getNoReplyUserEmail() {
-		return mNoReplyUserEmail;
+		return NoReplyUserEmail;
 	}
 
 	public void setNoReplyUserEmail(String noreplyuseremail) {
-		mNoReplyUserEmail = noreplyuseremail;
+		NoReplyUserEmail = noreplyuseremail;
 	}
 	public String getSupportUserName() {
-		return mSupportUserName;
+		return SupportUserName;
 	}
 
 	public void setSupportUserName(String supportusername) {
-		mSupportUserName = supportusername;
+		SupportUserName = supportusername;
 	}
 	public String getSupportUserEmail() {
-		return mSupportUserEmail;
+		return SupportUserEmail;
 	}
 
 	public void setSupportUserEmail(String supportuseremail) {
-		mSupportUserEmail = supportuseremail;
+		SupportUserEmail = supportuseremail;
 	}
 	public String getDefaultEmailFooter() {
-		return mDefaultEmailFooter;
+		return DefaultEmailFooter;
 	}
 
 	public void setDefaultEmailFooter(String defaultemailfooter) {
-		mDefaultEmailFooter = defaultemailfooter;
+		DefaultEmailFooter = defaultemailfooter;
 	}
 	public String getDefaultEmailFooterHtml() {
-		return mDefaultEmailFooterHtml;
+		return DefaultEmailFooterHtml;
 	}
 
 	public void setDefaultEmailFooterHtml(String defaultemailfooterhtml) {
-		mDefaultEmailFooterHtml = defaultemailfooterhtml;
+		DefaultEmailFooterHtml = defaultemailfooterhtml;
 	}
 	public String getDefaultEmailFooterPlaintext() {
-		return mDefaultEmailFooterPlaintext;
+		return DefaultEmailFooterPlaintext;
 	}
 
 	public void setDefaultEmailFooterPlaintext(String defaultemailfooterplaintext) {
-		mDefaultEmailFooterPlaintext = defaultemailfooterplaintext;
+		DefaultEmailFooterPlaintext = defaultemailfooterplaintext;
 	}
 	public String getDefaultEmailOverview() {
-		return mDefaultEmailOverview;
+		return DefaultEmailOverview;
 	}
 
 	public void setDefaultEmailOverview(String defaultemailoverview) {
-		mDefaultEmailOverview = defaultemailoverview;
+		DefaultEmailOverview = defaultemailoverview;
 	}
 	public String getSupportUserNotificationEmail() {
-		return mSupportUserNotificationEmail;
+		return SupportUserNotificationEmail;
 	}
 
 	public void setSupportUserNotificationEmail(String supportusernotificationemail) {
-		mSupportUserNotificationEmail = supportusernotificationemail;
+		SupportUserNotificationEmail = supportusernotificationemail;
 	}
 	public String getSystemType() {
-		return mSystemType;
+		return SystemType;
 	}
 
 	public void setSystemType(String systemtype) {
-		mSystemType = systemtype;
+		SystemType = systemtype;
 	}
 }

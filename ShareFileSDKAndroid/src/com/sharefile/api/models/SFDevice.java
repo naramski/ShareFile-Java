@@ -14,57 +14,55 @@ package com.sharefile.api.models;
 
 import java.util.Date;
 
-import com.sharefile.api.enumerations.SFTool;
-
 public class SFDevice extends SFODataObject {
 
-	private SFTool mTool;
-	private String mToolRaw;
-	private SFUser mOwner;
-	private Date mCreated;
-	private String mToolVersion;
-	private Boolean mJustRegistered;
+	private SFSFTool Tool;
+	private String ToolRaw;
+	private SFUser Owner;
+	private Date Created;
+	private String ToolVersion;
+	private Boolean JustRegistered;
 
-	public SFTool getTool() {
-		return mTool;
+	public SFSFTool getTool() {
+		return Tool;
 	}
 
-	public void setTool(SFTool tool) {
-		mTool = tool;
+	public void setTool(SFSFTool tool) {
+		Tool = tool;
 	}
 	public String getToolRaw() {
-		return mToolRaw;
+		return ToolRaw;
 	}
 
 	public void setToolRaw(String toolraw) {
-		mToolRaw = toolraw;
+		ToolRaw = toolraw;
 	}
 	public SFUser getOwner() {
-		return mOwner;
+		return Owner;
 	}
 
 	public void setOwner(SFUser owner) {
-		mOwner = owner;
+		Owner = owner;
 	}
 	public Date getCreated() {
-		return mCreated;
+		return Created;
 	}
 
 	public void setCreated(Date created) {
-		mCreated = created;
+		Created = created;
 	}
 	public String getToolVersion() {
-		return mToolVersion;
+		return ToolVersion;
 	}
 
 	public void setToolVersion(String toolversion) {
-		mToolVersion = toolversion;
+		ToolVersion = toolversion;
 	}
 	public Boolean getJustRegistered() {
-		return mJustRegistered;
+		return JustRegistered;
 	}
 
 	public void setJustRegistered(Boolean justregistered) {
-		mJustRegistered = justregistered;
+		JustRegistered = justregistered;
 	}
 }

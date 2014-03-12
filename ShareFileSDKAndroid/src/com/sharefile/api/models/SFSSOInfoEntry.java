@@ -14,21 +14,21 @@ package com.sharefile.api.models;
 
 public class SFSSOInfoEntry extends SFODataObject {
 
-	private String mKey;
-	private String mValue;
+	private String Key;
+	private String Value;
 
 	public String getKey() {
-		return mKey;
+		return Key;
 	}
 
 	public void setKey(String key) {
-		mKey = key;
+		Key = key;
 	}
 	public String getValue() {
-		return mValue;
+		return Value;
 	}
 
 	public void setValue(String value) {
-		mValue = value;
+		Value = value;
 	}
 }

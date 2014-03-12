@@ -16,21 +16,21 @@ import com.sharefile.api.models.SFODataObject;
 
 public class SFOutlookInformationOptionInt extends SFODataObject {
 
-	private Boolean mLocked;
-	private Integer mValue;
+	private Boolean Locked;
+	private Integer Value;
 
 	public Boolean getLocked() {
-		return mLocked;
+		return Locked;
 	}
 
 	public void setLocked(Boolean locked) {
-		mLocked = locked;
+		Locked = locked;
 	}
 	public Integer getValue() {
-		return mValue;
+		return Value;
 	}
 
 	public void setValue(Integer value) {
-		mValue = value;
+		Value = value;
 	}
 }

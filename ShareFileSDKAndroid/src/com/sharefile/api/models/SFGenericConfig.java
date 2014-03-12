@@ -16,53 +16,53 @@ import java.util.Date;
 
 public class SFGenericConfig extends SFODataObject {
 
-	private SFUser mUser;
-	private String mConfigName;
-	private Integer mConfigSize;
-	private Date mCreationDate;
-	private Date mModifiedDate;
-	private String mConfig;
+	private SFUser User;
+	private String ConfigName;
+	private Integer ConfigSize;
+	private Date CreationDate;
+	private Date ModifiedDate;
+	private String Config;
 
 	public SFUser getUser() {
-		return mUser;
+		return User;
 	}
 
 	public void setUser(SFUser user) {
-		mUser = user;
+		User = user;
 	}
 	public String getConfigName() {
-		return mConfigName;
+		return ConfigName;
 	}
 
 	public void setConfigName(String configname) {
-		mConfigName = configname;
+		ConfigName = configname;
 	}
 	public Integer getConfigSize() {
-		return mConfigSize;
+		return ConfigSize;
 	}
 
 	public void setConfigSize(Integer configsize) {
-		mConfigSize = configsize;
+		ConfigSize = configsize;
 	}
 	public Date getCreationDate() {
-		return mCreationDate;
+		return CreationDate;
 	}
 
 	public void setCreationDate(Date creationdate) {
-		mCreationDate = creationdate;
+		CreationDate = creationdate;
 	}
 	public Date getModifiedDate() {
-		return mModifiedDate;
+		return ModifiedDate;
 	}
 
 	public void setModifiedDate(Date modifieddate) {
-		mModifiedDate = modifieddate;
+		ModifiedDate = modifieddate;
 	}
 	public String getConfig() {
-		return mConfig;
+		return Config;
 	}
 
 	public void setConfig(String config) {
-		mConfig = config;
+		Config = config;
 	}
 }

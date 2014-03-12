@@ -14,77 +14,77 @@ package com.sharefile.api.models;
 
 public class SFUserConfirmationSettings extends SFODataObject {
 
-	private String mFirstName;
-	private String mLastName;
-	private String mCompany;
-	private String mPassword;
-	private String mDayLightName;
-	private String mUTCOffset;
-	private String mDateFormat;
-	private String mTimeFormat;
-	private Integer mEmailInterval;
+	private String FirstName;
+	private String LastName;
+	private String Company;
+	private String Password;
+	private String DayLightName;
+	private String UTCOffset;
+	private String DateFormat;
+	private String TimeFormat;
+	private Integer EmailInterval;
 
 	public String getFirstName() {
-		return mFirstName;
+		return FirstName;
 	}
 
 	public void setFirstName(String firstname) {
-		mFirstName = firstname;
+		FirstName = firstname;
 	}
 	public String getLastName() {
-		return mLastName;
+		return LastName;
 	}
 
 	public void setLastName(String lastname) {
-		mLastName = lastname;
+		LastName = lastname;
 	}
 	public String getCompany() {
-		return mCompany;
+		return Company;
 	}
 
 	public void setCompany(String company) {
-		mCompany = company;
+		Company = company;
 	}
 	public String getPassword() {
-		return mPassword;
+		return Password;
 	}
 
 	public void setPassword(String password) {
-		mPassword = password;
+		Password = password;
 	}
 	public String getDayLightName() {
-		return mDayLightName;
+		return DayLightName;
 	}
 
 	public void setDayLightName(String daylightname) {
-		mDayLightName = daylightname;
+		DayLightName = daylightname;
 	}
 	public String getUTCOffset() {
-		return mUTCOffset;
+		return UTCOffset;
 	}
 
 	public void setUTCOffset(String utcoffset) {
-		mUTCOffset = utcoffset;
+		UTCOffset = utcoffset;
 	}
 	public String getDateFormat() {
-		return mDateFormat;
+		return DateFormat;
 	}
 
 	public void setDateFormat(String dateformat) {
-		mDateFormat = dateformat;
+		DateFormat = dateformat;
 	}
 	public String getTimeFormat() {
-		return mTimeFormat;
+		return TimeFormat;
 	}
 
 	public void setTimeFormat(String timeformat) {
-		mTimeFormat = timeformat;
+		TimeFormat = timeformat;
 	}
 	public Integer getEmailInterval() {
-		return mEmailInterval;
+		return EmailInterval;
 	}
 
 	public void setEmailInterval(Integer emailinterval) {
-		mEmailInterval = emailinterval;
+		EmailInterval = emailinterval;
 	}
 }

@@ -14,77 +14,77 @@ package com.sharefile.api.models;
 
 public class SFSimpleQuery extends SFODataObject {
 
-	private String mAuthID;
-	private String mItemType;
-	private String mParentID;
-	private String mCreatorID;
-	private String mLuceneQuery;
-	private String mSearchQuery;
-	private String mCreateStartDate;
-	private String mCreateEndDate;
-	private Boolean mItemNameOnly;
+	private String AuthID;
+	private String ItemType;
+	private String ParentID;
+	private String CreatorID;
+	private String LuceneQuery;
+	private String SearchQuery;
+	private String CreateStartDate;
+	private String CreateEndDate;
+	private Boolean ItemNameOnly;
 
 	public String getAuthID() {
-		return mAuthID;
+		return AuthID;
 	}
 
 	public void setAuthID(String authid) {
-		mAuthID = authid;
+		AuthID = authid;
 	}
 	public String getItemType() {
-		return mItemType;
+		return ItemType;
 	}
 
 	public void setItemType(String itemtype) {
-		mItemType = itemtype;
+		ItemType = itemtype;
 	}
 	public String getParentID() {
-		return mParentID;
+		return ParentID;
 	}
 
 	public void setParentID(String parentid) {
-		mParentID = parentid;
+		ParentID = parentid;
 	}
 	public String getCreatorID() {
-		return mCreatorID;
+		return CreatorID;
 	}
 
 	public void setCreatorID(String creatorid) {
-		mCreatorID = creatorid;
+		CreatorID = creatorid;
 	}
 	public String getLuceneQuery() {
-		return mLuceneQuery;
+		return LuceneQuery;
 	}
 
 	public void setLuceneQuery(String lucenequery) {
-		mLuceneQuery = lucenequery;
+		LuceneQuery = lucenequery;
 	}
 	public String getSearchQuery() {
-		return mSearchQuery;
+		return SearchQuery;
 	}
 
 	public void setSearchQuery(String searchquery) {
-		mSearchQuery = searchquery;
+		SearchQuery = searchquery;
 	}
 	public String getCreateStartDate() {
-		return mCreateStartDate;
+		return CreateStartDate;
 	}
 
 	public void setCreateStartDate(String createstartdate) {
-		mCreateStartDate = createstartdate;
+		CreateStartDate = createstartdate;
 	}
 	public String getCreateEndDate() {
-		return mCreateEndDate;
+		return CreateEndDate;
 	}
 
 	public void setCreateEndDate(String createenddate) {
-		mCreateEndDate = createenddate;
+		CreateEndDate = createenddate;
 	}
 	public Boolean getItemNameOnly() {
-		return mItemNameOnly;
+		return ItemNameOnly;
 	}
 
 	public void setItemNameOnly(Boolean itemnameonly) {
-		mItemNameOnly = itemnameonly;
+		ItemNameOnly = itemnameonly;
 	}
 }

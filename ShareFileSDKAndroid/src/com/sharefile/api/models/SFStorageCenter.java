@@ -17,109 +17,109 @@ import java.util.Date;
 
 public class SFStorageCenter extends SFODataObject {
 
-	private SFZone mZone;
-	private String mAddress;
-	private String mLocalAddress;
-	private String mExternalAddress;
-	private String mDefaultExternalUrl;
-	private String mHostName;
-	private String mVersion;
-	private Boolean mEnabled;
-	private Date mLastHeartBeat;
-	private String mExternalUrl;
-	private String mMetadataProxyAddress;
-	private Date mLastPingBack;
-	private ArrayList<SFMetadata> mMetadata;
+	private SFZone Zone;
+	private String Address;
+	private String LocalAddress;
+	private String ExternalAddress;
+	private String DefaultExternalUrl;
+	private String HostName;
+	private String Version;
+	private Boolean Enabled;
+	private Date LastHeartBeat;
+	private String ExternalUrl;
+	private String MetadataProxyAddress;
+	private Date LastPingBack;
+	private ArrayList<SFMetadata> Metadata;
 
 	public SFZone getZone() {
-		return mZone;
+		return Zone;
 	}
 
 	public void setZone(SFZone zone) {
-		mZone = zone;
+		Zone = zone;
 	}
 	public String getAddress() {
-		return mAddress;
+		return Address;
 	}
 
 	public void setAddress(String address) {
-		mAddress = address;
+		Address = address;
 	}
 	public String getLocalAddress() {
-		return mLocalAddress;
+		return LocalAddress;
 	}
 
 	public void setLocalAddress(String localaddress) {
-		mLocalAddress = localaddress;
+		LocalAddress = localaddress;
 	}
 	public String getExternalAddress() {
-		return mExternalAddress;
+		return ExternalAddress;
 	}
 
 	public void setExternalAddress(String externaladdress) {
-		mExternalAddress = externaladdress;
+		ExternalAddress = externaladdress;
 	}
 	public String getDefaultExternalUrl() {
-		return mDefaultExternalUrl;
+		return DefaultExternalUrl;
 	}
 
 	public void setDefaultExternalUrl(String defaultexternalurl) {
-		mDefaultExternalUrl = defaultexternalurl;
+		DefaultExternalUrl = defaultexternalurl;
 	}
 	public String getHostName() {
-		return mHostName;
+		return HostName;
 	}
 
 	public void setHostName(String hostname) {
-		mHostName = hostname;
+		HostName = hostname;
 	}
 	public String getVersion() {
-		return mVersion;
+		return Version;
 	}
 
 	public void setVersion(String version) {
-		mVersion = version;
+		Version = version;
 	}
 	public Boolean getEnabled() {
-		return mEnabled;
+		return Enabled;
 	}
 
 	public void setEnabled(Boolean enabled) {
-		mEnabled = enabled;
+		Enabled = enabled;
 	}
 	public Date getLastHeartBeat() {
-		return mLastHeartBeat;
+		return LastHeartBeat;
 	}
 
 	public void setLastHeartBeat(Date lastheartbeat) {
-		mLastHeartBeat = lastheartbeat;
+		LastHeartBeat = lastheartbeat;
 	}
 	public String getExternalUrl() {
-		return mExternalUrl;
+		return ExternalUrl;
 	}
 
 	public void setExternalUrl(String externalurl) {
-		mExternalUrl = externalurl;
+		ExternalUrl = externalurl;
 	}
 	public String getMetadataProxyAddress() {
-		return mMetadataProxyAddress;
+		return MetadataProxyAddress;
 	}
 
 	public void setMetadataProxyAddress(String metadataproxyaddress) {
-		mMetadataProxyAddress = metadataproxyaddress;
+		MetadataProxyAddress = metadataproxyaddress;
 	}
 	public Date getLastPingBack() {
-		return mLastPingBack;
+		return LastPingBack;
 	}
 
 	public void setLastPingBack(Date lastpingback) {
-		mLastPingBack = lastpingback;
+		LastPingBack = lastpingback;
 	}
 	public ArrayList<SFMetadata> getMetadata() {
-		return mMetadata;
+		return Metadata;
 	}
 
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
-		mMetadata = metadata;
+		Metadata = metadata;
 	}
 }

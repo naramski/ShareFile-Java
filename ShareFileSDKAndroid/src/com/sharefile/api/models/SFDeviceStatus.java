@@ -16,33 +16,33 @@ import java.util.ArrayList;
 
 public class SFDeviceStatus extends SFODataObject {
 
-	private ArrayList<SFUser> mLockedUsers;
-	private ArrayList<SFDeviceUserWipe> mUsersToWipe;
+	private ArrayList<SFUser> LockedUsers;
+	private ArrayList<SFDeviceUserWipe> UsersToWipe;
 
 		/**
 		* Locked users
 		*/
 	public ArrayList<SFUser> getLockedUsers() {
-		return mLockedUsers;
+		return LockedUsers;
 	}
 
 		/**
 		* Locked users
 		*/
 	public void setLockedUsers(ArrayList<SFUser> lockedusers) {
-		mLockedUsers = lockedusers;
+		LockedUsers = lockedusers;
 	}
 		/**
 		* Users to wipe
 		*/
 	public ArrayList<SFDeviceUserWipe> getUsersToWipe() {
-		return mUsersToWipe;
+		return UsersToWipe;
 	}
 
 		/**
 		* Users to wipe
 		*/
 	public void setUsersToWipe(ArrayList<SFDeviceUserWipe> userstowipe) {
-		mUsersToWipe = userstowipe;
+		UsersToWipe = userstowipe;
 	}
 }

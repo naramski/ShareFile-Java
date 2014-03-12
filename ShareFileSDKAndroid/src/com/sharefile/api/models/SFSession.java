@@ -12,64 +12,63 @@
 
 package com.sharefile.api.models;
 
-
 public class SFSession extends SFODataObject {
 
-	private SFPrincipal mPrincipal;
-	private String mAuthenticationType;
-	private String mTool;
-	private String mVersion;
-	private Boolean mIsAuthenticated;
-	private String mName;
-	private SFDeviceUser mDeviceUser;
+	private SFPrincipal Principal;
+	private String AuthenticationType;
+	private String Tool;
+	private String Version;
+	private Boolean IsAuthenticated;
+	private String Name;
+	private SFDeviceUser DeviceUser;
 
 	public SFPrincipal getPrincipal() {
-		return mPrincipal;
+		return Principal;
 	}
 
 	public void setPrincipal(SFPrincipal principal) {
-		mPrincipal = principal;
+		Principal = principal;
 	}
 	public String getAuthenticationType() {
-		return mAuthenticationType;
+		return AuthenticationType;
 	}
 
 	public void setAuthenticationType(String authenticationtype) {
-		mAuthenticationType = authenticationtype;
+		AuthenticationType = authenticationtype;
 	}
 	public String getTool() {
-		return mTool;
+		return Tool;
 	}
 
 	public void setTool(String tool) {
-		mTool = tool;
+		Tool = tool;
 	}
 	public String getVersion() {
-		return mVersion;
+		return Version;
 	}
 
 	public void setVersion(String version) {
-		mVersion = version;
+		Version = version;
 	}
 	public Boolean getIsAuthenticated() {
-		return mIsAuthenticated;
+		return IsAuthenticated;
 	}
 
 	public void setIsAuthenticated(Boolean isauthenticated) {
-		mIsAuthenticated = isauthenticated;
+		IsAuthenticated = isauthenticated;
 	}
 	public String getName() {
-		return mName;
+		return Name;
 	}
 
 	public void setName(String name) {
-		mName = name;
+		Name = name;
 	}
 	public SFDeviceUser getDeviceUser() {
-		return mDeviceUser;
+		return DeviceUser;
 	}
 
 	public void setDeviceUser(SFDeviceUser deviceuser) {
-		mDeviceUser = deviceuser;
-	}			
+		DeviceUser = deviceuser;
+	}
 }

@@ -14,77 +14,77 @@ package com.sharefile.api.models;
 
 public class SFAccountUser extends SFUser {
 
-	private Boolean mIsAdministrator;
-	private Boolean mCanCreateFolders;
-	private Boolean mCanUseFileBox;
-	private Boolean mCanManageUsers;
-	private Boolean mIsVirtualClient;
-	private Integer mDiskSpace;
-	private Integer mBandwidth;
-	private Integer mStorageQuotaLimitGB;
-	private Integer mStorageQuotaPercent;
+	private Boolean IsAdministrator;
+	private Boolean CanCreateFolders;
+	private Boolean CanUseFileBox;
+	private Boolean CanManageUsers;
+	private Boolean IsVirtualClient;
+	private Integer DiskSpace;
+	private Integer Bandwidth;
+	private Integer StorageQuotaLimitGB;
+	private Integer StorageQuotaPercent;
 
 	public Boolean getIsAdministrator() {
-		return mIsAdministrator;
+		return IsAdministrator;
 	}
 
 	public void setIsAdministrator(Boolean isadministrator) {
-		mIsAdministrator = isadministrator;
+		IsAdministrator = isadministrator;
 	}
 	public Boolean getCanCreateFolders() {
-		return mCanCreateFolders;
+		return CanCreateFolders;
 	}
 
 	public void setCanCreateFolders(Boolean cancreatefolders) {
-		mCanCreateFolders = cancreatefolders;
+		CanCreateFolders = cancreatefolders;
 	}
 	public Boolean getCanUseFileBox() {
-		return mCanUseFileBox;
+		return CanUseFileBox;
 	}
 
 	public void setCanUseFileBox(Boolean canusefilebox) {
-		mCanUseFileBox = canusefilebox;
+		CanUseFileBox = canusefilebox;
 	}
 	public Boolean getCanManageUsers() {
-		return mCanManageUsers;
+		return CanManageUsers;
 	}
 
 	public void setCanManageUsers(Boolean canmanageusers) {
-		mCanManageUsers = canmanageusers;
+		CanManageUsers = canmanageusers;
 	}
 	public Boolean getIsVirtualClient() {
-		return mIsVirtualClient;
+		return IsVirtualClient;
 	}
 
 	public void setIsVirtualClient(Boolean isvirtualclient) {
-		mIsVirtualClient = isvirtualclient;
+		IsVirtualClient = isvirtualclient;
 	}
 	public Integer getDiskSpace() {
-		return mDiskSpace;
+		return DiskSpace;
 	}
 
 	public void setDiskSpace(Integer diskspace) {
-		mDiskSpace = diskspace;
+		DiskSpace = diskspace;
 	}
 	public Integer getBandwidth() {
-		return mBandwidth;
+		return Bandwidth;
 	}
 
 	public void setBandwidth(Integer bandwidth) {
-		mBandwidth = bandwidth;
+		Bandwidth = bandwidth;
 	}
 	public Integer getStorageQuotaLimitGB() {
-		return mStorageQuotaLimitGB;
+		return StorageQuotaLimitGB;
 	}
 
 	public void setStorageQuotaLimitGB(Integer storagequotalimitgb) {
-		mStorageQuotaLimitGB = storagequotalimitgb;
+		StorageQuotaLimitGB = storagequotalimitgb;
 	}
 	public Integer getStorageQuotaPercent() {
-		return mStorageQuotaPercent;
+		return StorageQuotaPercent;
 	}
 
 	public void setStorageQuotaPercent(Integer storagequotapercent) {
-		mStorageQuotaPercent = storagequotapercent;
+		StorageQuotaPercent = storagequotapercent;
 	}
 }

@@ -14,45 +14,45 @@ package com.sharefile.api.models;
 
 public class SFUserInfo extends SFODataObject {
 
-	private String mCompanyName;
-	private String mPlanName;
-	private SFPlanFeatures mPlanFeatures;
-	private String mApplicationUrl;
-	private String mStorageCenterUrl;
+	private String CompanyName;
+	private String PlanName;
+	private SFPlanFeatures PlanFeatures;
+	private String ApplicationUrl;
+	private String StorageCenterUrl;
 
 	public String getCompanyName() {
-		return mCompanyName;
+		return CompanyName;
 	}
 
 	public void setCompanyName(String companyname) {
-		mCompanyName = companyname;
+		CompanyName = companyname;
 	}
 	public String getPlanName() {
-		return mPlanName;
+		return PlanName;
 	}
 
 	public void setPlanName(String planname) {
-		mPlanName = planname;
+		PlanName = planname;
 	}
 	public SFPlanFeatures getPlanFeatures() {
-		return mPlanFeatures;
+		return PlanFeatures;
 	}
 
 	public void setPlanFeatures(SFPlanFeatures planfeatures) {
-		mPlanFeatures = planfeatures;
+		PlanFeatures = planfeatures;
 	}
 	public String getApplicationUrl() {
-		return mApplicationUrl;
+		return ApplicationUrl;
 	}
 
 	public void setApplicationUrl(String applicationurl) {
-		mApplicationUrl = applicationurl;
+		ApplicationUrl = applicationurl;
 	}
 	public String getStorageCenterUrl() {
-		return mStorageCenterUrl;
+		return StorageCenterUrl;
 	}
 
 	public void setStorageCenterUrl(String storagecenterurl) {
-		mStorageCenterUrl = storagecenterurl;
+		StorageCenterUrl = storagecenterurl;
 	}
 }

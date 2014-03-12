@@ -12,57 +12,55 @@
 
 package com.sharefile.api.models;
 
-import com.sharefile.api.enumerations.SFPinLockType;
-
 public class SFMobileSecuritySettings extends SFODataObject {
 
-	private Integer mPoisonPillInterval;
-	private Boolean mEnableOpenExternal;
-	private Boolean mEnableOfflineCache;
-	private Boolean mEnableAutoLogin;
-	private Boolean mRestrictModifiedDevices;
-	private SFPinLockType mPinLockType;
+	private Integer PoisonPillInterval;
+	private Boolean EnableOpenExternal;
+	private Boolean EnableOfflineCache;
+	private Boolean EnableAutoLogin;
+	private Boolean RestrictModifiedDevices;
+	private SFPinLockType PinLockType;
 
 	public Integer getPoisonPillInterval() {
-		return mPoisonPillInterval;
+		return PoisonPillInterval;
 	}
 
 	public void setPoisonPillInterval(Integer poisonpillinterval) {
-		mPoisonPillInterval = poisonpillinterval;
+		PoisonPillInterval = poisonpillinterval;
 	}
 	public Boolean getEnableOpenExternal() {
-		return mEnableOpenExternal;
+		return EnableOpenExternal;
 	}
 
 	public void setEnableOpenExternal(Boolean enableopenexternal) {
-		mEnableOpenExternal = enableopenexternal;
+		EnableOpenExternal = enableopenexternal;
 	}
 	public Boolean getEnableOfflineCache() {
-		return mEnableOfflineCache;
+		return EnableOfflineCache;
 	}
 
 	public void setEnableOfflineCache(Boolean enableofflinecache) {
-		mEnableOfflineCache = enableofflinecache;
+		EnableOfflineCache = enableofflinecache;
 	}
 	public Boolean getEnableAutoLogin() {
-		return mEnableAutoLogin;
+		return EnableAutoLogin;
 	}
 
 	public void setEnableAutoLogin(Boolean enableautologin) {
-		mEnableAutoLogin = enableautologin;
+		EnableAutoLogin = enableautologin;
 	}
 	public Boolean getRestrictModifiedDevices() {
-		return mRestrictModifiedDevices;
+		return RestrictModifiedDevices;
 	}
 
 	public void setRestrictModifiedDevices(Boolean restrictmodifieddevices) {
-		mRestrictModifiedDevices = restrictmodifieddevices;
+		RestrictModifiedDevices = restrictmodifieddevices;
 	}
 	public SFPinLockType getPinLockType() {
-		return mPinLockType;
+		return PinLockType;
 	}
 
 	public void setPinLockType(SFPinLockType pinlocktype) {
-		mPinLockType = pinlocktype;
+		PinLockType = pinlocktype;
 	}
 }

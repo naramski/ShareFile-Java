@@ -16,33 +16,33 @@ import java.util.ArrayList;
 
 public class SFDeviceWipeReport extends SFODataObject {
 
-	private ArrayList<SFDeviceLogEntry> mLogs;
-	private ArrayList<SFDeviceUserWipe> mWipeResults;
+	private ArrayList<SFDeviceLogEntry> Logs;
+	private ArrayList<SFDeviceUserWipe> WipeResults;
 
 		/**
 		* Logs
 		*/
 	public ArrayList<SFDeviceLogEntry> getLogs() {
-		return mLogs;
+		return Logs;
 	}
 
 		/**
 		* Logs
 		*/
 	public void setLogs(ArrayList<SFDeviceLogEntry> logs) {
-		mLogs = logs;
+		Logs = logs;
 	}
 		/**
 		* Wipe results
 		*/
 	public ArrayList<SFDeviceUserWipe> getWipeResults() {
-		return mWipeResults;
+		return WipeResults;
 	}
 
 		/**
 		* Wipe results
 		*/
 	public void setWipeResults(ArrayList<SFDeviceUserWipe> wiperesults) {
-		mWipeResults = wiperesults;
+		WipeResults = wiperesults;
 	}
 }

@@ -14,37 +14,37 @@ package com.sharefile.api.models;
 
 public class SFSimpleSearchQuery extends SFODataObject {
 
-	private SFSimpleQuery mQuery;
-	private SFQueryPaging mPaging;
-	private SFQuerySorting mSort;
-	private Integer mTimeoutInSeconds;
+	private SFSimpleQuery Query;
+	private SFQueryPaging Paging;
+	private SFQuerySorting Sort;
+	private Integer TimeoutInSeconds;
 
 	public SFSimpleQuery getQuery() {
-		return mQuery;
+		return Query;
 	}
 
 	public void setQuery(SFSimpleQuery query) {
-		mQuery = query;
+		Query = query;
 	}
 	public SFQueryPaging getPaging() {
-		return mPaging;
+		return Paging;
 	}
 
 	public void setPaging(SFQueryPaging paging) {
-		mPaging = paging;
+		Paging = paging;
 	}
 	public SFQuerySorting getSort() {
-		return mSort;
+		return Sort;
 	}
 
 	public void setSort(SFQuerySorting sort) {
-		mSort = sort;
+		Sort = sort;
 	}
 	public Integer getTimeoutInSeconds() {
-		return mTimeoutInSeconds;
+		return TimeoutInSeconds;
 	}
 
 	public void setTimeoutInSeconds(Integer timeoutinseconds) {
-		mTimeoutInSeconds = timeoutinseconds;
+		TimeoutInSeconds = timeoutinseconds;
 	}
 }

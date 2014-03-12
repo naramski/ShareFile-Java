@@ -14,197 +14,197 @@ package com.sharefile.api.models;
 
 public class SFSearchResult extends SFODataObject {
 
-	private Integer mRank;
-	private Double mScore;
-	private String mItemID;
-	private String mParentID;
-	private String mParentName;
-	private String mItemType;
-	private String mFileName;
-	private String mDisplayName;
-	private Long mSize;
-	private String mCreatorID;
-	private String mCreatorName;
-	private String mCreatorFirstName;
-	private String mCreatorLastName;
-	private String mCreationDate;
-	private String mDetails;
-	private String mMD5;
-	private Integer mPreviewStatus;
-	private Integer mVirusStatus;
-	private String mUrl;
-	private Boolean mCanDownload;
-	private Boolean mCanView;
-	private String mParentSemanticPath;
-	private String mStreamID;
-	private String mAccountID;
+	private Integer Rank;
+	private Double Score;
+	private String ItemID;
+	private String ParentID;
+	private String ParentName;
+	private String ItemType;
+	private String FileName;
+	private String DisplayName;
+	private Long Size;
+	private String CreatorID;
+	private String CreatorName;
+	private String CreatorFirstName;
+	private String CreatorLastName;
+	private String CreationDate;
+	private String Details;
+	private String MD5;
+	private Integer PreviewStatus;
+	private Integer VirusStatus;
+	private String Url;
+	private Boolean CanDownload;
+	private Boolean CanView;
+	private String ParentSemanticPath;
+	private String StreamID;
+	private String AccountID;
 
 	public Integer getRank() {
-		return mRank;
+		return Rank;
 	}
 
 	public void setRank(Integer rank) {
-		mRank = rank;
+		Rank = rank;
 	}
 	public Double getScore() {
-		return mScore;
+		return Score;
 	}
 
 	public void setScore(Double score) {
-		mScore = score;
+		Score = score;
 	}
 	public String getItemID() {
-		return mItemID;
+		return ItemID;
 	}
 
 	public void setItemID(String itemid) {
-		mItemID = itemid;
+		ItemID = itemid;
 	}
 	public String getParentID() {
-		return mParentID;
+		return ParentID;
 	}
 
 	public void setParentID(String parentid) {
-		mParentID = parentid;
+		ParentID = parentid;
 	}
 	public String getParentName() {
-		return mParentName;
+		return ParentName;
 	}
 
 	public void setParentName(String parentname) {
-		mParentName = parentname;
+		ParentName = parentname;
 	}
 	public String getItemType() {
-		return mItemType;
+		return ItemType;
 	}
 
 	public void setItemType(String itemtype) {
-		mItemType = itemtype;
+		ItemType = itemtype;
 	}
 	public String getFileName() {
-		return mFileName;
+		return FileName;
 	}
 
 	public void setFileName(String filename) {
-		mFileName = filename;
+		FileName = filename;
 	}
 	public String getDisplayName() {
-		return mDisplayName;
+		return DisplayName;
 	}
 
 	public void setDisplayName(String displayname) {
-		mDisplayName = displayname;
+		DisplayName = displayname;
 	}
 	public Long getSize() {
-		return mSize;
+		return Size;
 	}
 
 	public void setSize(Long size) {
-		mSize = size;
+		Size = size;
 	}
 	public String getCreatorID() {
-		return mCreatorID;
+		return CreatorID;
 	}
 
 	public void setCreatorID(String creatorid) {
-		mCreatorID = creatorid;
+		CreatorID = creatorid;
 	}
 	public String getCreatorName() {
-		return mCreatorName;
+		return CreatorName;
 	}
 
 	public void setCreatorName(String creatorname) {
-		mCreatorName = creatorname;
+		CreatorName = creatorname;
 	}
 	public String getCreatorFirstName() {
-		return mCreatorFirstName;
+		return CreatorFirstName;
 	}
 
 	public void setCreatorFirstName(String creatorfirstname) {
-		mCreatorFirstName = creatorfirstname;
+		CreatorFirstName = creatorfirstname;
 	}
 	public String getCreatorLastName() {
-		return mCreatorLastName;
+		return CreatorLastName;
 	}
 
 	public void setCreatorLastName(String creatorlastname) {
-		mCreatorLastName = creatorlastname;
+		CreatorLastName = creatorlastname;
 	}
 	public String getCreationDate() {
-		return mCreationDate;
+		return CreationDate;
 	}
 
 	public void setCreationDate(String creationdate) {
-		mCreationDate = creationdate;
+		CreationDate = creationdate;
 	}
 	public String getDetails() {
-		return mDetails;
+		return Details;
 	}
 
 	public void setDetails(String details) {
-		mDetails = details;
+		Details = details;
 	}
 	public String getMD5() {
-		return mMD5;
+		return MD5;
 	}
 
 	public void setMD5(String md5) {
-		mMD5 = md5;
+		MD5 = md5;
 	}
 	public Integer getPreviewStatus() {
-		return mPreviewStatus;
+		return PreviewStatus;
 	}
 
 	public void setPreviewStatus(Integer previewstatus) {
-		mPreviewStatus = previewstatus;
+		PreviewStatus = previewstatus;
 	}
 	public Integer getVirusStatus() {
-		return mVirusStatus;
+		return VirusStatus;
 	}
 
 	public void setVirusStatus(Integer virusstatus) {
-		mVirusStatus = virusstatus;
+		VirusStatus = virusstatus;
 	}
 	public String getUrl() {
-		return mUrl;
+		return Url;
 	}
 
 	public void setUrl(String url) {
-		mUrl = url;
+		Url = url;
 	}
 	public Boolean getCanDownload() {
-		return mCanDownload;
+		return CanDownload;
 	}
 
 	public void setCanDownload(Boolean candownload) {
-		mCanDownload = candownload;
+		CanDownload = candownload;
 	}
 	public Boolean getCanView() {
-		return mCanView;
+		return CanView;
 	}
 
 	public void setCanView(Boolean canview) {
-		mCanView = canview;
+		CanView = canview;
 	}
 	public String getParentSemanticPath() {
-		return mParentSemanticPath;
+		return ParentSemanticPath;
 	}
 
 	public void setParentSemanticPath(String parentsemanticpath) {
-		mParentSemanticPath = parentsemanticpath;
+		ParentSemanticPath = parentsemanticpath;
 	}
 	public String getStreamID() {
-		return mStreamID;
+		return StreamID;
 	}
 
 	public void setStreamID(String streamid) {
-		mStreamID = streamid;
+		StreamID = streamid;
 	}
 	public String getAccountID() {
-		return mAccountID;
+		return AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		mAccountID = accountid;
+		AccountID = accountid;
 	}
 }

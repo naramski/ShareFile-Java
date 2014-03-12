@@ -16,75 +16,75 @@ import java.net.URI;
 
 public class SFShareAlias extends SFODataObject {
 
-	private SFUser mUser;
-	private SFShare mShare;
-	private String mEmail;
-	private Integer mDownloads;
-	private Boolean mIsConsumed;
-	private Boolean mIsArchived;
-	private Boolean mIsRead;
-	private URI mUri;
+	private SFUser User;
+	private SFShare Share;
+	private String Email;
+	private Integer Downloads;
+	private Boolean IsConsumed;
+	private Boolean IsArchived;
+	private Boolean IsRead;
+	private URI Uri;
 
 	public SFUser getUser() {
-		return mUser;
+		return User;
 	}
 
 	public void setUser(SFUser user) {
-		mUser = user;
+		User = user;
 	}
 	public SFShare getShare() {
-		return mShare;
+		return Share;
 	}
 
 	public void setShare(SFShare share) {
-		mShare = share;
+		Share = share;
 	}
 	public String getEmail() {
-		return mEmail;
+		return Email;
 	}
 
 	public void setEmail(String email) {
-		mEmail = email;
+		Email = email;
 	}
 	public Integer getDownloads() {
-		return mDownloads;
+		return Downloads;
 	}
 
 	public void setDownloads(Integer downloads) {
-		mDownloads = downloads;
+		Downloads = downloads;
 	}
 	public Boolean getIsConsumed() {
-		return mIsConsumed;
+		return IsConsumed;
 	}
 
 	public void setIsConsumed(Boolean isconsumed) {
-		mIsConsumed = isconsumed;
+		IsConsumed = isconsumed;
 	}
 	public Boolean getIsArchived() {
-		return mIsArchived;
+		return IsArchived;
 	}
 
 	public void setIsArchived(Boolean isarchived) {
-		mIsArchived = isarchived;
+		IsArchived = isarchived;
 	}
 	public Boolean getIsRead() {
-		return mIsRead;
+		return IsRead;
 	}
 
 	public void setIsRead(Boolean isread) {
-		mIsRead = isread;
+		IsRead = isread;
 	}
 		/**
 		* Uri to access the share through the Web portal
 		*/
 	public URI getUri() {
-		return mUri;
+		return Uri;
 	}
 
 		/**
 		* Uri to access the share through the Web portal
 		*/
 	public void setUri(URI uri) {
-		mUri = uri;
+		Uri = uri;
 	}
 }

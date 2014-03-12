@@ -14,13 +14,13 @@ package com.sharefile.api.models;
 
 public class SFRequireSubdomainResult extends SFODataObject {
 
-	private Boolean mRequireSubdomain;
+	private Boolean RequireSubdomain;
 
 	public Boolean getRequireSubdomain() {
-		return mRequireSubdomain;
+		return RequireSubdomain;
 	}
 
 	public void setRequireSubdomain(Boolean requiresubdomain) {
-		mRequireSubdomain = requiresubdomain;
+		RequireSubdomain = requiresubdomain;
 	}
 }

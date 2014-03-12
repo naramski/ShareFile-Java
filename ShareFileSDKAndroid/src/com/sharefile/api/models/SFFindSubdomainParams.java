@@ -14,29 +14,29 @@ package com.sharefile.api.models;
 
 public class SFFindSubdomainParams extends SFODataObject {
 
-	private String mUsernameShort;
-	private String mPassword;
-	private Boolean mEmployeeOnly;
+	private String UsernameShort;
+	private String Password;
+	private Boolean EmployeeOnly;
 
 	public String getUsernameShort() {
-		return mUsernameShort;
+		return UsernameShort;
 	}
 
 	public void setUsernameShort(String usernameshort) {
-		mUsernameShort = usernameshort;
+		UsernameShort = usernameshort;
 	}
 	public String getPassword() {
-		return mPassword;
+		return Password;
 	}
 
 	public void setPassword(String password) {
-		mPassword = password;
+		Password = password;
 	}
 	public Boolean getEmployeeOnly() {
-		return mEmployeeOnly;
+		return EmployeeOnly;
 	}
 
 	public void setEmployeeOnly(Boolean employeeonly) {
-		mEmployeeOnly = employeeonly;
+		EmployeeOnly = employeeonly;
 	}
 }

@@ -14,47 +14,47 @@ package com.sharefile.api.models;
 
 public class SFMetadata extends SFODataObject {
 
-	private String mName;
-	private String mValue;
-	private Boolean mIsPublic;
+	private String Name;
+	private String Value;
+	private Boolean IsPublic;
 
 		/**
 		* The name of a custom metadata entry
 		*/
 	public String getName() {
-		return mName;
+		return Name;
 	}
 
 		/**
 		* The name of a custom metadata entry
 		*/
 	public void setName(String name) {
-		mName = name;
+		Name = name;
 	}
 		/**
 		* The value of a custom metadata entry
 		*/
 	public String getValue() {
-		return mValue;
+		return Value;
 	}
 
 		/**
 		* The value of a custom metadata entry
 		*/
 	public void setValue(String value) {
-		mValue = value;
+		Value = value;
 	}
 		/**
 		* Whether the metadata entry is public or private. Used only by the zone or storage center metadata where only zone admins have access to private metadata.
 		*/
 	public Boolean getIsPublic() {
-		return mIsPublic;
+		return IsPublic;
 	}
 
 		/**
 		* Whether the metadata entry is public or private. Used only by the zone or storage center metadata where only zone admins have access to private metadata.
 		*/
 	public void setIsPublic(Boolean ispublic) {
-		mIsPublic = ispublic;
+		IsPublic = ispublic;
 	}
 }

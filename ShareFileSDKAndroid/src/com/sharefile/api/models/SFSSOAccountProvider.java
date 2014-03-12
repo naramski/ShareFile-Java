@@ -14,117 +14,117 @@ package com.sharefile.api.models;
 
 public class SFSSOAccountProvider extends SFODataObject {
 
-	private String mLogoutUrl;
-	private String mLoginUrl;
-	private String mIPRestrictions;
-	private Boolean mForceSSO;
-	private String mCertificate;
-	private SFAccount mAccount;
-	private String mEntityID;
-	private String mSFEntityID;
-	private String mSPInitatedAuthContext;
-	private String mSPInitatedAuthMethod;
-	private Boolean mIsActive;
-	private String mProviderID;
-	private Boolean mDebugMode;
-	private Boolean mLenientSignatures;
+	private String LogoutUrl;
+	private String LoginUrl;
+	private String IPRestrictions;
+	private Boolean ForceSSO;
+	private String Certificate;
+	private SFAccount Account;
+	private String EntityID;
+	private String SFEntityID;
+	private String SPInitatedAuthContext;
+	private String SPInitatedAuthMethod;
+	private Boolean IsActive;
+	private String ProviderID;
+	private Boolean DebugMode;
+	private Boolean LenientSignatures;
 
 	public String getLogoutUrl() {
-		return mLogoutUrl;
+		return LogoutUrl;
 	}
 
 	public void setLogoutUrl(String logouturl) {
-		mLogoutUrl = logouturl;
+		LogoutUrl = logouturl;
 	}
 	public String getLoginUrl() {
-		return mLoginUrl;
+		return LoginUrl;
 	}
 
 	public void setLoginUrl(String loginurl) {
-		mLoginUrl = loginurl;
+		LoginUrl = loginurl;
 	}
 	public String getIPRestrictions() {
-		return mIPRestrictions;
+		return IPRestrictions;
 	}
 
 	public void setIPRestrictions(String iprestrictions) {
-		mIPRestrictions = iprestrictions;
+		IPRestrictions = iprestrictions;
 	}
 	public Boolean getForceSSO() {
-		return mForceSSO;
+		return ForceSSO;
 	}
 
 	public void setForceSSO(Boolean forcesso) {
-		mForceSSO = forcesso;
+		ForceSSO = forcesso;
 	}
 	public String getCertificate() {
-		return mCertificate;
+		return Certificate;
 	}
 
 	public void setCertificate(String certificate) {
-		mCertificate = certificate;
+		Certificate = certificate;
 	}
 	public SFAccount getAccount() {
-		return mAccount;
+		return Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		mAccount = account;
+		Account = account;
 	}
 	public String getEntityID() {
-		return mEntityID;
+		return EntityID;
 	}
 
 	public void setEntityID(String entityid) {
-		mEntityID = entityid;
+		EntityID = entityid;
 	}
 	public String getSFEntityID() {
-		return mSFEntityID;
+		return SFEntityID;
 	}
 
 	public void setSFEntityID(String sfentityid) {
-		mSFEntityID = sfentityid;
+		SFEntityID = sfentityid;
 	}
 	public String getSPInitatedAuthContext() {
-		return mSPInitatedAuthContext;
+		return SPInitatedAuthContext;
 	}
 
 	public void setSPInitatedAuthContext(String spinitatedauthcontext) {
-		mSPInitatedAuthContext = spinitatedauthcontext;
+		SPInitatedAuthContext = spinitatedauthcontext;
 	}
 	public String getSPInitatedAuthMethod() {
-		return mSPInitatedAuthMethod;
+		return SPInitatedAuthMethod;
 	}
 
 	public void setSPInitatedAuthMethod(String spinitatedauthmethod) {
-		mSPInitatedAuthMethod = spinitatedauthmethod;
+		SPInitatedAuthMethod = spinitatedauthmethod;
 	}
 	public Boolean getIsActive() {
-		return mIsActive;
+		return IsActive;
 	}
 
 	public void setIsActive(Boolean isactive) {
-		mIsActive = isactive;
+		IsActive = isactive;
 	}
 	public String getProviderID() {
-		return mProviderID;
+		return ProviderID;
 	}
 
 	public void setProviderID(String providerid) {
-		mProviderID = providerid;
+		ProviderID = providerid;
 	}
 	public Boolean getDebugMode() {
-		return mDebugMode;
+		return DebugMode;
 	}
 
 	public void setDebugMode(Boolean debugmode) {
-		mDebugMode = debugmode;
+		DebugMode = debugmode;
 	}
 	public Boolean getLenientSignatures() {
-		return mLenientSignatures;
+		return LenientSignatures;
 	}
 
 	public void setLenientSignatures(Boolean lenientsignatures) {
-		mLenientSignatures = lenientsignatures;
+		LenientSignatures = lenientsignatures;
 	}
 }

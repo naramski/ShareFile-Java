@@ -16,77 +16,77 @@ import java.util.ArrayList;
 
 public class SFQuery extends SFODataObject {
 
-	private ArrayList<String> mAuthIDs;
-	private ArrayList<String> mItemTypes;
-	private ArrayList<String> mParentID;
-	private ArrayList<String> mCreatorID;
-	private String mLuceneQuery;
-	private String mSearchQuery;
-	private String mCreateStartDate;
-	private String mCreateEndDate;
-	private Boolean mItemNameOnly;
+	private ArrayList<String> AuthIDs;
+	private ArrayList<String> ItemTypes;
+	private ArrayList<String> ParentID;
+	private ArrayList<String> CreatorID;
+	private String LuceneQuery;
+	private String SearchQuery;
+	private String CreateStartDate;
+	private String CreateEndDate;
+	private Boolean ItemNameOnly;
 
 	public ArrayList<String> getAuthIDs() {
-		return mAuthIDs;
+		return AuthIDs;
 	}
 
 	public void setAuthIDs(ArrayList<String> authids) {
-		mAuthIDs = authids;
+		AuthIDs = authids;
 	}
 	public ArrayList<String> getItemTypes() {
-		return mItemTypes;
+		return ItemTypes;
 	}
 
 	public void setItemTypes(ArrayList<String> itemtypes) {
-		mItemTypes = itemtypes;
+		ItemTypes = itemtypes;
 	}
 	public ArrayList<String> getParentID() {
-		return mParentID;
+		return ParentID;
 	}
 
 	public void setParentID(ArrayList<String> parentid) {
-		mParentID = parentid;
+		ParentID = parentid;
 	}
 	public ArrayList<String> getCreatorID() {
-		return mCreatorID;
+		return CreatorID;
 	}
 
 	public void setCreatorID(ArrayList<String> creatorid) {
-		mCreatorID = creatorid;
+		CreatorID = creatorid;
 	}
 	public String getLuceneQuery() {
-		return mLuceneQuery;
+		return LuceneQuery;
 	}
 
 	public void setLuceneQuery(String lucenequery) {
-		mLuceneQuery = lucenequery;
+		LuceneQuery = lucenequery;
 	}
 	public String getSearchQuery() {
-		return mSearchQuery;
+		return SearchQuery;
 	}
 
 	public void setSearchQuery(String searchquery) {
-		mSearchQuery = searchquery;
+		SearchQuery = searchquery;
 	}
 	public String getCreateStartDate() {
-		return mCreateStartDate;
+		return CreateStartDate;
 	}
 
 	public void setCreateStartDate(String createstartdate) {
-		mCreateStartDate = createstartdate;
+		CreateStartDate = createstartdate;
 	}
 	public String getCreateEndDate() {
-		return mCreateEndDate;
+		return CreateEndDate;
 	}
 
 	public void setCreateEndDate(String createenddate) {
-		mCreateEndDate = createenddate;
+		CreateEndDate = createenddate;
 	}
 	public Boolean getItemNameOnly() {
-		return mItemNameOnly;
+		return ItemNameOnly;
 	}
 
 	public void setItemNameOnly(Boolean itemnameonly) {
-		mItemNameOnly = itemnameonly;
+		ItemNameOnly = itemnameonly;
 	}
 }

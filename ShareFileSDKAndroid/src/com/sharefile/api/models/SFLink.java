@@ -16,19 +16,19 @@ import java.net.URI;
 
 public class SFLink extends SFItem {
 
-	private URI mUri;
+	private URI Uri;
 
 		/**
 		* Universal Reference Identifier for this Link object
 		*/
 	public URI getUri() {
-		return mUri;
+		return Uri;
 	}
 
 		/**
 		* Universal Reference Identifier for this Link object
 		*/
 	public void setUri(URI uri) {
-		mUri = uri;
+		Uri = uri;
 	}
 }

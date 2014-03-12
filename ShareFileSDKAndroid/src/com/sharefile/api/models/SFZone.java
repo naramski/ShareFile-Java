@@ -14,82 +14,79 @@ package com.sharefile.api.models;
 
 import java.util.ArrayList;
 
-import com.sharefile.api.enumerations.SFZoneService;
-import com.sharefile.api.enumerations.SFZoneType;
-
 public class SFZone extends SFPrincipal {
 
-	private String mSecret;
-	private SFZoneType mZoneType;
-	private SFAccount mAccount;
-	private Integer mHeartBeatTolerance;
-	private Integer mPingBackInterval;
-	private String mVersion;
-	private SFZoneService mZoneServices;
-	private ArrayList<SFStorageCenter> mStorageCenters;
-	private ArrayList<SFMetadata> mMetadata;
+	private String Secret;
+	private SFZoneType ZoneType;
+	private SFAccount Account;
+	private Integer HeartBeatTolerance;
+	private Integer PingBackInterval;
+	private String Version;
+	private SFZoneService ZoneServices;
+	private ArrayList<SFStorageCenter> StorageCenters;
+	private ArrayList<SFMetadata> Metadata;
 
 	public String getSecret() {
-		return mSecret;
+		return Secret;
 	}
 
 	public void setSecret(String secret) {
-		mSecret = secret;
+		Secret = secret;
 	}
 	public SFZoneType getZoneType() {
-		return mZoneType;
+		return ZoneType;
 	}
 
 	public void setZoneType(SFZoneType zonetype) {
-		mZoneType = zonetype;
+		ZoneType = zonetype;
 	}
 	public SFAccount getAccount() {
-		return mAccount;
+		return Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		mAccount = account;
+		Account = account;
 	}
 	public Integer getHeartBeatTolerance() {
-		return mHeartBeatTolerance;
+		return HeartBeatTolerance;
 	}
 
 	public void setHeartBeatTolerance(Integer heartbeattolerance) {
-		mHeartBeatTolerance = heartbeattolerance;
+		HeartBeatTolerance = heartbeattolerance;
 	}
 	public Integer getPingBackInterval() {
-		return mPingBackInterval;
+		return PingBackInterval;
 	}
 
 	public void setPingBackInterval(Integer pingbackinterval) {
-		mPingBackInterval = pingbackinterval;
+		PingBackInterval = pingbackinterval;
 	}
 	public String getVersion() {
-		return mVersion;
+		return Version;
 	}
 
 	public void setVersion(String version) {
-		mVersion = version;
+		Version = version;
 	}
 	public SFZoneService getZoneServices() {
-		return mZoneServices;
+		return ZoneServices;
 	}
 
 	public void setZoneServices(SFZoneService zoneservices) {
-		mZoneServices = zoneservices;
+		ZoneServices = zoneservices;
 	}
 	public ArrayList<SFStorageCenter> getStorageCenters() {
-		return mStorageCenters;
+		return StorageCenters;
 	}
 
 	public void setStorageCenters(ArrayList<SFStorageCenter> storagecenters) {
-		mStorageCenters = storagecenters;
+		StorageCenters = storagecenters;
 	}
 	public ArrayList<SFMetadata> getMetadata() {
-		return mMetadata;
+		return Metadata;
 	}
 
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
-		mMetadata = metadata;
+		Metadata = metadata;
 	}
 }

@@ -17,189 +17,189 @@ import java.util.Date;
 
 public class SFNotification extends SFODataObject {
 
-	private String mNotificationType;
-	private String mEventID;
-	private String mSenderID;
-	private String mRecipientID;
-	private String mFromName;
-	private String mFromEmail;
-	private String mReplyTo;
-	private String mTo;
-	private String mCC;
-	private String mBCC;
-	private String mSubject;
-	private String mMessage;
-	private String mPlainTextMessage;
-	private Date mDateSent;
-	private String mStatus;
-	private Boolean mIsImportant;
-	private Boolean mReadReceipt;
-	private ArrayList<String> mAttachmentPaths;
-	private Boolean mForceEmailFromShareFile;
-	private ArrayList<String> mMergeNames;
-	private ArrayList<Object> mMergeValues;
-	private Boolean mRecordSend;
-	private Boolean mIsModelBased;
+	private String NotificationType;
+	private String EventID;
+	private String SenderID;
+	private String RecipientID;
+	private String FromName;
+	private String FromEmail;
+	private String ReplyTo;
+	private String To;
+	private String CC;
+	private String BCC;
+	private String Subject;
+	private String Message;
+	private String PlainTextMessage;
+	private Date DateSent;
+	private String Status;
+	private Boolean IsImportant;
+	private Boolean ReadReceipt;
+	private ArrayList<String> AttachmentPaths;
+	private Boolean ForceEmailFromShareFile;
+	private ArrayList<String> MergeNames;
+	private ArrayList<Object> MergeValues;
+	private Boolean RecordSend;
+	private Boolean IsModelBased;
 
 	public String getNotificationType() {
-		return mNotificationType;
+		return NotificationType;
 	}
 
 	public void setNotificationType(String notificationtype) {
-		mNotificationType = notificationtype;
+		NotificationType = notificationtype;
 	}
 	public String getEventID() {
-		return mEventID;
+		return EventID;
 	}
 
 	public void setEventID(String eventid) {
-		mEventID = eventid;
+		EventID = eventid;
 	}
 	public String getSenderID() {
-		return mSenderID;
+		return SenderID;
 	}
 
 	public void setSenderID(String senderid) {
-		mSenderID = senderid;
+		SenderID = senderid;
 	}
 	public String getRecipientID() {
-		return mRecipientID;
+		return RecipientID;
 	}
 
 	public void setRecipientID(String recipientid) {
-		mRecipientID = recipientid;
+		RecipientID = recipientid;
 	}
 	public String getFromName() {
-		return mFromName;
+		return FromName;
 	}
 
 	public void setFromName(String fromname) {
-		mFromName = fromname;
+		FromName = fromname;
 	}
 	public String getFromEmail() {
-		return mFromEmail;
+		return FromEmail;
 	}
 
 	public void setFromEmail(String fromemail) {
-		mFromEmail = fromemail;
+		FromEmail = fromemail;
 	}
 	public String getReplyTo() {
-		return mReplyTo;
+		return ReplyTo;
 	}
 
 	public void setReplyTo(String replyto) {
-		mReplyTo = replyto;
+		ReplyTo = replyto;
 	}
 	public String getTo() {
-		return mTo;
+		return To;
 	}
 
 	public void setTo(String to) {
-		mTo = to;
+		To = to;
 	}
 	public String getCC() {
-		return mCC;
+		return CC;
 	}
 
 	public void setCC(String cc) {
-		mCC = cc;
+		CC = cc;
 	}
 	public String getBCC() {
-		return mBCC;
+		return BCC;
 	}
 
 	public void setBCC(String bcc) {
-		mBCC = bcc;
+		BCC = bcc;
 	}
 	public String getSubject() {
-		return mSubject;
+		return Subject;
 	}
 
 	public void setSubject(String subject) {
-		mSubject = subject;
+		Subject = subject;
 	}
 	public String getMessage() {
-		return mMessage;
+		return Message;
 	}
 
 	public void setMessage(String message) {
-		mMessage = message;
+		Message = message;
 	}
 	public String getPlainTextMessage() {
-		return mPlainTextMessage;
+		return PlainTextMessage;
 	}
 
 	public void setPlainTextMessage(String plaintextmessage) {
-		mPlainTextMessage = plaintextmessage;
+		PlainTextMessage = plaintextmessage;
 	}
 	public Date getDateSent() {
-		return mDateSent;
+		return DateSent;
 	}
 
 	public void setDateSent(Date datesent) {
-		mDateSent = datesent;
+		DateSent = datesent;
 	}
 	public String getStatus() {
-		return mStatus;
+		return Status;
 	}
 
 	public void setStatus(String status) {
-		mStatus = status;
+		Status = status;
 	}
 	public Boolean getIsImportant() {
-		return mIsImportant;
+		return IsImportant;
 	}
 
 	public void setIsImportant(Boolean isimportant) {
-		mIsImportant = isimportant;
+		IsImportant = isimportant;
 	}
 	public Boolean getReadReceipt() {
-		return mReadReceipt;
+		return ReadReceipt;
 	}
 
 	public void setReadReceipt(Boolean readreceipt) {
-		mReadReceipt = readreceipt;
+		ReadReceipt = readreceipt;
 	}
 	public ArrayList<String> getAttachmentPaths() {
-		return mAttachmentPaths;
+		return AttachmentPaths;
 	}
 
 	public void setAttachmentPaths(ArrayList<String> attachmentpaths) {
-		mAttachmentPaths = attachmentpaths;
+		AttachmentPaths = attachmentpaths;
 	}
 	public Boolean getForceEmailFromShareFile() {
-		return mForceEmailFromShareFile;
+		return ForceEmailFromShareFile;
 	}
 
 	public void setForceEmailFromShareFile(Boolean forceemailfromsharefile) {
-		mForceEmailFromShareFile = forceemailfromsharefile;
+		ForceEmailFromShareFile = forceemailfromsharefile;
 	}
 	public ArrayList<String> getMergeNames() {
-		return mMergeNames;
+		return MergeNames;
 	}
 
 	public void setMergeNames(ArrayList<String> mergenames) {
-		mMergeNames = mergenames;
+		MergeNames = mergenames;
 	}
 	public ArrayList<Object> getMergeValues() {
-		return mMergeValues;
+		return MergeValues;
 	}
 
 	public void setMergeValues(ArrayList<Object> mergevalues) {
-		mMergeValues = mergevalues;
+		MergeValues = mergevalues;
 	}
 	public Boolean getRecordSend() {
-		return mRecordSend;
+		return RecordSend;
 	}
 
 	public void setRecordSend(Boolean recordsend) {
-		mRecordSend = recordsend;
+		RecordSend = recordsend;
 	}
 	public Boolean getIsModelBased() {
-		return mIsModelBased;
+		return IsModelBased;
 	}
 
 	public void setIsModelBased(Boolean ismodelbased) {
-		mIsModelBased = ismodelbased;
+		IsModelBased = ismodelbased;
 	}
 }

@@ -16,13 +16,13 @@ import java.net.URI;
 
 public class SFSymbolicLink extends SFFolder {
 
-	private URI mLink;
+	private URI Link;
 
 	public URI getLink() {
-		return mLink;
+		return Link;
 	}
 
 	public void setLink(URI link) {
-		mLink = link;
+		Link = link;
 	}
 }

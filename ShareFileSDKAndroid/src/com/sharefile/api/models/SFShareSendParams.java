@@ -16,101 +16,101 @@ import java.util.ArrayList;
 
 public class SFShareSendParams extends SFODataObject {
 
-	private ArrayList<String> mItems;
-	private ArrayList<String> mEmails;
-	private String mSubject;
-	private String mBody;
-	private Boolean mCcSender;
-	private Boolean mRequireLogin;
-	private Boolean mSendAnon;
-	private Boolean mRequireUserInfo;
-	private Integer mExpirationDays;
-	private Boolean mNotifyOnDownload;
-	private Boolean mIsViewOnly;
-	private Integer mMaxDownloads;
+	private ArrayList<String> Items;
+	private ArrayList<String> Emails;
+	private String Subject;
+	private String Body;
+	private Boolean CcSender;
+	private Boolean RequireLogin;
+	private Boolean SendAnon;
+	private Boolean RequireUserInfo;
+	private Integer ExpirationDays;
+	private Boolean NotifyOnDownload;
+	private Boolean IsViewOnly;
+	private Integer MaxDownloads;
 
 	public ArrayList<String> getItems() {
-		return mItems;
+		return Items;
 	}
 
 	public void setItems(ArrayList<String> items) {
-		mItems = items;
+		Items = items;
 	}
 	public ArrayList<String> getEmails() {
-		return mEmails;
+		return Emails;
 	}
 
 	public void setEmails(ArrayList<String> emails) {
-		mEmails = emails;
+		Emails = emails;
 	}
 	public String getSubject() {
-		return mSubject;
+		return Subject;
 	}
 
 	public void setSubject(String subject) {
-		mSubject = subject;
+		Subject = subject;
 	}
 	public String getBody() {
-		return mBody;
+		return Body;
 	}
 
 	public void setBody(String body) {
-		mBody = body;
+		Body = body;
 	}
 	public Boolean getCcSender() {
-		return mCcSender;
+		return CcSender;
 	}
 
 	public void setCcSender(Boolean ccsender) {
-		mCcSender = ccsender;
+		CcSender = ccsender;
 	}
 	public Boolean getRequireLogin() {
-		return mRequireLogin;
+		return RequireLogin;
 	}
 
 	public void setRequireLogin(Boolean requirelogin) {
-		mRequireLogin = requirelogin;
+		RequireLogin = requirelogin;
 	}
 	public Boolean getSendAnon() {
-		return mSendAnon;
+		return SendAnon;
 	}
 
 	public void setSendAnon(Boolean sendanon) {
-		mSendAnon = sendanon;
+		SendAnon = sendanon;
 	}
 	public Boolean getRequireUserInfo() {
-		return mRequireUserInfo;
+		return RequireUserInfo;
 	}
 
 	public void setRequireUserInfo(Boolean requireuserinfo) {
-		mRequireUserInfo = requireuserinfo;
+		RequireUserInfo = requireuserinfo;
 	}
 	public Integer getExpirationDays() {
-		return mExpirationDays;
+		return ExpirationDays;
 	}
 
 	public void setExpirationDays(Integer expirationdays) {
-		mExpirationDays = expirationdays;
+		ExpirationDays = expirationdays;
 	}
 	public Boolean getNotifyOnDownload() {
-		return mNotifyOnDownload;
+		return NotifyOnDownload;
 	}
 
 	public void setNotifyOnDownload(Boolean notifyondownload) {
-		mNotifyOnDownload = notifyondownload;
+		NotifyOnDownload = notifyondownload;
 	}
 	public Boolean getIsViewOnly() {
-		return mIsViewOnly;
+		return IsViewOnly;
 	}
 
 	public void setIsViewOnly(Boolean isviewonly) {
-		mIsViewOnly = isviewonly;
+		IsViewOnly = isviewonly;
 	}
 	public Integer getMaxDownloads() {
-		return mMaxDownloads;
+		return MaxDownloads;
 	}
 
 	public void setMaxDownloads(Integer maxdownloads) {
-		mMaxDownloads = maxdownloads;
+		MaxDownloads = maxdownloads;
 	}
 }

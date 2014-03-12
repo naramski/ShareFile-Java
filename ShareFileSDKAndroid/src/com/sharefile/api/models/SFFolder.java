@@ -16,29 +16,29 @@ import java.util.ArrayList;
 
 public class SFFolder extends SFItem {
 
-	private Integer mFileCount;
-	private ArrayList<SFItem> mChildren;
-	private SFItemInfo mInfo;
+	private Integer FileCount;
+	private ArrayList<SFItem> Children;
+	private SFItemInfo Info;
 
 	public Integer getFileCount() {
-		return mFileCount;
+		return FileCount;
 	}
 
 	public void setFileCount(Integer filecount) {
-		mFileCount = filecount;
+		FileCount = filecount;
 	}
 	public ArrayList<SFItem> getChildren() {
-		return mChildren;
+		return Children;
 	}
 
 	public void setChildren(ArrayList<SFItem> children) {
-		mChildren = children;
+		Children = children;
 	}
 	public SFItemInfo getInfo() {
-		return mInfo;
+		return Info;
 	}
 
 	public void setInfo(SFItemInfo info) {
-		mInfo = info;
+		Info = info;
 	}
 }

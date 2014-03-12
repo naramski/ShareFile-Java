@@ -14,189 +14,189 @@ package com.sharefile.api.models;
 
 public class SFUserPreferences extends SFODataObject {
 
-	private Boolean mEnableFlashUpload;
-	private Boolean mEnableJavaUpload;
-	private Boolean mEnableJavaDownload;
-	private Boolean mRememberCustomMessages;
-	private Boolean mRequireLoginByDefault;
-	private Boolean mNotifyOnUploadByDefault;
-	private Boolean mNotifyOnDownloadByDefault;
-	private Boolean mCanResetPassword;
-	private Boolean mCanViewMySettings;
-	private Boolean mIsSharedUserAccount;
-	private String mTimeZone;
-	private String mDaylightSavingMode;
-	private Integer mTimeZoneOffset;
-	private Integer mTimeZoneOffsetMins;
-	private Boolean mDisplayUserMessage;
-	private String mUserMessageCode;
-	private Integer mNotificationInterval;
-	private Integer mShowTutorial;
-	private Integer mEnableToolOverride;
-	private Boolean mIsResetSecurityQuestionRequired;
-	private String mTimeFormat;
-	private String mLongTimeFormat;
-	private String mDateFormat;
+	private Boolean EnableFlashUpload;
+	private Boolean EnableJavaUpload;
+	private Boolean EnableJavaDownload;
+	private Boolean RememberCustomMessages;
+	private Boolean RequireLoginByDefault;
+	private Boolean NotifyOnUploadByDefault;
+	private Boolean NotifyOnDownloadByDefault;
+	private Boolean CanResetPassword;
+	private Boolean CanViewMySettings;
+	private Boolean IsSharedUserAccount;
+	private String TimeZone;
+	private String DaylightSavingMode;
+	private Integer TimeZoneOffset;
+	private Integer TimeZoneOffsetMins;
+	private Boolean DisplayUserMessage;
+	private String UserMessageCode;
+	private Integer NotificationInterval;
+	private Integer ShowTutorial;
+	private Integer EnableToolOverride;
+	private Boolean IsResetSecurityQuestionRequired;
+	private String TimeFormat;
+	private String LongTimeFormat;
+	private String DateFormat;
 
 	public Boolean getEnableFlashUpload() {
-		return mEnableFlashUpload;
+		return EnableFlashUpload;
 	}
 
 	public void setEnableFlashUpload(Boolean enableflashupload) {
-		mEnableFlashUpload = enableflashupload;
+		EnableFlashUpload = enableflashupload;
 	}
 	public Boolean getEnableJavaUpload() {
-		return mEnableJavaUpload;
+		return EnableJavaUpload;
 	}
 
 	public void setEnableJavaUpload(Boolean enablejavaupload) {
-		mEnableJavaUpload = enablejavaupload;
+		EnableJavaUpload = enablejavaupload;
 	}
 	public Boolean getEnableJavaDownload() {
-		return mEnableJavaDownload;
+		return EnableJavaDownload;
 	}
 
 	public void setEnableJavaDownload(Boolean enablejavadownload) {
-		mEnableJavaDownload = enablejavadownload;
+		EnableJavaDownload = enablejavadownload;
 	}
 	public Boolean getRememberCustomMessages() {
-		return mRememberCustomMessages;
+		return RememberCustomMessages;
 	}
 
 	public void setRememberCustomMessages(Boolean remembercustommessages) {
-		mRememberCustomMessages = remembercustommessages;
+		RememberCustomMessages = remembercustommessages;
 	}
 	public Boolean getRequireLoginByDefault() {
-		return mRequireLoginByDefault;
+		return RequireLoginByDefault;
 	}
 
 	public void setRequireLoginByDefault(Boolean requireloginbydefault) {
-		mRequireLoginByDefault = requireloginbydefault;
+		RequireLoginByDefault = requireloginbydefault;
 	}
 	public Boolean getNotifyOnUploadByDefault() {
-		return mNotifyOnUploadByDefault;
+		return NotifyOnUploadByDefault;
 	}
 
 	public void setNotifyOnUploadByDefault(Boolean notifyonuploadbydefault) {
-		mNotifyOnUploadByDefault = notifyonuploadbydefault;
+		NotifyOnUploadByDefault = notifyonuploadbydefault;
 	}
 	public Boolean getNotifyOnDownloadByDefault() {
-		return mNotifyOnDownloadByDefault;
+		return NotifyOnDownloadByDefault;
 	}
 
 	public void setNotifyOnDownloadByDefault(Boolean notifyondownloadbydefault) {
-		mNotifyOnDownloadByDefault = notifyondownloadbydefault;
+		NotifyOnDownloadByDefault = notifyondownloadbydefault;
 	}
 	public Boolean getCanResetPassword() {
-		return mCanResetPassword;
+		return CanResetPassword;
 	}
 
 	public void setCanResetPassword(Boolean canresetpassword) {
-		mCanResetPassword = canresetpassword;
+		CanResetPassword = canresetpassword;
 	}
 	public Boolean getCanViewMySettings() {
-		return mCanViewMySettings;
+		return CanViewMySettings;
 	}
 
 	public void setCanViewMySettings(Boolean canviewmysettings) {
-		mCanViewMySettings = canviewmysettings;
+		CanViewMySettings = canviewmysettings;
 	}
 	public Boolean getIsSharedUserAccount() {
-		return mIsSharedUserAccount;
+		return IsSharedUserAccount;
 	}
 
 	public void setIsSharedUserAccount(Boolean isshareduseraccount) {
-		mIsSharedUserAccount = isshareduseraccount;
+		IsSharedUserAccount = isshareduseraccount;
 	}
 	public String getTimeZone() {
-		return mTimeZone;
+		return TimeZone;
 	}
 
 	public void setTimeZone(String timezone) {
-		mTimeZone = timezone;
+		TimeZone = timezone;
 	}
 	public String getDaylightSavingMode() {
-		return mDaylightSavingMode;
+		return DaylightSavingMode;
 	}
 
 	public void setDaylightSavingMode(String daylightsavingmode) {
-		mDaylightSavingMode = daylightsavingmode;
+		DaylightSavingMode = daylightsavingmode;
 	}
 	public Integer getTimeZoneOffset() {
-		return mTimeZoneOffset;
+		return TimeZoneOffset;
 	}
 
 	public void setTimeZoneOffset(Integer timezoneoffset) {
-		mTimeZoneOffset = timezoneoffset;
+		TimeZoneOffset = timezoneoffset;
 	}
 	public Integer getTimeZoneOffsetMins() {
-		return mTimeZoneOffsetMins;
+		return TimeZoneOffsetMins;
 	}
 
 	public void setTimeZoneOffsetMins(Integer timezoneoffsetmins) {
-		mTimeZoneOffsetMins = timezoneoffsetmins;
+		TimeZoneOffsetMins = timezoneoffsetmins;
 	}
 	public Boolean getDisplayUserMessage() {
-		return mDisplayUserMessage;
+		return DisplayUserMessage;
 	}
 
 	public void setDisplayUserMessage(Boolean displayusermessage) {
-		mDisplayUserMessage = displayusermessage;
+		DisplayUserMessage = displayusermessage;
 	}
 	public String getUserMessageCode() {
-		return mUserMessageCode;
+		return UserMessageCode;
 	}
 
 	public void setUserMessageCode(String usermessagecode) {
-		mUserMessageCode = usermessagecode;
+		UserMessageCode = usermessagecode;
 	}
 	public Integer getNotificationInterval() {
-		return mNotificationInterval;
+		return NotificationInterval;
 	}
 
 	public void setNotificationInterval(Integer notificationinterval) {
-		mNotificationInterval = notificationinterval;
+		NotificationInterval = notificationinterval;
 	}
 	public Integer getShowTutorial() {
-		return mShowTutorial;
+		return ShowTutorial;
 	}
 
 	public void setShowTutorial(Integer showtutorial) {
-		mShowTutorial = showtutorial;
+		ShowTutorial = showtutorial;
 	}
 	public Integer getEnableToolOverride() {
-		return mEnableToolOverride;
+		return EnableToolOverride;
 	}
 
 	public void setEnableToolOverride(Integer enabletooloverride) {
-		mEnableToolOverride = enabletooloverride;
+		EnableToolOverride = enabletooloverride;
 	}
 	public Boolean getIsResetSecurityQuestionRequired() {
-		return mIsResetSecurityQuestionRequired;
+		return IsResetSecurityQuestionRequired;
 	}
 
 	public void setIsResetSecurityQuestionRequired(Boolean isresetsecurityquestionrequired) {
-		mIsResetSecurityQuestionRequired = isresetsecurityquestionrequired;
+		IsResetSecurityQuestionRequired = isresetsecurityquestionrequired;
 	}
 	public String getTimeFormat() {
-		return mTimeFormat;
+		return TimeFormat;
 	}
 
 	public void setTimeFormat(String timeformat) {
-		mTimeFormat = timeformat;
+		TimeFormat = timeformat;
 	}
 	public String getLongTimeFormat() {
-		return mLongTimeFormat;
+		return LongTimeFormat;
 	}
 
 	public void setLongTimeFormat(String longtimeformat) {
-		mLongTimeFormat = longtimeformat;
+		LongTimeFormat = longtimeformat;
 	}
 	public String getDateFormat() {
-		return mDateFormat;
+		return DateFormat;
 	}
 
 	public void setDateFormat(String dateformat) {
-		mDateFormat = dateformat;
+		DateFormat = dateformat;
 	}
 }

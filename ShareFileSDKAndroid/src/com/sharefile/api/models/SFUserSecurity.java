@@ -16,125 +16,125 @@ import java.util.Date;
 
 public class SFUserSecurity extends SFODataObject {
 
-	private Boolean mIsDisabled;
-	private Boolean mIsLocked;
-	private Date mLockExpires;
-	private Date mLastWebAppLogin;
-	private Date mLastAnyLogin;
-	private String mUserIPRestrictions;
-	private Date mDisableLoginBefore;
-	private Date mDisableLoginAfter;
-	private Boolean mForcePasswordChange;
-	private Boolean mPasswordNeverExpires;
-	private Date mLastPasswordChange;
-	private String mUsernameShort;
-	private Date mLastFailedLogin;
-	private String mLastFailedLoginIP;
-	private Integer mFailedLoginCount;
+	private Boolean IsDisabled;
+	private Boolean IsLocked;
+	private Date LockExpires;
+	private Date LastWebAppLogin;
+	private Date LastAnyLogin;
+	private String UserIPRestrictions;
+	private Date DisableLoginBefore;
+	private Date DisableLoginAfter;
+	private Boolean ForcePasswordChange;
+	private Boolean PasswordNeverExpires;
+	private Date LastPasswordChange;
+	private String UsernameShort;
+	private Date LastFailedLogin;
+	private String LastFailedLoginIP;
+	private Integer FailedLoginCount;
 
 	public Boolean getIsDisabled() {
-		return mIsDisabled;
+		return IsDisabled;
 	}
 
 	public void setIsDisabled(Boolean isdisabled) {
-		mIsDisabled = isdisabled;
+		IsDisabled = isdisabled;
 	}
 	public Boolean getIsLocked() {
-		return mIsLocked;
+		return IsLocked;
 	}
 
 	public void setIsLocked(Boolean islocked) {
-		mIsLocked = islocked;
+		IsLocked = islocked;
 	}
 	public Date getLockExpires() {
-		return mLockExpires;
+		return LockExpires;
 	}
 
 	public void setLockExpires(Date lockexpires) {
-		mLockExpires = lockexpires;
+		LockExpires = lockexpires;
 	}
 	public Date getLastWebAppLogin() {
-		return mLastWebAppLogin;
+		return LastWebAppLogin;
 	}
 
 	public void setLastWebAppLogin(Date lastwebapplogin) {
-		mLastWebAppLogin = lastwebapplogin;
+		LastWebAppLogin = lastwebapplogin;
 	}
 	public Date getLastAnyLogin() {
-		return mLastAnyLogin;
+		return LastAnyLogin;
 	}
 
 	public void setLastAnyLogin(Date lastanylogin) {
-		mLastAnyLogin = lastanylogin;
+		LastAnyLogin = lastanylogin;
 	}
 	public String getUserIPRestrictions() {
-		return mUserIPRestrictions;
+		return UserIPRestrictions;
 	}
 
 	public void setUserIPRestrictions(String useriprestrictions) {
-		mUserIPRestrictions = useriprestrictions;
+		UserIPRestrictions = useriprestrictions;
 	}
 	public Date getDisableLoginBefore() {
-		return mDisableLoginBefore;
+		return DisableLoginBefore;
 	}
 
 	public void setDisableLoginBefore(Date disableloginbefore) {
-		mDisableLoginBefore = disableloginbefore;
+		DisableLoginBefore = disableloginbefore;
 	}
 	public Date getDisableLoginAfter() {
-		return mDisableLoginAfter;
+		return DisableLoginAfter;
 	}
 
 	public void setDisableLoginAfter(Date disableloginafter) {
-		mDisableLoginAfter = disableloginafter;
+		DisableLoginAfter = disableloginafter;
 	}
 	public Boolean getForcePasswordChange() {
-		return mForcePasswordChange;
+		return ForcePasswordChange;
 	}
 
 	public void setForcePasswordChange(Boolean forcepasswordchange) {
-		mForcePasswordChange = forcepasswordchange;
+		ForcePasswordChange = forcepasswordchange;
 	}
 	public Boolean getPasswordNeverExpires() {
-		return mPasswordNeverExpires;
+		return PasswordNeverExpires;
 	}
 
 	public void setPasswordNeverExpires(Boolean passwordneverexpires) {
-		mPasswordNeverExpires = passwordneverexpires;
+		PasswordNeverExpires = passwordneverexpires;
 	}
 	public Date getLastPasswordChange() {
-		return mLastPasswordChange;
+		return LastPasswordChange;
 	}
 
 	public void setLastPasswordChange(Date lastpasswordchange) {
-		mLastPasswordChange = lastpasswordchange;
+		LastPasswordChange = lastpasswordchange;
 	}
 	public String getUsernameShort() {
-		return mUsernameShort;
+		return UsernameShort;
 	}
 
 	public void setUsernameShort(String usernameshort) {
-		mUsernameShort = usernameshort;
+		UsernameShort = usernameshort;
 	}
 	public Date getLastFailedLogin() {
-		return mLastFailedLogin;
+		return LastFailedLogin;
 	}
 
 	public void setLastFailedLogin(Date lastfailedlogin) {
-		mLastFailedLogin = lastfailedlogin;
+		LastFailedLogin = lastfailedlogin;
 	}
 	public String getLastFailedLoginIP() {
-		return mLastFailedLoginIP;
+		return LastFailedLoginIP;
 	}
 
 	public void setLastFailedLoginIP(String lastfailedloginip) {
-		mLastFailedLoginIP = lastfailedloginip;
+		LastFailedLoginIP = lastfailedloginip;
 	}
 	public Integer getFailedLoginCount() {
-		return mFailedLoginCount;
+		return FailedLoginCount;
 	}
 
 	public void setFailedLoginCount(Integer failedlogincount) {
-		mFailedLoginCount = failedlogincount;
+		FailedLoginCount = failedlogincount;
 	}
 }

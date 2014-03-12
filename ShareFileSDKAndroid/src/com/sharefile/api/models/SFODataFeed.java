@@ -19,31 +19,31 @@ import com.google.gson.annotations.SerializedName;
 public class SFODataFeed<T> extends SFODataObject {
 
 	@SerializedName("odata.count")
-	private Integer mcount;
+	private Integer count;
 	@SerializedName("value")
-	private ArrayList<T> mFeed;
+	private ArrayList<T> Feed;
 	@SerializedName("odata.nextLink")
-	private String mNextLink;
+	private String NextLink;
 
 	public Integer getcount() {
-		return mcount;
+		return count;
 	}
 
 	public void setcount(Integer count) {
-		mcount = count;
+		count = count;
 	}
 	public ArrayList<T> getFeed() {
-		return mFeed;
+		return Feed;
 	}
 
 	public void setFeed(ArrayList<T> feed) {
-		mFeed = feed;
+		Feed = feed;
 	}
 	public String getNextLink() {
-		return mNextLink;
+		return NextLink;
 	}
 
 	public void setNextLink(String nextlink) {
-		mNextLink = nextlink;
+		NextLink = nextlink;
 	}
 }

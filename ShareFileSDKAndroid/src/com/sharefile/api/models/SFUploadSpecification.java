@@ -14,121 +14,119 @@ package com.sharefile.api.models;
 
 import java.net.URI;
 
-import com.sharefile.api.enumerations.SFUploadMethod;
-
 public class SFUploadSpecification extends SFODataObject {
 
-	private SFUploadMethod mMethod;
-	private URI mPrepareUri;
-	private URI mChunkUri;
-	private URI mFinishUri;
-	private Boolean mIsResume;
-	private Long mResumeIndex;
-	private Long mResumeOffset;
-	private String mResumeFileHash;
+	private SFUploadMethod Method;
+	private URI PrepareUri;
+	private URI ChunkUri;
+	private URI FinishUri;
+	private Boolean IsResume;
+	private Long ResumeIndex;
+	private Long ResumeOffset;
+	private String ResumeFileHash;
 
 		/**
 		* The Upload method that must be used for this upload
 		*/
 	public SFUploadMethod getMethod() {
-		return mMethod;
+		return Method;
 	}
 
 		/**
 		* The Upload method that must be used for this upload
 		*/
 	public void setMethod(SFUploadMethod method) {
-		mMethod = method;
+		Method = method;
 	}
 		/**
 		* If provided, clients must issue a request to this Uri before uploading any data.
 		*/
 	public URI getPrepareUri() {
-		return mPrepareUri;
+		return PrepareUri;
 	}
 
 		/**
 		* If provided, clients must issue a request to this Uri before uploading any data.
 		*/
 	public void setPrepareUri(URI prepareuri) {
-		mPrepareUri = prepareuri;
+		PrepareUri = prepareuri;
 	}
 		/**
 		* Specifies the URI the client must send the file data to
 		*/
 	public URI getChunkUri() {
-		return mChunkUri;
+		return ChunkUri;
 	}
 
 		/**
 		* Specifies the URI the client must send the file data to
 		*/
 	public void setChunkUri(URI chunkuri) {
-		mChunkUri = chunkuri;
+		ChunkUri = chunkuri;
 	}
 		/**
 		* If provided, specifies the final call the client must perform to finish the upload process
 		*/
 	public URI getFinishUri() {
-		return mFinishUri;
+		return FinishUri;
 	}
 
 		/**
 		* If provided, specifies the final call the client must perform to finish the upload process
 		*/
 	public void setFinishUri(URI finishuri) {
-		mFinishUri = finishuri;
+		FinishUri = finishuri;
 	}
 		/**
 		* Specifies a Resumable upload is supproted.
 		*/
 	public Boolean getIsResume() {
-		return mIsResume;
+		return IsResume;
 	}
 
 		/**
 		* Specifies a Resumable upload is supproted.
 		*/
 	public void setIsResume(Boolean isresume) {
-		mIsResume = isresume;
+		IsResume = isresume;
 	}
 		/**
 		* Specifies the initial index for resuming, if IsResume is true.
 		*/
 	public Long getResumeIndex() {
-		return mResumeIndex;
+		return ResumeIndex;
 	}
 
 		/**
 		* Specifies the initial index for resuming, if IsResume is true.
 		*/
 	public void setResumeIndex(Long resumeindex) {
-		mResumeIndex = resumeindex;
+		ResumeIndex = resumeindex;
 	}
 		/**
 		* Specifies the initial file offset by bytes, if IsResume is true
 		*/
 	public Long getResumeOffset() {
-		return mResumeOffset;
+		return ResumeOffset;
 	}
 
 		/**
 		* Specifies the initial file offset by bytes, if IsResume is true
 		*/
 	public void setResumeOffset(Long resumeoffset) {
-		mResumeOffset = resumeoffset;
+		ResumeOffset = resumeoffset;
 	}
 		/**
 		* Specifies the MD5 hash of the first ResumeOffset bytes of the partial file found at the server
 		*/
 	public String getResumeFileHash() {
-		return mResumeFileHash;
+		return ResumeFileHash;
 	}
 
 		/**
 		* Specifies the MD5 hash of the first ResumeOffset bytes of the partial file found at the server
 		*/
 	public void setResumeFileHash(String resumefilehash) {
-		mResumeFileHash = resumefilehash;
+		ResumeFileHash = resumefilehash;
 	}
 }

@@ -16,85 +16,85 @@ import java.util.Date;
 
 public class SFFavoriteFolder extends SFODataObject {
 
-	private SFUser mUser;
-	private SFItem mFolder;
-	private Integer mSortOrder;
-	private String mFolderAlias;
-	private String mFolderName;
-	private String mPath;
-	private Long mFileSize;
-	private Date mCreationDate;
-	private String mCreatorFirstName;
-	private String mCreatorLastName;
+	private SFUser User;
+	private SFItem Folder;
+	private Integer SortOrder;
+	private String FolderAlias;
+	private String FolderName;
+	private String Path;
+	private Long FileSize;
+	private Date CreationDate;
+	private String CreatorFirstName;
+	private String CreatorLastName;
 
 	public SFUser getUser() {
-		return mUser;
+		return User;
 	}
 
 	public void setUser(SFUser user) {
-		mUser = user;
+		User = user;
 	}
 	public SFItem getFolder() {
-		return mFolder;
+		return Folder;
 	}
 
 	public void setFolder(SFItem folder) {
-		mFolder = folder;
+		Folder = folder;
 	}
 	public Integer getSortOrder() {
-		return mSortOrder;
+		return SortOrder;
 	}
 
 	public void setSortOrder(Integer sortorder) {
-		mSortOrder = sortorder;
+		SortOrder = sortorder;
 	}
 	public String getFolderAlias() {
-		return mFolderAlias;
+		return FolderAlias;
 	}
 
 	public void setFolderAlias(String folderalias) {
-		mFolderAlias = folderalias;
+		FolderAlias = folderalias;
 	}
 	public String getFolderName() {
-		return mFolderName;
+		return FolderName;
 	}
 
 	public void setFolderName(String foldername) {
-		mFolderName = foldername;
+		FolderName = foldername;
 	}
 	public String getPath() {
-		return mPath;
+		return Path;
 	}
 
 	public void setPath(String path) {
-		mPath = path;
+		Path = path;
 	}
 	public Long getFileSize() {
-		return mFileSize;
+		return FileSize;
 	}
 
 	public void setFileSize(Long filesize) {
-		mFileSize = filesize;
+		FileSize = filesize;
 	}
 	public Date getCreationDate() {
-		return mCreationDate;
+		return CreationDate;
 	}
 
 	public void setCreationDate(Date creationdate) {
-		mCreationDate = creationdate;
+		CreationDate = creationdate;
 	}
 	public String getCreatorFirstName() {
-		return mCreatorFirstName;
+		return CreatorFirstName;
 	}
 
 	public void setCreatorFirstName(String creatorfirstname) {
-		mCreatorFirstName = creatorfirstname;
+		CreatorFirstName = creatorfirstname;
 	}
 	public String getCreatorLastName() {
-		return mCreatorLastName;
+		return CreatorLastName;
 	}
 
 	public void setCreatorLastName(String creatorlastname) {
-		mCreatorLastName = creatorlastname;
+		CreatorLastName = creatorlastname;
 	}
 }

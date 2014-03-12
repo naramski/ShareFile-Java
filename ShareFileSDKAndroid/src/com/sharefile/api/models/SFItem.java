@@ -15,56 +15,54 @@ package com.sharefile.api.models;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.sharefile.api.enumerations.SFPreviewStatus;
-
 public class SFItem extends SFODataObject {
 
-	private String mName;
-	private String mFileName;
-	private SFUser mCreator;
-	private SFItem mParent;
-	private ArrayList<SFAccessControl> mAccessControls;
-	private SFZone mZone;
-	private Date mCreationDate;
-	private Date mProgenyEditDate;
-	private Date mExpirationDate;
-	private String mDescription;
-	private Integer mDiskSpaceLimit;
-	private Boolean mIsHidden;
-	private Integer mBandwidthLimitInMB;
-	private SFUser mOwner;
-	private SFAccount mAccount;
-	private Integer mFileSizeInKB;
-	private SFItem mVirtualParent;
-	private String mPath;
-	private String mCreatorFirstName;
-	private String mCreatorLastName;
-	private Integer mExpirationDays;
-	private Long mFileSizeBytes;
-	private SFPreviewStatus mPreviewStatus;
-	private Integer mMaxPreviewSize;
-	private Boolean mHasPendingDeletion;
-	private String mAssociatedFolderTemplateID;
-	private Boolean mIsTemplateOwned;
-	private Boolean mHasPermissionInfo;
-	private Integer mState;
-	private String mStreamID;
-	private String mCreatorNameShort;
-	private Boolean mHasMultipleVersions;
-	private ArrayList<SFMetadata> mMetadata;
+	private String Name;
+	private String FileName;
+	private SFUser Creator;
+	private SFItem Parent;
+	private ArrayList<SFAccessControl> AccessControls;
+	private SFZone Zone;
+	private Date CreationDate;
+	private Date ProgenyEditDate;
+	private Date ExpirationDate;
+	private String Description;
+	private Integer DiskSpaceLimit;
+	private Boolean IsHidden;
+	private Integer BandwidthLimitInMB;
+	private SFUser Owner;
+	private SFAccount Account;
+	private Integer FileSizeInKB;
+	private SFItem VirtualParent;
+	private String Path;
+	private String CreatorFirstName;
+	private String CreatorLastName;
+	private Integer ExpirationDays;
+	private Long FileSizeBytes;
+	private SFPreviewStatus PreviewStatus;
+	private Integer MaxPreviewSize;
+	private Boolean HasPendingDeletion;
+	private String AssociatedFolderTemplateID;
+	private Boolean IsTemplateOwned;
+	private Boolean HasPermissionInfo;
+	private Integer State;
+	private String StreamID;
+	private String CreatorNameShort;
+	private Boolean HasMultipleVersions;
+	private ArrayList<SFMetadata> Metadata;
 
 		/**
 		* Item Name
 		*/
 	public String getName() {
-		return mName;
+		return Name;
 	}
 
 		/**
 		* Item Name
 		*/
 	public void setName(String name) {
-		mName = name;
+		Name = name;
 	}
 		/**
 		* Item File Name. ShareFile allows Items to have different Display and File names: display
@@ -72,7 +70,7 @@ public class SFItem extends SFODataObject {
 		* downloaded.
 		*/
 	public String getFileName() {
-		return mFileName;
+		return FileName;
 	}
 
 		/**
@@ -81,27 +79,27 @@ public class SFItem extends SFODataObject {
 		* downloaded.
 		*/
 	public void setFileName(String filename) {
-		mFileName = filename;
+		FileName = filename;
 	}
 		/**
 		* User that Created this Item
 		*/
 	public SFUser getCreator() {
-		return mCreator;
+		return Creator;
 	}
 
 		/**
 		* User that Created this Item
 		*/
 	public void setCreator(SFUser creator) {
-		mCreator = creator;
+		Creator = creator;
 	}
 		/**
 		* Parent container of the Item. A container is usually a Folder object, with a few exceptions -
 		* the "Account" is the container of top-level folders.
 		*/
 	public SFItem getParent() {
-		return mParent;
+		return Parent;
 	}
 
 		/**
@@ -109,14 +107,14 @@ public class SFItem extends SFODataObject {
 		* the "Account" is the container of top-level folders.
 		*/
 	public void setParent(SFItem parent) {
-		mParent = parent;
+		Parent = parent;
 	}
 		/**
 		* List of Access Controls for this Item. This is not the effective ACL on the Item, just the
 		* ACLs directly attached to this Item. Use the "Info" reference to retrieve effective ACL
 		*/
 	public ArrayList<SFAccessControl> getAccessControls() {
-		return mAccessControls;
+		return AccessControls;
 	}
 
 		/**
@@ -124,33 +122,33 @@ public class SFItem extends SFODataObject {
 		* ACLs directly attached to this Item. Use the "Info" reference to retrieve effective ACL
 		*/
 	public void setAccessControls(ArrayList<SFAccessControl> accesscontrols) {
-		mAccessControls = accesscontrols;
+		AccessControls = accesscontrols;
 	}
 		/**
 		* The Storage Zone that contains this Item.
 		*/
 	public SFZone getZone() {
-		return mZone;
+		return Zone;
 	}
 
 		/**
 		* The Storage Zone that contains this Item.
 		*/
 	public void setZone(SFZone zone) {
-		mZone = zone;
+		Zone = zone;
 	}
 		/**
 		* Item Creation Date.
 		*/
 	public Date getCreationDate() {
-		return mCreationDate;
+		return CreationDate;
 	}
 
 		/**
 		* Item Creation Date.
 		*/
 	public void setCreationDate(Date creationdate) {
-		mCreationDate = creationdate;
+		CreationDate = creationdate;
 	}
 		/**
 		* The last modified date of this item and all of its children, recursively. This parameter
@@ -159,7 +157,7 @@ public class SFItem extends SFODataObject {
 		* the provider supports this field or not.
 		*/
 	public Date getProgenyEditDate() {
-		return mProgenyEditDate;
+		return ProgenyEditDate;
 	}
 
 		/**
@@ -169,14 +167,14 @@ public class SFItem extends SFODataObject {
 		* the provider supports this field or not.
 		*/
 	public void setProgenyEditDate(Date progenyeditdate) {
-		mProgenyEditDate = progenyeditdate;
+		ProgenyEditDate = progenyeditdate;
 	}
 		/**
 		* Defines the Retention Policy for this Item. After this date, the item is automatically moved
 		* to recycle bin.
 		*/
 	public Date getExpirationDate() {
-		return mExpirationDate;
+		return ExpirationDate;
 	}
 
 		/**
@@ -184,27 +182,27 @@ public class SFItem extends SFODataObject {
 		* to recycle bin.
 		*/
 	public void setExpirationDate(Date expirationdate) {
-		mExpirationDate = expirationdate;
+		ExpirationDate = expirationdate;
 	}
 		/**
 		* Item description
 		*/
 	public String getDescription() {
-		return mDescription;
+		return Description;
 	}
 
 		/**
 		* Item description
 		*/
 	public void setDescription(String description) {
-		mDescription = description;
+		Description = description;
 	}
 		/**
 		* Disk space limit for the Item. Define the maximum amount of bytes that this container can
 		* hold at any given time.
 		*/
 	public Integer getDiskSpaceLimit() {
-		return mDiskSpaceLimit;
+		return DiskSpaceLimit;
 	}
 
 		/**
@@ -212,27 +210,27 @@ public class SFItem extends SFODataObject {
 		* hold at any given time.
 		*/
 	public void setDiskSpaceLimit(Integer diskspacelimit) {
-		mDiskSpaceLimit = diskspacelimit;
+		DiskSpaceLimit = diskspacelimit;
 	}
 		/**
 		* Defines whether the Item has a 'hidden' flag.
 		*/
 	public Boolean getIsHidden() {
-		return mIsHidden;
+		return IsHidden;
 	}
 
 		/**
 		* Defines whether the Item has a 'hidden' flag.
 		*/
 	public void setIsHidden(Boolean ishidden) {
-		mIsHidden = ishidden;
+		IsHidden = ishidden;
 	}
 		/**
 		* Bandwidth limit for the Item. Define the maximum amount of bytes that can be added and
 		* retrieved from this item.
 		*/
 	public Integer getBandwidthLimitInMB() {
-		return mBandwidthLimitInMB;
+		return BandwidthLimitInMB;
 	}
 
 		/**
@@ -240,46 +238,46 @@ public class SFItem extends SFODataObject {
 		* retrieved from this item.
 		*/
 	public void setBandwidthLimitInMB(Integer bandwidthlimitinmb) {
-		mBandwidthLimitInMB = bandwidthlimitinmb;
+		BandwidthLimitInMB = bandwidthlimitinmb;
 	}
 		/**
 		* User Owner of this Item.
 		*/
 	public SFUser getOwner() {
-		return mOwner;
+		return Owner;
 	}
 
 		/**
 		* User Owner of this Item.
 		*/
 	public void setOwner(SFUser owner) {
-		mOwner = owner;
+		Owner = owner;
 	}
 		/**
 		* ShareFile Account containing this item.
 		*/
 	public SFAccount getAccount() {
-		return mAccount;
+		return Account;
 	}
 
 		/**
 		* ShareFile Account containing this item.
 		*/
 	public void setAccount(SFAccount account) {
-		mAccount = account;
+		Account = account;
 	}
 		/**
 		* Item size in Kilobytes. For containers, this field includes all children sizes, recursively.
 		*/
 	public Integer getFileSizeInKB() {
-		return mFileSizeInKB;
+		return FileSizeInKB;
 	}
 
 		/**
 		* Item size in Kilobytes. For containers, this field includes all children sizes, recursively.
 		*/
 	public void setFileSizeInKB(Integer filesizeinkb) {
-		mFileSizeInKB = filesizeinkb;
+		FileSizeInKB = filesizeinkb;
 	}
 		/**
 		* Defines a Virtual Parent for an Item. In certain conditions, a virtual parent is set to create
@@ -287,7 +285,7 @@ public class SFItem extends SFODataObject {
 		* folders may be added under an user's home folder, even though both are defined under the Account.
 		*/
 	public SFItem getVirtualParent() {
-		return mVirtualParent;
+		return VirtualParent;
 	}
 
 		/**
@@ -296,14 +294,14 @@ public class SFItem extends SFODataObject {
 		* folders may be added under an user's home folder, even though both are defined under the Account.
 		*/
 	public void setVirtualParent(SFItem virtualparent) {
-		mVirtualParent = virtualparent;
+		VirtualParent = virtualparent;
 	}
 		/**
 		* Contains a ItemID path, separated by /, from the virtual root to this given file. Example
 		* /accountID/folderID/folderID/itemID
 		*/
 	public String getPath() {
-		return mPath;
+		return Path;
 	}
 
 		/**
@@ -311,59 +309,59 @@ public class SFItem extends SFODataObject {
 		* /accountID/folderID/folderID/itemID
 		*/
 	public void setPath(String path) {
-		mPath = path;
+		Path = path;
 	}
 		/**
 		* First name of the user that created this item
 		*/
 	public String getCreatorFirstName() {
-		return mCreatorFirstName;
+		return CreatorFirstName;
 	}
 
 		/**
 		* First name of the user that created this item
 		*/
 	public void setCreatorFirstName(String creatorfirstname) {
-		mCreatorFirstName = creatorfirstname;
+		CreatorFirstName = creatorfirstname;
 	}
 		/**
 		* Last name of the user that created this item
 		*/
 	public String getCreatorLastName() {
-		return mCreatorLastName;
+		return CreatorLastName;
 	}
 
 		/**
 		* Last name of the user that created this item
 		*/
 	public void setCreatorLastName(String creatorlastname) {
-		mCreatorLastName = creatorlastname;
+		CreatorLastName = creatorlastname;
 	}
 		/**
 		* Amount of days until this item expireses (see ExpirationDate)
 		*/
 	public Integer getExpirationDays() {
-		return mExpirationDays;
+		return ExpirationDays;
 	}
 
 		/**
 		* Amount of days until this item expireses (see ExpirationDate)
 		*/
 	public void setExpirationDays(Integer expirationdays) {
-		mExpirationDays = expirationdays;
+		ExpirationDays = expirationdays;
 	}
 		/**
 		* Item size in bytes. For containers, this field will include all children sizes, recursively.
 		*/
 	public Long getFileSizeBytes() {
-		return mFileSizeBytes;
+		return FileSizeBytes;
 	}
 
 		/**
 		* Item size in bytes. For containers, this field will include all children sizes, recursively.
 		*/
 	public void setFileSizeBytes(Long filesizebytes) {
-		mFileSizeBytes = filesizebytes;
+		FileSizeBytes = filesizebytes;
 	}
 		/**
 		* Indicates whether a preview image is available for this Item.
@@ -375,7 +373,7 @@ public class SFItem extends SFODataObject {
 		* Previews are not created for unknown file types
 		*/
 	public SFPreviewStatus getPreviewStatus() {
-		return mPreviewStatus;
+		return PreviewStatus;
 	}
 
 		/**
@@ -388,14 +386,14 @@ public class SFItem extends SFODataObject {
 		* Previews are not created for unknown file types
 		*/
 	public void setPreviewStatus(SFPreviewStatus previewstatus) {
-		mPreviewStatus = previewstatus;
+		PreviewStatus = previewstatus;
 	}
 	public Integer getMaxPreviewSize() {
-		return mMaxPreviewSize;
+		return MaxPreviewSize;
 	}
 
 	public void setMaxPreviewSize(Integer maxpreviewsize) {
-		mMaxPreviewSize = maxpreviewsize;
+		MaxPreviewSize = maxpreviewsize;
 	}
 		/**
 		* Indicates that the Item is pending for removal. At the next execution of the Cleanup process, the data
@@ -404,7 +402,7 @@ public class SFItem extends SFODataObject {
 		* Capability "HasRecycleBin" indicates whether this field is used or not in the provider.
 		*/
 	public Boolean getHasPendingDeletion() {
-		return mHasPendingDeletion;
+		return HasPendingDeletion;
 	}
 
 		/**
@@ -414,7 +412,7 @@ public class SFItem extends SFODataObject {
 		* Capability "HasRecycleBin" indicates whether this field is used or not in the provider.
 		*/
 	public void setHasPendingDeletion(Boolean haspendingdeletion) {
-		mHasPendingDeletion = haspendingdeletion;
+		HasPendingDeletion = haspendingdeletion;
 	}
 		/**
 		* Folder Template reference. If set, it indicates that this Item was created from a Folder Template. Modifications
@@ -423,7 +421,7 @@ public class SFItem extends SFODataObject {
 		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
 		*/
 	public String getAssociatedFolderTemplateID() {
-		return mAssociatedFolderTemplateID;
+		return AssociatedFolderTemplateID;
 	}
 
 		/**
@@ -433,7 +431,7 @@ public class SFItem extends SFODataObject {
 		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
 		*/
 	public void setAssociatedFolderTemplateID(String associatedfoldertemplateid) {
-		mAssociatedFolderTemplateID = associatedfoldertemplateid;
+		AssociatedFolderTemplateID = associatedfoldertemplateid;
 	}
 		/**
 		* Indicates whether the item is owned by a Folder Template. If set, it indicates that this Item was created from a
@@ -442,7 +440,7 @@ public class SFItem extends SFODataObject {
 		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
 		*/
 	public Boolean getIsTemplateOwned() {
-		return mIsTemplateOwned;
+		return IsTemplateOwned;
 	}
 
 		/**
@@ -452,21 +450,21 @@ public class SFItem extends SFODataObject {
 		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
 		*/
 	public void setIsTemplateOwned(Boolean istemplateowned) {
-		mIsTemplateOwned = istemplateowned;
+		IsTemplateOwned = istemplateowned;
 	}
 	public Boolean getHasPermissionInfo() {
-		return mHasPermissionInfo;
+		return HasPermissionInfo;
 	}
 
 	public void setHasPermissionInfo(Boolean haspermissioninfo) {
-		mHasPermissionInfo = haspermissioninfo;
+		HasPermissionInfo = haspermissioninfo;
 	}
 	public Integer getState() {
-		return mState;
+		return State;
 	}
 
 	public void setState(Integer state) {
-		mState = state;
+		State = state;
 	}
 		/**
 		* Identifier for the Item stream. An Item represents a single version of a file system object. The stream identifies
@@ -475,7 +473,7 @@ public class SFItem extends SFODataObject {
 		* access the previous versions of a file using the StreamID reference.
 		*/
 	public String getStreamID() {
-		return mStreamID;
+		return StreamID;
 	}
 
 		/**
@@ -485,27 +483,27 @@ public class SFItem extends SFODataObject {
 		* access the previous versions of a file using the StreamID reference.
 		*/
 	public void setStreamID(String streamid) {
-		mStreamID = streamid;
+		StreamID = streamid;
 	}
 		/**
 		* Short version of items creator's name. E.g., J. Doe.
 		*/
 	public String getCreatorNameShort() {
-		return mCreatorNameShort;
+		return CreatorNameShort;
 	}
 
 		/**
 		* Short version of items creator's name. E.g., J. Doe.
 		*/
 	public void setCreatorNameShort(String creatornameshort) {
-		mCreatorNameShort = creatornameshort;
+		CreatorNameShort = creatornameshort;
 	}
 		/**
 		* Specifies whether there are other versions of this item. Not all providers support file versioning. The
 		* Capability FileVersioning indicates whether the provider supports file versions.
 		*/
 	public Boolean getHasMultipleVersions() {
-		return mHasMultipleVersions;
+		return HasMultipleVersions;
 	}
 
 		/**
@@ -513,19 +511,19 @@ public class SFItem extends SFODataObject {
 		* Capability FileVersioning indicates whether the provider supports file versions.
 		*/
 	public void setHasMultipleVersions(Boolean hasmultipleversions) {
-		mHasMultipleVersions = hasmultipleversions;
+		HasMultipleVersions = hasmultipleversions;
 	}
 		/**
 		* List of custom metadata object associated with this item
 		*/
 	public ArrayList<SFMetadata> getMetadata() {
-		return mMetadata;
+		return Metadata;
 	}
 
 		/**
 		* List of custom metadata object associated with this item
 		*/
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
-		mMetadata = metadata;
+		Metadata = metadata;
 	}
 }

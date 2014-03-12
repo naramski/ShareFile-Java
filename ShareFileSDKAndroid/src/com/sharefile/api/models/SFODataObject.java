@@ -14,22 +14,23 @@ package com.sharefile.api.models;
 
 import java.net.URI;
 import java.util.Map;
+
 import com.google.gson.annotations.SerializedName;
 
-public class SFODataObject extends Object{
+public class SFODataObject extends Object {
 
 	@SerializedName("odata.metadata")
 	private String mMetadata;
-	private String mId;
-	private URI murl;
-	private Map<String, String> mProperties;
+	private String Id;
+	private URI url;
+	private Map<String, String> Properties;
 
 		/**
 		* ODATA Metadata information about the model instance
 		*/
-	/*public String getMetadata() {
+	public String getOdataMetadata() {
 		return mMetadata;
-	}*/
+	}
 
 		/**
 		* ODATA Metadata information about the model instance
@@ -41,27 +42,27 @@ public class SFODataObject extends Object{
 		* Object Identifier
 		*/
 	public String getId() {
-		return mId;
+		return Id;
 	}
 
 		/**
 		* Object Identifier
 		*/
 	public void setId(String id) {
-		mId = id;
+		Id = id;
 	}
 	public URI geturl() {
-		return murl;
+		return url;
 	}
 
 	public void seturl(URI url) {
-		murl = url;
+		url = url;
 	}
 	public Map<String, String> getProperties() {
-		return mProperties;
+		return Properties;
 	}
 
 	public void setProperties(Map<String, String> properties) {
-		mProperties = properties;
-	}							
+		Properties = properties;
+	}
 }
