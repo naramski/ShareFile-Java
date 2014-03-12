@@ -54,7 +54,8 @@ public class SFGsonParser implements JsonDeserializer<SFODataObject>, JsonSerial
 	@Override
 	public SFODataObject deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException 
 	{				
-		return callClassSpecificParser(jsonElement, typeOfObject);
+		//return callClassSpecificParser(jsonElement, typeOfObject);
+		return callDefaultGsonParser(jsonElement, typeOfObject);
 	}
 
 	@Override
@@ -116,5 +117,59 @@ public class SFGsonParser implements JsonDeserializer<SFODataObject>, JsonSerial
 		}
 		
 		return ret;
-	}			
+	}
+	
+	
+	private SFODataObject callDefaultGsonParser(JsonElement jsonElement, Type typeOfObject)
+	{
+		SFODataObject ret = null;
+		SFLog.d2("GSON", "deserialize class: %s", typeOfObject.getClass().getName());
+		
+		JsonObject jsonObject = jsonElement.getAsJsonObject();
+		
+		JsonElement sfElementType = jsonObject.get(SFKeywords.ODATA_METADATA);
+		
+		if(sfElementType==null)
+		{
+			return null;
+		}
+		
+		String metatdata = sfElementType.toString();
+				
+		SFV3ElementType type = SFModelFactory.getElementTypeFromMetaData(metatdata);
+		
+		switch (type) 
+		{								        
+			case File:				
+				ret = SFDefaultGsonParser.parse(SFFile.class, jsonElement);
+			break;
+
+			case Folder:				
+				ret = SFDefaultGsonParser.parse(SFFolder.class, jsonElement);				
+			break;
+			
+			case Link:				
+				ret = SFDefaultGsonParser.parse(SFLink.class, jsonElement);
+			break;
+			
+			case Note:				
+				ret = SFDefaultGsonParser.parse(SFNote.class, jsonElement);
+			break;
+			
+			case Session:
+				ret = SFDefaultGsonParser.parse(SFSession.class, jsonElement);
+			break;
+			
+			case AccountUser:
+				ret = SFDefaultGsonParser.parse(SFAccountUser.class, jsonElement);
+			break;
+			
+			default:
+				//SFToDoReminderException.throwTODOException("need to implement parsing for element type : " + type.toString());
+				ret = null;
+			break;
+		}
+		
+		return ret;
+	}
 }

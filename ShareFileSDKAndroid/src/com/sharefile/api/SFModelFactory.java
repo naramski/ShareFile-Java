@@ -172,7 +172,7 @@ public class SFModelFactory
 	
 	public static boolean compare(String metadata,String element)
 	{
-		return metadata.endsWith(element);
+		return metadata.contains(element);
 	}
 	
 	public static boolean isFolder(String metadata)
