@@ -254,21 +254,30 @@ public class SFApiQuery<T extends SFODataObject>
 		}
 		
 		
+		boolean isFirst = true;
+		
 		//Add the filtering queries
 		if(mQueryMap!=null && mQueryMap.size()>0)
 		{
 			sb.append(SFKeywords.CHAR_QUERY);
 			
-			char ampersAnd = SFKeywords.CHAR_AMPERSAND.charAt(0);
+			//char ampersAnd = SFKeywords.CHAR_AMPERSAND.charAt(0);
 			
 			Set<String> keyset = mQueryMap.keySet();			
 						
 			for(String key:keyset)
 			{
+				if(!isFirst)
+				{
+					isFirst = false;
+					sb.append(SFKeywords.CHAR_AMPERSAND);
+				}
+				
 				String value = mQueryMap.get(key);				
 				//boolean prefixAmpersAnd = (key.charAt(0) == ampersAnd)?false:true;  						
-				sb.append(SFKeywords.CHAR_AMPERSAND + SFKeywords.CHAR_DOLLAR + key + SFKeywords.EQUALS + value);
+				sb.append(SFKeywords.CHAR_DOLLAR + key + SFKeywords.EQUALS + value);				
 			}
+						
 		}
 		
 		String queryUrlString = sb.toString();

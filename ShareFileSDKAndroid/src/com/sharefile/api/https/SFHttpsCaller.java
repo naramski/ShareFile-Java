@@ -386,11 +386,13 @@ public class SFHttpsCaller
 			throw new IOException("Out of memory");
 		}
 		
-		SFLog.d2(TAG, "SUCCESS RESPONSE: %s", sb.toString());
+		String response = sb.toString();
+		
+		SFLog.d2(TAG, "SUCCESS RESPONSE: %s", response);
 		
 		urlstream.close();
 			
-		return sb.toString();
+		return response;
 	}
 	
 	public static String readErrorResponse(URLConnection conn) throws IOException
