@@ -15,6 +15,10 @@ import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.models.SFAccountUser;
+import com.sharefile.api.models.SFFile;
+import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFLink;
+import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
 
 /**
@@ -43,11 +47,27 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 						ret = SFDefaultGsonParser.parse(SFAccountUser.class, jsonElement);
 					break;
 					
+					case File:
+						ret = SFDefaultGsonParser.parse(SFFile.class, jsonElement);
+					break;
+					
+					case Folder:
+						ret = SFDefaultGsonParser.parse(SFFolder.class, jsonElement);
+					break;
+					
+					case Link:
+						ret = SFDefaultGsonParser.parse(SFLink.class, jsonElement);
+					break;
+					
+					case Note:
+						ret = SFDefaultGsonParser.parse(SFNote.class, jsonElement);
+					break;
+					
 					default:
+						SFToDoReminderException.throwTODOException("Need to implement parser for : " + elementType.toString());
 					break;	
 				}
-			}
-						
+			}						
 		}
 		
 		return ret;
