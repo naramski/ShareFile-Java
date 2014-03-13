@@ -1,6 +1,7 @@
 package com.sharefile.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,14 +13,35 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.enumerations.SFTreeMode;
 import com.sharefile.api.enumerations.SFUploadMethod;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.enumerations.SFVRootType;
 import com.sharefile.api.enumerations.SFZoneService;
 import com.sharefile.api.exceptions.SFToDoReminderException;
+import com.sharefile.api.models.SFAccountUser;
+import com.sharefile.api.models.SFFile;
+import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFItem;
+import com.sharefile.api.models.SFLink;
+import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
+import com.sharefile.api.models.SFSession;
 
 public class SFApiQuery<T extends SFODataObject> 
 {
+	
+	private static final Map<String, Class> mMapNameClassPair;
+	//Fill this on need basis.
+	static 
+	{
+	        Map<String, Class> aMap = new HashMap<String, Class>();
+	        
+	        aMap.put("Items", SFItem.class);
+	        aMap.put("Sessions", SFSession.class);	        	        
+	        
+	        mMapNameClassPair = Collections.unmodifiableMap(aMap);
+	}
+	
 	/**
 	 * https://server/provider/version/entity(id)
 	 * 
@@ -34,10 +56,24 @@ public class SFApiQuery<T extends SFODataObject>
 	private String mId = null;
 	private Map<String,String> mQueryMap = new HashMap<String, String>();
 	private Map<String,String> mIdMap = new HashMap<String, String>();
+	private Class mInnerClass = null;
+		
+			
+	public final Class getTrueInnerClass()
+	{
+		return mInnerClass;
+	}
 	
 	public final void setFrom(String setFrom)
 	{
 		mFromEntity = setFrom;
+		
+		mInnerClass = mMapNameClassPair.get(setFrom);
+		
+		if(mInnerClass == null)
+		{
+			SFToDoReminderException.throwTODOException("Put the class in the map : " + setFrom);
+		}
 	}
 	
 	public final void setProvider(SFProvider provider)
@@ -229,9 +265,9 @@ public class SFApiQuery<T extends SFODataObject>
 						
 			for(String key:keyset)
 			{
-				String value = mIdMap.get(key);				
-				boolean prefixAmpersAnd = (key.charAt(0) == ampersAnd)?false:true;  						
-				sb.append((prefixAmpersAnd?SFKeywords.CHAR_AMPERSAND:SFKeywords.EMPTY) + key + SFKeywords.EQUALS + value);
+				String value = mQueryMap.get(key);				
+				//boolean prefixAmpersAnd = (key.charAt(0) == ampersAnd)?false:true;  						
+				sb.append(SFKeywords.CHAR_AMPERSAND + SFKeywords.CHAR_DOLLAR + key + SFKeywords.EQUALS + value);
 			}
 		}
 		

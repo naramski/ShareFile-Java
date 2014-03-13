@@ -42,7 +42,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* It will force expansion of the Children element, so first level of items under the root is also returned
 	* @return a user's root directory and first level of children items
     */
-	public SFApiQuery<SFItem> get()
+	public static SFApiQuery<SFItem> get()
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");

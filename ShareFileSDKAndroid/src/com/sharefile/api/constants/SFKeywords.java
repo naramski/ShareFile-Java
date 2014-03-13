@@ -42,7 +42,7 @@ public final class SFKeywords
 	public static final String FWD_SLASH = "/";
 	public static final String OPEN_BRACKET = "(";
 	public static final String CLOSE_BRACKET = ")";
-	public static final String EQUALS = ")";
+	public static final String EQUALS = "=";
 	public static final String COMMA = ",";
 	public static final String EMPTY = "";
 	public static final String CHAR_QUERY = "?";
