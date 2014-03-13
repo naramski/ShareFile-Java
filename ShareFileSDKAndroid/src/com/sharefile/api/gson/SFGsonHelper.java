@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.models.SFODataObject;
 
 public class SFGsonHelper
@@ -115,7 +116,7 @@ public class SFGsonHelper
     	{    		    		
     		try 
     		{    							
-				ret = SFGsonParser.parseFromJson(clazz,element.toString()); 
+				ret = SFDefaultGsonParser.parse(clazz,element); 
 			} 
     		catch (Exception e) 
     		{				

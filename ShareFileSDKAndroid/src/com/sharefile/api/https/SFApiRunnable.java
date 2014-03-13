@@ -7,6 +7,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 import android.util.Log;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
@@ -14,7 +16,7 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFJsonException;
-import com.sharefile.api.gson.SFGsonParser;
+import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 
@@ -117,20 +119,18 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{
 		if(mResponseListener!=null)
 		{						
-			T object = createInstanceForSuccessResponse();
-			if(object!=null)
+			//T object = createInstanceForSuccessResponse();			
+			try 
 			{
-				try 
-				{
-					//object.parseFromJson(mResponseString);
-					SFGsonParser.parseFromJson(object, mResponseString);
-					mResponseListener.sfapiSuccess(object);
-				} 
-				catch (SFJsonException e) 
-				{					
-					e.printStackTrace();
-				}
-			}
+				JsonParser jsonParser = new JsonParser();
+				JsonElement jsonElement =jsonParser.parse(mResponseString);
+				SFODataObject object = SFDefaultGsonParser.parse(mInnerType, jsonElement);
+				mResponseListener.sfapiSuccess((T) object);
+			} 
+			catch (Exception e) 
+			{					
+				e.printStackTrace();
+			}			
 		}
 	}
 	

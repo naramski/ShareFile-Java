@@ -1,4 +1,4 @@
-package com.sharefile.api.gson;
+package com.sharefile.api.gson.manualparser;
 
 import com.google.gson.JsonObject;
 import com.sharefile.api.models.SFAccountUser;
@@ -8,7 +8,7 @@ import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFSession;
 
-public class SFClassSpecificGsonParser 
+public class SFParse 
 {
 		
 	static SFSession parse(SFSession object,JsonObject jsonObject)	

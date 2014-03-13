@@ -1,4 +1,4 @@
-package com.sharefile.api.gson;
+package com.sharefile.api.gson.manualparser;
 
 import java.lang.reflect.Type;
 
@@ -16,6 +16,8 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.exceptions.SFToDoReminderException;
+import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
@@ -24,14 +26,14 @@ import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 
-public class SFGsonParser implements JsonDeserializer<SFODataObject>, JsonSerializer<SFODataObject>
+public class SFManualGsonParser implements JsonDeserializer<SFODataObject>, JsonSerializer<SFODataObject>
 {	
 	public static void parseFromJson(SFODataObject object,String jsonString) throws SFJsonException
 	{
 		try
         {        			
 			Type t = object.getClass();
-        	SFGsonHelper.fromJson(jsonString, object.getClass(), SFModelFactory.getTypeTokenFromClassName(object.getClass().getName()), new SFGsonParser());
+        	SFGsonHelper.fromJson(jsonString, object.getClass(), SFModelFactory.getTypeTokenFromClassName(object.getClass().getName()), new SFManualGsonParser());
         }
         catch(JsonSyntaxException ex)
         {
@@ -43,7 +45,7 @@ public class SFGsonParser implements JsonDeserializer<SFODataObject>, JsonSerial
 	{
 		try
         {        		
-			return SFGsonHelper.fromJson(jsonString, clazz, SFModelFactory.getTypeTokenFromClassName(clazz.getName()), new SFGsonParser());
+			return SFGsonHelper.fromJson(jsonString, clazz, SFModelFactory.getTypeTokenFromClassName(clazz.getName()), new SFManualGsonParser());
         }
         catch(JsonSyntaxException ex)
         {
@@ -87,27 +89,27 @@ public class SFGsonParser implements JsonDeserializer<SFODataObject>, JsonSerial
 		switch (type) 
 		{								        
 			case File:				
-				ret = SFClassSpecificGsonParser.parse(new SFFile(), jsonObject);
+				ret = SFParse.parse(new SFFile(), jsonObject);
 			break;
 
 			case Folder:				
-				ret = SFClassSpecificGsonParser.parse(new SFFolder(), jsonObject);				
+				ret = SFParse.parse(new SFFolder(), jsonObject);				
 			break;
 			
 			case Link:				
-				ret = SFClassSpecificGsonParser.parse(new SFLink(), jsonObject);
+				ret = SFParse.parse(new SFLink(), jsonObject);
 			break;
 			
 			case Note:				
-				ret = SFClassSpecificGsonParser.parse(new SFNote(), jsonObject);
+				ret = SFParse.parse(new SFNote(), jsonObject);
 			break;
 			
 			case Session:
-				ret = SFClassSpecificGsonParser.parse(new SFSession(), jsonObject);
+				ret = SFParse.parse(new SFSession(), jsonObject);
 			break;
 			
 			case AccountUser:
-				ret = SFClassSpecificGsonParser.parse(new SFAccountUser(),jsonObject);
+				ret = SFParse.parse(new SFAccountUser(),jsonObject);
 			break;
 			
 			default:
