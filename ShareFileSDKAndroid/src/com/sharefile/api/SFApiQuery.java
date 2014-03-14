@@ -13,21 +13,20 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.enumerations.SFTreeMode;
 import com.sharefile.api.enumerations.SFUploadMethod;
-import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.enumerations.SFVRootType;
 import com.sharefile.api.enumerations.SFZoneService;
 import com.sharefile.api.exceptions.SFToDoReminderException;
-import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
-import com.sharefile.api.models.SFAccountUser;
-import com.sharefile.api.models.SFFile;
-import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFAccessControl;
+import com.sharefile.api.models.SFAccount;
+import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFItem;
-import com.sharefile.api.models.SFLink;
-import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFShare;
+import com.sharefile.api.models.SFUser;
+import com.sharefile.api.models.SFZone;
 
 public class SFApiQuery<T extends SFODataObject> 
 {
@@ -40,6 +39,12 @@ public class SFApiQuery<T extends SFODataObject>
 	        
 	        aMap.put("Items", SFItem.class);
 	        aMap.put("Sessions", SFSession.class);	        	        
+	        aMap.put("AccessControls", SFAccessControl.class);
+	        aMap.put("Capabilities", SFCapability.class);
+	        aMap.put("Shares", SFShare.class);
+	        aMap.put("User", SFUser.class);
+	        aMap.put("Accounts", SFAccount.class);
+	        aMap.put("Zones", SFZone.class);
 	        
 	        mMapNameClassPair = Collections.unmodifiableMap(aMap);
 	}

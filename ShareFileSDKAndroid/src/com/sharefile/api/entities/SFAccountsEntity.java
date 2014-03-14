@@ -38,7 +38,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* Retrieves information about the Account defined in the call subdomain
 	* @return The subdomain account information
     */
-	public SFApiQuery<SFAccount> get()
+	public static SFApiQuery<SFAccount> get()
 	{
 		SFApiQuery<SFAccount> query = new SFApiQuery<SFAccount>();
 		query.setFrom("Accounts");
@@ -52,7 +52,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* This operation does not require authentication.
 	* @return Branding information for a given sharefile account
     */
-	public SFApiQuery<SFAccount> getBranding()
+	public static SFApiQuery<SFAccount> getBranding()
 	{
 		SFApiQuery<SFAccount> query = new SFApiQuery<SFAccount>();
 		query.setFrom("Accounts");

@@ -29,7 +29,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Retrieve all outstanding Shares of the authenticated user
 	* @return List of Shares created by the authenticated user
     */
-	public SFApiQuery<SFODataFeed<SFShare>> get()
+	public static SFApiQuery<SFODataFeed<SFShare>> get()
 	{
 		SFApiQuery<SFODataFeed<SFShare>> query = new SFApiQuery<SFODataFeed<SFShare>>();
 		query.setFrom("Shares");
@@ -42,7 +42,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Retrieve all outstanding Shares of the authenticated user
 	* @return List of Shares created by the authenticated user
     */
-	public SFApiQuery<SFShare> get(String id)
+	public static SFApiQuery<SFShare> get(String id)
 	{
 		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
 		query.setFrom("Shares");
@@ -60,7 +60,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A feed of Share Aliases representing recipients of the Share
     */
-	public SFApiQuery<SFODataFeed<SFShareAlias>> getRecipients(String id , String parentid)
+	public static SFApiQuery<SFODataFeed<SFShareAlias>> getRecipients(String id , String parentid)
 	{
 		SFApiQuery<SFODataFeed<SFShareAlias>> query = new SFApiQuery<SFODataFeed<SFShareAlias>>();
 		query.setFrom("Shares");
@@ -77,7 +77,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A feed of Items of the Share
     */
-	public SFApiQuery<SFODataFeed<SFItem>> getItems(String id , String parentid)
+	public static SFApiQuery<SFODataFeed<SFItem>> getItems(String id , String parentid)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Shares");
@@ -105,7 +105,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param Company 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public SFApiQuery<SFStream> download(String id, String Name, String Email, String Company)
+	public static SFApiQuery<SFStream> download(String id, String Name, String Email, String Company)
 	{
 		SFApiQuery<SFStream> query = new SFApiQuery<SFStream>();
 		query.setFrom("Shares");
