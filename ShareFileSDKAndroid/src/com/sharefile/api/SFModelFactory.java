@@ -15,6 +15,7 @@ import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFUser;
 
 public class SFModelFactory 
 {
@@ -29,7 +30,7 @@ public class SFModelFactory
 	        aMap.put(SFV3ElementType.Link, SFLink.class);
 	        aMap.put(SFV3ElementType.Note, SFNote.class);
 	        aMap.put(SFV3ElementType.Session, SFSession.class);
-	        aMap.put(SFV3ElementType.AccountUser, SFAccountUser.class);	        
+	        aMap.put(SFV3ElementType.AccountUser, SFUser.class);	        
 	        
 	        mMapTypeClassPair = Collections.unmodifiableMap(aMap);
 	}

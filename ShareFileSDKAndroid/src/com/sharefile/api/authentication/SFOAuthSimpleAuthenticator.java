@@ -56,7 +56,7 @@ public class SFOAuthSimpleAuthenticator
 		}
 		
 		queryString.deleteCharAt(queryString.length() - 1);
-		SFLog.d2(TAG,"%s", queryString);
+		//SFLog.d2(TAG,"%s", queryString);
 
 		HttpsURLConnection connection = (HttpsURLConnection) grantUrl
 				.openConnection();

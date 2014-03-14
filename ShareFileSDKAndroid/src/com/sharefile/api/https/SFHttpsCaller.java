@@ -106,7 +106,7 @@ public class SFHttpsCaller
 	    return result.toString();
 	}
 	
-	private static void setAcceptLanguage(URLConnection conn)
+	public static void setAcceptLanguage(URLConnection conn)
 	{
 		conn.setRequestProperty("Accept-Language", Utils.getAcceptLanguageString());
 	}
@@ -388,7 +388,8 @@ public class SFHttpsCaller
 		
 		String response = sb.toString();
 		
-		SFLog.d2(TAG, "SUCCESS RESPONSE: %s", response);
+		System.out.println("SFSDK SUCCESS RESPONSE: %s"+ response);
+		//SFLog.d2(TAG, "SUCCESS RESPONSE: %s", response);
 		
 		urlstream.close();
 			

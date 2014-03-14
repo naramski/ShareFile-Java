@@ -1,7 +1,5 @@
 package com.sharefile.api;
 
-import java.lang.reflect.Type;
-
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFSessionsEntity;
@@ -9,9 +7,10 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiClientInitListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFUser;
 
 public class SFApiClient 
 {
@@ -23,11 +22,26 @@ public class SFApiClient
 	private SFSession mSession = null;
 	private SFApiClientInitListener mClientInitListner = null;
 	
-	public SFApiClient(SFOAuth2Token outhToken) throws SFInvalidStateException
-	{		
-		mOAuthToken = outhToken;//TODO: Shouldn't this be cloned using a deep copy?	
+	private boolean mClientInitializedSuccessFully = false;
+	
+	
+	private void copyOAuthToken(SFOAuth2Token oauthToken) throws SFInvalidStateException
+	{
+		validateStateBeforeInit(oauthToken);
 		
-		validateStateBeforeInit();
+		mOAuthToken = oauthToken;//TODO: Shouldn't this be cloned using a deep copy instead of maintaining a reference?
+	}
+	
+	public SFApiClient(SFOAuth2Token oauthToken) throws SFInvalidStateException
+	{	
+		copyOAuthToken(oauthToken);					
+	}
+	
+	public void reinitClientState(SFOAuth2Token oauthtoken, SFApiClientInitListener listener) throws SFInvalidStateException
+	{
+		copyOAuthToken(oauthtoken);
+		
+		init(listener);
 	}
 		
 	private SFApiResponseListener<SFSession> mListnererGetSession = new SFApiResponseListener<SFSession>() 
@@ -36,7 +50,15 @@ public class SFApiClient
 		public void sfapiSuccess(SFSession sfsession) 
 		{			
 			mSession = sfsession; //TODO: deep copy needed?
-			SFLog.d2(TAG, "API SUCCESS. Session object = %s", sfsession.getName());
+			mClientInitializedSuccessFully = true;
+						
+			SFPrincipal principal = mSession.getPrincipal();
+			
+			if(principal instanceof SFUser)
+			{
+				SFLog.d2(TAG, "SESSION FOR %s = " , ((SFUser)principal).getFullName());
+			}
+				
 			
 			//TODO: can we have generic pattern for callback calling
 			if(mClientInitListner!=null)
@@ -50,6 +72,8 @@ public class SFApiClient
 		{		
 			SFLog.d2(TAG, "API FAILURE. error code = %d", errorCode);
 			
+			mClientInitializedSuccessFully = false;
+			
 			//TODO: can we have generic pattern for callback calling
 			if(mClientInitListner!=null)
 			{
@@ -60,6 +84,7 @@ public class SFApiClient
 	
 	public void init(SFApiClientInitListener listener) throws SFInvalidStateException
 	{
+		mClientInitializedSuccessFully = false;
 		mClientInitListner = listener;
 		SFApiQuery<SFSession> sfQueryGetSession = SFSessionsEntity.get();				
 		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(SFSession.class,sfQueryGetSession, mListnererGetSession, mOAuthToken);
@@ -77,16 +102,33 @@ public class SFApiClient
 		}
 		*/
 		
+		validateClientState();
+		
 		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query.getTrueInnerClass(),query, listener, mOAuthToken);
 		sfApiRunnable.startNewThread();
 	}
 	
-	private void validateStateBeforeInit() throws SFInvalidStateException
+	/**
+	 *   Make this a more stronger check than a simple null check on OAuth. 
+	 */
+	private void validateStateBeforeInit(SFOAuth2Token token) throws SFInvalidStateException
 	{
-		if(mOAuthToken == null)
+		if(token == null)
+		{
+			throw new SFInvalidStateException(MSG_INVALID_STATE_OAUTH_NULL);
+		}
+		
+		if(!token.isValid())
+		{
+			throw new SFInvalidStateException(MSG_INVALID_STATE_OAUTH_NULL);
+		}
+	}	
+	
+	private void validateClientState() throws SFInvalidStateException 
+	{
+		if(!mClientInitializedSuccessFully)
 		{
 			throw new SFInvalidStateException(MSG_INVALID_STATE_OAUTH_NULL);
 		}
 	}
-	
 }

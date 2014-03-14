@@ -18,13 +18,29 @@ import com.sharefile.api.models.SFODataObject;
 
 public class SFOAuth2Token implements SFJsonInterface
 {
-	private String mAccessToken = "";
-	private String mRefreshToken = "";
-	private String mTokenType = "";
-	private String mAppcp = "";
-	private String mApicp = "";
-	private String mSubdomain = "";
+	private String mAccessToken = null;
+	private String mRefreshToken = null;
+	private String mTokenType = null;
+	private String mAppcp = null;
+	private String mApicp = null;
+	private String mSubdomain = null;
 	private long mExpiresIn = 0;
+	
+	/**
+	 *   Make this a more stronger check than a simple null check for feilds
+	 */
+	public boolean isValid()
+	{
+		if(mAccessToken == null) return false;
+		if(mRefreshToken == null) return false;
+		if(mTokenType == null) return false;
+		if(mAppcp == null) return false;
+		if(mApicp == null) return false;
+		if(mSubdomain == null) return false;
+		if(mExpiresIn == 0) return false;		
+		
+		return true;
+	}
 	
 	public String getAccessToken()
 	{

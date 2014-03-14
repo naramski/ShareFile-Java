@@ -15,7 +15,6 @@ import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
@@ -56,7 +55,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		{
 			URL url = new URL(urlstr);
 			URLConnection connection = SFHttpsCaller.getURLConnection(url);		
-			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());		
+			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
+			SFHttpsCaller.setAcceptLanguage(connection);
+			//TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
+			//We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
 			SFHttpsCaller.addBearerAuthorizationHeader(connection, mOauthToken);
 			
 			SFLog.d2(TAG, mQuery.getHttpMethod() + " " + urlstr);
