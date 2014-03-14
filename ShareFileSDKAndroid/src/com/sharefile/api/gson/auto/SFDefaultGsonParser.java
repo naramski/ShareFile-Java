@@ -45,7 +45,7 @@ public class SFDefaultGsonParser
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	
 			
-	public static String serialize(Class clazz,Object src)	
+	public static String serialize(Type clazz,Object src)	
 	{		
 		return getInstance().mGson.toJson(src, clazz);		
 	}

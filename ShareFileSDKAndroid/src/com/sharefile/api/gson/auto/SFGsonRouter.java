@@ -80,6 +80,15 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		JsonElement ret = null;
 		String str = null;
 		
+		str = SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);
+		
+		if(str!=null)
+		{
+			JsonParser parser = new JsonParser();
+			ret = parser.parse(str);
+		}	
+		
+		/*
 		SFV3ElementType elementType = SFModelFactory.getElementTypeClassName(typeOfObject.getClass().getName());
 		
 		switch(elementType)
@@ -107,13 +116,7 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 			default:
 				SFToDoReminderException.throwTODOException("Need to implement parser for : " + elementType.toString());
 			break;	
-		}
-		
-		if(str!=null)
-		{
-			JsonParser parser = new JsonParser();
-			ret = parser.parse(str);
-		}		
+		}*/
 		
 		return ret;
 	}			
