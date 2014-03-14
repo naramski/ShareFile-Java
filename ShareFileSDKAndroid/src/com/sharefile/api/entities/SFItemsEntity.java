@@ -16,9 +16,6 @@ import java.util.ArrayList;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFTreeMode;
-import com.sharefile.api.enumerations.SFUploadMethod;
-import com.sharefile.api.enumerations.SFVRootType;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
@@ -30,7 +27,10 @@ import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
 import com.sharefile.api.models.SFSymbolicLink;
+import com.sharefile.api.models.SFTreeMode;
+import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.api.models.SFVRootType;
 
 
 public class SFItemsEntity extends SFODataEntityBase

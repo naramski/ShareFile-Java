@@ -11,10 +11,6 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
-import com.sharefile.api.enumerations.SFTreeMode;
-import com.sharefile.api.enumerations.SFUploadMethod;
-import com.sharefile.api.enumerations.SFVRootType;
-import com.sharefile.api.enumerations.SFZoneService;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.models.SFAccessControl;
@@ -25,8 +21,12 @@ import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFShare;
+import com.sharefile.api.models.SFTreeMode;
+import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFUser;
+import com.sharefile.api.models.SFVRootType;
 import com.sharefile.api.models.SFZone;
+import com.sharefile.api.models.SFZoneService;
 
 public class SFApiQuery<T extends SFODataObject> 
 {
@@ -157,21 +157,16 @@ public class SFApiQuery<T extends SFODataObject>
 		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
 	}
 
-	public final void addQueryString(String key,String value)
+	public final void addQueryString(String key,SFZoneService services)
 	{
-		mQueryMap.put(key, value);
+		mQueryMap.put(key, services.toString());
 	}
 	
 	public final void addQueryString(String key,Boolean value)
 	{
 		mQueryMap.put(key, value.toString());
 	}
-	
-	public final void addQueryString(String key,SFZoneService sfzoneservice)
-	{
-		mQueryMap.put(key, sfzoneservice.toString());
-	}
-	
+			
 	public void addQueryString(String key, SFTreeMode treeMode) 
 	{
 		mQueryMap.put(key, treeMode.toString());
@@ -298,5 +293,10 @@ public class SFApiQuery<T extends SFODataObject>
 	public final String getHttpMethod()
 	{
 		return mHttpMethod;
+	}
+
+	public void addQueryString(String key, String type) 
+	{
+		
 	}
 }
