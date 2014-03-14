@@ -12,10 +12,18 @@
 
 package com.sharefile.api.entities;
 
-
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.models.SFItem;
 
 
 public class SFZonesEntity extends SFODataEntityBase
 {
+	public static SFApiQuery<SFItem> get()
+	{
+		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
+		query.setFrom("Zones");
+		query.setHttpMethod(SFHttpMethod.GET);
+		return query;
+	}
 }
-

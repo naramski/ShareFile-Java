@@ -144,7 +144,7 @@ public class SFApiQuery<T extends SFODataObject>
 	public final void setBody(SFODataObject body)
 	{
 		//throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
-		SFDefaultGsonParser.getInstance().to
+		SFDefaultGsonParser.getInstance().serialize(body.getClass(), body);
 	}
 	
 	public <T> void setBody(ArrayList<T> metadata) 

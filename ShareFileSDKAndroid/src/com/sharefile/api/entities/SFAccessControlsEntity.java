@@ -27,7 +27,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param itemid 	
 	* @return A single AccessControl object matching the query
     */
-	public SFApiQuery<SFAccessControl> get(String principalid, String itemid)
+	public static SFApiQuery<SFAccessControl> get(String principalid, String itemid)
 	{
 		SFApiQuery<SFAccessControl> query = new SFApiQuery<SFAccessControl>();
 		query.setFrom("AccessControls");

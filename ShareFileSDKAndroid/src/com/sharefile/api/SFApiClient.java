@@ -131,4 +131,9 @@ public class SFApiClient
 			throw new SFInvalidStateException(MSG_INVALID_STATE_OAUTH_NULL);
 		}
 	}
+	
+	public SFSession getSession()
+	{
+		return mSession;
+	}
 }
