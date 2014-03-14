@@ -17,6 +17,8 @@ import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.enumerations.SFVRootType;
 import com.sharefile.api.enumerations.SFZoneService;
 import com.sharefile.api.exceptions.SFToDoReminderException;
+import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
@@ -141,7 +143,8 @@ public class SFApiQuery<T extends SFODataObject>
 	
 	public final void setBody(SFODataObject body)
 	{
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
+		//throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
+		SFDefaultGsonParser.getInstance().to
 	}
 	
 	public <T> void setBody(ArrayList<T> metadata) 

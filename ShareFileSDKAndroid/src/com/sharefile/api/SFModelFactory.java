@@ -113,6 +113,27 @@ public class SFModelFactory
 	}
 	
 	
+	public static final SFV3ElementType getElementTypeClassName(String className)
+	{
+		SFV3ElementType ret = null;
+		
+		Set<SFV3ElementType> keySet = mMapTypeClassPair.keySet();
+		
+		for(SFV3ElementType s:keySet)
+		{
+			
+			Class clazz = mMapTypeClassPair.get(s);
+			
+			if(clazz.getName().equalsIgnoreCase(className))
+			{				
+				ret = s;							
+				break;
+			}
+		}
+		
+		return ret;
+	}
+	
 	public static final Type getTypeTokenFromClassName(String className)
 	{
 		Type ret = null;

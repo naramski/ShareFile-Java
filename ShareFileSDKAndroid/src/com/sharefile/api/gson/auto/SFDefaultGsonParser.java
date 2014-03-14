@@ -45,11 +45,11 @@ public class SFDefaultGsonParser
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	
 			
-	public static SFODataObject parse(SFPrincipal typeO,JsonElement jsonElement)	
+	public static String serialize(Class clazz,Object src)	
 	{		
-		return getInstance().mGson.fromJson(jsonElement, SFSession.class);		
-	}	
-	
+		return getInstance().mGson.toJson(src, clazz);		
+	}
+				
 	/**
 	 *  Certain classes like SFPrincipal can't rely on the default gson parsing since we need to get the contained inner object
 	 *  in them using the odata.metatata and then handover the gson parsing to actual class contained in SFPrincipal

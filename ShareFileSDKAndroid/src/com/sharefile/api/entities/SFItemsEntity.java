@@ -245,7 +245,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.addQueryString("overwrite", overwrite);
 		query.addQueryString("passthrough", passthrough);
 		query.setBody(folder);
-		query.setHttpMethod(SFHttpMethod.GET);
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
