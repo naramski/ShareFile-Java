@@ -72,8 +72,8 @@ public class FullscreenActivity extends Activity
 		{			
 			
 			String hostname = "citrix.sharefile.com";
-			String username = "email@citrix.com";
-			String password = "***";
+			String username = "nilesh.pawar@citrix.com";
+			String password = "****";
 			String clientId = WEB_LOGIN_CLIENT_ID_SHAREFILE;
 			String clientSecret = WEB_LOGIN_CLIENT_SECRET_SHAREFILE;
 			

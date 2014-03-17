@@ -9,6 +9,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.models.SFSession;
@@ -57,6 +58,7 @@ public class SFDefaultGsonParser
 	private void registerSFSpecificGsonAdapters()
 	{
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
+		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() 
 		{
 

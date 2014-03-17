@@ -2,6 +2,8 @@ package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
 
+import android.util.Log;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -11,13 +13,16 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.sharefile.api.SFModelFactory;
+import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
@@ -28,47 +33,81 @@ import com.sharefile.api.models.SFODataObject;
  */
 public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerializer<SFODataObject>
 {		
+	private static final String TAG = "-SFGsonRouter";
+	
 	@Override
 	public SFODataObject deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException 
 	{		
 		SFODataObject ret = null;
 		
-		if(jsonElement!=null)
+		try
 		{
-			JsonObject jsonObject = jsonElement.getAsJsonObject();
-			
-			if(jsonObject!=null)
+			if(jsonElement!=null)
 			{
-				String metadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);
-				SFV3ElementType elementType = SFModelFactory.getElementTypeFromMetaData(metadata);
+				SFLog.d2(TAG,"Route for " + jsonElement.toString());
 				
-				switch(elementType)
+				JsonObject jsonObject = jsonElement.getAsJsonObject();
+				
+				if(jsonObject!=null)
 				{
-					case AccountUser:
-						ret = SFDefaultGsonParser.parse(SFAccountUser.class, jsonElement);
-					break;
+					String metadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);
+					SFV3ElementType elementType = SFModelFactory.getElementTypeFromMetaData(metadata);
+										
+					SFLog.d2(TAG, "GSON For : %s", metadata);
 					
-					case File:
-						ret = SFDefaultGsonParser.parse(SFFile.class, jsonElement);
-					break;
-					
-					case Folder:
-						ret = SFDefaultGsonParser.parse(SFFolder.class, jsonElement);
-					break;
-					
-					case Link:
-						ret = SFDefaultGsonParser.parse(SFLink.class, jsonElement);
-					break;
-					
-					case Note:
-						ret = SFDefaultGsonParser.parse(SFNote.class, jsonElement);
-					break;
-					
-					default:
-						SFToDoReminderException.throwTODOException("Need to implement parser for : " + elementType.toString());
-					break;	
+					switch(elementType)
+					{
+						case AccountUser:
+							ret = SFDefaultGsonParser.parse(SFAccountUser.class, jsonElement);
+						break;
+						
+						case File:
+							ret = SFDefaultGsonParser.parse(SFFile.class, jsonElement);
+						break;
+						
+						case Folder:
+							ret = SFDefaultGsonParser.parse(SFFolder.class, jsonElement);
+						break;
+						
+						case Link:
+							ret = SFDefaultGsonParser.parse(SFLink.class, jsonElement);
+						break;
+						
+						case Note:
+							ret = SFDefaultGsonParser.parse(SFNote.class, jsonElement);
+						break;
+						
+						case Item:
+							ret = null;//SFDefaultGsonParser.parse(SFItem.class, jsonElement);
+						break;
+						
+						default:
+							SFToDoReminderException.throwTODOException("Need to implement parser for : " + elementType.toString());
+						break;	
+					}
 				}
-			}						
+				else
+				{
+					SFLog.d2(TAG,"JSON Object NULL");
+				}
+			}
+			else
+			{
+				SFLog.d2(TAG,"JSON Element NULL");
+			}
+		}
+		catch(Exception e)
+		{									
+			SFLog.d2(TAG,"Exception MSG = "  + Log.getStackTraceString(e));
+		}
+		
+		if(ret ==null)
+		{
+			SFLog.d2(TAG,"Returning null  ");
+		}
+		else
+		{
+			SFLog.d2(TAG,"Returning NON null  ");
 		}
 		
 		return ret;

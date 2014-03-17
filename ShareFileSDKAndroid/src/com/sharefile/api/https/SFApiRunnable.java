@@ -117,6 +117,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void callSuccessResponseHandler()
 	{
 		if(mResponseListener!=null)

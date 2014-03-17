@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.reflect.TypeToken;
+import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
@@ -30,7 +32,8 @@ public class SFModelFactory
 	        aMap.put(SFV3ElementType.Link, SFLink.class);
 	        aMap.put(SFV3ElementType.Note, SFNote.class);
 	        aMap.put(SFV3ElementType.Session, SFSession.class);
-	        aMap.put(SFV3ElementType.AccountUser, SFUser.class);	        
+	        aMap.put(SFV3ElementType.AccountUser, SFUser.class);	        	        
+	        aMap.put(SFV3ElementType.Item, SFItem.class);
 	        
 	        mMapTypeClassPair = Collections.unmodifiableMap(aMap);
 	}
@@ -77,6 +80,11 @@ public class SFModelFactory
 				
 				break;
 			}
+		}
+		
+		if(ret == null)
+		{
+			SFLog.d2(""," NOT in model factory: " + metadata );
 		}
 		
 		return ret;
