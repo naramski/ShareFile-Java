@@ -73,7 +73,7 @@ public class FullscreenActivity extends Activity
 			
 			String hostname = "citrix.sharefile.com";
 			String username = "nilesh.pawar@citrix.com";
-			String password = "****";
+			String password = "*";
 			String clientId = WEB_LOGIN_CLIENT_ID_SHAREFILE;
 			String clientSecret = WEB_LOGIN_CLIENT_SECRET_SHAREFILE;
 			
@@ -154,7 +154,7 @@ public class FullscreenActivity extends Activity
 		uiButton.setPadding(0,0,0,0);
 		uiButton.setText(text);
 		uiButton.setId(id);
-		uiButton.setBackground(getResources().getDrawable(R.drawable.button_bkg));
+		uiButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_bkg));
 		uiButton.setEnabled(false);		
 				
 		return uiButton;

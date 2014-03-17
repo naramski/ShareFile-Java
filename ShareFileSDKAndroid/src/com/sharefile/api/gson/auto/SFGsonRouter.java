@@ -19,6 +19,7 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.gson.manualparser.SFParse;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
@@ -78,7 +79,7 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 						break;
 						
 						case Item:
-							ret = null;//SFDefaultGsonParser.parse(SFItem.class, jsonElement);
+							ret = SFParse.parseSFItem(jsonObject);
 						break;
 						
 						default:
