@@ -387,9 +387,9 @@ public class SFHttpsCaller
 		}
 		
 		String response = sb.toString();
-		
-		System.out.println("SFSDK SUCCESS RESPONSE: %s"+ response);
-		//SFLog.d2(TAG, "SUCCESS RESPONSE: %s", response);
+				
+		SFLog.d2(TAG, "SUCCESS RESPONSE size: " + response.length());
+		SFLog.d2(TAG, "SUCCESS RESPONSE: " + response.toString());
 		
 		urlstream.close();
 			

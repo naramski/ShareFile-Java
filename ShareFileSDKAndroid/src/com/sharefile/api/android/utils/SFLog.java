@@ -230,7 +230,37 @@ public class SFLog
         
         String msg = getMessage(format, args);
         
-        Log.d(tag+appendTag, msg);                
+        //Show in chunks! Log cat will truncate ultra long strings else.
+        if (msg.length() > 4000) 
+        {       
+        	/*
+        	Log.d(tag+appendTag, "Start---");
+        	
+            int chunkCount = msg.length() / 4000;     // integer division
+            String TAG = tag+appendTag;
+            for (int i = 0; i <= chunkCount; i++) 
+            {
+                int max = 4000 * (i + 1);
+                
+                if (max >= msg.length()) 
+                {                	                	
+                    Log.d(TAG, msg.substring(4000 * i));
+                } 
+                else 
+                {
+                    Log.d(TAG, msg.substring(4000 * i, max));
+                }
+            }
+            
+            Log.d(tag+appendTag, "---End");*/
+        	
+        	Log.d(tag+appendTag, msg.substring(0,1000)+ "...[truncated]");
+        	
+        }
+        else
+        {
+                Log.d(tag+appendTag, msg);
+        }
     }
  
     public static void i(String format, Object... args) 

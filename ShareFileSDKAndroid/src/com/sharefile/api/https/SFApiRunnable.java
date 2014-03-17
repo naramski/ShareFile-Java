@@ -15,6 +15,7 @@ import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
@@ -102,8 +103,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{
 		switch(mHttpErrorCode)
 		{
-			case HttpsURLConnection.HTTP_OK:
-				
+			case HttpsURLConnection.HTTP_OK:				
 				callSuccessResponseHandler();
 			break;	
 			
@@ -138,7 +138,20 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	private void callFailureResponseHandler()
 	{
-		
+		if(mResponseListener!=null)
+		{												
+			try 
+			{
+				JsonParser jsonParser = new JsonParser();
+				JsonElement jsonElement =jsonParser.parse(mResponseString);				
+				String messageValue = SFGsonHelper.getString(jsonElement.getAsJsonObject(), "messageValue", null);
+				mResponseListener.sfApiError(mHttpErrorCode, messageValue, mQuery);
+			} 
+			catch (Exception e) 
+			{					
+				e.printStackTrace();
+			}			
+		}
 	}
 	
 	private void callEmptyResponseHandler()

@@ -157,6 +157,11 @@ public class SFApiQuery<T extends SFODataObject>
 		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
 	}
 
+	public final void addQueryString(String key, String value) 
+	{
+		mQueryMap.put(key, value);
+	}
+	
 	public final void addQueryString(String key,SFZoneService services)
 	{
 		mQueryMap.put(key, services.toString());
@@ -293,10 +298,5 @@ public class SFApiQuery<T extends SFODataObject>
 	public final String getHttpMethod()
 	{
 		return mHttpMethod;
-	}
-
-	public void addQueryString(String key, String type) 
-	{
-		
-	}
+	}	
 }
