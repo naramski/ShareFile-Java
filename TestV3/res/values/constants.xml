@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="list_selector_background_focus">#ff404040</drawable>
+    <drawable name="list_selector_background_longpress">#ff404040</drawable>
+    <drawable name="list_selector_background_pressed">#ff404040</drawable>
+    <drawable name="dark_bg">#ff232323</drawable>
+    <drawable name="black_color">#ff000000</drawable>
+
+    <string name="app_name">ShareFile</string>
+
+    <color name="details_label_color">#FFA6A7AB</color>
+    <color name="dark_bg">#232323</color>
+    <color name="BLACK">#FF000000</color>
+    <color name="login_text_color">#484848</color>
+    <color name="login_button_color">#0C7A19</color>
+
+    <string name="login_try_link"><a href="http://www.sharefile.com">Try ShareFile FREE for 30 days</a></string>
+
+    <color name="TRANSPARENT">#00000000</color>
+    <color name="transparent">#00000000</color>
+
+    <string name="Subdomain_Spinner_Prompt">Select One</string>
+
+    <color name="WHITE">#FFFFFFFF</color>
+
+    <string name="Downloader_Description">ShareFile background downloader.</string>
+    <string name="pref_trans_on_wifi_only">pref_trans_on_wifi_only</string>
+    <string name="pref_closes_service_after_processing_queue">closesServiceAfterProcessingQueue</string>
+    <string name="sync_service_description">ShareFile Sync Service</string>
+    <string name="pref_sync_enabled">pref_sync_enabled</string>
+    <string name="pref_sync_interval">pref_sync_interval</string>
+    <string name="pref_sync_interval_description">The time (in minutes) between each sync attempt.</string>
+
+    <string-array name="sync_interval_values">
+
+        <!-- FOR TESTING -->
+        <!-- <item>5000</item> -->
+        <!-- FOR TESTING -->
+
+        <item>300000</item>
+        <item>600000</item>
+        <item>900000</item>
+        <item>1200000</item>
+        <item>1500000</item>
+        <item>1800000</item>
+        <item>2700000</item>
+        <item>3600000</item>
+    </string-array>
+    <string-array name="sync_interval_keys">
+
+        <!-- FOR TESTING -->
+        <!-- <item>5 sec (for testing)</item> -->
+        <!-- FOR TESTING -->
+
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>20 min</item>
+        <item>25 min</item>
+        <item>30 min</item>
+        <item>45 min</item>
+        <item>60 min</item>
+    </string-array>
+
+    <!-- Pull to refresh view strings -->
+    <string name="ptr_pull_to_refresh">Pull to refresh</string>
+    <string name="ptr_release_to_refresh">Release to refresh</string>
+    <string name="ptr_refreshing">Refreshing</string>
+    <string name="strFmdNoShareFileConfigured">You do not have a ShareFile account configured.</string>
+    <string name="mdx_cannot_get_saml">Your corporate credentials cannot be retrieved at this time. Do you want to manually login to ShareFile?</string>
+    <string name="mdx_sharefile_auth_failure">Your corporate credentials don\'t seem to be working for ShareFile. Do you want to manually login to ShareFile?</string>
+
+    <string-array name="hostnames_array">
+        <item>Host: sharefile.com</item>
+        <item>Host: sharefiledev.com</item>
+        <item>Host: sharefiletest.com</item>
+        <item>Host: sharefile.eu</item>
+    </string-array>
+    
+    <bool name="device_phone">true</bool>
+
+</resources>
