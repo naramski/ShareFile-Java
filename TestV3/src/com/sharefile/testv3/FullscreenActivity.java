@@ -157,11 +157,12 @@ public class FullscreenActivity extends Activity
 		uiButton.setOnClickListener(clickListener);
 		final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 
-		layoutParams.setMargins(0, 0, 0, 5);
+		layoutParams.setMargins(0, 0, 0, 15);
 		
 		uiButton.setLayoutParams(layoutParams);
-		uiButton.setPadding(0,0,0,0);
+		uiButton.setPadding(0,18,0,18);
 		uiButton.setText(text);
+		uiButton.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Large);
 		uiButton.setId(id);
 		uiButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_bkg));
 		uiButton.setEnabled(false);		
