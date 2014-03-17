@@ -144,9 +144,12 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			try 
 			{
 				JsonParser jsonParser = new JsonParser();
-				JsonElement jsonElement =jsonParser.parse(mResponseString);				
-				String messageValue = SFGsonHelper.getString(jsonElement.getAsJsonObject(), "messageValue", null);
-				mResponseListener.sfApiError(mHttpErrorCode, messageValue, mQuery);
+				JsonElement jsonElement =jsonParser.parse(mResponseString);
+				
+				mV3Error = SFDefaultGsonParser.parse(jsonElement);
+				mV3Error.httpResponseCode = mHttpErrorCode;
+				
+				mResponseListener.sfApiError(mV3Error, mQuery);
 			} 
 			catch (Exception e) 
 			{					

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
@@ -129,11 +130,11 @@ public class FoldersActivity extends Activity
 		SFApiQuery<SFItem> query =null;
 				
 		
-		if(folderid.equalsIgnoreCase(TOP))
+		/*if(folderid.equalsIgnoreCase(TOP))
 		{
 			query = SFItemsEntity.get();
 		}
-		else
+		else*/
 		{
 			query = SFItemsEntity.get(folderid);
 		}
@@ -168,10 +169,10 @@ public class FoldersActivity extends Activity
 				}
 
 				@Override
-				public void sfApiError(int errorCode,String errorMessage,SFApiQuery<SFItem> asApiqueri) 
+				public void sfApiError(V3Error v3error,SFApiQuery<SFItem> asApiqueri) 
 				{									
-					SFLog.d2("SFSDK","get Item failed: ");
-					showToast("Failed Get Item");
+					SFLog.d2("SFSDK","get Item failed: " + v3error.message.value);
+					showToast("Failed Get Item" + v3error.message.value);
 					
 					runOnUiThread(new Runnable() 
 					{			

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFAsyncTask;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
@@ -74,7 +75,7 @@ public class FullscreenActivity extends Activity
 			
 			String hostname = "citrix.sharefile.com";
 			String username = "nilesh.pawar@citrix.com";
-			String password = "****";
+			String password = "***";
 			String clientId = WEB_LOGIN_CLIENT_ID_SHAREFILE;
 			String clientSecret = WEB_LOGIN_CLIENT_SECRET_SHAREFILE;
 			
@@ -101,10 +102,10 @@ public class FullscreenActivity extends Activity
 					
 					
 					@Override
-					public void sfApiClientInitError(int errorCode, String errorMessage) 
+					public void sfApiClientInitError(V3Error v3error) 
 					{												
-						showToast("Error "+ errorMessage);						
-						SFLog.d2("SFSDK","Error: ",errorMessage);
+						showToast("Error "+ v3error.message.value);						
+						SFLog.d2("SFSDK","Error: %s",v3error.message.value);
 						changeTestButtons(false);
 					}
 				});				
@@ -208,7 +209,7 @@ public class FullscreenActivity extends Activity
 					}
 
 					@Override
-					public void sfApiError(int errorCode, String errorMessage,SFApiQuery<SFAccessControl> asApiqueri) 
+					public void sfApiError(V3Error v3error,SFApiQuery<SFAccessControl> asApiqueri) 
 					{
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");						
@@ -243,7 +244,7 @@ public class FullscreenActivity extends Activity
 					}
 
 					@Override
-					public void sfApiError(int errorCode, String errorMessage, SFApiQuery<SFODataFeed<SFCapability>> asApiqueri) 
+					public void sfApiError(V3Error v3error, SFApiQuery<SFODataFeed<SFCapability>> asApiqueri) 
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -278,7 +279,7 @@ public class FullscreenActivity extends Activity
 					}
 
 					@Override
-					public void sfApiError(int errorCode, String errorMessage, SFApiQuery<SFODataFeed<SFShare>> asApiqueri) 
+					public void sfApiError(V3Error v3error, SFApiQuery<SFODataFeed<SFShare>> asApiqueri) 
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -314,7 +315,7 @@ public class FullscreenActivity extends Activity
 					}
 
 					@Override
-					public void sfApiError(int errorCode, String errorMessage, SFApiQuery<SFODataFeed<SFFavoriteFolder>> asApiqueri) 
+					public void sfApiError(V3Error v3error, SFApiQuery<SFODataFeed<SFFavoriteFolder>> asApiqueri) 
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -349,7 +350,7 @@ public class FullscreenActivity extends Activity
 					}
 
 					@Override
-					public void sfApiError(int errorCode, String errorMessage, SFApiQuery<SFAccount> asApiqueri) 
+					public void sfApiError(V3Error v3error, SFApiQuery<SFAccount> asApiqueri) 
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -384,7 +385,7 @@ public class FullscreenActivity extends Activity
 					}
 
 					@Override
-					public void sfApiError(int errorCode, String errorMessage, SFApiQuery<SFZone> asApiqueri) 
+					public void sfApiError(V3Error v3error, SFApiQuery<SFZone> asApiqueri) 
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");

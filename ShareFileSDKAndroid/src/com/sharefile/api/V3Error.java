@@ -18,6 +18,15 @@ import android.util.Log;
     "lang": "en-US",
     "value": "The process cannot access the file '\\\\sf_fileserver2\\nilesh\\todelete.docx' because it is being used by another process."
   }
+  
+  {
+   "code":"NotFound",
+   "message":
+  	{
+  	 "lang":"en-US",
+  	 "value":"The item that you requested could not be found in the system."
+  	}
+  }
 }
  */
 public class V3Error 
@@ -29,13 +38,16 @@ public class V3Error
 	
 	public int httpResponseCode = 0;
 	public String code = "";	
-	public String messageValue = "";
-		
-	/*public V3Error(int code,String msg)
+	//public String messageValue = "";
+	
+	public static class ErrorMessage
 	{
-		httpResponseCode = code;
-		messageValue = msg;
-	}*/
+		public String lang = null;
+		public String value = null;
+	}
+	
+	public ErrorMessage message;
+			
 	
 	private String getErrorMessageFromErroCode()
 	{
@@ -46,6 +58,11 @@ public class V3Error
 			case HttpsURLConnection.HTTP_UNAVAILABLE:return ERR_NOTREACHABLE;
 			default: return "Unkown Error.("+ httpResponseCode+")";
 		}
+	}
+	
+	public V3Error()
+	{
+		
 	}
 	
 	public V3Error(int httpcode , String respSring)
@@ -62,17 +79,17 @@ public class V3Error
 		 */
 		if( httpcode == HttpsURLConnection.HTTP_UNAUTHORIZED)
 		{
-			messageValue = ERR_UNAUTHORIZD;
+			message.value = ERR_UNAUTHORIZD;
 			return;
 		}
 		else if( httpcode == HttpsURLConnection.HTTP_FORBIDDEN)
 		{
-			messageValue = ERR_FORBIDDEN;
+			message.value = ERR_FORBIDDEN;
 			return;
 		}
 		else if( httpcode == HttpsURLConnection.HTTP_BAD_METHOD)
 		{
-			messageValue = ERR_BADMETHOD;
+			message.value = ERR_BADMETHOD;
 			return;
 		}
 		
@@ -82,11 +99,11 @@ public class V3Error
 			JSONObject errorObject = new JSONObject(respSring);			
 			code =  errorObject.optString("code");			
 			JSONObject messageObject = errorObject.getJSONObject("message");			
-			messageValue = messageObject.optString("value");
+			message.value = messageObject.optString("value");
 		} 
 		catch (JSONException e) 
 		{							
-			messageValue = respSring + "(" + httpcode + ")";			
+			message.value = respSring + "(" + httpcode + ")";			
 			SFLog.d2("-V3Error", "Exception: " + Log.getStackTraceString(e));
 		}		
 	}

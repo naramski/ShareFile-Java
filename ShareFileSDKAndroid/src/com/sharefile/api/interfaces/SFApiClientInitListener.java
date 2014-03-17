@@ -1,7 +1,9 @@
 package com.sharefile.api.interfaces;
 
+import com.sharefile.api.V3Error;
+
 public interface SFApiClientInitListener 
 {
 	public void sfApiClientInitSuccess();
-	public void sfApiClientInitError(int errorCode,String errorMessage);
+	public void sfApiClientInitError(V3Error error);
 }

@@ -68,16 +68,16 @@ public class SFApiClient
 		}
 
 		@Override
-		public void sfApiError(int errorCode, String errorMessage,SFApiQuery<SFSession> asApiqueri) 
+		public void sfApiError(V3Error error,SFApiQuery<SFSession> asApiqueri) 
 		{		
-			SFLog.d2(TAG, "API FAILURE. error code = %d", errorCode);
+			SFLog.d2(TAG, "API FAILURE. error code = %d", error.httpResponseCode);
 			
 			mClientInitializedSuccessFully = false;
 			
 			//TODO: can we have generic pattern for callback calling
 			if(mClientInitListner!=null)
 			{
-				mClientInitListner.sfApiClientInitError(errorCode, errorMessage);
+				mClientInitListner.sfApiClientInitError(error);
 			}
 		}
 	};
