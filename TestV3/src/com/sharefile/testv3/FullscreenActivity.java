@@ -3,6 +3,10 @@ package com.sharefile.testv3;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
@@ -10,6 +14,7 @@ import com.sharefile.api.android.utils.SFAsyncTask;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.authentication.SFOAuthSimpleAuthenticator;
+import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFAccessControlsEntity;
 import com.sharefile.api.entities.SFAccountsEntity;
 import com.sharefile.api.entities.SFCapabilitiesEntity;
@@ -28,6 +33,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFZone;
+import com.sharefile.mobile.shared.dataobjects.v3.SFOAuthAccessToken;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -53,6 +59,7 @@ public class FullscreenActivity extends Activity
 	public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "qhRBpcI7yj931hV2wzGlmsi6b";
 	public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "Nu8JDCC9EK598e4PmA2NBbF09oYBS8";	 	 
 	public static SFApiClient mSFApiClient;
+	public static SFOAuthAccessToken gToken = null;
 	
 	public void showToast(final String msg)
 	{
@@ -75,13 +82,13 @@ public class FullscreenActivity extends Activity
 			
 			String hostname = "citrix.sharefile.com";
 			String username = "nilesh.pawar@citrix.com";
-			String password = "***";
+			String password = "****";
 			String clientId = WEB_LOGIN_CLIENT_ID_SHAREFILE;
 			String clientSecret = WEB_LOGIN_CLIENT_SECRET_SHAREFILE;
 			
 			try 
 			{
-				mOAuthToken =  SFOAuthSimpleAuthenticator.authenticate(hostname, clientId, clientSecret, username, password);
+				//mOAuthToken =  SFOAuthSimpleAuthenticator.authenticate(hostname, clientId, clientSecret, username, password);
 				
 				SFLog.d2("SFSDK","GOT Token = %s",mOAuthToken.toJsonString());
 				
@@ -438,11 +445,40 @@ public class FullscreenActivity extends Activity
 				
 	}
 	
+	private void copyToken()
+	{
+		if(gToken!=null)
+		{
+			try
+			{
+				JSONObject jsonObject = new JSONObject();
+										
+				jsonObject.put(SFKeywords.ACCESS_TOKEN, gToken.access_token);
+				jsonObject.put(SFKeywords.REFRESH_TOKEN,gToken.refresh_token);
+				jsonObject.put(SFKeywords.TOKEN_TYPE,gToken.token_type);
+				jsonObject.put(SFKeywords.APP_CP,gToken.appcp);
+				jsonObject.put(SFKeywords.API_CP,gToken.apicp);
+				jsonObject.put(SFKeywords.SUBDOMAIN,gToken.subdomain);
+				jsonObject.put(SFKeywords.EXPIRES_IN,gToken.expires_in);
+				
+				
+				mOAuthToken = new SFOAuth2Token(jsonObject.toString());
+			}
+			catch(Exception e)
+			{
+				showToast("Copy toke problem");
+			}
+		}
+	}
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_fullscreen);
+		
+		copyToken();
 		
 		Button buttonInitSession = (Button)findViewById(R.id.buttonInitSession);
 		
