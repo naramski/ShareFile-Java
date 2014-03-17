@@ -29,6 +29,7 @@ import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFZone;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,7 +51,7 @@ public class FullscreenActivity extends Activity
 	private SFOAuth2Token mOAuthToken = null;
 	public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "qhRBpcI7yj931hV2wzGlmsi6b";
 	public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "Nu8JDCC9EK598e4PmA2NBbF09oYBS8";	 	 
-	private SFApiClient mSFApiClient;
+	public static SFApiClient mSFApiClient;
 	
 	public void showToast(final String msg)
 	{
@@ -73,7 +74,7 @@ public class FullscreenActivity extends Activity
 			
 			String hostname = "citrix.sharefile.com";
 			String username = "nilesh.pawar@citrix.com";
-			String password = "*";
+			String password = "****";
 			String clientId = WEB_LOGIN_CLIENT_ID_SHAREFILE;
 			String clientSecret = WEB_LOGIN_CLIENT_SECRET_SHAREFILE;
 			
@@ -181,33 +182,8 @@ public class FullscreenActivity extends Activity
 		@Override
 		public void onClick(View v) 
 		{
-			
-			SFApiQuery<SFItem> query = SFItemsEntity.get();	
-			query.addQueryString("expand", "Children");			
-			try 
-			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFItem>() 
-				{										
-					@Override
-					public void sfapiSuccess(SFItem object) 
-					{										
-						SFLog.d2("SFSDK","getItem success: ");
-						showToast("Got Item");
-					}
-
-					@Override
-					public void sfApiError(int errorCode,String errorMessage,SFApiQuery<SFItem> asApiqueri) 
-					{									
-						SFLog.d2("SFSDK","get Item failed: ");
-						showToast("Failed Get Item");
-					}
-				});
-			} 
-			catch (SFInvalidStateException e) 
-			{							
-				e.printStackTrace();
-				showToast("Exception "+ e.getLocalizedMessage());							
-			}
+			Intent intent = new Intent(getApplicationContext(), FoldersActivity.class);
+	    	startActivity(intent);
 		}
 	};
 	

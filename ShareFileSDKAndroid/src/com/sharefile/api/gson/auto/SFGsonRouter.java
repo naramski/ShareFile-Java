@@ -108,7 +108,10 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		}
 		else
 		{
-			SFLog.d2(TAG,"Returning NON null  ");
+			if(ret instanceof SFFile)
+			{
+				SFLog.d2(TAG,"Returning NON null  " + ((SFFile)ret).getName());
+			}
 		}
 		
 		return ret;

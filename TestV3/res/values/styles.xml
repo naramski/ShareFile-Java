@@ -4,19 +4,7 @@
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
+    -->    
 
     <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
         <item name="android:windowContentOverlay">@null</item>
@@ -34,5 +22,465 @@
     </style>
 
     <style name="ButtonBarButton" />
+    
+    <style name="SFListSeparator">
+        <item name="android:background">@drawable/dark_header_dither</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">25dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">5sp</item>
+    </style>
+
+    <style name="NotificationText">
+        <item name="android:textColor">#ff6b6b6b</item>
+    </style>
+
+    <!-- Main app style???? -->
+    <style name="SFTabletStyleLoginScreen" parent="android:Theme.Holo.NoActionBar">
+
+        <!-- Search widget styles -->
+
+
+        <!-- Action bar sty-->
+        <item name="android:actionBarStyle">@style/SFLoginScreenActionBarStyle</item>
+        <item name="android:textColorPrimary">@color/WHITE</item>
+ <!-- This changes the text color of the searchview as well -->
+        <!-- <item name="android:actionDropDownStyle">@style/SFActionBarDropDownMenuStyle</item> -->
+
+        <!-- Widgets attributes -->
+        
+        <item name="android:textViewStyle">@style/SFTextViewStyle</item>
+        
+        <item name="android:editTextStyle">@style/DialogEditText</item>
+    </style>
+
+    <!-- BEGIN ********************************************************************************************************************** -->
+    <!-- action bar item 2/2014 -->
+    <!-- NOT WORKING!!!! -->
+    <style name="MainActionBarItem" parent="@android:style/Widget.ActionButton">
+        <item name="android:background">@drawable/actionbar_button_bkg</item>
+    </style>
+
+    <!-- use standard style but change color -->
+    <style name="ActionBarTitle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/textview</item>
+        <item name="android:textSize">@dimen/titlebar_text</item>
+    </style>
+
+    <!-- action bar 2/2014 -->
+    <style name="MainActionBar" parent="android:Theme.Holo">
+        <item name="android:displayOptions">showTitle</item>
+        <item name="android:height">?android:attr/actionBarSize</item>
+        <item name="android:progressBarStyle">@android:style/Widget.ProgressBar.Horizontal</item>
+        <item name="android:indeterminateProgressStyle">@android:style/Widget.ProgressBar.Small</item>
+        <item name="android:background">@color/folder_title_bg</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitle</item>
+
+        <!-- NOT WORKING!!!!!!!! -->
+        <item name="android:actionButtonStyle">@style/MainActionBarItem</item>
+        <item name="android:actionBarItemBackground">@drawable/actionbar_button_bkg</item>
+    </style>
+
+    <!-- Main app style 2/2014 -->
+    <style name="MainActivity" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MainActionBar</item>
+        <item name="android:textColorPrimary">@color/WHITE</item>
+        <!-- <item name="android:actionDropDownStyle">@style/SFActionBarDropDownMenuStyle</item> -->
+        <!--  <item name="android:configChanges">orientation|screenSize|keyboardHidden</item> -->
+    </style>
+
+<!--     <style name="NewDialog" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowNoTitle">true</item>
+    </style> -->
+
+    <style name="DialogBar">
+        <item name="android:background">@color/folder_title_bg</item>
+        <item name="android:textColor">@color/textview</item>
+        <item name="android:textSize">@dimen/titlebar_text</item>
+        <item name="android:layout_height">@dimen/titlebar_height</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
+    
+    <style name="DialogBar.Dark">
+        <item name="android:background">@color/dialog_titlebar</item>
+    </style>
+
+    <style name="DialogTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">[Tab Title]</item>
+        <item name="android:textColor">@color/textview</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textSize">@dimen/titlebar_text</item>
+	</style>
+            
+    <style name="DialogImageButton">
+        <item name="android:background">@null</item>
+        <item name="android:scaleType">fitXY</item>
+        <!--  
+        <item name="android:layout_height">@dimen/titlebar_text</item>
+        <item name="android:layout_width">@dimen/titlebar_text</item>
+        -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+	    
+    <style name="DialogImageButton.About" >
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginLeft">@dimen/dialog_side_padding</item>
+        <item name="android:contentDescription">@string/strInfo</item>
+        <item name="android:src">@drawable/info</item>
+    </style>
+    
+    <style name="DialogImageButton.Back" >
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_marginLeft">@dimen/dialog_side_padding_for_titlebar</item>
+        <item name="android:contentDescription">@string/strBack</item>
+        <item name="android:src">@drawable/navback_button</item>
+    </style>
+        
+	<style name="DialogImageButton.Close" >
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">@dimen/dialog_side_padding_for_titlebar</item>
+        <item name="android:contentDescription">@string/strClose</item>
+        <item name="android:src">@drawable/close_button</item>
+    </style>
+
+    <style name="DialogBody">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/dialog_bg</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/dialog_side_padding</item>
+    </style>
+    
+    <style name="UploadSelectorButtonStyle" parent="@style/ListitemButtonStyle">
+        <item name="android:background">@null</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+    
+    <style name="SectionHeader">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">#717171</item>
+    </style>
+    <!-- END ********************************************************************************************************************** -->
+
+    <!-- UploadTo -->
+    <style name="SFUploadToStyle" parent="android:Theme.Holo.Light">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
+    <!-- Needed for notifications -->
+    <style name="TextAppearance.StatusBar.EventContent" parent="@android:style/TextAppearance.StatusBar.EventContent">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <!-- Needed for notifications -->
+
+
+    <!-- style for the actionbar -->
+    <!-- This changes the menu button drop down to the light theme -->
+    <style name="SFPopupMenuStyle" parent="@android:style/Widget.Holo.Light.PopupMenu" />
+
+    <style name="SFPopupMenuTextStyleLarge">
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:shadowColor">#484848</item>
+        <item name="android:shadowDy">1.0</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <style name="SFPopupMenuTextStyleSmall">
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:shadowColor">#484848</item>
+        <item name="android:shadowDy">1.0</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <style name="SFActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:titleTextStyle">@style/SFActionBarTextStyle</item>
+        <item name="android:background">@drawable/top_bar_gradient</item>
+        <item name="android:actionBarSize">56dip</item>
+    </style>
+
+    <style name="SFLoginScreenActionBarStyle" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:titleTextStyle">@style/SFActionBarTextStyle</item>
+        <item name="android:background">@color/BLACK</item>
+        <item name="android:actionBarSize">56dip</item>
+    </style>
+
+    <style name="SFActionBarTextStyle">
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:shadowColor">#FF000000</item>
+        <item name="android:shadowDy">-1.0</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+    <!-- style for the actionbar -->
+
+
+    <!-- OTHER -->
+    <!-- Changes the spinner drop down menu... must be applied to specific spinners -->
+    <style name="SFSpinnerStyle" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_holo_light</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_holo_light</item>
+        <item name="android:dropDownVerticalOffset">0dip</item>
+        <item name="android:dropDownHorizontalOffset">0dip</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+    </style>
+
+    <style name="SFSplitViewContainerStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#FF000000</item>
+    </style>
+
+    <style name="Login_TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#FF000000</item>
+    </style>
+
+    <style name="Login_TextAppearance.Labels">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#484848</item>
+    </style>
+
+    <style name="Login_TextAppearance.LoginButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:shadowColor">#FF000000</item>
+        <item name="android:shadowDy">-1.0</item>
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <style name="Main_Topbar">
+        <!--  <item name="android:background">@drawable/top_bar_gradient</item> -->
+        <item name="android:background">@color/dialog_titlebar</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_width">fill_parent</item>
+    </style>
+
+    <style name="File_TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#FF000000</item>
+    </style>
+
+    <style name="File_TextAppearance.Labels">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#484848</item>
+    </style>
+
+    <style name="File_TextAppearance.Labels.Filename">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#484848</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/TRANSPARENT</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="AppTheme" parent="@style/AppBaseTheme">
+        <!-- <item name="android:editTextStyle">@style/Widget.Styled.EditText</item> -->
+    </style>
+
+    <style name="AppBaseTheme" parent="android:Theme.Holo">
+        <item name="android:textViewStyle">@style/SFTextViewStyle</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
+    <style name="GenericFolderTheme" parent="GenericDialogTheme"></style>
+
+    <style name="GenericDialogTheme" parent="android:Theme.Holo.Dialog">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textViewStyle">@style/SFTextViewStyle</item>
+        <item name="android:editTextStyle">@style/DialogEditText</item>
+        <item name="android:checkboxStyle">@style/SFCheckBoxStyle</item>
+        <item name="android:buttonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <style name="DialogTheme" parent="android:Theme.Holo">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textViewStyle">@style/SFTextViewStyle</item>
+        <item name="android:editTextStyle">@style/DialogEditText</item>
+        <item name="android:checkboxStyle">@style/SFCheckBoxStyle</item>
+        <item name="android:buttonStyle">@style/DialogButtonStyle</item>
+    </style>
+    
+    <style name="DialogTheme.pinpass">
+    </style>
+
+    <style name="SFTextViewStyle" parent="android:style/Widget.Holo.TextView">
+        <item name="android:textColor">@color/textview</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+    
+    <style name="SFTextViewMinorStyle" parent="android:style/Widget.Holo.TextView">
+        <item name="android:textColor">@color/textview_minor</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="SFCorneredTextViewStyle" parent="SFTextViewStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@color/dialog_button_bg2</item>
+        <item name="android:padding">@dimen/margin_small</item>
+    </style>
+
+    <style name="SFEditTextStyle" parent="@android:style/Widget.Holo.Light.EditText">
+        <item name="android:textColor">@color/BLACK</item>
+        <item name="android:background">@color/folder_search_bg</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:padding">@dimen/margin_small</item>
+    </style>
+
+    <style name="SFCheckBoxStyle" parent="@android:style/Widget.Holo.CompoundButton.CheckBox">
+        <item name="android:drawableLeft">@drawable/checkbox_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:drawablePadding">@dimen/edittext_padding</item>
+    </style>
+
+    <style name="SFSpinner" parent="AppBaseTheme">
+        <item name="android:background">@color/dialog_bg</item>
+        <item name="android:textAppearance">@color/dialog_text</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="DialogEditText" parent="android:style/Widget.Holo.Light.EditText">
+        <item name="android:textColor">@color/BLACK</item>
+        <item name="android:textColorHint">@color/edittext_hint</item>
+        <item name="android:background">@color/dialog_edittext_bg</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:padding">@dimen/edittext_padding</item>
+    </style>
+
+    <style name="DialogButtonStyle" parent="android:style/Widget.Holo.Light.Button">
+        <item name="android:textColor">@color/WHITE</item>
+        <item name="android:textSize">@dimen/dialog_button_text_size</item>
+        <item name="android:background">@drawable/green_button_selector</item>
+        <item name="android:gravity">center</item>
+    </style>
+    
+    <style name="ListitemButtonStyle" parent="android:style/Widget.Holo.Light.Button">
+        <item name="android:textColor">@color/WHITE</item>
+        <item name="android:textSize">@dimen/dialog_button_text_size</item>
+        <item name="android:background">@drawable/listitem_button_selector</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    
+    <style name="ListitemButtonStyleArrow" parent="ListitemButtonStyle">
+        <item name="android:drawableRight">@drawable/nav_next</item>
+    </style>
+    
+    <style name="PinpassKeypadStyle" parent="android:style/Widget.Holo.Light.Button">
+        <item name="android:textColor">@color/pinbutton_text</item>
+        <item name="android:textSize">@dimen/pin_button_text_size</item>
+        <item name="android:background">@drawable/pin_button_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">@dimen/edittext_padding</item>
+    </style>
+    
+    <style name="PinpassPassboxStyle" parent="@style/DialogEditText">
+        <item name="android:textSize">@dimen/pinpass_keypad</item>
+        <item name="android:layout_margin">@dimen/edittext_padding</item>
+        <!-- <item name="android:inputType">textPassword</item> -->
+        <item name="android:enabled">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">#484848</item>
+    </style>
+
+    <style name="UploadSelectorDividerStyle">
+        <item name="android:layout_width">match_parent</item>
+                <item name="android:layout_height">1dp</item>
+                <item name="android:layout_marginTop">7dp</item>
+                <item name="android:layout_marginBottom">7dp</item>
+                <item name="android:background">#4a4a4a</item>
+    </style>
+    
+    <!-- This sets the drop-down menu style for auto complete text views -->
+    <style name="SFAutoCompleteTextViewStyle" parent="@android:style/Widget.Holo.Light.AutoCompleteTextView" />
+    <!-- OTHER -->
+
+    <style name="Offline_Main_Topbar">
+        <item name="android:background">@drawable/offline_gray_topbar_gradient</item>
+        <item name="android:layout_height">44dp</item>
+d        <item name="android:layout_width">fill_parent</item>
+    </style>
+
+    <!-- Styles for the pull to refresh list view -->
+    <style name="ptr_headerContainer">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0px</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="ptr_header">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="ptr_arrow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@drawable/ic_pulltorefresh_arrow</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">25dp</item>
+    </style>
+
+    <style name="ptr_spinner" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">25dp</item>
+    </style>
+
+    <style name="ptr_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
 
 </resources>

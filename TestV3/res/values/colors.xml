@@ -3,5 +3,62 @@
     <color name="black_overlay">#66000000</color>    
     <drawable name="colorEnabledTestButton">#009900</drawable>
     <drawable name="colorDisabledTestButton">#999966</drawable>
+	
+	 <color name="dialog_bg">#232323</color>
+        <color name="dialog_titlebar">#323232</color>
+        <color name="dialog_text">#FFFFFF</color>
+        <color name="dialog_title_text">#F2F2F2</color>
+        <color name="dialog_edittext_bg">#FFFFFF</color>
+        <color name="dialog_email_list_bg">#4a4a4a</color>
+        <color name="dialog_button_bg2">#111111</color>
+        
+        <color name="folder_title_bg">#96C73E</color>
+        <color name="folder_search_bg">#4a4a4a</color>
+        <color name="folder_bg">#222222</color>
+        <color name="folder_item_bg">#2C2C2C</color>
+        <color name="folder_buttonbar_bg">#111111</color>
+        <color name="folder_listview_divider">#323232</color>
+        <color name="folder_listview_itemaction_bg">#111111</color>
+        <color name="folder_listview_item_sync">#96c73e</color>
+        <color name="folder_listview_item_unsync">#000000</color>
+        
+        <color name="offline_folder_title_bg">#111111</color>
+        
+        <color name="picker_title_bg">#323232</color>
+        
+        <color name="preview_actionbar_bg">#323232</color>
+        <color name="preview_bg">@color/folder_bg</color>
 
+        <color name="textview">#F2F2F2</color>
+        <color name="textview_minor">#999999</color>
+        <color name="edittext_hint">#4a4a4a</color>
+        <color name="spinner_text">#222222</color>
+        <color name="spinner_bg">#4a4a4a</color>
+        
+        <!-- standard button -->
+        <color name="button_unpressed">#96c73e</color>
+        <color name="button_onpress">#638527</color>
+        <color name="button_disabled">#4a4a4a</color>
+        <color name="button_text">#f2f2f2</color>
+        
+        <!-- red button -->
+        <color name="redbutton_unpressed">#D00000</color>
+        <color name="redbutton_onpress">#960000</color>
+        <color name="redbutton_disabled">#4a4a4a</color>
+        <color name="redbutton_text">#f2f2f2</color>
+        
+        <!-- gray button -->
+        <color name="graybutton_unpressed">#7B7B7B</color>
+        <color name="graybutton_onpress">#5c5c5c</color>
+        <color name="graybutton_disabled">#4a4a4a</color>
+        <color name="graybutton_text">#212121</color>
+        
+        <!-- pin button -->
+        <color name="pinbutton_unpressed">#323232</color>
+        <color name="pinbutton_onpress">#96c73e</color>
+        <color name="pinbutton_disabled">#4a4a4a</color>
+        <color name="pinbutton_text">#f2f2f2</color>
+        
+        <color name="tabbutton_bg_active">#111111</color>
+        <color name="tabbutton_bg_inactive">#323232</color>
 </resources>
