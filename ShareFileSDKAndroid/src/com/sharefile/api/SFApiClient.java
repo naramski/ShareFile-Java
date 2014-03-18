@@ -29,7 +29,7 @@ public class SFApiClient
 	{
 		validateStateBeforeInit(oauthToken);
 		
-		mOAuthToken = oauthToken;//TODO: Shouldn't this be cloned using a deep copy instead of maintaining a reference?
+		mOAuthToken = oauthToken;
 	}
 	
 	public SFApiClient(SFOAuth2Token oauthToken) throws SFInvalidStateException
