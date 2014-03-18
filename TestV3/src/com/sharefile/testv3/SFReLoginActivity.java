@@ -1,5 +1,7 @@
 package com.sharefile.testv3;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -13,6 +15,8 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
+import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.mobile.shared.AlertDialogFinishDelegate;
 import com.sharefile.mobile.shared.Utils;
 import com.sharefile.mobile.shared.NTLMWebView.SFGetAuthCredentials;
@@ -59,12 +63,36 @@ public class SFReLoginActivity extends Activity implements com.sharefile.mobile.
 		
 	}
 	
-
+	private boolean readSavedToken()
+	{
+		try 
+		{
+			FullscreenActivity.gToken = null;
+			FullscreenActivity.mOAuthToken = PersistantToken.readToken(this);
+			
+			if(FullscreenActivity.mOAuthToken!=null && FullscreenActivity.mOAuthToken.isValid())
+			{
+				return true;				
+			}
+		} 
+		catch (Exception e) 
+		{			
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 
 	@Override
 	protected void onCreate(Bundle bundle) 
 	{		
 		super.onCreate(bundle);
+				
+		if(readSavedToken())
+		{			
+			startSession(true);
+			return;
+		}		
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 				
@@ -143,23 +171,67 @@ public class SFReLoginActivity extends Activity implements com.sharefile.mobile.
 			{				
 				@Override
 				public void dialogDone() 
-				{
+				{					
 					thisActivity.finish();
 				}
 			});
 		}
 	}
 
+	private void saveToken()
+	{
+		if(FullscreenActivity.gToken!=null)
+		{
+			try
+			{
+				JSONObject jsonObject = new JSONObject();
+										
+				jsonObject.put(SFKeywords.ACCESS_TOKEN, FullscreenActivity.gToken.access_token);
+				jsonObject.put(SFKeywords.REFRESH_TOKEN,FullscreenActivity.gToken.refresh_token);
+				jsonObject.put(SFKeywords.TOKEN_TYPE,FullscreenActivity.gToken.token_type);
+				jsonObject.put(SFKeywords.APP_CP,FullscreenActivity.gToken.appcp);
+				jsonObject.put(SFKeywords.API_CP,FullscreenActivity.gToken.apicp);
+				jsonObject.put(SFKeywords.SUBDOMAIN,FullscreenActivity.gToken.subdomain);
+				jsonObject.put(SFKeywords.EXPIRES_IN,FullscreenActivity.gToken.expires_in);				
+				
+				PersistantToken.saveToken(this, jsonObject.toString());
+				
+				SFLog.d2("","SAVED token!!");
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	@Override
 	public void successGetAccessToken(SFOAuthAccessToken accessToken) 
 	{
 		enableUI();		
-		FullscreenActivity.gToken = accessToken;
 		
+		try 
+		{
+			FullscreenActivity.gToken = accessToken;			
+			saveToken();						
+		} 
+		catch (Exception e) 
+		{			
+			e.printStackTrace();
+		}
+		
+		startSession(true);    	    	
+	}
+	
+	private void startSession(boolean finishCurrentActivity)
+	{
 		Intent intent = new Intent(getApplicationContext(), FullscreenActivity.class);
     	startActivity(intent);
     	
-    	finish();
+    	if(finishCurrentActivity)
+    	{
+    		finish();
+    	}
 	}
 
 	@Override

@@ -55,7 +55,7 @@ import android.widget.Toast;
  */
 public class FullscreenActivity extends Activity 
 {
-	private SFOAuth2Token mOAuthToken = null;
+	public static SFOAuth2Token mOAuthToken = null;
 	public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "qhRBpcI7yj931hV2wzGlmsi6b";
 	public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "Nu8JDCC9EK598e4PmA2NBbF09oYBS8";	 	 
 	public static SFApiClient mSFApiClient;
@@ -408,6 +408,16 @@ public class FullscreenActivity extends Activity
 		}
 	};
 	
+	private OnClickListener deleteSavedToken = new OnClickListener() 
+	{		
+		@Override
+		public void onClick(View v) 
+		{
+			PersistantToken.deleteToken(getApplicationContext());
+			finish();
+		}
+	};
+	
 	private APITest[] mApiTests = 
 	{
 			new APITest(BASE_BUTTON_ID,getItems,"Get Items"),
@@ -417,8 +427,9 @@ public class FullscreenActivity extends Activity
 			new APITest(BASE_BUTTON_ID+4,getFavorites,"Get Favorite Folders"),
 			new APITest(BASE_BUTTON_ID+5,getAccount,"Get Account"),
 			new APITest(BASE_BUTTON_ID+5,getZones,"Get Zones"),
+			new APITest(BASE_BUTTON_ID+6,deleteSavedToken,"Delete Saved Token"),
 	};
-						
+								
 	private void addTestButtonsToLayout(LinearLayout layout)
 	{
 		for(APITest test:mApiTests)
@@ -426,6 +437,11 @@ public class FullscreenActivity extends Activity
 			Button b = getNewButton(test.mButtonId, test.mOnClickListener, test.mText);
 			mTestButtons.add(b);
 			layout.addView(b);			
+			
+			if(test.mOnClickListener == deleteSavedToken)
+			{
+				b.setEnabled(true);
+			}
 		}
 	}
 	
