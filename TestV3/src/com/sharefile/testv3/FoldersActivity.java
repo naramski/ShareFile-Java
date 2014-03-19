@@ -11,6 +11,7 @@ import com.sharefile.api.SFHttpPostUtils;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
@@ -234,7 +235,7 @@ public class FoldersActivity extends Activity
 						@Override
 						public void run() 
 						{				
-							if(object instanceof SFFolder)
+							if(SFV3ElementType.isFolderType(object))
 							{								
 								mapFolderContents.put(folderid, (SFFolder) object);
 								showContentsList((SFFolder) object);																
@@ -298,7 +299,7 @@ public class FoldersActivity extends Activity
 				
 				if(item!=null)
 				{
-					if(item instanceof SFFolder) 
+					if(SFV3ElementType.isFolderType(item)) 
 					{						
 							String fid = item.getId();	
 							mFolderIdStack.push(mCurrentFolderId);

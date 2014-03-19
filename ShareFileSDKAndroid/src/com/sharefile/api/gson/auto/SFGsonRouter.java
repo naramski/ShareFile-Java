@@ -27,6 +27,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFSymbolicLink;
 
 /**
  *   This class read the odata.metadata from the JsonElement to find out the real type of object contained inside the object 
@@ -68,6 +69,11 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 						
 						case Folder:
 							ret = SFDefaultGsonParser.parse(SFFolder.class, jsonElement);
+						break;
+						
+						/* SymbolicLink are folders that act as a routing link that pass-on from ShareFile to to CIFs/SP/etc */
+						case SymbolicLink:
+							ret = SFDefaultGsonParser.parse(SFSymbolicLink.class, jsonElement);
 						break;
 						
 						case Link:

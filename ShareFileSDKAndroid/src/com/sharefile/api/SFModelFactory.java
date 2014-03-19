@@ -17,6 +17,7 @@ import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.models.SFUser;
 
 public class SFModelFactory 
@@ -29,6 +30,7 @@ public class SFModelFactory
 	        
 	        aMap.put(SFV3ElementType.File, SFFile.class);
 	        aMap.put(SFV3ElementType.Folder, SFFolder.class);
+	        aMap.put(SFV3ElementType.SymbolicLink, SFSymbolicLink.class);
 	        aMap.put(SFV3ElementType.Link, SFLink.class);
 	        aMap.put(SFV3ElementType.Note, SFNote.class);
 	        aMap.put(SFV3ElementType.Session, SFSession.class);
@@ -70,6 +72,8 @@ public class SFModelFactory
 	{
 		SFV3ElementType ret = null;
 		
+		SFLog.d2("ModelFacotry"," FIND Element Type for metadat = %s" , metadata );
+		
 		Set<SFV3ElementType> keySet = mMapTypeClassPair.keySet();
 		
 		for(SFV3ElementType s:keySet)
@@ -84,7 +88,11 @@ public class SFModelFactory
 		
 		if(ret == null)
 		{
-			SFLog.d2(""," NOT in model factory: " + metadata );
+			SFLog.d2("ModelFacotry"," NOT in model factory: " + metadata );
+		}
+		else
+		{
+			SFLog.d2("ModelFacotry"," Element Type = %s" , ret.toString() );
 		}
 		
 		return ret;

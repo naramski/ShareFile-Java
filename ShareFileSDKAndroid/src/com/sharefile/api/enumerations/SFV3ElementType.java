@@ -1,5 +1,9 @@
 package com.sharefile.api.enumerations;
 
+import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFSymbolicLink;
+
 public enum SFV3ElementType 
 {
 	/*
@@ -72,70 +76,86 @@ public enum SFV3ElementType
 	public static final String OutlookInformationOptionString = "OutlookInformationOptionString@Element";
 	*/
 					
-	AccessControl{@Override public String toString() {return "AccessControl@Element";}},	
-	Account{@Override public String toString() {return "Account@Element";}},
-	AccountPreferences{@Override public String toString() {return "AccountPreferences@Element";}},
-	AccountUser{@Override public String toString() {return "AccountUser@Element";}},
-	AdvancedSearchResults{@Override public String toString() {return "AdvancedSearchResults@Element";}},
-	AsyncOperation{@Override public String toString() {return "AsyncOperation@Element";}},
-	Capability{@Override public String toString() {return "#Capabilities";}},
-	Contact{@Override public String toString() {return "Contact@Element";}},
-	Device{@Override public String toString() {return "Device@Element";}},
-	DeviceLogEntry{@Override public String toString() {return "DeviceLogEntry@Element";}},
-	DeviceStatus{@Override public String toString() {return "DeviceStatus@Element";}},
-	DeviceUser{@Override public String toString() {return "DeviceUser@Element";}},
-	DeviceUserWipe{@Override public String toString() {return "DeviceUserWipe@Element";}},
-	DeviceWipeReport{@Override public String toString() {return "DeviceWipeReport@Element";}},
-	DownloadSpecification{@Override public String toString() {return "DownloadSpecification@Element";}},
-	FavoriteFolder{@Override public String toString() {return "FavoriteFolder@Element";}},
-	File{@Override public String toString() {return "File@Element";}},
-	FindSubdomainParams{@Override public String toString() {return "FindSubdomainParams@Element";}},
-	FindSubdomainResult{@Override public String toString() {return "FindSubdomainResult@Element";}},
-	Folder{@Override public String toString() {return "Folder@Element";}},
-	GenericConfig{@Override public String toString() {return "GenericConfig@Element";}},
-	Group{@Override public String toString() {return "Group@Element";}},
-	Item{@Override public String toString() {return "Item@Element";}},
-	ItemInfo{@Override public String toString() {return "ItemInfo@Element";}},
-	ItemProtocolLink{@Override public String toString() {return "ItemProtocolLink@Element";}},
-	Link{@Override public String toString() {return "Link@Element";}},
-	Metadata{@Override public String toString() {return "Metadata@Element";}},
-	MobileSecuritySettings{@Override public String toString() {return "MobileSecuritySettings@Element";}},
-	Note{@Override public String toString() {return "Note@Element";}},
-	Notification{@Override public String toString() {return "Notification@Element";}},
-	ODataFeed{@Override public String toString() {return "ODataFeed@Element";}},
-	ODataObject{@Override public String toString() {return "ODataObject@Element";}},
-	PlanFeatures{@Override public String toString() {return "PlanFeatures@Element";}},
-	Principal{@Override public String toString() {return "Principal@Element";}},
-	ProductDefaults{@Override public String toString() {return "ProductDefaults@Element";}},
-	Query{@Override public String toString() {return "Query@Element";}},
-	QueryPaging{@Override public String toString() {return "QueryPaging@Element";}},
-	QuerySorting{@Override public String toString() {return "QuerySorting@Element";}},
-	RequireSubdomainResult{@Override public String toString() {return "RequireSubdomainResult@Element";}},
-	RequireWebPopResult{@Override public String toString() {return "RequireWebPopResult@Element";}},
-	SearchQuery{@Override public String toString() {return "SearchQuery@Element";}},
-	SearchResult{@Override public String toString() {return "SearchResult@Element";}},
-	SearchResults{@Override public String toString() {return "SearchResults@Element";}},
-	Session{@Override public String toString() {return "Session@Element";}},
-	Share{@Override public String toString() {return "Share@Element";}},
-	ShareAlias{@Override public String toString() {return "ShareAlias@Element";}},
-	ShareRequestParams{@Override public String toString() {return "ShareRequestParams@Element";}},
-	ShareSendParams{@Override public String toString() {return "ShareSendParams@Element";}},
-	SimpleQuery{@Override public String toString() {return "SimpleQuery@Element";}},
-	SimpleSearchQuery{@Override public String toString() {return "SimpleSearchQuery@Element";}},
-	SSOAccountProvider{@Override public String toString() {return "SSOAccountProvider@Element";}},
-	SSOInfo{@Override public String toString() {return "SSOInfo@Element";}},
-	SSOInfoEntry{@Override public String toString() {return "SSOInfoEntry@Element";}},
-	StorageCenter{@Override public String toString() {return "StorageCenter@Element";}},
-	SymbolicLink{@Override public String toString() {return "SymbolicLink@Element";}},
-	UploadSpecification{@Override public String toString() {return "UploadSpecification@Element";}},
-	User{@Override public String toString() {return "User@Element";}},
-	UserConfirmationSettings{@Override public String toString() {return "UserConfirmationSettings@Element";}},
-	UserInfo{@Override public String toString() {return "UserInfo@Element";}},
-	UserPreferences{@Override public String toString() {return "UserPreferences@Element";}},
-	UserSecurity{@Override public String toString() {return "UserSecurity@Element";}},
-	Zone{@Override public String toString() {return "Zone@Element";}},
-	OutlookInformation{@Override public String toString() {return "OutlookInformation@Element";}},
-	OutlookInformationOptionBool{@Override public String toString() {return "OutlookInformationOptionBool@Element";}},
-	OutlookInformationOptionInt{@Override public String toString() {return "OutlookInformationOptionInt@Element";}},
-	OutlookInformationOptionString{@Override public String toString() {return "OutlookInformationOptionString@Element";}}				
+	AccessControl{@Override public String toString() {return "Models.AccessControl@Element";}},	
+	Account{@Override public String toString() {return "Models.Account@Element";}},
+	AccountPreferences{@Override public String toString() {return "Models.AccountPreferences@Element";}},
+	AccountUser{@Override public String toString() {return "Models.AccountUser@Element";}},
+	AdvancedSearchResults{@Override public String toString() {return "Models.AdvancedSearchResults@Element";}},
+	AsyncOperation{@Override public String toString() {return "Models.AsyncOperation@Element";}},
+	Capability{@Override public String toString() {return "Models.#Capabilities";}},
+	Contact{@Override public String toString() {return "Models.Contact@Element";}},
+	Device{@Override public String toString() {return "Models.Device@Element";}},
+	DeviceLogEntry{@Override public String toString() {return "Models.DeviceLogEntry@Element";}},
+	DeviceStatus{@Override public String toString() {return "Models.DeviceStatus@Element";}},
+	DeviceUser{@Override public String toString() {return "Models.DeviceUser@Element";}},
+	DeviceUserWipe{@Override public String toString() {return "Models.DeviceUserWipe@Element";}},
+	DeviceWipeReport{@Override public String toString() {return "Models.DeviceWipeReport@Element";}},
+	DownloadSpecification{@Override public String toString() {return "Models.DownloadSpecification@Element";}},
+	FavoriteFolder{@Override public String toString() {return "Models.FavoriteFolder@Element";}},
+	File{@Override public String toString() {return "Models.File@Element";}},
+	FindSubdomainParams{@Override public String toString() {return "Models.FindSubdomainParams@Element";}},
+	FindSubdomainResult{@Override public String toString() {return "Models.FindSubdomainResult@Element";}},
+	Folder{@Override public String toString() {return "Models.Folder@Element";}},
+	GenericConfig{@Override public String toString() {return "Models.GenericConfig@Element";}},
+	Group{@Override public String toString() {return "Models.Group@Element";}},
+	Item{@Override public String toString() {return "Models.Item@Element";}},
+	ItemInfo{@Override public String toString() {return "Models.ItemInfo@Element";}},
+	ItemProtocolLink{@Override public String toString() {return "Models.ItemProtocolLink@Element";}},
+	Link{@Override public String toString() {return "Models.Link@Element";}},
+	Metadata{@Override public String toString() {return "Models.Metadata@Element";}},
+	MobileSecuritySettings{@Override public String toString() {return "Models.MobileSecuritySettings@Element";}},
+	Note{@Override public String toString() {return "Models.Note@Element";}},
+	Notification{@Override public String toString() {return "Models.Notification@Element";}},
+	ODataFeed{@Override public String toString() {return "Models.ODataFeed@Element";}},
+	ODataObject{@Override public String toString() {return "Models.ODataObject@Element";}},
+	PlanFeatures{@Override public String toString() {return "Models.PlanFeatures@Element";}},
+	Principal{@Override public String toString() {return "Models.Principal@Element";}},
+	ProductDefaults{@Override public String toString() {return "Models.ProductDefaults@Element";}},
+	Query{@Override public String toString() {return "Models.Query@Element";}},
+	QueryPaging{@Override public String toString() {return "Models.QueryPaging@Element";}},
+	QuerySorting{@Override public String toString() {return "Models.QuerySorting@Element";}},
+	RequireSubdomainResult{@Override public String toString() {return "Models.RequireSubdomainResult@Element";}},
+	RequireWebPopResult{@Override public String toString() {return "Models.RequireWebPopResult@Element";}},
+	SearchQuery{@Override public String toString() {return "Models.SearchQuery@Element";}},
+	SearchResult{@Override public String toString() {return "Models.SearchResult@Element";}},
+	SearchResults{@Override public String toString() {return "Models.SearchResults@Element";}},
+	Session{@Override public String toString() {return "Models.Session@Element";}},
+	Share{@Override public String toString() {return "Models.Share@Element";}},
+	ShareAlias{@Override public String toString() {return "Models.ShareAlias@Element";}},
+	ShareRequestParams{@Override public String toString() {return "Models.ShareRequestParams@Element";}},
+	ShareSendParams{@Override public String toString() {return "Models.ShareSendParams@Element";}},
+	SimpleQuery{@Override public String toString() {return "Models.SimpleQuery@Element";}},
+	SimpleSearchQuery{@Override public String toString() {return "Models.SimpleSearchQuery@Element";}},
+	SSOAccountProvider{@Override public String toString() {return "Models.SSOAccountProvider@Element";}},
+	SSOInfo{@Override public String toString() {return "Models.SSOInfo@Element";}},
+	SSOInfoEntry{@Override public String toString() {return "Models.SSOInfoEntry@Element";}},
+	StorageCenter{@Override public String toString() {return "Models.StorageCenter@Element";}},
+	SymbolicLink{@Override public String toString() {return "Models.SymbolicLink@Element";}},
+	UploadSpecification{@Override public String toString() {return "Models.UploadSpecification@Element";}},
+	User{@Override public String toString() {return "Models.User@Element";}},
+	UserConfirmationSettings{@Override public String toString() {return "Models.UserConfirmationSettings@Element";}},
+	UserInfo{@Override public String toString() {return "Models.UserInfo@Element";}},
+	UserPreferences{@Override public String toString() {return "Models.UserPreferences@Element";}},
+	UserSecurity{@Override public String toString() {return "Models.UserSecurity@Element";}},
+	Zone{@Override public String toString() {return "Models.Zone@Element";}},
+	OutlookInformation{@Override public String toString() {return "Models.OutlookInformation@Element";}},
+	OutlookInformationOptionBool{@Override public String toString() {return "Models.OutlookInformationOptionBool@Element";}},
+	OutlookInformationOptionInt{@Override public String toString() {return "Models.OutlookInformationOptionInt@Element";}},
+	OutlookInformationOptionString{@Override public String toString() {return "Models.OutlookInformationOptionString@Element";}};
+	
+	
+	public static boolean isFolderType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFFolder || object instanceof SFSymbolicLink)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
 }
