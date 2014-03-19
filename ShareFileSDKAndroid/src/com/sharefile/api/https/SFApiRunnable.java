@@ -1,5 +1,6 @@
 package com.sharefile.api.https;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -13,7 +14,9 @@ import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
+import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
@@ -47,6 +50,22 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		executeQuery();
 	}
 	
+	private void handleHttPost(URLConnection conn) throws IOException
+	{
+		if(mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.POST.toString()))
+		{
+			String body = mQuery.getBody(); 
+			
+			if(body!=null)
+			{
+				conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
+				conn.setRequestProperty(SFKeywords.CONTENT_TYPE, "application/json");
+				
+				SFHttpsCaller.postBody(conn, body);				
+			}
+		}
+	}
+	
 	public void executeQuery() 
 	{								
 		String server = mOauthToken.getApiServer();		
@@ -61,6 +80,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			//TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
 			//We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
 			SFHttpsCaller.addBearerAuthorizationHeader(connection, mOauthToken);
+			
+			handleHttPost(connection);
 			
 			SFLog.d2(TAG, mQuery.getHttpMethod() + " " + urlstr);
 			

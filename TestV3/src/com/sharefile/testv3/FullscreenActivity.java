@@ -36,6 +36,7 @@ import com.sharefile.api.models.SFZone;
 import com.sharefile.mobile.shared.dataobjects.v3.SFOAuthAccessToken;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -44,6 +45,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 

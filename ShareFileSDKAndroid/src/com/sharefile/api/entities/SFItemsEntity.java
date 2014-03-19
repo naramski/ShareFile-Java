@@ -15,6 +15,7 @@ package com.sharefile.api.entities;
 import java.util.ArrayList;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFHttpPostUtils;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFFolder;
@@ -249,6 +250,21 @@ public class SFItemsEntity extends SFODataEntityBase
 		return query;
 	}
 
+	
+	public static SFApiQuery<SFItem> createFolder(String parentid, String folderName, String folderDetails, String zoneId, Boolean overwrite , Boolean passthrough )
+	{
+		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
+		query.setFrom("Items");
+		query.setAction("Folder");
+		query.setId(parentid);
+		query.setBody(SFHttpPostUtils.getBodyCreateFolder(folderName, folderDetails, zoneId));
+		query.addQueryString("overwrite", overwrite);
+		query.addQueryString("passthrough", passthrough);
+		
+		query.setHttpMethod(SFHttpMethod.POST);
+		return query;
+	}
+	
     /**
 	* Create Note
     * {

@@ -15,7 +15,11 @@ public final class SFKeywords
 	public static final String VERSION = "Version";
 	public static final String IS_AUTHENTICATED = "IsAuthenticated";
 	public static final String NAME = "NAME";
+	public static final String Name = "Name";
 	public static final String DEVICE_USER = "DEVICE_USER";
+	public static final String Description = "Description";
+	public static final String Zone = "Zone";
+	
 			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";
@@ -33,6 +37,7 @@ public final class SFKeywords
 	public static final String PASSWORD = "password";
 	
 	//Http headers and properties related	
+	public static final String CONTENT_LENGTH = "Content-Length";
 	public static final String CONTENT_TYPE = "Content-Type";
 	public static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
 	public static final String UTF_8 = "UTF-8";

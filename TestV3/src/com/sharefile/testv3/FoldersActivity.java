@@ -1,11 +1,13 @@
 package com.sharefile.testv3;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import com.google.gson.JsonObject;
+import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFHttpPostUtils;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.entities.SFItemsEntity;
@@ -15,11 +17,15 @@ import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -46,6 +52,76 @@ public class FoldersActivity extends Activity
 				mThrobber.setVisibility(View.INVISIBLE);
 			}
 		}
+	}
+	
+	private void callCreateFolderApi(String folderName,String folderDescription)
+	{
+		String parentid = mFolderIdStack.peek();
+		SFApiQuery<SFItem> createFolder = SFItemsEntity.createFolder(parentid, folderName,folderDescription,null, false, false);
+		
+		try 
+		{
+			FullscreenActivity.mSFApiClient.executeQuery(createFolder, new SFApiResponseListener<SFItem>()
+			{
+
+				@Override
+				public void sfapiSuccess(SFItem object) 
+				{					
+					
+				}
+
+				@Override
+				public void sfApiError(V3Error error, SFApiQuery<SFItem> asApiqueri) 
+				{										
+				}
+				
+			});
+		} 
+		catch (SFInvalidStateException e) 
+		{			
+			e.printStackTrace();
+		}
+	}
+	
+	private void showCreateFolderDialog()
+	{		
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.dlg_create_folder);
+		dialog.setTitle("Create Folder");
+
+		// set the custom dialog components - text, image and button
+		final EditText edxfolderName = (EditText) dialog.findViewById(R.id.create_folder_name);
+		final EditText edxfolderDetails = (EditText) dialog.findViewById(R.id.create_folder_details);
+		
+		Button okButton = (Button) dialog.findViewById(R.id.ok);
+		
+		okButton.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				String folderName = edxfolderName.getText().toString().trim();
+				String folderDetails = edxfolderDetails.getText().toString().trim();
+				
+				callCreateFolderApi(folderName, folderDetails);
+				
+				dialog.dismiss();
+			}
+		});
+		
+		
+		Button cancelButton = (Button) dialog.findViewById(R.id.cancel);
+		
+		cancelButton.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
 	}
 	
 	public void showToast(final String msg)
@@ -139,7 +215,7 @@ public class FoldersActivity extends Activity
 			query = SFItemsEntity.get(folderid);
 		}
 		
-		query.addQueryString("expand", "Children");	
+		query.addQueryString("$expand", "Children");	
 		
 		showBusy(true);
 		try 
@@ -192,15 +268,21 @@ public class FoldersActivity extends Activity
 		}
 	}
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{		
-		thisActivity = this;
+	private void initUIControls()
+	{
+		Button createFolder = (Button) findViewById(R.id.folderActions_buttonCreateFolder);
 		
-		super.onCreate(savedInstanceState);
+		createFolder.setOnClickListener(new OnClickListener() 
+		{			
+			@Override
+			public void onClick(View v) 
+			{				
+				showCreateFolderDialog();
+			}
+		});
 		
-		setContentView(R.layout.folder);
 		
+		//////////////////  List View///////////////////////
 		mSFItemListView = (ListView) findViewById(R.id.Folder_listview);
 		mThrobber = (ProgressBar)findViewById(R.id.Folder_throbber);
 		
@@ -225,7 +307,20 @@ public class FoldersActivity extends Activity
 					}
 				}
 			}
-         }); 										
+         }); 	
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) 
+	{		
+		thisActivity = this;
+		
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.folder);
+		
+		initUIControls();
+											
 	}
 	
 	private String mCurrentFolderId = null;

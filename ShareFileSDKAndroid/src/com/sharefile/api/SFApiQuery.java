@@ -64,6 +64,7 @@ public class SFApiQuery<T extends SFODataObject>
 	private Map<String,String> mQueryMap = new HashMap<String, String>();
 	private Map<String,String> mIdMap = new HashMap<String, String>();
 	private Class mInnerClass = null;
+	private String mBody = null;
 		
 			
 	public final Class getTrueInnerClass()
@@ -147,9 +148,18 @@ public class SFApiQuery<T extends SFODataObject>
 	}
 	
 	public final void setBody(SFODataObject body)
-	{
-		//throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
-		SFDefaultGsonParser.getInstance().serialize(body.getClass(), body);
+	{		
+		mBody = SFDefaultGsonParser.getInstance().serialize(body.getClass(), body);
+	}
+	
+	public final void setBody(String str)
+	{		
+		mBody = str;
+	}
+	
+	public final String getBody()
+	{		
+		return mBody;
 	}
 	
 	public <T> void setBody(ArrayList<T> metadata) 
@@ -220,6 +230,7 @@ public class SFApiQuery<T extends SFODataObject>
 	 * 
 	 * <p>https://server/provider/version/entity?$expand=Children&$select=FileCount,Id,Name,Children/Id,Children/Name,Children/CreationDate
      *
+     * <p>https://account.sf-api.com/sf/v3/Items(parentid)/Folder?overwrite=false&passthrough=false 
 	 */
 	public final String buildQueryUrlString(String server)
 	{
@@ -262,9 +273,16 @@ public class SFApiQuery<T extends SFODataObject>
 		}
 		
 		
+		//Add the Actions part
+		if(mAction!=null && mAction.length()>0)
+		{
+			sb.append(SFKeywords.FWD_SLASH);
+			sb.append(mAction);
+		}
+		
 		boolean isFirst = true;
 		
-		//Add the filtering queries
+		//Add query key , value pairs
 		if(mQueryMap!=null && mQueryMap.size()>0)
 		{
 			sb.append(SFKeywords.CHAR_QUERY);
@@ -283,7 +301,7 @@ public class SFApiQuery<T extends SFODataObject>
 				
 				String value = mQueryMap.get(key);				
 				//boolean prefixAmpersAnd = (key.charAt(0) == ampersAnd)?false:true;  						
-				sb.append(SFKeywords.CHAR_DOLLAR + key + SFKeywords.EQUALS + value);				
+				sb.append(key + SFKeywords.EQUALS + value);				
 			}
 						
 		}

@@ -15,6 +15,8 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
+import com.google.gson.JsonObject;
+import com.sharefile.api.SFHttpPostUtils;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.mobile.shared.AlertDialogFinishDelegate;
@@ -87,7 +89,7 @@ public class SFReLoginActivity extends Activity implements com.sharefile.mobile.
 	protected void onCreate(Bundle bundle) 
 	{		
 		super.onCreate(bundle);
-				
+								
 		if(readSavedToken())
 		{			
 			startSession(true);
