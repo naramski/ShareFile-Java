@@ -84,7 +84,7 @@ public class SFManualGsonParser implements JsonDeserializer<SFODataObject>, Json
 		
 		String metatdata = sfElementType.toString();
 				
-		SFV3ElementType type = SFModelFactory.getElementTypeFromMetaData(metatdata);
+		SFV3ElementType type = SFV3ElementType.getElementTypeFromMetaData(metatdata);
 		
 		switch (type) 
 		{								        
@@ -138,7 +138,7 @@ public class SFManualGsonParser implements JsonDeserializer<SFODataObject>, Json
 		
 		String metatdata = sfElementType.toString();
 				
-		SFV3ElementType type = SFModelFactory.getElementTypeFromMetaData(metatdata);
+		SFV3ElementType type = SFV3ElementType.getElementTypeFromMetaData(metatdata);
 		
 		switch (type) 
 		{								        

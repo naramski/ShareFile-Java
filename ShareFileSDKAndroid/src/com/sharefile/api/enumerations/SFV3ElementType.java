@@ -1,5 +1,8 @@
 package com.sharefile.api.enumerations;
 
+import java.util.Set;
+
+import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
@@ -154,6 +157,34 @@ public enum SFV3ElementType
 			{
 				ret = true;
 			}
+		}
+		
+		return ret;
+	}
+		
+	public static final SFV3ElementType getElementTypeFromMetaData(String metadata)
+	{
+		SFV3ElementType ret = null;
+		
+		SFLog.d2("ModelFacotry"," FIND Element Type for metadat = %s" , metadata );
+						
+		for(SFV3ElementType s:SFV3ElementType.values())
+		{
+			if(metadata.endsWith(s.toString()))
+			{
+				ret = s;
+				
+				break;
+			}
+		}
+		
+		if(ret == null)
+		{
+			SFLog.d2("ModelFacotry"," NOT in model factory: " + metadata );
+		}
+		else
+		{
+			SFLog.d2("ModelFacotry"," Element Type = %s" , ret.toString() );
 		}
 		
 		return ret;

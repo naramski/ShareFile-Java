@@ -53,7 +53,7 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 				if(jsonObject!=null)
 				{
 					String metadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);
-					SFV3ElementType elementType = SFModelFactory.getElementTypeFromMetaData(metadata);
+					SFV3ElementType elementType = SFV3ElementType.getElementTypeFromMetaData(metadata);
 										
 					SFLog.d2(TAG, "GSON For : %s", metadata);
 					
