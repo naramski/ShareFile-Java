@@ -43,6 +43,13 @@ public class SFHttpsCaller
 	
 	private static CookieManager m_cookieManager = null;
 	
+	public static void setBasicAuth(URLConnection conn,String username,String password)
+	{			
+		String combinepass = username +SFKeywords.COLON + password;
+		String basicAuth = "Basic " + new String(Base64.encode(combinepass.getBytes(),Base64.NO_WRAP ));
+		conn.setRequestProperty ("Authorization", basicAuth);
+	}
+	
 	public static void postBody(URLConnection conn, String body) throws IOException
 	{		
 		OutputStream os = conn.getOutputStream();

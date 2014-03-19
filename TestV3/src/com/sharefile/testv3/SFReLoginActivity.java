@@ -1,5 +1,8 @@
 package com.sharefile.testv3;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -89,7 +92,19 @@ public class SFReLoginActivity extends Activity implements com.sharefile.mobile.
 	protected void onCreate(Bundle bundle) 
 	{		
 		super.onCreate(bundle);
-								
+													
+		try 
+		{
+			String str = "https://szqatest2.sharefiletest.com/cifs/v3/Items(4L24TVJSEz6Ca22LWoZg41hIVgfFgqQx0GD2VoYSgXA_)";
+			URI uri = new URI(str);
+			
+			SFLog.d2("", "%s", uri.toString());
+		} 
+		catch (URISyntaxException e) 
+		{			
+			e.printStackTrace();
+		}
+		
 		if(readSavedToken())
 		{			
 			startSession(true);

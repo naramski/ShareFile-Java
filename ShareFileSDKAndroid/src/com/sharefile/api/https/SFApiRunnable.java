@@ -17,6 +17,7 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
@@ -66,6 +67,23 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 	}
 	
+	private void addAuthenticationHeader(URLConnection connection)
+	{
+		String path = connection.getURL().getPath();
+		
+		switch(SFProvider.getProviderTypeFromString(path))
+		{
+			case PROVIDER_TYPE_SF:
+				SFHttpsCaller.addBearerAuthorizationHeader(connection, mOauthToken);
+			break;
+			
+			default:
+				SFHttpsCaller.setBasicAuth(connection, "sfonprem\\nilesh.pawar", "****");
+			break;	
+		}
+		
+	}
+	
 	public void executeQuery() 
 	{								
 		String server = mOauthToken.getApiServer();		
@@ -79,7 +97,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFHttpsCaller.setAcceptLanguage(connection);
 			//TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
 			//We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
-			SFHttpsCaller.addBearerAuthorizationHeader(connection, mOauthToken);
+			addAuthenticationHeader(connection);
 			
 			handleHttPost(connection);
 			

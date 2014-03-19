@@ -1,5 +1,6 @@
 package com.sharefile.testv3;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -16,6 +17,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
+import com.sharefile.api.models.SFSymbolicLink;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -166,7 +168,7 @@ public class FoldersActivity extends Activity
 		{
 			String id = mFolderIdStack.pop();
 			
-			getContents(id);
+			getContents(id,null);
 		} 
 		catch (Exception e) 
 		{
@@ -192,7 +194,7 @@ public class FoldersActivity extends Activity
 		return mapFolderContents.get(folderid);
 	}
 	
-	private synchronized void getContents(final String folderid)
+	private synchronized void getContents(final String folderid,final String link)
 	{
 		confirmExit = false;
 		SFFolder folder = getFromCache(folderid);
@@ -216,7 +218,19 @@ public class FoldersActivity extends Activity
 			query = SFItemsEntity.get(folderid);
 		}
 		
-		query.addQueryString("$expand", "Children");	
+		query.addQueryString("$expand", "Children");
+		
+		if(link!=null)
+		{
+			try 
+			{
+				query.setLink(link);
+			}
+			catch (URISyntaxException e) 
+			{				
+				e.printStackTrace();
+			}
+		}
 		
 		showBusy(true);
 		try 
@@ -303,7 +317,18 @@ public class FoldersActivity extends Activity
 					{						
 							String fid = item.getId();	
 							mFolderIdStack.push(mCurrentFolderId);
-							getContents(fid);						
+							String link = null;
+							
+							if(item instanceof SFSymbolicLink)
+							{
+								link = ((SFSymbolicLink)item).getLink().toString();
+							}
+							else
+							{
+								link = item.geturl().toString();
+							}
+							
+							getContents(fid,link);						
 						
 					}
 				}
@@ -330,6 +355,6 @@ public class FoldersActivity extends Activity
 	protected void onStart() 
 	{		
 		super.onStart();				
-		getContents(TOP);
+		getContents(TOP,null);
 	}
 }

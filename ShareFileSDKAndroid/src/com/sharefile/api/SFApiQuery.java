@@ -1,10 +1,14 @@
 package com.sharefile.api;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import android.widget.Switch;
 
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
@@ -65,6 +69,8 @@ public class SFApiQuery<T extends SFODataObject>
 	private Map<String,String> mIdMap = new HashMap<String, String>();
 	private Class mInnerClass = null;
 	private String mBody = null;
+	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
+	
 		
 			
 	public final Class getTrueInnerClass()
@@ -82,6 +88,11 @@ public class SFApiQuery<T extends SFODataObject>
 		{
 			SFToDoReminderException.throwTODOException("Put the class in the map : " + setFrom);
 		}
+	}
+	
+	public final void setLink(String link) throws URISyntaxException
+	{
+		mLink = new URI(link);
 	}
 	
 	public final void setProvider(SFProvider provider)
@@ -217,36 +228,60 @@ public class SFApiQuery<T extends SFODataObject>
 		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);		
 	}
 
-	/**
-	 * <p>https://server/provider/version/entity(id)
-	 * 
-	 * <p>https://myaccount.sf-api.com/sf/v3/Items(id)
-	 *
-	 * <p>https://server/provider/version/entity(principalid=pid,itemid=id)
-	 * 
-	 * <p>https://server/provider/version/entity(id)?$expand=Children
-	 * 
-	 * <p>https://server/provider/version/entity?$expand=Children
-	 * 
-	 * <p>https://server/provider/version/entity?$expand=Children&$select=FileCount,Id,Name,Children/Id,Children/Name,Children/CreationDate
-     *
-     * <p>https://account.sf-api.com/sf/v3/Items(parentid)/Folder?overwrite=false&passthrough=false 
+	
+	/**  
+	 *  Cifs and SP might have this link as depending on the host:
+	 *  
+	 *  <p >https://szqatest2.sharefiletest.com/cifs/v3/Items(4L24TVJSEz6Ca22LWoZg41hIVgfFgqQx0GD2VoYSgXA_) </p>
 	 */
-	public final String buildQueryUrlString(String server)
+	private String getRealServerFromLink()
+	{
+		String ret = null;
+		
+		if(mLink !=null)
+		{
+			StringBuilder sb = new StringBuilder();
+			
+			sb.append(mLink.getScheme());
+			sb.append(mLink.getAuthority()); //Why not use getHost()? Thats coz we want the port etc if present in the link. 
+			
+			String path = mLink.getPath();			
+			mProvider = SFProvider.getProviderTypeFromString(path);
+									
+			ret = sb.toString();
+		}
+		
+		SFLog.d2("-SApiQuery", "Parsed server from link = %s", ret);
+		
+		return ret;
+	}
+	
+	
+	private final String buildServerURLWithProviderAndPath(String server)
 	{
 		StringBuilder sb = new StringBuilder();
+		
+		/*
+		 * In case of CIF/SP connectors lets find out the provider type and the server to connect to from the given link
+		 */						
+		if(mLink != null)
+		{
+			SFProvider provider = SFProvider.getProviderTypeFromString(mLink.getPath());
+			
+			if(provider != SFProvider.PROVIDER_TYPE_SF)
+			{
+				mProvider = provider;
+				return mLink.toString();
+			}
+		}
 		
 		if(!server.startsWith(SFKeywords.PREFIX_HTTPS) && !server.startsWith(SFKeywords.PREFIX_HTTP))
 		{
 			sb.append(SFKeywords.PREFIX_HTTPS);
 		}
 		
-		sb.append(server); 
-		sb.append(SFKeywords.FWD_SLASH);		
+		sb.append(server); 				
 		sb.append(mProvider.toString());
-		sb.append(SFKeywords.FWD_SLASH);
-		sb.append(mVersion);
-		sb.append(SFKeywords.FWD_SLASH);
 		sb.append(mFromEntity);
 		
 		//Add the single Id or multiple comma separated key=value pairs after entity and enclose within ()
@@ -272,6 +307,29 @@ public class SFApiQuery<T extends SFODataObject>
 			sb.append(SFKeywords.CLOSE_BRACKET);
 		}
 		
+		return sb.toString();
+	}
+	
+	/**
+	 * <p>https://server/provider/version/entity(id)
+	 * 
+	 * <p>https://myaccount.sf-api.com/sf/v3/Items(id)
+	 *
+	 * <p>https://server/provider/version/entity(principalid=pid,itemid=id)
+	 * 
+	 * <p>https://server/provider/version/entity(id)?$expand=Children
+	 * 
+	 * <p>https://server/provider/version/entity?$expand=Children
+	 * 
+	 * <p>https://server/provider/version/entity?$expand=Children&$select=FileCount,Id,Name,Children/Id,Children/Name,Children/CreationDate
+     *
+     * <p>https://account.sf-api.com/sf/v3/Items(parentid)/Folder?overwrite=false&passthrough=false 
+	 */
+	public final String buildQueryUrlString(String server)
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(buildServerURLWithProviderAndPath(server));
 		
 		//Add the Actions part
 		if(mAction!=null && mAction.length()>0)
