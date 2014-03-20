@@ -5,21 +5,17 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFAsyncTask;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.authentication.SFOAuthSimpleAuthenticator;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFAccessControlsEntity;
 import com.sharefile.api.entities.SFAccountsEntity;
 import com.sharefile.api.entities.SFCapabilitiesEntity;
 import com.sharefile.api.entities.SFFavoriteFoldersEntity;
-import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.entities.SFSharesEntity;
 import com.sharefile.api.entities.SFZonesEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
@@ -29,14 +25,12 @@ import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFFavoriteFolder;
-import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFZone;
 import com.sharefile.mobile.shared.dataobjects.v3.SFOAuthAccessToken;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -45,7 +39,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 

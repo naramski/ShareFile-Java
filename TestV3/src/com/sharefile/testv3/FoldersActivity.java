@@ -7,10 +7,7 @@ import java.util.Stack;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.google.gson.JsonObject;
-import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
-import com.sharefile.api.SFHttpPostUtils;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.entities.SFItemsEntity;
