@@ -20,6 +20,9 @@ public final class SFKeywords
 	public static final String Description = "Description";
 	public static final String Zone = "Zone";
 	
+	public static final String CODE = "code";
+	public static final String VALUE = "value";
+	public static final String MESSAGE = "message";
 			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";

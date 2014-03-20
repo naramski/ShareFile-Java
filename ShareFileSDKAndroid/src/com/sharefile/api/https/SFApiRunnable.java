@@ -19,7 +19,6 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
@@ -127,9 +126,14 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 		catch(Exception ex)
 		{
+			//Copy the original httpErrorCode from server and the stack trace of exception
+			mResponseString = "OrignalHttpCode = " + mHttpErrorCode + "\nExceptionStack = " +Log.getStackTraceString(ex);
+			
+			//set the mHttpErrorCode to internal error so that we call the error-response callbacks of the caller
+			//this is needed since its possible that the server returned 200 but there was problem in reading the response/error stream
 			mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			//mResponseString =?? TODO: Fill the response string with a customized error describing the exception in this case.
-			SFLog.d2(TAG, "%s",Log.getStackTraceString(ex));
+						
+			SFLog.d2(TAG, "%s",mResponseString);
 		}		
 		
 		processResponse();				
@@ -190,16 +194,23 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				
 				mResponseListener.sfApiError(mV3Error, mQuery);
 			} 
-			catch (Exception e) 
+			catch (Exception e)  
 			{					
 				e.printStackTrace();
+				// some error happened during parsing of the error response. 
+				//lets pass-on the original http-error code and response string from the server or the error that happened during err-response  reading.				
+				mV3Error = new V3Error(mHttpErrorCode,mResponseString);
+				mResponseListener.sfApiError(mV3Error, mQuery);
 			}			
 		}
 	}
 	
 	private void callEmptyResponseHandler()
 	{
-		
+		if(mResponseListener!=null)
+		{
+			mResponseListener.sfapiSuccess(null);
+		}		
 	}
 	
 	public Thread startNewThread()

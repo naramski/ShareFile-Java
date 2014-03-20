@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.constants.SFKeywords;
 
 import android.util.Log;
 
@@ -97,9 +98,9 @@ public class V3Error
 		{			
 			SFLog.d2("-V3Error", "!!!V3ERROR construcor respStr = " + respSring);
 			JSONObject errorObject = new JSONObject(respSring);			
-			code =  errorObject.optString("code");			
-			JSONObject messageObject = errorObject.getJSONObject("message");			
-			message.value = messageObject.optString("value");
+			code =  errorObject.optString(SFKeywords.CODE);			
+			JSONObject messageObject = errorObject.getJSONObject(SFKeywords.MESSAGE);			
+			message.value = messageObject.optString(SFKeywords.VALUE);
 		} 
 		catch (JSONException e) 
 		{							
