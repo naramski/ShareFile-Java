@@ -5,10 +5,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
-
-import android.util.Log;
 
 /*
  *   
@@ -39,7 +36,8 @@ public class V3Error
 	
 	public int httpResponseCode = 0;
 	public String code = "";	
-	//public String messageValue = "";
+	
+	public String mExtraInfo = null;	
 	
 	public static class ErrorMessage
 	{
@@ -47,7 +45,7 @@ public class V3Error
 		public String value = null;
 	}
 	
-	public ErrorMessage message;
+	public ErrorMessage message = new ErrorMessage();
 			
 	
 	private String getErrorMessageFromErroCode()
@@ -65,38 +63,26 @@ public class V3Error
 	{
 		
 	}
-	
-	public V3Error(int httpcode , String respSring)
-	{
-		httpResponseCode = httpcode;
 		
+	/**
+	 *   V3Error are JSON objects. It might happen that the server returns a Non-Json object responsestring/or something we got from an http exception causing 
+	 *   a JSONException in this constructor. In such case, the constructor simply returns the following:
+	 *   <p>httpError = original code
+	 *   <p>message.value = Exception stack
+	 *   <p>mExtraInfo = original response string which we tried to parse
+	 */
+	public V3Error(int httpcode , String respSring)
+	{				
+		httpResponseCode = httpcode;
+		mExtraInfo = null;
+						
 		if(respSring == null)
 		{
-			respSring = "Unknown Error";
+			respSring = getErrorMessageFromErroCode();
 		}
-		
-		/*
-		 * special treatment to unauth and forbidden errors. the page can return error page in different formats 
-		 */
-		if( httpcode == HttpsURLConnection.HTTP_UNAUTHORIZED)
-		{
-			message.value = ERR_UNAUTHORIZD;
-			return;
-		}
-		else if( httpcode == HttpsURLConnection.HTTP_FORBIDDEN)
-		{
-			message.value = ERR_FORBIDDEN;
-			return;
-		}
-		else if( httpcode == HttpsURLConnection.HTTP_BAD_METHOD)
-		{
-			message.value = ERR_BADMETHOD;
-			return;
-		}
-		
+				
 		try 
-		{			
-			SFLog.d2("-V3Error", "!!!V3ERROR construcor respStr = " + respSring);
+		{						
 			JSONObject errorObject = new JSONObject(respSring);			
 			code =  errorObject.optString(SFKeywords.CODE);			
 			JSONObject messageObject = errorObject.getJSONObject(SFKeywords.MESSAGE);			
@@ -104,8 +90,28 @@ public class V3Error
 		} 
 		catch (JSONException e) 
 		{							
-			message.value = respSring + "(" + httpcode + ")";			
-			SFLog.d2("-V3Error", "Exception: " + Log.getStackTraceString(e));
-		}		
+			message.value = "JSON Exception during constructing V3Error. See extraInfo for more details of server response";
+			mExtraInfo = respSring;			
+		}
+	}
+				
+	/**
+	 *   Call this constructor only for non-server error parsing. V3Error are JSON objects. It might happen that the server returns a Non-Json object responsestring/or something we got from an http exception causing 
+	 *   a JSONException in this constructor. In such case, the constructor simply returns the following:
+	 *   <p>httpError = original code
+	 *   <p>message.value = Exception stack
+	 *   <p>mExtraInfo = original response string which we tried to parse
+	 */
+	public V3Error(int httpcode , String respSring, String extraInfo)
+	{
+		httpResponseCode = httpcode;
+		mExtraInfo = extraInfo;	
+		
+		if(respSring == null)
+		{
+			respSring = getErrorMessageFromErroCode();
+		}
+		
+		message.value = respSring;				
 	}
 }

@@ -31,10 +31,27 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private final SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
+		
 	
-	private int mHttpErrorCode = 0;
-	private V3Error mV3Error = null;
-	private String mResponseString = null;
+	/**
+	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
+	 *   The callListerners will be called appropriately based on the contents of this object.
+	 */
+	private class FinalResponse
+	{
+		private int mHttpErrorCode = 0;
+		private V3Error mV3Error = null;
+		private SFODataObject mResponseObject = null;	
+		
+		public void setFeilds(int errorCode, V3Error v3Error,SFODataObject sfObject)
+		{
+			mHttpErrorCode = errorCode;
+			mV3Error = v3Error;
+			mResponseObject = sfObject;
+		}
+	};
+	
+	FinalResponse mResponse = new FinalResponse();
 		
 	public SFApiRunnable(Class<T> innerType, SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token) throws SFInvalidStateException
 	{	
@@ -59,7 +76,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			if(body!=null)
 			{
 				conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
-				conn.setRequestProperty(SFKeywords.CONTENT_TYPE, "application/json");
+				conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
 				
 				SFHttpsCaller.postBody(conn, body);				
 			}
@@ -87,7 +104,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{								
 		String server = mOauthToken.getApiServer();		
 		String urlstr = mQuery.buildQueryUrlString(server);
-				
+			
+		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
+		String responseString = null;
+		
 		try
 		{
 			URL url = new URL(urlstr);
@@ -104,114 +124,154 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			
 			connection.connect();
 			
-			mHttpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);
+			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);			
 			
 			//Use the bearer token currently. ignore the cookies untill we have a good cookie mgr. might impact sharepoint testing without cookies. 
 			//v3Error = SFHttpsCaller.handleErrorAndCookies(connection, httpErrorCode, url);
 		    
-			if(mHttpErrorCode == HttpsURLConnection.HTTP_OK)
+			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{											
-				mResponseString = SFHttpsCaller.readResponse(connection);								
+				responseString = SFHttpsCaller.readResponse(connection);								
 			}
-			else if(mHttpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
+			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 			{
 				//no content. might be valid. let the listeners handle this.
 			}
 			else
 			{
-				mResponseString = SFHttpsCaller.readErrorResponse(connection);
+				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
+			SFLog.d2(TAG, "%s",responseString);
+			
 			SFHttpsCaller.disconnect(connection);
 		}
 		catch(Exception ex)
-		{
-			//Copy the original httpErrorCode from server and the stack trace of exception
-			mResponseString = "OrignalHttpCode = " + mHttpErrorCode + "\nExceptionStack = " +Log.getStackTraceString(ex);
-			
-			//set the mHttpErrorCode to internal error so that we call the error-response callbacks of the caller
-			//this is needed since its possible that the server returned 200 but there was problem in reading the response/error stream
-			mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-						
-			SFLog.d2(TAG, "%s",mResponseString);
+		{		
+			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " +Log.getStackTraceString(ex);												
 		}		
+				
+		parseResponse(httpErrorCode,responseString);
 		
-		processResponse();				
+		callResponseListeners();
 	}		 
-		
+			
 	/**
-	 * 	the mHttpErrorCode and mResponseString are expected to be filled appropriately by this stage.
+	 *   Parse the response to the best of our ability. At the end of this function the FinalResponse object 
+	 *   has to be filled with an ErrorCode or HTTP_OK and the V3Error or SFOBject should be filled based on success or failure or 
+	 *   response parsing.	 
 	 */
-	private void processResponse()
+	private void parseResponse(int httpCode,String responseString)
 	{
-		switch(mHttpErrorCode)
+		switch(httpCode)
 		{
-			case HttpsURLConnection.HTTP_OK:				
-				callSuccessResponseHandler();
+			case HttpsURLConnection.HTTP_OK:
+				callSuccessResponseParser(responseString);				
 			break;	
 			
 			case HttpsURLConnection.HTTP_NO_CONTENT:
-				callEmptyResponseHandler();
+				//nothing
+			break;
+			
+			case HttpsURLConnection.HTTP_UNAUTHORIZED:
+				V3Error v3Error = new V3Error(httpCode,null,responseString);
+				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error, null);
+			break;
+			
+			case SFSDK.INTERNAL_HTTP_ERROR:
+				callInternalErrorResponseFiller(httpCode, responseString, null);
 			break;
 			
 			default:
-				callFailureResponseHandler();
+				callFailureResponseParser(httpCode, responseString);
 			break;				
-		}
+		}				
 	}
 	
-	@SuppressWarnings("unchecked")
-	private void callSuccessResponseHandler()
+	private void callResponseListeners()
 	{
-		if(mResponseListener!=null)
-		{						
-			//T object = createInstanceForSuccessResponse();			
-			try 
-			{
-				JsonParser jsonParser = new JsonParser();
-				JsonElement jsonElement =jsonParser.parse(mResponseString);
-				SFODataObject object = SFDefaultGsonParser.parse(mInnerType, jsonElement);
-				mResponseListener.sfapiSuccess((T) object);
-			} 
-			catch (Exception e) 
-			{					
-				e.printStackTrace();
-			}			
-		}
-	}
-	
-	private void callFailureResponseHandler()
-	{
-		if(mResponseListener!=null)
-		{												
-			try 
-			{
-				JsonParser jsonParser = new JsonParser();
-				JsonElement jsonElement =jsonParser.parse(mResponseString);
-				
-				mV3Error = SFDefaultGsonParser.parse(jsonElement);
-				mV3Error.httpResponseCode = mHttpErrorCode;
-				
-				mResponseListener.sfApiError(mV3Error, mQuery);
-			} 
-			catch (Exception e)  
-			{					
-				e.printStackTrace();
-				// some error happened during parsing of the error response. 
-				//lets pass-on the original http-error code and response string from the server or the error that happened during err-response  reading.				
-				mV3Error = new V3Error(mHttpErrorCode,mResponseString);
-				mResponseListener.sfApiError(mV3Error, mQuery);
-			}			
-		}
-	}
-	
-	private void callEmptyResponseHandler()
-	{
-		if(mResponseListener!=null)
+		if(mResponseListener == null)
 		{
-			mResponseListener.sfapiSuccess(null);
-		}		
+			return;
+		}
+		
+		try
+		{
+			switch(mResponse.mHttpErrorCode)
+			{
+				case HttpsURLConnection.HTTP_OK:
+					mResponseListener.sfapiSuccess((T) mResponse.mResponseObject);				
+				break;	
+				
+				case HttpsURLConnection.HTTP_NO_CONTENT:
+					mResponseListener.sfapiSuccess(null);
+				break;
+												
+				default:
+					mResponseListener.sfApiError(mResponse.mV3Error, mQuery);
+				break;				
+			}
+		}
+		catch(Exception ex)
+		{
+			SFLog.d2("-callback", "!!Exception calling the responseListener : %s ",Log.getStackTraceString(ex));
+		}
 	}
+		
+	/**
+	 *   This is a filler only. wont do any parsing.
+	 */
+	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo)
+	{
+		V3Error v3Error = new V3Error(httpCode,errorDetails,extraInfo);
+		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error, null);
+	}
+			
+	/**
+	 *  If an error happens during parsing the success response, 
+	 *  we return the exception description + the original server response in V3Error Object
+	 */
+	private void callSuccessResponseParser(String responseString)
+	{					
+		try 
+		{			
+			JsonParser jsonParser = new JsonParser();
+			JsonElement jsonElement =jsonParser.parse(responseString);
+			SFODataObject object = SFDefaultGsonParser.parse(mInnerType, jsonElement);			
+			mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null, object);			
+		} 
+		catch (Exception e) 
+		{					
+			/* 
+			 * Note how we fill the httpErrorcode in V3Object to 200. Thats coz the server originally returned 200, 
+			 * just the response object was malformed or caused some other exception while parsing.			 
+			 */						
+			callInternalErrorResponseFiller(HttpsURLConnection.HTTP_OK,Log.getStackTraceString(e),responseString);
+		}					
+	}
+	
+	private void callFailureResponseParser(int httpCode, String responseString)
+	{
+													
+		try 
+		{
+			JsonParser jsonParser = new JsonParser();
+			JsonElement jsonElement =jsonParser.parse(responseString);				
+			V3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
+			v3Error.httpResponseCode = httpCode;				
+			mResponse.setFeilds(httpCode, v3Error, null);
+		} 
+		catch (Exception e)  
+		{					
+			/* 
+			 * Note how we fill the httpErrorcode to httpCode. Thats coz the server originally returned it, 
+			 * just the error object was malformed or caused some other exception while parsing.			 
+			 */						
+			callInternalErrorResponseFiller(httpCode,Log.getStackTraceString(e),responseString);
+		}
+	}
+			
 	
 	public Thread startNewThread()
 	{
