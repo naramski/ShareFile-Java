@@ -83,6 +83,18 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 	}
 	
+	/**
+	 *  This will change when we have better way of passing credentials. For the purpose of current POC app pass it as static global	 
+	 */
+	private static String mUsername = null;
+	private static String mPassword = null;
+	
+	public static void setUsernamePassword(String user,String pass)
+	{
+		mUsername = user;
+		mPassword = pass;
+	}
+	
 	private void addAuthenticationHeader(URLConnection connection)
 	{
 		String path = connection.getURL().getPath();
@@ -94,7 +106,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			break;
 			
 			default:
-				SFHttpsCaller.setBasicAuth(connection, "sfonprem\\nilesh.pawar", "****");
+				SFHttpsCaller.setBasicAuth(connection, mUsername, mPassword);
 			break;	
 		}
 		

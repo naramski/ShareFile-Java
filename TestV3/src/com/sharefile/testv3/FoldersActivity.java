@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import com.google.gson.JsonObject;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
@@ -14,6 +16,7 @@ import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
@@ -25,6 +28,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -124,7 +128,66 @@ public class FoldersActivity extends Activity
 			}
 		});
 
-		dialog.show();
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+	    lp.copyFrom(dialog.getWindow().getAttributes());
+	    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+	    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+	    dialog.show();
+	    dialog.getWindow().setAttributes(lp);
+	    
+		
+	}
+	
+	
+	private interface GetCredsCallback
+	{
+		public void doneGetCreds(String userName,String password);
+	}
+	
+	private void showGetCredsDialog(final GetCredsCallback callback)
+	{		
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.dlg_get_creds);
+		dialog.setTitle("Enter Credentials");
+
+		// set the custom dialog components - text, image and button
+		final EditText edxUserName = (EditText) dialog.findViewById(R.id.getcreds_username);
+		final EditText edxPassword = (EditText) dialog.findViewById(R.id.getcreds_password);
+		
+		Button okButton = (Button) dialog.findViewById(R.id.ok);
+		
+		okButton.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				String userName = edxUserName.getText().toString().trim();
+				String password = edxPassword.getText().toString().trim();
+				
+				callback.doneGetCreds(userName, password);
+				
+				dialog.dismiss();
+			}
+		});
+		
+		
+		Button cancelButton = (Button) dialog.findViewById(R.id.cancel);
+		
+		cancelButton.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View v) 
+			{
+				dialog.dismiss();
+			}
+		});
+
+		WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+	    lp.copyFrom(dialog.getWindow().getAttributes());
+	    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+	    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+	    dialog.show();
+	    dialog.getWindow().setAttributes(lp);
 	}
 	
 	public void showToast(final String msg)
@@ -166,7 +229,9 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			String id = mFolderIdStack.pop();
+			mFolderIdStack.pop();
+			
+			String id = mFolderIdStack.peek();
 			
 			getContents(id,null);
 		} 
@@ -185,8 +250,7 @@ public class FoldersActivity extends Activity
 		}		
 								
 	}
-	
-	
+		
 	private Stack<String> mFolderIdStack = new Stack<String>();
 	
 	private SFFolder getFromCache(String folderid)
@@ -200,8 +264,8 @@ public class FoldersActivity extends Activity
 		SFFolder folder = getFromCache(folderid);
 						
 		if(folder!=null)
-		{
-			mCurrentFolderId = folderid;
+		{			
+			mFolderIdStack.push(folderid);
 			showContentsList(folder);
 			return;
 		}
@@ -209,14 +273,8 @@ public class FoldersActivity extends Activity
 		SFApiQuery<SFItem> query =null;
 				
 		
-		/*if(folderid.equalsIgnoreCase(TOP))
-		{
-			query = SFItemsEntity.get();
-		}
-		else*/
-		{
-			query = SFItemsEntity.get(folderid);
-		}
+		query = SFItemsEntity.get(folderid);
+		
 		
 		query.addQueryString("$expand", "Children");
 		
@@ -235,46 +293,7 @@ public class FoldersActivity extends Activity
 		showBusy(true);
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(query, new SFApiResponseListener<SFItem>() 
-			{										
-				@Override
-				public void sfapiSuccess(final SFItem object) 
-				{										
-					//SFLog.d2("SFSDK","getItem success: ");
-					//showToast("Got Item");
-					mCurrentFolderId = folderid;
-					
-					runOnUiThread(new Runnable() 
-					{			
-						@Override
-						public void run() 
-						{				
-							if(SFV3ElementType.isFolderType(object))
-							{								
-								mapFolderContents.put(folderid, (SFFolder) object);
-								showContentsList((SFFolder) object);																
-							}
-						}
-					});
-										
-				}
-
-				@Override
-				public void sfApiError(V3Error v3error,SFApiQuery<SFItem> asApiqueri) 
-				{									
-					SFLog.d2("SFSDK","get Item failed: " + v3error.message.value);
-					showToast("Failed Get Item" + v3error.message.value);
-					
-					runOnUiThread(new Runnable() 
-					{			
-						@Override
-						public void run() 
-						{																			
-							showBusy(false);							
-						}
-					});
-				}
-			});
+			FullscreenActivity.mSFApiClient.executeQuery(query, getContentsListener );
 		} 
 		catch (SFInvalidStateException e) 
 		{							
@@ -282,6 +301,68 @@ public class FoldersActivity extends Activity
 			showToast("Exception "+ e.getLocalizedMessage());							
 		}
 	}
+	
+	
+	SFApiResponseListener<SFItem> getContentsListener = new SFApiResponseListener<SFItem>() 
+	{										
+		@Override
+		public void sfapiSuccess(final SFItem object) 
+		{													
+			runOnUiThread(new Runnable() 
+			{			
+				@Override
+				public void run() 
+				{				
+					if(SFV3ElementType.isFolderType(object))
+					{														
+						mFolderIdStack.push(object.getId());
+						mapFolderContents.put(object.getId(), (SFFolder) object);
+						showContentsList((SFFolder) object);																
+					}
+				}
+			});
+								
+		}
+
+		@Override
+		public void sfApiError(final V3Error v3error,final SFApiQuery<SFItem> asApiqueri) 
+		{									
+			SFLog.d2("SFSDK","get Item failed: " + v3error.message.value);
+			showToast("Failed Get Item: " + v3error.message.value);
+			
+			runOnUiThread(new Runnable() 
+			{			
+				@Override
+				public void run() 
+				{																			
+					showBusy(false);
+					
+					if(v3error.httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED)
+					{
+						showGetCredsDialog(new GetCredsCallback() 
+						{		
+							@Override
+							public void doneGetCreds(final String userName, final String password) 
+							{
+								showBusy(true);
+								try 
+								{
+									SFApiRunnable.setUsernamePassword(userName, password);
+									FullscreenActivity.mSFApiClient.executeQuery(asApiqueri, getContentsListener );
+								} 
+								catch (SFInvalidStateException e) 
+								{							
+									e.printStackTrace();
+									showToast("Exception "+ e.getLocalizedMessage());							
+								}
+							}
+						});											
+					}
+				}
+			});
+		}
+	};
+		
 	
 	private void initUIControls()
 	{
@@ -315,8 +396,7 @@ public class FoldersActivity extends Activity
 				{
 					if(SFV3ElementType.isFolderType(item)) 
 					{						
-							String fid = item.getId();	
-							mFolderIdStack.push(mCurrentFolderId);
+							String fid = item.getId();								
 							String link = null;
 							
 							if(item instanceof SFSymbolicLink)
@@ -327,9 +407,8 @@ public class FoldersActivity extends Activity
 							{
 								link = item.geturl().toString();
 							}
-							
-							getContents(fid,link);						
-						
+														
+							getContents(fid,link);												
 					}
 				}
 			}
@@ -348,13 +427,11 @@ public class FoldersActivity extends Activity
 		initUIControls();
 											
 	}
-	
-	private String mCurrentFolderId = null;
-	
+			
 	@Override
 	protected void onStart() 
 	{		
-		super.onStart();				
+		super.onStart();			
 		getContents(TOP,null);
 	}
 }
