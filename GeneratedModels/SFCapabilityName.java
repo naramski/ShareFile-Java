@@ -33,5 +33,6 @@ public enum SFCapabilityName {
 	CheckOut,
 	ItemDescription,
 	VersionMax,
-	VersionMin
+	VersionMin,
+	Favorites
 }

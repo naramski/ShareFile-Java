@@ -26,12 +26,12 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUser> get(String id = null, String emailAddress = null)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.addQueryString("id", id);
-		query.addQueryString("emailAddress", emailAddress);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.addQueryString("id", id);
+		sfApiQuery.addQueryString("emailAddress", emailAddress);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -63,15 +63,15 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
-		query.addQueryString("addshared", addshared);
-		query.addQueryString("notify", notify);
-		query.addQueryString("ifNecessary", ifNecessary);
-		query.setBody(user);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
+		sfApiQuery.addQueryString("addshared", addshared);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("ifNecessary", ifNecessary);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -111,16 +111,16 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.setAction("AccountUser");
-		query.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
-		query.addQueryString("addshared", addshared);
-		query.addQueryString("notify", notify);
-		query.addQueryString("ifNecessary", ifNecessary);
-		query.setBody(user);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("AccountUser");
+		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
+		sfApiQuery.addQueryString("addshared", addshared);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("ifNecessary", ifNecessary);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -148,12 +148,12 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUser> update(String id, SFUser user)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.addIds(id);
-		query.setBody(user);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -174,16 +174,15 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param user 	
 	* @return a modified user record
     */
-	public SFApiQuery<SFUser> updateRoles( id = , SFUser user, String parentid)
+	public SFApiQuery<SFUser> updateRoles(String parentid, SFUser user)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.setAction("Roles");
-		query.addIds(id);
-		query.addQueryString("parentid", parentid);
-		query.setBody(user);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Roles");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -204,16 +203,15 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param user 	
 	* @return a modified user record
     */
-	public SFApiQuery<SFUser> updateRoles( id = , SFUser user, String parentid)
+	public SFApiQuery<SFUser> patchRoles(String parentid, SFUser user)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.setAction("Roles");
-		query.addIds(id);
-		query.addQueryString("parentid", parentid);
-		query.setBody(user);
-		query.setHttpMethod("PUT");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Roles");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("PUT");
+		return sfApiQuery;
 	}
 
     /**
@@ -243,13 +241,13 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUser> updateAccountUser(String id, SFAccountUser user)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.setAction("AccountUser");
-		query.addActionIds(id);
-		query.setBody(user);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("AccountUser");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -260,32 +258,32 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> getHomeFolder(String id)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Users");
-		query.setAction("HomeFolder");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("HomeFolder");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery<SFODataFeed<SFItem>> topFolders(String userId)
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Users");
-		query.setAction("TopFolders");
-		query.addIds(userId);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("TopFolders");
+		sfApiQuery.addIds(userId);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery<SFODataFeed<SFItem>> box(String userId)
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Users");
-		query.setAction("Box");
-		query.addIds(userId);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Box");
+		sfApiQuery.addIds(userId);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -297,12 +295,12 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUserPreferences> getPreferences(String id)
 	{
-		SFApiQuery<SFUserPreferences> query = new SFApiQuery<SFUserPreferences>();
-		query.setFrom("Users");
-		query.setAction("Preferences");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Preferences");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -324,14 +322,14 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUser> resetPassword(String id, SFODataObject properties, Boolean notify = false)
 	{
-		SFApiQuery<SFUser> query = new SFApiQuery<SFUser>();
-		query.setFrom("Users");
-		query.setAction("ResetPassword");
-		query.addIds(id);
-		query.addQueryString("notify", notify);
-		query.setBody(properties);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("ResetPassword");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.setBody(properties);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -341,12 +339,12 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery resendWelcome(String id)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Users");
-		query.setAction("ResendWelcome");
-		query.addIds(id);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("ResendWelcome");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -357,12 +355,12 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery delete(String id, Boolean completely = false)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Users");
-		query.addIds(id);
-		query.addQueryString("completely", completely);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("completely", completely);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -372,11 +370,11 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFItem>> getAllSharedFolders()
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Users");
-		query.setAction("AllSharedFolders");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("AllSharedFolders");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -388,11 +386,11 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFItem>> getTopFolders()
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Users");
-		query.setAction("TopFolders");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("TopFolders");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -402,11 +400,11 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFItem>> networkShareConnectors()
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Users");
-		query.setAction("NetworkShareConnectors");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("NetworkShareConnectors");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -416,11 +414,11 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFItem>> sharepointConnectors()
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Users");
-		query.setAction("SharepointConnectors");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("SharepointConnectors");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -441,12 +439,12 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery confirm(SFUserConfirmationSettings settings)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Users");
-		query.setAction("Confirm");
-		query.setBody(settings);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Confirm");
+		sfApiQuery.setBody(settings);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -455,11 +453,11 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFUserInfo> getInfo()
 	{
-		SFApiQuery<SFUserInfo> query = new SFApiQuery<SFUserInfo>();
-		query.setFrom("Users");
-		query.setAction("Info");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFUserInfo> sfApiQuery = new SFApiQuery<SFUserInfo>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Info");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }

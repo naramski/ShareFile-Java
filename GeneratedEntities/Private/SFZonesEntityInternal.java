@@ -15,7 +15,7 @@ package com.sharefile.api.entities;
 
 import java.util.stream;
 
-public class SFZonesEntityInternal extends SFZonesEntity
+public class SFZonesEntityInternal extends SFODataEntityBase
 {
     /**
 	* Get List of Zones
@@ -28,12 +28,12 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery<SFODataFeed<SFZone>> get(SFZoneService services = StorageZone, Boolean includeDisabled = false)
 	{
-		SFApiQuery<SFODataFeed<SFZone>> query = new SFApiQuery<SFODataFeed<SFZone>>();
-		query.setFrom("Zones");
-		query.addQueryString("services", services);
-		query.addQueryString("includeDisabled", includeDisabled);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addQueryString("services", services);
+		sfApiQuery.addQueryString("includeDisabled", includeDisabled);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -47,12 +47,12 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery<SFZone> get(String id, Boolean secret = false)
 	{
-		SFApiQuery<SFZone> query = new SFApiQuery<SFZone>();
-		query.setFrom("Zones");
-		query.addIds(id);
-		query.addQueryString("secret", secret);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("secret", secret);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -67,11 +67,11 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery<SFZone> create(SFZone zone)
 	{
-		SFApiQuery<SFZone> query = new SFApiQuery<SFZone>();
-		query.setFrom("Zones");
-		query.setBody(zone);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setBody(zone);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -88,12 +88,12 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery<SFZone> update(String id, SFZone zone)
 	{
-		SFApiQuery<SFZone> query = new SFApiQuery<SFZone>();
-		query.setFrom("Zones");
-		query.addIds(id);
-		query.setBody(zone);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(zone);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -104,12 +104,12 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery delete(String id, Boolean force = false)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Zones");
-		query.addIds(id);
-		query.addQueryString("force", force);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("force", force);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -121,15 +121,14 @@ public class SFZonesEntityInternal extends SFZonesEntity
 	* @param id 	
 	* @return The modified Zone object
     */
-	public SFApiQuery<SFZone> resetSecret( id = , String parentid)
+	public SFApiQuery<SFZone> resetSecret(String id)
 	{
-		SFApiQuery<SFZone> query = new SFApiQuery<SFZone>();
-		query.setFrom("Zones");
-		query.setAction("ResetSecret");
-		query.addIds(id);
-		query.addQueryString("id", parentid);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("ResetSecret");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -140,12 +139,12 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery<SFODataFeed<SFMetadata>> getMetadata(String id)
 	{
-		SFApiQuery<SFODataFeed<SFMetadata>> query = new SFApiQuery<SFODataFeed<SFMetadata>>();
-		query.setFrom("Zones");
-		query.setAction("Metadata");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -162,13 +161,13 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery<SFODataFeed<SFMetadata>> createMetadata(String id, ArrayList<SFMetadata> metadata)
 	{
-		SFApiQuery<SFODataFeed<SFMetadata>> query = new SFApiQuery<SFODataFeed<SFMetadata>>();
-		query.setFrom("Zones");
-		query.setAction("Metadata");
-		query.addIds(id);
-		query.setBody(metadata);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(metadata);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -180,13 +179,13 @@ public class SFZonesEntityInternal extends SFZonesEntity
     */
 	public SFApiQuery deleteMetadata(String id, String name)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Zones");
-		query.setAction("Metadata");
-		query.addIds(id);
-		query.addQueryString("name", name);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("name", name);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 }

@@ -30,12 +30,12 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFMetadata> get(String name, String itemid)
 	{
-		SFApiQuery<SFMetadata> query = new SFApiQuery<SFMetadata>();
-		query.setFrom("Metadata");
-		query.addIds("name", name);
-		query.addIds("itemid", itemid);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+		sfApiQuery.setFrom("Metadata");
+		sfApiQuery.addIds("name", name);
+		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -46,12 +46,12 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFMetadata>> getByItem(String id)
 	{
-		SFApiQuery<SFODataFeed<SFMetadata>> query = new SFApiQuery<SFODataFeed<SFMetadata>>();
-		query.setFrom("Items");
-		query.setAction("Metadata");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -66,13 +66,13 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFMetadata> createByItem(String id, SFMetadata metadata)
 	{
-		SFApiQuery<SFMetadata> query = new SFApiQuery<SFMetadata>();
-		query.setFrom("Items");
-		query.setAction("Metadata");
-		query.addIds(id);
-		query.setBody(metadata);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(metadata);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -85,15 +85,16 @@ public class SFMetadataEntity extends SFODataEntityBase
 	* @param metadataId 	
 	* @return The updated Metadata object
     */
-	public SFApiQuery<SFMetadata> updateByItem(String metadataId, SFMetadata metadata)
+	public SFApiQuery<SFMetadata> updateByItem(String id, String metadataId, SFMetadata metadata)
 	{
-		SFApiQuery<SFMetadata> query = new SFApiQuery<SFMetadata>();
-		query.setFrom("Items");
-		query.setAction("Metadata");
-		query.addIds(metadataId);
-		query.setBody(metadata);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addActionIds(metadataId);
+		sfApiQuery.setBody(metadata);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -108,13 +109,13 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFMetadata> update(String name, String itemid, SFMetadata metadata)
 	{
-		SFApiQuery<SFMetadata> query = new SFApiQuery<SFMetadata>();
-		query.setFrom("Metadata");
-		query.addIds("name", name);
-		query.addIds("itemid", itemid);
-		query.setBody(metadata);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+		sfApiQuery.setFrom("Metadata");
+		sfApiQuery.addIds("name", name);
+		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.setBody(metadata);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -124,15 +125,15 @@ public class SFMetadataEntity extends SFODataEntityBase
 	* @param metadataId 	
 	* @return (no data)
     */
-	public SFApiQuery deleteByItem(String metadataId,  id = )
+	public SFApiQuery deleteByItem(String id, String metadataId)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Items");
-		query.setAction("Metadata");
-		query.addIds(metadataId);
-		query.addActionIds(id);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addActionIds(metadataId);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -144,12 +145,12 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public SFApiQuery delete(String name, String itemid)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Metadata");
-		query.addIds("name", name);
-		query.addIds("itemid", itemid);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Metadata");
+		sfApiQuery.addIds("name", name);
+		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 }

@@ -22,6 +22,8 @@ public class SFItem extends SFODataObject {
 	private SFZone mZone;
 	private Date mCreationDate;
 	private Date mProgenyEditDate;
+	private Date mClientCreatedDate;
+	private Date mClientModifiedDate;
 	private Date mExpirationDate;
 	private String mDescription;
 	private Integer mDiskSpaceLimit;
@@ -165,6 +167,32 @@ public class SFItem extends SFODataObject {
 		*/
 	public void setProgenyEditDate(Date progenyeditdate) {
 		mProgenyEditDate = progenyeditdate;
+	}
+		/**
+		* Client device filesystem Created Date of this Item.
+		*/
+	public Date getClientCreatedDate() {
+		return mClientCreatedDate;
+	}
+
+		/**
+		* Client device filesystem Created Date of this Item.
+		*/
+	public void setClientCreatedDate(Date clientcreateddate) {
+		mClientCreatedDate = clientcreateddate;
+	}
+		/**
+		* Client device filesystem last Modified Date of this Item.
+		*/
+	public Date getClientModifiedDate() {
+		return mClientModifiedDate;
+	}
+
+		/**
+		* Client device filesystem last Modified Date of this Item.
+		*/
+	public void setClientModifiedDate(Date clientmodifieddate) {
+		mClientModifiedDate = clientmodifieddate;
 	}
 		/**
 		* Defines the Retention Policy for this Item. After this date, the item is automatically moved

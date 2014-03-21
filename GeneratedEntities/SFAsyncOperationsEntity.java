@@ -25,11 +25,11 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFAsyncOperation> get(String id)
 	{
-		SFApiQuery<SFAsyncOperation> query = new SFApiQuery<SFAsyncOperation>();
-		query.setFrom("AsyncOperations");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -40,12 +40,12 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFAsyncOperation>> getByBatch(String id)
 	{
-		SFApiQuery<SFODataFeed<SFAsyncOperation>> query = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
-		query.setFrom("AsyncOperations");
-		query.setAction("GetByBatch");
-		query.addActionIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.setAction("GetByBatch");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -56,12 +56,12 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFAsyncOperation>> getByFolder(String id)
 	{
-		SFApiQuery<SFODataFeed<SFAsyncOperation>> query = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
-		query.setFrom("AsyncOperations");
-		query.setAction("GetByFolder");
-		query.addActionIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.setAction("GetByFolder");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -72,12 +72,12 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFAsyncOperation> cancel(String id)
 	{
-		SFApiQuery<SFAsyncOperation> query = new SFApiQuery<SFAsyncOperation>();
-		query.setFrom("AsyncOperations");
-		query.setAction("Cancel");
-		query.addIds(id);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.setAction("Cancel");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -87,11 +87,11 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public SFApiQuery delete(String id)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("AsyncOperations");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -103,12 +103,12 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFAsyncOperation>> cancelBatch(String id)
 	{
-		SFApiQuery<SFODataFeed<SFAsyncOperation>> query = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
-		query.setFrom("AsyncOperations");
-		query.setAction("CancelBatch");
-		query.addActionIds(id);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.setAction("CancelBatch");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -119,14 +119,14 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	* @param newAsyncOp 	
 	* @return The modified Async Operation
     */
-	public SFApiQuery<SFAsyncOperation> update(String id, SFAsyncOperation newAsyncOp)
+	public SFApiQuery<SFAsyncOperation> patch(String id, SFAsyncOperation newAsyncOp)
 	{
-		SFApiQuery<SFAsyncOperation> query = new SFApiQuery<SFAsyncOperation>();
-		query.setFrom("AsyncOperations");
-		query.addIds(id);
-		query.setBody(newAsyncOp);
-		query.setHttpMethod("PUT");
-		return query;
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(newAsyncOp);
+		sfApiQuery.setHttpMethod("PUT");
+		return sfApiQuery;
 	}
 
 }

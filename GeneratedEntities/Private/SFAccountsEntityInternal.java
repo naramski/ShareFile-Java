@@ -23,11 +23,11 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
     */
 	public SFApiQuery<SFOutlookInformation> getOutlookInformation()
 	{
-		SFApiQuery<SFOutlookInformation> query = new SFApiQuery<SFOutlookInformation>();
-		query.setFrom("Accounts");
-		query.setAction("OutlookInformation");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFOutlookInformation> sfApiQuery = new SFApiQuery<SFOutlookInformation>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("OutlookInformation");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }

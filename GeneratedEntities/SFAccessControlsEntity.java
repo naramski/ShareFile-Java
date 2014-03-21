@@ -26,12 +26,12 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFAccessControl> get(String principalid, String itemid)
 	{
-		SFApiQuery<SFAccessControl> query = new SFApiQuery<SFAccessControl>();
-		query.setFrom("AccessControls");
-		query.addIds("principalid", principalid);
-		query.addIds("itemid", itemid);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
+		sfApiQuery.setFrom("AccessControls");
+		sfApiQuery.addIds("principalid", principalid);
+		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -42,12 +42,12 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFAccessControl>> getByItem(String id)
 	{
-		SFApiQuery<SFODataFeed<SFAccessControl>> query = new SFApiQuery<SFODataFeed<SFAccessControl>>();
-		query.setFrom("Items");
-		query.setAction("AccessControls");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AccessControls");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -74,16 +74,16 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFAccessControl> createByItem(String id, SFAccessControl accessControl, Boolean recursive = false, Boolean sendDefaultNotification = false)
 	{
-		SFApiQuery<SFAccessControl> query = new SFApiQuery<SFAccessControl>();
-		query.setFrom("Items");
-		query.setAction("AccessControls");
-		query.addIds(id);
-		query.addQueryString("recursive", recursive);
-		query.addQueryString("sendDefaultNotification", sendDefaultNotification);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AccessControls");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("recursive", recursive);
+		sfApiQuery.addQueryString("sendDefaultNotification", sendDefaultNotification);
 		accessControl.Properties["message"] = message;
-		query.setBody(accessControl);
-		query.setHttpMethod("POST");
-		return query;
+		sfApiQuery.setBody(accessControl);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -106,14 +106,14 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFAccessControl> updateByItem(String id, SFAccessControl accessControl, Boolean recursive = false)
 	{
-		SFApiQuery<SFAccessControl> query = new SFApiQuery<SFAccessControl>();
-		query.setFrom("Items");
-		query.setAction("AccessControls");
-		query.addIds(id);
-		query.addQueryString("recursive", recursive);
-		query.setBody(accessControl);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AccessControls");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("recursive", recursive);
+		sfApiQuery.setBody(accessControl);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -125,12 +125,12 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public SFApiQuery delete(String principalid, String itemid)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("AccessControls");
-		query.addIds("principalid", principalid);
-		query.addIds("itemid", itemid);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("AccessControls");
+		sfApiQuery.addIds("principalid", principalid);
+		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 }

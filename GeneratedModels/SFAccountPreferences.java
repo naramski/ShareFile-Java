@@ -80,6 +80,9 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean mNumericRequired;
 	private Boolean mSpecialRequired;
 	private String mAllowedSpecialCharacters;
+	private Boolean mEnableWebDAV;
+	private Boolean mEnableFTP;
+	private Boolean mEnableSFTP;
 	private String mAccountID;
 
 	public Boolean getEnableViewOnly() {
@@ -543,6 +546,27 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setAllowedSpecialCharacters(String allowedspecialcharacters) {
 		mAllowedSpecialCharacters = allowedspecialcharacters;
+	}
+	public Boolean getEnableWebDAV() {
+		return mEnableWebDAV;
+	}
+
+	public void setEnableWebDAV(Boolean enablewebdav) {
+		mEnableWebDAV = enablewebdav;
+	}
+	public Boolean getEnableFTP() {
+		return mEnableFTP;
+	}
+
+	public void setEnableFTP(Boolean enableftp) {
+		mEnableFTP = enableftp;
+	}
+	public Boolean getEnableSFTP() {
+		return mEnableSFTP;
+	}
+
+	public void setEnableSFTP(Boolean enablesftp) {
+		mEnableSFTP = enablesftp;
 	}
 	public String getAccountID() {
 		return mAccountID;

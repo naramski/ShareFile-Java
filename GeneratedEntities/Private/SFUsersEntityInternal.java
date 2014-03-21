@@ -26,12 +26,12 @@ public class SFUsersEntityInternal extends SFUsersEntity
     */
 	public SFApiQuery<SFUserSecurity> getSecurity(String id)
 	{
-		SFApiQuery<SFUserSecurity> query = new SFApiQuery<SFUserSecurity>();
-		query.setFrom("Users");
-		query.setAction("Security");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFUserSecurity> sfApiQuery = new SFApiQuery<SFUserSecurity>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Security");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }

@@ -15,7 +15,7 @@ package com.sharefile.api.entities;
 
 import java.util.stream;
 
-public class SFDevicesEntityInternal extends SFDevicesEntity
+public class SFDevicesEntityInternal extends SFODataEntityBase
 {
     /**
 	* Get Device Users for Current User
@@ -23,33 +23,34 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
     */
 	public SFApiQuery<SFODataFeed<SFDeviceUser>> get()
 	{
-		SFApiQuery<SFODataFeed<SFDeviceUser>> query = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
-		query.setFrom("Devices");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
+		sfApiQuery.setFrom("Devices");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get Device Users for Current User
-	* @return A feed of DeviceUser objects
+	* Get Device by ID
+	* @param id 	
+	* @return Device
     */
 	public SFApiQuery<SFDevice> get(String id)
 	{
-		SFApiQuery<SFDevice> query = new SFApiQuery<SFDevice>();
-		query.setFrom("Devices");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFDevice> sfApiQuery = new SFApiQuery<SFDevice>();
+		sfApiQuery.setFrom("Devices");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery<SFODataFeed<SFDeviceUser>> getByUser(String userId)
 	{
-		SFApiQuery<SFODataFeed<SFDeviceUser>> query = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
-		query.setFrom("User");
-		query.setAction("Devices");
-		query.addIds(userId);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.setAction("Devices");
+		sfApiQuery.addIds(userId);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -59,34 +60,34 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
     */
 	public SFApiQuery delete(String id)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Devices");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Devices");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery deleteByUser(String userId, String deviceId)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("User");
-		query.setAction("Devices");
-		query.addIds(userId);
-		query.addActionIds(deviceId);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.setAction("Devices");
+		sfApiQuery.addIds(userId);
+		sfApiQuery.addActionIds(deviceId);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery<SFDeviceUser> createByUser(String userId, String deviceId, SFDeviceUser du)
 	{
-		SFApiQuery<SFDeviceUser> query = new SFApiQuery<SFDeviceUser>();
-		query.setFrom("User");
-		query.setAction("Devices");
-		query.addIds(userId);
-		query.addActionIds(deviceId);
-		query.setBody(du);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.setAction("Devices");
+		sfApiQuery.addIds(userId);
+		sfApiQuery.addActionIds(deviceId);
+		sfApiQuery.setBody(du);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -97,13 +98,13 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
     */
 	public SFApiQuery wipe(String deviceID, String userid = null)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Devices");
-		query.setAction("Wipe");
-		query.addIds(deviceID);
-		query.addQueryString("userid", userid);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Devices");
+		sfApiQuery.setAction("Wipe");
+		sfApiQuery.addIds(deviceID);
+		sfApiQuery.addQueryString("userid", userid);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -136,14 +137,14 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
     */
 	public SFApiQuery wipeDone(String deviceID, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane = false)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Devices");
-		query.setAction("WipeDone");
-		query.addIds(deviceID);
-		query.addQueryString("singlePlane", singlePlane);
-		query.setBody(deviceWipeReport);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Devices");
+		sfApiQuery.setAction("WipeDone");
+		sfApiQuery.addIds(deviceID);
+		sfApiQuery.addQueryString("singlePlane", singlePlane);
+		sfApiQuery.setBody(deviceWipeReport);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -153,12 +154,12 @@ public class SFDevicesEntityInternal extends SFDevicesEntity
     */
 	public SFApiQuery<SFDeviceStatus> status(String deviceID)
 	{
-		SFApiQuery<SFDeviceStatus> query = new SFApiQuery<SFDeviceStatus>();
-		query.setFrom("Devices");
-		query.setAction("Status");
-		query.addIds(deviceID);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>();
+		sfApiQuery.setFrom("Devices");
+		sfApiQuery.setAction("Status");
+		sfApiQuery.addIds(deviceID);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }

@@ -19,10 +19,10 @@ public class SFConfigsEntity extends SFODataEntityBase
 {
 	public SFApiQuery<SFODataFeed<SFGenericConfig>> get()
 	{
-		SFApiQuery<SFODataFeed<SFGenericConfig>> query = new SFApiQuery<SFODataFeed<SFGenericConfig>>();
-		query.setFrom("Configs");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGenericConfig>>();
+		sfApiQuery.setFrom("Configs");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }

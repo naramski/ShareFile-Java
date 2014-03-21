@@ -24,24 +24,25 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFGroup>> get()
 	{
-		SFApiQuery<SFODataFeed<SFGroup>> query = new SFApiQuery<SFODataFeed<SFGroup>>();
-		query.setFrom("Groups");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGroup>>();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get Group List
-	* Retrieves all Distribution Groups this user has permissions to View in this account
-	* @return a list of Groups this user has access to
+	* Get Group By ID
+	* Retrives a single Group by id
+	* @param id 	
+	* @return A single Group object
     */
 	public SFApiQuery<SFGroup> get(String id)
 	{
-		SFApiQuery<SFGroup> query = new SFApiQuery<SFGroup>();
-		query.setFrom("Groups");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -51,11 +52,11 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public SFApiQuery delete(String id)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Groups");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -69,14 +70,13 @@ public class SFGroupsEntity extends SFODataEntityBase
 	* @param group 	
 	* @return the new group instance
     */
-	public SFApiQuery<SFGroup> create( id = , SFGroup group)
+	public SFApiQuery<SFGroup> create(SFGroup group)
 	{
-		SFApiQuery<SFGroup> query = new SFApiQuery<SFGroup>();
-		query.setFrom("Groups");
-		query.addIds(id);
-		query.setBody(group);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.setBody(group);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -94,12 +94,12 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFGroup> update(String id, SFGroup group)
 	{
-		SFApiQuery<SFGroup> query = new SFApiQuery<SFGroup>();
-		query.setFrom("Groups");
-		query.addIds(id);
-		query.setBody(group);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(group);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -110,12 +110,12 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFContact>> getContacts(String id)
 	{
-		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
-		query.setFrom("Groups");
-		query.setAction("Contacts");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.setAction("Contacts");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -129,13 +129,13 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFContact>> createContacts(String id, ArrayList<SFContact> contacts)
 	{
-		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
-		query.setFrom("Groups");
-		query.setAction("Contacts");
-		query.addIds(id);
-		query.setBody(contacts);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.setAction("Contacts");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(contacts);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -153,13 +153,13 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFContact>> deleteContacts(String id, ArrayList<SFContact> contacts)
 	{
-		SFApiQuery<SFODataFeed<SFContact>> query = new SFApiQuery<SFODataFeed<SFContact>>();
-		query.setFrom("Groups");
-		query.setAction("Contacts");
-		query.addIds(id);
-		query.setBody(contacts);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+		sfApiQuery.setFrom("Groups");
+		sfApiQuery.setAction("Contacts");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(contacts);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 }

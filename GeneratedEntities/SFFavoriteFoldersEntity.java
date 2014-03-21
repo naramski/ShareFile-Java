@@ -25,28 +25,29 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFFavoriteFolder>> getByUser(String id)
 	{
-		SFApiQuery<SFODataFeed<SFFavoriteFolder>> query = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>();
-		query.setFrom("User");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get List of FavoriteFolders
-	* Retrieves the list of Favorite folders for a given user.
-	* @param id 	
+	* Get FavoriteFolder
+	* Retrieves a single Favorite Folder
+	* @param userid 	
+	* @param itemid 	
 	* @return A list of Favorite Folders specified by this user
     */
-	public SFApiQuery<SFFavoriteFolder> getByUser(String id, String id)
+	public SFApiQuery<SFFavoriteFolder> getByUser(String itemid, String userid)
 	{
-		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
-		query.setFrom("User");
-		query.setAction("FavoriteFolders");
-		query.addIds(id);
-		query.addActionIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.setAction("FavoriteFolders");
+		sfApiQuery.addIds(itemid);
+		sfApiQuery.addActionIds(userid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -58,12 +59,12 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFFavoriteFolder> get(String userid, String itemid)
 	{
-		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
-		query.setFrom("FavoriteFolders");
-		query.addIds("userid", userid);
-		query.addIds("itemid", itemid);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
+		sfApiQuery.setFrom("FavoriteFolders");
+		sfApiQuery.addIds("userid", userid);
+		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -79,14 +80,14 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFFavoriteFolder> createByUser(String id, SFFavoriteFolder folder, String alias = "")
 	{
-		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
-		query.setFrom("User");
-		query.setAction("FavoriteFolders");
-		query.addIds(id);
-		query.addQueryString("alias", alias);
-		query.setBody(folder);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.setAction("FavoriteFolders");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("alias", alias);
+		sfApiQuery.setBody(folder);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -95,26 +96,26 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	* @param id 	
 	* @param itemid 	
     */
-	public SFApiQuery delete(String itemid,  id = )
+	public SFApiQuery delete(String id, String itemid)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("User");
-		query.setAction("FavoriteFolders");
-		query.addIds(itemid);
-		query.addActionIds(id);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.setAction("FavoriteFolders");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addActionIds(itemid);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery deleteByUser(String userId, String itemId)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("User");
-		query.setAction("FavoriteFolders");
-		query.addIds(userId);
-		query.addActionIds(itemId);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("User");
+		sfApiQuery.setAction("FavoriteFolders");
+		sfApiQuery.addIds(userId);
+		sfApiQuery.addActionIds(itemId);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
 }

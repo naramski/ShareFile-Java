@@ -26,48 +26,57 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> get()
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get List of Items
-	* Retrieve the initial folder and files of the authenticated user.
-	* This method will return the user's root directory, using Item.GetRootFromWasabiPath("root").
-	* It will force expansion of the Children element, so first level of items under the root is also returned
-	* @return a user's root directory and first level of children items
+	* Get Item by ID
+	* Returns a single Item
+	* @param id 	
+	* @return a single Item
     */
 	public SFApiQuery<SFItem> get(String id)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get List of Items
-	* Retrieve the initial folder and files of the authenticated user.
-	* This method will return the user's root directory, using Item.GetRootFromWasabiPath("root").
-	* It will force expansion of the Children element, so first level of items under the root is also returned
-	* @return a user's root directory and first level of children items
+	* Get TreeView
+	* Retrieves a folder list structure tailored for TreeView navigation - used by clients
+	* to create folder trees for specific operations.
+	* This operation will enforce a specific $select and $expand operators. You can provide
+	* additional $expand, for example Children, which is not added by default. The $select
+	* operator will apply to the expanded objects as well. You can also specify additional
+	* $select elements.
+	* @param id 	
+	* @param treeMode 	
+	* @param sourceId 	
+	* @param rootId 	
+	* @param rootType 	
+	* @param canCreateRootFolder 	
+	* @param fileBox 	
+	* @return A tree root element.
     */
 	public SFApiQuery<SFItem> get(String id, SFTreeMode treeMode, String sourceId, String rootId = null, SFVRootType rootType = Account, Boolean canCreateRootFolder = false, Boolean fileBox = false)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.addIds(id);
-		query.addQueryString("treeMode", treeMode);
-		query.addQueryString("sourceId", sourceId);
-		query.addQueryString("rootId", rootId);
-		query.addQueryString("rootType", rootType);
-		query.addQueryString("canCreateRootFolder", canCreateRootFolder);
-		query.addQueryString("fileBox", fileBox);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("treeMode", treeMode);
+		sfApiQuery.addQueryString("sourceId", sourceId);
+		sfApiQuery.addQueryString("rootId", rootId);
+		sfApiQuery.addQueryString("rootType", rootType);
+		sfApiQuery.addQueryString("canCreateRootFolder", canCreateRootFolder);
+		sfApiQuery.addQueryString("fileBox", fileBox);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -82,13 +91,13 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFItem>> stream(String id, Boolean includeDeleted = false)
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Items");
-		query.setAction("Stream");
-		query.addIds(id);
-		query.addQueryString("includeDeleted", includeDeleted);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Stream");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -101,32 +110,33 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> byPath(String path)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("ByPath");
-		query.addQueryString("path", path);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("ByPath");
+		sfApiQuery.addQueryString("path", path);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get Item by Path
-	* Retrieves an item from its path. The path is of format /foldername/foldername/filename
+	* Get Item by relative Path from ID
+	* Retrieves an item from its path, relative to the provided ID.
+	* The path is of format /foldername/foldername/filename
 	* This call may redirect the client to another API provider, if the path
 	* contains a symbolic link.
+	* @param id 	
 	* @param path 	
 	* @return An item identified by a path
     */
-	public SFApiQuery<SFItem> byPath( id = , String parentid, String path)
+	public SFApiQuery<SFItem> byPath(String id, String path)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("ByPath");
-		query.addIds(id);
-		query.addQueryString("parentid", parentid);
-		query.addQueryString("path", path);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("ByPath");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("path", path);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -137,12 +147,12 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> getParent(String id)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Parent");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Parent");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -155,12 +165,12 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> getChildren(String id)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Children");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Children");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -172,12 +182,12 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItemInfo> getInfo(String id)
 	{
-		SFApiQuery<SFItemInfo> query = new SFApiQuery<SFItemInfo>();
-		query.setFrom("Items");
-		query.setAction("Info");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItemInfo> sfApiQuery = new SFApiQuery<SFItemInfo>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Info");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -191,13 +201,13 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFDownloadSpecification> download(String id, Boolean redirect = true)
 	{
-		SFApiQuery<SFDownloadSpecification> query = new SFApiQuery<SFDownloadSpecification>();
-		query.setFrom("Items");
-		query.setAction("Download");
-		query.addIds(id);
-		query.addQueryString("redirect", redirect);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFDownloadSpecification> sfApiQuery = new SFApiQuery<SFDownloadSpecification>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Download");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -220,15 +230,15 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> createFolder(String parentid, SFFolder folder, Boolean overwrite = false, Boolean passthrough = false)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Folder");
-		query.addIds(parentid);
-		query.addQueryString("overwrite", overwrite);
-		query.addQueryString("passthrough", passthrough);
-		query.setBody(folder);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Folder");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("passthrough", passthrough);
+		sfApiQuery.setBody(folder);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -244,13 +254,13 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> createNote(String parentid, SFNote note)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Note");
-		query.addIds(parentid);
-		query.setBody(note);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Note");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.setBody(note);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -267,13 +277,13 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> createLink(String parentid, SFLink link)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Link");
-		query.addIds(parentid);
-		query.setBody(link);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Link");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.setBody(link);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -302,14 +312,14 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFSymbolicLink> createSymbolicLink(String parentid, SFSymbolicLink symlink, Boolean overwrite = false)
 	{
-		SFApiQuery<SFSymbolicLink> query = new SFApiQuery<SFSymbolicLink>();
-		query.setFrom("Items");
-		query.setAction("SymbolicLink");
-		query.addIds(parentid);
-		query.addQueryString("overwrite", overwrite);
-		query.setBody(symlink);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("SymbolicLink");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.setBody(symlink);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -329,12 +339,12 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataObject> update(String id, SFItem item)
 	{
-		SFApiQuery<SFODataObject> query = new SFApiQuery<SFODataObject>();
-		query.setFrom("Items");
-		query.addIds(id);
-		query.setBody(item);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFODataObject> sfApiQuery = new SFApiQuery<SFODataObject>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(item);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -353,14 +363,14 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> updateLink(String id, SFLink link, Boolean notify = false)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Link");
-		query.addIds(id);
-		query.addQueryString("notify", notify);
-		query.setBody(link);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Link");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.setBody(link);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -378,14 +388,14 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> updateNote(String id, SFNote note, Boolean notify = false)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Note");
-		query.addIds(id);
-		query.addQueryString("notify", notify);
-		query.setBody(note);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Note");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.setBody(note);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -402,24 +412,24 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFSymbolicLink> updateSymbolicLink(String id, SFSymbolicLink symlink)
 	{
-		SFApiQuery<SFSymbolicLink> query = new SFApiQuery<SFSymbolicLink>();
-		query.setFrom("Items");
-		query.setAction("SymbolicLink");
-		query.addIds(id);
-		query.setBody(symlink);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("SymbolicLink");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(symlink);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery delete(String id, Boolean singleversion = false, Boolean forceSync = false)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Items");
-		query.addIds(id);
-		query.addQueryString("singleversion", singleversion);
-		query.addQueryString("forceSync", forceSync);
-		query.setHttpMethod("PATCH");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("singleversion", singleversion);
+		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
 	}
 
     /**
@@ -431,32 +441,26 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery bulkDelete(String parentid, ArrayList<String> ids, Boolean forceSync = false)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Items");
-		query.setAction("BulkDelete");
-		query.addIds(parentid);
-		query.addQueryString("ids", ids);
-		query.addQueryString("forceSync", forceSync);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkDelete");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.addQueryString("ids", ids);
+		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
-    /**
-	* Get Thumbnail
-	* Retrieve a thumbnail link from the specified Item.
-	* @param id 	
-	* @param size 	
-	* @return A 302 redirection to the Thumbnail link
-    */
-	public SFApiQuery<Stream> getThumbnail(String id, Integer size = 75)
+	public SFApiQuery<Stream> getThumbnail(String parentid, Integer size = 75, Boolean redirect = false)
 	{
-		SFApiQuery<Stream> query = new SFApiQuery<Stream>();
-		query.setFrom("Items");
-		query.setAction("Thumbnail");
-		query.addIds(id);
-		query.addQueryString("size", size);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<Stream> sfApiQuery = new SFApiQuery<Stream>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Thumbnail");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.addQueryString("size", size);
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -471,14 +475,14 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFItem>> getBreadcrumbs(String id, String path = null, SFVRootType vroot = Default)
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Items");
-		query.setAction("Breadcrumbs");
-		query.addIds(id);
-		query.addQueryString("path", path);
-		query.addQueryString("vroot", vroot);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Breadcrumbs");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("path", path);
+		sfApiQuery.addQueryString("vroot", vroot);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -493,14 +497,14 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFItem> copy(String id, String targetid, Boolean overwrite = false)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Items");
-		query.setAction("Copy");
-		query.addIds(id);
-		query.addQueryString("targetid", targetid);
-		query.addQueryString("overwrite", overwrite);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Copy");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("targetid", targetid);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -562,36 +566,40 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param threadCount 	
 	* @param responseFormat 	
 	* @param notify 	
+	* @param clientCreatedDateUTC 	
+	* @param clientModifiedDateUTC 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
     */
-	public SFApiQuery<SFUploadSpecification> upload(String id, SFUploadMethod method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Integer expirationDays = null)
+	public SFApiQuery<SFUploadSpecification> upload(String id, SFUploadMethod method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
 	{
-		SFApiQuery<SFUploadSpecification> query = new SFApiQuery<SFUploadSpecification>();
-		query.setFrom("Items");
-		query.setAction("Upload");
-		query.addIds(id);
-		query.addQueryString("method", method);
-		query.addQueryString("raw", raw);
-		query.addQueryString("fileName", fileName);
-		query.addQueryString("fileSize", fileSize);
-		query.addQueryString("batchId", batchId);
-		query.addQueryString("batchLast", batchLast);
-		query.addQueryString("canResume", canResume);
-		query.addQueryString("startOver", startOver);
-		query.addQueryString("unzip", unzip);
-		query.addQueryString("tool", tool);
-		query.addQueryString("overwrite", overwrite);
-		query.addQueryString("title", title);
-		query.addQueryString("details", details);
-		query.addQueryString("isSend", isSend);
-		query.addQueryString("sendGuid", sendGuid);
-		query.addQueryString("opid", opid);
-		query.addQueryString("threadCount", threadCount);
-		query.addQueryString("responseFormat", responseFormat);
-		query.addQueryString("notify", notify);
-		query.addQueryString("expirationDays", expirationDays);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.addQueryString("responseFormat", responseFormat);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
+		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -603,13 +611,13 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery checkIn(String id, String message)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Items");
-		query.setAction("CheckIn");
-		query.addIds(id);
-		query.addQueryString("message", message);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("CheckIn");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("message", message);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -620,12 +628,12 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery checkOut(String id)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Items");
-		query.setAction("CheckOut");
-		query.addIds(id);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("CheckOut");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -636,12 +644,12 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFSearchResults> search(String query)
 	{
-		SFApiQuery<SFSearchResults> query = new SFApiQuery<SFSearchResults>();
-		query.setFrom("Items");
-		query.setAction("Search");
-		query.addQueryString("query", query);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Search");
+		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -653,30 +661,29 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(String parentid)
 	{
-		SFApiQuery<SFODataFeed<SFItemProtocolLink>> query = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
-		query.setFrom("Items");
-		query.setAction("ProtocolLinks");
-		query.addIds(parentid);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("ProtocolLinks");
+		sfApiQuery.addIds(parentid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get all Item Protocol Link
-	* This method returns all alternate protocol links supported by ShareFile (such
-	* as WOPI, FTP, WebDAV).
+	* Get an Item Protocol Link
 	* @param id 	
-	* @return A Feed containing all protocols links supported by the given item
+	* @param protocol 	
+	* @return A single protocol link if supported, 404 (Not Found) if not supported by the item
     */
-	public SFApiQuery<SFItemProtocolLink> getProtocolLinks(String parentid, String id)
+	public SFApiQuery<SFItemProtocolLink> getProtocolLinks(String id, String protocol)
 	{
-		SFApiQuery<SFItemProtocolLink> query = new SFApiQuery<SFItemProtocolLink>();
-		query.setFrom("Items");
-		query.setAction("ProtocolLinks");
-		query.addIds(parentid);
-		query.addActionIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItemProtocolLink> sfApiQuery = new SFApiQuery<SFItemProtocolLink>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("ProtocolLinks");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addActionIds(protocol);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }

@@ -24,24 +24,26 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFShare>> get()
 	{
-		SFApiQuery<SFODataFeed<SFShare>> query = new SFApiQuery<SFODataFeed<SFShare>>();
-		query.setFrom("Shares");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get List of Shares
-	* Retrieve all outstanding Shares of the authenticated user
-	* @return List of Shares created by the authenticated user
+	* Get Share
+	* Retrieve a single Share entity. If the Share allows anonymous access, then this method will not
+	* require authentication.
+	* @param id 	
+	* @return A single Share
     */
 	public SFApiQuery<SFShare> get(String id)
 	{
-		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
-		query.setFrom("Shares");
-		query.addIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -53,15 +55,14 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A feed of Share Aliases representing recipients of the Share
     */
-	public SFApiQuery<SFODataFeed<SFShareAlias>> getRecipients( id = , String parentid)
+	public SFApiQuery<SFODataFeed<SFShareAlias>> getRecipients(String id)
 	{
-		SFApiQuery<SFODataFeed<SFShareAlias>> query = new SFApiQuery<SFODataFeed<SFShareAlias>>();
-		query.setFrom("Shares");
-		query.setAction("Recipients");
-		query.addIds(id);
-		query.addQueryString("id", parentid);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFShareAlias>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShareAlias>>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Recipients");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -70,32 +71,32 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A feed of Items of the Share
     */
-	public SFApiQuery<SFODataFeed<SFItem>> getItems( id = , String parentid)
+	public SFApiQuery<SFODataFeed<SFItem>> getItems(String id)
 	{
-		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
-		query.setFrom("Shares");
-		query.setAction("Items");
-		query.addIds(id);
-		query.addQueryString("id", parentid);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Items");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
-	* Get Items of a Share
-	* Retrieve the list of Items (files and folders) in the Share.
-	* @param id 	
-	* @return A feed of Items of the Share
+	* Get Recipients of a Share
+	* Retrieve a single Item in the Share
+	* @param shareid 	
+	* @param itemid 	
+	* @return An item in the Share
     */
-	public SFApiQuery<SFItem> getItems(String id,  id = )
+	public SFApiQuery<SFItem> getItems(String shareid, String itemid)
 	{
-		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
-		query.setFrom("Shares");
-		query.setAction("Items");
-		query.addIds(id);
-		query.addActionIds(id);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Items");
+		sfApiQuery.addIds(shareid);
+		sfApiQuery.addActionIds(itemid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -114,17 +115,18 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param Company 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public SFApiQuery<Stream> download(String id, String Name = null, String Email = null, String Company = null)
+	public SFApiQuery<Stream> download(String id, String grandparentid, String Name = null, String Email = null, String Company = null)
 	{
-		SFApiQuery<Stream> query = new SFApiQuery<Stream>();
-		query.setFrom("Shares");
-		query.setAction("Download");
-		query.addIds(id);
-		query.addQueryString("Name", Name);
-		query.addQueryString("Email", Email);
-		query.addQueryString("Company", Company);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<Stream> sfApiQuery = new SFApiQuery<Stream>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Download");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("grandparentid", grandparentid);
+		sfApiQuery.addQueryString("Name", Name);
+		sfApiQuery.addQueryString("Email", Email);
+		sfApiQuery.addQueryString("Company", Company);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
     /**
@@ -164,12 +166,12 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFShare> create(SFShare share, Boolean notify = false)
 	{
-		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
-		query.setFrom("Shares");
-		query.addQueryString("notify", notify);
-		query.setBody(share);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.setBody(share);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -187,12 +189,12 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFShare> update(String id, SFShare share)
 	{
-		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
-		query.setFrom("Shares");
-		query.addIds(id);
-		query.setBody(share);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setBody(share);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -202,11 +204,11 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public SFApiQuery delete(String id)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Shares");
-		query.addIds(id);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.addIds(id);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -222,14 +224,14 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFShare> createAlias(String id, String email, Boolean notify = false)
 	{
-		SFApiQuery<SFShare> query = new SFApiQuery<SFShare>();
-		query.setFrom("Shares");
-		query.setAction("Alias");
-		query.addIds(id);
-		query.addQueryString("email", email);
-		query.addQueryString("notify", notify);
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Alias");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -240,12 +242,12 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public SFApiQuery createSend(SFShareSendParams parameters)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Shares");
-		query.setAction("Send");
-		query.setBody(parameters);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Send");
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -256,12 +258,12 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public SFApiQuery createRequest(SFShareRequestParams parameters)
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Shares");
-		query.setAction("Request");
-		query.setBody(parameters);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Request");
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
 }

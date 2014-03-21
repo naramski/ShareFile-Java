@@ -48,12 +48,12 @@ public class SFItemsEntityInternal extends SFItemsEntity
     */
 	public SFApiQuery<SFAdvancedSearchResults> advancedSimpleSearch(SFSimpleSearchQuery simpleSearchQuery)
 	{
-		SFApiQuery<SFAdvancedSearchResults> query = new SFApiQuery<SFAdvancedSearchResults>();
-		query.setFrom("Items");
-		query.setAction("AdvancedSimpleSearch");
-		query.setBody(simpleSearchQuery);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setBody(simpleSearchQuery);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
     /**
@@ -87,12 +87,12 @@ public class SFItemsEntityInternal extends SFItemsEntity
     */
 	public SFApiQuery<SFAdvancedSearchResults> advancedSearch(SFSearchQuery searchQuery)
 	{
-		SFApiQuery<SFAdvancedSearchResults> query = new SFApiQuery<SFAdvancedSearchResults>();
-		query.setFrom("Items");
-		query.setAction("AdvancedSimpleSearch");
-		query.setBody(searchQuery);
-		query.setHttpMethod("POST");
-		return query;
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setBody(searchQuery);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
 	}
 
 }

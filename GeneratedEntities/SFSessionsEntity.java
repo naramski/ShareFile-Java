@@ -26,10 +26,10 @@ public class SFSessionsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFSession> get()
 	{
-		SFApiQuery<SFSession> query = new SFApiQuery<SFSession>();
-		query.setFrom("Sessions");
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>();
+		sfApiQuery.setFrom("Sessions");
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
@@ -38,17 +38,16 @@ public class SFSessionsEntity extends SFODataEntityBase
     */
 	public SFApiQuery delete()
 	{
-		SFApiQuery query = new SFApiQuery();
-		query.setFrom("Sessions");
-		query.setHttpMethod("DELETE");
-		return query;
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Sessions");
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
 	}
 
     /**
 	* Login
-	* API clients can provide ShareFile Authentication directly to any API operation - using OAuth (Bearer) or
-	* ShareFile credentials (Basic) authentication headers. However, the client must know that the provided
-	* authentication type is supported on the API endpoint; and that SAML is not configured.
+	* API clients can provide ShareFile Authentication directly to any API operation using OAuth (Bearer).
+	* However, the client must know that the provided authentication type is supported on the API endpoint; and that SAML is not configured.
 	* 
 	* This API provides a generic authentication routine for clients. It will challenge for ShareFile credentials
 	* passing all supported authentication methods; redirect to the SAML IDP if configured to do so; and handle
@@ -70,22 +69,22 @@ public class SFSessionsEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFSession> login(String authmethod = null, String authcomparison = null)
 	{
-		SFApiQuery<SFSession> query = new SFApiQuery<SFSession>();
-		query.setFrom("Sessions");
-		query.setAction("Login");
-		query.addQueryString("authmethod", authmethod);
-		query.addQueryString("authcomparison", authcomparison);
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>();
+		sfApiQuery.setFrom("Sessions");
+		sfApiQuery.setAction("Login");
+		sfApiQuery.addQueryString("authmethod", authmethod);
+		sfApiQuery.addQueryString("authcomparison", authcomparison);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 	public SFApiQuery<SFSession> acs()
 	{
-		SFApiQuery<SFSession> query = new SFApiQuery<SFSession>();
-		query.setFrom("Sessions");
-		query.setAction("Acs");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>();
+		sfApiQuery.setFrom("Sessions");
+		sfApiQuery.setAction("Acs");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }

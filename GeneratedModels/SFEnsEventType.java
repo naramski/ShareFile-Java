@@ -10,12 +10,12 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities;
+package com.sharefile.api.models;
 
-
-import java.util.stream;
-
-public class SFDevicesEntity extends SFODataEntityBase
-{
+public enum SFEnsEventType {
+	None,
+	Create,
+	Update,
+	Delete,
+	All
 }
-

@@ -47,6 +47,12 @@ public class SFAccount extends SFODataObject {
 	private String mState;
 	private String mZip;
 	private String mCountry;
+	private String mCreditCardType;
+	private String mCreditCardNumber;
+	private String mCreditCardExpirationMonth;
+	private Integer mCreditCardExpirationYear;
+	private String mCreditCardFirstName;
+	private String mCreditCardLastName;
 	private String mPhone;
 	private Date mLastBillingDate;
 	private Date mNextBillingDate;
@@ -394,6 +400,48 @@ public class SFAccount extends SFODataObject {
 
 	public void setCountry(String country) {
 		mCountry = country;
+	}
+	public String getCreditCardType() {
+		return mCreditCardType;
+	}
+
+	public void setCreditCardType(String creditcardtype) {
+		mCreditCardType = creditcardtype;
+	}
+	public String getCreditCardNumber() {
+		return mCreditCardNumber;
+	}
+
+	public void setCreditCardNumber(String creditcardnumber) {
+		mCreditCardNumber = creditcardnumber;
+	}
+	public String getCreditCardExpirationMonth() {
+		return mCreditCardExpirationMonth;
+	}
+
+	public void setCreditCardExpirationMonth(String creditcardexpirationmonth) {
+		mCreditCardExpirationMonth = creditcardexpirationmonth;
+	}
+	public Integer getCreditCardExpirationYear() {
+		return mCreditCardExpirationYear;
+	}
+
+	public void setCreditCardExpirationYear(Integer creditcardexpirationyear) {
+		mCreditCardExpirationYear = creditcardexpirationyear;
+	}
+	public String getCreditCardFirstName() {
+		return mCreditCardFirstName;
+	}
+
+	public void setCreditCardFirstName(String creditcardfirstname) {
+		mCreditCardFirstName = creditcardfirstname;
+	}
+	public String getCreditCardLastName() {
+		return mCreditCardLastName;
+	}
+
+	public void setCreditCardLastName(String creditcardlastname) {
+		mCreditCardLastName = creditcardlastname;
 	}
 	public String getPhone() {
 		return mPhone;

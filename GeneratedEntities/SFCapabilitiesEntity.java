@@ -31,10 +31,10 @@ public class SFCapabilitiesEntity extends SFODataEntityBase
     */
 	public SFApiQuery<SFODataFeed<SFCapability>> get()
 	{
-		SFApiQuery<SFODataFeed<SFCapability>> query = new SFApiQuery<SFODataFeed<SFCapability>>();
-		query.setFrom("Capabilities");
-		query.setHttpMethod("GET");
-		return query;
+		SFApiQuery<SFODataFeed<SFCapability>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCapability>>();
+		sfApiQuery.setFrom("Capabilities");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
 	}
 
 }
