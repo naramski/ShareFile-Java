@@ -89,6 +89,10 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 							ret = SFParse.parseSFItem(jsonObject);
 						break;
 						
+						case CapabilityFeed:
+							ret = SFParse.parseCapabilityFeed(jsonObject);
+						break;	
+						
 						default:
 							SFToDoReminderException.throwTODOException("Need to implement parser for : " + elementType.toString());
 						break;	

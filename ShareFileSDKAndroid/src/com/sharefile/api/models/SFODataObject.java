@@ -55,8 +55,8 @@ public class SFODataObject extends Object {
 		return url;
 	}
 
-	public void seturl(URI url) {
-		url = url;
+	public void seturl(URI _url) {
+		url = _url;
 	}
 	public Map<String, String> getProperties() {
 		return Properties;

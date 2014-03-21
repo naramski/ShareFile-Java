@@ -29,8 +29,8 @@ public class SFODataFeed<T> extends SFODataObject {
 		return count;
 	}
 
-	public void setcount(Integer count) {
-		count = count;
+	public void setcount(Integer _count) {
+		count = _count;
 	}
 	public ArrayList<T> getFeed() {
 		return Feed;

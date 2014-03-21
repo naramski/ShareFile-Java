@@ -6,6 +6,9 @@ public final class SFKeywords
 	
 	//SFOdataObject related keywords
 	public static final String ODATA_METADATA = "odata.metadata";
+	public static final String ODATA_COUNT = "odata.count";
+	public static final String ODATA_NEXTLINK = "odata.nextLink";
+	
 	public static final String URL = "url";
 	public static final String Id = "Id";
 		

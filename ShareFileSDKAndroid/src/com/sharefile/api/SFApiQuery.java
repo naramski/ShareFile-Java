@@ -21,6 +21,7 @@ import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFItem;
+import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
 import com.sharefile.api.models.SFSession;
@@ -44,7 +45,7 @@ public class SFApiQuery<T extends SFODataObject>
 	        aMap.put("Items", SFItem.class);
 	        aMap.put("Sessions", SFSession.class);	        	        
 	        aMap.put("AccessControls", SFAccessControl.class);
-	        aMap.put("Capabilities", SFCapability.class);
+	        aMap.put("Capabilities", SFODataFeed.class);
 	        aMap.put("Shares", SFShare.class);
 	        aMap.put("User", SFUser.class);
 	        aMap.put("Accounts", SFAccount.class);

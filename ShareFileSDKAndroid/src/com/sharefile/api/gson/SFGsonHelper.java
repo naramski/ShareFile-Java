@@ -3,12 +3,16 @@ package com.sharefile.api.gson;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
+import com.sharefile.api.gson.auto.SFGsonRouter;
 import com.sharefile.api.models.SFODataObject;
 
 public class SFGsonHelper
@@ -75,6 +79,32 @@ public class SFGsonHelper
     	if(element!=null)
     	{
     		ret = element.getAsBoolean();
+    	}
+    	
+    	return ret;
+    }
+    
+    public static <T> ArrayList<T> getArrayList(Class clazz, JsonObject json,String memberName,ArrayList<T> defaultValue)
+    {
+    	ArrayList<T> ret = defaultValue;
+    	
+    	JsonElement element = json.get(memberName);
+    	
+    	if(element!=null)
+    	{
+    		JsonArray array = element.getAsJsonArray();
+    		if(array!=null)
+    		{
+    			ArrayList<T> retnew = new ArrayList<T>();
+    			
+    			for(JsonElement e:array)
+    			{
+    				SFODataObject object = SFDefaultGsonParser.parse(clazz, e);
+    				retnew.add((T) object);
+    			}
+    			
+    			ret = retnew;
+    		}
     	}
     	
     	return ret;
