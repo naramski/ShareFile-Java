@@ -42,7 +42,53 @@ public class FoldersActivity extends Activity
 	private String TOP = "top";
 	
 	private Map<String, SFFolder> mapFolderContents = new HashMap<String, SFFolder>();
+	private Stack<String> mFolderIdStack = new Stack<String>();
+		
+	private void navigateForward(String folderid,String link)
+	{
+		confirmExit = false;
+		mFolderIdStack.push(folderid);
+		getContents(folderid, link);
+	}
+		
+
+	private void storeToCache(String folderId,SFFolder object)
+	{
+		/*if(mFolderIdStack.peek().equalsIgnoreCase(TOP))
+		{
+			mFolderIdStack.pop();
+			mFolderIdStack.push(folderId);
+		}*/
+		
+		mapFolderContents.put(folderId, object);
+	}
 	
+	private void navigateBack()
+	{		
+		String folderid  = mFolderIdStack.peek();
+		
+		if(!folderid.equalsIgnoreCase(TOP))
+		{
+			folderid = mFolderIdStack.pop();
+			folderid  = mFolderIdStack.peek();
+			getContents(folderid,null);
+		}				
+		else
+		{		
+			if(confirmExit)
+			{
+				finish();
+			}
+			else
+			{
+				confirmExit = true;
+				showToast("Press back again to exit");
+				getContents(folderid,null);
+			}			
+		}				
+	}
+		
+		
 	private void showBusy(boolean busy)
 	{
 		if(mThrobber!=null)
@@ -226,11 +272,7 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			mFolderIdStack.pop();
-			
-			String id = mFolderIdStack.peek();
-			
-			getContents(id,null);
+			navigateBack();
 		} 
 		catch (Exception e) 
 		{
@@ -247,22 +289,18 @@ public class FoldersActivity extends Activity
 		}		
 								
 	}
-		
-	private Stack<String> mFolderIdStack = new Stack<String>();
-	
+				
 	private SFFolder getFromCache(String folderid)
 	{		
 		return mapFolderContents.get(folderid);
 	}
 	
 	private synchronized void getContents(final String folderid,final String link)
-	{
-		confirmExit = false;
+	{		
 		SFFolder folder = getFromCache(folderid);
 						
 		if(folder!=null)
-		{			
-			mFolderIdStack.push(folderid);
+		{						
 			showContentsList(folder);
 			return;
 		}
@@ -298,8 +336,7 @@ public class FoldersActivity extends Activity
 			showToast("Exception "+ e.getLocalizedMessage());							
 		}
 	}
-	
-	
+		
 	SFApiResponseListener<SFItem> getContentsListener = new SFApiResponseListener<SFItem>() 
 	{										
 		@Override
@@ -311,9 +348,9 @@ public class FoldersActivity extends Activity
 				public void run() 
 				{				
 					if(SFV3ElementType.isFolderType(object))
-					{														
-						mFolderIdStack.push(object.getId());
-						mapFolderContents.put(object.getId(), (SFFolder) object);
+					{																				
+						//mapFolderContents.put(object.getId(), (SFFolder) object);
+						storeToCache(object.getId(), (SFFolder) object);
 						showContentsList((SFFolder) object);																
 					}
 				}
@@ -324,7 +361,7 @@ public class FoldersActivity extends Activity
 		@Override
 		public void sfApiError(final V3Error v3error,final SFApiQuery<SFItem> asApiqueri) 
 		{									
-			SFLog.d2("SFSDK","get Item failed: " + v3error.message.value);
+			SFLog.d2("SFSDK","get Item failed: %s" , v3error.message.value);
 			showToast("Failed Get Item: " + v3error.message.value);
 			
 			runOnUiThread(new Runnable() 
@@ -386,8 +423,7 @@ public class FoldersActivity extends Activity
 			{
 				//SFItem item = (SFItem) view.getTag();
 				SwipeListItemState state = (SwipeListItemState) view.getTag();
-				SFItem item = state.mSFItem;
-				
+				SFItem item = state.mSFItem;				
 				
 				if(item!=null)
 				{
@@ -405,7 +441,8 @@ public class FoldersActivity extends Activity
 								link = item.geturl().toString();
 							}
 														
-							getContents(fid,link);												
+							//getContents(fid,link);
+							navigateForward(fid, link);
 					}
 				}
 			}
@@ -429,6 +466,7 @@ public class FoldersActivity extends Activity
 	protected void onStart() 
 	{		
 		super.onStart();			
-		getContents(TOP,null);
+		//getContents(TOP,null);
+		navigateForward(TOP, null);
 	}
 }

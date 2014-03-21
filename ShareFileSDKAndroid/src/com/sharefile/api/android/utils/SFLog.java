@@ -136,28 +136,36 @@ public class SFLog
  
     private static final String getMessage(String s, Object... args) 
     {
-        s = String.format(s, args);
-        
-        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-                	
-        LogContext c = getContext(trace,4);
-        LogContext c2 = getContext(trace,5);
-        
-        String prefix = "";
-        
-        if(c2!=null)
-        {
-        	prefix = "[" + c2.m_simpleClassName+"."+c2.m_methodName +"]";
-        }
-        
-        String msg = null;
-        
-        if(c!=null)
-        {
-        	msg = prefix +  c.m_simpleClassName + "." + c.m_methodName + "(@"+ c.m_lineNumber + "): " + s;
-        }
-        
-        return msg;
+    	try
+    	{
+	        s = String.format(s, args);
+	        
+	        StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+	                	
+	        LogContext c = getContext(trace,4);
+	        LogContext c2 = getContext(trace,5);
+	        
+	        String prefix = "";
+	        
+	        if(c2!=null)
+	        {
+	        	prefix = "[" + c2.m_simpleClassName+"."+c2.m_methodName +"]";
+	        }
+	        
+	        String msg = null;
+	        
+	        if(c!=null)
+	        {
+	        	msg = prefix +  c.m_simpleClassName + "." + c.m_methodName + "(@"+ c.m_lineNumber + "): " + s;
+	        }
+	        
+	        return msg;
+    	}
+    	catch(Exception ex)
+    	{
+    		return ex.getLocalizedMessage();
+    	}
+                
     }
  
     private static String getSimpleClassName(String className) 

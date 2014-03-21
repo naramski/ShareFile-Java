@@ -46,7 +46,8 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		{
 			if(jsonElement!=null)
 			{
-				SFLog.d2(TAG,"Route for " + jsonElement.toString());
+				
+				SFLog.d2(TAG,"Route for %s" +  jsonElement.toString());
 				
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 				
@@ -105,7 +106,7 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		}
 		catch(Exception e)
 		{									
-			SFLog.d2(TAG,"Exception MSG = "  + Log.getStackTraceString(e));
+			SFLog.d2(TAG,"Exception MSG = %s"  , Log.getStackTraceString(e));
 		}
 		
 		if(ret ==null)
@@ -116,7 +117,7 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		{
 			if(ret instanceof SFFile)
 			{
-				SFLog.d2(TAG,"Returning NON null  " + ((SFFile)ret).getName());
+				SFLog.d2(TAG,"Returning NON null  %s" , ((SFFile)ret).getName());
 			}
 		}
 		

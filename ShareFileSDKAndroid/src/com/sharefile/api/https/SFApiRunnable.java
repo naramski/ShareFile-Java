@@ -132,7 +132,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			
 			handleHttPost(connection);
 			
-			SFLog.d2(TAG, mQuery.getHttpMethod() + " " + urlstr);
+			SFLog.d2(TAG, mQuery.getHttpMethod() + " %s" , urlstr);
 			
 			connection.connect();
 			
@@ -140,6 +140,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			
 			//Use the bearer token currently. ignore the cookies untill we have a good cookie mgr. might impact sharepoint testing without cookies. 
 			//v3Error = SFHttpsCaller.handleErrorAndCookies(connection, httpErrorCode, url);
+			SFHttpsCaller.getAndStoreCookies(connection, url);
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{											

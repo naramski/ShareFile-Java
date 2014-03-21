@@ -23,6 +23,7 @@ import org.apache.http.NameValuePair;
 
 import android.util.Base64;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
@@ -42,7 +43,7 @@ public class SFHttpsCaller
 	private static final String OUT_OF_MEMORY = "memory";
 	
 	private static CookieManager m_cookieManager = null;
-	
+		
 	public static void setBasicAuth(URLConnection conn,String username,String password)
 	{			
 		String combinepass = username +SFKeywords.COLON + password;
@@ -297,7 +298,7 @@ public class SFHttpsCaller
 		{
 			String inputLine = readErrorResponse(conn);
 			
-			SFLog.d2(TAG,  "ERR PAGE: " + inputLine);
+			SFLog.d2(TAG,  "ERR PAGE: %s" , inputLine);
 			
 			v3Error = new V3Error(httpErrorCode,inputLine);
 		}
@@ -315,7 +316,7 @@ public class SFHttpsCaller
 		
 	private static void dumpHeaders(Map<String, List<String>> headerfield)
 	{
-		SFLog.d2(TAG, "START----------Dumping Header Feilds: " + headerfield);
+		SFLog.d2(TAG, "START----------Dumping Header Feilds");
 		
 		if(headerfield!=null)
 		{
@@ -325,7 +326,7 @@ public class SFHttpsCaller
 			{
 				for(String key:keys)
 				{
-					SFLog.d2(TAG, "--- KEY:  " + key);
+					SFLog.d2(TAG, "--- KEY:  %s" , key);
 					
 					List<String> cookie_values = headerfield.get(key);
 															
@@ -333,7 +334,7 @@ public class SFHttpsCaller
 					{
 						for(String s:cookie_values)
 						{
-							SFLog.d2(TAG,"---------Value: " + s);							    			    								
+							SFLog.d2(TAG,"---------Value: %s", s);							    			    								
 						}
 					}
 				}
@@ -343,10 +344,10 @@ public class SFHttpsCaller
 		SFLog.d2(TAG, "!!!!!!Dumping Header Feilds:----END ");
 	}
 	
-	private static synchronized void getAndStoreCookies(URLConnection conn, URL url)
+	public static synchronized void getAndStoreCookies(URLConnection conn, URL url)
 	{
 		if(m_cookieManager==null)
-		{			
+		{						
 			m_cookieManager = CookieManager.getInstance();			
 		}
 		
@@ -362,12 +363,12 @@ public class SFHttpsCaller
 			{
 				if(m_cookieManager!=null)
 				{
-					m_cookieManager.setCookie(url.toString(), s);										
+					m_cookieManager.setCookie(url.toString(), s);					
 				}    			    								
 			}
 		}
 		
-		SFLog.d2(TAG, "Final Stored Auth Cookie : " + m_cookieManager.getCookie(url.toString()));
+		SFLog.d2(TAG, "Final Stored Auth Cookie : %s" , m_cookieManager.getCookie(url.toString()));
 	}
 			
 	public static String readResponse(URLConnection conn) throws IOException 
@@ -388,15 +389,15 @@ public class SFHttpsCaller
 		}
 		catch (OutOfMemoryError e) 
 		{
-			SFLog.d2(TAG, "Error: " + e.getLocalizedMessage());
+			SFLog.d2(TAG, "Error: %s" , e.getLocalizedMessage());
 			
 			throw new IOException("Out of memory");
 		}
 		
 		String response = sb.toString();
 				
-		SFLog.d2(TAG, "SUCCESS RESPONSE size: " + response.length());
-		SFLog.d2(TAG, "SUCCESS RESPONSE: " + response.toString());
+		SFLog.d2(TAG, "SUCCESS RESPONSE size: %d" , response.length());
+		SFLog.d2(TAG, "SUCCESS RESPONSE: %s" , response.toString());
 		
 		urlstream.close();
 			
@@ -448,7 +449,7 @@ public class SFHttpsCaller
 			return urlstr;
 		}
 		
-		SFLog.d2(TAG, "makeValidHttpsLink =  https://" + urlstr);
+		SFLog.d2(TAG, "makeValidHttpsLink =  https://%s" , urlstr);
 		
 		return "https://"+ urlstr;		
 	}
