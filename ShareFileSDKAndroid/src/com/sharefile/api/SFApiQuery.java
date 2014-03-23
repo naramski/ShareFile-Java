@@ -1,7 +1,9 @@
 package com.sharefile.api;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +17,6 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
-import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFItem;
@@ -26,6 +27,7 @@ import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFTreeMode;
 import com.sharefile.api.models.SFUploadMethod;
+import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.models.SFUser;
 import com.sharefile.api.models.SFVRootType;
 import com.sharefile.api.models.SFZone;
@@ -67,6 +69,7 @@ public class SFApiQuery<T extends SFODataObject>
 	        	        	        	        	        
 	        aMap.put("AccessControls", SFODataFeed.class);
 	        aMap.put("Download", SFDownloadSpecification.class);	        	        
+	        aMap.put("Upload", SFUploadSpecification.class);
 	        
 	        mMapNameClassPairForSetAction = Collections.unmodifiableMap(aMap);
 	}
@@ -238,7 +241,7 @@ public class SFApiQuery<T extends SFODataObject>
 
 	public void addQueryString(String key, SFVRootType rootType) 
 	{
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);		
+		mQueryMap.put(key, rootType.toString());		
 	}
 
 	public void addQueryString(String key, ArrayList<String> ids) 
@@ -248,17 +251,17 @@ public class SFApiQuery<T extends SFODataObject>
 
 	public void addQueryString(String key, Integer size) 
 	{		
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
+		mQueryMap.put(key, ""+size);
 	}
 
 	public void addQueryString(String key, SFUploadMethod method) 
 	{		
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
+		mQueryMap.put(key, method.toString());
 	}
 
 	public void addQueryString(String key, Long fileSize) 
 	{
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);		
+		mQueryMap.put(key, ""+fileSize);		
 	}
 
 	public void addQueryString(String key, SFApiQuery<SFSearchResults> query) 
@@ -362,8 +365,9 @@ public class SFApiQuery<T extends SFODataObject>
 	 * <p>https://server/provider/version/entity?$expand=Children&$select=FileCount,Id,Name,Children/Id,Children/Name,Children/CreationDate
      *
      * <p>https://account.sf-api.com/sf/v3/Items(parentid)/Folder?overwrite=false&passthrough=false 
+	 * @throws UnsupportedEncodingException 
 	 */
-	public final String buildQueryUrlString(String server)
+	public final String buildQueryUrlString(String server) throws UnsupportedEncodingException
 	{
 		StringBuilder sb = new StringBuilder();
 		
@@ -388,16 +392,23 @@ public class SFApiQuery<T extends SFODataObject>
 			Set<String> keyset = mQueryMap.keySet();			
 						
 			for(String key:keyset)
-			{
-				if(!isFirst)
-				{
-					isFirst = false;
-					sb.append(SFKeywords.CHAR_AMPERSAND);
-				}
+			{								
+				String value = mQueryMap.get(key);
 				
-				String value = mQueryMap.get(key);				
-				//boolean prefixAmpersAnd = (key.charAt(0) == ampersAnd)?false:true;  						
-				sb.append(key + SFKeywords.EQUALS + value);				
+				if(value!=null)
+				{
+					if(!isFirst)
+					{					
+						sb.append(SFKeywords.CHAR_AMPERSAND);
+					}
+					else
+					{
+						isFirst = false;	
+					}
+					
+					String urlencoded = URLEncoder.encode(value, SFKeywords.UTF_8);
+					sb.append(key + SFKeywords.EQUALS + urlencoded);
+				}
 			}
 						
 		}

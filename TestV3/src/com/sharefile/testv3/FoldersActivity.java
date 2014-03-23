@@ -22,6 +22,8 @@ import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFSymbolicLink;
+import com.sharefile.api.models.SFUploadMethod;
+import com.sharefile.api.models.SFUploadSpecification;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -170,6 +172,41 @@ public class FoldersActivity extends Activity
 			showToast("Exception "+ e.getLocalizedMessage());							
 		}
 	}	
+	
+	
+	private void callUploadApi()
+	{
+		String parentid = mFolderIdStack.peek();
+		
+		SFApiQuery<SFUploadSpecification> query = SFItemsEntity.upload(parentid, SFUploadMethod.Streamed, true, "hello.txt", (long) 20*1024, null, false, true, false, false, "sfsdk", true, "hello.txt", "sfsdk upload", false, null, null, 1, "json", false, 365);
+		
+		
+		try 
+		{
+			FullscreenActivity.mSFApiClient.executeQuery(query, new SFApiResponseListener<SFUploadSpecification>() 
+			{														
+
+				@Override
+				public void sfapiSuccess(SFUploadSpecification object) 
+				{
+					SFLog.d2("SFSDK","getItem success: ");
+					showToast("success");						
+				}
+
+				@Override
+				public void sfApiError(V3Error v3error,SFApiQuery<SFUploadSpecification> asApiqueri) 
+				{
+					SFLog.d2("SFSDK","get Item failed: ");
+					showToast("Failed");						
+				}
+			});
+		} 
+		catch (SFInvalidStateException e) 
+		{							
+			e.printStackTrace();
+			showToast("Exception "+ e.getLocalizedMessage());							
+		}
+	}
 	
 	private void showCreateFolderDialog()
 	{		
@@ -458,6 +495,18 @@ public class FoldersActivity extends Activity
 			public void onClick(View v) 
 			{				
 				callGetAccessControlApi();
+			}
+		});
+		
+		
+		Button upload = (Button) findViewById(R.id.folderActions_buttonUpload);
+		
+		upload.setOnClickListener(new OnClickListener() 
+		{			
+			@Override
+			public void onClick(View v) 
+			{				
+				callUploadApi();
 			}
 		});
 		

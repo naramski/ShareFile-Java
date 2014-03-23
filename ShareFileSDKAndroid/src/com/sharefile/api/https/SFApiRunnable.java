@@ -164,15 +164,16 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	
 	public void executeQuery() 
-	{								
-		String server = mOauthToken.getApiServer();		
-		String urlstr = mQuery.buildQueryUrlString(server);
-			
+	{			
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
 		
+		
 		try
 		{
+			String server = mOauthToken.getApiServer();		
+			String urlstr = mQuery.buildQueryUrlString(server);
+							
 			URL url = new URL(urlstr);
 			URLConnection connection = SFHttpsCaller.getURLConnection(url);		
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
