@@ -17,6 +17,7 @@ import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
+import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
@@ -65,6 +66,7 @@ public class SFApiQuery<T extends SFODataObject>
 	        Map<String, Class> aMap = new HashMap<String, Class>();
 	        	        	        	        	        
 	        aMap.put("AccessControls", SFODataFeed.class);
+	        aMap.put("Download", SFDownloadSpecification.class);	        	        
 	        
 	        mMapNameClassPairForSetAction = Collections.unmodifiableMap(aMap);
 	}

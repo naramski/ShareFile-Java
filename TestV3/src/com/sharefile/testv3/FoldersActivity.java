@@ -17,6 +17,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFAccessControl;
+import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
@@ -492,9 +493,44 @@ public class FoldersActivity extends Activity
 							//getContents(fid,link);
 							navigateForward(fid, link);
 					}
+					else if(SFV3ElementType.isFileType(item))
+					{
+						showToast("Starting download for: " + item.getName());
+						
+						callDownloadApi(item.getId());
+					}
 				}
 			}
          }); 	
+	}
+	
+	private void callDownloadApi(String itemid )
+	{
+		
+		SFApiQuery<SFDownloadSpecification> downloadQuery = SFItemsEntity.download(itemid, true);
+		
+		try {
+			FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new SFApiResponseListener<SFDownloadSpecification>() 
+					{
+
+						@Override
+						public void sfapiSuccess(SFDownloadSpecification object) 
+						{			
+							SFLog.d2("download","dspec = %s", object.getDownloadUrl() );
+						}
+
+						@Override
+						public void sfApiError(V3Error error,SFApiQuery<SFDownloadSpecification> asApiqueri) 
+						{	
+							SFLog.d2("download","error = %s" , error.message.value);
+						}
+			});
+		}
+		catch (SFInvalidStateException e) 
+		{			
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@Override

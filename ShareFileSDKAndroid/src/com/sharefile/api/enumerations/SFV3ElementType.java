@@ -3,6 +3,7 @@ package com.sharefile.api.enumerations;
 import java.util.Set;
 
 import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
@@ -156,6 +157,21 @@ public enum SFV3ElementType
 		if(object!=null)
 		{
 			if(object instanceof SFFolder || object instanceof SFSymbolicLink)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static boolean isFileType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFFile)
 			{
 				ret = true;
 			}

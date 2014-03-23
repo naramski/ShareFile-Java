@@ -1,6 +1,8 @@
 package com.sharefile.api.https;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -9,6 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 import android.util.Log;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
@@ -18,9 +21,11 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
@@ -112,6 +117,52 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		
 	}
 	
+	
+	/** 
+	 * Currently the server is not returning a DownloadSpecification for download requests, 
+	 * its directly returning the download link. For the sake of completeness, implement the local
+	 * response filler for such requests.	 
+	 */
+	private boolean needSpecialHandling()
+	{
+		boolean ret = false;
+		
+		Class innerClass = mQuery.getTrueInnerClass();
+		
+		if(innerClass!=null)
+		{
+			String className = innerClass.getName();
+			if(className!=null)
+			{
+				if(className.contains("SFDownloadSpecification"))
+				{
+					ret = true;
+				}
+			}
+		}
+				
+		return ret;
+	}
+	
+	private String fillSpecialResponse(String downloadURl)
+	{		
+		
+		try 
+		{			
+			JsonObject  jsonObject = new JsonObject();
+			jsonObject.addProperty(SFKeywords.ODATA_METADATA, downloadURl);
+			jsonObject.addProperty(SFKeywords.DownloadUrl, downloadURl);
+			return jsonObject.toString();
+		} 
+		catch (Exception e) 
+		{			
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
 	public void executeQuery() 
 	{								
 		String server = mOauthToken.getApiServer();		
@@ -143,8 +194,15 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFHttpsCaller.getAndStoreCookies(connection, url);
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
-			{											
-				responseString = SFHttpsCaller.readResponse(connection);								
+			{										
+				if(!needSpecialHandling())
+				{
+					responseString = SFHttpsCaller.readResponse(connection);
+				}
+				else
+				{
+					responseString = fillSpecialResponse(urlstr);
+				}
 			}
 			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 			{
