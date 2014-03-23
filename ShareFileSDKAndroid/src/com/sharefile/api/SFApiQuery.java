@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import android.widget.Switch;
-
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
@@ -19,7 +17,6 @@ import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
-import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
@@ -36,22 +33,40 @@ import com.sharefile.api.models.SFZoneService;
 public class SFApiQuery<T extends SFODataObject> 
 {
 	
-	private static final Map<String, Class> mMapNameClassPair;
-	//Fill this on need basis.
+	/**
+	 *   The API query finds out the type of object to be returned based on the Enity name sent in setFrom()
+	 *   and setAction(). We use two different maps since setAction() can overwride the type of object we want to return
+	 */
+	private static final Map<String, Class> mMapNameClassPairForFromEntity;	
 	static 
 	{
 	        Map<String, Class> aMap = new HashMap<String, Class>();
 	        
 	        aMap.put("Items", SFItem.class);
 	        aMap.put("Sessions", SFSession.class);	        	        
-	        aMap.put("AccessControls", SFAccessControl.class);
+	        aMap.put("AccessControls", SFODataFeed.class);
 	        aMap.put("Capabilities", SFODataFeed.class);
 	        aMap.put("Shares", SFShare.class);
 	        aMap.put("User", SFUser.class);
 	        aMap.put("Accounts", SFAccount.class);
 	        aMap.put("Zones", SFZone.class);
 	        
-	        mMapNameClassPair = Collections.unmodifiableMap(aMap);
+	        mMapNameClassPairForFromEntity = Collections.unmodifiableMap(aMap);
+	}
+	
+	
+	/**
+	 *   The API query finds out the type of object to be returned based on the Enity name sent in setFrom()
+	 *   and setAction(). We use two different maps since setAction() can overwride the type of object we want to return
+	 */
+	private static final Map<String, Class> mMapNameClassPairForSetAction;	
+	static 
+	{
+	        Map<String, Class> aMap = new HashMap<String, Class>();
+	        	        	        	        	        
+	        aMap.put("AccessControls", SFODataFeed.class);
+	        
+	        mMapNameClassPairForSetAction = Collections.unmodifiableMap(aMap);
 	}
 	
 	/**
@@ -79,15 +94,28 @@ public class SFApiQuery<T extends SFODataObject>
 		return mInnerClass;
 	}
 	
+	/**
+	 *   The API query finds out the type of object to be returned based on the Enity name sent in setFrom()
+	 *   and setAction(). The setAction() always overrrides the setFrom(). To make the setAction()/setFrom() safe from 
+	 *   overrtiting the changes if setFrom() is called after setAction() we put an extra check
+	 */
+	private boolean canSetInnerClass()
+	{
+		return (mInnerClass == null)?true:false;
+	}
+	
 	public final void setFrom(String setFrom)
 	{
 		mFromEntity = setFrom;
-		
-		mInnerClass = mMapNameClassPair.get(setFrom);
-		
-		if(mInnerClass == null)
+						
+		if(canSetInnerClass())
 		{
-			SFToDoReminderException.throwTODOException("Put the class in the map : " + setFrom);
+			mInnerClass = mMapNameClassPairForFromEntity.get(setFrom);
+			
+			if(mInnerClass == null)
+			{
+				SFToDoReminderException.throwTODOException("Put the class in the map : " + setFrom);
+			}
 		}
 	}
 	
@@ -109,6 +137,13 @@ public class SFApiQuery<T extends SFODataObject>
 	public final void setAction(String action)
 	{
 		mAction = action;
+		
+		mInnerClass = mMapNameClassPairForSetAction.get(action);
+		
+		if(mInnerClass == null)
+		{
+			SFToDoReminderException.throwTODOException("Put the class in the map : " + action);
+		}
 	}
 	
 	public final void setHttpMethod(SFHttpMethod httpMethod)

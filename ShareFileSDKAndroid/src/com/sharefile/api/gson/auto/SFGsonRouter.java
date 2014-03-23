@@ -23,11 +23,13 @@ import com.sharefile.api.gson.manualparser.SFParse;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFGroup;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
+import com.sharefile.api.models.SFUser;
 
 /**
  *   This class read the odata.metadata from the JsonElement to find out the real type of object contained inside the object 
@@ -92,6 +94,18 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 						case CapabilityFeed:
 							ret = SFParse.parseCapabilityFeed(jsonObject);
 						break;	
+						
+						case AccessControlFeed:
+							ret = SFParse.parseAccessControlFeed(jsonObject);
+						break;
+						
+						case User:
+							ret = SFDefaultGsonParser.parse(SFUser.class, jsonElement);
+						break;
+						
+						case Group:
+							ret = SFDefaultGsonParser.parse(SFGroup.class, jsonElement);
+						break;
 						
 						default:
 							SFToDoReminderException.throwTODOException("Need to implement parser for : " + elementType.toString());

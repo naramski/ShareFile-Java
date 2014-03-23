@@ -43,7 +43,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param id 	
 	* @return Access Control List of the given object ID.
     */
-	public SFApiQuery<SFODataFeed<SFAccessControl>> getByItem(String id)
+	public static SFApiQuery<SFODataFeed<SFAccessControl>> getByItem(String id)
 	{
 		SFApiQuery<SFODataFeed<SFAccessControl>> query = new SFApiQuery<SFODataFeed<SFAccessControl>>();
 		query.setFrom("Items");

@@ -79,6 +79,7 @@ public enum SFV3ElementType
 	public static final String OutlookInformationOptionString = "OutlookInformationOptionString@Element";
 	*/
 					
+	AccessControlFeed{@Override public String toString() {return "$metadata#AccessControls";}},
 	AccessControl{@Override public String toString() {return "Models.AccessControl@Element";}},	
 	Account{@Override public String toString() {return "Models.Account@Element";}},
 	AccountPreferences{@Override public String toString() {return "Models.AccountPreferences@Element";}},

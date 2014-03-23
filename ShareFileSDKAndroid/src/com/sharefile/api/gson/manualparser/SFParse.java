@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFFile;
@@ -79,7 +80,26 @@ public class SFParse
 		
 		return item;
 	}
+	
+	
+	public static SFODataFeed<SFAccessControl> parseAccessControlFeed(JsonObject jsonObject)	
+	{					
+		SFODataFeed<SFAccessControl> item = new SFODataFeed<SFAccessControl>();
 		
+		item.setMetadata(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
+		item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
+		item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));
+		
+		int count = SFGsonHelper.getInt(jsonObject, SFKeywords.ODATA_COUNT, 0);
+		item.setcount(count);
+		item.setNextLink(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_NEXTLINK, null));
+						
+		ArrayList<SFAccessControl> Feed = SFGsonHelper.getArrayList(SFAccessControl.class, jsonObject, SFKeywords.VALUE, null);
+				
+		item.setFeed(Feed);
+		
+		return item;
+	}
 	
 	/**
 	 * Add all new parse functions in the similar pattern

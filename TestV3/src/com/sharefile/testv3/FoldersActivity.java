@@ -10,13 +10,16 @@ import javax.net.ssl.HttpsURLConnection;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.entities.SFAccessControlsEntity;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
+import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFSymbolicLink;
 
 import android.app.Activity;
@@ -132,6 +135,40 @@ public class FoldersActivity extends Activity
 			e.printStackTrace();
 		}
 	}
+	
+	
+	private void callGetAccessControlApi()
+	{
+		String parentid = mFolderIdStack.peek();
+		
+		SFApiQuery<SFODataFeed<SFAccessControl>> query = SFAccessControlsEntity.getByItem(parentid);
+		
+		try 
+		{
+			FullscreenActivity.mSFApiClient.executeQuery(query, new SFApiResponseListener<SFODataFeed<SFAccessControl>>() 
+			{														
+
+				@Override
+				public void sfapiSuccess(SFODataFeed<SFAccessControl> object) 
+				{
+					SFLog.d2("SFSDK","getItem success: ");
+					showToast("success");						
+				}
+
+				@Override
+				public void sfApiError(V3Error v3error,SFApiQuery<SFODataFeed<SFAccessControl>> asApiqueri) 
+				{
+					SFLog.d2("SFSDK","get Item failed: ");
+					showToast("Failed");						
+				}
+			});
+		} 
+		catch (SFInvalidStateException e) 
+		{							
+			e.printStackTrace();
+			showToast("Exception "+ e.getLocalizedMessage());							
+		}
+	}	
 	
 	private void showCreateFolderDialog()
 	{		
@@ -411,6 +448,17 @@ public class FoldersActivity extends Activity
 			}
 		});
 		
+		
+		Button getAccessControlList = (Button) findViewById(R.id.folderActions_buttonPreferences);
+		
+		getAccessControlList.setOnClickListener(new OnClickListener() 
+		{			
+			@Override
+			public void onClick(View v) 
+			{				
+				callGetAccessControlApi();
+			}
+		});
 		
 		//////////////////  List View///////////////////////
 		mSFItemListView = (ListView) findViewById(R.id.Folder_listview);
