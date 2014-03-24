@@ -10,6 +10,7 @@ import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFAsyncTask;
 import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFAccessControlsEntity;
@@ -21,6 +22,7 @@ import com.sharefile.api.entities.SFZonesEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.SFApiClientInitListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
@@ -68,6 +70,22 @@ public class FullscreenActivity extends Activity
 		});
 	}
 	
+	SFGetNewAccessTokenListener mNewTokenListener = new SFGetNewAccessTokenListener() 
+	{
+		
+		@Override
+		public void successGetAccessToken(SFOAuth2Token accessToken) 
+		{
+			SFLog.d2("token", "Got new token ");
+		}
+		
+		@Override
+		public void errorGetAccessToken(V3Error v3error) 
+		{	
+			SFLog.d2("token", "failed new token ");
+		}
+	};
+	
 	public class SFTask extends AsyncTask<Object, Object, Object>
 	{
 
@@ -87,6 +105,10 @@ public class FullscreenActivity extends Activity
 				
 				SFLog.d2("SFSDK","GOT Token = %s",mOAuthToken.toJsonString());
 				
+				SFGetNewAccessToken getNewToken = new SFGetNewAccessToken(mOAuthToken, mNewTokenListener);
+				getNewToken.startNewThread();
+				
+				/*
 				mSFApiClient = new SFApiClient(mOAuthToken);
 				
 				mSFApiClient.init(new SFApiClientInitListener() 
@@ -98,8 +120,7 @@ public class FullscreenActivity extends Activity
 						SFLog.d2("SFSDK","SFApiclient Init Success: ");
 						showToast("Got session");
 						
-						changeTestButtons(true);
-						
+						changeTestButtons(true);						
 					}
 					
 					
@@ -110,7 +131,7 @@ public class FullscreenActivity extends Activity
 						SFLog.d2("SFSDK","Error: %s",v3error.message.value);
 						changeTestButtons(false);
 					}
-				});				
+				});*/				
 			} 
 			catch (Exception e) 
 			{												
