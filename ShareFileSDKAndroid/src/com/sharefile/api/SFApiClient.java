@@ -1,12 +1,17 @@
 package com.sharefile.api;
 
+import java.io.FileOutputStream;
+
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFSessionsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiClientInitListener;
+import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.models.SFSession;
@@ -24,6 +29,11 @@ public class SFApiClient
 	
 	private boolean mClientInitializedSuccessFully = false;
 	
+	
+	public SFOAuth2Token getAuthToken()
+	{
+		return mOAuthToken;
+	}
 	
 	private void copyOAuthToken(SFOAuth2Token oauthToken) throws SFInvalidStateException
 	{
@@ -91,7 +101,7 @@ public class SFApiClient
 		sfApiRunnable.startNewThread();
 	}
 
-	public <T extends SFODataObject> void executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
+	public <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
 	{								
 		/*
 		 *  See this error for why we need to store the inner class coxz of the java generics problem
@@ -105,7 +115,7 @@ public class SFApiClient
 		validateClientState();
 		
 		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query.getTrueInnerClass(),query, listener, mOAuthToken);
-		sfApiRunnable.startNewThread();
+		return sfApiRunnable.startNewThread();
 	}
 	
 	/**
@@ -135,5 +145,13 @@ public class SFApiClient
 	public SFSession getSession()
 	{
 		return mSession;
+	}
+				
+	public Thread downloadFile(SFDownloadSpecification downloadSpecification,int resumeFromByteIndex, FileOutputStream fileOutpuStream, SFApiDownloadProgressListener progressListener) throws SFInvalidStateException
+	{
+		validateClientState();
+		
+		SFApiFileDownloadRunnable sfDownloadFile = new SFApiFileDownloadRunnable(downloadSpecification, resumeFromByteIndex, fileOutpuStream , this,progressListener);
+		return sfDownloadFile.startNewThread();				
 	}
 }

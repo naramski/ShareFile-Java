@@ -12,7 +12,8 @@ public final class SFKeywords
 	public static final String URL = "url";
 	public static final String Id = "Id";
 	public static final String DownloadUrl = "DownloadUrl";	
-		
+	public static final String Range = "Range";	
+	
 	public static final String PRINCIPAL = "Principal";
 	public static final String AUTHENTICATION_TYPE = "AuthenticationType";
 	public static final String TOOL = "Tool";

@@ -1,5 +1,7 @@
 package com.sharefile.testv3;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Stack;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
@@ -15,6 +18,7 @@ import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.https.SFApiRunnable;
+import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFDownloadSpecification;
@@ -553,19 +557,54 @@ public class FoldersActivity extends Activity
          }); 	
 	}
 	
+	
+	SFApiDownloadProgressListener mDownloadloadProgressListener = new SFApiDownloadProgressListener() 
+	{		
+		@Override
+		public void downloadSuccess(long byteCount,SFDownloadSpecification downloaSpec, SFApiClient client) 
+		{												
+			SFLog.d2("download", "Download Sucess: %d bytes", byteCount);
+		}
+		
+		@Override
+		public void downloadFailure(V3Error v3error, long byteCount, SFDownloadSpecification downloaSpec, SFApiClient client) 
+		{	
+			SFLog.d2("download", "Download failuer: %s", v3error.message);
+		}
+		
+		@Override
+		public void bytesDownloaded(long byteCount,SFDownloadSpecification downloaSpec, SFApiClient client) 
+		{	
+			SFLog.d2("download", "Download progress: %d", byteCount);
+		}
+	};
+	
 	private void callDownloadApi(String itemid )
 	{
 		
 		SFApiQuery<SFDownloadSpecification> downloadQuery = SFItemsEntity.download(itemid, true);
 		
 		try {
-			FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new SFApiResponseListener<SFDownloadSpecification>() 
+				FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new SFApiResponseListener<SFDownloadSpecification>() 
 					{
 
 						@Override
 						public void sfapiSuccess(SFDownloadSpecification object) 
-						{			
+						{	
+							showToast("Start actual download...");
+							
 							SFLog.d2("download","dspec = %s", object.getDownloadUrl() );
+							
+							FileOutputStream fileOutpuStream;
+							try 
+							{
+								fileOutpuStream = new FileOutputStream("/storage/sdcard0/sharefile/v3download.bin");
+								FullscreenActivity.mSFApiClient.downloadFile(object, 0, fileOutpuStream, mDownloadloadProgressListener);
+							} 
+							catch (FileNotFoundException | SFInvalidStateException e) 
+							{								
+								SFLog.d2("download", "!!Exception: %s" , Log.getStackTraceString(e));
+							}																					
 						}
 
 						@Override
@@ -578,9 +617,9 @@ public class FoldersActivity extends Activity
 		catch (SFInvalidStateException e) 
 		{			
 			e.printStackTrace();
-		}
-		
+		}		
 	}
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 

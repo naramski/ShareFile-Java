@@ -99,25 +99,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		mUsername = user;
 		mPassword = pass;
 	}
-	
-	private void addAuthenticationHeader(URLConnection connection)
-	{
-		String path = connection.getURL().getPath();
 		
-		switch(SFProvider.getProviderTypeFromString(path))
-		{
-			case PROVIDER_TYPE_SF:
-				SFHttpsCaller.addBearerAuthorizationHeader(connection, mOauthToken);
-			break;
-			
-			default:
-				SFHttpsCaller.setBasicAuth(connection, mUsername, mPassword);
-			break;	
-		}
-		
-	}
-	
-	
 	/** 
 	 * Currently the server is not returning a DownloadSpecification for download requests, 
 	 * its directly returning the download link. For the sake of completeness, implement the local
@@ -167,7 +149,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{			
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
-		
+		URLConnection connection = null;
 		
 		try
 		{
@@ -175,12 +157,11 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			String urlstr = mQuery.buildQueryUrlString(server);
 							
 			URL url = new URL(urlstr);
-			URLConnection connection = SFHttpsCaller.getURLConnection(url);		
+			connection = SFHttpsCaller.getURLConnection(url);		
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
 			SFHttpsCaller.setAcceptLanguage(connection);
-			//TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
-			//We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
-			addAuthenticationHeader(connection);
+			
+			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mUsername,mPassword);
 			
 			handleHttPost(connection);
 			
@@ -214,15 +195,17 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
-			SFLog.d2(TAG, "%s",responseString);
-			
-			SFHttpsCaller.disconnect(connection);
+			SFLog.d2(TAG, "%s",responseString);						
 		}
 		catch(Exception ex)
 		{		
 			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
 			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " +Log.getStackTraceString(ex);												
 		}		
+		finally
+		{
+			SFHttpsCaller.disconnect(connection);
+		}
 				
 		parseResponse(httpErrorCode,responseString);
 		

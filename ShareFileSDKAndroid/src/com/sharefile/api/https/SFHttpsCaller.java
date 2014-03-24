@@ -32,6 +32,7 @@ import com.sharefile.api.android.utils.Utils;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.models.SFODataObject;
 
 public class SFHttpsCaller 
@@ -403,7 +404,7 @@ public class SFHttpsCaller
 			
 		return response;
 	}
-	
+			
 	public static String readErrorResponse(URLConnection conn) throws IOException
 	{
 		StringBuilder sb = new StringBuilder();
@@ -474,4 +475,25 @@ public class SFHttpsCaller
 	{
 		connection.addRequestProperty("Authorization",String.format("Bearer %s", token.getAccessToken()));
 	}		
+	
+	/**
+	 * TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
+	   We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
+	*/	
+	public static void addAuthenticationHeader(URLConnection connection,SFOAuth2Token token,String userName,String password)
+	{
+		String path = connection.getURL().getPath();
+		
+		switch(SFProvider.getProviderTypeFromString(path))
+		{
+			case PROVIDER_TYPE_SF:
+				SFHttpsCaller.addBearerAuthorizationHeader(connection, token);
+			break;
+			
+			default:
+				SFHttpsCaller.setBasicAuth(connection, userName, password);
+			break;	
+		}
+		
+	}
 }
