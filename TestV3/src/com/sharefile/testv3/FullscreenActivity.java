@@ -19,6 +19,7 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFAccessControlsEntity;
 import com.sharefile.api.entities.SFAccountsEntity;
 import com.sharefile.api.entities.SFCapabilitiesEntity;
+import com.sharefile.api.entities.SFDevicesEntity;
 import com.sharefile.api.entities.SFFavoriteFoldersEntity;
 import com.sharefile.api.entities.SFSharesEntity;
 import com.sharefile.api.entities.SFZonesEntity;
@@ -30,6 +31,7 @@ import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
+import com.sharefile.api.models.SFDevice;
 import com.sharefile.api.models.SFFavoriteFolder;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFShare;
@@ -447,6 +449,14 @@ public class FullscreenActivity extends Activity
 		}
 	};
 	
+	private OnClickListener getDevices = new OnClickListener() 
+	{		
+		@Override
+		public void onClick(View v) 
+		{		
+		}
+	};
+	
 	private OnClickListener deleteSavedToken = new OnClickListener() 
 	{		
 		@Override
@@ -466,7 +476,8 @@ public class FullscreenActivity extends Activity
 			new APITest(BASE_BUTTON_ID+4,getFavorites,"Get Favorite Folders"),
 			new APITest(BASE_BUTTON_ID+5,getAccount,"Get Account"),
 			new APITest(BASE_BUTTON_ID+5,getZones,"Get Zones"),
-			new APITest(BASE_BUTTON_ID+6,deleteSavedToken,"Delete Saved Token"),
+			new APITest(BASE_BUTTON_ID+6,getDevices,"Get Devices"),
+			new APITest(BASE_BUTTON_ID+7,deleteSavedToken,"Delete Saved Token"),
 	};
 								
 	private void addTestButtonsToLayout(LinearLayout layout)
