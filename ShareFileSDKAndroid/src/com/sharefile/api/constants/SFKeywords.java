@@ -48,6 +48,7 @@ public final class SFKeywords
 	public static final String CONTENT_LENGTH = "Content-Length";
 	public static final String CONTENT_TYPE = "Content-Type";
 	public static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+	public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";	
 	public static final String APPLICATION_JSON = "application/json";
 	public static final String UTF_8 = "UTF-8";
 	

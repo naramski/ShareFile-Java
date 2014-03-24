@@ -1,5 +1,6 @@
 package com.sharefile.api;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import com.sharefile.api.android.utils.SFLog;
@@ -7,14 +8,17 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFSessionsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
+import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiClientInitListener;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.models.SFUser;
 
 public class SFApiClient 
@@ -154,4 +158,12 @@ public class SFApiClient
 		SFApiFileDownloadRunnable sfDownloadFile = new SFApiFileDownloadRunnable(downloadSpecification, resumeFromByteIndex, fileOutpuStream , this,progressListener);
 		return sfDownloadFile.startNewThread();				
 	}
+	
+	public Thread uploadFile(SFUploadSpecification uploadSpecification,int resumeFromByteIndex, long tolalBytes, String destinationName, FileInputStream fileInputStream, SFApiUploadProgressListener progressListener) throws SFInvalidStateException
+	{
+		validateClientState();
+		
+		SFApiFileUploadRunnable sfUploadFile = new SFApiFileUploadRunnable(uploadSpecification, resumeFromByteIndex, tolalBytes,destinationName, fileInputStream, this,progressListener);
+		return sfUploadFile.startNewThread();				
+	}	
 }

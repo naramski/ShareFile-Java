@@ -1,7 +1,8 @@
 package com.sharefile.testv3;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFFolder;
@@ -177,13 +179,33 @@ public class FoldersActivity extends Activity
 		}
 	}	
 	
+	SFApiUploadProgressListener mUploadListener = new SFApiUploadProgressListener() 
+	{
+		
+		@Override
+		public void uploadSuccess(long byteCount, SFUploadSpecification uploadSpec, SFApiClient client) 
+		{
+			SFLog.d2("-upload", "Success uploaded: %d", byteCount);
+		}
+		
+		@Override
+		public void uploadFailure(V3Error v3error, long byteCount, SFUploadSpecification uploadSpec, SFApiClient client) 
+		{			
+			SFLog.d2("-upload", "Failuer upload: %s", v3error.message.value);
+		}
+		
+		@Override
+		public void bytesUploaded(long byteCount, SFUploadSpecification uploadSpec,SFApiClient client) 
+		{	
+			SFLog.d2("-upload", "upload progress bytes: %s", byteCount);
+		}
+	};
 	
 	private void callUploadApi()
 	{
 		String parentid = mFolderIdStack.peek();
-		
-		SFApiQuery<SFUploadSpecification> query = SFItemsEntity.upload(parentid, SFUploadMethod.Streamed, true, "hello.txt", (long) 20*1024, null, false, true, false, false, "sfsdk", true, "hello.txt", "sfsdk upload", false, null, null, 1, "json", false, 365);
-		
+		final File file = new File("/storage/sdcard0/sharefile/v3upload.bin");
+		SFApiQuery<SFUploadSpecification> query = SFItemsEntity.upload(parentid, SFUploadMethod.Streamed, true, "v3upload.bin", (long) file.length(), null, false, true, false, false, "sfsdk", true, "hello.txt", "sfsdk upload", false, null, null, 1, "json", false, 365);		
 		
 		try 
 		{
@@ -194,7 +216,18 @@ public class FoldersActivity extends Activity
 				public void sfapiSuccess(SFUploadSpecification object) 
 				{
 					SFLog.d2("SFSDK","getItem success: ");
-					showToast("success");						
+					showToast("Actuall upload of file");				
+					
+					FileInputStream fis;
+					try 
+					{
+						fis = new FileInputStream(file);
+						FullscreenActivity.mSFApiClient.uploadFile(object, 0, file.length(), "v3upload.bin", fis, mUploadListener);
+					} 
+					catch (FileNotFoundException | SFInvalidStateException e) 
+					{						
+						SFLog.d2("SFSDK","!!Exception: %s", Log.getStackTraceString(e) );
+					}						
 				}
 
 				@Override
@@ -581,7 +614,7 @@ public class FoldersActivity extends Activity
 	
 	private void callDownloadApi(String itemid )
 	{
-		
+		/*
 		SFApiQuery<SFDownloadSpecification> downloadQuery = SFItemsEntity.download(itemid, true);
 		
 		try {
@@ -617,7 +650,7 @@ public class FoldersActivity extends Activity
 		catch (SFInvalidStateException e) 
 		{			
 			e.printStackTrace();
-		}		
+		}*/		
 	}
 	
 	
