@@ -7,8 +7,6 @@
     <drawable name="dark_bg">#ff232323</drawable>
     <drawable name="black_color">#ff000000</drawable>
 
-    <string name="app_name">ShareFile</string>
-
     <color name="details_label_color">#FFA6A7AB</color>
     <color name="dark_bg">#232323</color>
     <color name="BLACK">#FF000000</color>
