@@ -1,7 +1,10 @@
 package com.sharefile.testv3;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.json.JSONObject;
 
@@ -20,6 +23,7 @@ import com.sharefile.api.entities.SFFavoriteFoldersEntity;
 import com.sharefile.api.entities.SFSharesEntity;
 import com.sharefile.api.entities.SFZonesEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.interfaces.SFApiClientInitListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
@@ -77,12 +81,53 @@ public class FullscreenActivity extends Activity
 		public void successGetAccessToken(SFOAuth2Token accessToken) 
 		{
 			SFLog.d2("token", "Got new token ");
+			try 
+			{
+				mOAuthToken = accessToken;
+				PersistantToken.saveToken(getApplicationContext(), accessToken);
+				
+				mSFApiClient = new SFApiClient(mOAuthToken);
+				
+				mSFApiClient.init(mAPICLientListener);
+			} 
+			catch (Exception e) 
+			{		
+				SFLog.d2("token", "!!Excerption: %s" , Log.getStackTraceString(e));
+			}
 		}
 		
 		@Override
 		public void errorGetAccessToken(V3Error v3error) 
 		{	
 			SFLog.d2("token", "failed new token ");
+		}
+	};
+	
+	SFApiClientInitListener mAPICLientListener = new SFApiClientInitListener() 
+	{
+		
+		@Override
+		public void sfApiClientInitSuccess() 
+		{
+			SFLog.d2("SFSDK","SFApiclient Init Success: ");
+			showToast("Got session");
+			
+			changeTestButtons(true);						
+		}
+		
+		
+		@Override
+		public void sfApiClientInitError(V3Error v3error) 
+		{												
+			showToast("Error "+ v3error.message.value);						
+			SFLog.d2("SFSDK","Error: %s",v3error.message.value);
+			changeTestButtons(false);
+			
+			if(v3error.httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED)
+			{
+				SFGetNewAccessToken getNewToken = new SFGetNewAccessToken(mOAuthToken, mNewTokenListener);
+				getNewToken.startNewThread();						
+			}
 		}
 	};
 	
@@ -104,34 +149,12 @@ public class FullscreenActivity extends Activity
 				//mOAuthToken =  SFOAuthSimpleAuthenticator.authenticate(hostname, clientId, clientSecret, username, password);
 				
 				SFLog.d2("SFSDK","GOT Token = %s",mOAuthToken.toJsonString());
+								
 				
-				SFGetNewAccessToken getNewToken = new SFGetNewAccessToken(mOAuthToken, mNewTokenListener);
-				getNewToken.startNewThread();
-				
-				/*
 				mSFApiClient = new SFApiClient(mOAuthToken);
 				
-				mSFApiClient.init(new SFApiClientInitListener() 
-				{
-					
-					@Override
-					public void sfApiClientInitSuccess() 
-					{
-						SFLog.d2("SFSDK","SFApiclient Init Success: ");
-						showToast("Got session");
-						
-						changeTestButtons(true);						
-					}
-					
-					
-					@Override
-					public void sfApiClientInitError(V3Error v3error) 
-					{												
-						showToast("Error "+ v3error.message.value);						
-						SFLog.d2("SFSDK","Error: %s",v3error.message.value);
-						changeTestButtons(false);
-					}
-				});*/				
+				mSFApiClient.init(mAPICLientListener);
+				
 			} 
 			catch (Exception e) 
 			{												
