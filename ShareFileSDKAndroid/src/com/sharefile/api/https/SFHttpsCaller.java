@@ -12,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,9 +22,6 @@ import org.apache.http.NameValuePair;
 
 import android.util.Base64;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-
-import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.android.utils.Utils;
@@ -33,7 +29,6 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
-import com.sharefile.api.models.SFODataObject;
 
 public class SFHttpsCaller 
 {
