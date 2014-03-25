@@ -29,18 +29,7 @@ import com.sharefile.api.models.SFODataObject;
 public class SFGsonHelper
 {	
 	private static final String TAG = "-SFGsonHelper";
-	
-    private static Gson getGsonBuilder(Type type,Object object)
-    {
-    	return new GsonBuilder().registerTypeAdapter(type, object).create();    	    	
-    }
-            
-    public static SFODataObject fromJson(String jsonString, Type type, Type typeToken, Object deserializer)
-    {
-    	Gson gson = SFGsonHelper.getGsonBuilder(type, deserializer);        	        
-    	return gson.fromJson(jsonString, typeToken);
-    }
-    
+	        
     public static String getString(JsonObject json,String memberName,String defaultValue)
     {
     	String ret = defaultValue;
