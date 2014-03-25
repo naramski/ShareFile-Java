@@ -1,14 +1,6 @@
 package com.sharefile.api;
 
-import java.util.Map;
-
-import org.json.JSONObject;
-
-import android.graphics.Paint.Join;
-
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
 
 /**

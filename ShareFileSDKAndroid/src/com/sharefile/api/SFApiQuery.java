@@ -5,7 +5,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -17,62 +16,15 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
-import com.sharefile.api.models.SFAccount;
-import com.sharefile.api.models.SFDownloadSpecification;
-import com.sharefile.api.models.SFItem;
-import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
-import com.sharefile.api.models.SFSession;
-import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFTreeMode;
 import com.sharefile.api.models.SFUploadMethod;
-import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.api.models.SFUser;
 import com.sharefile.api.models.SFVRootType;
-import com.sharefile.api.models.SFZone;
 import com.sharefile.api.models.SFZoneService;
 
 public class SFApiQuery<T extends SFODataObject> 
 {
-	
-	/**
-	 *   The API query finds out the type of object to be returned based on the Enity name sent in setFrom()
-	 *   and setAction(). We use two different maps since setAction() can overwride the type of object we want to return
-	 */
-	private static final Map<String, Class> mMapNameClassPairForFromEntity;	
-	static 
-	{
-	        Map<String, Class> aMap = new HashMap<String, Class>();
-	        
-	        aMap.put("Items", SFItem.class);
-	        aMap.put("Sessions", SFSession.class);	        	        
-	        aMap.put("AccessControls", SFODataFeed.class);
-	        aMap.put("Capabilities", SFODataFeed.class);
-	        aMap.put("Shares", SFShare.class);
-	        aMap.put("User", SFUser.class);
-	        aMap.put("Accounts", SFAccount.class);
-	        aMap.put("Zones", SFODataFeed.class);
-	        
-	        mMapNameClassPairForFromEntity = Collections.unmodifiableMap(aMap);
-	}
-	
-	
-	/**
-	 *   The API query finds out the type of object to be returned based on the Enity name sent in setFrom()
-	 *   and setAction(). We use two different maps since setAction() can overwride the type of object we want to return
-	 */
-	private static final Map<String, Class> mMapNameClassPairForSetAction;	
-	static 
-	{
-	        Map<String, Class> aMap = new HashMap<String, Class>();
-	        	        	        	        	        
-	        aMap.put("AccessControls", SFODataFeed.class);
-	        aMap.put("Download", SFDownloadSpecification.class);	        	        
-	        aMap.put("Upload", SFUploadSpecification.class);
-	        
-	        mMapNameClassPairForSetAction = Collections.unmodifiableMap(aMap);
-	}
 	
 	/**
 	 * https://server/provider/version/entity(id)
@@ -233,35 +185,6 @@ public class SFApiQuery<T extends SFODataObject>
 	{
 		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);		
 	}
-
-	
-	/**  
-	 *  Cifs and SP might have this link as depending on the host:
-	 *  
-	 *  <p >https://szqatest2.sharefiletest.com/cifs/v3/Items(4L24TVJSEz6Ca22LWoZg41hIVgfFgqQx0GD2VoYSgXA_) </p>
-	 */
-	private String getRealServerFromLink()
-	{
-		String ret = null;
-		
-		if(mLink !=null)
-		{
-			StringBuilder sb = new StringBuilder();
-			
-			sb.append(mLink.getScheme());
-			sb.append(mLink.getAuthority()); //Why not use getHost()? Thats coz we want the port etc if present in the link. 
-			
-			String path = mLink.getPath();			
-			mProvider = SFProvider.getProviderTypeFromString(path);
-									
-			ret = sb.toString();
-		}
-		
-		SFLog.d2("-SApiQuery", "Parsed server from link = %s", ret);
-		
-		return ret;
-	}
-	
 	
 	private final String buildServerURLWithProviderAndPath(String server)
 	{
