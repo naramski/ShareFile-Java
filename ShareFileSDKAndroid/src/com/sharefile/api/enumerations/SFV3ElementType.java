@@ -144,6 +144,7 @@ public enum SFV3ElementType
 	UserPreferences{@Override public String toString() {return "Models.UserPreferences@Element";}},
 	UserSecurity{@Override public String toString() {return "Models.UserSecurity@Element";}},
 	Zone{@Override public String toString() {return "Models.Zone@Element";}},
+	ZonesFeed{@Override public String toString() {return "$metadata#Zones";}},
 	OutlookInformation{@Override public String toString() {return "Models.OutlookInformation@Element";}},
 	OutlookInformationOptionBool{@Override public String toString() {return "Models.OutlookInformationOptionBool@Element";}},
 	OutlookInformationOptionInt{@Override public String toString() {return "Models.OutlookInformationOptionInt@Element";}},

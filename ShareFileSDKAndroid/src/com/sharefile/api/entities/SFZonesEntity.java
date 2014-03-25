@@ -14,15 +14,15 @@ package com.sharefile.api.entities;
 
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.models.SFItem;
+import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFZone;
 
 
 public class SFZonesEntity extends SFODataEntityBase
 {
-	public static SFApiQuery<SFZone> get()
+	public static SFApiQuery<SFODataFeed<SFZone>> get()
 	{
-		SFApiQuery<SFZone> query = new SFApiQuery<SFZone>();
+		SFApiQuery<SFODataFeed<SFZone>> query = new SFApiQuery<SFODataFeed<SFZone>>();
 		query.setFrom("Zones");
 		query.setHttpMethod(SFHttpMethod.GET);
 		return query;

@@ -52,7 +52,7 @@ public class SFApiQuery<T extends SFODataObject>
 	        aMap.put("Shares", SFShare.class);
 	        aMap.put("User", SFUser.class);
 	        aMap.put("Accounts", SFAccount.class);
-	        aMap.put("Zones", SFZone.class);
+	        aMap.put("Zones", SFODataFeed.class);
 	        
 	        mMapNameClassPairForFromEntity = Collections.unmodifiableMap(aMap);
 	}

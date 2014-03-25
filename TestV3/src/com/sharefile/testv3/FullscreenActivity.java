@@ -419,22 +419,22 @@ public class FullscreenActivity extends Activity
 		@Override
 		public void onClick(View v) 
 		{
-			SFApiQuery<SFZone> query = SFZonesEntity.get();
+			SFApiQuery<SFODataFeed<SFZone>> query = SFZonesEntity.get();
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFZone>() 
+				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFODataFeed<SFZone>>() 
 				{														
 
 					@Override
-					public void sfapiSuccess(SFZone object) 
+					public void sfapiSuccess(SFODataFeed<SFZone> object) 
 					{
 						SFLog.d2("SFSDK","getItem success: ");
 						showToast("success");
 					}
 
 					@Override
-					public void sfApiError(V3Error v3error, SFApiQuery<SFZone> asApiqueri) 
+					public void sfApiError(V3Error v3error, SFApiQuery<SFODataFeed<SFZone>> asApiqueri) 
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");

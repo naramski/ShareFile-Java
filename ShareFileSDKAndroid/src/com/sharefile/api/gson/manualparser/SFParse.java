@@ -17,6 +17,7 @@ import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFZone;
 
 public class SFParse 
 {
@@ -101,6 +102,25 @@ public class SFParse
 		return item;
 	}
 	
+	
+	public static SFODataFeed<SFZone> parseZonesFeed(JsonObject jsonObject)	
+	{					
+		SFODataFeed<SFZone> item = new SFODataFeed<SFZone>();
+		
+		item.setMetadata(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
+		item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
+		item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));
+		
+		int count = SFGsonHelper.getInt(jsonObject, SFKeywords.ODATA_COUNT, 0);
+		item.setcount(count);
+		item.setNextLink(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_NEXTLINK, null));
+						
+		ArrayList<SFZone> Feed = SFGsonHelper.getArrayList(SFZone.class, jsonObject, SFKeywords.VALUE, null);
+				
+		item.setFeed(Feed);
+		
+		return item;
+	}
 	/**
 	 * Add all new parse functions in the similar pattern
 	 * <p> Note they should have package scope. Can't use Java generics coz of the problem with Java generics and erasures

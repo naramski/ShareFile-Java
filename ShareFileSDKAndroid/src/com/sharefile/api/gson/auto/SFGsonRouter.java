@@ -99,6 +99,10 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 							ret = SFParse.parseAccessControlFeed(jsonObject);
 						break;
 						
+						case ZonesFeed:
+							ret = SFParse.parseZonesFeed(jsonObject);
+						break;
+						
 						case User:
 							ret = SFDefaultGsonParser.parse(SFUser.class, jsonElement);
 						break;
