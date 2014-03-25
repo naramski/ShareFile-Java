@@ -101,24 +101,15 @@ public class SFApiClient
 		mClientInitializedSuccessFully = false;
 		mClientInitListner = listener;
 		SFApiQuery<SFSession> sfQueryGetSession = SFSessionsEntity.get();				
-		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(SFSession.class,sfQueryGetSession, mListnererGetSession, mOAuthToken);
+		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(sfQueryGetSession, mListnererGetSession, mOAuthToken);
 		sfApiRunnable.startNewThread();
 	}
 
 	public <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
-	{								
-		/*
-		 *  See this error for why we need to store the inner class coxz of the java generics problem
-		 * 
-		if(query instanceof SFApiQuery<SFSession>)
-		{
-			
-		}
-		*/
-		
+	{										
 		validateClientState();
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query.getTrueInnerClass(),query, listener, mOAuthToken);
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listener, mOAuthToken);
 		return sfApiRunnable.startNewThread();
 	}
 	

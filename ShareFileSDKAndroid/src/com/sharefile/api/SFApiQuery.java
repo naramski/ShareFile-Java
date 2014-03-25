@@ -87,41 +87,13 @@ public class SFApiQuery<T extends SFODataObject>
 	private String mVersion = SFSDK.VERSION_FOR_QUERY_URL;
 	private String mId = null;
 	private Map<String,String> mQueryMap = new HashMap<String, String>();
-	private Map<String,String> mIdMap = new HashMap<String, String>();
-	private Class mInnerClass = null;
+	private Map<String,String> mIdMap = new HashMap<String, String>();	
 	private String mBody = null;
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
-	
 		
-			
-	public final Class getTrueInnerClass()
-	{
-		return mInnerClass;
-	}
-	
-	/**
-	 *   The API query finds out the type of object to be returned based on the Enity name sent in setFrom()
-	 *   and setAction(). The setAction() always overrrides the setFrom(). To make the setAction()/setFrom() safe from 
-	 *   overrtiting the changes if setFrom() is called after setAction() we put an extra check
-	 */
-	private boolean canSetInnerClass()
-	{
-		return (mInnerClass == null)?true:false;
-	}
-	
 	public final void setFrom(String setFrom)
 	{
-		mFromEntity = setFrom;
-						
-		if(canSetInnerClass())
-		{
-			mInnerClass = mMapNameClassPairForFromEntity.get(setFrom);
-			
-			if(mInnerClass == null)
-			{
-				SFToDoReminderException.throwTODOException("Put the class in the map : " + setFrom);
-			}
-		}
+		mFromEntity = setFrom;								
 	}
 	
 	public final void setLink(String link) throws URISyntaxException
@@ -141,14 +113,7 @@ public class SFApiQuery<T extends SFODataObject>
 	
 	public final void setAction(String action)
 	{
-		mAction = action;
-		
-		mInnerClass = mMapNameClassPairForSetAction.get(action);
-		
-		if(mInnerClass == null)
-		{
-			SFToDoReminderException.throwTODOException("Put the class in the map : " + action);
-		}
+		mAction = action;				
 	}
 	
 	public final void setHttpMethod(SFHttpMethod httpMethod)

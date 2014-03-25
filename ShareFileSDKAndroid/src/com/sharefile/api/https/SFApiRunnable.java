@@ -60,7 +60,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	FinalResponse mResponse = new FinalResponse();
 		
-	public SFApiRunnable(Class<T> innerType, SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token) throws SFInvalidStateException
+	public SFApiRunnable(SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token) throws SFInvalidStateException
 	{			
 		mQuery = query;
 		mResponseListener = responseListener;
@@ -109,20 +109,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private boolean needSpecialHandling()
 	{
 		boolean ret = false;
-		
-		Class innerClass = mQuery.getTrueInnerClass();
-		
-		if(innerClass!=null)
-		{
-			String className = innerClass.getName();
-			if(className!=null)
-			{
-				if(className.contains("SFDownloadSpecification"))
-				{
-					ret = true;
-				}
-			}
-		}
+				
 				
 		return ret;
 	}
