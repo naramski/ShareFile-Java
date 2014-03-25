@@ -1,8 +1,6 @@
 package com.sharefile.api.https;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -20,15 +18,10 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFProvider;
-import com.sharefile.api.enumerations.SFV3ElementType;
-import com.sharefile.api.enumerations.SFV3FeedType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.models.SFDownloadSpecification;
-import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFODataObject;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
@@ -115,8 +108,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	}
 	
 	private String fillSpecialResponse(String downloadURl)
-	{		
-		
+	{				
 		try 
 		{			
 			JsonObject  jsonObject = new JsonObject();
@@ -270,72 +262,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		V3Error v3Error = new V3Error(httpCode,errorDetails,extraInfo);
 		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error, null);
 	}
-			
-	private SFODataObject customParse(JsonElement jsonElement)
-	{
-		SFODataObject ret = null;
-		
-		try
-		{
-			if(jsonElement!=null)
-			{
 				
-				SFLog.d2(TAG,"Route for %s" +  jsonElement.toString());
-				
-				JsonObject jsonObject = jsonElement.getAsJsonObject();
-				
-				if(jsonObject!=null)
-				{
-					String metadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);
-					
-					SFV3ElementType elementType = SFV3ElementType.getElementTypeFromMetaData(metadata);
-																														
-					if(elementType!=null)
-					{
-						SFLog.d2(TAG, "GSON For : %s", metadata);
-						ret = SFDefaultGsonParser.parse(elementType.getV3Class(), jsonElement);
-					}
-					else
-					{
-						SFV3FeedType feedType = SFV3FeedType.getFeedTypeFromMetaData(metadata);
-						
-						if(feedType!=null)
-						{
-							SFLog.d2(TAG, "GSON For : %s", metadata);
-							ret = SFDefaultGsonParser.parseFeed(feedType.getV3Class(), jsonObject);
-						}
-					}										
-				}
-				else
-				{
-					SFLog.d2(TAG,"JSON Object NULL");
-				}
-			}
-			else
-			{
-				SFLog.d2(TAG,"JSON Element NULL");
-			}
-		}
-		catch(Exception e)
-		{									
-			SFLog.d2(TAG,"Exception MSG = %s"  , Log.getStackTraceString(e));
-		}
-		
-		if(ret ==null)
-		{
-			SFLog.d2(TAG,"Returning null  ");
-		}
-		else
-		{
-			if(ret instanceof SFFile)
-			{
-				SFLog.d2(TAG,"Returning NON null  %s" , ((SFFile)ret).getName());
-			}
-		}
-		
-		return ret;
-	}
-	
 	/**
 	 *  If an error happens during parsing the success response, 
 	 *  we return the exception description + the original server response in V3Error Object
@@ -346,7 +273,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		{			
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement =jsonParser.parse(responseString);
-			SFODataObject object = customParse(jsonElement);			
+			SFODataObject object = SFGsonHelper.customParse(jsonElement);			
 			mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null, object);			
 		} 
 		catch (Exception e) 
