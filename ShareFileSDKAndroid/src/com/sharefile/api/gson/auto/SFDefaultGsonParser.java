@@ -59,7 +59,13 @@ public class SFDefaultGsonParser
 				
 	/**
 	 *  Certain classes like SFPrincipal can't rely on the default gson parsing since we need to get the contained inner object
-	 *  in them using the odata.metatata and then handover the gson parsing to actual class contained in SFPrincipal
+	 *  in them using the odata.metatata and then handover the gson parsing to actual class contained in SFPrincipal.
+	 *  <p>This is particulalry true of objects contained inside a feed. exampple a folder feed has type ArrayList<SFItem>;
+	 *  So gson will try to parse the objects inside a feed using the parser for SFItem.class but we need them to be parsed using
+	 *  the individual SFFile,SFLink,SFFoler,SFLink etc classes. We re-pass the SFItem to SFGsonRouter. Note how we have avoided 
+	 *  self-recursion inside the SFGsonRouter.
+	 *  </p> 
+	 * 
 	 */
 	private void registerSFSpecificGsonAdapters()
 	{		
