@@ -22,17 +22,19 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.enumerations.SFV3ElementType;
+import com.sharefile.api.enumerations.SFV3FeedType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFDownloadSpecification;
+import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFODataObject;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
 	private static final String TAG = "-SFApiThread";
-	
-	private final Class<T> mInnerType ;	
+			
 	private final SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
@@ -59,8 +61,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	FinalResponse mResponse = new FinalResponse();
 		
 	public SFApiRunnable(Class<T> innerType, SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token) throws SFInvalidStateException
-	{	
-		mInnerType = innerType;
+	{			
 		mQuery = query;
 		mResponseListener = responseListener;
 		mOauthToken = token;		
@@ -283,6 +284,71 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error, null);
 	}
 			
+	private SFODataObject customParse(JsonElement jsonElement)
+	{
+		SFODataObject ret = null;
+		
+		try
+		{
+			if(jsonElement!=null)
+			{
+				
+				SFLog.d2(TAG,"Route for %s" +  jsonElement.toString());
+				
+				JsonObject jsonObject = jsonElement.getAsJsonObject();
+				
+				if(jsonObject!=null)
+				{
+					String metadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);
+					
+					SFV3ElementType elementType = SFV3ElementType.getElementTypeFromMetaData(metadata);
+																														
+					if(elementType!=null)
+					{
+						SFLog.d2(TAG, "GSON For : %s", metadata);
+						ret = SFDefaultGsonParser.parse(elementType.getV3Class(), jsonElement);
+					}
+					else
+					{
+						SFV3FeedType feedType = SFV3FeedType.getFeedTypeFromMetaData(metadata);
+						
+						if(feedType!=null)
+						{
+							SFLog.d2(TAG, "GSON For : %s", metadata);
+							ret = SFDefaultGsonParser.parseFeed(feedType.getV3Class(), jsonObject);
+						}
+					}										
+				}
+				else
+				{
+					SFLog.d2(TAG,"JSON Object NULL");
+				}
+			}
+			else
+			{
+				SFLog.d2(TAG,"JSON Element NULL");
+			}
+		}
+		catch(Exception e)
+		{									
+			SFLog.d2(TAG,"Exception MSG = %s"  , Log.getStackTraceString(e));
+		}
+		
+		if(ret ==null)
+		{
+			SFLog.d2(TAG,"Returning null  ");
+		}
+		else
+		{
+			if(ret instanceof SFFile)
+			{
+				SFLog.d2(TAG,"Returning NON null  %s" , ((SFFile)ret).getName());
+			}
+		}
+		
+		return ret;
+	}
+	
 	/**
 	 *  If an error happens during parsing the success response, 
 	 *  we return the exception description + the original server response in V3Error Object
@@ -293,7 +359,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		{			
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement =jsonParser.parse(responseString);
-			SFODataObject object = SFDefaultGsonParser.parse(mInnerType, jsonElement);			
+			SFODataObject object = customParse(jsonElement);			
 			mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null, object);			
 		} 
 		catch (Exception e) 
@@ -333,21 +399,5 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		Thread sfApithread = new Thread(this);		
 		sfApithread.start();
 		return sfApithread;
-	}		
-	
-	public T createInstanceForSuccessResponse()
-	{		
-		T object =	null;
-		
-		try 
-		{
-			object = mInnerType.newInstance();	
-		} 
-		catch (Exception e) 
-		{			
-			e.printStackTrace();
-		} 		
-						
-		return object;
-	}
+	}				
 }

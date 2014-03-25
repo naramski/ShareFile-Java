@@ -2,6 +2,7 @@ package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
 
+import android.content.ClipData.Item;
 import android.util.Log;
 
 import com.google.gson.JsonDeserializationContext;
@@ -12,24 +13,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.sharefile.api.SFModelFactory;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFV3ElementType;
-import com.sharefile.api.exceptions.SFToDoReminderException;
+import com.sharefile.api.enumerations.SFV3FeedType;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.manualparser.SFParse;
-import com.sharefile.api.models.SFAccountUser;
 import com.sharefile.api.models.SFFile;
-import com.sharefile.api.models.SFFolder;
-import com.sharefile.api.models.SFGroup;
-import com.sharefile.api.models.SFItem;
-import com.sharefile.api.models.SFLink;
-import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.models.SFUser;
 
 /**
  *   This class read the odata.metadata from the JsonElement to find out the real type of object contained inside the object 
@@ -39,9 +30,8 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 {		
 	private static final String TAG = "-SFGsonRouter";
 	
-	@Override
-	public SFODataObject deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException 
-	{		
+	private SFODataObject customParse(JsonElement jsonElement)
+	{
 		SFODataObject ret = null;
 		
 		try
@@ -56,65 +46,38 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 				if(jsonObject!=null)
 				{
 					String metadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);
-					SFV3ElementType elementType = SFV3ElementType.getElementTypeFromMetaData(metadata);
-										
-					SFLog.d2(TAG, "GSON For : %s", metadata);
 					
-					switch(elementType)
+					SFV3ElementType elementType = SFV3ElementType.getElementTypeFromMetaData(metadata);
+																														
+					if(elementType!=null)
 					{
-						case AccountUser:
-							ret = SFDefaultGsonParser.parse(SFAccountUser.class, jsonElement);
-						break;
+						SFLog.d2(TAG, "GSON For : %s", metadata);
 						
-						case File:
-							ret = SFDefaultGsonParser.parse(SFFile.class, jsonElement);
-						break;
-						
-						case Folder:
-							ret = SFDefaultGsonParser.parse(SFFolder.class, jsonElement);
-						break;
-						
-						/* SymbolicLink are folders that act as a routing link that pass-on from ShareFile to to CIFs/SP/etc */
-						case SymbolicLink:
-							ret = SFDefaultGsonParser.parse(SFSymbolicLink.class, jsonElement);
-						break;
-						
-						case Link:
-							ret = SFDefaultGsonParser.parse(SFLink.class, jsonElement);
-						break;
-						
-						case Note:
-							ret = SFDefaultGsonParser.parse(SFNote.class, jsonElement);
-						break;
-						
-						case Item:
-							ret = SFParse.parseSFItem(jsonObject);
-						break;
-						
-						case CapabilityFeed:
-							ret = SFParse.parseCapabilityFeed(jsonObject);
-						break;	
-						
-						case AccessControlFeed:
-							ret = SFParse.parseAccessControlFeed(jsonObject);
-						break;
-						
-						case ZonesFeed:
-							ret = SFParse.parseZonesFeed(jsonObject);
-						break;
-						
-						case User:
-							ret = SFDefaultGsonParser.parse(SFUser.class, jsonElement);
-						break;
-						
-						case Group:
-							ret = SFDefaultGsonParser.parse(SFGroup.class, jsonElement);
-						break;
-						
+						switch (elementType) 
+						{
+							case Item:		
+								/*
+								 *  This needs explicit parsing to avoid going into infinite recursion and stackoverflow
+								 *  when enumerating folders.
+								 */
+								ret = SFParse.parseSFItem(jsonObject);
+							break;
+
 						default:
-							SFToDoReminderException.throwTODOException("Need to implement parser for : " + elementType.toString());
-						break;	
+							ret = SFDefaultGsonParser.parse(elementType.getV3Class(), jsonElement);
+							break;
+						}						
 					}
+					else
+					{
+						SFV3FeedType feedType = SFV3FeedType.getFeedTypeFromMetaData(metadata);
+						
+						if(feedType!=null)
+						{
+							SFLog.d2(TAG, "GSON For : %s", metadata);
+							ret = SFDefaultGsonParser.parseFeed(feedType.getV3Class(), jsonObject);
+						}
+					}										
 				}
 				else
 				{
@@ -144,6 +107,12 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		}
 		
 		return ret;
+	}
+	
+	@Override
+	public SFODataObject deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException 
+	{		
+		return customParse(jsonElement);
 	}
 
 	@Override

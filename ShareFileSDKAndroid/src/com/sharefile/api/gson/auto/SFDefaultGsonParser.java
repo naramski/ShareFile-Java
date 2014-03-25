@@ -1,6 +1,7 @@
 package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gson.Gson;
@@ -8,13 +9,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.sharefile.api.V3Error;
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
-import com.sharefile.api.models.SFSession;
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
@@ -48,6 +51,25 @@ public class SFDefaultGsonParser
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	
 	
+	public static SFODataFeed<SFODataObject> parseFeed(Class clazz,JsonObject jsonObject)	
+	{					
+		SFODataFeed<SFODataObject> item = new SFODataFeed<SFODataObject>();
+		
+		item.setMetadata(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
+		item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
+		item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));
+		
+		int count = SFGsonHelper.getInt(jsonObject, SFKeywords.ODATA_COUNT, 0);
+		item.setcount(count);
+		item.setNextLink(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_NEXTLINK, null));
+						
+		ArrayList<SFODataObject> Feed = SFGsonHelper.getArrayList(clazz, jsonObject, SFKeywords.VALUE, null);
+				
+		item.setFeed(Feed);
+		
+		return item;
+	}
+	
 	public static V3Error parse(JsonElement jsonElement)	
 	{		
 		return getInstance().mGson.fromJson(jsonElement, V3Error.class);		
@@ -63,10 +85,11 @@ public class SFDefaultGsonParser
 	 *  in them using the odata.metatata and then handover the gson parsing to actual class contained in SFPrincipal
 	 */
 	private void registerSFSpecificGsonAdapters()
-	{
+	{		
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
+				
 		mGsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() 
 		{
 
@@ -76,6 +99,5 @@ public class SFDefaultGsonParser
 				return null;
 			}
 		});
-	}
-		
+	}		
 }

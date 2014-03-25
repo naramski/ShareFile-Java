@@ -16,6 +16,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
 import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFZone;
 
@@ -63,6 +64,25 @@ public class SFParse
 		return item;
 	}
 	
+	public static SFODataFeed<SFODataObject> parseFeed(JsonObject jsonObject, Class clazz)	
+	{					
+		SFODataFeed<SFODataObject> item = new SFODataFeed<SFODataObject>();
+		
+		item.setMetadata(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
+		item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
+		item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));
+		
+		int count = SFGsonHelper.getInt(jsonObject, SFKeywords.ODATA_COUNT, 0);
+		item.setcount(count);
+		item.setNextLink(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_NEXTLINK, null));
+						
+		ArrayList<SFODataObject> Feed = SFGsonHelper.getArrayList(clazz, jsonObject, SFKeywords.VALUE, null);
+				
+		item.setFeed(Feed);
+		
+		return item;
+	}
+	
 	public static SFODataFeed<SFCapability> parseCapabilityFeed(JsonObject jsonObject)	
 	{					
 		SFODataFeed<SFCapability> item = new SFODataFeed<SFCapability>();
@@ -81,8 +101,7 @@ public class SFParse
 		
 		return item;
 	}
-	
-	
+		
 	public static SFODataFeed<SFAccessControl> parseAccessControlFeed(JsonObject jsonObject)	
 	{					
 		SFODataFeed<SFAccessControl> item = new SFODataFeed<SFAccessControl>();
