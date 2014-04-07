@@ -31,6 +31,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private final SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
+	private final SFCookieManager mCookieManager;
 		
 	
 	/**
@@ -53,11 +54,12 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	FinalResponse mResponse = new FinalResponse();
 		
-	public SFApiRunnable(SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token) throws SFInvalidStateException
+	public SFApiRunnable(SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token,SFCookieManager cookieManager) throws SFInvalidStateException
 	{			
 		mQuery = query;
 		mResponseListener = responseListener;
 		mOauthToken = token;		
+		mCookieManager = cookieManager;
 	}
 	
 	@Override
@@ -153,7 +155,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			
 			//Use the bearer token currently. ignore the cookies untill we have a good cookie mgr. might impact sharepoint testing without cookies. 
 			//v3Error = SFHttpsCaller.handleErrorAndCookies(connection, httpErrorCode, url);
-			SFHttpsCaller.getAndStoreCookies(connection, url);
+			SFHttpsCaller.getAndStoreCookies(connection, url,mCookieManager);
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{										

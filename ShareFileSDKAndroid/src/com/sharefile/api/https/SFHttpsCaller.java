@@ -38,7 +38,7 @@ public class SFHttpsCaller
 	private static final String UN_REACHABLE       = "resolved";
 	private static final String OUT_OF_MEMORY = "memory";
 	
-	private static CookieManager m_cookieManager = null;
+	//private static CookieManager m_cookieManager = null;
 		
 	public static void setBasicAuth(URLConnection conn,String username,String password)
 	{			
@@ -158,47 +158,20 @@ public class SFHttpsCaller
 
 	private static final boolean debugCookies = true;
 	
-	public static synchronized void setAuth(URLConnection conn, URL url,String basicAuthCreds)
+	public static synchronized void setAuth(URLConnection conn, URL url,String basicAuthCreds,SFCookieManager cookieManager) throws IOException
 	{			
-		if(m_cookieManager==null)
+		if(cookieManager!=null)
 		{			
-			m_cookieManager = CookieManager.getInstance();			
+			cookieManager.setCookies(conn);
 		}
 		
 		if(basicAuthCreds!=null)
 		{			
 			String basicAuth = "Basic " + new String(Base64.encode(basicAuthCreds.getBytes(),Base64.NO_WRAP ));			
 			conn.setRequestProperty ("Authorization", basicAuth);			
-		}
-		
-		String cookie = m_cookieManager.getCookie(url.toString());
-		if (cookie != null)
-		{				
-			conn.setRequestProperty("Cookie", cookie);			
-		}				
+		}								
 	}
-	
-	/**
-	 * Set auth cookie as well as Auth header
-	 */
-	public static synchronized void setExtraAuth(URLConnection conn, URL url,String basicAuthCreds)
-	{			
-		if(m_cookieManager==null)
-		{			
-			m_cookieManager = CookieManager.getInstance();			
-		}
 		
-		if(basicAuthCreds!=null)
-		{			
-			String basicAuth = "Basic " + new String(Base64.encode(basicAuthCreds.getBytes(),Base64.NO_WRAP ));			
-			conn.setRequestProperty ("Authorization", basicAuth);			
-		}
-						
-		String cookie = m_cookieManager.getCookie(url.toString());
-				
-		conn.setRequestProperty("Cookie", cookie);		
-	}
-	
 	public static int catchIfAuthException(IOException e) throws IOException
 	{
 		String errMessage = e.getLocalizedMessage();
@@ -279,14 +252,15 @@ public class SFHttpsCaller
 	 *  if responsecode == HTTP_OK then read the cookies.
 	 *  
 	 *  <p>This function always returns a valid V3Error in any non-success case or NULL if HTTP_OK
+	 * @throws IOException 
 	 */
-	public static V3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url)
+	public static V3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url,SFCookieManager cookieManager) throws IOException
 	{
 		V3Error v3Error = null;
 		
 		if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 		{
-			getAndStoreCookies(conn,url);
+			getAndStoreCookies(conn,url,cookieManager);
 			return v3Error;
 		}
 		
@@ -340,31 +314,12 @@ public class SFHttpsCaller
 		SFLog.d2(TAG, "!!!!!!Dumping Header Feilds:----END ");
 	}
 	
-	public static synchronized void getAndStoreCookies(URLConnection conn, URL url)
+	public static synchronized void getAndStoreCookies(URLConnection conn, URL url,SFCookieManager cookieManager) throws IOException
 	{
-		if(m_cookieManager==null)
+		if(cookieManager!=null)
 		{						
-			m_cookieManager = CookieManager.getInstance();			
-		}
-		
-		Map<String, List<String>> headerfield = conn.getHeaderFields();
-				
-		dumpHeaders(headerfield);
-		
-		List<String> cookie_values = headerfield.get("Set-Cookie");
-		
-		if(cookie_values!=null)
-		{
-			for(String s:cookie_values)
-			{
-				if(m_cookieManager!=null)
-				{
-					m_cookieManager.setCookie(url.toString(), s);					
-				}    			    								
-			}
-		}
-		
-		SFLog.d2(TAG, "Final Stored Auth Cookie : %s" , m_cookieManager.getCookie(url.toString()));
+			cookieManager.readCookiesFromConnection(conn);
+		}				
 	}
 			
 	public static String readResponse(URLConnection conn) throws IOException 

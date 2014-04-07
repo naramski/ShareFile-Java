@@ -10,6 +10,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
+import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.interfaces.SFApiClientInitListener;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
@@ -30,6 +31,7 @@ public class SFApiClient
 	private SFOAuth2Token mOAuthToken = null;
 	private SFSession mSession = null;
 	private SFApiClientInitListener mClientInitListner = null;
+	private final SFCookieManager mCookieManager = new SFCookieManager(); 
 	
 	private boolean mClientInitializedSuccessFully = false;
 	
@@ -101,7 +103,7 @@ public class SFApiClient
 		mClientInitializedSuccessFully = false;
 		mClientInitListner = listener;
 		SFApiQuery<SFSession> sfQueryGetSession = SFSessionsEntity.get();				
-		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(sfQueryGetSession, mListnererGetSession, mOAuthToken);
+		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(sfQueryGetSession, mListnererGetSession, mOAuthToken,mCookieManager);
 		sfApiRunnable.startNewThread();
 	}
 
@@ -109,7 +111,7 @@ public class SFApiClient
 	{										
 		validateClientState();
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listener, mOAuthToken);
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listener, mOAuthToken,mCookieManager);
 		return sfApiRunnable.startNewThread();
 	}
 	
@@ -146,7 +148,7 @@ public class SFApiClient
 	{
 		validateClientState();
 		
-		SFApiFileDownloadRunnable sfDownloadFile = new SFApiFileDownloadRunnable(downloadSpecification, resumeFromByteIndex, fileOutpuStream , this,progressListener);
+		SFApiFileDownloadRunnable sfDownloadFile = new SFApiFileDownloadRunnable(downloadSpecification, resumeFromByteIndex, fileOutpuStream , this,progressListener,mCookieManager);
 		return sfDownloadFile.startNewThread();				
 	}
 	
@@ -154,7 +156,7 @@ public class SFApiClient
 	{
 		validateClientState();
 		
-		SFApiFileUploadRunnable sfUploadFile = new SFApiFileUploadRunnable(uploadSpecification, resumeFromByteIndex, tolalBytes,destinationName, fileInputStream, this,progressListener);
+		SFApiFileUploadRunnable sfUploadFile = new SFApiFileUploadRunnable(uploadSpecification, resumeFromByteIndex, tolalBytes,destinationName, fileInputStream, this,progressListener,mCookieManager);
 		return sfUploadFile.startNewThread();				
 	}	
 }

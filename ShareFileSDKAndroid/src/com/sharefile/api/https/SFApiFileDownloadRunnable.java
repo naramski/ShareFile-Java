@@ -33,18 +33,20 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private final SFApiClient mApiClient;
 	private final SFApiDownloadProgressListener mProgressListener;
 	private FinalResponse mResponse = new FinalResponse();	
+	private final SFCookieManager mCookieManager;
 	
 	public SFApiFileDownloadRunnable(SFDownloadSpecification downloadSpecification,
 									 int resumeFromByteIndex, 
 									 FileOutputStream fileOutpuStream, 
 									 SFApiClient client,
-									 SFApiDownloadProgressListener progressListener) 
+									 SFApiDownloadProgressListener progressListener,SFCookieManager cookieManager) 
 	{		
 		mDownloadSpecification = downloadSpecification;
 		mResumeFromByteIndex = resumeFromByteIndex;
 		mFileOutputStream = fileOutpuStream;
 		mApiClient = client;
 		mProgressListener = progressListener;
+		mCookieManager = cookieManager;
 	}
 
 	@Override
@@ -80,7 +82,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 			
 			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);			
 						
-			SFHttpsCaller.getAndStoreCookies(connection, url);
+			SFHttpsCaller.getAndStoreCookies(connection, url,mCookieManager);
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{														

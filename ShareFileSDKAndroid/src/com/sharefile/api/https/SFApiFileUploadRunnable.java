@@ -48,7 +48,8 @@ public class SFApiFileUploadRunnable implements Runnable
 	private final SFApiClient mApiClient;
 	private final SFApiUploadProgressListener mProgressListener;
 	private final String mDestinationFileName;
-	private FinalResponse mResponse = new FinalResponse();	
+	private FinalResponse mResponse = new FinalResponse();
+	private final SFCookieManager mCookieManager;
 	
 	public SFApiFileUploadRunnable(SFUploadSpecification uploadSpecification,
 									 int resumeFromByteIndex, 
@@ -56,7 +57,8 @@ public class SFApiFileUploadRunnable implements Runnable
 									 String destinationName,
 									 FileInputStream fileInputStream, 									 
 									 SFApiClient client,
-									 SFApiUploadProgressListener progressListener) 
+									 SFApiUploadProgressListener progressListener,
+									 SFCookieManager cookieManager) 
 	{		
 		mUploadSpecification = uploadSpecification;
 		mResumeFromByteIndex = resumeFromByteIndex;
@@ -65,6 +67,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		mFileInputStream = fileInputStream;
 		mApiClient = client;
 		mProgressListener = progressListener;
+		mCookieManager = cookieManager;
 	}
 
 	@Override
@@ -167,7 +170,7 @@ public class SFApiFileUploadRunnable implements Runnable
 			
 			httpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);			
 			
-			SFHttpsCaller.getAndStoreCookies(conn, new URL(finalURL));
+			SFHttpsCaller.getAndStoreCookies(conn, new URL(finalURL),mCookieManager);
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{														
