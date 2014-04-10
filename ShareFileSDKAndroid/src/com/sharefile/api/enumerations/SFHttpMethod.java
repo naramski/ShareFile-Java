@@ -2,9 +2,22 @@ package com.sharefile.api.enumerations;
 
 public enum SFHttpMethod 
 {
-	GET{@Override public String toString() {return "GET";}},
-	POST{@Override public String toString() {return "POST";}},
-	PUT{@Override public String toString() {return "PUT";}},
-	PATCH{@Override public String toString() {return "PATCH";}},
-	DELETE{@Override public String toString() {return "DELETE";}},
+	GET("GET"),
+	POST("POST"),
+	PUT("PUT"),
+	PATCH("PATCH"),
+	DELETE("DELETE");
+		
+	private final String mToString;
+	
+	private SFHttpMethod(String toStr) 
+	{		
+		mToString = toStr;
+	}
+	
+	@Override
+	public String toString() 
+	{		
+		return mToString;
+	}
 }

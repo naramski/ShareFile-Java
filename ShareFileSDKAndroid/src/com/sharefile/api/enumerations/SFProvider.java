@@ -9,11 +9,24 @@ import com.sharefile.api.constants.SFSDK;
  */
 public enum SFProvider 
 {	
-	PROVIDER_TYPE_SF{@Override public String toString() {return "/sf/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH;}},
-	PROVIDER_TYPE_CIFS{@Override public String toString() {return "/cifs/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH;}},
-	PROVIDER_TYPE_SHAREPOINT{@Override public String toString() {return "/sp/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH;}};
+	PROVIDER_TYPE_SF("/sf/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
+	PROVIDER_TYPE_CIFS("/cifs/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
+	PROVIDER_TYPE_SHAREPOINT("/sp/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH);
 	
 	private static final String keywordV3 = SFKeywords.FWD_SLASH+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH;
+	
+	private final String mToStr;
+	
+	private SFProvider(String toStr)
+	{
+		mToStr = toStr;
+	}
+	
+	@Override
+	public String toString() 
+	{		
+		return mToStr;
+	}
 	
 	/**
 	 * 	String can be of type : 
