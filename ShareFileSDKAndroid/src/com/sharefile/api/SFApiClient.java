@@ -65,7 +65,7 @@ public class SFApiClient
 		@Override
 		public void sfapiSuccess(SFSession sfsession) 
 		{			
-			mSession = sfsession; //TODO: deep copy needed?
+			mSession = sfsession;
 			mClientInitializedSuccessFully = true;
 						
 			SFPrincipal principal = mSession.getPrincipal();
@@ -74,9 +74,7 @@ public class SFApiClient
 			{
 				SFLog.d2(TAG, "SESSION FOR %s = " , ((SFUser)principal).getFullName());
 			}
-				
-			
-			//TODO: can we have generic pattern for callback calling
+							
 			if(mClientInitListner!=null)
 			{
 				mClientInitListner.sfApiClientInitSuccess();
@@ -90,7 +88,6 @@ public class SFApiClient
 			
 			mClientInitializedSuccessFully = false;
 			
-			//TODO: can we have generic pattern for callback calling
 			if(mClientInitListner!=null)
 			{
 				mClientInitListner.sfApiClientInitError(error);

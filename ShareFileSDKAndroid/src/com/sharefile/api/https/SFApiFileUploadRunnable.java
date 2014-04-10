@@ -368,11 +368,6 @@ public class SFApiFileUploadRunnable implements Runnable
 					mProgressListener.uploadSuccess(mResponse.mBytesUploaded, mUploadSpecification, mApiClient);				
 				break;	
 				
-				case HttpsURLConnection.HTTP_NO_CONTENT:
-					//TODO: is this correct for a upload?
-					mProgressListener.uploadSuccess(mResponse.mBytesUploaded, mUploadSpecification, mApiClient);
-				break;
-												
 				default:
 					mProgressListener.uploadFailure(mResponse.mV3Error,mResponse.mBytesUploaded, mUploadSpecification, mApiClient);
 				break;				

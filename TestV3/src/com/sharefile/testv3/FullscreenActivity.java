@@ -127,7 +127,7 @@ public class FullscreenActivity extends Activity
 			
 			if(v3error.httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED)
 			{
-				SFGetNewAccessToken getNewToken = new SFGetNewAccessToken(mOAuthToken, mNewTokenListener);
+				SFGetNewAccessToken getNewToken = new SFGetNewAccessToken(mOAuthToken, mNewTokenListener, WEB_LOGIN_CLIENT_ID_SHAREFILE, WEB_LOGIN_CLIENT_SECRET_SHAREFILE);
 				getNewToken.startNewThread();						
 			}
 		}

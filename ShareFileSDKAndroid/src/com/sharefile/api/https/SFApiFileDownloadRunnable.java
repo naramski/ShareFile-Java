@@ -243,12 +243,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 				case HttpsURLConnection.HTTP_OK:
 					mProgressListener.downloadSuccess(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);				
 				break;	
-				
-				case HttpsURLConnection.HTTP_NO_CONTENT:
-					//TODO: is this correct for a download?
-					mProgressListener.downloadSuccess(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
-				break;
-												
+																
 				default:
 					mProgressListener.downloadFailure(mResponse.mV3Error,mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
 				break;				

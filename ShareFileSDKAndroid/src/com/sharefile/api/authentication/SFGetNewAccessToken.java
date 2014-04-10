@@ -32,15 +32,15 @@ public class SFGetNewAccessToken implements Runnable
 	private V3Error mV3Error = null;	
 	private final SFOAuth2Token mOldAccessToken;
 	private SFOAuth2Token mNewAccessToken = null;
-	//TODO: parametrize them later
-	
-	public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "qhRBpcI7yj931hV2wzGlmsi6b";
-	public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "Nu8JDCC9EK598e4PmA2NBbF09oYBS8";	 	
-	
-	public SFGetNewAccessToken(SFOAuth2Token oldtoken,SFGetNewAccessTokenListener callback)
+	private final String mWebLoginClientID;
+	private final String mWebLoginClientSecret;
+		
+	public SFGetNewAccessToken(SFOAuth2Token oldtoken,SFGetNewAccessTokenListener callback,String clientID,String clientSecret)
 	{		
 		mCallback = callback;
 		mOldAccessToken = oldtoken;
+		mWebLoginClientID = clientID;
+		mWebLoginClientSecret = clientSecret;
 	}
 	
 	private final String buildWebLoginTokenUrl(String controlplane,String subdomain)
@@ -107,8 +107,8 @@ public class SFGetNewAccessToken implements Runnable
 			List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
 			nvPairs.add(new BasicNameValuePair(SFKeywords.GRANT_TYPE, SFKeywords.REFRESH_TOKEN));
 			nvPairs.add(new BasicNameValuePair(SFKeywords.REFRESH_TOKEN, mOldAccessToken.getRefreshToken()));
-			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, WEB_LOGIN_CLIENT_ID_SHAREFILE));
-			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, WEB_LOGIN_CLIENT_SECRET_SHAREFILE));		
+			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, mWebLoginClientID));
+			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, mWebLoginClientSecret));		
 			
 			String body = getBodyForWebLogin(nvPairs);
 			
