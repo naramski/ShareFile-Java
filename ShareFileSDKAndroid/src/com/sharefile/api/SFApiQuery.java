@@ -11,7 +11,6 @@ import java.util.Set;
 
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.exceptions.SFToDoReminderException;
@@ -36,7 +35,6 @@ public class SFApiQuery<T extends SFODataObject>
 	private String mAction = null;
 	private String mHttpMethod = null;
 	private SFProvider mProvider = SFProvider.PROVIDER_TYPE_SF;
-	private String mVersion = SFSDK.VERSION_FOR_QUERY_URL;
 	private String mId = null;
 	private Map<String,String> mQueryMap = new HashMap<String, String>();
 	private Map<String,String> mIdMap = new HashMap<String, String>();	
@@ -57,12 +55,7 @@ public class SFApiQuery<T extends SFODataObject>
 	{
 		mProvider = provider;
 	}
-	
-	public final void setVersion(String version)
-	{
-		mVersion = version;
-	}
-	
+		
 	public final void setAction(String action)
 	{
 		mAction = action;				
@@ -117,8 +110,8 @@ public class SFApiQuery<T extends SFODataObject>
 	}
 	
 	public final void setBody(SFODataObject body)
-	{		
-		mBody = SFDefaultGsonParser.getInstance().serialize(body.getClass(), body);
+	{				
+		mBody = SFDefaultGsonParser.serialize(body.getClass(), body);
 	}
 	
 	public final void setBody(String str)

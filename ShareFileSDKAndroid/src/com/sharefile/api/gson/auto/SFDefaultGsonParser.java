@@ -42,7 +42,7 @@ public class SFDefaultGsonParser
 		return mInstance;
 	}
 			
-	public static <T> SFODataObject parse(Class clazz,JsonElement jsonElement)	
+	public static <T> SFODataObject parse(Class<?> clazz,JsonElement jsonElement)	
 	{		
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	

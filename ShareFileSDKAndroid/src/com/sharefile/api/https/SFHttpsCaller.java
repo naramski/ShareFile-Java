@@ -13,15 +13,11 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.NameValuePair;
 
 import android.util.Base64;
-import android.webkit.CookieManager;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.android.utils.Utils;
@@ -35,7 +31,6 @@ public class SFHttpsCaller
 	private static final String TAG = "-SFHttpCaller";
 	
 	private static final String NO_AUTH_CHALLENGES = "No authentication challenges found";
-	private static final String UN_REACHABLE       = "resolved";
 	private static final String OUT_OF_MEMORY = "memory";
 	
 	//private static CookieManager m_cookieManager = null;
@@ -63,26 +58,6 @@ public class SFHttpsCaller
 		return url.openConnection();
 	}
 		
-	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
-	{
-	    StringBuilder result = new StringBuilder();
-	    boolean first = true;
-
-	    for (NameValuePair pair : params)
-	    {
-	        if (first)
-	            first = false;
-	        else
-	            result.append(","); //CHECK THIS. DOES THIS NEED URLENCODE?
-
-	        result.append("\""+pair.getName()+"\"");
-	        result.append(":");
-	        result.append("\""+pair.getValue()+"\"");
-	    }
-
-	    return "{" + result.toString() + "}";
-	}
-	
 	/**     
      grant_type=authorization_code&code=CvJ4LMgMDHuZGLXgJgJdDYR17Hd3b5&client_id=3fTJB2mjJ7KaNflPWJ8MylHos&client_secret=Y8LzHuYvxjxc8FE7s1HNe96s0xGVM4
 	 */
@@ -155,8 +130,6 @@ public class SFHttpsCaller
 		setRequestMethod(conn,SFHttpMethod.DELETE.toString());		
 		conn.setDoInput(true);
 	}
-
-	private static final boolean debugCookies = true;
 	
 	public static synchronized void setAuth(URLConnection conn, URL url,String basicAuthCreds,SFCookieManager cookieManager) throws IOException
 	{			
@@ -284,36 +257,6 @@ public class SFHttpsCaller
 	}
 	
 		
-	private static void dumpHeaders(Map<String, List<String>> headerfield)
-	{
-		SFLog.d2(TAG, "START----------Dumping Header Feilds");
-		
-		if(headerfield!=null)
-		{
-			Set<String>  keys = headerfield.keySet();
-						
-			if(keys!=null)
-			{
-				for(String key:keys)
-				{
-					SFLog.d2(TAG, "--- KEY:  %s" , key);
-					
-					List<String> cookie_values = headerfield.get(key);
-															
-					if(cookie_values!=null)
-					{
-						for(String s:cookie_values)
-						{
-							SFLog.d2(TAG,"---------Value: %s", s);							    			    								
-						}
-					}
-				}
-			}
-		}
-		
-		SFLog.d2(TAG, "!!!!!!Dumping Header Feilds:----END ");
-	}
-	
 	public static synchronized void getAndStoreCookies(URLConnection conn, URL url,SFCookieManager cookieManager) throws IOException
 	{
 		if(cookieManager!=null)
@@ -387,22 +330,6 @@ public class SFHttpsCaller
 		urlstream.close();
 				
 		return sb.toString();
-	}
-	
-	/**
-	 * the url should begin with https or http. The external address in case of pactera during the connector creation 
-	 * does not start with https
-	 */
-	private static String makeValidHttpsLink(String urlstr)
-	{		
-		if(urlstr.startsWith("http://") || urlstr.startsWith("https://"))
-		{
-			return urlstr;
-		}
-		
-		SFLog.d2(TAG, "makeValidHttpsLink =  https://%s" , urlstr);
-		
-		return "https://"+ urlstr;		
 	}
 	
 	public static void disconnect(URLConnection conn)

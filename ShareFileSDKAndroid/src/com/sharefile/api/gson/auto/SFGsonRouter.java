@@ -18,8 +18,6 @@ import com.sharefile.api.models.SFODataObject;
  */
 public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerializer<SFODataObject>
 {		
-	private static final String TAG = "-SFGsonRouter";
-	
 	@Override
 	public SFODataObject deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException 
 	{		

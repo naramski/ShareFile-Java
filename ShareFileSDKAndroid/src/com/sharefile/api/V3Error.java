@@ -55,6 +55,7 @@ public class V3Error
 			case HttpsURLConnection.HTTP_FORBIDDEN: return ERR_FORBIDDEN;
 			case HttpsURLConnection.HTTP_UNAUTHORIZED: return ERR_UNAUTHORIZD;
 			case HttpsURLConnection.HTTP_UNAVAILABLE:return ERR_NOTREACHABLE;
+			case HttpsURLConnection.HTTP_BAD_METHOD:return ERR_BADMETHOD;
 			default: return "Unkown Error.("+ httpResponseCode+")";
 		}
 	}

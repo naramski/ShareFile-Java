@@ -1,14 +1,11 @@
 package com.sharefile.api.gson;
 
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -86,7 +83,7 @@ public class SFGsonHelper
     	return ret;
     }
     
-    public static <T> ArrayList<T> getArrayList(Class clazz, JsonObject json,String memberName,ArrayList<T> defaultValue)
+    public static <T> ArrayList<T> getArrayList(Class<?> clazz, JsonObject json,String memberName,ArrayList<T> defaultValue)
     {
     	ArrayList<T> ret = defaultValue;
     	
@@ -138,7 +135,7 @@ public class SFGsonHelper
     	return ret;
     }
         
-    public static SFODataObject getSFODataObject(Class clazz,JsonObject json,String memberName,SFODataObject defaultValue)
+    public static SFODataObject getSFODataObject(Class<?> clazz,JsonObject json,String memberName,SFODataObject defaultValue)
     {
     	SFODataObject ret = defaultValue;
     	    	    		    	    		    		    	
@@ -170,7 +167,7 @@ public class SFGsonHelper
 		return item;
 	}
 	
-    public static SFODataFeed<SFODataObject> parseFeed(Class clazz,JsonObject jsonObject)	
+    public static SFODataFeed<SFODataObject> parseFeed(Class<?> clazz,JsonObject jsonObject)	
 	{					
 		SFODataFeed<SFODataObject> item = new SFODataFeed<SFODataObject>();
 		

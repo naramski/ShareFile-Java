@@ -128,15 +128,15 @@ public class SFCookieManager
 		String domain = getDomainFromHost(url.getHost());
 		String path = url.getPath();
 		
-		Map domainStore = mStore.get(domain);
+		Map<?, ?> domainStore = mStore.get(domain);
 		if (domainStore == null) return;
 		StringBuffer cookieStringBuffer = new StringBuffer();
 		
-		Iterator cookieNames = domainStore.keySet().iterator();
+		Iterator<?> cookieNames = domainStore.keySet().iterator();
 		while(cookieNames.hasNext()) 
 		{
 		    String cookieName = (String)cookieNames.next();
-		    Map cookie = (Map)domainStore.get(cookieName);
+		    Map<?, ?> cookie = (Map<?, ?>)domainStore.get(cookieName);
 		    // check cookie to ensure path matches  and cookie is not expired
 		    // if all is cool, add cookie to header string 
 		    if (comparePaths((String)cookie.get(PATH), path) && isNotExpired((String)cookie.get(EXPIRES))) 
