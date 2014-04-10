@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -55,7 +56,7 @@ public class SFLog
         }
     };
  
-    private static final DateFormat FLOG_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");    
+    private static final DateFormat FLOG_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US);    
     private static final File LOG_DIR = new File(Environment.getExternalStorageDirectory() + File.separator + "alog");    
     private static boolean fileLogging = false;
     private static String tag = SFKeywords.TAG+SFSDK.VERSION;

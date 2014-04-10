@@ -96,7 +96,7 @@ public class SFCookieManager
 					try
 					{
 					    String token  = st.nextToken();
-					    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR)).toLowerCase();
+					    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR)).toLowerCase(Locale.US);
 					    String value = token.substring(token.indexOf(NAME_VALUE_SEPARATOR) + 1, token.length());
 					    cookie.put(name,value);
 					}
