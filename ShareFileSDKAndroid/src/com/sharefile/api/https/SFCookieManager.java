@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -32,7 +33,7 @@ public class SFCookieManager
     public SFCookieManager() 
     {
 		mStore = new HashMap<String,Map<String, Map<String, String>>>();
-		dateFormat = new SimpleDateFormat(DATE_FORMAT);
+		dateFormat = new SimpleDateFormat(DATE_FORMAT,Locale.US);
     }
     
 
