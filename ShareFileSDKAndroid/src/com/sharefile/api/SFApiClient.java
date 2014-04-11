@@ -35,6 +35,10 @@ public class SFApiClient
 	
 	private boolean mClientInitializedSuccessFully = false;
 	
+	public boolean isClientInitialised()
+	{
+		return mClientInitializedSuccessFully;
+	}
 	
 	public SFOAuth2Token getAuthToken()
 	{
