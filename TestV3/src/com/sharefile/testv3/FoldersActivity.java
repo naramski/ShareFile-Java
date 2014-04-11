@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
-import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.utils.SFLog;
 import com.sharefile.api.entities.SFAccessControlsEntity;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFV3ElementType;

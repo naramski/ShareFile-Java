@@ -1,4 +1,4 @@
-package com.sharefile.api.android.utils;
+package com.sharefile.api.utils;
 
 import java.io.File;
 import java.io.FileWriter;

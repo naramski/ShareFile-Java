@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
@@ -21,6 +20,7 @@ import com.sharefile.api.models.SFTreeMode;
 import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFVRootType;
 import com.sharefile.api.models.SFZoneService;
+import com.sharefile.api.utils.SFLog;
 
 public class SFApiQuery<T extends SFODataObject> 
 {

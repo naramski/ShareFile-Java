@@ -10,10 +10,10 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFJsonException;
+import com.sharefile.api.utils.SFLog;
 
 public class SFOAuthSimpleAuthenticator 
 {

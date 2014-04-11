@@ -16,11 +16,11 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.sharefile.api.V3Error;
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.https.SFHttpsCaller;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
+import com.sharefile.api.utils.SFLog;
 
 import android.util.Log;
 

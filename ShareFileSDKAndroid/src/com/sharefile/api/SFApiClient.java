@@ -3,7 +3,6 @@ package com.sharefile.api;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFSessionsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
@@ -21,6 +20,7 @@ import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.models.SFUser;
+import com.sharefile.api.utils.SFLog;
 
 public class SFApiClient 
 {

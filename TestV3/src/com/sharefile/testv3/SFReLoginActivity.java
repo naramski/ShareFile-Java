@@ -20,7 +20,7 @@ import android.widget.ProgressBar;
 
 import com.google.gson.JsonObject;
 import com.sharefile.api.SFHttpPostUtils;
-import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.mobile.shared.AlertDialogFinishDelegate;
 import com.sharefile.mobile.shared.Utils;

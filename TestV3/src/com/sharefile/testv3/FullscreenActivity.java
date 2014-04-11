@@ -11,8 +11,7 @@ import org.json.JSONObject;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
-import com.sharefile.api.android.utils.SFAsyncTask;
-import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.utils.SFLog;
 import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
@@ -36,6 +35,7 @@ import com.sharefile.api.models.SFFavoriteFolder;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFZone;
+import com.sharefile.mobile.shared.SFAsyncTask;
 import com.sharefile.mobile.shared.dataobjects.v3.SFOAuthAccessToken;
 
 import android.app.Activity;

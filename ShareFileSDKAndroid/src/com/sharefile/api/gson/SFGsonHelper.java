@@ -9,7 +9,6 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.enumerations.SFV3FeedType;
@@ -18,6 +17,7 @@ import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.utils.SFLog;
 
 /**
  *   This class contains helper get*() functions to get primitives out of gson objects 

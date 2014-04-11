@@ -15,13 +15,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.V3Error;
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.models.SFDownloadSpecification;
+import com.sharefile.api.utils.SFLog;
 
 public class SFApiFileDownloadRunnable implements Runnable  
 {	

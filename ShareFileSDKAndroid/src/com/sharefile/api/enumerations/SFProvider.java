@@ -1,8 +1,8 @@
 package com.sharefile.api.enumerations;
 
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.utils.SFLog;
 
 /**
  *  toString of this will return complete provider with API version alongwith slashes: "/cifs/v3/", "/sp/v3/", "/sf/v3/",... etc

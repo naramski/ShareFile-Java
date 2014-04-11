@@ -1,6 +1,5 @@
 package com.sharefile.api.enumerations;
 
-import com.sharefile.api.android.utils.SFLog;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFAccountPreferences;
@@ -66,6 +65,7 @@ import com.sharefile.api.models.Private.SFOutlookInformation;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionBool;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionInt;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionString;
+import com.sharefile.api.utils.SFLog;
 
 public enum SFV3ElementType
 {							

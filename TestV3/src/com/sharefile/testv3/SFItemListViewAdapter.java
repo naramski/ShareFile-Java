@@ -2,7 +2,7 @@ package com.sharefile.testv3;
 
 import java.util.List;
 
-import com.sharefile.api.android.utils.SFLog;
+import com.sharefile.api.utils.SFLog;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;

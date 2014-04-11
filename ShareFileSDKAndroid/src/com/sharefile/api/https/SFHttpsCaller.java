@@ -13,18 +13,20 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.NameValuePair;
 
 import android.util.Base64;
+
 import com.sharefile.api.V3Error;
-import com.sharefile.api.android.utils.SFLog;
-import com.sharefile.api.android.utils.Utils;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.utils.SFLog;
+import com.sharefile.api.utils.Utils;
 
 public class SFHttpsCaller 
 {
