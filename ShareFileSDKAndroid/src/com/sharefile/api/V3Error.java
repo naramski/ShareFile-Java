@@ -115,4 +115,14 @@ public class V3Error
 		
 		message.value = respSring;				
 	}
+	
+	public boolean isAuthError()
+	{
+		if(httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED)
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }

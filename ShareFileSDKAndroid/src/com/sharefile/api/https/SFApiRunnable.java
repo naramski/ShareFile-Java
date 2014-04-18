@@ -18,6 +18,7 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
@@ -65,7 +66,14 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	@Override
 	public void run() 
 	{
-		executeQuery();
+		try 
+		{
+			executeQuery();
+		} 
+		catch (SFV3ErrorException e) 
+		{			
+			SFLog.d(TAG, "Exception. This should not happen: " + e.getMessage());
+		}
 	}
 	
 	private void handleHttPost(URLConnection conn) throws IOException
@@ -127,7 +135,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	}
 	
 	
-	public void executeQuery() 
+	public SFODataObject executeQuery() throws SFV3ErrorException 
 	{			
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
@@ -192,6 +200,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		parseResponse(httpErrorCode,responseString);
 		
 		callResponseListeners();
+		
+		return returnResultOrThrow();
 	}		 
 			
 	/**
@@ -254,6 +264,26 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		{
 			SFLog.d2("-callback", "!!Exception calling the responseListener : %s ",Log.getStackTraceString(ex));
 		}
+	}
+	
+	private SFODataObject returnResultOrThrow() throws SFV3ErrorException
+	{
+		//Run this only when the responseListener is not installed.
+		if(mResponseListener != null)
+		{
+			return null;
+		}
+		
+		switch(mResponse.mHttpErrorCode)
+		{
+			case HttpsURLConnection.HTTP_OK:
+			return mResponse.mResponseObject;							
+			
+			case HttpsURLConnection.HTTP_NO_CONTENT:
+			return	null;										
+		}
+		
+		throw new SFV3ErrorException(mResponse.mV3Error);
 	}
 		
 	/**

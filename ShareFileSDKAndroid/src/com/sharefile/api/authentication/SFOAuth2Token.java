@@ -117,4 +117,23 @@ public final class SFOAuth2Token
 		
 		return jsonObject.toString();
 	}			
+	
+	public SFOAuth2Token(String accessToken,
+			String refreshToken,
+			String tokenType,
+			String appcp,
+			String apicp,
+			String subdomain,
+			long expiresIn)
+	{
+		
+		mAccessToken = accessToken;
+		mRefreshToken = refreshToken;
+		mTokenType = tokenType;
+		mAppcp = appcp;
+		mApicp = apicp;
+		mSubdomain = subdomain;
+		mExpiresIn = expiresIn;		
+	}
+				
 }

@@ -4,23 +4,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.entities.SFSessionsEntity;
+import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.https.SFCookieManager;
-import com.sharefile.api.interfaces.SFApiClientInitListener;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.api.models.SFUser;
-import com.sharefile.api.utils.SFLog;
 
 public class SFApiClient 
 {
@@ -29,11 +26,14 @@ public class SFApiClient
 	public static final String MSG_INVALID_STATE_OAUTH_NULL = "Invalid state: Oauth token not initialized for SFApiClient";
 	
 	private SFOAuth2Token mOAuthToken = null;
-	private SFSession mSession = null;
-	private SFApiClientInitListener mClientInitListner = null;
+	private SFSession mSession = null;	
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
+	private final String mClientID;
+	private final String mClientSecret;
 	
 	private boolean mClientInitializedSuccessFully = false;
+	
+	public static final SFItemsEntity items = new SFItemsEntity();
 	
 	public boolean isClientInitialised()
 	{
@@ -50,70 +50,49 @@ public class SFApiClient
 		validateStateBeforeInit(oauthToken);
 		
 		mOAuthToken = oauthToken;
+		
+		mClientInitializedSuccessFully = true;
 	}
 	
-	public SFApiClient(SFOAuth2Token oauthToken) throws SFInvalidStateException
+	public SFApiClient(SFOAuth2Token oauthToken,String clientID,String clientSecret) throws SFInvalidStateException
 	{	
+		mClientInitializedSuccessFully = false;
+		
+		mClientID = clientID;
+		mClientSecret = clientSecret;
 		copyOAuthToken(oauthToken);					
 	}
 	
-	public void reinitClientState(SFOAuth2Token oauthtoken, SFApiClientInitListener listener) throws SFInvalidStateException
-	{
-		copyOAuthToken(oauthtoken);
-		
-		init(listener);
-	}
-		
-	private SFApiResponseListener<SFSession> mListnererGetSession = new SFApiResponseListener<SFSession>() 
-	{
-		@Override
-		public void sfapiSuccess(SFSession sfsession) 
-		{			
-			mSession = sfsession;
-			mClientInitializedSuccessFully = true;
-						
-			SFPrincipal principal = mSession.getPrincipal();
-			
-			if(principal instanceof SFUser)
-			{
-				SFLog.d2(TAG, "SESSION FOR %s = " , ((SFUser)principal).getFullName());
-			}
-							
-			if(mClientInitListner!=null)
-			{
-				mClientInitListner.sfApiClientInitSuccess();
-			}
-		}
-
-		@Override
-		public void sfApiError(V3Error error,SFApiQuery<SFSession> asApiqueri) 
-		{		
-			SFLog.d2(TAG, "API FAILURE. error code = %d", error.httpResponseCode);
-			
-			mClientInitializedSuccessFully = false;
-			
-			if(mClientInitListner!=null)
-			{
-				mClientInitListner.sfApiClientInitError(error);
-			}
-		}
-	};
-	
-	public void init(SFApiClientInitListener listener) throws SFInvalidStateException
+	public void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
 	{
 		mClientInitializedSuccessFully = false;
-		mClientInitListner = listener;
-		SFApiQuery<SFSession> sfQueryGetSession = SFSessionsEntity.get();				
-		SFApiRunnable<SFSession> sfApiRunnable = new SFApiRunnable<SFSession>(sfQueryGetSession, mListnererGetSession, mOAuthToken,mCookieManager);
-		sfApiRunnable.startNewThread();
+		
+		copyOAuthToken(oauthtoken);				
 	}
-
+						
+	/**
+	 * This will start a seprate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
+	 */
 	public <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
 	{										
 		validateClientState();
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listener, mOAuthToken,mCookieManager);
+		SFApiListenerWrapper listenereWrapper = new SFApiListenerWrapper(this,listener,query,mOAuthToken,mClientID,mClientSecret); 
+				
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listenereWrapper, mOAuthToken,mCookieManager);
 		return sfApiRunnable.startNewThread();
+	}
+	
+	/**
+	 * This will block until operation is done and return the expected SFODataObject or throw a V3Exception. Never call this on UI thread.
+	 */
+	public <T extends SFODataObject> SFODataObject executeQuery(SFApiQuery<T> query) throws SFV3ErrorException, SFInvalidStateException
+	{										
+		validateClientState();
+		
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken,mCookieManager);
+		
+		return sfApiRunnable.executeQuery();
 	}
 	
 	/**
@@ -160,4 +139,12 @@ public class SFApiClient
 		SFApiFileUploadRunnable sfUploadFile = new SFApiFileUploadRunnable(uploadSpecification, resumeFromByteIndex, tolalBytes,destinationName, fileInputStream, this,progressListener,mCookieManager);
 		return sfUploadFile.startNewThread();				
 	}	
+	
+	/**
+	 *  Resets the token and nulls the internal callbacks. Call this when you no longer want to use this object.
+	 */
+	public void reset()
+	{		
+		mClientInitializedSuccessFully = false;		
+	}
 }

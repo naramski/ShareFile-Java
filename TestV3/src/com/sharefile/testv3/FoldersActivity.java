@@ -3,6 +3,7 @@ package com.sharefile.testv3;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +15,12 @@ import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.utils.SFLog;
+import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFAccessControlsEntity;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
@@ -136,6 +139,13 @@ public class FoldersActivity extends Activity
 				public void sfApiError(V3Error error, SFApiQuery<SFItem> asApiqueri) 
 				{										
 				}
+
+				@Override
+				public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
+						SFApiQuery<SFItem> sfapiApiqueri) {
+					saveToken(newAccessToken);
+					
+				}
 				
 			});
 		} 
@@ -145,6 +155,24 @@ public class FoldersActivity extends Activity
 		}
 	}
 	
+	private void saveToken(final SFOAuth2Token newAccessToken)
+	{
+		runOnUiThread(new Runnable() 
+		{			
+			@Override
+			public void run() 
+			{				
+				try 
+				{
+					PersistantToken.saveToken(getApplicationContext(), newAccessToken);
+				} 
+				catch (SFJsonException | IOException e) 
+				{							
+					e.printStackTrace();
+				}
+			}
+		});				
+	}
 	
 	private void callGetAccessControlApi()
 	{
@@ -169,6 +197,13 @@ public class FoldersActivity extends Activity
 				{
 					SFLog.d2("SFSDK","get Item failed: ");
 					showToast("Failed");						
+				}
+
+				@Override
+				public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
+						SFApiQuery<SFODataFeed<SFAccessControl>> sfapiApiqueri) {
+					saveToken(newAccessToken);	
+					
 				}
 			});
 		} 
@@ -235,6 +270,13 @@ public class FoldersActivity extends Activity
 				{
 					SFLog.d2("SFSDK","get Item failed: ");
 					showToast("Failed");						
+				}
+
+				@Override
+				public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
+						SFApiQuery<SFUploadSpecification> sfapiApiqueri) {
+					saveToken(newAccessToken);
+					
 				}
 			});
 		} 
@@ -506,6 +548,13 @@ public class FoldersActivity extends Activity
 					}
 				}
 			});
+		}
+
+		@Override
+		public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
+				SFApiQuery<SFItem> sfapiApiqueri) {
+			saveToken(newAccessToken);
+			
 		}
 	};
 		
