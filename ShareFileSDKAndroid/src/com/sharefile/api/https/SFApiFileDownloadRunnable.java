@@ -71,7 +71,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 			connection = SFHttpsCaller.getURLConnection(url);		
 			SFHttpsCaller.setMethod(connection, SFHttpMethod.GET.toString());
 			SFHttpsCaller.setAcceptLanguage(connection);
-			SFHttpsCaller.addAuthenticationHeader(connection,mApiClient.getAuthToken(),null,null);
+			SFHttpsCaller.addAuthenticationHeader(connection,mApiClient.getAuthToken(),null,null,mCookieManager);
 			
 			if(mResumeFromByteIndex!=0)
 			{

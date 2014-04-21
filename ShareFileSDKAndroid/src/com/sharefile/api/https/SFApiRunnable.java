@@ -156,8 +156,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
 			SFHttpsCaller.setAcceptLanguage(connection);
 			
-			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mUsername,mPassword);
-			
+			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mUsername,mPassword,mCookieManager);
+			mUsername = null;mPassword=null;
 			handleHttPost(connection);
 			
 			SFLog.d2(TAG, mQuery.getHttpMethod() + " %s" , urlstr);

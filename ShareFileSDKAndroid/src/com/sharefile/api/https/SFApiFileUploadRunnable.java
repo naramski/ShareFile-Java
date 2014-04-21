@@ -143,7 +143,7 @@ public class SFApiFileUploadRunnable implements Runnable
 			final String finalURL = url.toString();
 				
 			conn = (HttpsURLConnection)(new URL(finalURL)).openConnection();					
-			SFHttpsCaller.addAuthenticationHeader(conn, mApiClient.getAuthToken(), null,null);										
+			SFHttpsCaller.addAuthenticationHeader(conn, mApiClient.getAuthToken(), null,null,mCookieManager);										
 			conn.setUseCaches(false);
 			conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_OCTET_STREAM);															
 			conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+chunkLength);

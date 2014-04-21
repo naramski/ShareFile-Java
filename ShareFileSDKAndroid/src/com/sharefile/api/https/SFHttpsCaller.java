@@ -133,17 +133,16 @@ public class SFHttpsCaller
 		conn.setDoInput(true);
 	}
 	
-	public static synchronized void setAuth(URLConnection conn, URL url,String basicAuthCreds,SFCookieManager cookieManager) throws IOException
+	public static synchronized void setAuth(URLConnection conn, URL url,String userName,String password,SFCookieManager cookieManager) throws IOException
 	{			
 		if(cookieManager!=null)
 		{			
 			cookieManager.setCookies(conn);
 		}
 		
-		if(basicAuthCreds!=null)
+		if(userName!=null && password!=null)
 		{			
-			String basicAuth = "Basic " + new String(Base64.encode(basicAuthCreds.getBytes(),Base64.NO_WRAP ));			
-			conn.setRequestProperty ("Authorization", basicAuth);			
+			setBasicAuth(conn, userName, password);			
 		}								
 	}
 		
@@ -358,8 +357,9 @@ public class SFHttpsCaller
 	/**
 	 * TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
 	   We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
+	 * @throws IOException 
 	*/	
-	public static void addAuthenticationHeader(URLConnection connection,SFOAuth2Token token,String userName,String password)
+	public static void addAuthenticationHeader(URLConnection connection,SFOAuth2Token token,String userName,String password, SFCookieManager cookieManager) throws IOException
 	{
 		String path = connection.getURL().getPath();
 		
@@ -370,7 +370,8 @@ public class SFHttpsCaller
 			break;
 			
 			default:
-				SFHttpsCaller.setBasicAuth(connection, userName, password);
+				SFHttpsCaller.setAuth(connection, connection.getURL(), userName,password, cookieManager);
+				//SFHttpsCaller.setBasicAuth(connection, userName, password);
 			break;	
 		}
 		
