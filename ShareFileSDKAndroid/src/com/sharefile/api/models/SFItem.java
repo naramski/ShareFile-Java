@@ -270,7 +270,12 @@ public class SFItem extends SFODataObject {
 		* Item size in Kilobytes. For containers, this field includes all children sizes, recursively.
 		*/
 	public Integer getFileSizeInKB() {
-		return FileSizeInKB;
+		if(FileSizeInKB!=null)
+		{
+			return FileSizeInKB;
+		}
+		
+		return 0;
 	}
 
 		/**

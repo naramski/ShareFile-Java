@@ -282,6 +282,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		SFSymbolicLink link = (SFSymbolicLink) mResponse.mResponseObject;				
 		mQuery = (SFApiQuery<T>) SFItemsEntity.get();
 		mQuery.setLink(link.getLink().toString());
+		mQuery.addQueryString("$expand", "Children");
 		return executeQuery();
 	}
 	

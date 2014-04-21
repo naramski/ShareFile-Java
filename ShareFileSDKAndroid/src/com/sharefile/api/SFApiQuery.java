@@ -48,7 +48,10 @@ public class SFApiQuery<T extends SFODataObject>
 	
 	public final void setLink(String link) throws URISyntaxException
 	{
-		mLink = new URI(link);
+		if(link!=null)
+		{
+			mLink = new URI(link);
+		}
 	}
 	
 	public final void setProvider(SFProvider provider)

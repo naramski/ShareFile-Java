@@ -20,8 +20,14 @@ public class SFFolder extends SFItem {
 	private ArrayList<SFItem> Children;
 	private SFItemInfo Info;
 
-	public Integer getFileCount() {
-		return FileCount;
+	public Integer getFileCount() 
+	{
+		if(FileCount!=null)
+		{
+			return FileCount;
+		}
+		
+		return 0;
 	}
 
 	public void setFileCount(Integer filecount) {
