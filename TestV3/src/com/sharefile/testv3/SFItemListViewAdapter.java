@@ -5,12 +5,9 @@ import java.util.List;
 import com.sharefile.api.utils.SFLog;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.models.SFFile;
-import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFLink;
 import com.sharefile.api.models.SFNote;
-import com.sharefile.api.models.SFSymbolicLink;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;

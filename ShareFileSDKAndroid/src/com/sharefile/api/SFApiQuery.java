@@ -304,5 +304,13 @@ public class SFApiQuery<T extends SFODataObject>
 	public final String getHttpMethod()
 	{
 		return mHttpMethod;
-	}	
+	}
+	
+	/**
+	 * *If the query does not involve a connector we can try to internally handle the renewal of oAuth token.
+	 */
+	public boolean canhandleReAuthInternally()
+	{
+		return (mLink == null)? true:false;
+	}
 }

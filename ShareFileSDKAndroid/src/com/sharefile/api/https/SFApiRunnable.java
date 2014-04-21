@@ -1,6 +1,7 @@
 package com.sharefile.api.https;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -16,20 +17,24 @@ import com.sharefile.api.V3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFSFTool;
+import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.SFLog;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
 	private static final String TAG = "-SFApiThread";
 			
-	private final SFApiQuery<T> mQuery; 
+	private SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
@@ -199,7 +204,21 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				
 		parseResponse(httpErrorCode,responseString);
 		
-		callResponseListeners();
+		if(!readAheadSymbolicLinks())
+		{
+			callResponseListeners();
+		}
+		else
+		{
+			try 
+			{
+				return reExecuteNewQueryForSymbolicLinks();
+			} 
+			catch (URISyntaxException e) 
+			{				
+				e.printStackTrace();
+			}			
+		}
 		
 		return returnResultOrThrow();
 	}		 
@@ -234,6 +253,36 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				callFailureResponseParser(httpCode, responseString);
 			break;				
 		}				
+	}
+	
+	/**
+	 *   If the returned object is a Symbolic Link we need to read ahead to get the actual contents.
+	 *   return true if the object is SymbolicLink object and we are handling it internally else return false.
+	 * @throws URISyntaxException 
+	 * @throws SFV3ErrorException 
+	 *   
+	 */
+	private boolean readAheadSymbolicLinks()
+	{
+		boolean ret = false;
+		
+		if(mResponse.mHttpErrorCode == HttpsURLConnection.HTTP_OK) 
+		{			
+			if(mResponse.mResponseObject instanceof SFSymbolicLink)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	private SFODataObject reExecuteNewQueryForSymbolicLinks() throws URISyntaxException, SFV3ErrorException
+	{
+		SFSymbolicLink link = (SFSymbolicLink) mResponse.mResponseObject;				
+		mQuery = (SFApiQuery<T>) SFItemsEntity.get();
+		mQuery.setLink(link.getLink().toString());
+		return executeQuery();
 	}
 	
 	private void callResponseListeners()

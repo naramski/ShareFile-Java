@@ -78,7 +78,7 @@ class SFApiListenerWrapper implements SFApiResponseListener
 	@Override
 	public final void sfApiError(final V3Error error, SFApiQuery sfapiApiqueri) 
 	{
-		if(error.isAuthError())
+		if(error.isAuthError() && sfapiApiqueri.canhandleReAuthInternally())
 		{
 			SFGetNewAccessToken getNewToken = new SFGetNewAccessToken(mOAuthToken, mNewTokenListener, mClientID, mClientSecret);
 			getNewToken.startNewThread();
