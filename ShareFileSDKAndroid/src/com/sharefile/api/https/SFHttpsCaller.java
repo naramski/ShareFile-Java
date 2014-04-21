@@ -132,20 +132,7 @@ public class SFHttpsCaller
 		setRequestMethod(conn,SFHttpMethod.DELETE.toString());		
 		conn.setDoInput(true);
 	}
-	
-	public static synchronized void setAuth(URLConnection conn, URL url,String userName,String password,SFCookieManager cookieManager) throws IOException
-	{			
-		if(cookieManager!=null)
-		{			
-			cookieManager.setCookies(conn);
-		}
-		
-		if(userName!=null && password!=null)
-		{			
-			setBasicAuth(conn, userName, password);			
-		}								
-	}
-		
+			
 	public static int catchIfAuthException(IOException e) throws IOException
 	{
 		String errMessage = e.getLocalizedMessage();
@@ -350,7 +337,7 @@ public class SFHttpsCaller
 	}
 		
 	public static void addBearerAuthorizationHeader(URLConnection connection,SFOAuth2Token token) 
-	{
+	{				
 		connection.addRequestProperty("Authorization",String.format("Bearer %s", token.getAccessToken()));
 	}		
 	
@@ -363,6 +350,11 @@ public class SFHttpsCaller
 	{
 		String path = connection.getURL().getPath();
 		
+		if(cookieManager!=null)
+		{			
+			cookieManager.setCookies(connection);
+		}
+		
 		switch(SFProvider.getProviderTypeFromString(path))
 		{
 			case PROVIDER_TYPE_SF:
@@ -370,8 +362,10 @@ public class SFHttpsCaller
 			break;
 			
 			default:
-				SFHttpsCaller.setAuth(connection, connection.getURL(), userName,password, cookieManager);
-				//SFHttpsCaller.setBasicAuth(connection, userName, password);
+				if(userName!=null && password!=null)
+				{			
+					setBasicAuth(connection, userName, password);			
+				}
 			break;	
 		}
 		
