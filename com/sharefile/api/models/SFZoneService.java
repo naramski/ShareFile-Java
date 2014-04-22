@@ -16,5 +16,13 @@ public enum SFZoneService {
 	None,
 	StorageZone,
 	NetworkShareConnector,
-	SharepointConnector
+	SharepointConnector,
+	AzureStorageZone,
+	SharePointOnlineConnector,
+	BoxConnector,
+	DropboxConnector,
+	OneDriveConnector,
+	GoogleDriveConnector,
+	ExchangeConnector,
+	GenericConnector
 }

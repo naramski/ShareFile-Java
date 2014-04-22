@@ -14,13 +14,13 @@ package com.sharefile.api.models;
 
 public class SFAsyncOperation extends SFODataObject {
 
-	private SFAsyncOperationType mOperation;
+	private SFSafeEnum<SFAsyncOperationType> mOperation;
 	private SFAccount mAccount;
 	private SFZone mAuthorityZone;
 	private SFItem mSource;
 	private SFUser mUser;
 	private Date mCreationDate;
-	private SFAsyncOperationState mState;
+	private SFSafeEnum<SFAsyncOperationState> mState;
 	private Date mUpdateDate;
 	private SFItem mTarget;
 	private String mBatchID;
@@ -30,14 +30,14 @@ public class SFAsyncOperation extends SFODataObject {
 		/**
 		* Operation type
 		*/
-	public SFAsyncOperationType getOperation() {
+	public SFSafeEnum<SFAsyncOperationType> getOperation() {
 		return mOperation;
 	}
 
 		/**
 		* Operation type
 		*/
-	public void setOperation(SFAsyncOperationType operation) {
+	public void setOperation(SFSafeEnum<SFAsyncOperationType> operation) {
 		mOperation = operation;
 	}
 		/**
@@ -111,7 +111,7 @@ public class SFAsyncOperation extends SFODataObject {
 		* Operation state. States 'Created' and 'Scheduled' indicate the operation is
 		* in progress; States 'Success' and 'Failure' indicate the operatoin is finalized
 		*/
-	public SFAsyncOperationState getState() {
+	public SFSafeEnum<SFAsyncOperationState> getState() {
 		return mState;
 	}
 
@@ -119,7 +119,7 @@ public class SFAsyncOperation extends SFODataObject {
 		* Operation state. States 'Created' and 'Scheduled' indicate the operation is
 		* in progress; States 'Success' and 'Failure' indicate the operatoin is finalized
 		*/
-	public void setState(SFAsyncOperationState state) {
+	public void setState(SFSafeEnum<SFAsyncOperationState> state) {
 		mState = state;
 	}
 		/**

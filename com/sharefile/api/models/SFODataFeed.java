@@ -17,7 +17,7 @@ public class SFODataFeed<T> extends SFODataObject {
 	@SerializedName("odata.count")
 	private Integer mcount;
 	@SerializedName("value")
-	private ArrayList<T> mFeed;
+	private ArrayList<SFT> mFeed;
 	@SerializedName("odata.nextLink")
 	private String mNextLink;
 
@@ -28,11 +28,11 @@ public class SFODataFeed<T> extends SFODataObject {
 	public void setcount(Integer count) {
 		mcount = count;
 	}
-	public ArrayList<T> getFeed() {
+	public ArrayList<SFT> getFeed() {
 		return mFeed;
 	}
 
-	public void setFeed(ArrayList<T> feed) {
+	public void setFeed(ArrayList<SFT> feed) {
 		mFeed = feed;
 	}
 	public String getNextLink() {

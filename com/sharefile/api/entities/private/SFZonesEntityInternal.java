@@ -26,7 +26,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param includeDisabled 	
 	* @return The list of public and private zones accessible to this user
     */
-	public SFApiQuery<SFODataFeed<SFZone>> get(SFZoneService services = StorageZone, Boolean includeDisabled = false)
+	public SFApiQuery<SFODataFeed<SFZone>> get(SFSafeEnum<SFZoneService> services = StorageZone, Boolean includeDisabled = false)
 	{
 		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>();
 		sfApiQuery.setFrom("Zones");

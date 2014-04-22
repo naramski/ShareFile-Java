@@ -435,6 +435,53 @@ public class SFAccountsEntity extends SFODataEntityBase
 	}
 
     /**
+	* Get ENS Subscriber Configuration
+    */
+	public SFApiQuery<SFEnsSubscriberConfiguration> getEnsSubscriberConfiguration()
+	{
+		SFApiQuery<SFEnsSubscriberConfiguration> sfApiQuery = new SFApiQuery<SFEnsSubscriberConfiguration>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("GetEnsSubscriberConfiguration");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+    */
+	public SFApiQuery enableEns()
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("EnableEns");
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+    */
+	public SFApiQuery disableEns()
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("DisableEns");
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* @param newIntervalMs 	
+    */
+	public SFApiQuery changeEnsSyncInterval(Integer newIntervalMs)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("ChangeEnsSyncInterval");
+		sfApiQuery.addQueryString("newIntervalMs", newIntervalMs);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get SSO Info
 	* @param subdomain 	
 	* @return SSOInfo

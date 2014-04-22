@@ -32,13 +32,12 @@ public class SFItem extends SFODataObject {
 	private SFUser mOwner;
 	private SFAccount mAccount;
 	private Integer mFileSizeInKB;
-	private SFItem mVirtualParent;
 	private String mPath;
 	private String mCreatorFirstName;
 	private String mCreatorLastName;
 	private Integer mExpirationDays;
 	private Long mFileSizeBytes;
-	private SFPreviewStatus mPreviewStatus;
+	private SFSafeEnum<SFPreviewStatus> mPreviewStatus;
 	private Integer mMaxPreviewSize;
 	private Boolean mHasPendingDeletion;
 	private String mAssociatedFolderTemplateID;
@@ -305,23 +304,6 @@ public class SFItem extends SFODataObject {
 		mFileSizeInKB = filesizeinkb;
 	}
 		/**
-		* Defines a Virtual Parent for an Item. In certain conditions, a virtual parent is set to create
-		* virtual tree structures different from the strict file system structure - for example, top-level
-		* folders may be added under an user's home folder, even though both are defined under the Account.
-		*/
-	public SFItem getVirtualParent() {
-		return mVirtualParent;
-	}
-
-		/**
-		* Defines a Virtual Parent for an Item. In certain conditions, a virtual parent is set to create
-		* virtual tree structures different from the strict file system structure - for example, top-level
-		* folders may be added under an user's home folder, even though both are defined under the Account.
-		*/
-	public void setVirtualParent(SFItem virtualparent) {
-		mVirtualParent = virtualparent;
-	}
-		/**
 		* Contains a ItemID path, separated by /, from the virtual root to this given file. Example
 		* /accountID/folderID/folderID/itemID
 		*/
@@ -397,7 +379,7 @@ public class SFItem extends SFODataObject {
 		* 
 		* Previews are not created for unknown file types
 		*/
-	public SFPreviewStatus getPreviewStatus() {
+	public SFSafeEnum<SFPreviewStatus> getPreviewStatus() {
 		return mPreviewStatus;
 	}
 
@@ -410,7 +392,7 @@ public class SFItem extends SFODataObject {
 		* 
 		* Previews are not created for unknown file types
 		*/
-	public void setPreviewStatus(SFPreviewStatus previewstatus) {
+	public void setPreviewStatus(SFSafeEnum<SFPreviewStatus> previewstatus) {
 		mPreviewStatus = previewstatus;
 	}
 	public Integer getMaxPreviewSize() {

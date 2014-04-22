@@ -14,7 +14,7 @@ package com.sharefile.api.models;
 
 public class SFUploadSpecification extends SFODataObject {
 
-	private SFUploadMethod mMethod;
+	private SFSafeEnum<SFUploadMethod> mMethod;
 	private URI mPrepareUri;
 	private URI mChunkUri;
 	private URI mFinishUri;
@@ -26,14 +26,14 @@ public class SFUploadSpecification extends SFODataObject {
 		/**
 		* The Upload method that must be used for this upload
 		*/
-	public SFUploadMethod getMethod() {
+	public SFSafeEnum<SFUploadMethod> getMethod() {
 		return mMethod;
 	}
 
 		/**
 		* The Upload method that must be used for this upload
 		*/
-	public void setMethod(SFUploadMethod method) {
+	public void setMethod(SFSafeEnum<SFUploadMethod> method) {
 		mMethod = method;
 	}
 		/**

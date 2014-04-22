@@ -16,8 +16,12 @@ public class SFAccount extends SFODataObject {
 
 	private String mCompanyName;
 	private SFUser mBillingContact;
+	private String mBillingContactId;
 	private SFUser mTechnicalContact;
+	private String mTechnicalContactId;
 	private SFUser mAccountManager;
+	private String mAccountManagerId;
+	private String mAccountType;
 	private String mPlanName;
 	private String mPlanTrack;
 	private String mPlanTrackEnum;
@@ -50,7 +54,7 @@ public class SFAccount extends SFODataObject {
 	private String mCreditCardType;
 	private String mCreditCardNumber;
 	private String mCreditCardExpirationMonth;
-	private Integer mCreditCardExpirationYear;
+	private String mCreditCardExpirationYear;
 	private String mCreditCardFirstName;
 	private String mCreditCardLastName;
 	private String mPhone;
@@ -61,6 +65,7 @@ public class SFAccount extends SFODataObject {
 	private Map<String, String> mBrandingStyles;
 	private String mLogoURL;
 	private SFItem mRootItem;
+	private String mRootItemId;
 	private Date mCreationDate;
 	private Boolean mIsFreeTrial;
 	private Boolean mIsCancelled;
@@ -69,10 +74,18 @@ public class SFAccount extends SFODataObject {
 	private SFAccountPreferences mPreferences;
 	private SFProductDefaults mProductDefaults;
 	private String mSubdomain;
+	private ArrayList<String> mSubdomains;
 	private SFMobileSecuritySettings mMobileSecuritySettings;
 	private SFAccessControlDomains mLoginAccessControlDomains;
 	private SFAccessControlDomains mFolderAccessControlDomains;
 	private Integer mStorageQuotaPerUser;
+	private String mFreeTrialId;
+	private String mSource;
+	private String mAttributedSource;
+	private String mCompanyURL;
+	private Boolean mMarketingOptIn;
+	private String mCreditCardSecurityCode;
+	private ArrayList<SFToolInformation> mToolInformation;
 
 	public String getCompanyName() {
 		return mCompanyName;
@@ -88,6 +101,13 @@ public class SFAccount extends SFODataObject {
 	public void setBillingContact(SFUser billingcontact) {
 		mBillingContact = billingcontact;
 	}
+	public String getBillingContactId() {
+		return mBillingContactId;
+	}
+
+	public void setBillingContactId(String billingcontactid) {
+		mBillingContactId = billingcontactid;
+	}
 	public SFUser getTechnicalContact() {
 		return mTechnicalContact;
 	}
@@ -95,12 +115,33 @@ public class SFAccount extends SFODataObject {
 	public void setTechnicalContact(SFUser technicalcontact) {
 		mTechnicalContact = technicalcontact;
 	}
+	public String getTechnicalContactId() {
+		return mTechnicalContactId;
+	}
+
+	public void setTechnicalContactId(String technicalcontactid) {
+		mTechnicalContactId = technicalcontactid;
+	}
 	public SFUser getAccountManager() {
 		return mAccountManager;
 	}
 
 	public void setAccountManager(SFUser accountmanager) {
 		mAccountManager = accountmanager;
+	}
+	public String getAccountManagerId() {
+		return mAccountManagerId;
+	}
+
+	public void setAccountManagerId(String accountmanagerid) {
+		mAccountManagerId = accountmanagerid;
+	}
+	public String getAccountType() {
+		return mAccountType;
+	}
+
+	public void setAccountType(String accounttype) {
+		mAccountType = accounttype;
 	}
 		/**
 		* Basic, Professional, Enterprise
@@ -422,11 +463,11 @@ public class SFAccount extends SFODataObject {
 	public void setCreditCardExpirationMonth(String creditcardexpirationmonth) {
 		mCreditCardExpirationMonth = creditcardexpirationmonth;
 	}
-	public Integer getCreditCardExpirationYear() {
+	public String getCreditCardExpirationYear() {
 		return mCreditCardExpirationYear;
 	}
 
-	public void setCreditCardExpirationYear(Integer creditcardexpirationyear) {
+	public void setCreditCardExpirationYear(String creditcardexpirationyear) {
 		mCreditCardExpirationYear = creditcardexpirationyear;
 	}
 	public String getCreditCardFirstName() {
@@ -499,6 +540,13 @@ public class SFAccount extends SFODataObject {
 	public void setRootItem(SFItem rootitem) {
 		mRootItem = rootitem;
 	}
+	public String getRootItemId() {
+		return mRootItemId;
+	}
+
+	public void setRootItemId(String rootitemid) {
+		mRootItemId = rootitemid;
+	}
 	public Date getCreationDate() {
 		return mCreationDate;
 	}
@@ -555,6 +603,13 @@ public class SFAccount extends SFODataObject {
 	public void setSubdomain(String subdomain) {
 		mSubdomain = subdomain;
 	}
+	public ArrayList<String> getSubdomains() {
+		return mSubdomains;
+	}
+
+	public void setSubdomains(ArrayList<String> subdomains) {
+		mSubdomains = subdomains;
+	}
 	public SFMobileSecuritySettings getMobileSecuritySettings() {
 		return mMobileSecuritySettings;
 	}
@@ -582,5 +637,54 @@ public class SFAccount extends SFODataObject {
 
 	public void setStorageQuotaPerUser(Integer storagequotaperuser) {
 		mStorageQuotaPerUser = storagequotaperuser;
+	}
+	public String getFreeTrialId() {
+		return mFreeTrialId;
+	}
+
+	public void setFreeTrialId(String freetrialid) {
+		mFreeTrialId = freetrialid;
+	}
+	public String getSource() {
+		return mSource;
+	}
+
+	public void setSource(String source) {
+		mSource = source;
+	}
+	public String getAttributedSource() {
+		return mAttributedSource;
+	}
+
+	public void setAttributedSource(String attributedsource) {
+		mAttributedSource = attributedsource;
+	}
+	public String getCompanyURL() {
+		return mCompanyURL;
+	}
+
+	public void setCompanyURL(String companyurl) {
+		mCompanyURL = companyurl;
+	}
+	public Boolean getMarketingOptIn() {
+		return mMarketingOptIn;
+	}
+
+	public void setMarketingOptIn(Boolean marketingoptin) {
+		mMarketingOptIn = marketingoptin;
+	}
+	public String getCreditCardSecurityCode() {
+		return mCreditCardSecurityCode;
+	}
+
+	public void setCreditCardSecurityCode(String creditcardsecuritycode) {
+		mCreditCardSecurityCode = creditcardsecuritycode;
+	}
+	public ArrayList<SFToolInformation> getToolInformation() {
+		return mToolInformation;
+	}
+
+	public void setToolInformation(ArrayList<SFToolInformation> toolinformation) {
+		mToolInformation = toolinformation;
 	}
 }

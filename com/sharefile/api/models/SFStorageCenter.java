@@ -20,6 +20,7 @@ public class SFStorageCenter extends SFODataObject {
 	private String mExternalAddress;
 	private String mDefaultExternalUrl;
 	private String mHostName;
+	private SFSafeEnum<SFZoneService> mServices;
 	private String mVersion;
 	private Boolean mEnabled;
 	private Date mLastHeartBeat;
@@ -69,6 +70,13 @@ public class SFStorageCenter extends SFODataObject {
 
 	public void setHostName(String hostname) {
 		mHostName = hostname;
+	}
+	public SFSafeEnum<SFZoneService> getServices() {
+		return mServices;
+	}
+
+	public void setServices(SFSafeEnum<SFZoneService> services) {
+		mServices = services;
 	}
 	public String getVersion() {
 		return mVersion;

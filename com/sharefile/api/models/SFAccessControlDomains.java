@@ -14,20 +14,20 @@ package com.sharefile.api.models;
 
 public class SFAccessControlDomains extends SFODataObject {
 
-	private SFAccessControlFilter mAccessControlType;
+	private SFSafeEnum<SFAccessControlFilter> mAccessControlType;
 	private ArrayList<String> mDomains;
 
 		/**
 		* Specifies that the list is interpreted as a list of allowed or disallowed domains
 		*/
-	public SFAccessControlFilter getAccessControlType() {
+	public SFSafeEnum<SFAccessControlFilter> getAccessControlType() {
 		return mAccessControlType;
 	}
 
 		/**
 		* Specifies that the list is interpreted as a list of allowed or disallowed domains
 		*/
-	public void setAccessControlType(SFAccessControlFilter accesscontroltype) {
+	public void setAccessControlType(SFSafeEnum<SFAccessControlFilter> accesscontroltype) {
 		mAccessControlType = accesscontroltype;
 	}
 		/**

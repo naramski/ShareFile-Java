@@ -26,7 +26,8 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	public SFApiQuery<SFODataFeed<SFFavoriteFolder>> getByUser(String id)
 	{
 		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(id);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -42,7 +43,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	public SFApiQuery<SFFavoriteFolder> getByUser(String itemid, String userid)
 	{
 		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(itemid);
 		sfApiQuery.addActionIds(userid);
@@ -70,21 +71,20 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     /**
 	* Create FavoriteFolder
     * {
-    * "Folder": { "Id":"fo96aec5-d637-4124-bcc9-c86fd7301e4d" }
+    * "Folder": { "Id":"fo96aec5-d637-4124-bcc9-c86fd7301e4d" },
+    * "FolderAlias" : "alias"
     * }
 	* Adds an existing folder to the list of favorites of a given user.
 	* @param id 	
 	* @param folder 	
-	* @param alias 	
 	* @return A new FavoriteFolder record
     */
-	public SFApiQuery<SFFavoriteFolder> createByUser(String id, SFFavoriteFolder folder, String alias = "")
+	public SFApiQuery<SFFavoriteFolder> createByUser(String id, SFFavoriteFolder folder)
 	{
 		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(id);
-		sfApiQuery.addQueryString("alias", alias);
 		sfApiQuery.setBody(folder);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -99,7 +99,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	public SFApiQuery delete(String id, String itemid)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(id);
 		sfApiQuery.addActionIds(itemid);
@@ -110,7 +110,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	public SFApiQuery deleteByUser(String userId, String itemId)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(userId);
 		sfApiQuery.addActionIds(itemId);

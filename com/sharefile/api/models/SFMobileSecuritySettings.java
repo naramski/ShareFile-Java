@@ -19,7 +19,7 @@ public class SFMobileSecuritySettings extends SFODataObject {
 	private Boolean mEnableOfflineCache;
 	private Boolean mEnableAutoLogin;
 	private Boolean mRestrictModifiedDevices;
-	private SFPinLockType mPinLockType;
+	private SFSafeEnum<SFPinLockType> mPinLockType;
 
 	public Integer getPoisonPillInterval() {
 		return mPoisonPillInterval;
@@ -56,11 +56,11 @@ public class SFMobileSecuritySettings extends SFODataObject {
 	public void setRestrictModifiedDevices(Boolean restrictmodifieddevices) {
 		mRestrictModifiedDevices = restrictmodifieddevices;
 	}
-	public SFPinLockType getPinLockType() {
+	public SFSafeEnum<SFPinLockType> getPinLockType() {
 		return mPinLockType;
 	}
 
-	public void setPinLockType(SFPinLockType pinlocktype) {
+	public void setPinLockType(SFSafeEnum<SFPinLockType> pinlocktype) {
 		mPinLockType = pinlocktype;
 	}
 }

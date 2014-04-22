@@ -78,13 +78,12 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public SFApiQuery<SFDeviceUser> createByUser(String userId, String deviceId, SFDeviceUser du)
+	public SFApiQuery<SFDeviceUser> createByUser(String userId, SFDeviceUser du)
 	{
 		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>();
 		sfApiQuery.setFrom("User");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(userId);
-		sfApiQuery.addActionIds(deviceId);
 		sfApiQuery.setBody(du);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;

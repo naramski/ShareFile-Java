@@ -17,7 +17,7 @@ public class SFFile extends SFItem {
 	private String mFilePath;
 	private String mHash;
 	private Boolean mHasPreview;
-	private SFFileVirusStatus mVirusStatus;
+	private SFSafeEnum<SFFileVirusStatus> mVirusStatus;
 	private SFUser mLockedBy;
 	private Float mVersion;
 
@@ -69,14 +69,14 @@ public class SFFile extends SFItem {
 		/**
 		* Current Anti-Virus scanning status for this file
 		*/
-	public SFFileVirusStatus getVirusStatus() {
+	public SFSafeEnum<SFFileVirusStatus> getVirusStatus() {
 		return mVirusStatus;
 	}
 
 		/**
 		* Current Anti-Virus scanning status for this file
 		*/
-	public void setVirusStatus(SFFileVirusStatus virusstatus) {
+	public void setVirusStatus(SFSafeEnum<SFFileVirusStatus> virusstatus) {
 		mVirusStatus = virusstatus;
 	}
 		/**

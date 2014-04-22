@@ -16,7 +16,7 @@ public class SFEnsSubscriptionToken extends SFODataObject {
 
 	private String mSubscriptionId;
 	private String mEntityId;
-	private SFEnsEventType mEventTypes;
+	private SFSafeEnum<SFEnsEventType> mEventTypes;
 	private Boolean mIncludeProgeny;
 
 	public String getSubscriptionId() {
@@ -33,11 +33,11 @@ public class SFEnsSubscriptionToken extends SFODataObject {
 	public void setEntityId(String entityid) {
 		mEntityId = entityid;
 	}
-	public SFEnsEventType getEventTypes() {
+	public SFSafeEnum<SFEnsEventType> getEventTypes() {
 		return mEventTypes;
 	}
 
-	public void setEventTypes(SFEnsEventType eventtypes) {
+	public void setEventTypes(SFSafeEnum<SFEnsEventType> eventtypes) {
 		mEventTypes = eventtypes;
 	}
 	public Boolean getIncludeProgeny() {

@@ -28,7 +28,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>();
 		sfApiQuery.setFrom("Sessions");
-		sfApiQuery.setHttpMethod("DELETE");
+		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 

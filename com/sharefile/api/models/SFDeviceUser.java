@@ -27,10 +27,10 @@ public class SFDeviceUser extends SFODataObject {
 	private Date mLastWipe;
 	private String mWipeToken;
 	private String mWipeInitiator;
-	private SFDeviceActionInitiatorRole mWipeInitiatorRole;
+	private SFSafeEnum<SFDeviceActionInitiatorRole> mWipeInitiatorRole;
 	private String mLockInitiator;
-	private SFDeviceActionInitiatorRole mLockInitiatorRole;
-	private SFSFTool mDeviceType;
+	private SFSafeEnum<SFDeviceActionInitiatorRole> mLockInitiatorRole;
+	private SFSafeEnum<SFSFTool> mDeviceType;
 	private String mLastErrorMessage;
 
 	public SFAccount getAccount() {
@@ -124,11 +124,11 @@ public class SFDeviceUser extends SFODataObject {
 	public void setWipeInitiator(String wipeinitiator) {
 		mWipeInitiator = wipeinitiator;
 	}
-	public SFDeviceActionInitiatorRole getWipeInitiatorRole() {
+	public SFSafeEnum<SFDeviceActionInitiatorRole> getWipeInitiatorRole() {
 		return mWipeInitiatorRole;
 	}
 
-	public void setWipeInitiatorRole(SFDeviceActionInitiatorRole wipeinitiatorrole) {
+	public void setWipeInitiatorRole(SFSafeEnum<SFDeviceActionInitiatorRole> wipeinitiatorrole) {
 		mWipeInitiatorRole = wipeinitiatorrole;
 	}
 	public String getLockInitiator() {
@@ -138,18 +138,18 @@ public class SFDeviceUser extends SFODataObject {
 	public void setLockInitiator(String lockinitiator) {
 		mLockInitiator = lockinitiator;
 	}
-	public SFDeviceActionInitiatorRole getLockInitiatorRole() {
+	public SFSafeEnum<SFDeviceActionInitiatorRole> getLockInitiatorRole() {
 		return mLockInitiatorRole;
 	}
 
-	public void setLockInitiatorRole(SFDeviceActionInitiatorRole lockinitiatorrole) {
+	public void setLockInitiatorRole(SFSafeEnum<SFDeviceActionInitiatorRole> lockinitiatorrole) {
 		mLockInitiatorRole = lockinitiatorrole;
 	}
-	public SFSFTool getDeviceType() {
+	public SFSafeEnum<SFSFTool> getDeviceType() {
 		return mDeviceType;
 	}
 
-	public void setDeviceType(SFSFTool devicetype) {
+	public void setDeviceType(SFSafeEnum<SFSFTool> devicetype) {
 		mDeviceType = devicetype;
 	}
 	public String getLastErrorMessage() {

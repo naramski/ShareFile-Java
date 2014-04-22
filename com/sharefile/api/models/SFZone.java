@@ -15,12 +15,12 @@ package com.sharefile.api.models;
 public class SFZone extends SFPrincipal {
 
 	private String mSecret;
-	private SFZoneType mZoneType;
+	private SFSafeEnum<SFZoneType> mZoneType;
 	private SFAccount mAccount;
 	private Integer mHeartBeatTolerance;
 	private Integer mPingBackInterval;
 	private String mVersion;
-	private SFZoneService mZoneServices;
+	private SFSafeEnum<SFZoneService> mZoneServices;
 	private ArrayList<SFStorageCenter> mStorageCenters;
 	private ArrayList<SFMetadata> mMetadata;
 
@@ -31,11 +31,11 @@ public class SFZone extends SFPrincipal {
 	public void setSecret(String secret) {
 		mSecret = secret;
 	}
-	public SFZoneType getZoneType() {
+	public SFSafeEnum<SFZoneType> getZoneType() {
 		return mZoneType;
 	}
 
-	public void setZoneType(SFZoneType zonetype) {
+	public void setZoneType(SFSafeEnum<SFZoneType> zonetype) {
 		mZoneType = zonetype;
 	}
 	public SFAccount getAccount() {
@@ -66,11 +66,11 @@ public class SFZone extends SFPrincipal {
 	public void setVersion(String version) {
 		mVersion = version;
 	}
-	public SFZoneService getZoneServices() {
+	public SFSafeEnum<SFZoneService> getZoneServices() {
 		return mZoneServices;
 	}
 
-	public void setZoneServices(SFZoneService zoneservices) {
+	public void setZoneServices(SFSafeEnum<SFZoneService> zoneservices) {
 		mZoneServices = zoneservices;
 	}
 	public ArrayList<SFStorageCenter> getStorageCenters() {

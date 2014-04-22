@@ -15,7 +15,7 @@ package com.sharefile.api.models;
 public class SFShare extends SFODataObject {
 
 	private String mAliasID;
-	private SFShareType mShareType;
+	private SFSafeEnum<SFShareType> mShareType;
 	private String mTitle;
 	private Boolean mHasSentMessage;
 	private String mSentMessageTitle;
@@ -42,6 +42,8 @@ public class SFShare extends SFODataObject {
 	private Boolean mUsesStreamIDs;
 	private URI mUri;
 	private ArrayList<SFShareAlias> mRecipients;
+	private SFZone mZone;
+	private String mSignature;
 
 		/**
 		* When a Share is sent to multiple users, with RequireLogin or RequireUserInfo set, then a different
@@ -66,7 +68,7 @@ public class SFShare extends SFODataObject {
 		* Either "Send" or "Request". Send Shares are used to Send files and folders to the specified users. Request
 		* shares are used to allow users to upload files to the share owner chosen location.
 		*/
-	public SFShareType getShareType() {
+	public SFSafeEnum<SFShareType> getShareType() {
 		return mShareType;
 	}
 
@@ -74,7 +76,7 @@ public class SFShare extends SFODataObject {
 		* Either "Send" or "Request". Send Shares are used to Send files and folders to the specified users. Request
 		* shares are used to allow users to upload files to the share owner chosen location.
 		*/
-	public void setShareType(SFShareType sharetype) {
+	public void setShareType(SFSafeEnum<SFShareType> sharetype) {
 		mShareType = sharetype;
 	}
 		/**
@@ -366,5 +368,31 @@ public class SFShare extends SFODataObject {
 		*/
 	public void setRecipients(ArrayList<SFShareAlias> recipients) {
 		mRecipients = recipients;
+	}
+		/**
+		* The Storage Zone that contains this Share.
+		*/
+	public SFZone getZone() {
+		return mZone;
+	}
+
+		/**
+		* The Storage Zone that contains this Share.
+		*/
+	public void setZone(SFZone zone) {
+		mZone = zone;
+	}
+		/**
+		* HMAC Signature for the Share data
+		*/
+	public String getSignature() {
+		return mSignature;
+	}
+
+		/**
+		* HMAC Signature for the Share data
+		*/
+	public void setSignature(String signature) {
+		mSignature = signature;
 	}
 }

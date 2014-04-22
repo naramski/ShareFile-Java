@@ -39,7 +39,7 @@ public class SFItemInfo extends SFODataObject {
 	private Boolean mCanEditFolderOpts;
 	private String mFolderPayID;
 	private Boolean mShowFolderPayBuyButton;
-	private SFTreeMode mTreeMode;
+	private SFSafeEnum<SFTreeMode> mTreeMode;
 	private Boolean mTreeModeOperationAllowed;
 	private String mTreeModeSourceId;
 
@@ -218,11 +218,11 @@ public class SFItemInfo extends SFODataObject {
 	public void setShowFolderPayBuyButton(Boolean showfolderpaybuybutton) {
 		mShowFolderPayBuyButton = showfolderpaybuybutton;
 	}
-	public SFTreeMode getTreeMode() {
+	public SFSafeEnum<SFTreeMode> getTreeMode() {
 		return mTreeMode;
 	}
 
-	public void setTreeMode(SFTreeMode treemode) {
+	public void setTreeMode(SFSafeEnum<SFTreeMode> treemode) {
 		mTreeMode = treemode;
 	}
 	public Boolean getTreeModeOperationAllowed() {

@@ -17,7 +17,11 @@ public class SFEnsSubscriberConfiguration extends SFODataObject {
 	private Boolean mIsEnsEnabled;
 	private String mEnsServerUrl;
 	private String mVersion;
-	private Object mRecommendedSyncInterval;
+	private Object mRecommendedPollingSyncInterval;
+	private Object mRecommendedNotificationSyncInterval;
+	private Integer mNotificationConfigurationCount;
+	private Integer mFailSafePollingCount;
+	private Integer mMaxNotificationSyncWaitCount;
 
 	public Boolean getIsEnsEnabled() {
 		return mIsEnsEnabled;
@@ -40,11 +44,39 @@ public class SFEnsSubscriberConfiguration extends SFODataObject {
 	public void setVersion(String version) {
 		mVersion = version;
 	}
-	public Object getRecommendedSyncInterval() {
-		return mRecommendedSyncInterval;
+	public Object getRecommendedPollingSyncInterval() {
+		return mRecommendedPollingSyncInterval;
 	}
 
-	public void setRecommendedSyncInterval(Object recommendedsyncinterval) {
-		mRecommendedSyncInterval = recommendedsyncinterval;
+	public void setRecommendedPollingSyncInterval(Object recommendedpollingsyncinterval) {
+		mRecommendedPollingSyncInterval = recommendedpollingsyncinterval;
+	}
+	public Object getRecommendedNotificationSyncInterval() {
+		return mRecommendedNotificationSyncInterval;
+	}
+
+	public void setRecommendedNotificationSyncInterval(Object recommendednotificationsyncinterval) {
+		mRecommendedNotificationSyncInterval = recommendednotificationsyncinterval;
+	}
+	public Integer getNotificationConfigurationCount() {
+		return mNotificationConfigurationCount;
+	}
+
+	public void setNotificationConfigurationCount(Integer notificationconfigurationcount) {
+		mNotificationConfigurationCount = notificationconfigurationcount;
+	}
+	public Integer getFailSafePollingCount() {
+		return mFailSafePollingCount;
+	}
+
+	public void setFailSafePollingCount(Integer failsafepollingcount) {
+		mFailSafePollingCount = failsafepollingcount;
+	}
+	public Integer getMaxNotificationSyncWaitCount() {
+		return mMaxNotificationSyncWaitCount;
+	}
+
+	public void setMaxNotificationSyncWaitCount(Integer maxnotificationsyncwaitcount) {
+		mMaxNotificationSyncWaitCount = maxnotificationsyncwaitcount;
 	}
 }

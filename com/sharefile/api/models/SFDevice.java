@@ -14,18 +14,18 @@ package com.sharefile.api.models;
 
 public class SFDevice extends SFODataObject {
 
-	private SFSFTool mTool;
+	private SFSafeEnum<SFSFTool> mTool;
 	private String mToolRaw;
 	private SFUser mOwner;
 	private Date mCreated;
 	private String mToolVersion;
 	private Boolean mJustRegistered;
 
-	public SFSFTool getTool() {
+	public SFSafeEnum<SFSFTool> getTool() {
 		return mTool;
 	}
 
-	public void setTool(SFSFTool tool) {
+	public void setTool(SFSafeEnum<SFSFTool> tool) {
 		mTool = tool;
 	}
 	public String getToolRaw() {

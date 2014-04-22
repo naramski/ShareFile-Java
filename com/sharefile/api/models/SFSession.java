@@ -16,8 +16,10 @@ public class SFSession extends SFODataObject {
 
 	private SFPrincipal mPrincipal;
 	private String mAuthenticationType;
+	private String mOAuth2ClientName;
 	private String mTool;
 	private String mVersion;
+	private String mClientIPAddress;
 	private Boolean mIsAuthenticated;
 	private String mName;
 	private SFDeviceUser mDeviceUser;
@@ -36,6 +38,13 @@ public class SFSession extends SFODataObject {
 	public void setAuthenticationType(String authenticationtype) {
 		mAuthenticationType = authenticationtype;
 	}
+	public String getOAuth2ClientName() {
+		return mOAuth2ClientName;
+	}
+
+	public void setOAuth2ClientName(String oauth2clientname) {
+		mOAuth2ClientName = oauth2clientname;
+	}
 	public String getTool() {
 		return mTool;
 	}
@@ -49,6 +58,13 @@ public class SFSession extends SFODataObject {
 
 	public void setVersion(String version) {
 		mVersion = version;
+	}
+	public String getClientIPAddress() {
+		return mClientIPAddress;
+	}
+
+	public void setClientIPAddress(String clientipaddress) {
+		mClientIPAddress = clientipaddress;
 	}
 	public Boolean getIsAuthenticated() {
 		return mIsAuthenticated;

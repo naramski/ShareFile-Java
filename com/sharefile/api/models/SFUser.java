@@ -34,7 +34,7 @@ public class SFUser extends SFPrincipal {
 	private SFFolder mHomeFolder;
 	private ArrayList<SFDeviceUser> mDevices;
 	private SFFolder mVirtualRoot;
-	private ArrayList<SFUserRole> mRoles;
+	private ArrayList<SFSafeEnum<SFUserRole>> mRoles;
 	private SFUserInfo mInfo;
 
 	public SFAccount getAccount() {
@@ -183,11 +183,11 @@ public class SFUser extends SFPrincipal {
 	public void setVirtualRoot(SFFolder virtualroot) {
 		mVirtualRoot = virtualroot;
 	}
-	public ArrayList<SFUserRole> getRoles() {
+	public ArrayList<SFSafeEnum<SFUserRole>> getRoles() {
 		return mRoles;
 	}
 
-	public void setRoles(ArrayList<SFUserRole> roles) {
+	public void setRoles(ArrayList<SFSafeEnum<SFUserRole>> roles) {
 		mRoles = roles;
 	}
 	public SFUserInfo getInfo() {

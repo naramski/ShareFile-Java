@@ -17,7 +17,7 @@ public class SFEnsSubscriptionRequest extends SFODataObject {
 	private String mEnsServerUrl;
 	private String mClientId;
 	private SFODataObject mEntity;
-	private SFEnsEventType mEventTypes;
+	private SFSafeEnum<SFEnsEventType> mEventTypes;
 	private Boolean mIncludeProgeny;
 
 	public String getEnsServerUrl() {
@@ -41,11 +41,11 @@ public class SFEnsSubscriptionRequest extends SFODataObject {
 	public void setEntity(SFODataObject entity) {
 		mEntity = entity;
 	}
-	public SFEnsEventType getEventTypes() {
+	public SFSafeEnum<SFEnsEventType> getEventTypes() {
 		return mEventTypes;
 	}
 
-	public void setEventTypes(SFEnsEventType eventtypes) {
+	public void setEventTypes(SFSafeEnum<SFEnsEventType> eventtypes) {
 		mEventTypes = eventtypes;
 	}
 	public Boolean getIncludeProgeny() {

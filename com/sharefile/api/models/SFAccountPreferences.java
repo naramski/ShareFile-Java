@@ -71,7 +71,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean mEnableOAuth;
 	private Boolean mEnableQandA;
 	private Boolean mEnableQandATextInNotifications;
-	private SFUXMode mUXMode;
+	private SFSafeEnum<SFUXMode> mUXMode;
+	private Integer mIndustryCode;
 	private Integer mPasswordMaxAgeDays;
 	private Integer mPasswordHistoryCount;
 	private Integer mMinimumLength;
@@ -83,6 +84,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean mEnableWebDAV;
 	private Boolean mEnableFTP;
 	private Boolean mEnableSFTP;
+	private String mVDRDocViewerURL;
+	private Boolean mEnableSMBConnectorForAccount;
 	private String mAccountID;
 
 	public Boolean getEnableViewOnly() {
@@ -484,12 +487,19 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableQandATextInNotifications(Boolean enableqandatextinnotifications) {
 		mEnableQandATextInNotifications = enableqandatextinnotifications;
 	}
-	public SFUXMode getUXMode() {
+	public SFSafeEnum<SFUXMode> getUXMode() {
 		return mUXMode;
 	}
 
-	public void setUXMode(SFUXMode uxmode) {
+	public void setUXMode(SFSafeEnum<SFUXMode> uxmode) {
 		mUXMode = uxmode;
+	}
+	public Integer getIndustryCode() {
+		return mIndustryCode;
+	}
+
+	public void setIndustryCode(Integer industrycode) {
+		mIndustryCode = industrycode;
 	}
 	public Integer getPasswordMaxAgeDays() {
 		return mPasswordMaxAgeDays;
@@ -567,6 +577,20 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableSFTP(Boolean enablesftp) {
 		mEnableSFTP = enablesftp;
+	}
+	public String getVDRDocViewerURL() {
+		return mVDRDocViewerURL;
+	}
+
+	public void setVDRDocViewerURL(String vdrdocviewerurl) {
+		mVDRDocViewerURL = vdrdocviewerurl;
+	}
+	public Boolean getEnableSMBConnectorForAccount() {
+		return mEnableSMBConnectorForAccount;
+	}
+
+	public void setEnableSMBConnectorForAccount(Boolean enablesmbconnectorforaccount) {
+		mEnableSMBConnectorForAccount = enablesmbconnectorforaccount;
 	}
 	public String getAccountID() {
 		return mAccountID;

@@ -19,7 +19,7 @@ public class SFDeviceLogEntry extends SFODataObject {
 	private Long mTimestamp;
 	private String mAccountID;
 	private String mUserID;
-	private SFDeviceLogEntryAction mAction;
+	private SFSafeEnum<SFDeviceLogEntryAction> mAction;
 	private String mAdditionalInfo;
 
 		/**
@@ -63,11 +63,11 @@ public class SFDeviceLogEntry extends SFODataObject {
 	public void setUserID(String userid) {
 		mUserID = userid;
 	}
-	public SFDeviceLogEntryAction getAction() {
+	public SFSafeEnum<SFDeviceLogEntryAction> getAction() {
 		return mAction;
 	}
 
-	public void setAction(SFDeviceLogEntryAction action) {
+	public void setAction(SFSafeEnum<SFDeviceLogEntryAction> action) {
 		mAction = action;
 	}
 	public String getAdditionalInfo() {

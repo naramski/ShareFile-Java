@@ -109,22 +109,24 @@ public class SFSharesEntity extends SFODataEntityBase
 	* query. Anyone can download files from anonymous shares.You can also download individual Items in the Share. Use the Share(id)/Items(id)/Download action. The
 	* item ID must be a top-level item in the Share - i.e., you cannot download or address files contained inside
 	* a shared folder.
-	* @param id 	
+	* @param shareId 	
 	* @param Name 	
 	* @param Email 	
 	* @param Company 	
+	* @param redirect 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public SFApiQuery<Stream> download(String id, String grandparentid, String Name = null, String Email = null, String Company = null)
+	public SFApiQuery<Stream> download(String shareId, String id, String Name = null, String Email = null, String Company = null, Boolean redirect = true)
 	{
 		SFApiQuery<Stream> sfApiQuery = new SFApiQuery<Stream>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
-		sfApiQuery.addIds(id);
-		sfApiQuery.addQueryString("grandparentid", grandparentid);
+		sfApiQuery.addIds(shareId);
+		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.addQueryString("Name", Name);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.addQueryString("Company", Company);
+		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -262,6 +264,99 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Request");
 		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Upload File to Request Share
+	* Prepares the links for uploading files to the target Share.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* must call the FinishUri provided in this spec.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param id 	
+	* @param method 	
+	* @param raw 	
+	* @param fileName 	
+	* @param fileSize 	
+	* @param batchId 	
+	* @param batchLast 	
+	* @param canResume 	
+	* @param startOver 	
+	* @param unzip 	
+	* @param tool 	
+	* @param overwrite 	
+	* @param title 	
+	* @param details 	
+	* @param isSend 	
+	* @param sendGuid 	
+	* @param opid 	
+	* @param threadCount 	
+	* @param responseFormat 	
+	* @param notify 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+    */
+	public SFApiQuery<SFUploadSpecification> upload(String id, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
+	{
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.addQueryString("responseFormat", responseFormat);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
+		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
