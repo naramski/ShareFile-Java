@@ -21,6 +21,7 @@ import com.sharefile.api.entities.SFZonesEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
@@ -46,13 +47,19 @@ import android.widget.Toast;
  * 
  * @see SystemUiHider
  */
-public class FullscreenActivity extends Activity 
+public class FullscreenActivity extends Activity implements SFAuthTokenChangeListener
 {
 	public static SFOAuth2Token mOAuthToken = null;
 	public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "qhRBpcI7yj931hV2wzGlmsi6b";
 	public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "Nu8JDCC9EK598e4PmA2NBbF09oYBS8";	 	 
 	public static SFApiClient mSFApiClient;
 	public static SFOAuthAccessToken gToken = null;
+	private final SFAuthTokenChangeListener mTokenChangeListener;
+	
+	public FullscreenActivity()
+	{
+		mTokenChangeListener = this;
+	}
 	
 	public void showToast(final String msg)
 	{
@@ -66,72 +73,7 @@ public class FullscreenActivity extends Activity
 		});
 	}
 	
-	/*
-	SFGetNewAccessTokenListener mNewTokenListener = new SFGetNewAccessTokenListener() 
-	{
-		
-		@Override
-		public void successGetAccessToken(SFOAuth2Token accessToken) 
-		{
-			SFLog.d2("token", "Got new token ");
-			try 
-			{
-				mOAuthToken = accessToken;
-				PersistantToken.saveToken(getApplicationContext(), accessToken);
-				
-				mSFApiClient = new SFApiClient(mOAuthToken,WEB_LOGIN_CLIENT_ID_SHAREFILE,WEB_LOGIN_CLIENT_SECRET_SHAREFILE);
-				
-				mSFApiClient.init(mAPICLientListener);
-			} 
-			catch (Exception e) 
-			{		
-				SFLog.d2("token", "!!Excerption: %s" , Log.getStackTraceString(e));
-			}
-		}
-		
-		@Override
-		public void errorGetAccessToken(V3Error v3error) 
-		{	
-			SFLog.d2("token", "failed new token ");
-		}
-	};
-	
-	*/
-		
-	/*
-	public class SFTask extends AsyncTask<Object, Object, Object>
-	{
 
-		@Override
-		protected Object doInBackground(Object... params) 
-		{			
-			
-			String hostname = "citrix.sharefile.com";
-			String username = "nilesh.pawar@citrix.com";
-			String password = "****";
-			String clientId = WEB_LOGIN_CLIENT_ID_SHAREFILE;
-			String clientSecret = WEB_LOGIN_CLIENT_SECRET_SHAREFILE;
-			
-			try 
-			{
-				//mOAuthToken =  SFOAuthSimpleAuthenticator.authenticate(hostname, clientId, clientSecret, username, password);
-				
-				SFLog.d2("SFSDK","GOT Token = %s",mOAuthToken.toJsonString());												
-				mSFApiClient = new SFApiClient(mOAuthToken,WEB_LOGIN_CLIENT_ID_SHAREFILE,WEB_LOGIN_CLIENT_SECRET_SHAREFILE);								
-				
-			} 
-			catch (Exception e) 
-			{												
-				showToast("Exception "+ e.getLocalizedMessage());					
-				 				 
-				SFLog.d2("","%s",Log.getStackTraceString(e));
-			} 			
-						
-			return null;
-		}
-		
-	}*/
-	
 	private String readFolder()
 	{
 		try 
@@ -232,7 +174,7 @@ public class FullscreenActivity extends Activity
 				{														
 
 					@Override
-					public void sfapiSuccess(SFAccessControl object) 
+					public void sfApiSuccess(SFAccessControl object) 
 					{
 						SFLog.d2("SFSDK","getItem success: ");
 						showToast("success");						
@@ -243,12 +185,6 @@ public class FullscreenActivity extends Activity
 					{
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");						
-					}
-
-					@Override
-					public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,SFApiQuery<SFAccessControl> sfapiApiqueri) 
-					{
-						
 					}
 				});
 			} 
@@ -273,7 +209,7 @@ public class FullscreenActivity extends Activity
 				{														
 
 					@Override
-					public void sfapiSuccess(SFODataFeed<SFCapability> object) 
+					public void sfApiSuccess(SFODataFeed<SFCapability> object) 
 					{
 						SFLog.d2("SFSDK","getItem success: ");
 						showToast("success");
@@ -284,12 +220,6 @@ public class FullscreenActivity extends Activity
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
-					}
-
-					@Override
-					public void sfApiStoreNewToken(SFOAuth2Token newAccessToken, SFApiQuery<SFODataFeed<SFCapability>> sfapiApiqueri) 
-					{
-						saveToken(newAccessToken);						
 					}
 				});
 			} 
@@ -314,7 +244,7 @@ public class FullscreenActivity extends Activity
 				{														
 
 					@Override
-					public void sfapiSuccess(SFODataFeed<SFShare> object) 
+					public void sfApiSuccess(SFODataFeed<SFShare> object) 
 					{
 						SFLog.d2("SFSDK","getItem success: ");
 						showToast("success");
@@ -327,14 +257,6 @@ public class FullscreenActivity extends Activity
 						showToast("Failed");
 					}
 
-					@Override
-					public void sfApiStoreNewToken(
-							SFOAuth2Token newAccessToken,
-							SFApiQuery<SFODataFeed<SFShare>> sfapiApiqueri) 
-					{
-						saveToken(newAccessToken);
-						
-					}
 				});
 			} 
 			catch (SFInvalidStateException e) 
@@ -359,7 +281,7 @@ public class FullscreenActivity extends Activity
 				{														
 
 					@Override
-					public void sfapiSuccess(SFODataFeed<SFFavoriteFolder> object) 
+					public void sfApiSuccess(SFODataFeed<SFFavoriteFolder> object) 
 					{
 						SFLog.d2("SFSDK","getItem success: ");
 						showToast("success");
@@ -370,14 +292,6 @@ public class FullscreenActivity extends Activity
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
-					}
-
-					@Override
-					public void sfApiStoreNewToken(
-							SFOAuth2Token newAccessToken,
-							SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfapiApiqueri) {
-						saveToken(newAccessToken);
-						
 					}
 				});
 			} 
@@ -402,7 +316,7 @@ public class FullscreenActivity extends Activity
 				{														
 
 					@Override
-					public void sfapiSuccess(SFAccount object) 
+					public void sfApiSuccess(SFAccount object) 
 					{
 						SFLog.d2("SFSDK","getItem success: ");
 						showToast("success");
@@ -413,14 +327,6 @@ public class FullscreenActivity extends Activity
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
-					}
-
-					@Override
-					public void sfApiStoreNewToken(
-							SFOAuth2Token newAccessToken,
-							SFApiQuery<SFAccount> sfapiApiqueri) {
-						saveToken(newAccessToken);
-						
 					}
 				});
 			} 
@@ -445,7 +351,7 @@ public class FullscreenActivity extends Activity
 				{														
 
 					@Override
-					public void sfapiSuccess(SFODataFeed<SFZone> object) 
+					public void sfApiSuccess(SFODataFeed<SFZone> object) 
 					{
 						SFLog.d2("SFSDK","getItem success: ");
 						showToast("success");
@@ -456,14 +362,6 @@ public class FullscreenActivity extends Activity
 					{						
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
-					}
-
-					@Override
-					public void sfApiStoreNewToken(
-							SFOAuth2Token newAccessToken,
-							SFApiQuery<SFODataFeed<SFZone>> sfapiApiqueri) {
-						saveToken(newAccessToken);
-						
 					}
 				});
 			} 
@@ -588,7 +486,7 @@ public class FullscreenActivity extends Activity
 				 //SFAsyncTask.execute(task, new Object(){});
 				 try 
 				 {
-					mSFApiClient = new SFApiClient(mOAuthToken,WEB_LOGIN_CLIENT_ID_SHAREFILE,WEB_LOGIN_CLIENT_SECRET_SHAREFILE);
+					mSFApiClient = new SFApiClient(mOAuthToken,WEB_LOGIN_CLIENT_ID_SHAREFILE,WEB_LOGIN_CLIENT_SECRET_SHAREFILE,mTokenChangeListener);
 					changeTestButtons(true);
 				 } 
 				 catch (SFInvalidStateException e) 
@@ -603,5 +501,11 @@ public class FullscreenActivity extends Activity
 		addTestButtonsToLayout(layout);
 				
 		
+	}
+
+	@Override
+	public void sfApiStoreNewToken(SFOAuth2Token newAccessToken) 
+	{		
+		saveToken(newAccessToken);
 	}	
 }

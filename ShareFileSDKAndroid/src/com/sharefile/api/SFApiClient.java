@@ -2,6 +2,8 @@ package com.sharefile.api;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFItemsEntity;
@@ -14,10 +16,12 @@ import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
+import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.api.utils.SFLog;
 
 public class SFApiClient 
 {
@@ -25,61 +29,81 @@ public class SFApiClient
 	
 	public static final String MSG_INVALID_STATE_OAUTH_NULL = "Invalid state: Oauth token not initialized for SFApiClient";
 	
-	private SFOAuth2Token mOAuthToken = null;
+	private AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
 	private SFSession mSession = null;	
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
 	private final String mClientID;
 	private final String mClientSecret;
+	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
 	
-	private boolean mClientInitializedSuccessFully = false;
+	private AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
 	
 	public static final SFItemsEntity items = new SFItemsEntity();
 	
 	public boolean isClientInitialised()
 	{
-		return mClientInitializedSuccessFully;
+		return mClientInitializedSuccessFully.get();
 	}
 	
 	public SFOAuth2Token getAuthToken()
 	{
-		return mOAuthToken;
+		return mOAuthToken.get();
 	}
 	
 	private void copyOAuthToken(SFOAuth2Token oauthToken) throws SFInvalidStateException
 	{
 		validateStateBeforeInit(oauthToken);
 		
-		mOAuthToken = oauthToken;
+		mOAuthToken.set(oauthToken);
 		
-		mClientInitializedSuccessFully = true;
+		mClientInitializedSuccessFully.set(true);
 	}
 	
-	public SFApiClient(SFOAuth2Token oauthToken,String clientID,String clientSecret) throws SFInvalidStateException
+	public SFApiClient(SFOAuth2Token oauthToken,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
 	{	
-		mClientInitializedSuccessFully = false;
+		mClientInitializedSuccessFully.set(false);
 		
+		mAuthTokenChangeListener = listener;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
 		copyOAuthToken(oauthToken);					
 	}
 	
-	public void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
+	/**
+	 *   This function can be called only on clients which were previously initialized. 
+	 *   This will internally call the token change listener allowing the creator of this object 
+	 *   to store the new token to Persistant storage.
+	 */
+	@DefaultAccessScope
+	void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
 	{
-		mClientInitializedSuccessFully = false;
+		mClientInitializedSuccessFully.set(false);
 		
-		copyOAuthToken(oauthtoken);				
+		copyOAuthToken(oauthtoken);		
+		
+		if(mAuthTokenChangeListener!=null)
+		{
+			try
+			{
+				mAuthTokenChangeListener.sfApiStoreNewToken(oauthtoken);
+			}
+			catch(Exception e)
+			{
+				SFLog.d2(TAG, "Exception: %s", e.getLocalizedMessage());
+			}
+		}
 	}
 						
 	/**
 	 * This will start a seprate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
 	 */
-	public <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
+	public synchronized <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
 	{										
 		validateClientState();
 		
-		SFApiListenerWrapper listenereWrapper = new SFApiListenerWrapper(this,listener,query,mOAuthToken,mClientID,mClientSecret); 
-				
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listenereWrapper, mOAuthToken,mCookieManager);
+		SFApiListenerWrapper listenereWrapper = new SFApiListenerWrapper(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 				
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listenereWrapper, mOAuthToken.get(),mCookieManager);
+		
 		return sfApiRunnable.startNewThread();
 	}
 	
@@ -90,7 +114,7 @@ public class SFApiClient
 	{										
 		validateClientState();
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken,mCookieManager);
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager);
 		
 		return sfApiRunnable.executeQuery();
 	}
@@ -113,7 +137,7 @@ public class SFApiClient
 	
 	private void validateClientState() throws SFInvalidStateException 
 	{
-		if(!mClientInitializedSuccessFully)
+		if(!mClientInitializedSuccessFully.get())
 		{
 			throw new SFInvalidStateException(MSG_INVALID_STATE_OAUTH_NULL);
 		}
@@ -145,6 +169,6 @@ public class SFApiClient
 	 */
 	public void reset()
 	{		
-		mClientInitializedSuccessFully = false;		
+		mClientInitializedSuccessFully.set(false);		
 	}
 }

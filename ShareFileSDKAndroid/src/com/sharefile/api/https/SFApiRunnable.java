@@ -298,11 +298,11 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			switch(mResponse.mHttpErrorCode)
 			{
 				case HttpsURLConnection.HTTP_OK:
-					mResponseListener.sfapiSuccess((T) mResponse.mResponseObject);				
+					mResponseListener.sfApiSuccess((T) mResponse.mResponseObject);				
 				break;	
 				
 				case HttpsURLConnection.HTTP_NO_CONTENT:
-					mResponseListener.sfapiSuccess(null);
+					mResponseListener.sfApiSuccess(null);
 				break;
 												
 				default:

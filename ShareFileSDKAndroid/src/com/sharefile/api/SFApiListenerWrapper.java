@@ -1,18 +1,19 @@
 package com.sharefile.api;
 
-import android.util.Log;
-
 import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.SFLog;
 
-//Default access scope
+/**
+ *   This listener works as a proxy for the api listener provided by the callers of the executeQuery.
+ *   This intermediate listener allows us to trap the apiError and attempt to handle the intermediate reauthentication
+ *   via auth token renewal if possible and restart the original query with the renewed token. This provides a centralixed place
+ *   where the authtoken for a user can get renewed and stored persistantly.
+ */
 @SuppressWarnings("rawtypes")
 class SFApiListenerWrapper implements SFApiResponseListener
 {
@@ -35,7 +36,7 @@ class SFApiListenerWrapper implements SFApiResponseListener
 			{
 				mNewTokenReturnValue.storeObject(accessToken);			
 			
-				mListener.sfApiStoreNewToken(accessToken, msfapiQuery);
+				mApiClient.reinitClientState(accessToken);
 			}
 			catch(Exception e)
 			{
@@ -66,11 +67,11 @@ class SFApiListenerWrapper implements SFApiResponseListener
 	}
 
 	@Override
-	public final void sfapiSuccess(SFODataObject object) 
+	public final void sfApiSuccess(SFODataObject object) 
 	{
 		if(mListener!=null)
 		{
-			mListener.sfapiSuccess(object);
+			mListener.sfApiSuccess(object);
 		}
 	}
 	
@@ -112,15 +113,5 @@ class SFApiListenerWrapper implements SFApiResponseListener
 				mListener.sfApiError(error, sfapiApiqueri);
 			}
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,SFApiQuery sfapiApiqueri) 
-	{		
-		if(mListener!=null)
-		{
-			mListener.sfApiStoreNewToken(newAccessToken, sfapiApiqueri);
-		}
-	}		
+	}			
 }

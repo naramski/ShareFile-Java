@@ -130,7 +130,7 @@ public class FoldersActivity extends Activity
 			{
 
 				@Override
-				public void sfapiSuccess(SFItem object) 
+				public void sfApiSuccess(SFItem object) 
 				{					
 					
 				}
@@ -138,15 +138,7 @@ public class FoldersActivity extends Activity
 				@Override
 				public void sfApiError(V3Error error, SFApiQuery<SFItem> asApiqueri) 
 				{										
-				}
-
-				@Override
-				public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
-						SFApiQuery<SFItem> sfapiApiqueri) {
-					saveToken(newAccessToken);
-					
-				}
-				
+				}								
 			});
 		} 
 		catch (SFInvalidStateException e) 
@@ -186,7 +178,7 @@ public class FoldersActivity extends Activity
 			{														
 
 				@Override
-				public void sfapiSuccess(SFODataFeed<SFAccessControl> object) 
+				public void sfApiSuccess(SFODataFeed<SFAccessControl> object) 
 				{
 					SFLog.d2("SFSDK","getItem success: ");
 					showToast("success");						
@@ -197,13 +189,6 @@ public class FoldersActivity extends Activity
 				{
 					SFLog.d2("SFSDK","get Item failed: ");
 					showToast("Failed");						
-				}
-
-				@Override
-				public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
-						SFApiQuery<SFODataFeed<SFAccessControl>> sfapiApiqueri) {
-					saveToken(newAccessToken);	
-					
 				}
 			});
 		} 
@@ -248,7 +233,7 @@ public class FoldersActivity extends Activity
 			{														
 
 				@Override
-				public void sfapiSuccess(SFUploadSpecification object) 
+				public void sfApiSuccess(SFUploadSpecification object) 
 				{
 					SFLog.d2("SFSDK","getItem success: ");
 					showToast("Actuall upload of file");				
@@ -272,12 +257,6 @@ public class FoldersActivity extends Activity
 					showToast("Failed");						
 				}
 
-				@Override
-				public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
-						SFApiQuery<SFUploadSpecification> sfapiApiqueri) {
-					saveToken(newAccessToken);
-					
-				}
 			});
 		} 
 		catch (SFInvalidStateException e) 
@@ -494,7 +473,7 @@ public class FoldersActivity extends Activity
 	SFApiResponseListener<SFItem> getContentsListener = new SFApiResponseListener<SFItem>() 
 	{										
 		@Override
-		public void sfapiSuccess(final SFItem object) 
+		public void sfApiSuccess(final SFItem object) 
 		{													
 			runOnUiThread(new Runnable() 
 			{			
@@ -548,13 +527,6 @@ public class FoldersActivity extends Activity
 					}
 				}
 			});
-		}
-
-		@Override
-		public void sfApiStoreNewToken(SFOAuth2Token newAccessToken,
-				SFApiQuery<SFItem> sfapiApiqueri) {
-			saveToken(newAccessToken);
-			
 		}
 	};
 		
@@ -671,7 +643,7 @@ public class FoldersActivity extends Activity
 					{
 
 						@Override
-						public void sfapiSuccess(SFDownloadSpecification object) 
+						public void sfApiSuccess(SFDownloadSpecification object) 
 						{	
 							showToast("Start actual download...");
 							
