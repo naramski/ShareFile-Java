@@ -95,15 +95,33 @@ public class SFApiClient
 	}
 						
 	/**
-	 * This will start a seprate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
+	 * This will start a seperate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
 	 */
 	public synchronized <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
 	{										
+		return executeQueryInternal(query, listener, true);
+	}
+	
+	
+	/**
+	 *  We use this to install our own intermediate API listener. This allows us to handle the token renewal on auth Errors for 
+	 *  ShareFile providers. This function has default access scope so that the SFApiListenerWrapper can call this to avoid 
+	 *  the infinite recursion while attempting to handle auth errors.
+	 */
+	@DefaultAccessScope
+	<T extends SFODataObject> Thread executeQueryInternal(SFApiQuery<T> query , SFApiResponseListener<T> listener, boolean useApiListenerWrapper) throws SFInvalidStateException
+	{
 		validateClientState();
 		
-		SFApiListenerWrapper listenereWrapper = new SFApiListenerWrapper(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 				
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, listenereWrapper, mOAuthToken.get(),mCookieManager);
+		SFApiResponseListener<T> targetLisner = listener;
 		
+		if(useApiListenerWrapper)
+		{
+			SFApiListenerWrapper listenereWrapper = new SFApiListenerWrapper(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 							
+			targetLisner = listenereWrapper;
+		}			
+		
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager);
 		return sfApiRunnable.startNewThread();
 	}
 	

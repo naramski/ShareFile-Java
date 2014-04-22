@@ -310,10 +310,17 @@ public class SFApiQuery<T extends SFODataObject>
 	}
 	
 	/**
-	 * *If the query does not involve a connector we can try to internally handle the renewal of oAuth token.
+	 * we can renew token for Sharefile providers. 
 	 */
-	public boolean canhandleReAuthInternally()
-	{
-		return (mLink == null)? true:false;
+	public boolean canReNewTokenInternally()
+	{				
+		boolean ret = true;
+		
+		if(mLink!=null)
+		{
+			ret = (SFProvider.PROVIDER_TYPE_SF == SFProvider.getProviderTypeFromString(mLink.toString())?true:false);
+		}
+		
+		return ret;
 	}
 }

@@ -18,7 +18,7 @@ import com.sharefile.api.utils.SFLog;
 class SFApiListenerWrapper implements SFApiResponseListener
 {
 	private final SFApiResponseListener<SFODataObject> mListener;
-	private final SFApiQuery msfapiQuery;
+	private final SFApiQuery mQuery;
 	private final String mClientID;
 	private final String mClientSecret;
 	private final SFOAuth2Token mOAuthToken;
@@ -59,7 +59,7 @@ class SFApiListenerWrapper implements SFApiResponseListener
 	SFApiListenerWrapper(SFApiClient client, SFApiResponseListener listener, SFApiQuery query,SFOAuth2Token oAuthToken ,String clientID,String clientSecret)
 	{
 		mListener = (SFApiResponseListener<SFODataObject>) listener;
-		msfapiQuery = query;
+		mQuery = query;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
 		mOAuthToken = oAuthToken;
@@ -79,7 +79,7 @@ class SFApiListenerWrapper implements SFApiResponseListener
 	@Override
 	public final void sfApiError(final V3Error error, SFApiQuery sfapiApiqueri) 
 	{
-		if(error.isAuthError() && sfapiApiqueri.canhandleReAuthInternally())
+		if(error.isAuthError() && sfapiApiqueri.canReNewTokenInternally())
 		{
 			SFGetNewAccessToken getNewToken = new SFGetNewAccessToken(mOAuthToken, mNewTokenListener, mClientID, mClientSecret);
 			getNewToken.startNewThread();
@@ -97,8 +97,9 @@ class SFApiListenerWrapper implements SFApiResponseListener
 			{
 				try 
 				{
-					//restart the original query.
-					mApiClient.executeQuery(msfapiQuery, mListener);
+					//restart the original query. Notice how we pass on the original listener and dont install our intermediate wrapper.
+					// This is to avoid infinite recursion while trying handle the auth errors for tokens.
+					mApiClient.executeQueryInternal(mQuery, mListener, false);
 				} 
 				catch (SFInvalidStateException e) 
 				{					
