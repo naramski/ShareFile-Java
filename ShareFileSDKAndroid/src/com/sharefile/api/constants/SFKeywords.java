@@ -28,6 +28,8 @@ public final class SFKeywords
 	public static final String CODE = "code";
 	public static final String VALUE = "value";
 	public static final String MESSAGE = "message";
+	
+	public static final String CHILDREN = "Children";
 			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";

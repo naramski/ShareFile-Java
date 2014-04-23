@@ -16,6 +16,7 @@ import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.V3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -282,7 +283,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		SFSymbolicLink link = (SFSymbolicLink) mResponse.mResponseObject;				
 		mQuery = (SFApiQuery<T>) SFItemsEntity.get();
 		mQuery.setLink(link.getLink().toString());
-		mQuery.addQueryString("$expand", "Children");
+		mQuery.addQueryString(SFQueryParams.EXPAND, SFKeywords.CHILDREN);
 		return executeQuery();
 	}
 	
