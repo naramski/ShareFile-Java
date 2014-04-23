@@ -36,13 +36,15 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Get Item by ID
 	* Returns a single Item
 	* @param id 	
+	* @param includeDeleted 	
 	* @return a single Item
     */
-	public SFApiQuery<SFItem> get(String id)
+	public SFApiQuery<SFItem> get(String id, Boolean includeDeleted = false)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

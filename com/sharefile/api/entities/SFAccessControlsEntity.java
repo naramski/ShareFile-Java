@@ -59,7 +59,6 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     * "CanView":true,
     * "CanDelete":true,
     * "CanManagePermissions":true,
-    * 
     * "Message":"Message"
     * }
 	* Creates a new Access Controls entry for a given Item. Access controls can only define a single Principal,
