@@ -30,6 +30,7 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean mEnableVersioning;
 	private String mSystemType;
 	private Boolean mEnableSync;
+	private Boolean mEnableSyncAutoUpdate;
 	private String mSystemName;
 	private String mHomeScreenName;
 	private Boolean mShowTermsCheckbox;
@@ -199,6 +200,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableSync(Boolean enablesync) {
 		mEnableSync = enablesync;
+	}
+	public Boolean getEnableSyncAutoUpdate() {
+		return mEnableSyncAutoUpdate;
+	}
+
+	public void setEnableSyncAutoUpdate(Boolean enablesyncautoupdate) {
+		mEnableSyncAutoUpdate = enablesyncautoupdate;
 	}
 	public String getSystemName() {
 		return mSystemName;
