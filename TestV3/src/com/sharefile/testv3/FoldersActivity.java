@@ -514,7 +514,7 @@ public class FoldersActivity extends Activity
 								showBusy(true);
 								try 
 								{
-									SFApiRunnable.setUsernamePassword(userName, password);
+									asApiqueri.setCredentials(userName, password);
 									FullscreenActivity.mSFApiClient.executeQuery(asApiqueri, getContentsListener );
 								} 
 								catch (SFInvalidStateException e) 

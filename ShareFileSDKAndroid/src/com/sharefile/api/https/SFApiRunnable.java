@@ -97,19 +97,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			}
 		}
 	}
-	
-	/**
-	 *  This will change when we have better way of passing credentials. For the purpose of current POC app pass it as static global	 
-	 */
-	private static String mUsername = null;
-	private static String mPassword = null;
-	
-	public static void setUsernamePassword(String user,String pass)
-	{
-		mUsername = user;
-		mPassword = pass;
-	}
-		
+			
 	/** 
 	 * Currently the server is not returning a DownloadSpecification for download requests, 
 	 * its directly returning the download link. For the sake of completeness, implement the local
@@ -157,8 +145,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
 			SFHttpsCaller.setAcceptLanguage(connection);
 			
-			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mUsername,mPassword,mCookieManager);
-			mUsername = null;mPassword=null;
+			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mQuery.getUserName(),mQuery.getPassword(),mCookieManager);
+			
 			handleHttPost(connection);
 			
 			SFLog.d2(TAG, mQuery.getHttpMethod() + " %s" , urlstr);
@@ -281,9 +269,12 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private SFODataObject reExecuteNewQueryForSymbolicLinks() throws URISyntaxException, SFV3ErrorException
 	{
 		SFSymbolicLink link = (SFSymbolicLink) mResponse.mResponseObject;				
-		mQuery = (SFApiQuery<T>) SFItemsEntity.get();
-		mQuery.setLink(link.getLink().toString());
-		mQuery.addQueryString(SFQueryParams.EXPAND, SFKeywords.CHILDREN);
+				
+		SFApiQuery<T> tempQuery = new SFApiQuery<T>(); //Build a new Query				
+		tempQuery.copyQuery(mQuery); //Copy the vital fields from the original query into the new query.		
+		tempQuery.setLink(link.getLink().toString()); //Override the symbolic link		
+		mQuery = tempQuery; //replace the original query object so that we can re-execute it.
+		
 		return executeQuery();
 	}
 	

@@ -40,7 +40,60 @@ public class SFApiQuery<T extends SFODataObject>
 	private Map<String,String> mIdMap = new HashMap<String, String>();	
 	private String mBody = null;
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
-		
+	
+	/**
+	 * The username and password are used only for connectors auth. These can be set during auth errors or explicitly set during 
+	 * the very first call from this query to avoid double round-trips to the server. We let the application handle setting of this
+	 * TODO: For security purpose we may want to wipe the credentials from this object when done using for auth.
+	 */
+	private String mUserName;
+	
+	/**
+	 * The username and password are used only for connectors auth. These can be set during auth errors or explicitly set during 
+	 * the very first call from this query to avoid double round-trips to the server. We let the application handle setting of this
+	 * TODO: For security purpose we may want to wipe the credentials from this object when done using for auth.
+	 */
+	private String mPassword;
+	
+	//{@link #getComponentAt(int, int) getComponentAt} method.
+	
+	/**
+	 * When whenever you want to re-execute a previous query with slightly different parameters
+	 * always use this function to copy feilds from the source query and then modify the necessry feilds.
+	 * Sample use of this is in {@link com.sharefile.api.https.SFApiRunnable SFApiRunnable}	    
+	 *     
+	 */
+	public void copyQuery(SFApiQuery<T> sourceQuery)
+	{
+		mFromEntity = sourceQuery.mFromEntity;
+		mAction = sourceQuery.mAction;
+		mHttpMethod = sourceQuery.mHttpMethod;
+		mProvider = sourceQuery.mProvider;
+		mId = sourceQuery.mId;
+		mQueryMap.putAll(sourceQuery.mQueryMap);
+		mIdMap.putAll(sourceQuery.mIdMap);
+		mBody = sourceQuery.mBody;
+		mLink = sourceQuery.mLink;
+		mUserName = sourceQuery.mUserName;
+		mPassword = sourceQuery.mPassword;
+	}
+				
+	public void setCredentials(final String userName,final String password)
+	{
+		mUserName = userName;
+		mPassword = password;
+	}
+	
+	public final String getUserName()
+	{
+		return mUserName;		
+	}
+	
+	public final String getPassword()
+	{
+		return mPassword;		
+	}
+	
 	public final void setFrom(String setFrom)
 	{
 		mFromEntity = setFrom;								
