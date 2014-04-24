@@ -54,6 +54,11 @@ public class SFApiQuery<T extends SFODataObject>
 		}
 	}
 	
+	public final URI getLink()
+	{
+		return mLink;
+	}
+	
 	public final void setProvider(SFProvider provider)
 	{
 		mProvider = provider;
