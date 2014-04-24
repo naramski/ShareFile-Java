@@ -85,6 +85,7 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean mEnableWebDAV;
 	private Boolean mEnableFTP;
 	private Boolean mEnableSFTP;
+	private Boolean mDisableMarketing;
 	private String mVDRDocViewerURL;
 	private Boolean mEnableSMBConnectorForAccount;
 	private String mAccountID;
@@ -585,6 +586,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableSFTP(Boolean enablesftp) {
 		mEnableSFTP = enablesftp;
+	}
+	public Boolean getDisableMarketing() {
+		return mDisableMarketing;
+	}
+
+	public void setDisableMarketing(Boolean disablemarketing) {
+		mDisableMarketing = disablemarketing;
 	}
 	public String getVDRDocViewerURL() {
 		return mVDRDocViewerURL;
