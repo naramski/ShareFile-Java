@@ -186,7 +186,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");						
 					}
-				});
+				},null);
 			} 
 			catch (SFInvalidStateException e) 
 			{							
@@ -221,7 +221,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
 					}
-				});
+				},null);
 			} 
 			catch (SFInvalidStateException e) 
 			{							
@@ -257,7 +257,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 						showToast("Failed");
 					}
 
-				});
+				},null);
 			} 
 			catch (SFInvalidStateException e) 
 			{							
@@ -293,7 +293,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
 					}
-				});
+				},null);
 			} 
 			catch (SFInvalidStateException e) 
 			{							
@@ -328,7 +328,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
 					}
-				});
+				},null);
 			} 
 			catch (SFInvalidStateException e) 
 			{							
@@ -363,7 +363,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 						SFLog.d2("SFSDK","get Item failed: ");
 						showToast("Failed");
 					}
-				});
+				},null);
 			} 
 			catch (SFInvalidStateException e) 
 			{							
@@ -486,7 +486,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 				 //SFAsyncTask.execute(task, new Object(){});
 				 try 
 				 {
-					mSFApiClient = new SFApiClient(mOAuthToken,WEB_LOGIN_CLIENT_ID_SHAREFILE,WEB_LOGIN_CLIENT_SECRET_SHAREFILE,mTokenChangeListener);
+					mSFApiClient = new SFApiClient(mOAuthToken,"defaultuser",WEB_LOGIN_CLIENT_ID_SHAREFILE,WEB_LOGIN_CLIENT_SECRET_SHAREFILE,mTokenChangeListener);
 					changeTestButtons(true);
 				 } 
 				 catch (SFInvalidStateException e) 

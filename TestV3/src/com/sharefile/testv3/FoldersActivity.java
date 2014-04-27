@@ -139,7 +139,7 @@ public class FoldersActivity extends Activity
 				public void sfApiError(V3Error error, SFApiQuery<SFItem> asApiqueri) 
 				{										
 				}								
-			});
+			},null);
 		} 
 		catch (SFInvalidStateException e) 
 		{			
@@ -190,7 +190,7 @@ public class FoldersActivity extends Activity
 					SFLog.d2("SFSDK","get Item failed: ");
 					showToast("Failed");						
 				}
-			});
+			},null);
 		} 
 		catch (SFInvalidStateException e) 
 		{							
@@ -257,7 +257,7 @@ public class FoldersActivity extends Activity
 					showToast("Failed");						
 				}
 
-			});
+			},null);
 		} 
 		catch (SFInvalidStateException e) 
 		{							
@@ -461,7 +461,7 @@ public class FoldersActivity extends Activity
 		showBusy(true);
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(query, getContentsListener );
+			FullscreenActivity.mSFApiClient.executeQuery(query, getContentsListener ,null);
 		} 
 		catch (SFInvalidStateException e) 
 		{							
@@ -515,7 +515,7 @@ public class FoldersActivity extends Activity
 								try 
 								{
 									asApiqueri.setCredentials(userName, password);
-									FullscreenActivity.mSFApiClient.executeQuery(asApiqueri, getContentsListener );
+									FullscreenActivity.mSFApiClient.executeQuery(asApiqueri, getContentsListener,null );
 								} 
 								catch (SFInvalidStateException e) 
 								{							

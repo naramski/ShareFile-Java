@@ -7,17 +7,18 @@ import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.SFLog;
+import com.sharefile.api.utils.Utils;
 
 /**
  *   This listener works as a proxy for the api listener provided by the callers of the executeQuery.
  *   This intermediate listener allows us to trap the apiError and attempt to handle the intermediate reauthentication
- *   via auth token renewal if possible and restart the original query with the renewed token. This provides a centralixed place
+ *   via auth token renewal if possible and restart the original query with the renewed token. This provides a centralized place
  *   where the authtoken for a user can get renewed and stored persistantly.
  */
 @SuppressWarnings("rawtypes")
-class SFApiListenerWrapper implements SFApiResponseListener
+class SFApiListenerTokenRenewer implements SFApiResponseListener
 {
-	private final SFApiResponseListener<SFODataObject> mListener;
+	private final SFApiListenerReauthHandler mListener;
 	private final SFApiQuery mQuery;
 	private final String mClientID;
 	private final String mClientSecret;
@@ -55,10 +56,9 @@ class SFApiListenerWrapper implements SFApiResponseListener
 		}
 	};
 	
-	@SuppressWarnings("unchecked")
-	SFApiListenerWrapper(SFApiClient client, SFApiResponseListener listener, SFApiQuery query,SFOAuth2Token oAuthToken ,String clientID,String clientSecret)
+	SFApiListenerTokenRenewer(SFApiClient client, SFApiListenerReauthHandler listener, SFApiQuery query,SFOAuth2Token oAuthToken ,String clientID,String clientSecret)
 	{
-		mListener = (SFApiResponseListener<SFODataObject>) listener;
+		mListener = listener;
 		mQuery = query;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
@@ -87,17 +87,14 @@ class SFApiListenerWrapper implements SFApiResponseListener
 			mwaitForAuthResult.blockingWait();
 			
 			if(mErrorReturnValue.getReturnObject()!=null)
-			{
-				if(mListener!=null)
-				{
-					mListener.sfApiError(mErrorReturnValue.getReturnObject(), sfapiApiqueri);
-				}
+			{								
+				Utils.safeCallErrorListener(mListener, mErrorReturnValue.getReturnObject(), sfapiApiqueri);
 			}
 			else
 			{
 				try 
 				{
-					//restart the original query. Notice how we pass on the original listener and dont install our intermediate wrapper.
+					//restart the original query. Notice how we pass on the original listener and don't install our intermediate wrapper.
 					// This is to avoid infinite recursion while trying handle the auth errors for tokens.
 					mApiClient.executeQueryInternal(mQuery, mListener, false);
 				} 
@@ -109,10 +106,7 @@ class SFApiListenerWrapper implements SFApiResponseListener
 		}
 		else
 		{
-			if(mListener!=null)
-			{
-				mListener.sfApiError(error, sfapiApiqueri);
-			}
+			Utils.safeCallErrorListener(mListener, error, sfapiApiqueri);			
 		}
 	}			
 }

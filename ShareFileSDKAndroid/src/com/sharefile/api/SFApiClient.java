@@ -13,6 +13,7 @@ import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.https.SFCookieManager;
+import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
@@ -35,6 +36,7 @@ public class SFApiClient
 	private final String mClientID;
 	private final String mClientSecret;
 	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
+	private final String mSfUserId;
 	
 	private AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
 	
@@ -59,13 +61,14 @@ public class SFApiClient
 		mClientInitializedSuccessFully.set(true);
 	}
 	
-	public SFApiClient(SFOAuth2Token oauthToken,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
+	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);
 		
 		mAuthTokenChangeListener = listener;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
+		mSfUserId = sfUserId;
 		copyOAuthToken(oauthToken);					
 	}
 	
@@ -97,9 +100,11 @@ public class SFApiClient
 	/**
 	 * This will start a seperate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
 	 */
-	public synchronized <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener) throws SFInvalidStateException
-	{										
-		return executeQueryInternal(query, listener, true);
+	public synchronized <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	{		
+		SFApiListenerReauthHandler sfReauthHandler = new SFApiListenerReauthHandler(listener, reauthHandler, this);
+		
+		return executeQueryInternal(query, sfReauthHandler, true);
 	}
 	
 	
@@ -109,15 +114,15 @@ public class SFApiClient
 	 *  the infinite recursion while attempting to handle auth errors.
 	 */
 	@DefaultAccessScope
-	<T extends SFODataObject> Thread executeQueryInternal(SFApiQuery<T> query , SFApiResponseListener<T> listener, boolean useApiListenerWrapper) throws SFInvalidStateException
+	<T extends SFODataObject> Thread executeQueryInternal(SFApiQuery<T> query , SFApiListenerReauthHandler listener, boolean useTokenRenewer) throws SFInvalidStateException
 	{
 		validateClientState();
 		
 		SFApiResponseListener<T> targetLisner = listener;
 		
-		if(useApiListenerWrapper)
+		if(useTokenRenewer)
 		{
-			SFApiListenerWrapper listenereWrapper = new SFApiListenerWrapper(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 							
+			SFApiListenerTokenRenewer listenereWrapper = new SFApiListenerTokenRenewer(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 							
 			targetLisner = listenereWrapper;
 		}			
 		
@@ -188,5 +193,10 @@ public class SFApiClient
 	public void reset()
 	{		
 		mClientInitializedSuccessFully.set(false);		
+	}
+
+	public String getUserId() 
+	{		
+		return mSfUserId;
 	}
 }
