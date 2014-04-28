@@ -92,7 +92,7 @@ public enum SFV3ElementType
 	GenericConfig("Models.GenericConfig@Element",SFGenericConfig.class),
 	Group("Models.Group@Element",SFGroup.class),
 	Item("Models.Item@Element",SFItem.class),
-	ItemInfo("Models.ItemInfo@Element",SFItemInfo.class),
+	ItemInfo("Models.ItemInfo",SFItemInfo.class),
 	ItemProtocolLink("Models.ItemProtocolLink@Element",SFItemProtocolLink.class),
 	Link("Models.Link@Element",SFLink.class),
 	Metadata("Models.Metadata@Element",SFMetadata.class),
@@ -191,7 +191,9 @@ public enum SFV3ElementType
 		
 		SFLog.d2("ModelFacotry"," FIND Element Type for metadat = %s" , metadata );
 						
-		if(metadata!=null && metadata.contains("Models.") && metadata.contains("@Element"))			
+		//if(metadata!=null && metadata.contains("Models.") && metadata.contains("@Element"))
+		//metadata.contains("@Element") is not correct for ItemsInfo
+		if(metadata!=null && metadata.contains("Models."))
 		{
 			for(SFV3ElementType s:SFV3ElementType.values())
 			{				
