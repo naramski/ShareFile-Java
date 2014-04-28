@@ -452,7 +452,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.setId(id);
 		query.addQueryString("singleversion", singleversion);
 		query.addQueryString("forceSync", forceSync);
-		query.setHttpMethod(SFHttpMethod.PATCH);
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 

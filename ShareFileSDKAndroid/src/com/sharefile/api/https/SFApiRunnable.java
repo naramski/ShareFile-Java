@@ -226,7 +226,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			break;	
 			
 			case HttpsURLConnection.HTTP_NO_CONTENT:
-				//nothing
+				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null, null);
 			break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
