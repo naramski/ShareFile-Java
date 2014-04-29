@@ -21,6 +21,7 @@ public class SFZone extends SFPrincipal {
 	private Integer mPingBackInterval;
 	private String mVersion;
 	private SFSafeEnum<SFZoneService> mZoneServices;
+	private Boolean mIsHIPAAZone;
 	private ArrayList<SFStorageCenter> mStorageCenters;
 	private ArrayList<SFMetadata> mMetadata;
 
@@ -72,6 +73,13 @@ public class SFZone extends SFPrincipal {
 
 	public void setZoneServices(SFSafeEnum<SFZoneService> zoneservices) {
 		mZoneServices = zoneservices;
+	}
+	public Boolean getIsHIPAAZone() {
+		return mIsHIPAAZone;
+	}
+
+	public void setIsHIPAAZone(Boolean ishipaazone) {
+		mIsHIPAAZone = ishipaazone;
 	}
 	public ArrayList<SFStorageCenter> getStorageCenters() {
 		return mStorageCenters;
