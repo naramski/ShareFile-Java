@@ -333,13 +333,18 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Updates an Item object
 	* @param id 	
 	* @param item 	
+	* @param forceSync 	
 	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
     */
-	public SFApiQuery<SFItem> update(String id, SFItem item)
+	public SFApiQuery<SFItem> update(String id, SFItem item, String batchid = null, Long batchSizeInBytes = -1, Boolean forceSync = false, Boolean scheduleAsync = true)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(id);
+		sfApiQuery.addQueryString("batchid", batchid);
+		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
+		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.addQueryString("scheduleAsync", scheduleAsync);
 		sfApiQuery.setBody(item);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
