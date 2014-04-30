@@ -11,7 +11,7 @@ import com.sharefile.api.utils.Utils;
  * @param <T>
  * @param <T>
  */
-public abstract class SFApiListenerEx<T extends SFODataObject> implements SFApiResponseListener 
+public abstract class SFApiListenerEx<T extends SFODataObject> implements SFApiResponseListener<T> 
 {
 	private final SFApiResponseListener<T>  mListener;
 	
