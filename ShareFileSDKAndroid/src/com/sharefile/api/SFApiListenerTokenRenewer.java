@@ -15,12 +15,11 @@ import com.sharefile.api.utils.Utils;
  *   via auth token renewal if possible and restart the original query with the renewed token. This provides a centralized place
  *   where the authtoken for a user can get renewed and stored persistantly.
  */
-@SuppressWarnings("rawtypes")
 @DefaultAccessScope
-class SFApiListenerTokenRenewer implements SFApiResponseListener
+class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiResponseListener<T>
 {
-	private final SFApiListenerReauthHandler mListener;
-	private final SFApiQuery mQuery;
+	private final SFApiListenerReauthHandler<T> mListener;
+	private final SFApiQuery<T> mQuery;
 	private final String mClientID;
 	private final String mClientSecret;
 	private final SFOAuth2Token mOAuthToken;
@@ -57,7 +56,7 @@ class SFApiListenerTokenRenewer implements SFApiResponseListener
 		}
 	};
 	
-	SFApiListenerTokenRenewer(SFApiClient client, SFApiListenerReauthHandler listener, SFApiQuery query,SFOAuth2Token oAuthToken ,String clientID,String clientSecret)
+	SFApiListenerTokenRenewer(SFApiClient client, SFApiListenerReauthHandler<T> listener, SFApiQuery<T> query,SFOAuth2Token oAuthToken ,String clientID,String clientSecret)
 	{
 		mListener = listener;
 		mQuery = query;
@@ -68,17 +67,16 @@ class SFApiListenerTokenRenewer implements SFApiResponseListener
 	}
 
 	@Override
-	public final void sfApiSuccess(SFODataObject object) 
+	public final void sfApiSuccess(T object) 
 	{
 		if(mListener!=null)
 		{
 			mListener.sfApiSuccess(object);
 		}
 	}
-	
-	@SuppressWarnings("unchecked")
+		
 	@Override
-	public final void sfApiError(final V3Error error, SFApiQuery sfapiApiqueri) 
+	public final void sfApiError(final V3Error error, SFApiQuery<T> sfapiApiqueri) 
 	{
 		if(error.isAuthError() && sfapiApiqueri.canReNewTokenInternally())
 		{

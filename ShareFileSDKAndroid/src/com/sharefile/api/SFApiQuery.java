@@ -202,7 +202,7 @@ public class SFApiQuery<T extends SFODataObject>
 		return mBody;
 	}
 	
-	public <T> void setBody(ArrayList<T> metadata) 
+	public void setBody(ArrayList<?> metadata) 
 	{
 		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
 	}

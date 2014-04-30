@@ -102,7 +102,7 @@ public class SFApiClient
 	 */
 	public synchronized <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{		
-		SFApiListenerReauthHandler sfReauthHandler = new SFApiListenerReauthHandler(listener, reauthHandler, this);
+		SFApiListenerReauthHandler<T> sfReauthHandler = new SFApiListenerReauthHandler<T>(listener, reauthHandler, this);
 		
 		return executeQueryInternal(query, sfReauthHandler, true);
 	}
@@ -114,7 +114,7 @@ public class SFApiClient
 	 *  the infinite recursion while attempting to handle auth errors.
 	 */
 	@DefaultAccessScope
-	<T extends SFODataObject> Thread executeQueryInternal(SFApiQuery<T> query , SFApiListenerReauthHandler listener, boolean useTokenRenewer) throws SFInvalidStateException
+	<T extends SFODataObject> Thread executeQueryInternal(SFApiQuery<T> query , SFApiListenerReauthHandler<T> listener, boolean useTokenRenewer) throws SFInvalidStateException
 	{
 		validateClientState();
 		
@@ -122,7 +122,7 @@ public class SFApiClient
 		
 		if(useTokenRenewer)
 		{
-			SFApiListenerTokenRenewer listenereWrapper = new SFApiListenerTokenRenewer(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 							
+			SFApiListenerTokenRenewer<T> listenereWrapper = new SFApiListenerTokenRenewer<T>(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 							
 			targetLisner = listenereWrapper;
 		}			
 		

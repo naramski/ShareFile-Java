@@ -8,15 +8,14 @@ import com.sharefile.api.utils.Utils;
 /**
  *   This allows to call the getCredentials() functions on the original caller if they have implemented the ISFReAuthHandler interface
  */
-@SuppressWarnings("rawtypes")
 @DefaultAccessScope
-class SFApiListenerReauthHandler implements SFApiResponseListener  
+class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiResponseListener<T>  
 {
-	private final SFApiResponseListener mOriginalListener;
+	private final SFApiResponseListener<T> mOriginalListener;
 	private final SFApiClient mSFApiClient;
 	private final ISFReAuthHandler mReauthHandler;
 	
-	public SFApiListenerReauthHandler(SFApiResponseListener listener, ISFReAuthHandler reauthHandler, SFApiClient apiClient) 
+	public SFApiListenerReauthHandler(SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler, SFApiClient apiClient) 
 	{
 		mOriginalListener = listener;
 		mSFApiClient = apiClient;
@@ -24,13 +23,13 @@ class SFApiListenerReauthHandler implements SFApiResponseListener
 	}
 	
 	@Override
-	public void sfApiSuccess(SFODataObject object) 
+	public void sfApiSuccess(T object) 
 	{
 		Utils.safeCallSuccess(mOriginalListener, object);
 	}
 		
 	@Override
-	public void sfApiError(V3Error error, SFApiQuery sfapiApiqueri) 
+	public void sfApiError(V3Error error, SFApiQuery<T> sfapiApiqueri) 
 	{		
 		if(!handleIfAuthError(error, sfapiApiqueri))
 		{
@@ -38,7 +37,7 @@ class SFApiListenerReauthHandler implements SFApiResponseListener
 		}
 	}
 					
-	private boolean handleIfAuthError(final V3Error error, final SFApiQuery sfapiApiqueri)
+	private boolean handleIfAuthError(final V3Error error, final SFApiQuery<T> sfapiApiqueri)
 	{
 		boolean ret = false;				
 		if(error!=null && error.isAuthError()) 
@@ -46,7 +45,7 @@ class SFApiListenerReauthHandler implements SFApiResponseListener
 			//We explicitly check !sfapiApiqueri.canReNewTokenInternally() since we should never call the getCredentials for SFProvider.
 			if( (mReauthHandler !=null && !sfapiApiqueri.canReNewTokenInternally()) )
 			{								
-				SFReAuthContext reauthContext = new SFReAuthContext(sfapiApiqueri, this, mSFApiClient); 
+				SFReAuthContext<T> reauthContext = new SFReAuthContext<T>(sfapiApiqueri, this, mSFApiClient); 
 				mReauthHandler.getCredentials(reauthContext);
 				ret = true;
 			}			

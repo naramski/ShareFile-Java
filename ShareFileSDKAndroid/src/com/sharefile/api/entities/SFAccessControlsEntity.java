@@ -17,6 +17,7 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFODataObject;
 
 public class SFAccessControlsEntity extends SFODataEntityBase
 {
@@ -127,9 +128,9 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param principalid 	
 	* @param itemid 	
     */
-	public SFApiQuery delete(String principalid, String itemid)
+	public SFApiQuery<SFODataObject> delete(String principalid, String itemid)
 	{
-		SFApiQuery query = new SFApiQuery();
+		SFApiQuery<SFODataObject> query = new SFApiQuery<SFODataObject>();
 		query.setFrom("AccessControls");
 		query.addIds("principalid", principalid);
 		query.addIds("itemid", itemid);

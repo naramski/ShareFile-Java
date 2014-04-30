@@ -19,21 +19,20 @@ public abstract class SFApiListenerEx<T extends SFODataObject> implements SFApiR
 	{
 		mListener = listener;
 	}
-	
-	@SuppressWarnings("rawtypes")
+		
 	@Override
-	public void sfApiError(V3Error error, SFApiQuery sfapiApiqueri) 
+	public void sfApiError(V3Error error, SFApiQuery<T> sfapiApiqueri) 
 	{		
 		Utils.safeCallErrorListener(mListener, error, sfapiApiqueri);
 	}
 	
 	@Override
-	public void sfApiSuccess(SFODataObject object) 
+	public void sfApiSuccess(T object) 
 	{		
 	  Utils.safeCallSuccess(mListener, object);	
 	}
 	
-	public synchronized final <T extends SFODataObject> Thread executeQuery(SFApiClient client , SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public synchronized final Thread executeQuery(SFApiClient client , SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
 		return client.executeQuery(query, listener, reauthHandler);
 	}

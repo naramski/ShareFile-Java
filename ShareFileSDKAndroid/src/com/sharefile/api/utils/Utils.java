@@ -15,18 +15,16 @@ public class Utils
 	    String acceptLanguageString = currentLocale.toString().replace('_', '-') + ";q=0.8,en;q=0.6";
 	    return acceptLanguageString;
 	}
-	
-	@SuppressWarnings({ "unchecked" })
-	public static void safeCallErrorListener(SFApiResponseListener listener, V3Error error, SFApiQuery query)
+		
+	public static <T extends SFODataObject> void safeCallErrorListener(SFApiResponseListener<T> listener, V3Error error, SFApiQuery<T> query)
 	{
 		if(listener!=null)
 		{
 			listener.sfApiError(error, query);
 		}	
 	}
-	
-	@SuppressWarnings({ "unchecked" })
-	public static void safeCallSuccess(SFApiResponseListener listener, SFODataObject object)
+		
+	public static <T extends SFODataObject> void safeCallSuccess(SFApiResponseListener<T> listener, T object)
 	{
 		if(listener!=null)
 		{
