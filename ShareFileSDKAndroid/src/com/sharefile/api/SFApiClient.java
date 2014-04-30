@@ -30,7 +30,7 @@ public class SFApiClient
 	
 	public static final String MSG_INVALID_STATE_OAUTH_NULL = "Invalid state: Oauth token not initialized for SFApiClient";
 	
-	private AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
+	private final AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
 	private SFSession mSession = null;	
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
 	private final String mClientID;
@@ -38,7 +38,7 @@ public class SFApiClient
 	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
 	private final String mSfUserId;
 	
-	private AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
+	private final AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
 	
 	public static final SFItemsEntity items = new SFItemsEntity();
 	

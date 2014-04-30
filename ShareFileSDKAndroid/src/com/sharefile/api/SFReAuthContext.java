@@ -13,7 +13,7 @@ public final class SFReAuthContext
 	@SuppressWarnings("rawtypes")
 	private final SFApiQuery mQuery;
 	private final SFApiListenerReauthHandler mOriginalListener;	
-	private AtomicBoolean mIsCancelled = new AtomicBoolean(false);
+	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
 	private final SFApiClient mSFApiClient;
 	
 	@SuppressWarnings("rawtypes")

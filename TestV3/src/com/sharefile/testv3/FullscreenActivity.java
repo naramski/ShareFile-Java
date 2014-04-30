@@ -1,5 +1,6 @@
 package com.sharefile.testv3;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -477,7 +479,8 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 		{			
 			@Override
 			public void onClick(View v) 
-			{												
+			{	
+				
 				 showToast("Stating auth");	
 				 
 				 SFLog.d2("SFSDK","staring auth task");
@@ -493,6 +496,18 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 				 {					
 					e.printStackTrace();
 				 }
+				 
+			
+				/*
+				FileOutputStream f1=  fileOpen("/storage/sdcard0/a.txt");
+				FileOutputStream f2= fileOpen("/storage/sdcard0/a.txt");
+				
+				writeToFile(f1, "file1");
+				writeToFile(f2, "file2");
+				
+				safeClose(f1);
+				safeClose(f2);
+				*/
 			}
 		});
 		
@@ -501,6 +516,53 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 		addTestButtonsToLayout(layout);
 				
 		
+	}
+	
+	private void safeClose(FileOutputStream fos)
+	{
+		if(fos!=null)
+		{			
+			try 
+			{
+				fos.close();
+			} 
+			catch (IOException e) 
+			{
+				SFLog.d2("ShareFile", "%s", Log.getStackTraceString(e));
+			}
+		}
+	}
+	
+	private void writeToFile(FileOutputStream f1,String str)
+	{
+		if(f1!=null)
+		{
+			try 
+			{
+				f1.write(str.getBytes());
+				f1.flush();
+			} 
+			catch (IOException e) 
+			{
+				SFLog.d2("ShareFile", "%s", Log.getStackTraceString(e));
+			}
+		}
+	}
+	
+	private FileOutputStream fileOpen(String path)
+	{
+		FileOutputStream fos = null;
+		
+		try
+		{
+			fos = new FileOutputStream(path,true);
+		}
+		catch(Exception e)
+		{
+			SFLog.d2("ShareFile", "%s", Log.getStackTraceString(e));
+		}
+		
+		return fos;
 	}
 
 	@Override
