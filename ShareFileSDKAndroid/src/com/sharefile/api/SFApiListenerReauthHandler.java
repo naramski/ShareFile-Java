@@ -9,7 +9,8 @@ import com.sharefile.api.utils.Utils;
  *   This allows to call the getCredentials() functions on the original caller if they have implemented the ISFReAuthHandler interface
  */
 @SuppressWarnings("rawtypes")
-public  class SFApiListenerReauthHandler implements SFApiResponseListener  
+@DefaultAccessScope
+class SFApiListenerReauthHandler implements SFApiResponseListener  
 {
 	private final SFApiResponseListener mOriginalListener;
 	private final SFApiClient mSFApiClient;

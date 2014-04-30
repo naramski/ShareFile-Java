@@ -41,6 +41,23 @@ public class SFApiQuery<T extends SFODataObject>
 	private String mBody = null;
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
 	
+	/** 
+	 * Currently the server is not returning a DownloadSpecification for download requests, 
+	 * its directly returning the download link. For the sake of completeness, implement the local
+	 * response filler for such requests.	 
+	 */
+	private boolean mNeedSpecialHandling = false;
+	
+	public void setNeedSpecialHandling(boolean val)
+	{
+		mNeedSpecialHandling = val;
+	}
+	
+	public boolean getNeedSpecialHandling()
+	{
+		return mNeedSpecialHandling;
+	}
+	
 	/**
 	 * The username and password are used only for connectors auth. These can be set during auth errors or explicitly set during 
 	 * the very first call from this query to avoid double round-trips to the server. We let the application handle setting of this

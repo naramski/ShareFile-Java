@@ -16,6 +16,7 @@ import com.sharefile.api.utils.Utils;
  *   where the authtoken for a user can get renewed and stored persistantly.
  */
 @SuppressWarnings("rawtypes")
+@DefaultAccessScope
 class SFApiListenerTokenRenewer implements SFApiResponseListener
 {
 	private final SFApiListenerReauthHandler mListener;

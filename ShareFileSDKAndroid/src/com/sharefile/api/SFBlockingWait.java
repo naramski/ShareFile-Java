@@ -25,6 +25,24 @@ public final class SFBlockingWait
 		}
 	}
 	
+	/**
+	 * Use this with caution. Never use this inside one of the SDK calls.
+	 */
+	public void blockingWaitInfinite()
+	{		
+		synchronized (mWaitObject) 
+		{
+			try 
+			{
+				mWaitObject.wait();
+			} 
+			catch (InterruptedException e) 
+			{				
+				SFToDoReminderException.throwTODOException("Blocking wait interrupted.");
+			}
+		}
+	}
+	
 	public void unblockWait()
 	{
 		synchronized (mWaitObject) 

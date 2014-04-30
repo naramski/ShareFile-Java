@@ -20,6 +20,7 @@ import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
@@ -105,10 +106,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 */
 	private boolean needSpecialHandling()
 	{
-		boolean ret = false;
-				
-				
-		return ret;
+		return mQuery.getNeedSpecialHandling();
 	}
 	
 	private String fillSpecialResponse(String downloadURl)
@@ -116,7 +114,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		try 
 		{			
 			JsonObject  jsonObject = new JsonObject();
-			jsonObject.addProperty(SFKeywords.ODATA_METADATA, downloadURl);
+			jsonObject.addProperty(SFKeywords.ODATA_METADATA, SFV3ElementType.DownloadSpecification.toString());
 			jsonObject.addProperty(SFKeywords.DownloadUrl, downloadURl);
 			return jsonObject.toString();
 		} 
