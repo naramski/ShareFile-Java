@@ -3,8 +3,8 @@ package com.sharefile.api.https;
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -43,7 +43,7 @@ public class SFApiFileUploadRunnable implements Runnable
 	private final SFUploadSpecification mUploadSpecification;
 	private final long mResumeFromByteIndex;
 	private final long mTotalBytes;
-	private final FileInputStream mFileInputStream;
+	private final InputStream mFileInputStream;
 	private final SFApiClient mApiClient;
 	private final SFApiUploadProgressListener mProgressListener;
 	private final String mDestinationFileName;
@@ -54,7 +54,7 @@ public class SFApiFileUploadRunnable implements Runnable
 									 int resumeFromByteIndex, 
 									 long tolalBytes,
 									 String destinationName,
-									 FileInputStream fileInputStream, 									 
+									 InputStream inputStream, 									 
 									 SFApiClient client,
 									 SFApiUploadProgressListener progressListener,
 									 SFCookieManager cookieManager) 
@@ -63,7 +63,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		mResumeFromByteIndex = resumeFromByteIndex;
 		mDestinationFileName = destinationName;
 		mTotalBytes = tolalBytes;
-		mFileInputStream = fileInputStream;
+		mFileInputStream = inputStream;
 		mApiClient = client;
 		mProgressListener = progressListener;
 		mCookieManager = cookieManager;
