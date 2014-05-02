@@ -89,6 +89,7 @@ public class SFAccountPreferences extends SFODataObject {
 	private String mVDRDocViewerURL;
 	private Boolean mEnableSMBConnectorForAccount;
 	private String mAccountID;
+	private Boolean mEnableGetApp;
 
 	public Boolean getEnableViewOnly() {
 		return mEnableViewOnly;
@@ -614,5 +615,12 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setAccountID(String accountid) {
 		mAccountID = accountid;
+	}
+	public Boolean getEnableGetApp() {
+		return mEnableGetApp;
+	}
+
+	public void setEnableGetApp(Boolean enablegetapp) {
+		mEnableGetApp = enablegetapp;
 	}
 }
