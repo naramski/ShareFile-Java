@@ -18,6 +18,7 @@ public class SFEnsSubscriptionToken extends SFODataObject {
 	private String mEntityId;
 	private SFSafeEnum<SFEnsEventType> mEventTypes;
 	private Boolean mIncludeProgeny;
+	private Long mLastEventCount;
 
 	public String getSubscriptionId() {
 		return mSubscriptionId;
@@ -46,5 +47,12 @@ public class SFEnsSubscriptionToken extends SFODataObject {
 
 	public void setIncludeProgeny(Boolean includeprogeny) {
 		mIncludeProgeny = includeprogeny;
+	}
+	public Long getLastEventCount() {
+		return mLastEventCount;
+	}
+
+	public void setLastEventCount(Long lasteventcount) {
+		mLastEventCount = lasteventcount;
 	}
 }
