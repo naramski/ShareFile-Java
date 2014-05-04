@@ -1,5 +1,7 @@
 package com.sharefile.api;
 
+import java.net.URI;
+
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
@@ -15,16 +17,38 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 	private final SFApiClient mSFApiClient;
 	private final ISFReAuthHandler mReauthHandler;
 	
-	public SFApiListenerReauthHandler(SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler, SFApiClient apiClient) 
+	/**
+	 *   We store the original query so that on success, we can call the storeCredentials
+	 */
+	private final SFApiQuery<T> mQuery;
+	
+	public SFApiListenerReauthHandler(SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler, SFApiClient apiClient, SFApiQuery<T> query) 
 	{
 		mOriginalListener = listener;
 		mSFApiClient = apiClient;
 		mReauthHandler = reauthHandler;
+		mQuery = query;
+	}
+	
+	private void callStoreCredentials()
+	{
+		if(mReauthHandler!=null)
+		{
+			URI link = mQuery.getLink();
+			String userName = mQuery.getUserName();
+			String password = mQuery.getPassword();
+			
+			if(link!=null && userName!=null && password!=null)
+			{
+				mReauthHandler.storeCredentials(userName, password, link.toString());
+			}
+		}
 	}
 	
 	@Override
 	public void sfApiSuccess(T object) 
-	{
+	{		
+		callStoreCredentials();
 		Utils.safeCallSuccess(mOriginalListener, object);
 	}
 		

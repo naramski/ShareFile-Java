@@ -6,4 +6,5 @@ import com.sharefile.api.models.SFODataObject;
 public interface ISFReAuthHandler 
 {
 	public <T extends SFODataObject> void getCredentials(final SFReAuthContext<T> reauthContext);
+	public void storeCredentials(final String userName, final String password, final String url);
 }

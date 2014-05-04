@@ -103,7 +103,7 @@ public class SFApiClient
 	 */
 	public synchronized <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{		
-		SFApiListenerReauthHandler<T> sfReauthHandler = new SFApiListenerReauthHandler<T>(listener, reauthHandler, this);
+		SFApiListenerReauthHandler<T> sfReauthHandler = new SFApiListenerReauthHandler<T>(listener, reauthHandler, this,query);
 		
 		return executeQueryInternal(query, sfReauthHandler, true);
 	}

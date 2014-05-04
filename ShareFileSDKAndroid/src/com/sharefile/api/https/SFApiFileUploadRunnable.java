@@ -123,9 +123,9 @@ public class SFApiFileUploadRunnable implements Runnable
 	}
 	
 	
-	private int uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md) throws Exception
+	private long uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md) throws Exception
 	{
-		int bytesUploaded = 0;
+		long bytesUploaded = 0;
 		HttpsURLConnection conn = null;	
 		String responseString = null;
 		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
@@ -160,8 +160,9 @@ public class SFApiFileUploadRunnable implements Runnable
 			while((currentBytesRead = in.read(buffer,0,1024)) >0)
 			{						
 				poster.write(buffer,0,currentBytesRead);
-				bytesUploaded+=currentBytesRead;				
+				bytesUploaded+=(long)currentBytesRead;				
 				poster.flush();//needs to be here
+				SFLog.v("ShareFile-Upload","k-bytesUploaded bytes =   " + bytesUploaded);
 				updateProgress(bytesUploaded);
 			}
 					

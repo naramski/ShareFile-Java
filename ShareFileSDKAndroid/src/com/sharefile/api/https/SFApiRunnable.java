@@ -268,10 +268,13 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{
 		SFSymbolicLink link = (SFSymbolicLink) mResponse.mResponseObject;				
 				
-		SFApiQuery<T> tempQuery = new SFApiQuery<T>(); //Build a new Query				
-		tempQuery.copyQuery(mQuery); //Copy the vital fields from the original query into the new query.		
-		tempQuery.setLink(link.getLink().toString()); //Override the symbolic link		
-		mQuery = tempQuery; //replace the original query object so that we can re-execute it.
+		//SFApiQuery<T> tempQuery = new SFApiQuery<T>(); //Build a new Query				
+		//tempQuery.copyQuery(mQuery); //Copy the vital fields from the original query into the new query.		
+		//tempQuery.setLink(link.getLink().toString()); //Override the symbolic link		
+		//mQuery.copyQuery(tempQuery); //copy back
+		
+		//Dont create new query object. just replace the link
+		mQuery.setLink(link.getLink().toString());
 		
 		return executeQuery();
 	}
