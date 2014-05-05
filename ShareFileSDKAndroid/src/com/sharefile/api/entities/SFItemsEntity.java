@@ -641,7 +641,10 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.setFrom("Items");
 		query.setAction("CheckIn");
 		query.setId(id);
-		query.addQueryString("message", message);
+		if(message!=null)
+		{
+			query.addQueryString("message", message);
+		}
 		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
@@ -661,6 +664,18 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
+	
+	public static SFApiQuery discardCheckOut(String id)
+	{
+		SFApiQuery query = new SFApiQuery();
+		query.setFrom("Items");
+		query.setAction("DiscardCheckOut");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.POST);
+		return query;
+	}
+	
+	
 
     /**
 	* Search
