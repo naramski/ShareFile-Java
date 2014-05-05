@@ -15,7 +15,7 @@ import com.sharefile.api.utils.Utils;
  *   via auth token renewal if possible and restart the original query with the renewed token. This provides a centralized place
  *   where the authtoken for a user can get renewed and stored persistantly.
  */
-@DefaultAccessScope
+@SFSDKDefaultAccessScope
 class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiResponseListener<T>
 {
 	private final SFApiListenerReauthHandler<T> mListener;

@@ -78,7 +78,7 @@ public class SFApiClient
 	 *   This will internally call the token change listener allowing the creator of this object 
 	 *   to store the new token to Persistant storage.
 	 */
-	@DefaultAccessScope
+	@SFSDKDefaultAccessScope
 	void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
 	{
 		mClientInitializedSuccessFully.set(false);
@@ -114,7 +114,7 @@ public class SFApiClient
 	 *  ShareFile providers. This function has default access scope so that the SFApiListenerWrapper can call this to avoid 
 	 *  the infinite recursion while attempting to handle auth errors.
 	 */
-	@DefaultAccessScope
+	@SFSDKDefaultAccessScope
 	<T extends SFODataObject> Thread executeQueryInternal(SFApiQuery<T> query , SFApiListenerReauthHandler<T> listener, boolean useTokenRenewer) throws SFInvalidStateException
 	{
 		validateClientState();

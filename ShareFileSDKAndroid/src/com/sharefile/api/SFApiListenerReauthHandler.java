@@ -10,7 +10,7 @@ import com.sharefile.api.utils.Utils;
 /**
  *   This allows to call the getCredentials() functions on the original caller if they have implemented the ISFReAuthHandler interface
  */
-@DefaultAccessScope
+@SFSDKDefaultAccessScope
 class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiResponseListener<T>  
 {
 	private final SFApiResponseListener<T> mOriginalListener;
