@@ -30,6 +30,7 @@ public final class SFKeywords
 	public static final String MESSAGE = "message";
 	
 	public static final String CHILDREN = "Children";
+	public static final String PARENT = "Parent";
 			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";

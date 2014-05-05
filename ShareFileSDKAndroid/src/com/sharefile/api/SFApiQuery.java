@@ -234,7 +234,28 @@ public class SFApiQuery<T extends SFODataObject>
 
 	public void addQueryString(String key, ArrayList<String> ids) 
 	{
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);		
+		if(ids!=null)
+		{
+			StringBuilder sb = new StringBuilder();
+			
+			boolean isFirst = true;
+			
+			for(String str:ids)
+			{
+				if(!isFirst)
+				{					
+					sb.append(SFKeywords.COMMA);
+				}
+				else
+				{
+					isFirst = false;	
+				}
+				
+				sb.append(str);
+			}
+			
+			mQueryMap.put(key, sb.toString());
+		}				
 	}
 
 	public void addQueryString(String key, Integer size) 
