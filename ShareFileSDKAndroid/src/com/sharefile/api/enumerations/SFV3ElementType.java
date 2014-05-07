@@ -1,5 +1,12 @@
 package com.sharefile.api.enumerations;
 
+import java.lang.reflect.Type;
+
+import android.service.textservice.SpellCheckerService.Session;
+
+import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFAccountPreferences;
@@ -137,12 +144,14 @@ public enum SFV3ElementType
 	OutlookInformationOptionString("Models.OutlookInformationOptionString@Element",SFOutlookInformationOptionString.class);
 			
 	private final String mToString;
-	private final Class<?> mClass;
+	private final Class<?> mOriginalClass;//This is the one originally intended by the SDK
+	private Class<?> mOverrideClass;// This is the one that can be overriden by the consumer app.
 	
 	private SFV3ElementType(String toStr,Class<?> clazz)
 	{
 		mToString = toStr;
-		mClass = clazz;
+		mOriginalClass = clazz;
+		mOverrideClass = mOriginalClass;
 	}
 	
 	@Override
@@ -153,7 +162,42 @@ public enum SFV3ElementType
 	
 	public Class<?> getV3Class()
 	{
-		return mClass;
+		return mOverrideClass;
+	}
+	
+	/** 
+	 *  We are allowing consumers of the SDK to register their own deriived classes from the base models 
+	 *  we have inside the SDK. This allows for cases where the consumer wants to add addtional flags and functions
+	 *  to the model and yet have orginal parsed objects of his liking. Example SFFile does not provide the isSynced
+	 *  flag. The consumer app can extend like : 
+	 *  	<p>SFFileEx extends SFFile 
+	 *  	<p>{ 
+	 *  	<p>	boolean mIsSync
+	 *  	<p>}
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SFInvalidTypeException 
+	 */
+	public static void registerSubClass(SFV3ElementType elementType, Class<?> newClass) throws InstantiationException, IllegalAccessException, SFInvalidTypeException
+	{
+		if(newClass == null)
+		{
+			throw new SFInvalidTypeException(" NULL does not extend " + elementType.mOriginalClass.toString());
+		}
+				 						
+		//test if the new class is a real extension of the type being replaced.
+		if(!elementType.mOriginalClass.isInstance(newClass.newInstance()))
+		{
+			String msg = newClass.toString() + " does not extend " + elementType.mOriginalClass.toString();
+			
+			SFLog.d2("","%s", msg);
+			
+			throw new SFInvalidTypeException(msg);
+		}
+		
+		SFLog.d2("", "%s", "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
+		
+		elementType.mOverrideClass = newClass;
 	}
 	
 	public static boolean isFolderType(SFODataObject object)

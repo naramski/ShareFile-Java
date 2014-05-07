@@ -19,7 +19,9 @@ import com.sharefile.api.entities.SFCapabilitiesEntity;
 import com.sharefile.api.entities.SFFavoriteFoldersEntity;
 import com.sharefile.api.entities.SFSharesEntity;
 import com.sharefile.api.entities.SFZonesEntity;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
@@ -27,6 +29,7 @@ import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFFavoriteFolder;
+import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFZone;
@@ -472,6 +475,24 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 		setContentView(R.layout.activity_fullscreen);
 		
 		copyToken();
+		
+		try 
+		{
+			SFV3ElementType.registerSubClass(SFV3ElementType.File, String.class);
+		} 
+		catch (InstantiationException | IllegalAccessException | SFInvalidTypeException e1) 
+		{			
+			e1.printStackTrace();
+		}
+		
+		try 
+		{
+			SFV3ElementType.registerSubClass(SFV3ElementType.File, SFFileEx.class);
+		} 
+		catch (InstantiationException | IllegalAccessException | SFInvalidTypeException e1) 
+		{			
+			e1.printStackTrace();
+		}
 		
 		Button buttonInitSession = (Button)findViewById(R.id.buttonInitSession);
 		
