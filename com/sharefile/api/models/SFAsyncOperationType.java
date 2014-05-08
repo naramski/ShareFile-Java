@@ -16,6 +16,7 @@ public enum SFAsyncOperationType {
 	Copy,
 	Move,
 	ChangeZone,
+	ScheduleChangeZone,
 	Recovery,
 	Delete,
 	DeletePermanent
