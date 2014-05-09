@@ -25,8 +25,8 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
-import com.sharefile.api.utils.SFLog;
 import com.sharefile.api.utils.Utils;
+import com.sharefile.java.log.SLog;
 
 public class SFHttpsCaller 
 {
@@ -164,7 +164,7 @@ public class SFHttpsCaller
 		{
 			if(errMessage.contains(OUT_OF_MEMORY))
 			{				
-				SFLog.d2(TAG, "Gracefull catching out of memmory");
+				SLog.d(TAG, "Gracefull catching out of memmory");
 				return 500;
 			}				
 		}		
@@ -198,7 +198,7 @@ public class SFHttpsCaller
 			httpErrorCode = catchIfAuthException(e);
 		}
 		
-		SFLog.d2(TAG,"ERR_CODE: " + httpErrorCode);
+		SLog.d(TAG,"ERR_CODE: " + httpErrorCode);
 		
 		return httpErrorCode;		
 	}
@@ -229,7 +229,7 @@ public class SFHttpsCaller
 		{
 			String inputLine = readErrorResponse(conn);
 			
-			SFLog.d2(TAG,  "ERR PAGE: %s" , inputLine);
+			SLog.d(TAG,  "ERR PAGE: " + inputLine);
 			
 			v3Error = new SFV3Error(httpErrorCode,inputLine);
 		}
@@ -271,17 +271,16 @@ public class SFHttpsCaller
 		}
 		catch (OutOfMemoryError e) 
 		{
-			SFLog.d2(TAG, "Error: %s" , e.getLocalizedMessage());
+			SLog.d(TAG, "Error: " , e);
 			
 			throw new IOException("Out of memory");
 		}
 		
+		urlstream.close();
+		
 		String response = sb.toString();
 				
-		SFLog.d2(TAG, "SUCCESS RESPONSE size: %d" , response.length());
-		SFLog.d2(TAG, "SUCCESS RESPONSE: %s" , response.toString());
-		
-		urlstream.close();
+		SLog.d(TAG, "SUCCESS RESPONSE size: " + response.length());						
 			
 		return response;
 	}
@@ -313,7 +312,7 @@ public class SFHttpsCaller
 			sb.append(inputLine);
 		}
 		
-		SFLog.d2(TAG, "ERROR RESPONSE: %s",sb.toString());
+		SLog.d(TAG, "ERROR RESPONSE SIZE: " + sb.length());
 		
 		urlstream.close();
 				

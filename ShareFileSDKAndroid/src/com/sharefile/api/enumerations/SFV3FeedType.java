@@ -65,7 +65,7 @@ import com.sharefile.api.models.Private.SFOutlookInformation;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionBool;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionInt;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionString;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 public enum SFV3FeedType
 {		
@@ -135,6 +135,7 @@ public enum SFV3FeedType
 	OutlookInformationOptionInt("$metadata#OutlookInformationOptionInt",SFOutlookInformationOptionInt.class),
 	OutlookInformationOptionString("$metadata#OutlookInformationOptionString",SFOutlookInformationOptionString.class);
 		
+	private final static String TAG = "-SFV3FeedType";
 	private final String mToString;
 	private final Class<?> mClass;
 	
@@ -159,7 +160,7 @@ public enum SFV3FeedType
 	{
 		SFV3FeedType ret = null;
 		
-		SFLog.d2("ModelFacotry"," FIND Element Type for metadata = %s" , metadata );
+		//SLog.d(TAG," FIND Element Type for metadata = " + metadata );
 						
 		if(metadata!=null && metadata.contains("$metadata#"))
 		{
@@ -175,12 +176,8 @@ public enum SFV3FeedType
 			
 			if(ret == null)
 			{
-				SFLog.d2("ModelFacotry"," NOT in model factory: " + metadata );
-			}
-			else
-			{
-				SFLog.d2("ModelFacotry"," Feed Type = %s" , ret.toString() );
-			}
+				SLog.d(TAG," NOT in model factory: " + metadata );
+			}			
 		}
 		
 		return ret;

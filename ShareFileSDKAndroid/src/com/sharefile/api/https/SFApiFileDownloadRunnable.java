@@ -21,7 +21,7 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.models.SFDownloadSpecification;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 public class SFApiFileDownloadRunnable implements Runnable  
 {	
@@ -65,7 +65,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		
 		try
 		{										
-			SFLog.d2(TAG, "GET %s" , mDownloadSpecification.getDownloadUrl());
+			SLog.d(TAG, "GET " + mDownloadSpecification.getDownloadUrl());
 			
 			URL url = mDownloadSpecification.getDownloadUrl().toURL();
 			connection = SFHttpsCaller.getURLConnection(url);		
@@ -225,7 +225,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		}
 		catch(Exception e)
 		{
-			SFLog.d2(TAG, "%s", Log.getStackTraceString(e));
+			SLog.d(TAG, "exception in updateProgress" , e);
 		}		
 	}
 	
@@ -251,7 +251,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		}
 		catch(Exception ex)
 		{
-			SFLog.d2("-callback", "!!Exception calling the responseListener : %s ",Log.getStackTraceString(ex));
+			SLog.d(TAG, "!!Exception calling the responseListener",ex);
 		}
 	}
 	

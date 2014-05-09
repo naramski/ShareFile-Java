@@ -30,7 +30,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSFTool;
 import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
@@ -79,7 +79,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		} 
 		catch (SFV3ErrorException e) 
 		{			
-			SFLog.d(TAG, "Exception. This should not happen: " + e.getMessage());
+			SLog.d(TAG, "Exception. This should not happen." , e);
 		}
 	}
 	
@@ -147,7 +147,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			
 			handleHttPost(connection);
 			
-			SFLog.d2(TAG, mQuery.getHttpMethod() + " %s" , urlstr);
+			SLog.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
 			
 			connection.connect();
 			
@@ -177,7 +177,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
-			SFLog.d2(TAG, "%s",responseString);						
+			SLog.d(TAG, "RAW RESPONSE = " + responseString);						
 		}
 		catch(Exception ex)
 		{		
@@ -305,7 +305,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 		catch(Exception ex)
 		{
-			SFLog.d2("-callback", "!!Exception calling the responseListener : %s ",Log.getStackTraceString(ex));
+			SLog.d(TAG, "!!Exception calling the responseListener ",ex);
 		}
 	}
 	

@@ -20,7 +20,7 @@ import com.sharefile.api.models.SFTreeMode;
 import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFVRootType;
 import com.sharefile.api.models.SFZoneService;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 public class SFApiQuery<T extends SFODataObject> 
 {
@@ -395,7 +395,7 @@ public class SFApiQuery<T extends SFODataObject>
 		
 		String queryUrlString = sb.toString();
 		
-		SFLog.d2(SFKeywords.TAG,"QUERY URL String = %s",queryUrlString);
+		SLog.d(SFKeywords.TAG,"QUERY URL String = " + queryUrlString);
 		
 		return queryUrlString;
 	}

@@ -6,8 +6,8 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.utils.SFLog;
 import com.sharefile.api.utils.Utils;
+import com.sharefile.java.log.SLog;
 
 /**
  *   This listener works as a proxy for the api listener provided by the callers of the executeQuery.
@@ -18,6 +18,7 @@ import com.sharefile.api.utils.Utils;
 @SFSDKDefaultAccessScope
 class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiResponseListener<T>
 {
+	private static final String TAG = "-SFApiListenerTokenRenewer";
 	private final SFApiListenerReauthHandler<T> mListener;
 	private final SFApiQuery<T> mQuery;
 	private final String mClientID;
@@ -41,7 +42,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 			}
 			catch(Exception e)
 			{
-				SFLog.d2("error", e.getLocalizedMessage());
+				SLog.d(TAG , "Exception despite success getting token", e);
 			}
 			
 			mwaitForAuthResult.unblockWait();
@@ -50,7 +51,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 		@Override
 		public void errorGetAccessToken(SFV3Error v3error) 
 		{	
-			SFLog.d2("token", "failed new token ");
+			SLog.d("token", "failed new token ");
 			mErrorReturnValue.storeObject(v3error);
 			mwaitForAuthResult.unblockWait();
 		}

@@ -2,18 +2,19 @@ package com.sharefile.api.enumerations;
 
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 /**
  *  toString of this will return complete provider with API version alongwith slashes: "/cifs/v3/", "/sp/v3/", "/sf/v3/",... etc
  */
 public enum SFProvider 
-{	
+{		
 	PROVIDER_TYPE_SF("/sf/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
 	PROVIDER_TYPE_CIFS("/cifs/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
 	PROVIDER_TYPE_SHAREPOINT("/sp/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH);
 	
 	private static final String keywordV3 = SFKeywords.FWD_SLASH+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH;
+	private static final String TAG = "-getProvider";
 	
 	private final String mToStr;
 	
@@ -65,11 +66,11 @@ public enum SFProvider
 			}
 			catch(Exception ex)
 			{
-				SFLog.d2("-getProvider", "!!!Exception getting provider type from: %s", str);
+				SLog.d(TAG, "!!!Exception getting provider type from: " + str, ex);
 			}
 		}
 				
-		SFLog.d2("-getProvider", "Returning provider type = %s", provider.toString());
+		SLog.d(TAG, "Returning provider type = %s" + provider.toString());
 		
 		return provider;
 	}

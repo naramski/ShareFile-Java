@@ -20,12 +20,11 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.https.SFHttpsCaller;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
-import com.sharefile.api.utils.SFLog;
-
-import android.util.Log;
+import com.sharefile.java.log.SLog;
 
 public class SFGetNewAccessToken implements Runnable
 {
+	private static final String TAG = "-SFGetNewAccessToken";
 	private int mHttpErrorCode = HttpsURLConnection.HTTP_OK;
 	private String mResponseString = null;
 	private final SFGetNewAccessTokenListener mCallback;		
@@ -217,7 +216,7 @@ public class SFGetNewAccessToken implements Runnable
 		}
 		catch(Exception ex)
 		{
-			SFLog.d2("-callback", "!!Exception calling the responseListener : %s ",Log.getStackTraceString(ex));
+			SLog.d(TAG, "!!Exception calling the responseListener " , ex);
 		}
 	}
 		

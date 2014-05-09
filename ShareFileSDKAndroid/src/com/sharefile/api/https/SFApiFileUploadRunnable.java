@@ -22,7 +22,7 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 /**
  * 
@@ -86,7 +86,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		}
 		catch(Exception e)
 		{
-			SFLog.d2(TAG, "Seek exception : %s" , Log.getStackTraceString(e));
+			SLog.d(TAG, "Seek exception" , e);
 		}
 	}
 	
@@ -161,8 +161,7 @@ public class SFApiFileUploadRunnable implements Runnable
 			{						
 				poster.write(buffer,0,currentBytesRead);
 				bytesUploaded+=(long)currentBytesRead;				
-				poster.flush();//needs to be here
-				SFLog.v("ShareFile-Upload","k-bytesUploaded bytes =   " + bytesUploaded);
+				poster.flush();//needs to be here				
 				updateProgress(bytesUploaded);
 			}
 					
@@ -204,7 +203,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		
 		try
 		{										
-			SFLog.d2(TAG, "POST %s" , mUploadSpecification.getChunkUri());
+			SLog.d(TAG, "POST " + mUploadSpecification.getChunkUri());
 			
 			seekInputStream();			
 			int chunkLength = 0;
@@ -349,7 +348,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		}
 		catch(Exception e)
 		{
-			SFLog.d2(TAG, "%s", Log.getStackTraceString(e));
+			SLog.d(TAG, "exception update progress", e);
 		}		
 	}
 	
@@ -375,7 +374,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		}
 		catch(Exception ex)
 		{
-			SFLog.d2("-callback", "!!Exception calling the responseListener : %s ",Log.getStackTraceString(ex));
+			SLog.d(TAG, "!!Exception calling the responseListener : ",ex);
 		}
 	}
 	

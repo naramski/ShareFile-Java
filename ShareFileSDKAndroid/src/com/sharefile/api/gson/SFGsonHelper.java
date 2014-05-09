@@ -17,7 +17,7 @@ import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 /**
  *   This class contains helper get*() functions to get primitives out of gson objects 
@@ -202,7 +202,7 @@ public class SFGsonHelper
 			if(jsonElement!=null)
 			{
 				
-				SFLog.d2(TAG,"Route for %s" +  jsonElement.toString());
+				//SLog.d(TAG,"Custom parse: " +  jsonElement.toString());//enabling this log creates too much noise
 				
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 				
@@ -214,7 +214,7 @@ public class SFGsonHelper
 																														
 					if(elementType!=null)
 					{
-						SFLog.d2(TAG, "GSON For : %s", metadata);
+						//SLog.d(TAG, "GSON For : " + metadata);
 						
 						switch (elementType) 
 						{
@@ -237,37 +237,30 @@ public class SFGsonHelper
 						
 						if(feedType!=null)
 						{
-							SFLog.d2(TAG, "GSON For : %s", metadata);
+							//SLog.d(TAG, "GSON For : " + metadata);
 							ret = SFGsonHelper.parseFeed(feedType.getV3Class(), jsonObject);
 						}
 					}										
 				}
 				else
 				{
-					SFLog.d2(TAG,"JSON Object NULL");
+					SLog.d(TAG,"JSON Object NULL");
 				}
 			}
 			else
 			{
-				SFLog.d2(TAG,"JSON Element NULL");
+				SLog.d(TAG,"JSON Element NULL");
 			}
 		}
 		catch(Exception e)
 		{									
-			SFLog.d2(TAG,"Exception MSG = %s"  , Log.getStackTraceString(e));
+			SLog.d(TAG,"Exception in custome parse" , e);
 		}
 		
 		if(ret ==null)
 		{
-			SFLog.d2(TAG,"Returning null  ");
-		}
-		else
-		{
-			if(ret instanceof SFFile)
-			{
-				SFLog.d2(TAG,"Returning NON null  %s" , ((SFFile)ret).getName());
-			}
-		}
+			SLog.d(TAG,"Returning null  ");
+		}		
 		
 		return ret;
 	}

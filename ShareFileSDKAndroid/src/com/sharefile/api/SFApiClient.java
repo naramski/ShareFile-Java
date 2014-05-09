@@ -22,7 +22,7 @@ import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 public class SFApiClient 
 {
@@ -92,7 +92,7 @@ public class SFApiClient
 			}
 			catch(Exception e)
 			{
-				SFLog.d2(TAG, "Exception: %s", e.getLocalizedMessage());
+				SLog.d(TAG, "Exception in initclient", e);
 			}
 		}
 	}

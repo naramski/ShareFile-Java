@@ -72,7 +72,7 @@ import com.sharefile.api.models.Private.SFOutlookInformation;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionBool;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionInt;
 import com.sharefile.api.models.Private.SFOutlookInformationOptionString;
-import com.sharefile.api.utils.SFLog;
+import com.sharefile.java.log.SLog;
 
 public enum SFV3ElementType
 {							
@@ -143,6 +143,7 @@ public enum SFV3ElementType
 	OutlookInformationOptionInt("Models.OutlookInformationOptionInt@Element",SFOutlookInformationOptionInt.class),
 	OutlookInformationOptionString("Models.OutlookInformationOptionString@Element",SFOutlookInformationOptionString.class);
 			
+	private static final String TAG = "-SFV3ElementType";
 	private final String mToString;
 	private final Class<?> mOriginalClass;//This is the one originally intended by the SDK
 	private Class<?> mOverrideClass;// This is the one that can be overriden by the consumer app.
@@ -190,12 +191,12 @@ public enum SFV3ElementType
 		{
 			String msg = newClass.toString() + " does not extend " + elementType.mOriginalClass.toString();
 			
-			SFLog.d2("","%s", msg);
+			SLog.d(TAG, msg);
 			
 			throw new SFInvalidTypeException(msg);
 		}
 		
-		SFLog.d2("", "%s", "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
+		SLog.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
 		
 		elementType.mOverrideClass = newClass;
 	}
@@ -234,7 +235,7 @@ public enum SFV3ElementType
 	{
 		SFV3ElementType ret = null;
 		
-		SFLog.d2("ModelFacotry"," FIND Element Type for metadat = %s" , metadata );
+		//SLog.d(TAG, "FIND Element Type for metadata = " + metadata );
 						
 		//if(metadata!=null && metadata.contains("Models.") && metadata.contains("@Element"))
 		//metadata.contains("@Element") is not correct for ItemsInfo
@@ -252,12 +253,8 @@ public enum SFV3ElementType
 			
 			if(ret == null)
 			{
-				SFLog.d2("ModelFacotry"," NOT in model factory: " + metadata );
-			}
-			else
-			{
-				SFLog.d2("ModelFacotry"," Element Type = %s" , ret.toString() );
-			}
+				SLog.d(TAG, " NOT in model factory: " + metadata );
+			}			
 		}
 		
 		return ret;
