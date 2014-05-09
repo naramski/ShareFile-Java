@@ -14,7 +14,7 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.V3Error;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -149,10 +149,10 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private class FinalResponse
 	{
 		private int mHttpErrorCode = 0;
-		private V3Error mV3Error = null;			
+		private SFV3Error mV3Error = null;			
 		private long mBytesDownloaded = 0;
 		
-		public void setFeilds(int errorCode, V3Error v3Error, long downloaded)
+		public void setFeilds(int errorCode, SFV3Error v3Error, long downloaded)
 		{
 			mHttpErrorCode = errorCode;
 			mV3Error = v3Error;			
@@ -178,7 +178,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 			break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				V3Error v3Error = new V3Error(httpCode,null,responseString);
+				SFV3Error v3Error = new SFV3Error(httpCode,null,responseString);
 				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
 			break;
 			
@@ -198,7 +198,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		{
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement =jsonParser.parse(responseString);				
-			V3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
+			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
 			v3Error.httpResponseCode = httpCode;				
 			mResponse.setFeilds(httpCode, v3Error,downloadedBytes);
 		} 
@@ -260,7 +260,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 	 */
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesDownloaded)
 	{
-		V3Error v3Error = new V3Error(httpCode,errorDetails,extraInfo);
+		SFV3Error v3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
 		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 	

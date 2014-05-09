@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiQuery;
-import com.sharefile.api.V3Error;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFQueryParams;
@@ -49,10 +49,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private class FinalResponse
 	{
 		private int mHttpErrorCode = 0;
-		private V3Error mV3Error = null;
+		private SFV3Error mV3Error = null;
 		private SFODataObject mResponseObject = null;	
 		
-		public void setFeilds(int errorCode, V3Error v3Error,SFODataObject sfObject)
+		public void setFeilds(int errorCode, SFV3Error v3Error,SFODataObject sfObject)
 		{
 			mHttpErrorCode = errorCode;
 			mV3Error = v3Error;
@@ -228,7 +228,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				V3Error v3Error = new V3Error(httpCode,null,responseString);
+				SFV3Error v3Error = new SFV3Error(httpCode,null,responseString);
 				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error, null);
 			break;
 			
@@ -334,7 +334,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 */
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo)
 	{
-		V3Error v3Error = new V3Error(httpCode,errorDetails,extraInfo);
+		SFV3Error v3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
 		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error, null);
 	}
 				
@@ -368,7 +368,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		{
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement =jsonParser.parse(responseString);				
-			V3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
+			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
 			v3Error.httpResponseCode = httpCode;				
 			mResponse.setFeilds(httpCode, v3Error, null);
 		} 

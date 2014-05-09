@@ -27,7 +27,7 @@ import com.sharefile.api.constants.SFKeywords;
   }
 }
  */
-public class V3Error 
+public class SFV3Error 
 {
 	private static final String ERR_FORBIDDEN =   "Forbidden (403)";
 	private static final String ERR_UNAUTHORIZD = "Unauthorized (401)";
@@ -60,7 +60,7 @@ public class V3Error
 		}
 	}
 	
-	public V3Error()
+	public SFV3Error()
 	{
 		
 	}
@@ -72,7 +72,7 @@ public class V3Error
 	 *   <p>message.value = Exception stack
 	 *   <p>mExtraInfo = original response string which we tried to parse
 	 */
-	public V3Error(int httpcode , String respSring)
+	public SFV3Error(int httpcode , String respSring)
 	{				
 		httpResponseCode = httpcode;
 		mExtraInfo = null;
@@ -103,7 +103,7 @@ public class V3Error
 	 *   <p>message.value = Exception stack
 	 *   <p>mExtraInfo = original response string which we tried to parse
 	 */
-	public V3Error(int httpcode , String respSring, String extraInfo)
+	public SFV3Error(int httpcode , String respSring, String extraInfo)
 	{
 		httpResponseCode = httpcode;
 		mExtraInfo = extraInfo;	

@@ -16,6 +16,7 @@ public final class SFReAuthContext<T extends SFODataObject>
 	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
 	private final SFApiClient mSFApiClient;
 		
+	@SFSDKDefaultAccessScope
 	SFReAuthContext(SFApiQuery<T> query,SFApiListenerReauthHandler<T> originalListener,SFApiClient sfApiClient)	
 	{
 		mQuery = query;

@@ -15,7 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.sharefile.api.V3Error;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.https.SFHttpsCaller;
@@ -29,7 +29,7 @@ public class SFGetNewAccessToken implements Runnable
 	private int mHttpErrorCode = HttpsURLConnection.HTTP_OK;
 	private String mResponseString = null;
 	private final SFGetNewAccessTokenListener mCallback;		
-	private V3Error mV3Error = null;	
+	private SFV3Error mV3Error = null;	
 	private final SFOAuth2Token mOldAccessToken;
 	private SFOAuth2Token mNewAccessToken = null;
 	private final String mWebLoginClientID;
@@ -156,7 +156,7 @@ public class SFGetNewAccessToken implements Runnable
 									
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				mHttpErrorCode = HttpsURLConnection.HTTP_UNAUTHORIZED;
-				mV3Error = new V3Error(httpCode,null,responseString);				
+				mV3Error = new SFV3Error(httpCode,null,responseString);				
 			break;
 			
 			case SFSDK.INTERNAL_HTTP_ERROR:				
@@ -187,7 +187,7 @@ public class SFGetNewAccessToken implements Runnable
 		try
 		{
 			mHttpErrorCode = httpCode;
-			mV3Error = new V3Error(httpCode,responseString,null);
+			mV3Error = new SFV3Error(httpCode,responseString,null);
 		}
 		catch(Exception e)
 		{			
@@ -227,7 +227,7 @@ public class SFGetNewAccessToken implements Runnable
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo)
 	{
 		mHttpErrorCode = httpCode;
-		mV3Error = new V3Error(httpCode,errorDetails,extraInfo);		
+		mV3Error = new SFV3Error(httpCode,errorDetails,extraInfo);		
 	}
 
 	public Thread startNewThread()

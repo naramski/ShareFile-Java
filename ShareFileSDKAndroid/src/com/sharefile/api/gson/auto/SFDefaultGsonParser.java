@@ -9,7 +9,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.sharefile.api.V3Error;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
@@ -47,9 +47,9 @@ public class SFDefaultGsonParser
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	
 			
-	public static V3Error parse(JsonElement jsonElement)	
+	public static SFV3Error parse(JsonElement jsonElement)	
 	{		
-		return getInstance().mGson.fromJson(jsonElement, V3Error.class);		
+		return getInstance().mGson.fromJson(jsonElement, SFV3Error.class);		
 	}
 	
 	public static String serialize(Type clazz,Object src)	

@@ -26,7 +26,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 	private final SFBlockingWait mwaitForAuthResult = new SFBlockingWait();
 	private final SFApiClient mApiClient;
 	private final SFReturnWrapper<SFOAuth2Token> mNewTokenReturnValue = new SFReturnWrapper<SFOAuth2Token>();
-	private final SFReturnWrapper<V3Error> mErrorReturnValue = new SFReturnWrapper<V3Error>();
+	private final SFReturnWrapper<SFV3Error> mErrorReturnValue = new SFReturnWrapper<SFV3Error>();
 	
 	private SFGetNewAccessTokenListener mNewTokenListener = new SFGetNewAccessTokenListener() 
 	{		
@@ -48,7 +48,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 		}
 		
 		@Override
-		public void errorGetAccessToken(V3Error v3error) 
+		public void errorGetAccessToken(SFV3Error v3error) 
 		{	
 			SFLog.d2("token", "failed new token ");
 			mErrorReturnValue.storeObject(v3error);
@@ -76,7 +76,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 	}
 		
 	@Override
-	public final void sfApiError(final V3Error error, SFApiQuery<T> sfapiApiqueri) 
+	public final void sfApiError(final SFV3Error error, SFApiQuery<T> sfapiApiqueri) 
 	{
 		if(error.isAuthError() && sfapiApiqueri.canReNewTokenInternally())
 		{

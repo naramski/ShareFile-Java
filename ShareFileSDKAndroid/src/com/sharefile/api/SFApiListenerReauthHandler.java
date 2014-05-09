@@ -53,7 +53,7 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 	}
 		
 	@Override
-	public void sfApiError(V3Error error, SFApiQuery<T> sfapiApiqueri) 
+	public void sfApiError(SFV3Error error, SFApiQuery<T> sfapiApiqueri) 
 	{		
 		if(!handleIfAuthError(error, sfapiApiqueri))
 		{
@@ -61,7 +61,7 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 		}
 	}
 					
-	private boolean handleIfAuthError(final V3Error error, final SFApiQuery<T> sfapiApiqueri)
+	private boolean handleIfAuthError(final SFV3Error error, final SFApiQuery<T> sfapiApiqueri)
 	{
 		boolean ret = false;				
 		if(error!=null && error.isAuthError()) 

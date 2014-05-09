@@ -1,6 +1,5 @@
 package com.sharefile.api;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;

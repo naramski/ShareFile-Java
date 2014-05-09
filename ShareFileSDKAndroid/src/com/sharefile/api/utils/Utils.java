@@ -3,7 +3,7 @@ package com.sharefile.api.utils;
 import java.util.Locale;
 
 import com.sharefile.api.SFApiQuery;
-import com.sharefile.api.V3Error;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 
@@ -16,7 +16,7 @@ public class Utils
 	    return acceptLanguageString;
 	}
 		
-	public static <T extends SFODataObject> void safeCallErrorListener(SFApiResponseListener<T> listener, V3Error error, SFApiQuery<T> query)
+	public static <T extends SFODataObject> void safeCallErrorListener(SFApiResponseListener<T> listener, SFV3Error error, SFApiQuery<T> query)
 	{
 		if(listener!=null)
 		{

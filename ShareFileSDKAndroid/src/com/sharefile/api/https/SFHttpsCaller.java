@@ -20,7 +20,7 @@ import org.apache.http.NameValuePair;
 
 import android.util.Base64;
 
-import com.sharefile.api.V3Error;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -215,9 +215,9 @@ public class SFHttpsCaller
 	 *  <p>This function always returns a valid V3Error in any non-success case or NULL if HTTP_OK
 	 * @throws IOException 
 	 */
-	public static V3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url,SFCookieManager cookieManager) throws IOException
+	public static SFV3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url,SFCookieManager cookieManager) throws IOException
 	{
-		V3Error v3Error = null;
+		SFV3Error v3Error = null;
 		
 		if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 		{
@@ -231,13 +231,13 @@ public class SFHttpsCaller
 			
 			SFLog.d2(TAG,  "ERR PAGE: %s" , inputLine);
 			
-			v3Error = new V3Error(httpErrorCode,inputLine);
+			v3Error = new SFV3Error(httpErrorCode,inputLine);
 		}
 		catch (Exception e) 
 		{			
 			//try constructing the error from the exception.
 			
-			v3Error = new V3Error(httpErrorCode, e.getLocalizedMessage());
+			v3Error = new SFV3Error(httpErrorCode, e.getLocalizedMessage());
 		}
 		
 		return v3Error;

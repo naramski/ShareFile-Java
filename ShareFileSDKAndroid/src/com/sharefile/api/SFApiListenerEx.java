@@ -21,7 +21,7 @@ public abstract class SFApiListenerEx<T extends SFODataObject> implements SFApiR
 	}
 		
 	@Override
-	public void sfApiError(V3Error error, SFApiQuery<T> sfapiApiqueri) 
+	public void sfApiError(SFV3Error error, SFApiQuery<T> sfapiApiqueri) 
 	{		
 		Utils.safeCallErrorListener(mListener, error, sfapiApiqueri);
 	}
