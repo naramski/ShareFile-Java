@@ -12,6 +12,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.sharefile.java.log.SLog;
+
 public class SFCookieManager 
 {
     
@@ -183,7 +185,7 @@ public class SFCookieManager
 		} 
 		catch (java.text.ParseException pe) 
 		{
-			pe.printStackTrace();
+			SLog.e("Exception",pe);
 			return false;
 		}
     }

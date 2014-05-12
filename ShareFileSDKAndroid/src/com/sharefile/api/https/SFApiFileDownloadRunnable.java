@@ -25,7 +25,7 @@ import com.sharefile.java.log.SLog;
 
 public class SFApiFileDownloadRunnable implements Runnable  
 {	
-	private static final String TAG = "-download";
+	private static final String TAG = SFKeywords.TAG + "-download";
 	
 	private final SFDownloadSpecification mDownloadSpecification;
 	private final long mResumeFromByteIndex;
@@ -137,7 +137,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 			}
 			catch (IOException e) 
 			{				
-				e.printStackTrace();
+				SLog.e(TAG,e);
 			}
 		}
 	}

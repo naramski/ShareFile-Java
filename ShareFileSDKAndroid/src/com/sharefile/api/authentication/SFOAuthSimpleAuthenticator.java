@@ -18,7 +18,7 @@ import com.sharefile.java.log.SLog;
 public class SFOAuthSimpleAuthenticator 
 {
 	
-	private static final String TAG = "-simpleauth";
+	private static final String TAG = SFKeywords.TAG + "-simpleauth";
 
 	/**
 	 * Authenticate via username/password

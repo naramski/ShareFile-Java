@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.sharefile.api.authentication.SFOAuth2Token;
+import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
@@ -26,7 +27,7 @@ import com.sharefile.java.log.SLog;
 
 public class SFApiClient 
 {
-	private static final String TAG = "-SFApiClient";
+	private static final String TAG = SFKeywords.TAG + "-SFApiClient";
 	
 	public static final String MSG_INVALID_STATE_OAUTH_NULL = "Invalid state: Oauth token not initialized for SFApiClient";
 	

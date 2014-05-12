@@ -38,7 +38,7 @@ import com.sharefile.java.log.SLog;
  */
 public class SFApiFileUploadRunnable implements Runnable  
 {	
-	private static final String TAG = "-upload";
+	private static final String TAG = SFKeywords.TAG + "-upload";
 	
 	private final SFUploadSpecification mUploadSpecification;
 	private final long mResumeFromByteIndex;
@@ -123,7 +123,7 @@ public class SFApiFileUploadRunnable implements Runnable
 	}
 	
 	
-	private long uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md) throws Exception
+	private long uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws Exception
 	{
 		long bytesUploaded = 0;
 		HttpsURLConnection conn = null;	
@@ -162,7 +162,7 @@ public class SFApiFileUploadRunnable implements Runnable
 				poster.write(buffer,0,currentBytesRead);
 				bytesUploaded+=(long)currentBytesRead;				
 				poster.flush();//needs to be here				
-				updateProgress(bytesUploaded);
+				updateProgress(bytesUploaded+previousChunkTotal);
 			}
 					
 			poster.close();
@@ -173,15 +173,17 @@ public class SFApiFileUploadRunnable implements Runnable
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{														
-				responseString = SFHttpsCaller.readResponse(conn);				
+				responseString = SFHttpsCaller.readResponse(conn);		
+				SLog.d(TAG, "Upload Response: " + responseString);
 			}
 			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 			{
-				
+				SLog.d(TAG, "Upload Response NO CONTENT ");
 			}
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(conn);		
+				SLog.d(TAG, "Upload Response: " + responseString);
 				return -1;
 			}						
 		}		
@@ -198,9 +200,8 @@ public class SFApiFileUploadRunnable implements Runnable
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
 		long bytesRead = mResumeFromByteIndex;
-		int chunkSize = 1024*1024;
-		long bytesUploaded = mResumeFromByteIndex;
-		
+		int chunkSize = 1024*1024;		
+		long previousChunkTotalBytes = mResumeFromByteIndex;
 		try
 		{										
 			SLog.d(TAG, "POST " + mUploadSpecification.getChunkUri());
@@ -228,11 +229,15 @@ public class SFApiFileUploadRunnable implements Runnable
 					done = true;
 				}
 				
-				bytesUploaded += uploadChunk(fileChunk,chunkLength,isLast,md);
+				long bytesUploadedInThisChunk =  uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
+				if(bytesUploadedInThisChunk>0)
+				{
+					previousChunkTotalBytes+= bytesUploadedInThisChunk;
+				}
 			}		
 			
 			httpErrorCode = HttpsURLConnection.HTTP_OK;
-			mResponse.setFeilds(httpErrorCode, null,bytesUploaded);
+			mResponse.setFeilds(httpErrorCode, null,previousChunkTotalBytes);
 		}
 		catch(Exception ex)
 		{		
@@ -244,7 +249,7 @@ public class SFApiFileUploadRunnable implements Runnable
 			closeStream(mFileInputStream);			
 		}
 				
-		parseResponse(httpErrorCode,responseString,bytesRead);
+		parseResponse(httpErrorCode,responseString,previousChunkTotalBytes);
 		
 		callResponseListeners();
 
@@ -260,7 +265,7 @@ public class SFApiFileUploadRunnable implements Runnable
 			}
 			catch (IOException e) 
 			{				
-				e.printStackTrace();
+				SLog.e(TAG,e);
 			}
 		}
 	}

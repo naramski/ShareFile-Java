@@ -1,5 +1,6 @@
 package com.sharefile.api.enumerations;
 
+import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFAccountPreferences;
@@ -135,7 +136,7 @@ public enum SFV3FeedType
 	OutlookInformationOptionInt("$metadata#OutlookInformationOptionInt",SFOutlookInformationOptionInt.class),
 	OutlookInformationOptionString("$metadata#OutlookInformationOptionString",SFOutlookInformationOptionString.class);
 		
-	private final static String TAG = "-SFV3FeedType";
+	private final static String TAG = SFKeywords.TAG + "-SFV3FeedType";
 	private final String mToString;
 	private final Class<?> mClass;
 	

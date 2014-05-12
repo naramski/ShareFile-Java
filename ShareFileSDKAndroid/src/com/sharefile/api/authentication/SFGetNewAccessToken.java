@@ -24,7 +24,7 @@ import com.sharefile.java.log.SLog;
 
 public class SFGetNewAccessToken implements Runnable
 {
-	private static final String TAG = "-SFGetNewAccessToken";
+	private static final String TAG = SFKeywords.TAG + "-SFGetNewAccessToken";
 	private int mHttpErrorCode = HttpsURLConnection.HTTP_OK;
 	private String mResponseString = null;
 	private final SFGetNewAccessTokenListener mCallback;		

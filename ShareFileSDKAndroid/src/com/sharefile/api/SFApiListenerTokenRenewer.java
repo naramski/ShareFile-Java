@@ -2,6 +2,7 @@ package com.sharefile.api;
 
 import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
+import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
@@ -18,7 +19,7 @@ import com.sharefile.java.log.SLog;
 @SFSDKDefaultAccessScope
 class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiResponseListener<T>
 {
-	private static final String TAG = "-SFApiListenerTokenRenewer";
+	private static final String TAG = SFKeywords.TAG + "-SFApiListenerTokenRenewer";
 	private final SFApiListenerReauthHandler<T> mListener;
 	private final SFApiQuery<T> mQuery;
 	private final String mClientID;
@@ -100,7 +101,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 				} 
 				catch (SFInvalidStateException e) 
 				{					
-					e.printStackTrace();
+					SLog.e(TAG,e);
 				}
 			}
 		}

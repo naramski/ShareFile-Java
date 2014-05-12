@@ -34,7 +34,7 @@ import com.sharefile.java.log.SLog;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
-	private static final String TAG = "-SFApiThread";
+	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
 			
 	private SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
@@ -120,7 +120,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		} 
 		catch (Exception e) 
 		{			
-			e.printStackTrace();
+			SLog.e(TAG,e);
 		}
 		
 		return null;
@@ -203,7 +203,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			} 
 			catch (URISyntaxException e) 
 			{				
-				e.printStackTrace();
+				SLog.e(TAG,e);
 			}			
 		}
 		

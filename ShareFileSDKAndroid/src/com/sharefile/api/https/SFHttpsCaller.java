@@ -30,7 +30,7 @@ import com.sharefile.java.log.SLog;
 
 public class SFHttpsCaller 
 {
-	private static final String TAG = "-SFHttpCaller";
+	private static final String TAG = SFKeywords.TAG + "-SFHttpCaller";
 	
 	private static final String NO_AUTH_CHALLENGES = "No authentication challenges found";
 	private static final String OUT_OF_MEMORY = "memory";

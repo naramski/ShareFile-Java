@@ -25,7 +25,7 @@ import com.sharefile.java.log.SLog;
  */
 public class SFGsonHelper
 {	
-	private static final String TAG = "-SFGsonHelper";
+	private static final String TAG = SFKeywords.TAG + "-SFGsonHelper";
 	        
     public static String getString(JsonObject json,String memberName,String defaultValue)
     {
@@ -127,7 +127,7 @@ public class SFGsonHelper
 				} 
     			catch (URISyntaxException e) 
     			{					
-					e.printStackTrace();
+					SLog.e(TAG,e);
 				}
     		}    				
     	}
@@ -149,7 +149,7 @@ public class SFGsonHelper
 			} 
     		catch (Exception e) 
     		{				
-				e.printStackTrace();
+    			SLog.e(TAG,e);
 			}     		    		    		    				
     	}    	
     	

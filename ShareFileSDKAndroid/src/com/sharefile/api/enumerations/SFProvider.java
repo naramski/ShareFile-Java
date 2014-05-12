@@ -14,7 +14,7 @@ public enum SFProvider
 	PROVIDER_TYPE_SHAREPOINT("/sp/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH);
 	
 	private static final String keywordV3 = SFKeywords.FWD_SLASH+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH;
-	private static final String TAG = "-getProvider";
+	private static final String TAG = SFKeywords.TAG + "-getProvider";
 	
 	private final String mToStr;
 	
@@ -33,7 +33,11 @@ public enum SFProvider
 	 * 	String can be of type : 
 	 *  <p>https://szqatest2.sharefiletest.com/cifs/v3/Items(4L24TVJSEz6Ca22LWoZg41hIVgfFgqQx0GD2VoYSgXA_)</p>
 	 *  
-	 *  This function finds the provider based on the occurence of /sf/v3/ , /sp/v3/ , /cifs/v3/ whichever occurs first
+	 *  or
+	 *  <p>
+	 *  "https://szqatest2.sharefiletest.com/sp/upload-streaming-2.aspx?uploadid=rsu-27564a05c0cf4052989099f3e880afda&parentid
+	 *  
+	 *  <p>This function finds the provider based on the occurence of /sf/v3/ , /sp/v3/ , /cifs/v3/ whichever occurs first
 	 *  
 	 *  We check all of them since multiple of them may occur in a given string, but the first occurence defines the provider type
 	 */
@@ -50,9 +54,13 @@ public enum SFProvider
 			 */			 													
 			int indexOfV3 = str.indexOf(keywordV3);
 
+			if(indexOfV3 == -1)
+			{
+				indexOfV3 = str.indexOf("/upload-streaming");
+			}
+			
 			try
 			{
-
 				//HACK optimize: look for the first chracter before this index since. can change this later if things break. 			
 				switch(str.charAt(indexOfV3-1))
 				{

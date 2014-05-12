@@ -1,11 +1,6 @@
 package com.sharefile.api.enumerations;
 
-import java.lang.reflect.Type;
-
-import android.service.textservice.SpellCheckerService.Session;
-
-import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
@@ -143,7 +138,7 @@ public enum SFV3ElementType
 	OutlookInformationOptionInt("Models.OutlookInformationOptionInt@Element",SFOutlookInformationOptionInt.class),
 	OutlookInformationOptionString("Models.OutlookInformationOptionString@Element",SFOutlookInformationOptionString.class);
 			
-	private static final String TAG = "-SFV3ElementType";
+	private static final String TAG = SFKeywords.TAG + "-SFV3ElementType";
 	private final String mToString;
 	private final Class<?> mOriginalClass;//This is the one originally intended by the SDK
 	private Class<?> mOverrideClass;// This is the one that can be overriden by the consumer app.
@@ -230,7 +225,37 @@ public enum SFV3ElementType
 		
 		return ret;
 	}
+	
+	public static boolean isNoteType(SFODataObject object)
+	{
+		boolean ret = false;
 		
+		if(object!=null)
+		{
+			if(object instanceof SFNote)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static boolean isLinkType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFLink)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
 	public static final SFV3ElementType getElementTypeFromMetaData(String metadata)
 	{
 		SFV3ElementType ret = null;
