@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -29,7 +30,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 	
 	private final SFDownloadSpecification mDownloadSpecification;
 	private final long mResumeFromByteIndex;
-	private final FileOutputStream mFileOutputStream;
+	private final OutputStream mOutputStream;
 	private final SFApiClient mApiClient;
 	private final SFApiDownloadProgressListener mProgressListener;
 	private FinalResponse mResponse = new FinalResponse();	
@@ -37,13 +38,13 @@ public class SFApiFileDownloadRunnable implements Runnable
 	
 	public SFApiFileDownloadRunnable(SFDownloadSpecification downloadSpecification,
 									 int resumeFromByteIndex, 
-									 FileOutputStream fileOutpuStream, 
+									 OutputStream outpuStream, 
 									 SFApiClient client,
 									 SFApiDownloadProgressListener progressListener,SFCookieManager cookieManager) 
 	{		
 		mDownloadSpecification = downloadSpecification;
 		mResumeFromByteIndex = resumeFromByteIndex;
-		mFileOutputStream = fileOutpuStream;
+		mOutputStream = outpuStream;
 		mApiClient = client;
 		mProgressListener = progressListener;
 		mCookieManager = cookieManager;
@@ -94,7 +95,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 				
 				while ((length = fis.read(buffer)) > 0) 
 				{
-					mFileOutputStream.write(buffer, 0, length);
+					mOutputStream.write(buffer, 0, length);
 					bytesRead+= length;
 					updateProgress(bytesRead);
 				}				
@@ -117,7 +118,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		finally
 		{
 			closeStream(fis);
-			closeStream(mFileOutputStream);
+			closeStream(mOutputStream);
 			SFHttpsCaller.disconnect(connection);
 		}
 				
