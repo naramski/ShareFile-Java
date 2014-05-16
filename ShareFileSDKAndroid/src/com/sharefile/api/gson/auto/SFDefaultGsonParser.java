@@ -1,6 +1,8 @@
 package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.gson.Gson;
@@ -14,6 +16,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.java.log.SLog;
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
@@ -56,7 +59,9 @@ public class SFDefaultGsonParser
 	{		
 		return getInstance().mGson.toJson(src, clazz);		
 	}
-				
+	
+			
+        	
 	/**
 	 *  Certain classes like SFPrincipal can't rely on the default gson parsing since we need to get the contained inner object
 	 *  in them using the odata.metatata and then handover the gson parsing to actual class contained in SFPrincipal.
@@ -66,7 +71,12 @@ public class SFDefaultGsonParser
 	 *  self-recursion inside the SFGsonRouter.
 	 *  </p> 
 	 * 
+	 * 
+	 * V3Date Format is: ", ;//yyyy-MM-dd'T'HH:mm:ss.SSSZ
 	 */
+	
+	private final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
+	
 	private void registerSFSpecificGsonAdapters()
 	{		
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
@@ -79,7 +89,18 @@ public class SFDefaultGsonParser
 			@Override
 			public Date deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
 			{				
-				return null;
+				Date date = null;
+				try 
+				{
+					date = v3SimpleDateFormat.parse(arg0.getAsString().replace("Z", "+0000"));
+					//SLog.d("pdate", "got date");			
+				} 
+				catch (Exception e) 
+				{				
+					SLog.d("pdate", "date-parse",e);					
+				}
+				
+				return date;
 			}
 		});
 	}		
