@@ -38,7 +38,14 @@ public class SFCookieManager
 		dateFormat = new SimpleDateFormat(DATE_FORMAT,Locale.US);
     }
     
-
+    public synchronized void clearAllCookies()
+    {
+    	if(mStore!=null)
+    	{
+    		mStore.clear();
+    	}
+    }
+    
     /**
      * Retrieves and stores cookies returned by the host on the other side
      * of the the open java.net.URLConnection.

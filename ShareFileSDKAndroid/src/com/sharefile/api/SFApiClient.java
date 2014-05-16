@@ -54,6 +54,11 @@ public class SFApiClient
 		return mOAuthToken.get();
 	}
 	
+	public void clearAllCookies()
+	{
+		mCookieManager.clearAllCookies();
+	}
+	
 	private void copyOAuthToken(SFOAuth2Token oauthToken) throws SFInvalidStateException
 	{
 		validateStateBeforeInit(oauthToken);
