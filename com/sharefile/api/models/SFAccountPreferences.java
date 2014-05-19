@@ -90,6 +90,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean mEnableSMBConnectorForAccount;
 	private String mAccountID;
 	private Boolean mEnableGetApp;
+	private Boolean mEnableStorageZoneConnector;
+	private Boolean mHasAnyConnectorZones;
 
 	public Boolean getEnableViewOnly() {
 		return mEnableViewOnly;
@@ -622,5 +624,19 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableGetApp(Boolean enablegetapp) {
 		mEnableGetApp = enablegetapp;
+	}
+	public Boolean getEnableStorageZoneConnector() {
+		return mEnableStorageZoneConnector;
+	}
+
+	public void setEnableStorageZoneConnector(Boolean enablestoragezoneconnector) {
+		mEnableStorageZoneConnector = enablestoragezoneconnector;
+	}
+	public Boolean getHasAnyConnectorZones() {
+		return mHasAnyConnectorZones;
+	}
+
+	public void setHasAnyConnectorZones(Boolean hasanyconnectorzones) {
+		mHasAnyConnectorZones = hasanyconnectorzones;
 	}
 }

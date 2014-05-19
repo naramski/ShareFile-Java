@@ -24,16 +24,13 @@ public class SFMetadataEntity extends SFODataEntityBase
 	* 'GET https://account.sf-api.com/sf/v3/Items(parentid)/Metadata(id)' is unsupported.
 	* Current routing doesn't support the URI to retrieve a single Metadata enntry since it is aliased with the GetByItem feed.
 	* So for now we support only the same syntax as for AccessControls, i.e. .../Metadata(name=name,itemid=itemid)
-	* @param name 	
-	* @param itemid 	
 	* @return A single Metadata object matching the query
     */
-	public SFApiQuery<SFMetadata> get(String name, String itemid)
+	public SFApiQuery<SFMetadata> get(URI url)
 	{
 		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Metadata");
-		sfApiQuery.addIds("name", name);
-		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -41,15 +38,15 @@ public class SFMetadataEntity extends SFODataEntityBase
     /**
 	* Get Metadata List By Item
 	* Retrieves the Metadata List for a given Item.
-	* @param id 	
+	* @param url 	
 	* @return The Metadata list of the given object ID.
     */
-	public SFApiQuery<SFODataFeed<SFMetadata>> getByItem(String id)
+	public SFApiQuery<SFODataFeed<SFMetadata>> getByItem(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -61,15 +58,15 @@ public class SFMetadataEntity extends SFODataEntityBase
     * "Value":"metadata value"
     * }
 	* Creates a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name already exists for this Item.
-	* @param id 	
+	* @param url 	
 	* @return The created Metadata object
     */
-	public SFApiQuery<SFMetadata> createByItem(String id, SFMetadata metadata)
+	public SFApiQuery<SFMetadata> createByItem(URI url, SFMetadata metadata)
 	{
 		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(metadata);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -81,16 +78,16 @@ public class SFMetadataEntity extends SFODataEntityBase
     * "Value":"metadata value"
     * }
 	* Updates a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
-	* @param id 	
+	* @param url 	
 	* @param metadataId 	
 	* @return The updated Metadata object
     */
-	public SFApiQuery<SFMetadata> updateByItem(String id, String metadataId, SFMetadata metadata)
+	public SFApiQuery<SFMetadata> updateByItem(URI url, String metadataId, SFMetadata metadata)
 	{
 		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(metadataId);
 		sfApiQuery.setBody(metadata);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -103,16 +100,13 @@ public class SFMetadataEntity extends SFODataEntityBase
     * "Value":"metadata value"
     * }
 	* Updates a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
-	* @param name 	
-	* @param itemid 	
 	* @return The updated Metadata object
     */
-	public SFApiQuery<SFMetadata> update(String name, String itemid, SFMetadata metadata)
+	public SFApiQuery<SFMetadata> update(URI url, SFMetadata metadata)
 	{
 		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Metadata");
-		sfApiQuery.addIds("name", name);
-		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(metadata);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -121,16 +115,16 @@ public class SFMetadataEntity extends SFODataEntityBase
     /**
 	* Delete Metadata
 	* Deletes a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
-	* @param id 	
+	* @param url 	
 	* @param metadataId 	
 	* @return (no data)
     */
-	public SFApiQuery deleteByItem(String id, String metadataId)
+	public SFApiQuery deleteByItem(URI url, String metadataId)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(metadataId);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
@@ -139,16 +133,13 @@ public class SFMetadataEntity extends SFODataEntityBase
     /**
 	* Delete Metadata
 	* Deletes a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
-	* @param name 	
-	* @param itemid 	
 	* @return (no data)
     */
-	public SFApiQuery delete(String name, String itemid)
+	public SFApiQuery delete(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Metadata");
-		sfApiQuery.addIds("name", name);
-		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}

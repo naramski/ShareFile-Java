@@ -35,15 +35,15 @@ public class SFItemsEntity extends SFODataEntityBase
     /**
 	* Get Item by ID
 	* Returns a single Item
-	* @param id 	
+	* @param url 	
 	* @param includeDeleted 	
 	* @return a single Item
     */
-	public SFApiQuery<SFItem> get(String id, Boolean includeDeleted = false)
+	public SFApiQuery<SFItem> get(URI url, Boolean includeDeleted = false)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -57,18 +57,18 @@ public class SFItemsEntity extends SFODataEntityBase
 	* additional $expand, for example Children, which is not added by default. The $select
 	* operator will apply to the expanded objects as well. You can also specify additional
 	* $select elements.
-	* @param id 	
+	* @param url 	
 	* @param treeMode 	
 	* @param sourceId 	
 	* @param canCreateRootFolder 	
 	* @param fileBox 	
 	* @return A tree root element.
     */
-	public SFApiQuery<SFItem> get(String id, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder = false, Boolean fileBox = false)
+	public SFApiQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder = false, Boolean fileBox = false)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("treeMode", treeMode);
 		sfApiQuery.addQueryString("sourceId", sourceId);
 		sfApiQuery.addQueryString("canCreateRootFolder", canCreateRootFolder);
@@ -84,15 +84,15 @@ public class SFItemsEntity extends SFODataEntityBase
 	* all versions of the same file system object. For example, when users upload or modify an existing file, a new Item
 	* is created with the same StreamID. All default Item enumerations return only the latest version of a given stream.
 	* Use this method to retrieve previous versions of a given stream
-	* @param id 	
+	* @param url 	
 	* @param includeDeleted 	
     */
-	public SFApiQuery<SFODataFeed<SFItem>> stream(String id, Boolean includeDeleted = false)
+	public SFApiQuery<SFODataFeed<SFItem>> stream(URI url, Boolean includeDeleted = false)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Stream");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -122,16 +122,16 @@ public class SFItemsEntity extends SFODataEntityBase
 	* The path is of format /foldername/foldername/filename
 	* This call may redirect the client to another API provider, if the path
 	* contains a symbolic link.
-	* @param id 	
+	* @param url 	
 	* @param path 	
 	* @return An item identified by a path
     */
-	public SFApiQuery<SFItem> byPath(String id, String path)
+	public SFApiQuery<SFItem> byPath(URI url, String path)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ByPath");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("path", path);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -140,15 +140,15 @@ public class SFItemsEntity extends SFODataEntityBase
     /**
 	* Get Parent Item
 	* Retrieves the Parent navigation property of a single Item.
-	* @param id 	
+	* @param url 	
 	* @return the Parent Item of the give object ID.
     */
-	public SFApiQuery<SFItem> getParent(String id)
+	public SFApiQuery<SFItem> getParent(URI url)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Parent");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -158,15 +158,15 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Handler for the Children navigation property of a given Item.
 	* A 302 redirection is returned if the folder is a SymbolicLink. The redirection
 	* will enumerate the children of the remote connector
-	* @param id 	
+	* @param url 	
 	* @return the list of children under the given object ID
     */
-	public SFApiQuery<SFODataFeed<SFItem>> getChildren(String id)
+	public SFApiQuery<SFODataFeed<SFItem>> getChildren(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Children");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -175,15 +175,15 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Get Folder Access Info
 	* Returns the effective Access Controls for the current authenticated user for the
 	* selected folder - i.e., the resulting set of Access Controls for the Item/User context.This operation applies to Folders only, will return an error for other Item types.
-	* @param id 	
+	* @param url 	
 	* @return The Folder Access Control Information
     */
-	public SFApiQuery<SFItemInfo> getInfo(String id)
+	public SFApiQuery<SFItemInfo> getInfo(URI url)
 	{
 		SFApiQuery<SFItemInfo> sfApiQuery = new SFApiQuery<SFItemInfo>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Info");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -193,16 +193,16 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Initiate the download operation for an item. It will return 302 redirection to the
 	* actual download link. For Folders, the download link will retrieve a ZIP archive
 	* with the contents of the Folder.
-	* @param id 	
+	* @param url 	
 	* @param redirect 	
 	* @return the download link for the provided item content.
     */
-	public SFApiQuery<SFDownloadSpecification> download(String id, Boolean redirect = true)
+	public SFApiQuery<SFDownloadSpecification> download(URI url, Boolean redirect = true)
 	{
 		SFApiQuery<SFDownloadSpecification> sfApiQuery = new SFApiQuery<SFDownloadSpecification>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Download");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -220,18 +220,18 @@ public class SFItemsEntity extends SFODataEntityBase
 	* For top-level folders, use Items/Folder.
 	* The Zone object may only be provided for top-level folders. The Zone object must
 	* contain a zone ID.
-	* @param parentid 	
+	* @param parentUrl 	
 	* @param folder 	
 	* @param overwrite 	
 	* @param passthrough 	
 	* @return the new Folder
     */
-	public SFApiQuery<SFFolder> createFolder(String parentid, SFFolder folder, Boolean overwrite = false, Boolean passthrough = false)
+	public SFApiQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder, Boolean overwrite = false, Boolean passthrough = false)
 	{
 		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Folder");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("overwrite", overwrite);
 		sfApiQuery.addQueryString("passthrough", passthrough);
 		sfApiQuery.setBody(folder);
@@ -246,16 +246,16 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Description":"Description"
     * }
 	* Creates a new Note.
-	* @param parentid 	
+	* @param parentUrl 	
 	* @param note 	
 	* @return the new Note
     */
-	public SFApiQuery<SFNote> createNote(String parentid, SFNote note)
+	public SFApiQuery<SFNote> createNote(URI parentUrl, SFNote note)
 	{
 		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setBody(note);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -269,16 +269,16 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Uri":"https://server/path"
     * }
 	* Creates a new Link
-	* @param parentid 	
+	* @param parentUrl 	
 	* @param link 	
 	* @return the new Link
     */
-	public SFApiQuery<SFLink> createLink(String parentid, SFLink link)
+	public SFApiQuery<SFLink> createLink(URI parentUrl, SFLink link)
 	{
 		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setBody(link);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -303,17 +303,17 @@ public class SFItemsEntity extends SFODataEntityBase
 	* clients, it's recommended to make the convertion call to the Zone directly, using
 	* Items/ByPath=name, retriving the resulting URL, and calling this method with the
 	* Link parameter.SymbolicLinks must be created as top-level folders
-	* @param parentid 	
+	* @param parentUrl 	
 	* @param symlink 	
 	* @param overwrite 	
 	* @return the new SymbolicLink
     */
-	public SFApiQuery<SFSymbolicLink> createSymbolicLink(String parentid, SFSymbolicLink symlink, Boolean overwrite = false)
+	public SFApiQuery<SFSymbolicLink> createSymbolicLink(URI parentUrl, SFSymbolicLink symlink, Boolean overwrite = false)
 	{
 		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("overwrite", overwrite);
 		sfApiQuery.setBody(symlink);
 		sfApiQuery.setHttpMethod("POST");
@@ -331,16 +331,16 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Zone": { "Id": "zoneid" }
     * }
 	* Updates an Item object
-	* @param id 	
+	* @param url 	
 	* @param item 	
 	* @param forceSync 	
 	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
     */
-	public SFApiQuery<SFItem> update(String id, SFItem item, String batchid = null, Long batchSizeInBytes = 0, Boolean forceSync = false, Boolean scheduleAsync = true)
+	public SFApiQuery<SFItem> update(URI url, SFItem item, String batchid = null, Long batchSizeInBytes = 0, Boolean forceSync = false, Boolean scheduleAsync = true)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
 		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
 		sfApiQuery.addQueryString("forceSync", forceSync);
@@ -359,17 +359,17 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Link object
-	* @param id 	
+	* @param url 	
 	* @param link 	
 	* @param notify 	
 	* @return A modified Link object
     */
-	public SFApiQuery<SFLink> updateLink(String id, SFLink link, Boolean notify = false)
+	public SFApiQuery<SFLink> updateLink(URI url, SFLink link, Boolean notify = false)
 	{
 		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(link);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -384,17 +384,17 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Note object
-	* @param id 	
+	* @param url 	
 	* @param note 	
 	* @param notify 	
 	* @return The modified Note object
     */
-	public SFApiQuery<SFNote> updateNote(String id, SFNote note, Boolean notify = false)
+	public SFApiQuery<SFNote> updateNote(URI url, SFNote note, Boolean notify = false)
 	{
 		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(note);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -409,26 +409,26 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Link": "https://server/path"
     * }
 	* Updates a Symbolic Link object
-	* @param id 	
+	* @param url 	
 	* @param symlink 	
 	* @return The modified SymbolicLink object
     */
-	public SFApiQuery<SFSymbolicLink> updateSymbolicLink(String id, SFSymbolicLink symlink)
+	public SFApiQuery<SFSymbolicLink> updateSymbolicLink(URI url, SFSymbolicLink symlink)
 	{
 		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(symlink);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery delete(String id, Boolean singleversion = false, Boolean forceSync = false)
+	public SFApiQuery delete(URI url, Boolean singleversion = false, Boolean forceSync = false)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singleversion", singleversion);
 		sfApiQuery.addQueryString("forceSync", forceSync);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -442,24 +442,24 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @param body 	
     */
-	public SFApiQuery bulkDelete(String parentid, ArrayList<String> ids, Boolean forceSync = false)
+	public SFApiQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync = false)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDelete");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("ids", ids);
 		sfApiQuery.addQueryString("forceSync", forceSync);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery<Stream> getThumbnail(String parentid, Integer size = 75, Boolean redirect = false)
+	public SFApiQuery<Stream> getThumbnail(URI url, Integer size = 75, Boolean redirect = false)
 	{
 		SFApiQuery<Stream> sfApiQuery = new SFApiQuery<Stream>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Thumbnail");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("size", size);
 		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setHttpMethod("GET");
@@ -471,16 +471,16 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Retrieves the path from an item from the root. The return list is a Feed of Items, with the top-level
 	* folder at the first position. If this item is in a Connection path, the breadcrumbs may contain URL
 	* reference back to the parent account - and the Item in the feed will contain just the URL reference.
-	* @param id 	
+	* @param url 	
 	* @param path 	
 	* @return A feed containing the path of folders from the specified root to the item, in order
     */
-	public SFApiQuery<SFODataFeed<SFItem>> getBreadcrumbs(String id, String path = null)
+	public SFApiQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path = null)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Breadcrumbs");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("path", path);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -491,17 +491,17 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Copies an item to a new target Folder. If the target folder is in another zone, the operation will
 	* return an AsyncOperation record instead. Clients may query the /AsyncOperation Entity to determine
 	* operation progress and result.
-	* @param id 	
+	* @param url 	
 	* @param targetid 	
 	* @param overwrite 	
 	* @return the modified source object
     */
-	public SFApiQuery<SFItem> copy(String id, String targetid, Boolean overwrite = false)
+	public SFApiQuery<SFItem> copy(URI url, String targetid, Boolean overwrite = false)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Copy");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("targetid", targetid);
 		sfApiQuery.addQueryString("overwrite", overwrite);
 		sfApiQuery.setHttpMethod("GET");
@@ -547,7 +547,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
 	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
 	* response with no Body, or with Body of format 'OK'.
-	* @param id 	
+	* @param url 	
 	* @param method 	
 	* @param raw 	
 	* @param fileName 	
@@ -571,12 +571,12 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param clientModifiedDateUTC 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
     */
-	public SFApiQuery<SFUploadSpecification> upload(String id, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
+	public SFApiQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
 	{
 		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("method", method);
 		sfApiQuery.addQueryString("raw", raw);
 		sfApiQuery.addQueryString("fileName", fileName);
@@ -607,15 +607,15 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Unlock File
 	* Unlock a locked file.
 	* This operation is only implemented in Sharepoint providers (/sp)
-	* @param id 	
+	* @param url 	
 	* @param message 	
     */
-	public SFApiQuery checkIn(String id, String message)
+	public SFApiQuery checkIn(URI url, String message)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckIn");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("message", message);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -625,14 +625,14 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Lock File
 	* Locks a file.
 	* This operation is only implemented in Sharepoint providers (/sp)
-	* @param id 	
+	* @param url 	
     */
-	public SFApiQuery checkOut(String id)
+	public SFApiQuery checkOut(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckOut");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -660,28 +660,28 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A Feed containing all protocols links supported by the given item
     */
-	public SFApiQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(String parentid)
+	public SFApiQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
     /**
 	* Get an Item Protocol Link
-	* @param id 	
+	* @param url 	
 	* @param protocol 	
 	* @return A single protocol link if supported, 404 (Not Found) if not supported by the item
     */
-	public SFApiQuery<SFItemProtocolLink> getProtocolLinks(String id, String protocol)
+	public SFApiQuery<SFItemProtocolLink> getProtocolLinks(URI url, String protocol)
 	{
 		SFApiQuery<SFItemProtocolLink> sfApiQuery = new SFApiQuery<SFItemProtocolLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(protocol);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

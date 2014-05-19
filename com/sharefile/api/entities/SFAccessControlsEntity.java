@@ -20,16 +20,13 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     /**
 	* Get AccessControl by ID
 	* Retrieves a single Access Control entry for a given Item and Principal
-	* @param principalid 	
-	* @param itemid 	
 	* @return A single AccessControl object matching the query
     */
-	public SFApiQuery<SFAccessControl> get(String principalid, String itemid)
+	public SFApiQuery<SFAccessControl> get(URI url)
 	{
 		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
 		sfApiQuery.setFrom("AccessControls");
-		sfApiQuery.addIds("principalid", principalid);
-		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -37,15 +34,15 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     /**
 	* Get AccessControl List By Item
 	* Retrieves the Access Control List for a given Item.
-	* @param id 	
+	* @param url 	
 	* @return Access Control List of the given object ID.
     */
-	public SFApiQuery<SFODataFeed<SFAccessControl>> getByItem(String id)
+	public SFApiQuery<SFODataFeed<SFAccessControl>> getByItem(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -64,19 +61,19 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* Creates a new Access Controls entry for a given Item. Access controls can only define a single Principal,
 	* which can be either a Group or User. The 'Principal' element is specified as an object - you should populate
 	* either the URL or the ID reference.
-	* @param id 	
+	* @param url 	
 	* @param accessControl 	
 	* @param recursive 	
 	* @param message 	
 	* @param sendDefaultNotification 	
 	* @return the created or modified AccessControl instance
     */
-	public SFApiQuery<SFAccessControl> createByItem(String id, SFAccessControl accessControl, Boolean recursive = false, Boolean sendDefaultNotification = false)
+	public SFApiQuery<SFAccessControl> createByItem(URI url, SFAccessControl accessControl, Boolean recursive = false, Boolean sendDefaultNotification = false)
 	{
 		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("recursive", recursive);
 		sfApiQuery.addQueryString("sendDefaultNotification", sendDefaultNotification);
 		accessControl.Properties["message"] = message;
@@ -98,17 +95,17 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* Updates an existing Access Controls of a given Item. The Principal element cannot be modified, it is provided
 	* in the Body to identity the AccessControl element to be modified. You can provide an ID, Email or URL on the
 	* Principal object.
-	* @param id 	
+	* @param url 	
 	* @param accessControl 	
 	* @param recursive 	
 	* @return the created or modified AccessControl instance
     */
-	public SFApiQuery<SFAccessControl> updateByItem(String id, SFAccessControl accessControl, Boolean recursive = false)
+	public SFApiQuery<SFAccessControl> updateByItem(URI url, SFAccessControl accessControl, Boolean recursive = false)
 	{
 		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("recursive", recursive);
 		sfApiQuery.setBody(accessControl);
 		sfApiQuery.setHttpMethod("POST");
@@ -119,15 +116,12 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* Delete AccessControl
 	* Deletes an AccessControl entry by itemID and principalID. This method does not return any object, a 204 (No Content)
 	* response indicates success.
-	* @param principalid 	
-	* @param itemid 	
     */
-	public SFApiQuery delete(String principalid, String itemid)
+	public SFApiQuery delete(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("AccessControls");
-		sfApiQuery.addIds("principalid", principalid);
-		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}

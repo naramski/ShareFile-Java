@@ -33,14 +33,14 @@ public class SFGroupsEntity extends SFODataEntityBase
     /**
 	* Get Group By ID
 	* Retrives a single Group by id
-	* @param id 	
+	* @param url 	
 	* @return A single Group object
     */
-	public SFApiQuery<SFGroup> get(String id)
+	public SFApiQuery<SFGroup> get(URI url)
 	{
 		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
 		sfApiQuery.setFrom("Groups");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -48,13 +48,13 @@ public class SFGroupsEntity extends SFODataEntityBase
     /**
 	* Delete Group
 	* Removes a single Group by id
-	* @param id 	
+	* @param url 	
     */
-	public SFApiQuery delete(String id)
+	public SFApiQuery delete(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Groups");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
@@ -88,15 +88,15 @@ public class SFGroupsEntity extends SFODataEntityBase
 	* Updates an existing group.
 	* This operation will ignore the provided clients list. Use the \Contacts navigation link to
 	* add/remove elements from a group
-	* @param id 	
+	* @param url 	
 	* @param group 	
 	* @return the modified group object
     */
-	public SFApiQuery<SFGroup> update(String id, SFGroup group)
+	public SFApiQuery<SFGroup> update(URI url, SFGroup group)
 	{
 		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
 		sfApiQuery.setFrom("Groups");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(group);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
@@ -105,15 +105,15 @@ public class SFGroupsEntity extends SFODataEntityBase
     /**
 	* Get Group Contacts
 	* Retrieves the Contacts navigation property of a Group
-	* @param id 	
+	* @param url 	
 	* @return A feed of Contacts representing the members of the Group
     */
-	public SFApiQuery<SFODataFeed<SFContact>> getContacts(String id)
+	public SFApiQuery<SFODataFeed<SFContact>> getContacts(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -123,16 +123,16 @@ public class SFGroupsEntity extends SFODataEntityBase
     * [{"Email":"user.one@domain.com"},{"Id":"abcd"}]
 	* Adds a list of contacts to a group
 	* The contact list may contain either contact ID (same as User ID) or Email.
-	* @param id 	
+	* @param url 	
 	* @param contacts 	
 	* @return The updated list of contacts for this group
     */
-	public SFApiQuery<SFODataFeed<SFContact>> createContacts(String id, ArrayList<SFContact> contacts)
+	public SFApiQuery<SFODataFeed<SFContact>> createContacts(URI url, ArrayList<SFContact> contacts)
 	{
 		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(contacts);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -147,16 +147,16 @@ public class SFGroupsEntity extends SFODataEntityBase
 	* list is not present in the group, it will be ignored.
 	* The method will not enforce that ID and Email match inside a single Contact instance: Id will be
 	* looked up first, then Email.
-	* @param id 	
+	* @param url 	
 	* @param contacts 	
 	* @return The updated list of contacts for this group
     */
-	public SFApiQuery<SFODataFeed<SFContact>> deleteContacts(String id, ArrayList<SFContact> contacts)
+	public SFApiQuery<SFODataFeed<SFContact>> deleteContacts(URI url, ArrayList<SFContact> contacts)
 	{
 		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(contacts);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;

@@ -20,15 +20,15 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     /**
 	* Get List of FavoriteFolders
 	* Retrieves the list of Favorite folders for a given user.
-	* @param id 	
+	* @param url 	
 	* @return A list of Favorite Folders specified by this user
     */
-	public SFApiQuery<SFODataFeed<SFFavoriteFolder>> getByUser(String id)
+	public SFApiQuery<SFODataFeed<SFFavoriteFolder>> getByUser(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -37,15 +37,15 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	* Get FavoriteFolder
 	* Retrieves a single Favorite Folder
 	* @param userid 	
-	* @param itemid 	
+	* @param itemUrl 	
 	* @return A list of Favorite Folders specified by this user
     */
-	public SFApiQuery<SFFavoriteFolder> getByUser(String itemid, String userid)
+	public SFApiQuery<SFFavoriteFolder> getByUser(URI itemUrl, String userid)
 	{
 		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
-		sfApiQuery.addIds(itemid);
+		sfApiQuery.addIds(itemUrl);
 		sfApiQuery.addActionIds(userid);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -54,16 +54,13 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     /**
 	* Get FavoriteFolder
 	* Retrieve a single Favorite Folder from a give user
-	* @param userid 	
-	* @param itemid 	
 	* @return The selected Favorite Folder
     */
-	public SFApiQuery<SFFavoriteFolder> get(String userid, String itemid)
+	public SFApiQuery<SFFavoriteFolder> get(URI url)
 	{
 		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
 		sfApiQuery.setFrom("FavoriteFolders");
-		sfApiQuery.addIds("userid", userid);
-		sfApiQuery.addIds("itemid", itemid);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -75,16 +72,16 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     * "FolderAlias" : "alias"
     * }
 	* Adds an existing folder to the list of favorites of a given user.
-	* @param id 	
+	* @param url 	
 	* @param folder 	
 	* @return A new FavoriteFolder record
     */
-	public SFApiQuery<SFFavoriteFolder> createByUser(String id, SFFavoriteFolder folder)
+	public SFApiQuery<SFFavoriteFolder> createByUser(URI url, SFFavoriteFolder folder)
 	{
 		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(folder);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -93,26 +90,26 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     /**
 	* Delete FavoriteFolder
 	* Removes a favorite folder from a user's list.
-	* @param id 	
+	* @param url 	
 	* @param itemid 	
     */
-	public SFApiQuery delete(String id, String itemid)
+	public SFApiQuery delete(URI url, String itemid)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(itemid);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery deleteByUser(String userId, String itemId)
+	public SFApiQuery deleteByUser(URI url, String itemId)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
-		sfApiQuery.addIds(userId);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(itemId);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;

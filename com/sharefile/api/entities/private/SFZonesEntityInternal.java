@@ -45,11 +45,11 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param includeDisabled 	
 	* @return The list of public and private zones accessible to this user
     */
-	public SFApiQuery<SFZone> get(String id, Boolean secret = false)
+	public SFApiQuery<SFZone> get(URI url, Boolean secret = false)
 	{
 		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("secret", secret);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -82,15 +82,15 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     * "ZoneServices":"StorageZone, SharepointConnector, NetworkShareConnector"
     * }
 	* Updates an existing zone
-	* @param id 	
+	* @param url 	
 	* @param zone 	
 	* @return The modified zone
     */
-	public SFApiQuery<SFZone> update(String id, SFZone zone)
+	public SFApiQuery<SFZone> update(URI url, SFZone zone)
 	{
 		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(zone);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
@@ -99,14 +99,14 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     /**
 	* Delete Zone
 	* Removes an existing zone
-	* @param id 	
+	* @param url 	
 	* @param force 	
     */
-	public SFApiQuery delete(String id, Boolean force = false)
+	public SFApiQuery delete(URI url, Boolean force = false)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
@@ -118,15 +118,15 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* Caution! This Call will invalidate all Storage Center communications until the Storage Center Zone secret
 	* is also updated.
 	* User must be a Zone admin to perform this action
-	* @param id 	
+	* @param url 	
 	* @return The modified Zone object
     */
-	public SFApiQuery<SFZone> resetSecret(String id)
+	public SFApiQuery<SFZone> resetSecret(URI url)
 	{
 		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("ResetSecret");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -134,15 +134,15 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     /**
 	* Get Zone Metadata
 	* Gets metadata associated with the specified zone
-	* @param id 	
+	* @param url 	
 	* @return the zone metadata feed
     */
-	public SFApiQuery<SFODataFeed<SFMetadata>> getMetadata(String id)
+	public SFApiQuery<SFODataFeed<SFMetadata>> getMetadata(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -155,16 +155,16 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     * ...
     * ]
 	* Creates or updates Metadata entries associated with the specified zone
-	* @param id 	
+	* @param url 	
 	* @param metadata 	
 	* @return the zone metadata feed
     */
-	public SFApiQuery<SFODataFeed<SFMetadata>> createMetadata(String id, ArrayList<SFMetadata> metadata)
+	public SFApiQuery<SFODataFeed<SFMetadata>> createMetadata(URI url, ArrayList<SFMetadata> metadata)
 	{
 		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(metadata);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -173,16 +173,16 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     /**
 	* Delete Zone Metadata
 	* Delete the Metadata entry associated with the specified zone
-	* @param id 	
+	* @param url 	
 	* @param name 	
 	* @return no data on success
     */
-	public SFApiQuery deleteMetadata(String id, String name)
+	public SFApiQuery deleteMetadata(URI url, String name)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("name", name);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;

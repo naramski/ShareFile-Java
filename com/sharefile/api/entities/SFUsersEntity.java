@@ -150,15 +150,15 @@ public class SFUsersEntity extends SFODataEntityBase
 	* Modifies an existing user object
 	* The following parameters can be modified through this call: FirstName, LastName, Company,
 	* Email, IsDisabled, DefaultZone Id
-	* @param id 	
+	* @param url 	
 	* @param user 	
 	* @return a modified user record
     */
-	public SFApiQuery<SFUser> update(String id, SFUser user)
+	public SFApiQuery<SFUser> update(URI url, SFUser user)
 	{
 		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(user);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
@@ -178,16 +178,16 @@ public class SFUsersEntity extends SFODataEntityBase
 	* AdminSharedAddressBook,
 	* CanChangePassword,
 	* CanManageMySettings
-	* @param parentid 	
+	* @param parentUrl 	
 	* @param user 	
 	* @return a modified user record
     */
-	public SFApiQuery<SFUser> updateRoles(String parentid, SFUser user)
+	public SFApiQuery<SFUser> updateRoles(URI parentUrl, SFUser user)
 	{
 		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setBody(user);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
@@ -207,16 +207,16 @@ public class SFUsersEntity extends SFODataEntityBase
 	* AdminSharedAddressBook,
 	* CanChangePassword,
 	* CanManageMySettings
-	* @param parentid 	
+	* @param parentUrl 	
 	* @param user 	
 	* @return a modified user record
     */
-	public SFApiQuery<SFUser> patchRoles(String parentid, SFUser user)
+	public SFApiQuery<SFUser> patchRoles(URI parentUrl, SFUser user)
 	{
 		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
-		sfApiQuery.addIds(parentid);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setBody(user);
 		sfApiQuery.setHttpMethod("PUT");
 		return sfApiQuery;
@@ -261,35 +261,35 @@ public class SFUsersEntity extends SFODataEntityBase
     /**
 	* Get HomeFolder
 	* Returns a user's home folder
-	* @param id 	
+	* @param url 	
 	* @return A folder record representing the requesting user home folder
     */
-	public SFApiQuery<SFItem> getHomeFolder(String id)
+	public SFApiQuery<SFItem> getHomeFolder(URI url)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("HomeFolder");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery<SFODataFeed<SFItem>> topFolders(String userId)
+	public SFApiQuery<SFODataFeed<SFItem>> topFolders(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("TopFolders");
-		sfApiQuery.addIds(userId);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery<SFODataFeed<SFItem>> box(String userId)
+	public SFApiQuery<SFODataFeed<SFItem>> box(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Box");
-		sfApiQuery.addIds(userId);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -298,15 +298,15 @@ public class SFUsersEntity extends SFODataEntityBase
 	* Get User Preferences
 	* Retrieves the User preferences record - all user-selected prefernces, such as timezone,
 	* time format, sort preferences, etc.
-	* @param id 	
+	* @param url 	
 	* @return the user selected preferences
     */
-	public SFApiQuery<SFUserPreferences> getPreferences(String id)
+	public SFApiQuery<SFUserPreferences> getPreferences(URI url)
 	{
 		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Preferences");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -323,17 +323,17 @@ public class SFUsersEntity extends SFODataEntityBase
     * }
 	* Resets a user password. A user can reset his own password providing the old and new
 	* passwords. Administrators can issue this call without providing the old password.
-	* @param id 	
+	* @param url 	
 	* @param properties 	
 	* @param notify 	
 	* @return The modified user record
     */
-	public SFApiQuery<SFUser> resetPassword(String id, SFODataObject properties, Boolean notify = false)
+	public SFApiQuery<SFUser> resetPassword(URI url, SFODataObject properties, Boolean notify = false)
 	{
 		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResetPassword");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(properties);
 		sfApiQuery.setHttpMethod("POST");
@@ -343,14 +343,14 @@ public class SFUsersEntity extends SFODataEntityBase
     /**
 	* Send Welcome Email
 	* Resends the 'welcome' email to the given user
-	* @param id 	
+	* @param url 	
     */
-	public SFApiQuery resendWelcome(String id)
+	public SFApiQuery resendWelcome(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResendWelcome");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -358,14 +358,14 @@ public class SFUsersEntity extends SFODataEntityBase
     /**
 	* Delete User
 	* Removes an user
-	* @param id 	
+	* @param url 	
 	* @param completely 	
     */
-	public SFApiQuery delete(String id, Boolean completely = false)
+	public SFApiQuery delete(URI url, Boolean completely = false)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("completely", completely);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;

@@ -34,14 +34,14 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Get Share
 	* Retrieve a single Share entity. If the Share allows anonymous access, then this method will not
 	* require authentication.
-	* @param id 	
+	* @param url 	
 	* @return A single Share
     */
-	public SFApiQuery<SFShare> get(String id)
+	public SFApiQuery<SFShare> get(URI url)
 	{
 		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>();
 		sfApiQuery.setFrom("Shares");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -52,15 +52,15 @@ public class SFSharesEntity extends SFODataEntityBase
 	* access information, such as number of times that user downloaded files from the share. Each Recipient is
 	* identified by an Alias, which is an unique ID given to each user - allowing tracking of downloads for
 	* non-authenticated users.
-	* @param id 	
+	* @param url 	
 	* @return A feed of Share Aliases representing recipients of the Share
     */
-	public SFApiQuery<SFODataFeed<SFShareAlias>> getRecipients(String id)
+	public SFApiQuery<SFODataFeed<SFShareAlias>> getRecipients(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFShareAlias>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShareAlias>>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -68,15 +68,15 @@ public class SFSharesEntity extends SFODataEntityBase
     /**
 	* Get Items of a Share
 	* Retrieve the list of Items (files and folders) in the Share.
-	* @param id 	
+	* @param url 	
 	* @return A feed of Items of the Share
     */
-	public SFApiQuery<SFODataFeed<SFItem>> getItems(String id)
+	public SFApiQuery<SFODataFeed<SFItem>> getItems(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -84,16 +84,16 @@ public class SFSharesEntity extends SFODataEntityBase
     /**
 	* Get Recipients of a Share
 	* Retrieve a single Item in the Share
-	* @param shareid 	
+	* @param shareUrl 	
 	* @param itemid 	
 	* @return An item in the Share
     */
-	public SFApiQuery<SFItem> getItems(String shareid, String itemid)
+	public SFApiQuery<SFItem> getItems(URI shareUrl, String itemid)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
-		sfApiQuery.addIds(shareid);
+		sfApiQuery.addIds(shareUrl);
 		sfApiQuery.addActionIds(itemid);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -109,19 +109,19 @@ public class SFSharesEntity extends SFODataEntityBase
 	* query. Anyone can download files from anonymous shares.You can also download individual Items in the Share. Use the Share(id)/Items(id)/Download action. The
 	* item ID must be a top-level item in the Share - i.e., you cannot download or address files contained inside
 	* a shared folder.
-	* @param shareId 	
+	* @param shareUrl 	
 	* @param Name 	
 	* @param Email 	
 	* @param Company 	
 	* @param redirect 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public SFApiQuery<Stream> download(String shareId, String id, String Name = null, String Email = null, String Company = null, Boolean redirect = true)
+	public SFApiQuery<Stream> download(URI shareUrl, String id, String Name = null, String Email = null, String Company = null, Boolean redirect = true)
 	{
 		SFApiQuery<Stream> sfApiQuery = new SFApiQuery<Stream>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
-		sfApiQuery.addIds(shareId);
+		sfApiQuery.addIds(shareUrl);
 		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.addQueryString("Name", Name);
 		sfApiQuery.addQueryString("Email", Email);
@@ -185,15 +185,15 @@ public class SFSharesEntity extends SFODataEntityBase
     * "Items": [ { "Id":"itemid" }, {...} ],
     * }
 	* Modifies an existing Share. If Items are specified they are added to the share.
-	* @param id 	
+	* @param url 	
 	* @param share 	
 	* @return The modified Share
     */
-	public SFApiQuery<SFShare> update(String id, SFShare share)
+	public SFApiQuery<SFShare> update(URI url, SFShare share)
 	{
 		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>();
 		sfApiQuery.setFrom("Shares");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(share);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -202,13 +202,13 @@ public class SFSharesEntity extends SFODataEntityBase
     /**
 	* Delete Share
 	* Removes an existing Share
-	* @param id 	
+	* @param url 	
     */
-	public SFApiQuery delete(String id)
+	public SFApiQuery delete(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Shares");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
@@ -219,20 +219,20 @@ public class SFSharesEntity extends SFODataEntityBase
 	* exist it is created first.
 	* For shares requiring login an activation email is sent to the created user. If 'notify' is enabled, the user activation is
 	* included in the share notification email.
-	* @param id 	
+	* @param url 	
 	* @param email 	
 	* @param notify 	
 	* @return Share with the AliasID property set to the created alias ID
     */
-	public SFApiQuery<SFShare> createAlias(String id, String email, Boolean notify = false)
+	public SFApiQuery<SFShare> createAlias(URI url, String email, Boolean notify = false)
 	{
 		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Alias");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("email", email);
 		sfApiQuery.addQueryString("notify", notify);
-		sfApiQuery.setHttpMethod("DELETE");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
@@ -307,7 +307,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
 	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
 	* response with no Body, or with Body of format 'OK'.
-	* @param id 	
+	* @param url 	
 	* @param method 	
 	* @param raw 	
 	* @param fileName 	
@@ -329,12 +329,12 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
     */
-	public SFApiQuery<SFUploadSpecification> upload(String id, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
+	public SFApiQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
 	{
 		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("method", method);
 		sfApiQuery.addQueryString("raw", raw);
 		sfApiQuery.addQueryString("fileName", fileName);

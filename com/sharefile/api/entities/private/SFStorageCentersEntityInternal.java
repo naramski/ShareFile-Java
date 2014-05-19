@@ -19,14 +19,14 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
 {
     /**
 	* Get Storage Center
-	* @param id 	
+	* @param url 	
 	* @return A single Storage Center
     */
-	public SFApiQuery<SFStorageCenter> get(String id)
+	public SFApiQuery<SFStorageCenter> get(URI url)
 	{
 		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("StorageCenters");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -37,15 +37,15 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     * "ExternalAddress":"https://server/",
     * "Version":"4.12.20",
     * "HostName":"hostname" }
-	* @param id 	
+	* @param url 	
 	* @param sc 	
 	* @return Modified Storage Center
     */
-	public SFApiQuery<SFStorageCenter> update(String id, SFStorageCenter sc)
+	public SFApiQuery<SFStorageCenter> update(URI url, SFStorageCenter sc)
 	{
 		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("StorageCenters");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(sc);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
@@ -53,13 +53,13 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
 
     /**
 	* Delete Storage Center
-	* @param id 	
+	* @param url 	
     */
-	public SFApiQuery delete(String id)
+	public SFApiQuery delete(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("StorageCenters");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
@@ -67,15 +67,15 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     /**
 	* Get List of StorageCenters from Zone
 	* Lists Storage Centers of a given Zone
-	* @param id 	
+	* @param url 	
 	* @return A list of Storage Centers associated with the provided zone
     */
-	public SFApiQuery<SFODataFeed<SFStorageCenter>> getByZone(String id)
+	public SFApiQuery<SFODataFeed<SFStorageCenter>> getByZone(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -88,16 +88,16 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     * "HostName":"hostname"
     * }
 	* Creates a new Storage Center associated with a specific zone
-	* @param id 	
+	* @param url 	
 	* @param storageCenter 	
 	* @return The new storage center
     */
-	public SFApiQuery<SFStorageCenter> createByZone(String id, SFStorageCenter storageCenter)
+	public SFApiQuery<SFStorageCenter> createByZone(URI url, SFStorageCenter storageCenter)
 	{
 		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(storageCenter);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -111,17 +111,17 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     * "HostName":"hostname"
     * }
 	* Updates an existing Storage Center
-	* @param zid 	
+	* @param zUrl 	
 	* @param scid 	
 	* @param storageCenter 	
 	* @return the modified storage center
     */
-	public SFApiQuery<SFStorageCenter> updateByZone(String zid, String scid, SFStorageCenter storageCenter)
+	public SFApiQuery<SFStorageCenter> updateByZone(URI zUrl, String scid, SFStorageCenter storageCenter)
 	{
 		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
-		sfApiQuery.addIds(zid);
+		sfApiQuery.addIds(zUrl);
 		sfApiQuery.addActionIds(scid);
 		sfApiQuery.setBody(storageCenter);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -131,15 +131,15 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     /**
 	* Delete StorageCenter
 	* Removes an existing storage center
-	* @param zid 	
+	* @param zUrl 	
 	* @param scid 	
     */
-	public SFApiQuery deleteByZone(String zid, String scid)
+	public SFApiQuery deleteByZone(URI zUrl, String scid)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
-		sfApiQuery.addIds(zid);
+		sfApiQuery.addIds(zUrl);
 		sfApiQuery.addActionIds(scid);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
@@ -148,16 +148,16 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     /**
 	* Get StorageCenter Metadata
 	* Gets metadata associated with the specified storage center
-	* @param zid 	
+	* @param zUrl 	
 	* @param scid 	
 	* @return the storage center metadata feed
     */
-	public SFApiQuery<SFODataFeed<SFMetadata>> getMetadata(String zid, String scid)
+	public SFApiQuery<SFODataFeed<SFMetadata>> getMetadata(URI zUrl, String scid)
 	{
 		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
-		sfApiQuery.addIds(zid);
+		sfApiQuery.addIds(zUrl);
 		sfApiQuery.addActionIds(scid);
 		sfApiQuery.addSubAction("Metadata");
 		sfApiQuery.setHttpMethod("GET");
@@ -172,17 +172,17 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     * ...
     * ]
 	* Creates or updates Metadata entries associated with the specified storage center
-	* @param zid 	
+	* @param zUrl 	
 	* @param scid 	
 	* @param metadata 	
 	* @return the storage center metadata feed
     */
-	public SFApiQuery<SFODataFeed<SFMetadata>> createMetadata(String zid, String scid, ArrayList<SFMetadata> metadata)
+	public SFApiQuery<SFODataFeed<SFMetadata>> createMetadata(URI zUrl, String scid, ArrayList<SFMetadata> metadata)
 	{
 		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
-		sfApiQuery.addIds(zid);
+		sfApiQuery.addIds(zUrl);
 		sfApiQuery.addActionIds(scid);
 		sfApiQuery.addSubAction("Metadata");
 		sfApiQuery.setBody(metadata);
@@ -193,17 +193,17 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     /**
 	* Delete StorageCenter Metadata
 	* Delete the Metadata entry associated with the specified storage center
-	* @param zid 	
+	* @param zUrl 	
 	* @param scid 	
 	* @param name 	
 	* @return no data on success
     */
-	public SFApiQuery deleteMetadata(String zid, String scid, String name)
+	public SFApiQuery deleteMetadata(URI zUrl, String scid, String name)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
-		sfApiQuery.addIds(zid);
+		sfApiQuery.addIds(zUrl);
 		sfApiQuery.addActionIds(scid);
 		sfApiQuery.addSubAction("Metadata");
 		sfApiQuery.addQueryString("name", name);

@@ -20,14 +20,14 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     /**
 	* Get AsyncOperation by ID
 	* Retrieve a single Async Op record by ID
-	* @param id 	
+	* @param url 	
 	* @return A single Async Operation record
     */
-	public SFApiQuery<SFAsyncOperation> get(String id)
+	public SFApiQuery<SFAsyncOperation> get(URI url)
 	{
 		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
 		sfApiQuery.setFrom("AsyncOperations");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -67,15 +67,15 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     /**
 	* Cancel AsyncOperation
 	* Cancels a single Async operation record
-	* @param id 	
+	* @param url 	
 	* @return The modified Async Operation record
     */
-	public SFApiQuery<SFAsyncOperation> cancel(String id)
+	public SFApiQuery<SFAsyncOperation> cancel(URI url)
 	{
 		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.setAction("Cancel");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -83,13 +83,13 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     /**
 	* Delete AsyncOperation
 	* Cancels a single Async operation record (same as /Cancel)
-	* @param id 	
+	* @param url 	
     */
-	public SFApiQuery delete(String id)
+	public SFApiQuery delete(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("AsyncOperations");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
@@ -115,15 +115,15 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	* Changes the state of an AsyncOperation
     * { "State": "..." }
 	* Only the State parameter is updated, other fields are ignored
-	* @param id 	
+	* @param url 	
 	* @param newAsyncOp 	
 	* @return The modified Async Operation
     */
-	public SFApiQuery<SFAsyncOperation> patch(String id, SFAsyncOperation newAsyncOp)
+	public SFApiQuery<SFAsyncOperation> patch(URI url, SFAsyncOperation newAsyncOp)
 	{
 		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
 		sfApiQuery.setFrom("AsyncOperations");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(newAsyncOp);
 		sfApiQuery.setHttpMethod("PUT");
 		return sfApiQuery;

@@ -31,59 +31,59 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 
     /**
 	* Get Device by ID
-	* @param id 	
+	* @param url 	
 	* @return Device
     */
-	public SFApiQuery<SFDevice> get(String id)
+	public SFApiQuery<SFDevice> get(URI url)
 	{
 		SFApiQuery<SFDevice> sfApiQuery = new SFApiQuery<SFDevice>();
 		sfApiQuery.setFrom("Devices");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery<SFODataFeed<SFDeviceUser>> getByUser(String userId)
+	public SFApiQuery<SFODataFeed<SFDeviceUser>> getByUser(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
 		sfApiQuery.setFrom("User");
 		sfApiQuery.setAction("Devices");
-		sfApiQuery.addIds(userId);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
     /**
 	* Delete Device
-	* @param id 	
+	* @param url 	
 	* @return no data on success
     */
-	public SFApiQuery delete(String id)
+	public SFApiQuery delete(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Devices");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery deleteByUser(String userId, String deviceId)
+	public SFApiQuery deleteByUser(URI url, String deviceId)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("User");
 		sfApiQuery.setAction("Devices");
-		sfApiQuery.addIds(userId);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(deviceId);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
-	public SFApiQuery<SFDeviceUser> createByUser(String userId, SFDeviceUser du)
+	public SFApiQuery<SFDeviceUser> createByUser(URI url, SFDeviceUser du)
 	{
 		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>();
 		sfApiQuery.setFrom("User");
 		sfApiQuery.setAction("Devices");
-		sfApiQuery.addIds(userId);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(du);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -91,16 +91,16 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 
     /**
 	* Wipe Device
-	* @param deviceID 	
+	* @param deviceUrl 	
 	* @param userid 	
 	* @return no data on success
     */
-	public SFApiQuery wipe(String deviceID, String userid = null)
+	public SFApiQuery wipe(URI deviceUrl, String userid = null)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Wipe");
-		sfApiQuery.addIds(deviceID);
+		sfApiQuery.addIds(deviceUrl);
 		sfApiQuery.addQueryString("userid", userid);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -129,17 +129,17 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
     * ]
     * }
 	* Signal that a device wipe has been completed
-	* @param deviceID 	
+	* @param deviceUrl 	
 	* @param deviceWipeReport 	
 	* @param singlePlane 	
 	* @return no data on success
     */
-	public SFApiQuery wipeDone(String deviceID, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane = false)
+	public SFApiQuery wipeDone(URI deviceUrl, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane = false)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("WipeDone");
-		sfApiQuery.addIds(deviceID);
+		sfApiQuery.addIds(deviceUrl);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setBody(deviceWipeReport);
 		sfApiQuery.setHttpMethod("POST");
@@ -148,15 +148,15 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 
     /**
 	* Check Device Status
-	* @param deviceID 	
+	* @param deviceUrl 	
 	* @return DeviceStatus
     */
-	public SFApiQuery<SFDeviceStatus> status(String deviceID)
+	public SFApiQuery<SFDeviceStatus> status(URI deviceUrl)
 	{
 		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Status");
-		sfApiQuery.addIds(deviceID);
+		sfApiQuery.addIds(deviceUrl);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

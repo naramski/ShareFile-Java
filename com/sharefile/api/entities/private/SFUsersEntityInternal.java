@@ -21,15 +21,15 @@ public class SFUsersEntityInternal extends SFUsersEntity
 	* Get User Security
 	* Retrieve the user security record - current state of the user regarding
 	* security and password settings.
-	* @param id 	
+	* @param url 	
 	* @return the user security status
     */
-	public SFApiQuery<SFUserSecurity> getSecurity(String id)
+	public SFApiQuery<SFUserSecurity> getSecurity(URI url)
 	{
 		SFApiQuery<SFUserSecurity> sfApiQuery = new SFApiQuery<SFUserSecurity>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Security");
-		sfApiQuery.addIds(id);
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
