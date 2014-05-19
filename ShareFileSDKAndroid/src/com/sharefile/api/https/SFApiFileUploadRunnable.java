@@ -11,15 +11,15 @@ import java.security.MessageDigest;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.util.Log;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFV3Error;
+import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.java.log.SLog;
@@ -46,8 +46,7 @@ public class SFApiFileUploadRunnable implements Runnable
 	private final InputStream mFileInputStream;
 	private final SFApiClient mApiClient;
 	private final SFApiUploadProgressListener mProgressListener;
-	private final String mDestinationFileName;
-	private FinalResponse mResponse = new FinalResponse();
+	private final String mDestinationFileName;	
 	private final SFCookieManager mCookieManager;
 	
 	public SFApiFileUploadRunnable(SFUploadSpecification uploadSpecification,
@@ -122,13 +121,58 @@ public class SFApiFileUploadRunnable implements Runnable
 		return hash.toString();
 	}
 	
+	/**
+	 * Chunk upload response can be of json type sample:
+	 * 
+	 * //Sample error message {"error":true,"errorMessage":"Thread was being aborted.","errorCode":420}
+	 * 
+	 */
+	public static class SFChunkUploadResponse
+	{
+		public boolean mWasError;
+		public int mErrorCode;
+		public String mErrorMessage;
+		public int mBytesTransferedInChunk;		
+								
+		@SFSDKDefaultAccessScope SFChunkUploadResponse(String jsonString)
+		{												
+			try 
+			{
+				JSONObject errorObject;
+				errorObject = new JSONObject(jsonString);
+				mWasError =  errorObject.optBoolean("error");			
+				mErrorMessage = errorObject.optString("errorMessage");			
+				mErrorCode = errorObject.optInt("errorCode");
+			} 
+			catch (JSONException e) 
+			{				
+				SLog.e(TAG,"exception parsing upload response",e);
+				mWasError = true;
+				mErrorMessage = "exception parsing upload response";
+				mErrorCode = SFSDK.INTERNAL_HTTP_ERROR;				
+			}						
+		}
+					
+		@SFSDKDefaultAccessScope SFChunkUploadResponse(String otherError,int httpErroCode)
+		{						
+			mWasError =  true;			
+			mErrorMessage = otherError;			
+			mErrorCode = httpErroCode;									
+		}
+	}
 	
-	private long uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws Exception
+	/**
+	 *   This tries to upload a chunk. Returns a detialed object with the httpErrorCode and the ChunkResponse from the server.
+	 *   ChunkResonse will never be null. In case of http errors or exceptions we fill the chunk response with https err response string.
+	 */
+	private SFAPiUploadResponse uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws Exception
 	{
 		long bytesUploaded = 0;
 		HttpsURLConnection conn = null;	
 		String responseString = null;
 		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+		
+		SFAPiUploadResponse ret = new SFAPiUploadResponse();
 		
 		try
 		{			
@@ -175,33 +219,40 @@ public class SFApiFileUploadRunnable implements Runnable
 			{														
 				responseString = SFHttpsCaller.readResponse(conn);		
 				SLog.d(TAG, "Upload Response: " + responseString);
-			}
-			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
-			{
-				SLog.d(TAG, "Upload Response NO CONTENT ");
-			}
+				
+				SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(responseString);				
+				ret.setFeilds(httpErrorCode, null, chunkResonse,bytesUploaded);
+			}			
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(conn);		
 				SLog.d(TAG, "Upload Response: " + responseString);
-				return -1;
+				SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(responseString,httpErrorCode);				
+				ret.setFeilds(httpErrorCode, null, chunkResonse,bytesUploaded);
 			}						
-		}		
+		}	
+		catch(Exception ex)
+		{
+			SLog.e(TAG,"chunk", ex);
+			SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(ex.getLocalizedMessage(),SFSDK.INTERNAL_HTTP_ERROR);				
+			ret.setFeilds(SFSDK.INTERNAL_HTTP_ERROR,ex.getLocalizedMessage(), chunkResonse,bytesUploaded);
+		}
 		finally
 		{
 			SFHttpsCaller.disconnect(conn);
 		}
 				
-		return bytesUploaded;
+		return ret;
 	}
 	
 	public void upload()
-	{
-		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
+	{		
 		String responseString = null;
 		long bytesRead = mResumeFromByteIndex;
 		int chunkSize = 1024*1024;		
 		long previousChunkTotalBytes = mResumeFromByteIndex;
+		SFAPiUploadResponse uploadResponse = null;
+		
 		try
 		{										
 			SLog.d(TAG, "POST " + mUploadSpecification.getChunkUri());
@@ -229,29 +280,31 @@ public class SFApiFileUploadRunnable implements Runnable
 					done = true;
 				}
 				
-				long bytesUploadedInThisChunk =  uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
-				if(bytesUploadedInThisChunk>0)
+				uploadResponse  =  uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
+				
+				//Note here we can rely on the 	uploadResponse.mChunkUploadResponse.mWasError to decide the succuess or failure.			
+				if(uploadResponse.mChunkUploadResponse.mWasError == false && uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk > 0)
 				{
-					previousChunkTotalBytes+= bytesUploadedInThisChunk;
+					previousChunkTotalBytes+= uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk;
 				}
-			}		
-			
-			httpErrorCode = HttpsURLConnection.HTTP_OK;
-			mResponse.setFeilds(httpErrorCode, null,previousChunkTotalBytes);
+				else
+				{					
+					break;
+				}
+			}											
 		}
 		catch(Exception ex)
-		{		
-			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " +Log.getStackTraceString(ex);												
+		{					
+			responseString = "\nExceptionStack = " +Log.getStackTraceString(ex);	
+			uploadResponse = new SFAPiUploadResponse();
+			uploadResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, responseString, null, previousChunkTotalBytes);
 		}
 		finally
 		{			
 			closeStream(mFileInputStream);			
 		}
-				
-		parseResponse(httpErrorCode,responseString,previousChunkTotalBytes);
-		
-		callResponseListeners();
+								
+		callResponseListeners(uploadResponse);
 
 	}
 	
@@ -271,75 +324,26 @@ public class SFApiFileUploadRunnable implements Runnable
 	}
 	
 	/**
-	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
-	 *   The callListerners will be called appropriately based on the contents of this object.
+	 *   This object will get filled with an errorCoode and the SFChunkUploadResponse . Http 200 doesn not necessarily mean 
+	 *   upload success. Listeners should use the SFChunkUploadResponse to figure out final state of the upload operation.
+	 *   the httpErrorCode and be used to decide retries etc.
 	 */
-	private class FinalResponse
+	public static class SFAPiUploadResponse
 	{
-		private int mHttpErrorCode = 0;
-		private SFV3Error mV3Error = null;			
-		private long mBytesUploaded = 0;
-		
-		public void setFeilds(int errorCode, SFV3Error v3Error, long uploaded)
+		public int mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+		public String mExtraMessae = "internal error";
+		public SFChunkUploadResponse mChunkUploadResponse=null;			
+		public long mTotalBytesUploadedTillNow = 0;
+				
+		public void setFeilds(int httpErrorCode,String extraMessage, SFChunkUploadResponse respnonse, long totalBytesUploaded)
 		{
-			mHttpErrorCode = errorCode;
-			mV3Error = v3Error;			
-			mBytesUploaded = uploaded;
+			mHttpErrorCode = httpErrorCode;
+			mExtraMessae = extraMessage;
+			mChunkUploadResponse = respnonse;						
+			mTotalBytesUploadedTillNow = totalBytesUploaded;
 		}
 	};
-	
-	/**
-	 *   Parse the response to the best of our ability. At the end of this function the FinalResponse object 
-	 *   has to be filled with an ErrorCode or HTTP_OK and the V3Error or SFOBject should be filled based on success or failure or 
-	 *   response parsing.	 
-	 */
-	private void parseResponse(int httpCode,String responseString,long uploadedBytes)
-	{
-		switch(httpCode)
-		{
-			case HttpsURLConnection.HTTP_OK:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null,uploadedBytes);
-			break;	
-			
-			case HttpsURLConnection.HTTP_NO_CONTENT:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null,uploadedBytes);
-			break;
-			
-			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				SFV3Error v3Error = new SFV3Error(httpCode,null,responseString);
-				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,uploadedBytes);
-			break;
-			
-			case SFSDK.INTERNAL_HTTP_ERROR:
-				callInternalErrorResponseFiller(httpCode, responseString,null,uploadedBytes);
-			break;
-			
-			default:
-				callFailureResponseParser(httpCode, responseString,uploadedBytes);
-			break;				
-		}				
-	}
-	
-	private void callFailureResponseParser(int httpCode, String responseString,long uploadedBytes)
-	{													
-		try 
-		{
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonElement =jsonParser.parse(responseString);				
-			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
-			v3Error.httpResponseCode = httpCode;				
-			mResponse.setFeilds(httpCode, v3Error,uploadedBytes);
-		} 
-		catch (Exception e)  
-		{					
-			/* 
-			 * Note how we fill the httpErrorcode to httpCode. Thats coz the server originally returned it, 
-			 * just the error object was malformed or caused some other exception while parsing.			 
-			 */						
-			callInternalErrorResponseFiller(httpCode,Log.getStackTraceString(e),responseString,uploadedBytes);
-		}
-	}
-	
+					
 	private void updateProgress(long uploadedBytes)
 	{
 		if(mProgressListener == null)
@@ -357,7 +361,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		}		
 	}
 	
-	private void callResponseListeners()
+	private void callResponseListeners(SFAPiUploadResponse uploadResponse)
 	{
 		if(mProgressListener == null)
 		{
@@ -366,15 +370,13 @@ public class SFApiFileUploadRunnable implements Runnable
 		
 		try
 		{
-			switch(mResponse.mHttpErrorCode)
-			{
-				case HttpsURLConnection.HTTP_OK:
-					mProgressListener.uploadSuccess(mResponse.mBytesUploaded, mUploadSpecification, mApiClient);				
-				break;	
-				
-				default:
-					mProgressListener.uploadFailure(mResponse.mV3Error,mResponse.mBytesUploaded, mUploadSpecification, mApiClient);
-				break;				
+			if(!uploadResponse.mChunkUploadResponse.mWasError)
+			{				
+				mProgressListener.uploadSuccess(uploadResponse.mTotalBytesUploadedTillNow, mUploadSpecification, mApiClient);				
+			}
+			else
+			{		
+				mProgressListener.uploadFailure(uploadResponse, mUploadSpecification, mApiClient);								
 			}
 		}
 		catch(Exception ex)
@@ -382,16 +384,7 @@ public class SFApiFileUploadRunnable implements Runnable
 			SLog.d(TAG, "!!Exception calling the responseListener : ",ex);
 		}
 	}
-	
-	/**
-	 *   This is a filler only. wont do any parsing.
-	 */
-	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesUploaded)
-	{
-		SFV3Error v3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
-		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesUploaded);
-	}
-	
+			
 	public Thread startNewThread()
 	{
 		Thread sfApithread = new Thread(this);		
