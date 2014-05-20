@@ -12,233 +12,231 @@
 
 package com.sharefile.api.models;
 
-import com.sharefile.api.enumerations.SFTreeMode;
-
 public class SFItemInfo extends SFODataObject {
 
-	private SFAccessControl mCurrentAccessControl;
-	private Boolean mHasVroot;
-	private Boolean mIsSystemRoot;
-	private Boolean mIsAccountRoot;
-	private Boolean mIsVRoot;
-	private Boolean mIsMyFolders;
-	private Boolean mIsAHomeFolder;
-	private Boolean mIsMyHomeFolder;
-	private Boolean mIsAStartFolder;
-	private Boolean mIsSharedFolder;
-	private Boolean mIsPassthrough;
-	private Boolean mIsVersioned;
-	private Boolean mCanAddFolder;
-	private Boolean mCanAddNode;
-	private Boolean mCanView;
-	private Boolean mCanDownload;
-	private Boolean mCanWatermarkDownload;
-	private Boolean mCanUpload;
-	private Boolean mCanSend;
-	private Boolean mCanDeleteCurrentItem;
-	private Boolean mCanDeleteChildItems;
-	private Boolean mCanManagePermissions;
-	private Boolean mCanEditFolderOpts;
-	private String mFolderPayID;
-	private Boolean mShowFolderPayBuyButton;
-	private SFTreeMode mTreeMode;
-	private Boolean mTreeModeOperationAllowed;
-	private String mTreeModeSourceId;
+	private SFAccessControl CurrentAccessControl;
+	private Boolean HasVroot = false;
+	private Boolean IsSystemRoot = false;
+	private Boolean IsAccountRoot = false ;
+	private Boolean IsVRoot = false;
+	private Boolean IsMyFolders = false;
+	private Boolean IsAHomeFolder = false;
+	private Boolean IsMyHomeFolder = false;
+	private Boolean IsAStartFolder = false;
+	private Boolean IsSharedFolder = false;
+	private Boolean IsPassthrough = false;
+	private Boolean IsVersioned = false;
+	private Boolean CanAddFolder = false;
+	private Boolean CanAddNode = false;
+	private Boolean CanView = false;
+	private Boolean CanDownload = false;
+	private Boolean CanWatermarkDownload = false;
+	private Boolean CanUpload = false;
+	private Boolean CanSend = false;
+	private Boolean CanDeleteCurrentItem = false;
+	private Boolean CanDeleteChildItems = false;
+	private Boolean CanManagePermissions = false;
+	private Boolean CanEditFolderOpts = false;
+	private String FolderPayID;
+	private Boolean ShowFolderPayBuyButton = false;
+	private SFTreeMode TreeMode;
+	private Boolean TreeModeOperationAllowed = false;
+	private String TreeModeSourceId;
 
 	public SFAccessControl getCurrentAccessControl() {
-		return mCurrentAccessControl;
+		return CurrentAccessControl;
 	}
 
 	public void setCurrentAccessControl(SFAccessControl currentaccesscontrol) {
-		mCurrentAccessControl = currentaccesscontrol;
+		CurrentAccessControl = currentaccesscontrol;
 	}
 	public Boolean getHasVroot() {
-		return mHasVroot;
+		return HasVroot;
 	}
 
 	public void setHasVroot(Boolean hasvroot) {
-		mHasVroot = hasvroot;
+		HasVroot = hasvroot;
 	}
 	public Boolean getIsSystemRoot() {
-		return mIsSystemRoot;
+		return IsSystemRoot;
 	}
 
 	public void setIsSystemRoot(Boolean issystemroot) {
-		mIsSystemRoot = issystemroot;
+		IsSystemRoot = issystemroot;
 	}
 	public Boolean getIsAccountRoot() {
-		return mIsAccountRoot;
+		return IsAccountRoot;
 	}
 
 	public void setIsAccountRoot(Boolean isaccountroot) {
-		mIsAccountRoot = isaccountroot;
+		IsAccountRoot = isaccountroot;
 	}
 	public Boolean getIsVRoot() {
-		return mIsVRoot;
+		return IsVRoot;
 	}
 
 	public void setIsVRoot(Boolean isvroot) {
-		mIsVRoot = isvroot;
+		IsVRoot = isvroot;
 	}
 	public Boolean getIsMyFolders() {
-		return mIsMyFolders;
+		return IsMyFolders;
 	}
 
 	public void setIsMyFolders(Boolean ismyfolders) {
-		mIsMyFolders = ismyfolders;
+		IsMyFolders = ismyfolders;
 	}
 	public Boolean getIsAHomeFolder() {
-		return mIsAHomeFolder;
+		return IsAHomeFolder;
 	}
 
 	public void setIsAHomeFolder(Boolean isahomefolder) {
-		mIsAHomeFolder = isahomefolder;
+		IsAHomeFolder = isahomefolder;
 	}
 	public Boolean getIsMyHomeFolder() {
-		return mIsMyHomeFolder;
+		return IsMyHomeFolder;
 	}
 
 	public void setIsMyHomeFolder(Boolean ismyhomefolder) {
-		mIsMyHomeFolder = ismyhomefolder;
+		IsMyHomeFolder = ismyhomefolder;
 	}
 	public Boolean getIsAStartFolder() {
-		return mIsAStartFolder;
+		return IsAStartFolder;
 	}
 
 	public void setIsAStartFolder(Boolean isastartfolder) {
-		mIsAStartFolder = isastartfolder;
+		IsAStartFolder = isastartfolder;
 	}
 	public Boolean getIsSharedFolder() {
-		return mIsSharedFolder;
+		return IsSharedFolder;
 	}
 
 	public void setIsSharedFolder(Boolean issharedfolder) {
-		mIsSharedFolder = issharedfolder;
+		IsSharedFolder = issharedfolder;
 	}
 	public Boolean getIsPassthrough() {
-		return mIsPassthrough;
+		return IsPassthrough;
 	}
 
 	public void setIsPassthrough(Boolean ispassthrough) {
-		mIsPassthrough = ispassthrough;
+		IsPassthrough = ispassthrough;
 	}
 	public Boolean getIsVersioned() {
-		return mIsVersioned;
+		return IsVersioned;
 	}
 
 	public void setIsVersioned(Boolean isversioned) {
-		mIsVersioned = isversioned;
+		IsVersioned = isversioned;
 	}
 	public Boolean getCanAddFolder() {
-		return mCanAddFolder;
+		return CanAddFolder;
 	}
 
 	public void setCanAddFolder(Boolean canaddfolder) {
-		mCanAddFolder = canaddfolder;
+		CanAddFolder = canaddfolder;
 	}
 	public Boolean getCanAddNode() {
-		return mCanAddNode;
+		return CanAddNode;
 	}
 
 	public void setCanAddNode(Boolean canaddnode) {
-		mCanAddNode = canaddnode;
+		CanAddNode = canaddnode;
 	}
 	public Boolean getCanView() {
-		return mCanView;
+		return CanView;
 	}
 
 	public void setCanView(Boolean canview) {
-		mCanView = canview;
+		CanView = canview;
 	}
 	public Boolean getCanDownload() {
-		return mCanDownload;
+		return CanDownload;
 	}
 
 	public void setCanDownload(Boolean candownload) {
-		mCanDownload = candownload;
+		CanDownload = candownload;
 	}
 	public Boolean getCanWatermarkDownload() {
-		return mCanWatermarkDownload;
+		return CanWatermarkDownload;
 	}
 
 	public void setCanWatermarkDownload(Boolean canwatermarkdownload) {
-		mCanWatermarkDownload = canwatermarkdownload;
+		CanWatermarkDownload = canwatermarkdownload;
 	}
 	public Boolean getCanUpload() {
-		return mCanUpload;
+		return CanUpload;
 	}
 
 	public void setCanUpload(Boolean canupload) {
-		mCanUpload = canupload;
+		CanUpload = canupload;
 	}
 	public Boolean getCanSend() {
-		return mCanSend;
+		return CanSend;
 	}
 
 	public void setCanSend(Boolean cansend) {
-		mCanSend = cansend;
+		CanSend = cansend;
 	}
 	public Boolean getCanDeleteCurrentItem() {
-		return mCanDeleteCurrentItem;
+		return CanDeleteCurrentItem;
 	}
 
 	public void setCanDeleteCurrentItem(Boolean candeletecurrentitem) {
-		mCanDeleteCurrentItem = candeletecurrentitem;
+		CanDeleteCurrentItem = candeletecurrentitem;
 	}
 	public Boolean getCanDeleteChildItems() {
-		return mCanDeleteChildItems;
+		return CanDeleteChildItems;
 	}
 
 	public void setCanDeleteChildItems(Boolean candeletechilditems) {
-		mCanDeleteChildItems = candeletechilditems;
+		CanDeleteChildItems = candeletechilditems;
 	}
 	public Boolean getCanManagePermissions() {
-		return mCanManagePermissions;
+		return CanManagePermissions;
 	}
 
 	public void setCanManagePermissions(Boolean canmanagepermissions) {
-		mCanManagePermissions = canmanagepermissions;
+		CanManagePermissions = canmanagepermissions;
 	}
 	public Boolean getCanEditFolderOpts() {
-		return mCanEditFolderOpts;
+		return CanEditFolderOpts;
 	}
 
 	public void setCanEditFolderOpts(Boolean caneditfolderopts) {
-		mCanEditFolderOpts = caneditfolderopts;
+		CanEditFolderOpts = caneditfolderopts;
 	}
 	public String getFolderPayID() {
-		return mFolderPayID;
+		return FolderPayID;
 	}
 
 	public void setFolderPayID(String folderpayid) {
-		mFolderPayID = folderpayid;
+		FolderPayID = folderpayid;
 	}
 	public Boolean getShowFolderPayBuyButton() {
-		return mShowFolderPayBuyButton;
+		return ShowFolderPayBuyButton;
 	}
 
 	public void setShowFolderPayBuyButton(Boolean showfolderpaybuybutton) {
-		mShowFolderPayBuyButton = showfolderpaybuybutton;
+		ShowFolderPayBuyButton = showfolderpaybuybutton;
 	}
 	public SFTreeMode getTreeMode() {
-		return mTreeMode;
+		return TreeMode;
 	}
 
 	public void setTreeMode(SFTreeMode treemode) {
-		mTreeMode = treemode;
+		TreeMode = treemode;
 	}
 	public Boolean getTreeModeOperationAllowed() {
-		return mTreeModeOperationAllowed;
+		return TreeModeOperationAllowed;
 	}
 
 	public void setTreeModeOperationAllowed(Boolean treemodeoperationallowed) {
-		mTreeModeOperationAllowed = treemodeoperationallowed;
+		TreeModeOperationAllowed = treemodeoperationallowed;
 	}
 	public String getTreeModeSourceId() {
-		return mTreeModeSourceId;
+		return TreeModeSourceId;
 	}
 
 	public void setTreeModeSourceId(String treemodesourceid) {
-		mTreeModeSourceId = treemodesourceid;
+		TreeModeSourceId = treemodesourceid;
 	}
 }

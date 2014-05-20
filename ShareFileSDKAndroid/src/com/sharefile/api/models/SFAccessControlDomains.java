@@ -14,37 +14,35 @@ package com.sharefile.api.models;
 
 import java.util.ArrayList;
 
-import com.sharefile.api.enumerations.SFAccessControlFilter;
-
 public class SFAccessControlDomains extends SFODataObject {
 
-	private SFAccessControlFilter mAccessControlType;
-	private ArrayList<String> mDomains;
+	private SFAccessControlFilter AccessControlType;
+	private ArrayList<String> Domains;
 
 		/**
 		* Specifies that the list is interpreted as a list of allowed or disallowed domains
 		*/
 	public SFAccessControlFilter getAccessControlType() {
-		return mAccessControlType;
+		return AccessControlType;
 	}
 
 		/**
 		* Specifies that the list is interpreted as a list of allowed or disallowed domains
 		*/
 	public void setAccessControlType(SFAccessControlFilter accesscontroltype) {
-		mAccessControlType = accesscontroltype;
+		AccessControlType = accesscontroltype;
 	}
 		/**
 		* A list of domain names
 		*/
 	public ArrayList<String> getDomains() {
-		return mDomains;
+		return Domains;
 	}
 
 		/**
 		* A list of domain names
 		*/
 	public void setDomains(ArrayList<String> domains) {
-		mDomains = domains;
+		Domains = domains;
 	}
 }

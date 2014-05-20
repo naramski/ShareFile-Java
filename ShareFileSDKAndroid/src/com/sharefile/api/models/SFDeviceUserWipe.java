@@ -14,47 +14,47 @@ package com.sharefile.api.models;
 
 public class SFDeviceUserWipe extends SFODataObject {
 
-	private String mWipeToken;
-	private String mSuccess;
-	private String mErrorMessage;
+	private String WipeToken;
+	private String Success;
+	private String ErrorMessage;
 
 		/**
 		* Wipe token
 		*/
 	public String getWipeToken() {
-		return mWipeToken;
+		return WipeToken;
 	}
 
 		/**
 		* Wipe token
 		*/
 	public void setWipeToken(String wipetoken) {
-		mWipeToken = wipetoken;
+		WipeToken = wipetoken;
 	}
 		/**
 		* Success
 		*/
 	public String getSuccess() {
-		return mSuccess;
+		return Success;
 	}
 
 		/**
 		* Success
 		*/
 	public void setSuccess(String success) {
-		mSuccess = success;
+		Success = success;
 	}
 		/**
 		* Error message
 		*/
 	public String getErrorMessage() {
-		return mErrorMessage;
+		return ErrorMessage;
 	}
 
 		/**
 		* Error message
 		*/
 	public void setErrorMessage(String errormessage) {
-		mErrorMessage = errormessage;
+		ErrorMessage = errormessage;
 	}
 }

@@ -16,29 +16,29 @@ import java.util.ArrayList;
 
 public class SFSSOInfo extends SFODataObject {
 
-	private ArrayList<SFSSOInfoEntry> mInfo;
-	private String mAppControlPlane;
-	private String mApiControlPlane;
+	private ArrayList<SFSSOInfoEntry> Info;
+	private String AppControlPlane;
+	private String ApiControlPlane;
 
 	public ArrayList<SFSSOInfoEntry> getInfo() {
-		return mInfo;
+		return Info;
 	}
 
 	public void setInfo(ArrayList<SFSSOInfoEntry> info) {
-		mInfo = info;
+		Info = info;
 	}
 	public String getAppControlPlane() {
-		return mAppControlPlane;
+		return AppControlPlane;
 	}
 
 	public void setAppControlPlane(String appcontrolplane) {
-		mAppControlPlane = appcontrolplane;
+		AppControlPlane = appcontrolplane;
 	}
 	public String getApiControlPlane() {
-		return mApiControlPlane;
+		return ApiControlPlane;
 	}
 
 	public void setApiControlPlane(String apicontrolplane) {
-		mApiControlPlane = apicontrolplane;
+		ApiControlPlane = apicontrolplane;
 	}
 }

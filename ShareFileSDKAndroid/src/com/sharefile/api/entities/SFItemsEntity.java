@@ -15,10 +15,8 @@ package com.sharefile.api.entities;
 import java.util.ArrayList;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFHttpPostUtils;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFTreeMode;
-import com.sharefile.api.enumerations.SFUploadMethod;
-import com.sharefile.api.enumerations.SFVRootType;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
@@ -30,7 +28,10 @@ import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
 import com.sharefile.api.models.SFSymbolicLink;
+import com.sharefile.api.models.SFTreeMode;
+import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.api.models.SFVRootType;
 
 
 public class SFItemsEntity extends SFODataEntityBase
@@ -42,7 +43,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* It will force expansion of the Children element, so first level of items under the root is also returned
 	* @return a user's root directory and first level of children items
     */
-	public SFApiQuery<SFItem> get()
+	public static SFApiQuery<SFItem> get()
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -53,11 +54,11 @@ public class SFItemsEntity extends SFODataEntityBase
     /**
 	* Get List of Items
 	* Retrieve the initial folder and files of the authenticated user.
-	* This method will return the user's root directory, using Item.GetRootFromWasabiPath("root").
+	* This method will return the user's directory with give id, using Item.GetRootFromWasabiPath(id).
 	* It will force expansion of the Children element, so first level of items under the root is also returned
 	* @return a user's root directory and first level of children items
     */
-	public SFApiQuery<SFItem> get(String id)
+	public static SFApiQuery<SFItem> get(String id)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -73,7 +74,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* It will force expansion of the Children element, so first level of items under the root is also returned
 	* @return a user's root directory and first level of children items
     */
-	public SFApiQuery<SFItem> get(String id, SFTreeMode treeMode, String sourceId, String rootId , SFVRootType rootType , Boolean canCreateRootFolder, Boolean fileBox)
+	public static SFApiQuery<SFItem> get(String id, SFTreeMode treeMode, String sourceId, String rootId , SFVRootType rootType , Boolean canCreateRootFolder, Boolean fileBox)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -98,7 +99,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @param includeDeleted 	
     */
-	public SFApiQuery<SFODataFeed<SFItem>> stream(String id, Boolean includeDeleted)
+	public static SFApiQuery<SFODataFeed<SFItem>> stream(String id, Boolean includeDeleted)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Items");
@@ -117,7 +118,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param path 	
 	* @return An item identified by a path
     */
-	public SFApiQuery<SFItem> byPath(String path)
+	public static SFApiQuery<SFItem> byPath(String path)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -135,7 +136,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param path 	
 	* @return An item identified by a path
     */
-	public SFApiQuery<SFItem> byPath( String id , String parentid, String path)
+	public static SFApiQuery<SFItem> byPath( String id , String parentid, String path)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -153,7 +154,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @return the Parent Item of the give object ID.
     */
-	public SFApiQuery<SFItem> getParent(String id)
+	public static SFApiQuery<SFItem> getParent(String id)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -171,7 +172,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @return the list of children under the given object ID
     */
-	public SFApiQuery<SFItem> getChildren(String id)
+	public static SFApiQuery<SFItem> getChildren(String id)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -188,7 +189,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @return The Folder Access Control Information
     */
-	public SFApiQuery<SFItemInfo> getInfo(String id)
+	public static SFApiQuery<SFItemInfo> getInfo(String id)
 	{
 		SFApiQuery<SFItemInfo> query = new SFApiQuery<SFItemInfo>();
 		query.setFrom("Items");
@@ -207,7 +208,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return the download link for the provided item content.
     */
-	public SFApiQuery<SFDownloadSpecification> download(String id, Boolean redirect )
+	public static SFApiQuery<SFDownloadSpecification> download(String id, Boolean redirect )
 	{
 		SFApiQuery<SFDownloadSpecification> query = new SFApiQuery<SFDownloadSpecification>();
 		query.setFrom("Items");
@@ -236,7 +237,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param passthrough 	
 	* @return the new Folder
     */
-	public SFApiQuery<SFItem> createFolder(String parentid, SFFolder folder, Boolean overwrite , Boolean passthrough )
+	public static SFApiQuery<SFItem> createFolder(String parentid, SFFolder folder, Boolean overwrite , Boolean passthrough )
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -245,10 +246,25 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.addQueryString("overwrite", overwrite);
 		query.addQueryString("passthrough", passthrough);
 		query.setBody(folder);
-		query.setHttpMethod(SFHttpMethod.GET);
+		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
 
+	
+	public static SFApiQuery<SFItem> createFolder(String parentid, String folderName, String folderDetails, String zoneId, Boolean overwrite , Boolean passthrough )
+	{
+		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
+		query.setFrom("Items");
+		query.setAction("Folder");
+		query.setId(parentid);
+		query.setBody(SFHttpPostUtils.getBodyCreateFolder(folderName, folderDetails, zoneId));
+		query.addQueryString("overwrite", overwrite);
+		query.addQueryString("passthrough", passthrough);
+		
+		query.setHttpMethod(SFHttpMethod.POST);
+		return query;
+	}
+	
     /**
 	* Create Note
     * {
@@ -260,7 +276,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param note 	
 	* @return the new Note
     */
-	public SFApiQuery<SFItem> createNote(String parentid, SFNote note)
+	public static SFApiQuery<SFItem> createNote(String parentid, SFNote note)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -283,7 +299,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param link 	
 	* @return the new Link
     */
-	public SFApiQuery<SFItem> createLink(String parentid, SFLink link)
+	public static SFApiQuery<SFItem> createLink(String parentid, SFLink link)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -318,7 +334,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param overwrite 	
 	* @return the new SymbolicLink
     */
-	public SFApiQuery<SFSymbolicLink> createSymbolicLink(String parentid, SFSymbolicLink symlink, Boolean overwrite)
+	public static SFApiQuery<SFSymbolicLink> createSymbolicLink(String parentid, SFSymbolicLink symlink, Boolean overwrite)
 	{
 		SFApiQuery<SFSymbolicLink> query = new SFApiQuery<SFSymbolicLink>();
 		query.setFrom("Items");
@@ -345,7 +361,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param item 	
 	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
     */
-	public SFApiQuery<SFODataObject> update(String id, SFItem item)
+	public static SFApiQuery<SFODataObject> update(String id, SFItem item)
 	{
 		SFApiQuery<SFODataObject> query = new SFApiQuery<SFODataObject>();
 		query.setFrom("Items");
@@ -369,7 +385,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return A modified Link object
     */
-	public SFApiQuery<SFItem> updateLink(String id, SFLink link, Boolean notify)
+	public static SFApiQuery<SFItem> updateLink(String id, SFLink link, Boolean notify)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -394,7 +410,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return The modified Note object
     */
-	public SFApiQuery<SFItem> updateNote(String id, SFNote note, Boolean notify)
+	public static SFApiQuery<SFItem> updateNote(String id, SFNote note, Boolean notify)
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -418,7 +434,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param symlink 	
 	* @return The modified SymbolicLink object
     */
-	public SFApiQuery<SFSymbolicLink> updateSymbolicLink(String id, SFSymbolicLink symlink)
+	public static SFApiQuery<SFSymbolicLink> updateSymbolicLink(String id, SFSymbolicLink symlink)
 	{
 		SFApiQuery<SFSymbolicLink> query = new SFApiQuery<SFSymbolicLink>();
 		query.setFrom("Items");
@@ -429,14 +445,14 @@ public class SFItemsEntity extends SFODataEntityBase
 		return query;
 	}
 
-	public SFApiQuery delete(String id, Boolean singleversion, Boolean forceSync)
+	public static SFApiQuery delete(String id, Boolean singleversion, Boolean forceSync)
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
 		query.setId(id);
 		query.addQueryString("singleversion", singleversion);
 		query.addQueryString("forceSync", forceSync);
-		query.setHttpMethod(SFHttpMethod.PATCH);
+		query.setHttpMethod(SFHttpMethod.DELETE);
 		return query;
 	}
 
@@ -447,7 +463,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @param body 	
     */
-	public SFApiQuery bulkDelete(String parentid, ArrayList<String> ids, Boolean forceSync)
+	public static SFApiQuery bulkDelete(String parentid, ArrayList<String> ids, Boolean forceSync)
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
@@ -466,7 +482,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param size 	
 	* @return A 302 redirection to the Thumbnail link
     */
-	public SFApiQuery<SFStream> getThumbnail(String id, Integer size)
+	public static SFApiQuery<SFStream> getThumbnail(String id, Integer size)
 	{
 		SFApiQuery<SFStream> query = new SFApiQuery<SFStream>();
 		query.setFrom("Items");
@@ -487,7 +503,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param vroot 	
 	* @return A feed containing the path of folders from the specified root to the item, in order
     */
-	public SFApiQuery<SFODataFeed<SFItem>> getBreadcrumbs(String id, String path , SFVRootType vroot)
+	public static SFApiQuery<SFODataFeed<SFItem>> getBreadcrumbs(String id, String path , SFVRootType vroot)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> query = new SFApiQuery<SFODataFeed<SFItem>>();
 		query.setFrom("Items");
@@ -509,7 +525,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param overwrite 	
 	* @return the modified source object
     */
-	public SFApiQuery<SFItem> copy(String id, String targetid, Boolean overwrite )
+	public static SFApiQuery<SFItem> copy(String id, String targetid, Boolean overwrite )
 	{
 		SFApiQuery<SFItem> query = new SFApiQuery<SFItem>();
 		query.setFrom("Items");
@@ -582,7 +598,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
     */
-	public SFApiQuery<SFUploadSpecification> upload(String id, SFUploadMethod method , Boolean raw , String fileName , Long fileSize , String batchId , Boolean batchLast , Boolean canResume , Boolean startOver , Boolean unzip , String tool , Boolean overwrite , String title , String details , Boolean isSend , String sendGuid , String opid , Integer threadCount, String responseFormat , Boolean notify , Integer expirationDays )
+	public static SFApiQuery<SFUploadSpecification> upload(String id, SFUploadMethod method , Boolean raw , String fileName , Long fileSize , String batchId , Boolean batchLast , Boolean canResume , Boolean startOver , Boolean unzip , String tool , Boolean overwrite , String title , String details , Boolean isSend , String sendGuid , String opid , Integer threadCount, String responseFormat , Boolean notify , Integer expirationDays )
 	{
 		SFApiQuery<SFUploadSpecification> query = new SFApiQuery<SFUploadSpecification>();
 		query.setFrom("Items");
@@ -619,13 +635,16 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @param message 	
     */
-	public SFApiQuery checkIn(String id, String message)
+	public static SFApiQuery checkIn(String id, String message)
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
 		query.setAction("CheckIn");
 		query.setId(id);
-		query.addQueryString("message", message);
+		if(message!=null)
+		{
+			query.addQueryString("message", message);
+		}
 		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
@@ -636,7 +655,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* This operation is only implemented in Sharepoint providers (/sp)
 	* @param id 	
     */
-	public SFApiQuery checkOut(String id)
+	public static SFApiQuery checkOut(String id)
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("Items");
@@ -645,6 +664,18 @@ public class SFItemsEntity extends SFODataEntityBase
 		query.setHttpMethod(SFHttpMethod.POST);
 		return query;
 	}
+	
+	public static SFApiQuery discardCheckOut(String id)
+	{
+		SFApiQuery query = new SFApiQuery();
+		query.setFrom("Items");
+		query.setAction("DiscardCheckOut");
+		query.setId(id);
+		query.setHttpMethod(SFHttpMethod.POST);
+		return query;
+	}
+	
+	
 
     /**
 	* Search
@@ -652,7 +683,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param query 	
 	* @return SearchResults
     */
-	public SFApiQuery<SFSearchResults> search(String querystring)
+	public static SFApiQuery<SFSearchResults> search(String querystring)
 	{
 		SFApiQuery<SFSearchResults> query = new SFApiQuery<SFSearchResults>();
 		query.setFrom("Items");
@@ -669,7 +700,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A Feed containing all protocols links supported by the given item
     */
-	public SFApiQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(String parentid)
+	public static SFApiQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(String parentid)
 	{
 		SFApiQuery<SFODataFeed<SFItemProtocolLink>> query = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
 		query.setFrom("Items");
@@ -686,7 +717,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A Feed containing all protocols links supported by the given item
     */
-	public SFApiQuery<SFItemProtocolLink> getProtocolLinks(String parentid, String id)
+	public static SFApiQuery<SFItemProtocolLink> getProtocolLinks(String parentid, String id)
 	{
 		SFApiQuery<SFItemProtocolLink> query = new SFApiQuery<SFItemProtocolLink>();
 		query.setFrom("Items");
@@ -698,4 +729,3 @@ public class SFItemsEntity extends SFODataEntityBase
 	}
 
 }
-

@@ -14,29 +14,29 @@ package com.sharefile.api.models;
 
 public class SFQueryPaging extends SFODataObject {
 
-	private String mKey;
-	private Integer mPageNumber;
-	private Integer mPageSize;
+	private String Key;
+	private Integer PageNumber;
+	private Integer PageSize;
 
 	public String getKey() {
-		return mKey;
+		return Key;
 	}
 
 	public void setKey(String key) {
-		mKey = key;
+		Key = key;
 	}
 	public Integer getPageNumber() {
-		return mPageNumber;
+		return PageNumber;
 	}
 
 	public void setPageNumber(Integer pagenumber) {
-		mPageNumber = pagenumber;
+		PageNumber = pagenumber;
 	}
 	public Integer getPageSize() {
-		return mPageSize;
+		return PageSize;
 	}
 
 	public void setPageSize(Integer pagesize) {
-		mPageSize = pagesize;
+		PageSize = pagesize;
 	}
 }

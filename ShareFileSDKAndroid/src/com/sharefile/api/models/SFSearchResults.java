@@ -16,21 +16,21 @@ import java.util.ArrayList;
 
 public class SFSearchResults extends SFODataObject {
 
-	private Boolean mParitalResults;
-	private ArrayList<SFSearchResult> mResults;
+	private Boolean ParitalResults;
+	private ArrayList<SFSearchResult> Results;
 
 	public Boolean getParitalResults() {
-		return mParitalResults;
+		return ParitalResults;
 	}
 
 	public void setParitalResults(Boolean paritalresults) {
-		mParitalResults = paritalresults;
+		ParitalResults = paritalresults;
 	}
 	public ArrayList<SFSearchResult> getResults() {
-		return mResults;
+		return Results;
 	}
 
 	public void setResults(ArrayList<SFSearchResult> results) {
-		mResults = results;
+		Results = results;
 	}
 }

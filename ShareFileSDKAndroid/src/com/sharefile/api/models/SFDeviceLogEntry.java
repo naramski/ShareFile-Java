@@ -12,71 +12,69 @@
 
 package com.sharefile.api.models;
 
-import com.sharefile.api.enumerations.SFDeviceLogEntryAction;
-
 public class SFDeviceLogEntry extends SFODataObject {
 
-	private String mFileName;
-	private String mFileID;
-	private Long mTimestamp;
-	private String mAccountID;
-	private String mUserID;
-	private SFDeviceLogEntryAction mAction;
-	private String mAdditionalInfo;
+	private String FileName;
+	private String FileID;
+	private Long Timestamp;
+	private String AccountID;
+	private String UserID;
+	private SFDeviceLogEntryAction Action;
+	private String AdditionalInfo;
 
 		/**
 		* File name
 		*/
 	public String getFileName() {
-		return mFileName;
+		return FileName;
 	}
 
 		/**
 		* File name
 		*/
 	public void setFileName(String filename) {
-		mFileName = filename;
+		FileName = filename;
 	}
 	public String getFileID() {
-		return mFileID;
+		return FileID;
 	}
 
 	public void setFileID(String fileid) {
-		mFileID = fileid;
+		FileID = fileid;
 	}
 	public Long getTimestamp() {
-		return mTimestamp;
+		return Timestamp;
 	}
 
 	public void setTimestamp(Long timestamp) {
-		mTimestamp = timestamp;
+		Timestamp = timestamp;
 	}
 	public String getAccountID() {
-		return mAccountID;
+		return AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		mAccountID = accountid;
+		AccountID = accountid;
 	}
 	public String getUserID() {
-		return mUserID;
+		return UserID;
 	}
 
 	public void setUserID(String userid) {
-		mUserID = userid;
+		UserID = userid;
 	}
 	public SFDeviceLogEntryAction getAction() {
-		return mAction;
+		return Action;
 	}
 
 	public void setAction(SFDeviceLogEntryAction action) {
-		mAction = action;
+		Action = action;
 	}
 	public String getAdditionalInfo() {
-		return mAdditionalInfo;
+		return AdditionalInfo;
 	}
 
 	public void setAdditionalInfo(String additionalinfo) {
-		mAdditionalInfo = additionalinfo;
+		AdditionalInfo = additionalinfo;
 	}
 }

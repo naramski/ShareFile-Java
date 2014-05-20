@@ -15,191 +15,189 @@ package com.sharefile.api.models;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.sharefile.api.enumerations.SFUserRole;
-
 public class SFUser extends SFPrincipal {
 
-	private SFAccount mAccount;
-	private String mCompany;
-	private Integer mTotalSharedFiles;
-	private Integer mContacted;
-	private String mFullName;
-	private String mReferredBy;
-	private ArrayList<SFNotification> mNotifications;
-	private SFZone mDefaultZone;
-	private String mFirstName;
-	private String mLastName;
-	private Date mDateCreated;
-	private String mFullNameShort;
-	private Boolean mIsConfirmed;
-	private String mPassword;
-	private SFUserPreferences mPreferences;
-	private SFUserSecurity mSecurity;
-	private ArrayList<SFFavoriteFolder> mFavoriteFolders;
-	private SFFolder mHomeFolder;
-	private ArrayList<SFDeviceUser> mDevices;
-	private SFFolder mVirtualRoot;
-	private ArrayList<SFUserRole> mRoles;
-	private SFUserInfo mInfo;
+	private SFAccount Account;
+	private String Company;
+	private Integer TotalSharedFiles;
+	private Integer Contacted;
+	private String FullName;
+	private String ReferredBy;
+	private ArrayList<SFNotification> Notifications;
+	private SFZone DefaultZone;
+	private String FirstName;
+	private String LastName;
+	private Date DateCreated;
+	private String FullNameShort;
+	private Boolean IsConfirmed;
+	private String Password;
+	private SFUserPreferences Preferences;
+	private SFUserSecurity Security;
+	private ArrayList<SFFavoriteFolder> FavoriteFolders;
+	private SFFolder HomeFolder;
+	private ArrayList<SFDeviceUser> Devices;
+	private SFFolder VirtualRoot;
+	private ArrayList<SFUserRole> Roles;
+	private SFUserInfo Info;
 
 	public SFAccount getAccount() {
-		return mAccount;
+		return Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		mAccount = account;
+		Account = account;
 	}
 	public String getCompany() {
-		return mCompany;
+		return Company;
 	}
 
 	public void setCompany(String company) {
-		mCompany = company;
+		Company = company;
 	}
 	public Integer getTotalSharedFiles() {
-		return mTotalSharedFiles;
+		return TotalSharedFiles;
 	}
 
 	public void setTotalSharedFiles(Integer totalsharedfiles) {
-		mTotalSharedFiles = totalsharedfiles;
+		TotalSharedFiles = totalsharedfiles;
 	}
 	public Integer getContacted() {
-		return mContacted;
+		return Contacted;
 	}
 
 	public void setContacted(Integer contacted) {
-		mContacted = contacted;
+		Contacted = contacted;
 	}
 		/**
 		* The first and last name of the user
 		*/
 	public String getFullName() {
-		return mFullName;
+		return FullName;
 	}
 
 		/**
 		* The first and last name of the user
 		*/
 	public void setFullName(String fullname) {
-		mFullName = fullname;
+		FullName = fullname;
 	}
 	public String getReferredBy() {
-		return mReferredBy;
+		return ReferredBy;
 	}
 
 	public void setReferredBy(String referredby) {
-		mReferredBy = referredby;
+		ReferredBy = referredby;
 	}
 	public ArrayList<SFNotification> getNotifications() {
-		return mNotifications;
+		return Notifications;
 	}
 
 	public void setNotifications(ArrayList<SFNotification> notifications) {
-		mNotifications = notifications;
+		Notifications = notifications;
 	}
 	public SFZone getDefaultZone() {
-		return mDefaultZone;
+		return DefaultZone;
 	}
 
 	public void setDefaultZone(SFZone defaultzone) {
-		mDefaultZone = defaultzone;
+		DefaultZone = defaultzone;
 	}
 	public String getFirstName() {
-		return mFirstName;
+		return FirstName;
 	}
 
 	public void setFirstName(String firstname) {
-		mFirstName = firstname;
+		FirstName = firstname;
 	}
 	public String getLastName() {
-		return mLastName;
+		return LastName;
 	}
 
 	public void setLastName(String lastname) {
-		mLastName = lastname;
+		LastName = lastname;
 	}
 	public Date getDateCreated() {
-		return mDateCreated;
+		return DateCreated;
 	}
 
 	public void setDateCreated(Date datecreated) {
-		mDateCreated = datecreated;
+		DateCreated = datecreated;
 	}
 	public String getFullNameShort() {
-		return mFullNameShort;
+		return FullNameShort;
 	}
 
 	public void setFullNameShort(String fullnameshort) {
-		mFullNameShort = fullnameshort;
+		FullNameShort = fullnameshort;
 	}
 	public Boolean getIsConfirmed() {
-		return mIsConfirmed;
+		return IsConfirmed;
 	}
 
 	public void setIsConfirmed(Boolean isconfirmed) {
-		mIsConfirmed = isconfirmed;
+		IsConfirmed = isconfirmed;
 	}
 	public String getPassword() {
-		return mPassword;
+		return Password;
 	}
 
 	public void setPassword(String password) {
-		mPassword = password;
+		Password = password;
 	}
 	public SFUserPreferences getPreferences() {
-		return mPreferences;
+		return Preferences;
 	}
 
 	public void setPreferences(SFUserPreferences preferences) {
-		mPreferences = preferences;
+		Preferences = preferences;
 	}
 	public SFUserSecurity getSecurity() {
-		return mSecurity;
+		return Security;
 	}
 
 	public void setSecurity(SFUserSecurity security) {
-		mSecurity = security;
+		Security = security;
 	}
 	public ArrayList<SFFavoriteFolder> getFavoriteFolders() {
-		return mFavoriteFolders;
+		return FavoriteFolders;
 	}
 
 	public void setFavoriteFolders(ArrayList<SFFavoriteFolder> favoritefolders) {
-		mFavoriteFolders = favoritefolders;
+		FavoriteFolders = favoritefolders;
 	}
 	public SFFolder getHomeFolder() {
-		return mHomeFolder;
+		return HomeFolder;
 	}
 
 	public void setHomeFolder(SFFolder homefolder) {
-		mHomeFolder = homefolder;
+		HomeFolder = homefolder;
 	}
 	public ArrayList<SFDeviceUser> getDevices() {
-		return mDevices;
+		return Devices;
 	}
 
 	public void setDevices(ArrayList<SFDeviceUser> devices) {
-		mDevices = devices;
+		Devices = devices;
 	}
 	public SFFolder getVirtualRoot() {
-		return mVirtualRoot;
+		return VirtualRoot;
 	}
 
 	public void setVirtualRoot(SFFolder virtualroot) {
-		mVirtualRoot = virtualroot;
+		VirtualRoot = virtualroot;
 	}
 	public ArrayList<SFUserRole> getRoles() {
-		return mRoles;
+		return Roles;
 	}
 
 	public void setRoles(ArrayList<SFUserRole> roles) {
-		mRoles = roles;
+		Roles = roles;
 	}
 	public SFUserInfo getInfo() {
-		return mInfo;
+		return Info;
 	}
 
 	public void setInfo(SFUserInfo info) {
-		mInfo = info;
+		Info = info;
 	}
 }

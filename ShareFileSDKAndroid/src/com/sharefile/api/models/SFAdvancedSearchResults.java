@@ -16,29 +16,29 @@ import java.util.ArrayList;
 
 public class SFAdvancedSearchResults extends SFODataObject {
 
-	private Boolean mParitalResults;
-	private ArrayList<SFSearchResult> mResults;
-	private SFQueryPaging mQueryPaging;
+	private Boolean ParitalResults;
+	private ArrayList<SFSearchResult> Results;
+	private SFQueryPaging QueryPaging;
 
 	public Boolean getParitalResults() {
-		return mParitalResults;
+		return ParitalResults;
 	}
 
 	public void setParitalResults(Boolean paritalresults) {
-		mParitalResults = paritalresults;
+		ParitalResults = paritalresults;
 	}
 	public ArrayList<SFSearchResult> getResults() {
-		return mResults;
+		return Results;
 	}
 
 	public void setResults(ArrayList<SFSearchResult> results) {
-		mResults = results;
+		Results = results;
 	}
 	public SFQueryPaging getQueryPaging() {
-		return mQueryPaging;
+		return QueryPaging;
 	}
 
 	public void setQueryPaging(SFQueryPaging querypaging) {
-		mQueryPaging = querypaging;
+		QueryPaging = querypaging;
 	}
 }

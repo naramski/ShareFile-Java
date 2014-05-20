@@ -14,56 +14,53 @@ package com.sharefile.api.models;
 
 import java.util.Date;
 
-import com.sharefile.api.enumerations.SFAsyncOperationState;
-import com.sharefile.api.enumerations.SFAsyncOperationType;
-
 public class SFAsyncOperation extends SFODataObject {
 
-	private SFAsyncOperationType mOperation;
-	private SFAccount mAccount;
-	private SFZone mAuthorityZone;
-	private SFItem mSource;
-	private SFUser mUser;
-	private Date mCreationDate;
-	private SFAsyncOperationState mState;
-	private Date mUpdateDate;
-	private SFItem mTarget;
-	private String mBatchID;
-	private String mBatchSourceID;
-	private String mBatchTargetID;
+	private SFAsyncOperationType Operation;
+	private SFAccount Account;
+	private SFZone AuthorityZone;
+	private SFItem Source;
+	private SFUser User;
+	private Date CreationDate;
+	private SFAsyncOperationState State;
+	private Date UpdateDate;
+	private SFItem Target;
+	private String BatchID;
+	private String BatchSourceID;
+	private String BatchTargetID;
 
 		/**
 		* Operation type
 		*/
 	public SFAsyncOperationType getOperation() {
-		return mOperation;
+		return Operation;
 	}
 
 		/**
 		* Operation type
 		*/
 	public void setOperation(SFAsyncOperationType operation) {
-		mOperation = operation;
+		Operation = operation;
 	}
 		/**
 		* ShareFile Account
 		*/
 	public SFAccount getAccount() {
-		return mAccount;
+		return Account;
 	}
 
 		/**
 		* ShareFile Account
 		*/
 	public void setAccount(SFAccount account) {
-		mAccount = account;
+		Account = account;
 	}
 		/**
 		* Represents the Zone that is driving the asynchronous operation process. It
 		* may be null if the operation is driven by the control plane.
 		*/
 	public SFZone getAuthorityZone() {
-		return mAuthorityZone;
+		return AuthorityZone;
 	}
 
 		/**
@@ -71,53 +68,53 @@ public class SFAsyncOperation extends SFODataObject {
 		* may be null if the operation is driven by the control plane.
 		*/
 	public void setAuthorityZone(SFZone authorityzone) {
-		mAuthorityZone = authorityzone;
+		AuthorityZone = authorityzone;
 	}
 		/**
 		* Source Item for the operation.
 		*/
 	public SFItem getSource() {
-		return mSource;
+		return Source;
 	}
 
 		/**
 		* Source Item for the operation.
 		*/
 	public void setSource(SFItem source) {
-		mSource = source;
+		Source = source;
 	}
 		/**
 		* User that initiated the operation
 		*/
 	public SFUser getUser() {
-		return mUser;
+		return User;
 	}
 
 		/**
 		* User that initiated the operation
 		*/
 	public void setUser(SFUser user) {
-		mUser = user;
+		User = user;
 	}
 		/**
 		* Operation creation date
 		*/
 	public Date getCreationDate() {
-		return mCreationDate;
+		return CreationDate;
 	}
 
 		/**
 		* Operation creation date
 		*/
 	public void setCreationDate(Date creationdate) {
-		mCreationDate = creationdate;
+		CreationDate = creationdate;
 	}
 		/**
 		* Operation state. States 'Created' and 'Scheduled' indicate the operation is
 		* in progress; States 'Success' and 'Failure' indicate the operatoin is finalized
 		*/
 	public SFAsyncOperationState getState() {
-		return mState;
+		return State;
 	}
 
 		/**
@@ -125,33 +122,33 @@ public class SFAsyncOperation extends SFODataObject {
 		* in progress; States 'Success' and 'Failure' indicate the operatoin is finalized
 		*/
 	public void setState(SFAsyncOperationState state) {
-		mState = state;
+		State = state;
 	}
 		/**
 		* Last time the operation state was modified
 		*/
 	public Date getUpdateDate() {
-		return mUpdateDate;
+		return UpdateDate;
 	}
 
 		/**
 		* Last time the operation state was modified
 		*/
 	public void setUpdateDate(Date updatedate) {
-		mUpdateDate = updatedate;
+		UpdateDate = updatedate;
 	}
 		/**
 		* Target Item for the operation.
 		*/
 	public SFItem getTarget() {
-		return mTarget;
+		return Target;
 	}
 
 		/**
 		* Target Item for the operation.
 		*/
 	public void setTarget(SFItem target) {
-		mTarget = target;
+		Target = target;
 	}
 		/**
 		* Batch Identifier for an asynchronous operation that includes multiple Items - for
@@ -159,7 +156,7 @@ public class SFAsyncOperation extends SFODataObject {
 		* the same BatchID
 		*/
 	public String getBatchID() {
-		return mBatchID;
+		return BatchID;
 	}
 
 		/**
@@ -168,32 +165,32 @@ public class SFAsyncOperation extends SFODataObject {
 		* the same BatchID
 		*/
 	public void setBatchID(String batchid) {
-		mBatchID = batchid;
+		BatchID = batchid;
 	}
 		/**
 		* Item ID used as source for the Batch operation
 		*/
 	public String getBatchSourceID() {
-		return mBatchSourceID;
+		return BatchSourceID;
 	}
 
 		/**
 		* Item ID used as source for the Batch operation
 		*/
 	public void setBatchSourceID(String batchsourceid) {
-		mBatchSourceID = batchsourceid;
+		BatchSourceID = batchsourceid;
 	}
 		/**
 		* Item ID used as target for the Batch operation
 		*/
 	public String getBatchTargetID() {
-		return mBatchTargetID;
+		return BatchTargetID;
 	}
 
 		/**
 		* Item ID used as target for the Batch operation
 		*/
 	public void setBatchTargetID(String batchtargetid) {
-		mBatchTargetID = batchtargetid;
+		BatchTargetID = batchtargetid;
 	}
 }

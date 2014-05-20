@@ -14,13 +14,13 @@ package com.sharefile.api.models;
 
 public class SFItemProtocolLink extends SFODataObject {
 
-	private String mLink;
+	private String Link;
 
 	public String getLink() {
-		return mLink;
+		return Link;
 	}
 
 	public void setLink(String link) {
-		mLink = link;
+		Link = link;
 	}
 }

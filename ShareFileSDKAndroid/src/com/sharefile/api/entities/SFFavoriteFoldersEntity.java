@@ -26,7 +26,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A list of Favorite Folders specified by this user
     */
-	public SFApiQuery<SFODataFeed<SFFavoriteFolder>> getByUser(String id)
+	public static SFApiQuery<SFODataFeed<SFFavoriteFolder>> getByUser(String id)
 	{
 		SFApiQuery<SFODataFeed<SFFavoriteFolder>> query = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>();
 		query.setFrom("User");
@@ -41,7 +41,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	* @param id 	
 	* @return A list of Favorite Folders specified by this user
     */
-	public SFApiQuery<SFFavoriteFolder> getByUser(String id, String actionsids)
+	public static SFApiQuery<SFFavoriteFolder> getByUser(String id, String actionsids)
 	{
 		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
 		query.setFrom("User");
@@ -59,7 +59,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	* @param itemid 	
 	* @return The selected Favorite Folder
     */
-	public SFApiQuery<SFFavoriteFolder> get(String userid, String itemid)
+	public static SFApiQuery<SFFavoriteFolder> get(String userid, String itemid)
 	{
 		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
 		query.setFrom("FavoriteFolders");
@@ -80,7 +80,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	* @param alias 	
 	* @return A new FavoriteFolder record
     */
-	public SFApiQuery<SFFavoriteFolder> createByUser(String id, SFFavoriteFolder folder, String alias)
+	public static SFApiQuery<SFFavoriteFolder> createByUser(String id, SFFavoriteFolder folder, String alias)
 	{
 		SFApiQuery<SFFavoriteFolder> query = new SFApiQuery<SFFavoriteFolder>();
 		query.setFrom("User");
@@ -98,7 +98,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	* @param id 	
 	* @param itemid 	
     */
-	public SFApiQuery delete(String itemid,  String id  )
+	public static SFApiQuery delete(String itemid,  String id  )
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("User");
@@ -109,7 +109,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 		return query;
 	}
 
-	public SFApiQuery deleteByUser(String userId, String itemId)
+	public static SFApiQuery deleteByUser(String userId, String itemId)
 	{
 		SFApiQuery query = new SFApiQuery();
 		query.setFrom("User");

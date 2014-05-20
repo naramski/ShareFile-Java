@@ -6,16 +6,31 @@ public final class SFKeywords
 	
 	//SFOdataObject related keywords
 	public static final String ODATA_METADATA = "odata.metadata";
+	public static final String ODATA_COUNT = "odata.count";
+	public static final String ODATA_NEXTLINK = "odata.nextLink";
+	
 	public static final String URL = "url";
 	public static final String Id = "Id";
-		
+	public static final String DownloadUrl = "DownloadUrl";	
+	public static final String Range = "Range";	
+	
 	public static final String PRINCIPAL = "Principal";
 	public static final String AUTHENTICATION_TYPE = "AuthenticationType";
 	public static final String TOOL = "Tool";
 	public static final String VERSION = "Version";
 	public static final String IS_AUTHENTICATED = "IsAuthenticated";
 	public static final String NAME = "NAME";
+	public static final String Name = "Name";
 	public static final String DEVICE_USER = "DEVICE_USER";
+	public static final String Description = "Description";
+	public static final String Zone = "Zone";
+	
+	public static final String CODE = "code";
+	public static final String VALUE = "value";
+	public static final String MESSAGE = "message";
+	
+	public static final String CHILDREN = "Children";
+	public static final String PARENT = "Parent";
 			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";
@@ -33,8 +48,11 @@ public final class SFKeywords
 	public static final String PASSWORD = "password";
 	
 	//Http headers and properties related	
+	public static final String CONTENT_LENGTH = "Content-Length";
 	public static final String CONTENT_TYPE = "Content-Type";
 	public static final String APPLICATION_FORM_URLENCODED = "application/x-www-form-urlencoded";
+	public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";	
+	public static final String APPLICATION_JSON = "application/json";
 	public static final String UTF_8 = "UTF-8";
 	
 	public static final String PREFIX_HTTPS = "https://";
@@ -42,8 +60,9 @@ public final class SFKeywords
 	public static final String FWD_SLASH = "/";
 	public static final String OPEN_BRACKET = "(";
 	public static final String CLOSE_BRACKET = ")";
-	public static final String EQUALS = ")";
+	public static final String EQUALS = "=";
 	public static final String COMMA = ",";
+	public static final String COLON = ":";
 	public static final String EMPTY = "";
 	public static final String CHAR_QUERY = "?";
 	public static final String CHAR_DOLLAR = "$";

@@ -1,141 +1,287 @@
 package com.sharefile.api.enumerations;
 
-public enum SFV3ElementType 
-{
-	/*
-	public static final String AccessControl = "AccessControl@Element";
-	public static final String AccessControlDomains = "AccessControlDomains@Element";
-	public static final String Account = "Account@Element";
-	public static final String AccountPreferences = "AccountPreferences@Element";
-	public static final String AccountUser = "AccountUser@Element";
-	public static final String AdvancedSearchResults = "AdvancedSearchResults@Element";
-	public static final String AsyncOperation = "AsyncOperation@Element";
-	public static final String Capability = "#Capabilities";
-	public static final String Contact = "Contact@Element";
-	public static final String Device = "Device@Element";
-	public static final String DeviceLogEntry = "DeviceLogEntry@Element";
-	public static final String DeviceStatus = "DeviceStatus@Element";
-	public static final String DeviceUser = "DeviceUser@Element";
-	public static final String DeviceUserWipe = "DeviceUserWipe@Element";
-	public static final String DeviceWipeReport = "DeviceWipeReport@Element";
-	public static final String DownloadSpecification = "DownloadSpecification@Element";
-	public static final String FavoriteFolder = "FavoriteFolder@Element";
-	public static final String File = "File@Element";
-	public static final String FindSubdomainParams = "FindSubdomainParams@Element";
-	public static final String FindSubdomainResult = "FindSubdomainResult@Element";
-	public static final String Folder = "Folder@Element";
-	public static final String GenericConfig = "GenericConfig@Element";
-	public static final String Group = "Group@Element";
-	public static final String Item = "Item@Element";
-	public static final String ItemInfo = "ItemInfo@Element";
-	public static final String ItemProtocolLink = "ItemProtocolLink@Element";
-	public static final String Link = "Link@Element";
-	public static final String Metadata = "Metadata@Element";
-	public static final String MobileSecuritySettings = "MobileSecuritySettings@Element";
-	public static final String Note = "Note@Element";
-	public static final String Notification = "Notification@Element";
-	public static final String ODataFeed = "ODataFeed@Element";
-	public static final String ODataObject = "ODataObject@Element";
-	public static final String PlanFeatures = "PlanFeatures@Element";
-	public static final String Principal = "Principal@Element";
-	public static final String ProductDefaults = "ProductDefaults@Element";
-	public static final String Query = "Query@Element";
-	public static final String QueryPaging = "QueryPaging@Element";
-	public static final String QuerySorting = "QuerySorting@Element";
-	public static final String RequireSubdomainResult = "RequireSubdomainResult@Element";
-	public static final String RequireWebPopResult = "RequireWebPopResult@Element";
-	public static final String SearchQuery = "SearchQuery@Element";
-	public static final String SearchResult = "SearchResult@Element";
-	public static final String SearchResults = "SearchResults@Element";
-	public static final String Session = "Session@Element";
-	public static final String Share = "Share@Element";
-	public static final String ShareAlias = "ShareAlias@Element";
-	public static final String ShareRequestParams = "ShareRequestParams@Element";
-	public static final String ShareSendParams = "ShareSendParams@Element";
-	public static final String SimpleQuery = "SimpleQuery@Element";
-	public static final String SimpleSearchQuery = "SimpleSearchQuery@Element";
-	public static final String SSOAccountProvider = "SSOAccountProvider@Element";
-	public static final String SSOInfo = "SSOInfo@Element";
-	public static final String SSOInfoEntry = "SSOInfoEntry@Element";
-	public static final String StorageCenter = "StorageCenter@Element";
-	public static final String SymbolicLink = "SymbolicLink@Element";
-	public static final String UploadSpecification = "UploadSpecification@Element";
-	public static final String User = "User@Element";
-	public static final String UserConfirmationSettings = "UserConfirmationSettings@Element";
-	public static final String UserInfo = "UserInfo@Element";
-	public static final String UserPreferences = "UserPreferences@Element";
-	public static final String UserSecurity = "UserSecurity@Element";
-	public static final String Zone = "Zone@Element";
-	public static final String OutlookInformation = "OutlookInformation@Element";
-	public static final String OutlookInformationOptionBool = "OutlookInformationOptionBool@Element";
-	public static final String OutlookInformationOptionInt = "OutlookInformationOptionInt@Element";
-	public static final String OutlookInformationOptionString = "OutlookInformationOptionString@Element";
-	*/
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.exceptions.SFInvalidTypeException;
+import com.sharefile.api.models.SFAccessControl;
+import com.sharefile.api.models.SFAccount;
+import com.sharefile.api.models.SFAccountPreferences;
+import com.sharefile.api.models.SFAccountUser;
+import com.sharefile.api.models.SFAdvancedSearchResults;
+import com.sharefile.api.models.SFAsyncOperation;
+import com.sharefile.api.models.SFCapability;
+import com.sharefile.api.models.SFContact;
+import com.sharefile.api.models.SFDevice;
+import com.sharefile.api.models.SFDeviceLogEntry;
+import com.sharefile.api.models.SFDeviceStatus;
+import com.sharefile.api.models.SFDeviceUser;
+import com.sharefile.api.models.SFDeviceUserWipe;
+import com.sharefile.api.models.SFDeviceWipeReport;
+import com.sharefile.api.models.SFDownloadSpecification;
+import com.sharefile.api.models.SFFavoriteFolder;
+import com.sharefile.api.models.SFFile;
+import com.sharefile.api.models.SFFindSubdomainParams;
+import com.sharefile.api.models.SFFindSubdomainResult;
+import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFGenericConfig;
+import com.sharefile.api.models.SFGroup;
+import com.sharefile.api.models.SFItem;
+import com.sharefile.api.models.SFItemInfo;
+import com.sharefile.api.models.SFItemProtocolLink;
+import com.sharefile.api.models.SFLink;
+import com.sharefile.api.models.SFMetadata;
+import com.sharefile.api.models.SFMobileSecuritySettings;
+import com.sharefile.api.models.SFNote;
+import com.sharefile.api.models.SFNotification;
+import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFPlanFeatures;
+import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.api.models.SFProductDefaults;
+import com.sharefile.api.models.SFQuery;
+import com.sharefile.api.models.SFQueryPaging;
+import com.sharefile.api.models.SFQuerySorting;
+import com.sharefile.api.models.SFRequireSubdomainResult;
+import com.sharefile.api.models.SFRequireWebPopResult;
+import com.sharefile.api.models.SFSSOAccountProvider;
+import com.sharefile.api.models.SFSSOInfo;
+import com.sharefile.api.models.SFSSOInfoEntry;
+import com.sharefile.api.models.SFSearchQuery;
+import com.sharefile.api.models.SFSearchResult;
+import com.sharefile.api.models.SFSearchResults;
+import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFShare;
+import com.sharefile.api.models.SFShareAlias;
+import com.sharefile.api.models.SFShareRequestParams;
+import com.sharefile.api.models.SFShareSendParams;
+import com.sharefile.api.models.SFSimpleQuery;
+import com.sharefile.api.models.SFSimpleSearchQuery;
+import com.sharefile.api.models.SFStorageCenter;
+import com.sharefile.api.models.SFSymbolicLink;
+import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.api.models.SFUser;
+import com.sharefile.api.models.SFUserConfirmationSettings;
+import com.sharefile.api.models.SFUserInfo;
+import com.sharefile.api.models.SFUserPreferences;
+import com.sharefile.api.models.SFUserSecurity;
+import com.sharefile.api.models.SFZone;
+import com.sharefile.api.models.Private.SFOutlookInformation;
+import com.sharefile.api.models.Private.SFOutlookInformationOptionBool;
+import com.sharefile.api.models.Private.SFOutlookInformationOptionInt;
+import com.sharefile.api.models.Private.SFOutlookInformationOptionString;
+import com.sharefile.java.log.SLog;
+
+public enum SFV3ElementType
+{							
+	AccessControl("Models.AccessControl@Element",SFAccessControl.class),	
+	Account("Models.Account@Element",SFAccount.class),
+	AccountPreferences("Models.AccountPreferences@Element",SFAccountPreferences.class),
+	AccountUser("Models.AccountUser@Element",SFAccountUser.class),
+	AdvancedSearchResults("Models.AdvancedSearchResults@Element",SFAdvancedSearchResults.class),
+	AsyncOperation("Models.AsyncOperation@Element",SFAsyncOperation.class),
+	Capability("Models.Capabilities@Element",SFCapability.class),	
+	Contact("Models.Contact@Element",SFContact.class),
+	Device("Models.Device@Element",SFDevice.class),
+	DeviceLogEntry("Models.DeviceLogEntry@Element",SFDeviceLogEntry.class),
+	DeviceStatus("Models.DeviceStatus@Element",SFDeviceStatus.class),
+	DeviceUser("Models.DeviceUser@Element",SFDeviceUser.class),
+	DeviceUserWipe("Models.DeviceUserWipe@Element",SFDeviceUserWipe.class),
+	DeviceWipeReport("Models.DeviceWipeReport@Element",SFDeviceWipeReport.class),
+	DownloadSpecification("Models.DownloadSpecification@Element",SFDownloadSpecification.class),
+	FavoriteFolder("Models.FavoriteFolder@Element",SFFavoriteFolder.class),
+	File("Models.File@Element",SFFile.class),
+	FindSubdomainParams("Models.FindSubdomainParams@Element",SFFindSubdomainParams.class),
+	FindSubdomainResult("Models.FindSubdomainResult@Element",SFFindSubdomainResult.class),
+	Folder("Models.Folder@Element",SFFolder.class),
+	GenericConfig("Models.GenericConfig@Element",SFGenericConfig.class),
+	Group("Models.Group@Element",SFGroup.class),
+	Item("Models.Item@Element",SFItem.class),
+	ItemInfo("Models.ItemInfo",SFItemInfo.class),
+	ItemProtocolLink("Models.ItemProtocolLink@Element",SFItemProtocolLink.class),
+	Link("Models.Link@Element",SFLink.class),
+	Metadata("Models.Metadata@Element",SFMetadata.class),
+	MobileSecuritySettings("Models.MobileSecuritySettings@Element",SFMobileSecuritySettings.class),
+	Note("Models.Note@Element",SFNote.class),
+	Notification("Models.Notification@Element",SFNotification.class),	
+	ODataObject("Models.ODataObject@Element",SFODataObject.class),
+	PlanFeatures("Models.PlanFeatures@Element",SFPlanFeatures.class),
+	Principal("Models.Principal@Element",SFPrincipal.class),
+	ProductDefaults("Models.ProductDefaults@Element",SFProductDefaults.class),
+	Query("Models.Query@Element",SFQuery.class),
+	QueryPaging("Models.QueryPaging@Element",SFQueryPaging.class),
+	QuerySorting("Models.QuerySorting@Element",SFQuerySorting.class),
+	RequireSubdomainResult("Models.RequireSubdomainResult@Element",SFRequireSubdomainResult.class),
+	RequireWebPopResult("Models.RequireWebPopResult@Element",SFRequireWebPopResult.class),
+	SearchQuery("Models.SearchQuery@Element",SFSearchQuery.class),
+	SearchResult("Models.SearchResult@Element",SFSearchResult.class),
+	SearchResults("Models.SearchResults@Element",SFSearchResults.class),
+	Session("Models.Session@Element",SFSession.class),
+	Share("Models.Share@Element",SFShare.class),
+	ShareAlias("Models.ShareAlias@Element",SFShareAlias.class),
+	ShareRequestParams("Models.ShareRequestParams@Element",SFShareRequestParams.class),
+	ShareSendParams("Models.ShareSendParams@Element",SFShareSendParams.class),
+	SimpleQuery("Models.SimpleQuery@Element",SFSimpleQuery.class),
+	SimpleSearchQuery("Models.SimpleSearchQuery@Element",SFSimpleSearchQuery.class),
+	SSOAccountProvider("Models.SSOAccountProvider@Element",SFSSOAccountProvider.class),
+	SSOInfo("Models.SSOInfo@Element",SFSSOInfo.class),
+	SSOInfoEntry("Models.SSOInfoEntry@Element",SFSSOInfoEntry.class),
+	StorageCenter("Models.StorageCenter@Element",SFStorageCenter.class),
+	SymbolicLink("Models.SymbolicLink@Element",SFSymbolicLink.class),
+	//UploadSpecification("Models.UploadSpecification@Element",SFUploadSpecification.class),
+	UploadSpecification("Models.UploadSpecification",SFUploadSpecification.class),
+	User("Models.User@Element",SFUser.class),
+	UserConfirmationSettings("Models.UserConfirmationSettings@Element",SFUserConfirmationSettings.class),
+	UserInfo("Models.UserInfo@Element",SFUserInfo.class),
+	UserPreferences("Models.UserPreferences@Element",SFUserPreferences.class),
+	UserSecurity("Models.UserSecurity@Element",SFUserSecurity.class),
+	Zone("Models.Zone@Element",SFZone.class),	
+	OutlookInformation("Models.OutlookInformation@Element",SFOutlookInformation.class),
+	OutlookInformationOptionBool("Models.OutlookInformationOptionBool@Element",SFOutlookInformationOptionBool.class),
+	OutlookInformationOptionInt("Models.OutlookInformationOptionInt@Element",SFOutlookInformationOptionInt.class),
+	OutlookInformationOptionString("Models.OutlookInformationOptionString@Element",SFOutlookInformationOptionString.class);
+			
+	private static final String TAG = SFKeywords.TAG + "-SFV3ElementType";
+	private final String mToString;
+	private final Class<?> mOriginalClass;//This is the one originally intended by the SDK
+	private Class<?> mOverrideClass;// This is the one that can be overriden by the consumer app.
+	
+	private SFV3ElementType(String toStr,Class<?> clazz)
+	{
+		mToString = toStr;
+		mOriginalClass = clazz;
+		mOverrideClass = mOriginalClass;
+	}
+	
+	@Override
+	public String toString() 
+	{		
+		return mToString;
+	}
+	
+	public Class<?> getV3Class()
+	{
+		return mOverrideClass;
+	}
+	
+	/** 
+	 *  We are allowing consumers of the SDK to register their own deriived classes from the base models 
+	 *  we have inside the SDK. This allows for cases where the consumer wants to add addtional flags and functions
+	 *  to the model and yet have orginal parsed objects of his liking. Example SFFile does not provide the isSynced
+	 *  flag. The consumer app can extend like : 
+	 *  	<p>SFFileEx extends SFFile 
+	 *  	<p>{ 
+	 *  	<p>	boolean mIsSync
+	 *  	<p>}
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SFInvalidTypeException 
+	 */
+	public static void registerSubClass(SFV3ElementType elementType, Class<?> newClass) throws InstantiationException, IllegalAccessException, SFInvalidTypeException
+	{
+		if(newClass == null)
+		{
+			throw new SFInvalidTypeException(" NULL does not extend " + elementType.mOriginalClass.toString());
+		}
+				 						
+		//test if the new class is a real extension of the type being replaced.
+		if(!elementType.mOriginalClass.isInstance(newClass.newInstance()))
+		{
+			String msg = newClass.toString() + " does not extend " + elementType.mOriginalClass.toString();
+			
+			SLog.d(TAG, msg);
+			
+			throw new SFInvalidTypeException(msg);
+		}
+		
+		SLog.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
+		
+		elementType.mOverrideClass = newClass;
+	}
+	
+	public static boolean isFolderType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFFolder || object instanceof SFSymbolicLink)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static boolean isFileType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFFile)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static boolean isNoteType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFNote)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static boolean isLinkType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFLink)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static final SFV3ElementType getElementTypeFromMetaData(String metadata)
+	{
+		SFV3ElementType ret = null;
+		
+		//SLog.d(TAG, "FIND Element Type for metadata = " + metadata );
+						
+		//if(metadata!=null && metadata.contains("Models.") && metadata.contains("@Element"))
+		//metadata.contains("@Element") is not correct for ItemsInfo
+		if(metadata!=null && metadata.contains("Models."))
+		{
+			for(SFV3ElementType s:SFV3ElementType.values())
+			{				
+				if(metadata.endsWith(s.toString()))
+				{
+					ret = s;
 					
-	AccessControl{@Override public String toString() {return "AccessControl@Element";}},	
-	Account{@Override public String toString() {return "Account@Element";}},
-	AccountPreferences{@Override public String toString() {return "AccountPreferences@Element";}},
-	AccountUser{@Override public String toString() {return "AccountUser@Element";}},
-	AdvancedSearchResults{@Override public String toString() {return "AdvancedSearchResults@Element";}},
-	AsyncOperation{@Override public String toString() {return "AsyncOperation@Element";}},
-	Capability{@Override public String toString() {return "#Capabilities";}},
-	Contact{@Override public String toString() {return "Contact@Element";}},
-	Device{@Override public String toString() {return "Device@Element";}},
-	DeviceLogEntry{@Override public String toString() {return "DeviceLogEntry@Element";}},
-	DeviceStatus{@Override public String toString() {return "DeviceStatus@Element";}},
-	DeviceUser{@Override public String toString() {return "DeviceUser@Element";}},
-	DeviceUserWipe{@Override public String toString() {return "DeviceUserWipe@Element";}},
-	DeviceWipeReport{@Override public String toString() {return "DeviceWipeReport@Element";}},
-	DownloadSpecification{@Override public String toString() {return "DownloadSpecification@Element";}},
-	FavoriteFolder{@Override public String toString() {return "FavoriteFolder@Element";}},
-	File{@Override public String toString() {return "File@Element";}},
-	FindSubdomainParams{@Override public String toString() {return "FindSubdomainParams@Element";}},
-	FindSubdomainResult{@Override public String toString() {return "FindSubdomainResult@Element";}},
-	Folder{@Override public String toString() {return "Folder@Element";}},
-	GenericConfig{@Override public String toString() {return "GenericConfig@Element";}},
-	Group{@Override public String toString() {return "Group@Element";}},
-	Item{@Override public String toString() {return "Item@Element";}},
-	ItemInfo{@Override public String toString() {return "ItemInfo@Element";}},
-	ItemProtocolLink{@Override public String toString() {return "ItemProtocolLink@Element";}},
-	Link{@Override public String toString() {return "Link@Element";}},
-	Metadata{@Override public String toString() {return "Metadata@Element";}},
-	MobileSecuritySettings{@Override public String toString() {return "MobileSecuritySettings@Element";}},
-	Note{@Override public String toString() {return "Note@Element";}},
-	Notification{@Override public String toString() {return "Notification@Element";}},
-	ODataFeed{@Override public String toString() {return "ODataFeed@Element";}},
-	ODataObject{@Override public String toString() {return "ODataObject@Element";}},
-	PlanFeatures{@Override public String toString() {return "PlanFeatures@Element";}},
-	Principal{@Override public String toString() {return "Principal@Element";}},
-	ProductDefaults{@Override public String toString() {return "ProductDefaults@Element";}},
-	Query{@Override public String toString() {return "Query@Element";}},
-	QueryPaging{@Override public String toString() {return "QueryPaging@Element";}},
-	QuerySorting{@Override public String toString() {return "QuerySorting@Element";}},
-	RequireSubdomainResult{@Override public String toString() {return "RequireSubdomainResult@Element";}},
-	RequireWebPopResult{@Override public String toString() {return "RequireWebPopResult@Element";}},
-	SearchQuery{@Override public String toString() {return "SearchQuery@Element";}},
-	SearchResult{@Override public String toString() {return "SearchResult@Element";}},
-	SearchResults{@Override public String toString() {return "SearchResults@Element";}},
-	Session{@Override public String toString() {return "Session@Element";}},
-	Share{@Override public String toString() {return "Share@Element";}},
-	ShareAlias{@Override public String toString() {return "ShareAlias@Element";}},
-	ShareRequestParams{@Override public String toString() {return "ShareRequestParams@Element";}},
-	ShareSendParams{@Override public String toString() {return "ShareSendParams@Element";}},
-	SimpleQuery{@Override public String toString() {return "SimpleQuery@Element";}},
-	SimpleSearchQuery{@Override public String toString() {return "SimpleSearchQuery@Element";}},
-	SSOAccountProvider{@Override public String toString() {return "SSOAccountProvider@Element";}},
-	SSOInfo{@Override public String toString() {return "SSOInfo@Element";}},
-	SSOInfoEntry{@Override public String toString() {return "SSOInfoEntry@Element";}},
-	StorageCenter{@Override public String toString() {return "StorageCenter@Element";}},
-	SymbolicLink{@Override public String toString() {return "SymbolicLink@Element";}},
-	UploadSpecification{@Override public String toString() {return "UploadSpecification@Element";}},
-	User{@Override public String toString() {return "User@Element";}},
-	UserConfirmationSettings{@Override public String toString() {return "UserConfirmationSettings@Element";}},
-	UserInfo{@Override public String toString() {return "UserInfo@Element";}},
-	UserPreferences{@Override public String toString() {return "UserPreferences@Element";}},
-	UserSecurity{@Override public String toString() {return "UserSecurity@Element";}},
-	Zone{@Override public String toString() {return "Zone@Element";}},
-	OutlookInformation{@Override public String toString() {return "OutlookInformation@Element";}},
-	OutlookInformationOptionBool{@Override public String toString() {return "OutlookInformationOptionBool@Element";}},
-	OutlookInformationOptionInt{@Override public String toString() {return "OutlookInformationOptionInt@Element";}},
-	OutlookInformationOptionString{@Override public String toString() {return "OutlookInformationOptionString@Element";}}				
+					break;
+				}
+			}
+			
+			if(ret == null)
+			{
+				SLog.d(TAG, " NOT in model factory: " + metadata );
+			}			
+		}
+		
+		return ret;
+	}		
 }

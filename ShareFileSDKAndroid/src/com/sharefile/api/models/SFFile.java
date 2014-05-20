@@ -12,16 +12,14 @@
 
 package com.sharefile.api.models;
 
-import com.sharefile.api.enumerations.SFFileVirusStatus;
-
 public class SFFile extends SFItem {
 
-	private String mFilePath;
-	private String mHash;
-	private Boolean mHasPreview;
-	private SFFileVirusStatus mVirusStatus;
-	private SFUser mLockedBy;
-	private Float mVersion;
+	private String FilePath;
+	private String Hash;
+	private Boolean HasPreview;
+	private SFFileVirusStatus VirusStatus;
+	private SFUser LockedBy;
+	private Float Version;
 
 		/**
 		* Represents the Object Storage Identifier for this File. This field is
@@ -30,7 +28,7 @@ public class SFFile extends SFItem {
 		* blobs and do not populate this field.
 		*/
 	public String getFilePath() {
-		return mFilePath;
+		return FilePath;
 	}
 
 		/**
@@ -40,71 +38,71 @@ public class SFFile extends SFItem {
 		* blobs and do not populate this field.
 		*/
 	public void setFilePath(String filepath) {
-		mFilePath = filepath;
+		FilePath = filepath;
 	}
 		/**
 		* MD5 Hash of the File contents.
 		*/
 	public String getHash() {
-		return mHash;
+		return Hash;
 	}
 
 		/**
 		* MD5 Hash of the File contents.
 		*/
 	public void setHash(String hash) {
-		mHash = hash;
+		Hash = hash;
 	}
 		/**
 		* Indicates that the File has an image Preview.
 		*/
 	public Boolean getHasPreview() {
-		return mHasPreview;
+		return HasPreview;
 	}
 
 		/**
 		* Indicates that the File has an image Preview.
 		*/
 	public void setHasPreview(Boolean haspreview) {
-		mHasPreview = haspreview;
+		HasPreview = haspreview;
 	}
 		/**
 		* Current Anti-Virus scanning status for this file
 		*/
 	public SFFileVirusStatus getVirusStatus() {
-		return mVirusStatus;
+		return VirusStatus;
 	}
 
 		/**
 		* Current Anti-Virus scanning status for this file
 		*/
 	public void setVirusStatus(SFFileVirusStatus virusstatus) {
-		mVirusStatus = virusstatus;
+		VirusStatus = virusstatus;
 	}
 		/**
 		* Indicates the user that has locked the file
 		*/
 	public SFUser getLockedBy() {
-		return mLockedBy;
+		return LockedBy;
 	}
 
 		/**
 		* Indicates the user that has locked the file
 		*/
 	public void setLockedBy(SFUser lockedby) {
-		mLockedBy = lockedby;
+		LockedBy = lockedby;
 	}
 		/**
 		* File version.
 		*/
 	public Float getVersion() {
-		return mVersion;
+		return Version;
 	}
 
 		/**
 		* File version.
 		*/
 	public void setVersion(Float version) {
-		mVersion = version;
+		Version = version;
 	}
 }

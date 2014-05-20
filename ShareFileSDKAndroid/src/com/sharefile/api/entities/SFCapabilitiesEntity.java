@@ -32,7 +32,7 @@ public class SFCapabilitiesEntity extends SFODataEntityBase
 	* are not available on a given provider - allowing the client to suppress UX controls
 	* and avoid "Not Implemented" exceptions to the end-user.
     */
-	public SFApiQuery<SFODataFeed<SFCapability>> get()
+	public static SFApiQuery<SFODataFeed<SFCapability>> get()
 	{
 		SFApiQuery<SFODataFeed<SFCapability>> query = new SFApiQuery<SFODataFeed<SFCapability>>();
 		query.setFrom("Capabilities");

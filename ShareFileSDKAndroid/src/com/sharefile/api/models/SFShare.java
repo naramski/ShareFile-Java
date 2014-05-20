@@ -16,38 +16,36 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.sharefile.api.enumerations.SFShareType;
-
 public class SFShare extends SFODataObject {
 
-	private String mAliasID;
-	private SFShareType mShareType;
-	private String mTitle;
-	private Boolean mHasSentMessage;
-	private String mSentMessageTitle;
-	private Boolean mRequireLogin;
-	private Boolean mRequireUserInfo;
-	private SFItem mParent;
-	private SFUser mCreator;
-	private SFUser mUser;
-	private ArrayList<SFItem> mItems;
-	private Date mCreationDate;
-	private Date mExpirationDate;
-	private Integer mMaxDownloads;
-	private Integer mTotalDownloads;
-	private Boolean mIsViewOnly;
-	private Date mTrackUntilDate;
-	private Integer mSendFrequency;
-	private Integer mSendInterval;
-	private Date mLastDateSent;
-	private Boolean mIsConsumed;
-	private Boolean mIsRead;
-	private Boolean mIsArchived;
-	private String mSendTool;
-	private String mSendMethod;
-	private Boolean mUsesStreamIDs;
-	private URI mUri;
-	private ArrayList<SFShareAlias> mRecipients;
+	private String AliasID;
+	private SFShareType ShareType;
+	private String Title;
+	private Boolean HasSentMessage;
+	private String SentMessageTitle;
+	private Boolean RequireLogin;
+	private Boolean RequireUserInfo;
+	private SFItem Parent;
+	private SFUser Creator;
+	private SFUser User;
+	private ArrayList<SFItem> Items;
+	private Date CreationDate;
+	private Date ExpirationDate;
+	private Integer MaxDownloads;
+	private Integer TotalDownloads;
+	private Boolean IsViewOnly;
+	private Date TrackUntilDate;
+	private Integer SendFrequency;
+	private Integer SendInterval;
+	private Date LastDateSent;
+	private Boolean IsConsumed;
+	private Boolean IsRead;
+	private Boolean IsArchived;
+	private String SendTool;
+	private String SendMethod;
+	private Boolean UsesStreamIDs;
+	private URI Uri;
+	private ArrayList<SFShareAlias> Recipients;
 
 		/**
 		* When a Share is sent to multiple users, with RequireLogin or RequireUserInfo set, then a different
@@ -56,7 +54,7 @@ public class SFShare extends SFODataObject {
 		* For anonymous Shares, the AliasID will be the same as the Share ID.
 		*/
 	public String getAliasID() {
-		return mAliasID;
+		return AliasID;
 	}
 
 		/**
@@ -66,14 +64,14 @@ public class SFShare extends SFODataObject {
 		* For anonymous Shares, the AliasID will be the same as the Share ID.
 		*/
 	public void setAliasID(String aliasid) {
-		mAliasID = aliasid;
+		AliasID = aliasid;
 	}
 		/**
 		* Either "Send" or "Request". Send Shares are used to Send files and folders to the specified users. Request
 		* shares are used to allow users to upload files to the share owner chosen location.
 		*/
 	public SFShareType getShareType() {
-		return mShareType;
+		return ShareType;
 	}
 
 		/**
@@ -81,79 +79,79 @@ public class SFShare extends SFODataObject {
 		* shares are used to allow users to upload files to the share owner chosen location.
 		*/
 	public void setShareType(SFShareType sharetype) {
-		mShareType = sharetype;
+		ShareType = sharetype;
 	}
 		/**
 		* Share title
 		*/
 	public String getTitle() {
-		return mTitle;
+		return Title;
 	}
 
 		/**
 		* Share title
 		*/
 	public void setTitle(String title) {
-		mTitle = title;
+		Title = title;
 	}
 		/**
 		* Flag to indicate if ShareFile has sent email messages for this Share
 		*/
 	public Boolean getHasSentMessage() {
-		return mHasSentMessage;
+		return HasSentMessage;
 	}
 
 		/**
 		* Flag to indicate if ShareFile has sent email messages for this Share
 		*/
 	public void setHasSentMessage(Boolean hassentmessage) {
-		mHasSentMessage = hassentmessage;
+		HasSentMessage = hassentmessage;
 	}
 		/**
 		* Subject of Share email message
 		*/
 	public String getSentMessageTitle() {
-		return mSentMessageTitle;
+		return SentMessageTitle;
 	}
 
 		/**
 		* Subject of Share email message
 		*/
 	public void setSentMessageTitle(String sentmessagetitle) {
-		mSentMessageTitle = sentmessagetitle;
+		SentMessageTitle = sentmessagetitle;
 	}
 		/**
 		* If set, only authenticated users can download files from this share.
 		*/
 	public Boolean getRequireLogin() {
-		return mRequireLogin;
+		return RequireLogin;
 	}
 
 		/**
 		* If set, only authenticated users can download files from this share.
 		*/
 	public void setRequireLogin(Boolean requirelogin) {
-		mRequireLogin = requirelogin;
+		RequireLogin = requirelogin;
 	}
 		/**
 		* If set, users must provide Name, Email and Company information to download files from the share.
 		*/
 	public Boolean getRequireUserInfo() {
-		return mRequireUserInfo;
+		return RequireUserInfo;
 	}
 
 		/**
 		* If set, users must provide Name, Email and Company information to download files from the share.
 		*/
 	public void setRequireUserInfo(Boolean requireuserinfo) {
-		mRequireUserInfo = requireuserinfo;
+		RequireUserInfo = requireuserinfo;
 	}
 		/**
 		* Folder location that contain the share files (Send); or the folder were files will be uploaded to
 		* (Request).
 		*/
 	public SFItem getParent() {
-		return mParent;
+		return Parent;
 	}
 
 		/**
@@ -161,99 +159,99 @@ public class SFShare extends SFODataObject {
 		* (Request).
 		*/
 	public void setParent(SFItem parent) {
-		mParent = parent;
+		Parent = parent;
 	}
 		/**
 		* User that created this Share.
 		*/
 	public SFUser getCreator() {
-		return mCreator;
+		return Creator;
 	}
 
 		/**
 		* User that created this Share.
 		*/
 	public void setCreator(SFUser creator) {
-		mCreator = creator;
+		Creator = creator;
 	}
 		/**
 		* User given permission to use this share - used for Aliases.
 		*/
 	public SFUser getUser() {
-		return mUser;
+		return User;
 	}
 
 		/**
 		* User given permission to use this share - used for Aliases.
 		*/
 	public void setUser(SFUser user) {
-		mUser = user;
+		User = user;
 	}
 		/**
 		* List of shared Items (for Send Shares only)
 		*/
 	public ArrayList<SFItem> getItems() {
-		return mItems;
+		return Items;
 	}
 
 		/**
 		* List of shared Items (for Send Shares only)
 		*/
 	public void setItems(ArrayList<SFItem> items) {
-		mItems = items;
+		Items = items;
 	}
 		/**
 		* Date the share was created
 		*/
 	public Date getCreationDate() {
-		return mCreationDate;
+		return CreationDate;
 	}
 
 		/**
 		* Date the share was created
 		*/
 	public void setCreationDate(Date creationdate) {
-		mCreationDate = creationdate;
+		CreationDate = creationdate;
 	}
 		/**
 		* Date the share expires
 		*/
 	public Date getExpirationDate() {
-		return mExpirationDate;
+		return ExpirationDate;
 	}
 
 		/**
 		* Date the share expires
 		*/
 	public void setExpirationDate(Date expirationdate) {
-		mExpirationDate = expirationdate;
+		ExpirationDate = expirationdate;
 	}
 		/**
 		* Maximum number of downloads each user can perform.
 		*/
 	public Integer getMaxDownloads() {
-		return mMaxDownloads;
+		return MaxDownloads;
 	}
 
 		/**
 		* Maximum number of downloads each user can perform.
 		*/
 	public void setMaxDownloads(Integer maxdownloads) {
-		mMaxDownloads = maxdownloads;
+		MaxDownloads = maxdownloads;
 	}
 	public Integer getTotalDownloads() {
-		return mTotalDownloads;
+		return TotalDownloads;
 	}
 
 	public void setTotalDownloads(Integer totaldownloads) {
-		mTotalDownloads = totaldownloads;
+		TotalDownloads = totaldownloads;
 	}
 		/**
 		* Used for Virtual Data Room accounts - indicates the files in the share can only be
 		* downloaded with an applied watermark.
 		*/
 	public Boolean getIsViewOnly() {
-		return mIsViewOnly;
+		return IsViewOnly;
 	}
 
 		/**
@@ -261,83 +259,83 @@ public class SFShare extends SFODataObject {
 		* downloaded with an applied watermark.
 		*/
 	public void setIsViewOnly(Boolean isviewonly) {
-		mIsViewOnly = isviewonly;
+		IsViewOnly = isviewonly;
 	}
 		/**
 		* User activity on this share will be tracked up to this date.
 		*/
 	public Date getTrackUntilDate() {
-		return mTrackUntilDate;
+		return TrackUntilDate;
 	}
 
 		/**
 		* User activity on this share will be tracked up to this date.
 		*/
 	public void setTrackUntilDate(Date trackuntildate) {
-		mTrackUntilDate = trackuntildate;
+		TrackUntilDate = trackuntildate;
 	}
 	public Integer getSendFrequency() {
-		return mSendFrequency;
+		return SendFrequency;
 	}
 
 	public void setSendFrequency(Integer sendfrequency) {
-		mSendFrequency = sendfrequency;
+		SendFrequency = sendfrequency;
 	}
 	public Integer getSendInterval() {
-		return mSendInterval;
+		return SendInterval;
 	}
 
 	public void setSendInterval(Integer sendinterval) {
-		mSendInterval = sendinterval;
+		SendInterval = sendinterval;
 	}
 	public Date getLastDateSent() {
-		return mLastDateSent;
+		return LastDateSent;
 	}
 
 	public void setLastDateSent(Date lastdatesent) {
-		mLastDateSent = lastdatesent;
+		LastDateSent = lastdatesent;
 	}
 	public Boolean getIsConsumed() {
-		return mIsConsumed;
+		return IsConsumed;
 	}
 
 	public void setIsConsumed(Boolean isconsumed) {
-		mIsConsumed = isconsumed;
+		IsConsumed = isconsumed;
 	}
 	public Boolean getIsRead() {
-		return mIsRead;
+		return IsRead;
 	}
 
 	public void setIsRead(Boolean isread) {
-		mIsRead = isread;
+		IsRead = isread;
 	}
 	public Boolean getIsArchived() {
-		return mIsArchived;
+		return IsArchived;
 	}
 
 	public void setIsArchived(Boolean isarchived) {
-		mIsArchived = isarchived;
+		IsArchived = isarchived;
 	}
 	public String getSendTool() {
-		return mSendTool;
+		return SendTool;
 	}
 
 	public void setSendTool(String sendtool) {
-		mSendTool = sendtool;
+		SendTool = sendtool;
 	}
 	public String getSendMethod() {
-		return mSendMethod;
+		return SendMethod;
 	}
 
 	public void setSendMethod(String sendmethod) {
-		mSendMethod = sendmethod;
+		SendMethod = sendmethod;
 	}
 		/**
 		* When enabled the items are identified by stream IDs instead of item IDs.
 		* Applies to Send Shares only.
 		*/
 	public Boolean getUsesStreamIDs() {
-		return mUsesStreamIDs;
+		return UsesStreamIDs;
 	}
 
 		/**
@@ -345,32 +343,32 @@ public class SFShare extends SFODataObject {
 		* Applies to Send Shares only.
 		*/
 	public void setUsesStreamIDs(Boolean usesstreamids) {
-		mUsesStreamIDs = usesstreamids;
+		UsesStreamIDs = usesstreamids;
 	}
 		/**
 		* Uri to access the share through the Web portal
 		*/
 	public URI getUri() {
-		return mUri;
+		return Uri;
 	}
 
 		/**
 		* Uri to access the share through the Web portal
 		*/
 	public void setUri(URI uri) {
-		mUri = uri;
+		Uri = uri;
 	}
 		/**
 		* List of users that have access to this share.
 		*/
 	public ArrayList<SFShareAlias> getRecipients() {
-		return mRecipients;
+		return Recipients;
 	}
 
 		/**
 		* List of users that have access to this share.
 		*/
 	public void setRecipients(ArrayList<SFShareAlias> recipients) {
-		mRecipients = recipients;
+		Recipients = recipients;
 	}
 }

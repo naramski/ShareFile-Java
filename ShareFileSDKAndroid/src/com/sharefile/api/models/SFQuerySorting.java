@@ -14,21 +14,21 @@ package com.sharefile.api.models;
 
 public class SFQuerySorting extends SFODataObject {
 
-	private String mSortBy;
-	private Boolean mAscending;
+	private String SortBy;
+	private Boolean Ascending;
 
 	public String getSortBy() {
-		return mSortBy;
+		return SortBy;
 	}
 
 	public void setSortBy(String sortby) {
-		mSortBy = sortby;
+		SortBy = sortby;
 	}
 	public Boolean getAscending() {
-		return mAscending;
+		return Ascending;
 	}
 
 	public void setAscending(Boolean ascending) {
-		mAscending = ascending;
+		Ascending = ascending;
 	}
 }

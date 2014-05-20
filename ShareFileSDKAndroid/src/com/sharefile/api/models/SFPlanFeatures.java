@@ -14,261 +14,261 @@ package com.sharefile.api.models;
 
 public class SFPlanFeatures extends SFODataObject {
 
-	private String mPlanType;
-	private Boolean mAPI;
-	private Boolean mOutlook;
-	private Boolean mDriveMapping;
-	private Boolean mCLI;
-	private Boolean mFTP;
-	private Boolean mFTPS;
-	private Boolean mSync;
-	private Boolean mAntiVirus;
-	private Boolean mRequireLoginOnDownload;
-	private Integer mMaxFileMB;
-	private Integer mPlanStorMB;
-	private Integer mPlanBandMB;
-	private String mSystemName;
-	private String mSystemType;
-	private Boolean mHasOutlookOptions;
-	private Boolean mSimpleMAPI;
-	private Boolean mForceAttachLink;
-	private String mUsedStorMB;
-	private String mUsedStorUtcTicks;
-	private String mUsedStorBytes;
-	private Boolean mIsEmployee;
-	private Boolean mIsAdministrator;
-	private Boolean mCanCreateRootFolders;
-	private Boolean mCanUseFileBox;
-	private Boolean mIsConfirmed;
-	private Boolean mCanResetPassword;
-	private String mPasswordRegEx;
-	private Boolean mCanManageMySettings;
-	private String mHomeFolder;
-	private Boolean mEnableAutoUpdate;
-	private Boolean mEnableTopLevelView;
+	private String PlanType;
+	private Boolean API;
+	private Boolean Outlook;
+	private Boolean DriveMapping;
+	private Boolean CLI;
+	private Boolean FTP;
+	private Boolean FTPS;
+	private Boolean Sync;
+	private Boolean AntiVirus;
+	private Boolean RequireLoginOnDownload;
+	private Integer MaxFileMB;
+	private Integer PlanStorMB;
+	private Integer PlanBandMB;
+	private String SystemName;
+	private String SystemType;
+	private Boolean HasOutlookOptions;
+	private Boolean SimpleMAPI;
+	private Boolean ForceAttachLink;
+	private String UsedStorMB;
+	private String UsedStorUtcTicks;
+	private String UsedStorBytes;
+	private Boolean IsEmployee;
+	private Boolean IsAdministrator;
+	private Boolean CanCreateRootFolders;
+	private Boolean CanUseFileBox;
+	private Boolean IsConfirmed;
+	private Boolean CanResetPassword;
+	private String PasswordRegEx;
+	private Boolean CanManageMySettings;
+	private String HomeFolder;
+	private Boolean EnableAutoUpdate;
+	private Boolean EnableTopLevelView;
 
 	public String getPlanType() {
-		return mPlanType;
+		return PlanType;
 	}
 
 	public void setPlanType(String plantype) {
-		mPlanType = plantype;
+		PlanType = plantype;
 	}
 	public Boolean getAPI() {
-		return mAPI;
+		return API;
 	}
 
 	public void setAPI(Boolean api) {
-		mAPI = api;
+		API = api;
 	}
 	public Boolean getOutlook() {
-		return mOutlook;
+		return Outlook;
 	}
 
 	public void setOutlook(Boolean outlook) {
-		mOutlook = outlook;
+		Outlook = outlook;
 	}
 	public Boolean getDriveMapping() {
-		return mDriveMapping;
+		return DriveMapping;
 	}
 
 	public void setDriveMapping(Boolean drivemapping) {
-		mDriveMapping = drivemapping;
+		DriveMapping = drivemapping;
 	}
 	public Boolean getCLI() {
-		return mCLI;
+		return CLI;
 	}
 
 	public void setCLI(Boolean cli) {
-		mCLI = cli;
+		CLI = cli;
 	}
 	public Boolean getFTP() {
-		return mFTP;
+		return FTP;
 	}
 
 	public void setFTP(Boolean ftp) {
-		mFTP = ftp;
+		FTP = ftp;
 	}
 	public Boolean getFTPS() {
-		return mFTPS;
+		return FTPS;
 	}
 
 	public void setFTPS(Boolean ftps) {
-		mFTPS = ftps;
+		FTPS = ftps;
 	}
 	public Boolean getSync() {
-		return mSync;
+		return Sync;
 	}
 
 	public void setSync(Boolean sync) {
-		mSync = sync;
+		Sync = sync;
 	}
 	public Boolean getAntiVirus() {
-		return mAntiVirus;
+		return AntiVirus;
 	}
 
 	public void setAntiVirus(Boolean antivirus) {
-		mAntiVirus = antivirus;
+		AntiVirus = antivirus;
 	}
 	public Boolean getRequireLoginOnDownload() {
-		return mRequireLoginOnDownload;
+		return RequireLoginOnDownload;
 	}
 
 	public void setRequireLoginOnDownload(Boolean requireloginondownload) {
-		mRequireLoginOnDownload = requireloginondownload;
+		RequireLoginOnDownload = requireloginondownload;
 	}
 	public Integer getMaxFileMB() {
-		return mMaxFileMB;
+		return MaxFileMB;
 	}
 
 	public void setMaxFileMB(Integer maxfilemb) {
-		mMaxFileMB = maxfilemb;
+		MaxFileMB = maxfilemb;
 	}
 	public Integer getPlanStorMB() {
-		return mPlanStorMB;
+		return PlanStorMB;
 	}
 
 	public void setPlanStorMB(Integer planstormb) {
-		mPlanStorMB = planstormb;
+		PlanStorMB = planstormb;
 	}
 	public Integer getPlanBandMB() {
-		return mPlanBandMB;
+		return PlanBandMB;
 	}
 
 	public void setPlanBandMB(Integer planbandmb) {
-		mPlanBandMB = planbandmb;
+		PlanBandMB = planbandmb;
 	}
 	public String getSystemName() {
-		return mSystemName;
+		return SystemName;
 	}
 
 	public void setSystemName(String systemname) {
-		mSystemName = systemname;
+		SystemName = systemname;
 	}
 	public String getSystemType() {
-		return mSystemType;
+		return SystemType;
 	}
 
 	public void setSystemType(String systemtype) {
-		mSystemType = systemtype;
+		SystemType = systemtype;
 	}
 	public Boolean getHasOutlookOptions() {
-		return mHasOutlookOptions;
+		return HasOutlookOptions;
 	}
 
 	public void setHasOutlookOptions(Boolean hasoutlookoptions) {
-		mHasOutlookOptions = hasoutlookoptions;
+		HasOutlookOptions = hasoutlookoptions;
 	}
 	public Boolean getSimpleMAPI() {
-		return mSimpleMAPI;
+		return SimpleMAPI;
 	}
 
 	public void setSimpleMAPI(Boolean simplemapi) {
-		mSimpleMAPI = simplemapi;
+		SimpleMAPI = simplemapi;
 	}
 	public Boolean getForceAttachLink() {
-		return mForceAttachLink;
+		return ForceAttachLink;
 	}
 
 	public void setForceAttachLink(Boolean forceattachlink) {
-		mForceAttachLink = forceattachlink;
+		ForceAttachLink = forceattachlink;
 	}
 	public String getUsedStorMB() {
-		return mUsedStorMB;
+		return UsedStorMB;
 	}
 
 	public void setUsedStorMB(String usedstormb) {
-		mUsedStorMB = usedstormb;
+		UsedStorMB = usedstormb;
 	}
 	public String getUsedStorUtcTicks() {
-		return mUsedStorUtcTicks;
+		return UsedStorUtcTicks;
 	}
 
 	public void setUsedStorUtcTicks(String usedstorutcticks) {
-		mUsedStorUtcTicks = usedstorutcticks;
+		UsedStorUtcTicks = usedstorutcticks;
 	}
 	public String getUsedStorBytes() {
-		return mUsedStorBytes;
+		return UsedStorBytes;
 	}
 
 	public void setUsedStorBytes(String usedstorbytes) {
-		mUsedStorBytes = usedstorbytes;
+		UsedStorBytes = usedstorbytes;
 	}
 	public Boolean getIsEmployee() {
-		return mIsEmployee;
+		return IsEmployee;
 	}
 
 	public void setIsEmployee(Boolean isemployee) {
-		mIsEmployee = isemployee;
+		IsEmployee = isemployee;
 	}
 	public Boolean getIsAdministrator() {
-		return mIsAdministrator;
+		return IsAdministrator;
 	}
 
 	public void setIsAdministrator(Boolean isadministrator) {
-		mIsAdministrator = isadministrator;
+		IsAdministrator = isadministrator;
 	}
 	public Boolean getCanCreateRootFolders() {
-		return mCanCreateRootFolders;
+		return CanCreateRootFolders;
 	}
 
 	public void setCanCreateRootFolders(Boolean cancreaterootfolders) {
-		mCanCreateRootFolders = cancreaterootfolders;
+		CanCreateRootFolders = cancreaterootfolders;
 	}
 	public Boolean getCanUseFileBox() {
-		return mCanUseFileBox;
+		return CanUseFileBox;
 	}
 
 	public void setCanUseFileBox(Boolean canusefilebox) {
-		mCanUseFileBox = canusefilebox;
+		CanUseFileBox = canusefilebox;
 	}
 	public Boolean getIsConfirmed() {
-		return mIsConfirmed;
+		return IsConfirmed;
 	}
 
 	public void setIsConfirmed(Boolean isconfirmed) {
-		mIsConfirmed = isconfirmed;
+		IsConfirmed = isconfirmed;
 	}
 	public Boolean getCanResetPassword() {
-		return mCanResetPassword;
+		return CanResetPassword;
 	}
 
 	public void setCanResetPassword(Boolean canresetpassword) {
-		mCanResetPassword = canresetpassword;
+		CanResetPassword = canresetpassword;
 	}
 	public String getPasswordRegEx() {
-		return mPasswordRegEx;
+		return PasswordRegEx;
 	}
 
 	public void setPasswordRegEx(String passwordregex) {
-		mPasswordRegEx = passwordregex;
+		PasswordRegEx = passwordregex;
 	}
 	public Boolean getCanManageMySettings() {
-		return mCanManageMySettings;
+		return CanManageMySettings;
 	}
 
 	public void setCanManageMySettings(Boolean canmanagemysettings) {
-		mCanManageMySettings = canmanagemysettings;
+		CanManageMySettings = canmanagemysettings;
 	}
 	public String getHomeFolder() {
-		return mHomeFolder;
+		return HomeFolder;
 	}
 
 	public void setHomeFolder(String homefolder) {
-		mHomeFolder = homefolder;
+		HomeFolder = homefolder;
 	}
 	public Boolean getEnableAutoUpdate() {
-		return mEnableAutoUpdate;
+		return EnableAutoUpdate;
 	}
 
 	public void setEnableAutoUpdate(Boolean enableautoupdate) {
-		mEnableAutoUpdate = enableautoupdate;
+		EnableAutoUpdate = enableautoupdate;
 	}
 	public Boolean getEnableTopLevelView() {
-		return mEnableTopLevelView;
+		return EnableTopLevelView;
 	}
 
 	public void setEnableTopLevelView(Boolean enabletoplevelview) {
-		mEnableTopLevelView = enabletoplevelview;
+		EnableTopLevelView = enabletoplevelview;
 	}
 }

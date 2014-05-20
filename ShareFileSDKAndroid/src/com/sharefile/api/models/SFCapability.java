@@ -12,25 +12,23 @@
 
 package com.sharefile.api.models;
 
-import com.sharefile.api.enumerations.SFCapabilityName;
-
 public class SFCapability extends SFODataObject {
 
-	private SFCapabilityName mName;
-	private String mVersion;
+	private SFCapabilityName Name;
+	private String Version;
 
 	public SFCapabilityName getName() {
-		return mName;
+		return Name;
 	}
 
 	public void setName(SFCapabilityName name) {
-		mName = name;
+		Name = name;
 	}
 	public String getVersion() {
-		return mVersion;
+		return Version;
 	}
 
 	public void setVersion(String version) {
-		mVersion = version;
+		Version = version;
 	}
 }

@@ -14,13 +14,13 @@ package com.sharefile.api.models;
 
 public class SFRequireWebPopResult extends SFODataObject {
 
-	private Boolean mRequireWebPop;
+	private Boolean RequireWebPop;
 
 	public Boolean getRequireWebPop() {
-		return mRequireWebPop;
+		return RequireWebPop;
 	}
 
 	public void setRequireWebPop(Boolean requirewebpop) {
-		mRequireWebPop = requirewebpop;
+		RequireWebPop = requirewebpop;
 	}
 }

@@ -16,37 +16,37 @@ import java.net.URI;
 
 public class SFDownloadSpecification extends SFODataObject {
 
-	private String mDownloadToken;
-	private String mPrepareXmlInfo;
-	private URI mDownloadUrl;
-	private URI mDownloadPrepStartURL;
+	private String DownloadToken;
+	private String PrepareXmlInfo;
+	private URI DownloadUrl;
+	private URI DownloadPrepStartURL;
 
 	public String getDownloadToken() {
-		return mDownloadToken;
+		return DownloadToken;
 	}
 
 	public void setDownloadToken(String downloadtoken) {
-		mDownloadToken = downloadtoken;
+		DownloadToken = downloadtoken;
 	}
 	public String getPrepareXmlInfo() {
-		return mPrepareXmlInfo;
+		return PrepareXmlInfo;
 	}
 
 	public void setPrepareXmlInfo(String preparexmlinfo) {
-		mPrepareXmlInfo = preparexmlinfo;
+		PrepareXmlInfo = preparexmlinfo;
 	}
 	public URI getDownloadUrl() {
-		return mDownloadUrl;
+		return DownloadUrl;
 	}
 
 	public void setDownloadUrl(URI downloadurl) {
-		mDownloadUrl = downloadurl;
+		DownloadUrl = downloadurl;
 	}
 	public URI getDownloadPrepStartURL() {
-		return mDownloadPrepStartURL;
+		return DownloadPrepStartURL;
 	}
 
 	public void setDownloadPrepStartURL(URI downloadprepstarturl) {
-		mDownloadPrepStartURL = downloadprepstarturl;
+		DownloadPrepStartURL = downloadprepstarturl;
 	}
 }

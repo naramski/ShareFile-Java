@@ -12,36 +12,37 @@ import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.NameValuePair;
 
 import android.util.Base64;
-import android.webkit.CookieManager;
 
-import com.sharefile.api.SFApiQuery;
-import com.sharefile.api.V3Error;
-import com.sharefile.api.android.utils.SFLog;
-import com.sharefile.api.android.utils.Utils;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.utils.Utils;
+import com.sharefile.java.log.SLog;
 
 public class SFHttpsCaller 
 {
-	private static final String TAG = "-SFHttpCaller";
+	private static final String TAG = SFKeywords.TAG + "-SFHttpCaller";
 	
 	private static final String NO_AUTH_CHALLENGES = "No authentication challenges found";
-	private static final String UN_REACHABLE       = "resolved";
 	private static final String OUT_OF_MEMORY = "memory";
 	
-	private static CookieManager m_cookieManager = null;
+	//private static CookieManager m_cookieManager = null;
+		
+	public static void setBasicAuth(URLConnection conn,String username,String password)
+	{			
+		String combinepass = username +SFKeywords.COLON + password;
+		String basicAuth = "Basic " + new String(Base64.encode(combinepass.getBytes(),Base64.NO_WRAP ));
+		conn.setRequestProperty ("Authorization", basicAuth);
+	}
 	
 	public static void postBody(URLConnection conn, String body) throws IOException
 	{		
@@ -59,26 +60,6 @@ public class SFHttpsCaller
 		return url.openConnection();
 	}
 		
-	private static String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
-	{
-	    StringBuilder result = new StringBuilder();
-	    boolean first = true;
-
-	    for (NameValuePair pair : params)
-	    {
-	        if (first)
-	            first = false;
-	        else
-	            result.append(","); //CHECK THIS. DOES THIS NEED URLENCODE?
-
-	        result.append("\""+pair.getName()+"\"");
-	        result.append(":");
-	        result.append("\""+pair.getValue()+"\"");
-	    }
-
-	    return "{" + result.toString() + "}";
-	}
-	
 	/**     
      grant_type=authorization_code&code=CvJ4LMgMDHuZGLXgJgJdDYR17Hd3b5&client_id=3fTJB2mjJ7KaNflPWJ8MylHos&client_secret=Y8LzHuYvxjxc8FE7s1HNe96s0xGVM4
 	 */
@@ -106,7 +87,7 @@ public class SFHttpsCaller
 	    return result.toString();
 	}
 	
-	private static void setAcceptLanguage(URLConnection conn)
+	public static void setAcceptLanguage(URLConnection conn)
 	{
 		conn.setRequestProperty("Accept-Language", Utils.getAcceptLanguageString());
 	}
@@ -151,50 +132,7 @@ public class SFHttpsCaller
 		setRequestMethod(conn,SFHttpMethod.DELETE.toString());		
 		conn.setDoInput(true);
 	}
-
-	private static final boolean debugCookies = true;
-	
-	public static synchronized void setAuth(URLConnection conn, URL url,String basicAuthCreds)
-	{			
-		if(m_cookieManager==null)
-		{			
-			m_cookieManager = CookieManager.getInstance();			
-		}
-		
-		if(basicAuthCreds!=null)
-		{			
-			String basicAuth = "Basic " + new String(Base64.encode(basicAuthCreds.getBytes(),Base64.NO_WRAP ));			
-			conn.setRequestProperty ("Authorization", basicAuth);			
-		}
-		
-		String cookie = m_cookieManager.getCookie(url.toString());
-		if (cookie != null)
-		{				
-			conn.setRequestProperty("Cookie", cookie);			
-		}				
-	}
-	
-	/**
-	 * Set auth cookie as well as Auth header
-	 */
-	public static synchronized void setExtraAuth(URLConnection conn, URL url,String basicAuthCreds)
-	{			
-		if(m_cookieManager==null)
-		{			
-			m_cookieManager = CookieManager.getInstance();			
-		}
-		
-		if(basicAuthCreds!=null)
-		{			
-			String basicAuth = "Basic " + new String(Base64.encode(basicAuthCreds.getBytes(),Base64.NO_WRAP ));			
-			conn.setRequestProperty ("Authorization", basicAuth);			
-		}
-						
-		String cookie = m_cookieManager.getCookie(url.toString());
-				
-		conn.setRequestProperty("Cookie", cookie);		
-	}
-	
+			
 	public static int catchIfAuthException(IOException e) throws IOException
 	{
 		String errMessage = e.getLocalizedMessage();
@@ -226,7 +164,7 @@ public class SFHttpsCaller
 		{
 			if(errMessage.contains(OUT_OF_MEMORY))
 			{				
-				SFLog.d2(TAG, "Gracefull catching out of memmory");
+				SLog.d(TAG, "Gracefull catching out of memmory");
 				return 500;
 			}				
 		}		
@@ -260,7 +198,7 @@ public class SFHttpsCaller
 			httpErrorCode = catchIfAuthException(e);
 		}
 		
-		SFLog.d2(TAG,"ERR_CODE: " + httpErrorCode);
+		SLog.d(TAG,"ERR_CODE: " + httpErrorCode);
 		
 		return httpErrorCode;		
 	}
@@ -275,14 +213,15 @@ public class SFHttpsCaller
 	 *  if responsecode == HTTP_OK then read the cookies.
 	 *  
 	 *  <p>This function always returns a valid V3Error in any non-success case or NULL if HTTP_OK
+	 * @throws IOException 
 	 */
-	public static V3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url)
+	public static SFV3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url,SFCookieManager cookieManager) throws IOException
 	{
-		V3Error v3Error = null;
+		SFV3Error v3Error = null;
 		
 		if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 		{
-			getAndStoreCookies(conn,url);
+			getAndStoreCookies(conn,url,cookieManager);
 			return v3Error;
 		}
 		
@@ -290,15 +229,15 @@ public class SFHttpsCaller
 		{
 			String inputLine = readErrorResponse(conn);
 			
-			SFLog.d2(TAG,  "ERR PAGE: " + inputLine);
+			SLog.d(TAG,  "ERR PAGE: " + inputLine);
 			
-			v3Error = new V3Error(httpErrorCode,inputLine);
+			v3Error = new SFV3Error(httpErrorCode,inputLine);
 		}
 		catch (Exception e) 
 		{			
 			//try constructing the error from the exception.
 			
-			v3Error = new V3Error(httpErrorCode, e.getLocalizedMessage());
+			v3Error = new SFV3Error(httpErrorCode, e.getLocalizedMessage());
 		}
 		
 		return v3Error;
@@ -306,61 +245,12 @@ public class SFHttpsCaller
 	}
 	
 		
-	private static void dumpHeaders(Map<String, List<String>> headerfield)
+	public static synchronized void getAndStoreCookies(URLConnection conn, URL url,SFCookieManager cookieManager) throws IOException
 	{
-		SFLog.d2(TAG, "START----------Dumping Header Feilds: " + headerfield);
-		
-		if(headerfield!=null)
-		{
-			Set<String>  keys = headerfield.keySet();
-						
-			if(keys!=null)
-			{
-				for(String key:keys)
-				{
-					SFLog.d2(TAG, "--- KEY:  " + key);
-					
-					List<String> cookie_values = headerfield.get(key);
-															
-					if(cookie_values!=null)
-					{
-						for(String s:cookie_values)
-						{
-							SFLog.d2(TAG,"---------Value: " + s);							    			    								
-						}
-					}
-				}
-			}
-		}
-		
-		SFLog.d2(TAG, "!!!!!!Dumping Header Feilds:----END ");
-	}
-	
-	private static synchronized void getAndStoreCookies(URLConnection conn, URL url)
-	{
-		if(m_cookieManager==null)
-		{			
-			m_cookieManager = CookieManager.getInstance();			
-		}
-		
-		Map<String, List<String>> headerfield = conn.getHeaderFields();
-				
-		dumpHeaders(headerfield);
-		
-		List<String> cookie_values = headerfield.get("Set-Cookie");
-		
-		if(cookie_values!=null)
-		{
-			for(String s:cookie_values)
-			{
-				if(m_cookieManager!=null)
-				{
-					m_cookieManager.setCookie(url.toString(), s);										
-				}    			    								
-			}
-		}
-		
-		SFLog.d2(TAG, "Final Stored Auth Cookie : " + m_cookieManager.getCookie(url.toString()));
+		if(cookieManager!=null)
+		{						
+			cookieManager.readCookiesFromConnection(conn);
+		}				
 	}
 			
 	public static String readResponse(URLConnection conn) throws IOException 
@@ -381,18 +271,20 @@ public class SFHttpsCaller
 		}
 		catch (OutOfMemoryError e) 
 		{
-			SFLog.d2(TAG, "Error: " + e.getLocalizedMessage());
+			SLog.d(TAG, "Error: " , e);
 			
 			throw new IOException("Out of memory");
 		}
 		
-		SFLog.d2(TAG, "SUCCESS RESPONSE: %s", sb.toString());
-		
 		urlstream.close();
+		
+		String response = sb.toString();
+				
+		SLog.d(TAG, "SUCCESS RESPONSE size: " + response.length());						
 			
-		return sb.toString();
+		return response;
 	}
-	
+			
 	public static String readErrorResponse(URLConnection conn) throws IOException
 	{
 		StringBuilder sb = new StringBuilder();
@@ -420,27 +312,11 @@ public class SFHttpsCaller
 			sb.append(inputLine);
 		}
 		
-		SFLog.d2(TAG, "ERROR RESPONSE: %s",sb.toString());
+		SLog.d(TAG, "ERROR RESPONSE SIZE: " + sb.length());
 		
 		urlstream.close();
 				
 		return sb.toString();
-	}
-	
-	/**
-	 * the url should begin with https or http. The external address in case of pactera during the connector creation 
-	 * does not start with https
-	 */
-	private static String makeValidHttpsLink(String urlstr)
-	{		
-		if(urlstr.startsWith("http://") || urlstr.startsWith("https://"))
-		{
-			return urlstr;
-		}
-		
-		SFLog.d2(TAG, "makeValidHttpsLink =  https://" + urlstr);
-		
-		return "https://"+ urlstr;		
 	}
 	
 	public static void disconnect(URLConnection conn)
@@ -460,7 +336,37 @@ public class SFHttpsCaller
 	}
 		
 	public static void addBearerAuthorizationHeader(URLConnection connection,SFOAuth2Token token) 
-	{
+	{				
 		connection.addRequestProperty("Authorization",String.format("Bearer %s", token.getAccessToken()));
 	}		
+	
+	/**
+	 * TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
+	   We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
+	 * @throws IOException 
+	*/	
+	public static void addAuthenticationHeader(URLConnection connection,SFOAuth2Token token,String userName,String password, SFCookieManager cookieManager) throws IOException
+	{
+		String path = connection.getURL().getPath();
+		
+		if(cookieManager!=null)
+		{			
+			cookieManager.setCookies(connection);
+		}
+		
+		switch(SFProvider.getProviderTypeFromString(path))
+		{
+			case PROVIDER_TYPE_SF:
+				SFHttpsCaller.addBearerAuthorizationHeader(connection, token);
+			break;
+			
+			default:
+				if(userName!=null && password!=null)
+				{			
+					setBasicAuth(connection, userName, password);			
+				}
+			break;	
+		}
+		
+	}
 }

@@ -1,10 +1,11 @@
 package com.sharefile.api.interfaces;
 
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFV3Error;
 import com.sharefile.api.models.SFODataObject;
 
 public interface SFApiResponseListener<T extends SFODataObject>
 {
-	public void sfapiSuccess(T object);
-	public void sfApiError(int errorCode,String errorMessage, SFApiQuery<T> asApiqueri);
+	public void sfApiSuccess(T object);
+	public void sfApiError(SFV3Error error, SFApiQuery<T> sfapiApiqueri);	
 }

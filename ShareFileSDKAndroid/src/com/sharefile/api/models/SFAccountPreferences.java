@@ -12,545 +12,543 @@
 
 package com.sharefile.api.models;
 
-import com.sharefile.api.enumerations.SFUXMode;
-
 public class SFAccountPreferences extends SFODataObject {
 
-	private Boolean mEnableViewOnly;
-	private Boolean mEnableWatermarkOnViewOnly;
-	private Boolean mAllowProactiveNotifications;
-	private Boolean mShowUserListToClients;
-	private Boolean mRequireLoginOnDownload;
-	private Boolean mRequireLoginByDefault;
-	private Boolean mEnableClientSend;
-	private Boolean mEnableThumbnails;
-	private Boolean mEnableSSO;
-	private Integer mVirusStrictness;
-	private Boolean mEnableSfAdi;
-	private Boolean mEnableMultipleZones;
-	private SFZone mDefaultZone;
-	private Boolean mEnableVersioning;
-	private String mSystemType;
-	private Boolean mEnableSync;
-	private String mSystemName;
-	private String mHomeScreenName;
-	private Boolean mShowTermsCheckbox;
-	private String mTermsCheckboxText;
-	private Integer mTermsCheckboxStrictness;
-	private Boolean mRequireCompanyNameWithUserInfo;
-	private Boolean mEnableEditor;
-	private Integer mShareIDMaxExpirationDays;
-	private Boolean mAdminIsSuperUser;
-	private Boolean mShowFolderAccessList;
-	private Boolean mFromEmailIsShareFile;
-	private Boolean mUseAlternateSMTP;
-	private Boolean mShowPasswordInEmail;
-	private String mEmailPasswordText;
-	private Boolean mEnableSelfNotificationsUpload;
-	private Boolean mEnableSelfNotificationsDownload;
-	private Boolean mEnableUploadShareIDReceipt;
-	private Integer mDefaultConsolidatedNotificationInterval;
-	private Integer mExpirationDays;
-	private String mDefaultSortField;
-	private String mDefaultSortOrder;
-	private Boolean mDefaultIsVersioned;
-	private Integer mDefaultMaxVersions;
-	private String mViewOnlyWatermarkText;
-	private Boolean mEnableDocViewerPrinting;
-	private Boolean mEnableWatermarkedDownloads;
-	private Boolean mEnableCaseSensitivePasswords;
-	private Boolean mEnableTwoFactorAuth;
-	private Integer mLoginFailMaxAttempts;
-	private Integer mLoginFailLockoutSecs;
-	private String mIPRestrictions;
-	private Integer mInactiveTimeoutMins;
-	private Integer mOAuth2RefreshTokenLifetimeMinutes;
-	private String mPasswordRegEx;
-	private String mPasswordRegExFormula;
-	private String mPasswordRegExDescription;
-	private Boolean mEnableActivationLinks;
-	private Boolean mIsFINRA;
-	private Boolean mEnableOAuth;
-	private Boolean mEnableQandA;
-	private Boolean mEnableQandATextInNotifications;
-	private SFUXMode mUXMode;
-	private Integer mPasswordMaxAgeDays;
-	private Integer mPasswordHistoryCount;
-	private Integer mMinimumLength;
-	private Boolean mAlphaRequired;
-	private Boolean mCaseRequired;
-	private Boolean mNumericRequired;
-	private Boolean mSpecialRequired;
-	private String mAllowedSpecialCharacters;
-	private String mAccountID;
+	private Boolean EnableViewOnly;
+	private Boolean EnableWatermarkOnViewOnly;
+	private Boolean AllowProactiveNotifications;
+	private Boolean ShowUserListToClients;
+	private Boolean RequireLoginOnDownload;
+	private Boolean RequireLoginByDefault;
+	private Boolean EnableClientSend;
+	private Boolean EnableThumbnails;
+	private Boolean EnableSSO;
+	private Integer VirusStrictness;
+	private Boolean EnableSfAdi;
+	private Boolean EnableMultipleZones;
+	private SFZone DefaultZone;
+	private Boolean EnableVersioning;
+	private String SystemType;
+	private Boolean EnableSync;
+	private String SystemName;
+	private String HomeScreenName;
+	private Boolean ShowTermsCheckbox;
+	private String TermsCheckboxText;
+	private Integer TermsCheckboxStrictness;
+	private Boolean RequireCompanyNameWithUserInfo;
+	private Boolean EnableEditor;
+	private Integer ShareIDMaxExpirationDays;
+	private Boolean AdminIsSuperUser;
+	private Boolean ShowFolderAccessList;
+	private Boolean FromEmailIsShareFile;
+	private Boolean UseAlternateSMTP;
+	private Boolean ShowPasswordInEmail;
+	private String EmailPasswordText;
+	private Boolean EnableSelfNotificationsUpload;
+	private Boolean EnableSelfNotificationsDownload;
+	private Boolean EnableUploadShareIDReceipt;
+	private Integer DefaultConsolidatedNotificationInterval;
+	private Integer ExpirationDays;
+	private String DefaultSortField;
+	private String DefaultSortOrder;
+	private Boolean DefaultIsVersioned;
+	private Integer DefaultMaxVersions;
+	private String ViewOnlyWatermarkText;
+	private Boolean EnableDocViewerPrinting;
+	private Boolean EnableWatermarkedDownloads;
+	private Boolean EnableCaseSensitivePasswords;
+	private Boolean EnableTwoFactorAuth;
+	private Integer LoginFailMaxAttempts;
+	private Integer LoginFailLockoutSecs;
+	private String IPRestrictions;
+	private Integer InactiveTimeoutMins;
+	private Integer OAuth2RefreshTokenLifetimeMinutes;
+	private String PasswordRegEx;
+	private String PasswordRegExFormula;
+	private String PasswordRegExDescription;
+	private Boolean EnableActivationLinks;
+	private Boolean IsFINRA;
+	private Boolean EnableOAuth;
+	private Boolean EnableQandA;
+	private Boolean EnableQandATextInNotifications;
+	private SFUXMode UXMode;
+	private Integer PasswordMaxAgeDays;
+	private Integer PasswordHistoryCount;
+	private Integer MinimumLength;
+	private Boolean AlphaRequired;
+	private Boolean CaseRequired;
+	private Boolean NumericRequired;
+	private Boolean SpecialRequired;
+	private String AllowedSpecialCharacters;
+	private String AccountID;
 
 	public Boolean getEnableViewOnly() {
-		return mEnableViewOnly;
+		return EnableViewOnly;
 	}
 
 	public void setEnableViewOnly(Boolean enableviewonly) {
-		mEnableViewOnly = enableviewonly;
+		EnableViewOnly = enableviewonly;
 	}
 	public Boolean getEnableWatermarkOnViewOnly() {
-		return mEnableWatermarkOnViewOnly;
+		return EnableWatermarkOnViewOnly;
 	}
 
 	public void setEnableWatermarkOnViewOnly(Boolean enablewatermarkonviewonly) {
-		mEnableWatermarkOnViewOnly = enablewatermarkonviewonly;
+		EnableWatermarkOnViewOnly = enablewatermarkonviewonly;
 	}
 	public Boolean getAllowProactiveNotifications() {
-		return mAllowProactiveNotifications;
+		return AllowProactiveNotifications;
 	}
 
 	public void setAllowProactiveNotifications(Boolean allowproactivenotifications) {
-		mAllowProactiveNotifications = allowproactivenotifications;
+		AllowProactiveNotifications = allowproactivenotifications;
 	}
 	public Boolean getShowUserListToClients() {
-		return mShowUserListToClients;
+		return ShowUserListToClients;
 	}
 
 	public void setShowUserListToClients(Boolean showuserlisttoclients) {
-		mShowUserListToClients = showuserlisttoclients;
+		ShowUserListToClients = showuserlisttoclients;
 	}
 	public Boolean getRequireLoginOnDownload() {
-		return mRequireLoginOnDownload;
+		return RequireLoginOnDownload;
 	}
 
 	public void setRequireLoginOnDownload(Boolean requireloginondownload) {
-		mRequireLoginOnDownload = requireloginondownload;
+		RequireLoginOnDownload = requireloginondownload;
 	}
 	public Boolean getRequireLoginByDefault() {
-		return mRequireLoginByDefault;
+		return RequireLoginByDefault;
 	}
 
 	public void setRequireLoginByDefault(Boolean requireloginbydefault) {
-		mRequireLoginByDefault = requireloginbydefault;
+		RequireLoginByDefault = requireloginbydefault;
 	}
 	public Boolean getEnableClientSend() {
-		return mEnableClientSend;
+		return EnableClientSend;
 	}
 
 	public void setEnableClientSend(Boolean enableclientsend) {
-		mEnableClientSend = enableclientsend;
+		EnableClientSend = enableclientsend;
 	}
 	public Boolean getEnableThumbnails() {
-		return mEnableThumbnails;
+		return EnableThumbnails;
 	}
 
 	public void setEnableThumbnails(Boolean enablethumbnails) {
-		mEnableThumbnails = enablethumbnails;
+		EnableThumbnails = enablethumbnails;
 	}
 	public Boolean getEnableSSO() {
-		return mEnableSSO;
+		return EnableSSO;
 	}
 
 	public void setEnableSSO(Boolean enablesso) {
-		mEnableSSO = enablesso;
+		EnableSSO = enablesso;
 	}
 	public Integer getVirusStrictness() {
-		return mVirusStrictness;
+		return VirusStrictness;
 	}
 
 	public void setVirusStrictness(Integer virusstrictness) {
-		mVirusStrictness = virusstrictness;
+		VirusStrictness = virusstrictness;
 	}
 	public Boolean getEnableSfAdi() {
-		return mEnableSfAdi;
+		return EnableSfAdi;
 	}
 
 	public void setEnableSfAdi(Boolean enablesfadi) {
-		mEnableSfAdi = enablesfadi;
+		EnableSfAdi = enablesfadi;
 	}
 	public Boolean getEnableMultipleZones() {
-		return mEnableMultipleZones;
+		return EnableMultipleZones;
 	}
 
 	public void setEnableMultipleZones(Boolean enablemultiplezones) {
-		mEnableMultipleZones = enablemultiplezones;
+		EnableMultipleZones = enablemultiplezones;
 	}
 	public SFZone getDefaultZone() {
-		return mDefaultZone;
+		return DefaultZone;
 	}
 
 	public void setDefaultZone(SFZone defaultzone) {
-		mDefaultZone = defaultzone;
+		DefaultZone = defaultzone;
 	}
 	public Boolean getEnableVersioning() {
-		return mEnableVersioning;
+		return EnableVersioning;
 	}
 
 	public void setEnableVersioning(Boolean enableversioning) {
-		mEnableVersioning = enableversioning;
+		EnableVersioning = enableversioning;
 	}
 	public String getSystemType() {
-		return mSystemType;
+		return SystemType;
 	}
 
 	public void setSystemType(String systemtype) {
-		mSystemType = systemtype;
+		SystemType = systemtype;
 	}
 	public Boolean getEnableSync() {
-		return mEnableSync;
+		return EnableSync;
 	}
 
 	public void setEnableSync(Boolean enablesync) {
-		mEnableSync = enablesync;
+		EnableSync = enablesync;
 	}
 	public String getSystemName() {
-		return mSystemName;
+		return SystemName;
 	}
 
 	public void setSystemName(String systemname) {
-		mSystemName = systemname;
+		SystemName = systemname;
 	}
 	public String getHomeScreenName() {
-		return mHomeScreenName;
+		return HomeScreenName;
 	}
 
 	public void setHomeScreenName(String homescreenname) {
-		mHomeScreenName = homescreenname;
+		HomeScreenName = homescreenname;
 	}
 	public Boolean getShowTermsCheckbox() {
-		return mShowTermsCheckbox;
+		return ShowTermsCheckbox;
 	}
 
 	public void setShowTermsCheckbox(Boolean showtermscheckbox) {
-		mShowTermsCheckbox = showtermscheckbox;
+		ShowTermsCheckbox = showtermscheckbox;
 	}
 	public String getTermsCheckboxText() {
-		return mTermsCheckboxText;
+		return TermsCheckboxText;
 	}
 
 	public void setTermsCheckboxText(String termscheckboxtext) {
-		mTermsCheckboxText = termscheckboxtext;
+		TermsCheckboxText = termscheckboxtext;
 	}
 	public Integer getTermsCheckboxStrictness() {
-		return mTermsCheckboxStrictness;
+		return TermsCheckboxStrictness;
 	}
 
 	public void setTermsCheckboxStrictness(Integer termscheckboxstrictness) {
-		mTermsCheckboxStrictness = termscheckboxstrictness;
+		TermsCheckboxStrictness = termscheckboxstrictness;
 	}
 	public Boolean getRequireCompanyNameWithUserInfo() {
-		return mRequireCompanyNameWithUserInfo;
+		return RequireCompanyNameWithUserInfo;
 	}
 
 	public void setRequireCompanyNameWithUserInfo(Boolean requirecompanynamewithuserinfo) {
-		mRequireCompanyNameWithUserInfo = requirecompanynamewithuserinfo;
+		RequireCompanyNameWithUserInfo = requirecompanynamewithuserinfo;
 	}
 	public Boolean getEnableEditor() {
-		return mEnableEditor;
+		return EnableEditor;
 	}
 
 	public void setEnableEditor(Boolean enableeditor) {
-		mEnableEditor = enableeditor;
+		EnableEditor = enableeditor;
 	}
 	public Integer getShareIDMaxExpirationDays() {
-		return mShareIDMaxExpirationDays;
+		return ShareIDMaxExpirationDays;
 	}
 
 	public void setShareIDMaxExpirationDays(Integer shareidmaxexpirationdays) {
-		mShareIDMaxExpirationDays = shareidmaxexpirationdays;
+		ShareIDMaxExpirationDays = shareidmaxexpirationdays;
 	}
 	public Boolean getAdminIsSuperUser() {
-		return mAdminIsSuperUser;
+		return AdminIsSuperUser;
 	}
 
 	public void setAdminIsSuperUser(Boolean adminissuperuser) {
-		mAdminIsSuperUser = adminissuperuser;
+		AdminIsSuperUser = adminissuperuser;
 	}
 	public Boolean getShowFolderAccessList() {
-		return mShowFolderAccessList;
+		return ShowFolderAccessList;
 	}
 
 	public void setShowFolderAccessList(Boolean showfolderaccesslist) {
-		mShowFolderAccessList = showfolderaccesslist;
+		ShowFolderAccessList = showfolderaccesslist;
 	}
 	public Boolean getFromEmailIsShareFile() {
-		return mFromEmailIsShareFile;
+		return FromEmailIsShareFile;
 	}
 
 	public void setFromEmailIsShareFile(Boolean fromemailissharefile) {
-		mFromEmailIsShareFile = fromemailissharefile;
+		FromEmailIsShareFile = fromemailissharefile;
 	}
 	public Boolean getUseAlternateSMTP() {
-		return mUseAlternateSMTP;
+		return UseAlternateSMTP;
 	}
 
 	public void setUseAlternateSMTP(Boolean usealternatesmtp) {
-		mUseAlternateSMTP = usealternatesmtp;
+		UseAlternateSMTP = usealternatesmtp;
 	}
 	public Boolean getShowPasswordInEmail() {
-		return mShowPasswordInEmail;
+		return ShowPasswordInEmail;
 	}
 
 	public void setShowPasswordInEmail(Boolean showpasswordinemail) {
-		mShowPasswordInEmail = showpasswordinemail;
+		ShowPasswordInEmail = showpasswordinemail;
 	}
 	public String getEmailPasswordText() {
-		return mEmailPasswordText;
+		return EmailPasswordText;
 	}
 
 	public void setEmailPasswordText(String emailpasswordtext) {
-		mEmailPasswordText = emailpasswordtext;
+		EmailPasswordText = emailpasswordtext;
 	}
 	public Boolean getEnableSelfNotificationsUpload() {
-		return mEnableSelfNotificationsUpload;
+		return EnableSelfNotificationsUpload;
 	}
 
 	public void setEnableSelfNotificationsUpload(Boolean enableselfnotificationsupload) {
-		mEnableSelfNotificationsUpload = enableselfnotificationsupload;
+		EnableSelfNotificationsUpload = enableselfnotificationsupload;
 	}
 	public Boolean getEnableSelfNotificationsDownload() {
-		return mEnableSelfNotificationsDownload;
+		return EnableSelfNotificationsDownload;
 	}
 
 	public void setEnableSelfNotificationsDownload(Boolean enableselfnotificationsdownload) {
-		mEnableSelfNotificationsDownload = enableselfnotificationsdownload;
+		EnableSelfNotificationsDownload = enableselfnotificationsdownload;
 	}
 	public Boolean getEnableUploadShareIDReceipt() {
-		return mEnableUploadShareIDReceipt;
+		return EnableUploadShareIDReceipt;
 	}
 
 	public void setEnableUploadShareIDReceipt(Boolean enableuploadshareidreceipt) {
-		mEnableUploadShareIDReceipt = enableuploadshareidreceipt;
+		EnableUploadShareIDReceipt = enableuploadshareidreceipt;
 	}
 	public Integer getDefaultConsolidatedNotificationInterval() {
-		return mDefaultConsolidatedNotificationInterval;
+		return DefaultConsolidatedNotificationInterval;
 	}
 
 	public void setDefaultConsolidatedNotificationInterval(Integer defaultconsolidatednotificationinterval) {
-		mDefaultConsolidatedNotificationInterval = defaultconsolidatednotificationinterval;
+		DefaultConsolidatedNotificationInterval = defaultconsolidatednotificationinterval;
 	}
 	public Integer getExpirationDays() {
-		return mExpirationDays;
+		return ExpirationDays;
 	}
 
 	public void setExpirationDays(Integer expirationdays) {
-		mExpirationDays = expirationdays;
+		ExpirationDays = expirationdays;
 	}
 	public String getDefaultSortField() {
-		return mDefaultSortField;
+		return DefaultSortField;
 	}
 
 	public void setDefaultSortField(String defaultsortfield) {
-		mDefaultSortField = defaultsortfield;
+		DefaultSortField = defaultsortfield;
 	}
 	public String getDefaultSortOrder() {
-		return mDefaultSortOrder;
+		return DefaultSortOrder;
 	}
 
 	public void setDefaultSortOrder(String defaultsortorder) {
-		mDefaultSortOrder = defaultsortorder;
+		DefaultSortOrder = defaultsortorder;
 	}
 	public Boolean getDefaultIsVersioned() {
-		return mDefaultIsVersioned;
+		return DefaultIsVersioned;
 	}
 
 	public void setDefaultIsVersioned(Boolean defaultisversioned) {
-		mDefaultIsVersioned = defaultisversioned;
+		DefaultIsVersioned = defaultisversioned;
 	}
 	public Integer getDefaultMaxVersions() {
-		return mDefaultMaxVersions;
+		return DefaultMaxVersions;
 	}
 
 	public void setDefaultMaxVersions(Integer defaultmaxversions) {
-		mDefaultMaxVersions = defaultmaxversions;
+		DefaultMaxVersions = defaultmaxversions;
 	}
 	public String getViewOnlyWatermarkText() {
-		return mViewOnlyWatermarkText;
+		return ViewOnlyWatermarkText;
 	}
 
 	public void setViewOnlyWatermarkText(String viewonlywatermarktext) {
-		mViewOnlyWatermarkText = viewonlywatermarktext;
+		ViewOnlyWatermarkText = viewonlywatermarktext;
 	}
 	public Boolean getEnableDocViewerPrinting() {
-		return mEnableDocViewerPrinting;
+		return EnableDocViewerPrinting;
 	}
 
 	public void setEnableDocViewerPrinting(Boolean enabledocviewerprinting) {
-		mEnableDocViewerPrinting = enabledocviewerprinting;
+		EnableDocViewerPrinting = enabledocviewerprinting;
 	}
 	public Boolean getEnableWatermarkedDownloads() {
-		return mEnableWatermarkedDownloads;
+		return EnableWatermarkedDownloads;
 	}
 
 	public void setEnableWatermarkedDownloads(Boolean enablewatermarkeddownloads) {
-		mEnableWatermarkedDownloads = enablewatermarkeddownloads;
+		EnableWatermarkedDownloads = enablewatermarkeddownloads;
 	}
 	public Boolean getEnableCaseSensitivePasswords() {
-		return mEnableCaseSensitivePasswords;
+		return EnableCaseSensitivePasswords;
 	}
 
 	public void setEnableCaseSensitivePasswords(Boolean enablecasesensitivepasswords) {
-		mEnableCaseSensitivePasswords = enablecasesensitivepasswords;
+		EnableCaseSensitivePasswords = enablecasesensitivepasswords;
 	}
 	public Boolean getEnableTwoFactorAuth() {
-		return mEnableTwoFactorAuth;
+		return EnableTwoFactorAuth;
 	}
 
 	public void setEnableTwoFactorAuth(Boolean enabletwofactorauth) {
-		mEnableTwoFactorAuth = enabletwofactorauth;
+		EnableTwoFactorAuth = enabletwofactorauth;
 	}
 	public Integer getLoginFailMaxAttempts() {
-		return mLoginFailMaxAttempts;
+		return LoginFailMaxAttempts;
 	}
 
 	public void setLoginFailMaxAttempts(Integer loginfailmaxattempts) {
-		mLoginFailMaxAttempts = loginfailmaxattempts;
+		LoginFailMaxAttempts = loginfailmaxattempts;
 	}
 	public Integer getLoginFailLockoutSecs() {
-		return mLoginFailLockoutSecs;
+		return LoginFailLockoutSecs;
 	}
 
 	public void setLoginFailLockoutSecs(Integer loginfaillockoutsecs) {
-		mLoginFailLockoutSecs = loginfaillockoutsecs;
+		LoginFailLockoutSecs = loginfaillockoutsecs;
 	}
 	public String getIPRestrictions() {
-		return mIPRestrictions;
+		return IPRestrictions;
 	}
 
 	public void setIPRestrictions(String iprestrictions) {
-		mIPRestrictions = iprestrictions;
+		IPRestrictions = iprestrictions;
 	}
 	public Integer getInactiveTimeoutMins() {
-		return mInactiveTimeoutMins;
+		return InactiveTimeoutMins;
 	}
 
 	public void setInactiveTimeoutMins(Integer inactivetimeoutmins) {
-		mInactiveTimeoutMins = inactivetimeoutmins;
+		InactiveTimeoutMins = inactivetimeoutmins;
 	}
 	public Integer getOAuth2RefreshTokenLifetimeMinutes() {
-		return mOAuth2RefreshTokenLifetimeMinutes;
+		return OAuth2RefreshTokenLifetimeMinutes;
 	}
 
 	public void setOAuth2RefreshTokenLifetimeMinutes(Integer oauth2refreshtokenlifetimeminutes) {
-		mOAuth2RefreshTokenLifetimeMinutes = oauth2refreshtokenlifetimeminutes;
+		OAuth2RefreshTokenLifetimeMinutes = oauth2refreshtokenlifetimeminutes;
 	}
 	public String getPasswordRegEx() {
-		return mPasswordRegEx;
+		return PasswordRegEx;
 	}
 
 	public void setPasswordRegEx(String passwordregex) {
-		mPasswordRegEx = passwordregex;
+		PasswordRegEx = passwordregex;
 	}
 	public String getPasswordRegExFormula() {
-		return mPasswordRegExFormula;
+		return PasswordRegExFormula;
 	}
 
 	public void setPasswordRegExFormula(String passwordregexformula) {
-		mPasswordRegExFormula = passwordregexformula;
+		PasswordRegExFormula = passwordregexformula;
 	}
 	public String getPasswordRegExDescription() {
-		return mPasswordRegExDescription;
+		return PasswordRegExDescription;
 	}
 
 	public void setPasswordRegExDescription(String passwordregexdescription) {
-		mPasswordRegExDescription = passwordregexdescription;
+		PasswordRegExDescription = passwordregexdescription;
 	}
 	public Boolean getEnableActivationLinks() {
-		return mEnableActivationLinks;
+		return EnableActivationLinks;
 	}
 
 	public void setEnableActivationLinks(Boolean enableactivationlinks) {
-		mEnableActivationLinks = enableactivationlinks;
+		EnableActivationLinks = enableactivationlinks;
 	}
 	public Boolean getIsFINRA() {
-		return mIsFINRA;
+		return IsFINRA;
 	}
 
 	public void setIsFINRA(Boolean isfinra) {
-		mIsFINRA = isfinra;
+		IsFINRA = isfinra;
 	}
 	public Boolean getEnableOAuth() {
-		return mEnableOAuth;
+		return EnableOAuth;
 	}
 
 	public void setEnableOAuth(Boolean enableoauth) {
-		mEnableOAuth = enableoauth;
+		EnableOAuth = enableoauth;
 	}
 	public Boolean getEnableQandA() {
-		return mEnableQandA;
+		return EnableQandA;
 	}
 
 	public void setEnableQandA(Boolean enableqanda) {
-		mEnableQandA = enableqanda;
+		EnableQandA = enableqanda;
 	}
 	public Boolean getEnableQandATextInNotifications() {
-		return mEnableQandATextInNotifications;
+		return EnableQandATextInNotifications;
 	}
 
 	public void setEnableQandATextInNotifications(Boolean enableqandatextinnotifications) {
-		mEnableQandATextInNotifications = enableqandatextinnotifications;
+		EnableQandATextInNotifications = enableqandatextinnotifications;
 	}
 	public SFUXMode getUXMode() {
-		return mUXMode;
+		return UXMode;
 	}
 
 	public void setUXMode(SFUXMode uxmode) {
-		mUXMode = uxmode;
+		UXMode = uxmode;
 	}
 	public Integer getPasswordMaxAgeDays() {
-		return mPasswordMaxAgeDays;
+		return PasswordMaxAgeDays;
 	}
 
 	public void setPasswordMaxAgeDays(Integer passwordmaxagedays) {
-		mPasswordMaxAgeDays = passwordmaxagedays;
+		PasswordMaxAgeDays = passwordmaxagedays;
 	}
 	public Integer getPasswordHistoryCount() {
-		return mPasswordHistoryCount;
+		return PasswordHistoryCount;
 	}
 
 	public void setPasswordHistoryCount(Integer passwordhistorycount) {
-		mPasswordHistoryCount = passwordhistorycount;
+		PasswordHistoryCount = passwordhistorycount;
 	}
 	public Integer getMinimumLength() {
-		return mMinimumLength;
+		return MinimumLength;
 	}
 
 	public void setMinimumLength(Integer minimumlength) {
-		mMinimumLength = minimumlength;
+		MinimumLength = minimumlength;
 	}
 	public Boolean getAlphaRequired() {
-		return mAlphaRequired;
+		return AlphaRequired;
 	}
 
 	public void setAlphaRequired(Boolean alpharequired) {
-		mAlphaRequired = alpharequired;
+		AlphaRequired = alpharequired;
 	}
 	public Boolean getCaseRequired() {
-		return mCaseRequired;
+		return CaseRequired;
 	}
 
 	public void setCaseRequired(Boolean caserequired) {
-		mCaseRequired = caserequired;
+		CaseRequired = caserequired;
 	}
 	public Boolean getNumericRequired() {
-		return mNumericRequired;
+		return NumericRequired;
 	}
 
 	public void setNumericRequired(Boolean numericrequired) {
-		mNumericRequired = numericrequired;
+		NumericRequired = numericrequired;
 	}
 	public Boolean getSpecialRequired() {
-		return mSpecialRequired;
+		return SpecialRequired;
 	}
 
 	public void setSpecialRequired(Boolean specialrequired) {
-		mSpecialRequired = specialrequired;
+		SpecialRequired = specialrequired;
 	}
 	public String getAllowedSpecialCharacters() {
-		return mAllowedSpecialCharacters;
+		return AllowedSpecialCharacters;
 	}
 
 	public void setAllowedSpecialCharacters(String allowedspecialcharacters) {
-		mAllowedSpecialCharacters = allowedspecialcharacters;
+		AllowedSpecialCharacters = allowedspecialcharacters;
 	}
 	public String getAccountID() {
-		return mAccountID;
+		return AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		mAccountID = accountid;
+		AccountID = accountid;
 	}
 }

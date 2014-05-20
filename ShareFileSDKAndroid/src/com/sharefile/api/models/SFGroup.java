@@ -16,37 +16,37 @@ import java.util.ArrayList;
 
 public class SFGroup extends SFPrincipal {
 
-	private SFUser mOwner;
-	private SFAccount mAccount;
-	private Boolean mIsShared;
-	private ArrayList<SFContact> mContacts;
+	private SFUser Owner;
+	private SFAccount Account;
+	private Boolean IsShared;
+	private ArrayList<SFContact> Contacts;
 
 	public SFUser getOwner() {
-		return mOwner;
+		return Owner;
 	}
 
 	public void setOwner(SFUser owner) {
-		mOwner = owner;
+		Owner = owner;
 	}
 	public SFAccount getAccount() {
-		return mAccount;
+		return Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		mAccount = account;
+		Account = account;
 	}
 	public Boolean getIsShared() {
-		return mIsShared;
+		return IsShared;
 	}
 
 	public void setIsShared(Boolean isshared) {
-		mIsShared = isshared;
+		IsShared = isshared;
 	}
 	public ArrayList<SFContact> getContacts() {
-		return mContacts;
+		return Contacts;
 	}
 
 	public void setContacts(ArrayList<SFContact> contacts) {
-		mContacts = contacts;
+		Contacts = contacts;
 	}
 }

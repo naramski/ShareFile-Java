@@ -14,61 +14,61 @@ package com.sharefile.api.models;
 
 public class SFContact extends SFPrincipal {
 
-	private SFUser mUser;
-	private String mFirstName;
-	private String mLastName;
-	private String mCompany;
-	private String mEmailMedium;
-	private String mEmailShort;
-	private Boolean mIsConfirmed;
+	private SFUser User;
+	private String FirstName;
+	private String LastName;
+	private String Company;
+	private String EmailMedium;
+	private String EmailShort;
+	private Boolean IsConfirmed;
 
 	public SFUser getUser() {
-		return mUser;
+		return User;
 	}
 
 	public void setUser(SFUser user) {
-		mUser = user;
+		User = user;
 	}
 	public String getFirstName() {
-		return mFirstName;
+		return FirstName;
 	}
 
 	public void setFirstName(String firstname) {
-		mFirstName = firstname;
+		FirstName = firstname;
 	}
 	public String getLastName() {
-		return mLastName;
+		return LastName;
 	}
 
 	public void setLastName(String lastname) {
-		mLastName = lastname;
+		LastName = lastname;
 	}
 	public String getCompany() {
-		return mCompany;
+		return Company;
 	}
 
 	public void setCompany(String company) {
-		mCompany = company;
+		Company = company;
 	}
 	public String getEmailMedium() {
-		return mEmailMedium;
+		return EmailMedium;
 	}
 
 	public void setEmailMedium(String emailmedium) {
-		mEmailMedium = emailmedium;
+		EmailMedium = emailmedium;
 	}
 	public String getEmailShort() {
-		return mEmailShort;
+		return EmailShort;
 	}
 
 	public void setEmailShort(String emailshort) {
-		mEmailShort = emailshort;
+		EmailShort = emailshort;
 	}
 	public Boolean getIsConfirmed() {
-		return mIsConfirmed;
+		return IsConfirmed;
 	}
 
 	public void setIsConfirmed(Boolean isconfirmed) {
-		mIsConfirmed = isconfirmed;
+		IsConfirmed = isconfirmed;
 	}
 }

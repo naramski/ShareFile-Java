@@ -14,154 +14,151 @@ package com.sharefile.api.models;
 
 import java.util.Date;
 
-import com.sharefile.api.enumerations.SFDeviceActionInitiatorRole;
-import com.sharefile.api.enumerations.SFTool;
-
 public class SFDeviceUser extends SFODataObject {
 
-	private SFAccount mAccount;
-	private SFUser mUser;
-	private SFDevice mDevice;
-	private Boolean mIsOwner;
-	private String mFriendlyName;
-	private Boolean mWipe;
-	private Boolean mIsLocked;
-	private Boolean mIsDeleted;
-	private Date mCreated;
-	private Date mLastLogin;
-	private Date mLastWipe;
-	private String mWipeToken;
-	private String mWipeInitiator;
-	private SFDeviceActionInitiatorRole mWipeInitiatorRole;
-	private String mLockInitiator;
-	private SFDeviceActionInitiatorRole mLockInitiatorRole;
-	private SFTool mDeviceType;
-	private String mLastErrorMessage;
+	private SFAccount Account;
+	private SFUser User;
+	private SFDevice Device;
+	private Boolean IsOwner;
+	private String FriendlyName;
+	private Boolean Wipe;
+	private Boolean IsLocked;
+	private Boolean IsDeleted;
+	private Date Created;
+	private Date LastLogin;
+	private Date LastWipe;
+	private String WipeToken;
+	private String WipeInitiator;
+	private SFDeviceActionInitiatorRole WipeInitiatorRole;
+	private String LockInitiator;
+	private SFDeviceActionInitiatorRole LockInitiatorRole;
+	private SFSFTool DeviceType;
+	private String LastErrorMessage;
 
 	public SFAccount getAccount() {
-		return mAccount;
+		return Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		mAccount = account;
+		Account = account;
 	}
 	public SFUser getUser() {
-		return mUser;
+		return User;
 	}
 
 	public void setUser(SFUser user) {
-		mUser = user;
+		User = user;
 	}
 	public SFDevice getDevice() {
-		return mDevice;
+		return Device;
 	}
 
 	public void setDevice(SFDevice device) {
-		mDevice = device;
+		Device = device;
 	}
 	public Boolean getIsOwner() {
-		return mIsOwner;
+		return IsOwner;
 	}
 
 	public void setIsOwner(Boolean isowner) {
-		mIsOwner = isowner;
+		IsOwner = isowner;
 	}
 	public String getFriendlyName() {
-		return mFriendlyName;
+		return FriendlyName;
 	}
 
 	public void setFriendlyName(String friendlyname) {
-		mFriendlyName = friendlyname;
+		FriendlyName = friendlyname;
 	}
 	public Boolean getWipe() {
-		return mWipe;
+		return Wipe;
 	}
 
 	public void setWipe(Boolean wipe) {
-		mWipe = wipe;
+		Wipe = wipe;
 	}
 	public Boolean getIsLocked() {
-		return mIsLocked;
+		return IsLocked;
 	}
 
 	public void setIsLocked(Boolean islocked) {
-		mIsLocked = islocked;
+		IsLocked = islocked;
 	}
 	public Boolean getIsDeleted() {
-		return mIsDeleted;
+		return IsDeleted;
 	}
 
 	public void setIsDeleted(Boolean isdeleted) {
-		mIsDeleted = isdeleted;
+		IsDeleted = isdeleted;
 	}
 	public Date getCreated() {
-		return mCreated;
+		return Created;
 	}
 
 	public void setCreated(Date created) {
-		mCreated = created;
+		Created = created;
 	}
 	public Date getLastLogin() {
-		return mLastLogin;
+		return LastLogin;
 	}
 
 	public void setLastLogin(Date lastlogin) {
-		mLastLogin = lastlogin;
+		LastLogin = lastlogin;
 	}
 	public Date getLastWipe() {
-		return mLastWipe;
+		return LastWipe;
 	}
 
 	public void setLastWipe(Date lastwipe) {
-		mLastWipe = lastwipe;
+		LastWipe = lastwipe;
 	}
 	public String getWipeToken() {
-		return mWipeToken;
+		return WipeToken;
 	}
 
 	public void setWipeToken(String wipetoken) {
-		mWipeToken = wipetoken;
+		WipeToken = wipetoken;
 	}
 	public String getWipeInitiator() {
-		return mWipeInitiator;
+		return WipeInitiator;
 	}
 
 	public void setWipeInitiator(String wipeinitiator) {
-		mWipeInitiator = wipeinitiator;
+		WipeInitiator = wipeinitiator;
 	}
 	public SFDeviceActionInitiatorRole getWipeInitiatorRole() {
-		return mWipeInitiatorRole;
+		return WipeInitiatorRole;
 	}
 
 	public void setWipeInitiatorRole(SFDeviceActionInitiatorRole wipeinitiatorrole) {
-		mWipeInitiatorRole = wipeinitiatorrole;
+		WipeInitiatorRole = wipeinitiatorrole;
 	}
 	public String getLockInitiator() {
-		return mLockInitiator;
+		return LockInitiator;
 	}
 
 	public void setLockInitiator(String lockinitiator) {
-		mLockInitiator = lockinitiator;
+		LockInitiator = lockinitiator;
 	}
 	public SFDeviceActionInitiatorRole getLockInitiatorRole() {
-		return mLockInitiatorRole;
+		return LockInitiatorRole;
 	}
 
 	public void setLockInitiatorRole(SFDeviceActionInitiatorRole lockinitiatorrole) {
-		mLockInitiatorRole = lockinitiatorrole;
+		LockInitiatorRole = lockinitiatorrole;
 	}
-	public SFTool getDeviceType() {
-		return mDeviceType;
+	public SFSFTool getDeviceType() {
+		return DeviceType;
 	}
 
-	public void setDeviceType(SFTool devicetype) {
-		mDeviceType = devicetype;
+	public void setDeviceType(SFSFTool devicetype) {
+		DeviceType = devicetype;
 	}
 	public String getLastErrorMessage() {
-		return mLastErrorMessage;
+		return LastErrorMessage;
 	}
 
 	public void setLastErrorMessage(String lasterrormessage) {
-		mLastErrorMessage = lasterrormessage;
+		LastErrorMessage = lasterrormessage;
 	}
 }

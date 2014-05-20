@@ -14,45 +14,45 @@ package com.sharefile.api.models;
 
 public class SFFindSubdomainResult extends SFODataObject {
 
-	private String mUserID;
-	private String mEmail;
-	private String mAccountID;
-	private String mCompanyName;
-	private String mSubdomain;
+	private String UserID;
+	private String Email;
+	private String AccountID;
+	private String CompanyName;
+	private String Subdomain;
 
 	public String getUserID() {
-		return mUserID;
+		return UserID;
 	}
 
 	public void setUserID(String userid) {
-		mUserID = userid;
+		UserID = userid;
 	}
 	public String getEmail() {
-		return mEmail;
+		return Email;
 	}
 
 	public void setEmail(String email) {
-		mEmail = email;
+		Email = email;
 	}
 	public String getAccountID() {
-		return mAccountID;
+		return AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		mAccountID = accountid;
+		AccountID = accountid;
 	}
 	public String getCompanyName() {
-		return mCompanyName;
+		return CompanyName;
 	}
 
 	public void setCompanyName(String companyname) {
-		mCompanyName = companyname;
+		CompanyName = companyname;
 	}
 	public String getSubdomain() {
-		return mSubdomain;
+		return Subdomain;
 	}
 
 	public void setSubdomain(String subdomain) {
-		mSubdomain = subdomain;
+		Subdomain = subdomain;
 	}
 }
