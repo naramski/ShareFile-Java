@@ -654,6 +654,23 @@ public class SFItemsEntity extends SFODataEntityBase
 	}
 
     /**
+	* Get Web Preview Link
+	* Redirects the caller to the Web Edit application for the selected item.
+	* @param id 	
+	* @return A redirection message to the Web Edit app for this item. It returns 400 (BadRequest) if the Web Preview app doesn't support the file type.
+    */
+	public SFApiQuery<SFRedirection> webView(URI url, String id)
+	{
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("WebView");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("id", id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get all Item Protocol Link
 	* This method returns all alternate protocol links supported by ShareFile (such
 	* as WOPI, FTP, WebDAV).
