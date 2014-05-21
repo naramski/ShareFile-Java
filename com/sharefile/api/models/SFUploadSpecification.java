@@ -18,6 +18,7 @@ public class SFUploadSpecification extends SFODataObject {
 	private URI mPrepareUri;
 	private URI mChunkUri;
 	private URI mFinishUri;
+	private String mProgressData;
 	private Boolean mIsResume;
 	private Long mResumeIndex;
 	private Long mResumeOffset;
@@ -74,6 +75,19 @@ public class SFUploadSpecification extends SFODataObject {
 		*/
 	public void setFinishUri(URI finishuri) {
 		mFinishUri = finishuri;
+	}
+		/**
+		* Allows the client to check progress of standard uploads
+		*/
+	public String getProgressData() {
+		return mProgressData;
+	}
+
+		/**
+		* Allows the client to check progress of standard uploads
+		*/
+	public void setProgressData(String progressdata) {
+		mProgressData = progressdata;
 	}
 		/**
 		* Specifies a Resumable upload is supproted.
