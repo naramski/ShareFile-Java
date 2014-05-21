@@ -469,19 +469,6 @@ public class SFAccountsEntity extends SFODataEntityBase
 	}
 
     /**
-	* @param newIntervalMs 	
-    */
-	public SFApiQuery changeEnsSyncInterval(Integer newIntervalMs)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("ChangeEnsSyncInterval");
-		sfApiQuery.addQueryString("newIntervalMs", newIntervalMs);
-		sfApiQuery.setHttpMethod("PATCH");
-		return sfApiQuery;
-	}
-
-    /**
 	* Get SSO Info
 	* @param subdomain 	
 	* @return SSOInfo
