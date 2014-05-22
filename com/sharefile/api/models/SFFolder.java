@@ -16,6 +16,7 @@ public class SFFolder extends SFItem {
 
 	private Integer mFileCount;
 	private ArrayList<SFItem> mChildren;
+	private Boolean mHasRemoteChildren;
 	private SFItemInfo mInfo;
 
 	public Integer getFileCount() {
@@ -31,6 +32,13 @@ public class SFFolder extends SFItem {
 
 	public void setChildren(ArrayList<SFItem> children) {
 		mChildren = children;
+	}
+	public Boolean getHasRemoteChildren() {
+		return mHasRemoteChildren;
+	}
+
+	public void setHasRemoteChildren(Boolean hasremotechildren) {
+		mHasRemoteChildren = hasremotechildren;
 	}
 	public SFItemInfo getInfo() {
 		return mInfo;

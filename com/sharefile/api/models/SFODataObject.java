@@ -15,7 +15,7 @@ package com.sharefile.api.models;
 public class SFODataObject extends Object {
 
 	@SerializedName("odata.metadata")
-	private String mMetadata;
+	private String mMetadataUrl;
 	private String mId;
 	private URI murl;
 	private Map<String, String> mProperties;
@@ -23,15 +23,15 @@ public class SFODataObject extends Object {
 		/**
 		* ODATA Metadata information about the model instance
 		*/
-	public String getMetadata() {
-		return mMetadata;
+	public String getMetadataUrl() {
+		return mMetadataUrl;
 	}
 
 		/**
 		* ODATA Metadata information about the model instance
 		*/
-	public void setMetadata(String metadata) {
-		mMetadata = metadata;
+	public void setMetadataUrl(String metadataurl) {
+		mMetadataUrl = metadataurl;
 	}
 		/**
 		* Object Identifier
