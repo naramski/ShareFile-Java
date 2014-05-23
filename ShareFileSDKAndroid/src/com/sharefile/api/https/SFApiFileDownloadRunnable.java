@@ -1,7 +1,6 @@
 package com.sharefile.api.https;
 
 import java.io.Closeable;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,12 +34,15 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private final SFApiDownloadProgressListener mProgressListener;
 	private FinalResponse mResponse = new FinalResponse();	
 	private final SFCookieManager mCookieManager;
+	//credntials for connectors
+		private final String mUsername;
+		private final String mPassword;
 	
 	public SFApiFileDownloadRunnable(SFDownloadSpecification downloadSpecification,
 									 int resumeFromByteIndex, 
 									 OutputStream outpuStream, 
 									 SFApiClient client,
-									 SFApiDownloadProgressListener progressListener,SFCookieManager cookieManager) 
+									 SFApiDownloadProgressListener progressListener,SFCookieManager cookieManager,String connUserName,String connPassword) 
 	{		
 		mDownloadSpecification = downloadSpecification;
 		mResumeFromByteIndex = resumeFromByteIndex;
@@ -48,6 +50,8 @@ public class SFApiFileDownloadRunnable implements Runnable
 		mApiClient = client;
 		mProgressListener = progressListener;
 		mCookieManager = cookieManager;
+		mUsername = connUserName;
+		mPassword = connPassword;
 	}
 
 	@Override
@@ -72,7 +76,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 			connection = SFHttpsCaller.getURLConnection(url);		
 			SFHttpsCaller.setMethod(connection, SFHttpMethod.GET.toString());
 			SFHttpsCaller.setAcceptLanguage(connection);
-			SFHttpsCaller.addAuthenticationHeader(connection,mApiClient.getAuthToken(),null,null,mCookieManager);
+			SFHttpsCaller.addAuthenticationHeader(connection,mApiClient.getAuthToken(),mUsername,mPassword,mCookieManager);
 			
 			if(mResumeFromByteIndex!=0)
 			{
