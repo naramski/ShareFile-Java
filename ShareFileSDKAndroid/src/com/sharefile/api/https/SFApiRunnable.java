@@ -168,6 +168,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			{
 				//no content. might be valid. let the listeners handle this.
 			}
+			if(httpErrorCode == HttpsURLConnection.HTTP_MOVED_TEMP)
+			{
+				responseString = connection.getHeaderField(SFKeywords.Location);								
+			}
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(connection);
@@ -213,6 +217,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 */
 	private void parseResponse(int httpCode,String responseString)
 	{
+		SFV3Error v3Error;
+		
 		switch(httpCode)
 		{
 			case HttpsURLConnection.HTTP_OK:
@@ -223,8 +229,13 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null, null);
 			break;
 			
+			case HttpsURLConnection.HTTP_MOVED_TEMP:
+				v3Error = new SFV3Error(httpCode,null,responseString);
+				mResponse.setFeilds(HttpsURLConnection.HTTP_MOVED_TEMP, v3Error, null);
+			break;
+			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				SFV3Error v3Error = new SFV3Error(httpCode,null,responseString);
+				v3Error = new SFV3Error(httpCode,null,responseString);
 				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error, null);
 			break;
 			

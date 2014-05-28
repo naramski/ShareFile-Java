@@ -71,5 +71,6 @@ public final class SFKeywords
 	//Informative stack trace mesage for exceptions thrown by us
 	public static final String EXCEPTION_MSG_INVALID_PARAMETER_TO_QUERY = "setId and addIds are multually exclusive. only one of them can be called on a query object";
 	public static final String EXCEPTION_MSG_NOT_IMPLEMENTED = "function not implemented";
-		
+
+	public static final String Location = "Location";		
 }
