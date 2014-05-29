@@ -168,7 +168,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			{
 				//no content. might be valid. let the listeners handle this.
 			}
-			if(httpErrorCode == HttpsURLConnection.HTTP_MOVED_TEMP)
+			else if(httpErrorCode == HttpsURLConnection.HTTP_MOVED_TEMP)
 			{
 				responseString = connection.getHeaderField(SFKeywords.Location);								
 			}
