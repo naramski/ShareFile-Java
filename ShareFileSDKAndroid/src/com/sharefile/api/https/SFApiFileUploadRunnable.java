@@ -48,6 +48,9 @@ public class SFApiFileUploadRunnable implements Runnable
 	private final SFApiUploadProgressListener mProgressListener;
 	private final String mDestinationFileName;	
 	private final SFCookieManager mCookieManager;
+	//credntials for connectors
+	private final String mUsername;
+	private final String mPassword;
 	
 	public SFApiFileUploadRunnable(SFUploadSpecification uploadSpecification,
 									 int resumeFromByteIndex, 
@@ -56,7 +59,7 @@ public class SFApiFileUploadRunnable implements Runnable
 									 InputStream inputStream, 									 
 									 SFApiClient client,
 									 SFApiUploadProgressListener progressListener,
-									 SFCookieManager cookieManager) 
+									 SFCookieManager cookieManager,String connUserName,String connPassword) 
 	{		
 		mUploadSpecification = uploadSpecification;
 		mResumeFromByteIndex = resumeFromByteIndex;
@@ -66,6 +69,8 @@ public class SFApiFileUploadRunnable implements Runnable
 		mApiClient = client;
 		mProgressListener = progressListener;
 		mCookieManager = cookieManager;
+		mUsername = connUserName;
+		mPassword = connPassword;
 	}
 
 	@Override
@@ -140,9 +145,18 @@ public class SFApiFileUploadRunnable implements Runnable
 			{
 				JSONObject errorObject;
 				errorObject = new JSONObject(jsonString);
-				mWasError =  errorObject.optBoolean("error");			
-				mErrorMessage = errorObject.optString("errorMessage");			
-				mErrorCode = errorObject.optInt("errorCode");
+				mWasError =  errorObject.optBoolean("error");	
+				if(mWasError)
+				{
+					mErrorMessage = errorObject.optString("errorMessage");			
+					mErrorCode = errorObject.optInt("errorCode");
+					SLog.d(TAG, "Parsed Chunk response: " + mErrorMessage);
+				}
+				else
+				{
+					String value = errorObject.optString("value");
+					SLog.d(TAG, "Parsed Chunk response: value = " + value);
+				}
 			} 
 			catch (JSONException e) 
 			{				
@@ -187,7 +201,7 @@ public class SFApiFileUploadRunnable implements Runnable
 			final String finalURL = url.toString();
 				
 			conn = (HttpsURLConnection)(new URL(finalURL)).openConnection();					
-			SFHttpsCaller.addAuthenticationHeader(conn, mApiClient.getAuthToken(), null,null,mCookieManager);										
+			SFHttpsCaller.addAuthenticationHeader(conn, mApiClient.getAuthToken(), mUsername,mPassword,mCookieManager);										
 			conn.setUseCaches(false);
 			conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_OCTET_STREAM);															
 			conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+chunkLength);
@@ -220,7 +234,11 @@ public class SFApiFileUploadRunnable implements Runnable
 				responseString = SFHttpsCaller.readResponse(conn);		
 				SLog.d(TAG, "Upload Response: " + responseString);
 				
-				SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(responseString);				
+				SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(responseString);
+				if(!chunkResonse.mWasError)
+				{
+					chunkResonse.mBytesTransferedInChunk = (int) bytesUploaded;
+				}
 				ret.setFeilds(httpErrorCode, null, chunkResonse,bytesUploaded);
 			}			
 			else
@@ -269,6 +287,8 @@ public class SFApiFileUploadRunnable implements Runnable
 				
 				if(chunkLength<0)
 				{
+					SLog.d(TAG,"Chunk < 0: " + chunkLength);
+					
 					done = true;
 					break;
 				}
@@ -277,18 +297,23 @@ public class SFApiFileUploadRunnable implements Runnable
 																		
 				if(isLast)
 				{
+					SLog.d(TAG,"isLast = true");
 					done = true;
 				}
 				
 				uploadResponse  =  uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
 				
 				//Note here we can rely on the 	uploadResponse.mChunkUploadResponse.mWasError to decide the succuess or failure.			
-				if(uploadResponse.mChunkUploadResponse.mWasError == false && uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk > 0)
+				if(uploadResponse.mChunkUploadResponse.mWasError == false)
 				{
-					previousChunkTotalBytes+= uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk;
+					if(uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk > 0)
+					{
+						previousChunkTotalBytes+= uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk;
+					}
 				}
 				else
 				{					
+					SLog.d(TAG,"break");
 					break;
 				}
 			}											

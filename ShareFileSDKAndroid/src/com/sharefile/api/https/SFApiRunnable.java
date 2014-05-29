@@ -16,9 +16,7 @@ import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
@@ -26,9 +24,7 @@ import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.models.SFSFTool;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.java.log.SLog;
 
@@ -172,6 +168,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			{
 				//no content. might be valid. let the listeners handle this.
 			}
+			if(httpErrorCode == HttpsURLConnection.HTTP_MOVED_TEMP)
+			{
+				responseString = connection.getHeaderField(SFKeywords.Location);								
+			}
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(connection);
@@ -217,6 +217,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 */
 	private void parseResponse(int httpCode,String responseString)
 	{
+		SFV3Error v3Error;
+		
 		switch(httpCode)
 		{
 			case HttpsURLConnection.HTTP_OK:
@@ -227,8 +229,13 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null, null);
 			break;
 			
+			case HttpsURLConnection.HTTP_MOVED_TEMP:
+				v3Error = new SFV3Error(httpCode,null,responseString);
+				mResponse.setFeilds(HttpsURLConnection.HTTP_MOVED_TEMP, v3Error, null);
+			break;
+			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				SFV3Error v3Error = new SFV3Error(httpCode,null,responseString);
+				v3Error = new SFV3Error(httpCode,null,responseString);
 				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error, null);
 			break;
 			

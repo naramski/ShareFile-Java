@@ -125,7 +125,8 @@ public enum SFV3ElementType
 	SSOInfoEntry("Models.SSOInfoEntry@Element",SFSSOInfoEntry.class),
 	StorageCenter("Models.StorageCenter@Element",SFStorageCenter.class),
 	SymbolicLink("Models.SymbolicLink@Element",SFSymbolicLink.class),
-	//UploadSpecification("Models.UploadSpecification@Element",SFUploadSpecification.class),
+	//The v3 API is returning conflicting specs for UploadSpecification. Lets map both of them to the same class
+	UploadSpecificationOld("Models.UploadSpecification@Element",SFUploadSpecification.class),
 	UploadSpecification("Models.UploadSpecification",SFUploadSpecification.class),
 	User("Models.User@Element",SFUser.class),
 	UserConfirmationSettings("Models.UserConfirmationSettings@Element",SFUserConfirmationSettings.class),
