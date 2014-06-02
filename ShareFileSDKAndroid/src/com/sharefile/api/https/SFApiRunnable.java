@@ -177,7 +177,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
-			SLog.d(TAG, "RAW RESPONSE = " + responseString);						
+			SLog.v(TAG, "RAW RESPONSE = " + responseString);						
 		}
 		catch(Exception ex)
 		{		
