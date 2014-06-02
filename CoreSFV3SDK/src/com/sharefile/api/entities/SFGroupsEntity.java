@@ -13,7 +13,13 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFGroupsEntity extends SFODataEntityBase
 {
@@ -24,7 +30,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFGroup>> get()
 	{
-		ISFQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFQuery<SFODataFeed<SFGroup>>();
+		SFQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFQuery<SFODataFeed<SFGroup>>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -38,7 +44,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFGroup> get(URI url)
 	{
-		ISFQuery<SFGroup> sfApiQuery = new SFQuery<SFGroup>();
+		SFQuery<SFGroup> sfApiQuery = new SFQuery<SFGroup>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -52,7 +58,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -72,7 +78,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFGroup> create(SFGroup group)
 	{
-		ISFQuery<SFGroup> sfApiQuery = new SFQuery<SFGroup>();
+		SFQuery<SFGroup> sfApiQuery = new SFQuery<SFGroup>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setBody(group);
 		sfApiQuery.setHttpMethod("POST");
@@ -94,7 +100,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFGroup> update(URI url, SFGroup group)
 	{
-		ISFQuery<SFGroup> sfApiQuery = new SFQuery<SFGroup>();
+		SFQuery<SFGroup> sfApiQuery = new SFQuery<SFGroup>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(group);
@@ -110,7 +116,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFContact>> getContacts(URI url)
 	{
-		ISFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
+		SFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);
@@ -129,7 +135,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFContact>> createContacts(URI url, ArrayList<SFContact> contacts)
 	{
-		ISFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
+		SFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);
@@ -153,7 +159,7 @@ public class SFGroupsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFContact>> deleteContacts(URI url, ArrayList<SFContact> contacts)
 	{
-		ISFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
+		SFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);

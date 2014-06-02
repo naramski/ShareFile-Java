@@ -13,7 +13,13 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFUsersEntity extends SFODataEntityBase
 {
@@ -26,7 +32,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> get(String id = null, String emailAddress = null)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.addQueryString("emailAddress", emailAddress);
@@ -63,7 +69,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
 		sfApiQuery.addQueryString("addshared", addshared);
@@ -119,7 +125,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
@@ -156,7 +162,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> update(URI url, SFUser user)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(user);
@@ -184,7 +190,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> updateRoles(URI parentUrl, SFUser user)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
 		sfApiQuery.addIds(parentUrl);
@@ -213,7 +219,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> patchRoles(URI parentUrl, SFUser user)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
 		sfApiQuery.addIds(parentUrl);
@@ -249,7 +255,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> updateAccountUser(String id, SFAccountUser user)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addActionIds(id);
@@ -266,7 +272,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> getHomeFolder(URI url)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("HomeFolder");
 		sfApiQuery.addIds(url);
@@ -276,7 +282,7 @@ public class SFUsersEntity extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFItem>> topFolders(URI url)
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("TopFolders");
 		sfApiQuery.addIds(url);
@@ -286,7 +292,7 @@ public class SFUsersEntity extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFItem>> box(URI url)
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Box");
 		sfApiQuery.addIds(url);
@@ -303,7 +309,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUserPreferences> getPreferences(URI url)
 	{
-		ISFQuery<SFUserPreferences> sfApiQuery = new SFQuery<SFUserPreferences>();
+		SFQuery<SFUserPreferences> sfApiQuery = new SFQuery<SFUserPreferences>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Preferences");
 		sfApiQuery.addIds(url);
@@ -330,7 +336,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> resetPassword(URI url, SFODataObject properties, Boolean notify = false)
 	{
-		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResetPassword");
 		sfApiQuery.addIds(url);
@@ -347,7 +353,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery resendWelcome(URI url)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResendWelcome");
 		sfApiQuery.addIds(url);
@@ -363,7 +369,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url, Boolean completely = false)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("completely", completely);
@@ -378,7 +384,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> getAllSharedFolders()
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AllSharedFolders");
 		sfApiQuery.setHttpMethod("GET");
@@ -394,7 +400,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> getTopFolders()
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("TopFolders");
 		sfApiQuery.setHttpMethod("GET");
@@ -408,7 +414,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> networkShareConnectors()
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("NetworkShareConnectors");
 		sfApiQuery.setHttpMethod("GET");
@@ -422,7 +428,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> sharepointConnectors()
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("SharepointConnectors");
 		sfApiQuery.setHttpMethod("GET");
@@ -447,7 +453,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery confirm(SFUserConfirmationSettings settings)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Confirm");
 		sfApiQuery.setBody(settings);
@@ -461,7 +467,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUserInfo> getInfo()
 	{
-		ISFQuery<SFUserInfo> sfApiQuery = new SFQuery<SFUserInfo>();
+		SFQuery<SFUserInfo> sfApiQuery = new SFQuery<SFUserInfo>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Info");
 		sfApiQuery.setHttpMethod("GET");

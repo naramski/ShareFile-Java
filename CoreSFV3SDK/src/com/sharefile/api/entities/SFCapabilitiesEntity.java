@@ -13,7 +13,13 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFCapabilitiesEntity extends SFODataEntityBase
 {
@@ -31,7 +37,7 @@ public class SFCapabilitiesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFCapability>> get()
 	{
-		ISFQuery<SFODataFeed<SFCapability>> sfApiQuery = new SFQuery<SFODataFeed<SFCapability>>();
+		SFQuery<SFODataFeed<SFCapability>> sfApiQuery = new SFQuery<SFODataFeed<SFCapability>>();
 		sfApiQuery.setFrom("Capabilities");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

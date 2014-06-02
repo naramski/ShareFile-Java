@@ -13,7 +13,13 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFItemsEntity extends SFODataEntityBase
 {
@@ -26,7 +32,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> get()
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -41,7 +47,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted = false)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
@@ -66,7 +72,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder = false, Boolean fileBox = false)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("treeMode", treeMode);
@@ -89,7 +95,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> stream(URI url, Boolean includeDeleted = false)
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Stream");
 		sfApiQuery.addIds(url);
@@ -108,7 +114,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> byPath(String path)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ByPath");
 		sfApiQuery.addQueryString("path", path);
@@ -128,7 +134,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> byPath(URI url, String path)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ByPath");
 		sfApiQuery.addIds(url);
@@ -145,7 +151,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> getParent(URI url)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Parent");
 		sfApiQuery.addIds(url);
@@ -163,7 +169,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url)
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
@@ -180,7 +186,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItemInfo> getInfo(URI url)
 	{
-		ISFQuery<SFItemInfo> sfApiQuery = new SFQuery<SFItemInfo>();
+		SFQuery<SFItemInfo> sfApiQuery = new SFQuery<SFItemInfo>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Info");
 		sfApiQuery.addIds(url);
@@ -199,7 +205,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFDownloadSpecification> download(URI url, Boolean redirect = true)
 	{
-		ISFQuery<SFDownloadSpecification> sfApiQuery = new SFQuery<SFDownloadSpecification>();
+		SFQuery<SFDownloadSpecification> sfApiQuery = new SFQuery<SFDownloadSpecification>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(url);
@@ -228,7 +234,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder, Boolean overwrite = false, Boolean passthrough = false)
 	{
-		ISFQuery<SFFolder> sfApiQuery = new SFQuery<SFFolder>();
+		SFQuery<SFFolder> sfApiQuery = new SFQuery<SFFolder>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Folder");
 		sfApiQuery.addIds(parentUrl);
@@ -252,7 +258,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFNote> createNote(URI parentUrl, SFNote note)
 	{
-		ISFQuery<SFNote> sfApiQuery = new SFQuery<SFNote>();
+		SFQuery<SFNote> sfApiQuery = new SFQuery<SFNote>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
 		sfApiQuery.addIds(parentUrl);
@@ -275,7 +281,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFLink> createLink(URI parentUrl, SFLink link)
 	{
-		ISFQuery<SFLink> sfApiQuery = new SFQuery<SFLink>();
+		SFQuery<SFLink> sfApiQuery = new SFQuery<SFLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
 		sfApiQuery.addIds(parentUrl);
@@ -310,7 +316,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFSymbolicLink> createSymbolicLink(URI parentUrl, SFSymbolicLink symlink, Boolean overwrite = false)
 	{
-		ISFQuery<SFSymbolicLink> sfApiQuery = new SFQuery<SFSymbolicLink>();
+		SFQuery<SFSymbolicLink> sfApiQuery = new SFQuery<SFSymbolicLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addIds(parentUrl);
@@ -338,7 +344,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid = null, Long batchSizeInBytes = 0, Boolean forceSync = false, Boolean scheduleAsync = true)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
@@ -366,7 +372,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFLink> updateLink(URI url, SFLink link, Boolean notify = false)
 	{
-		ISFQuery<SFLink> sfApiQuery = new SFQuery<SFLink>();
+		SFQuery<SFLink> sfApiQuery = new SFQuery<SFLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
 		sfApiQuery.addIds(url);
@@ -391,7 +397,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFNote> updateNote(URI url, SFNote note, Boolean notify = false)
 	{
-		ISFQuery<SFNote> sfApiQuery = new SFQuery<SFNote>();
+		SFQuery<SFNote> sfApiQuery = new SFQuery<SFNote>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
 		sfApiQuery.addIds(url);
@@ -415,7 +421,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFSymbolicLink> updateSymbolicLink(URI url, SFSymbolicLink symlink)
 	{
-		ISFQuery<SFSymbolicLink> sfApiQuery = new SFQuery<SFSymbolicLink>();
+		SFQuery<SFSymbolicLink> sfApiQuery = new SFQuery<SFSymbolicLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addIds(url);
@@ -426,7 +432,7 @@ public class SFItemsEntity extends SFODataEntityBase
 
 	public ISFQuery delete(URI url, Boolean singleversion = false, Boolean forceSync = false)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singleversion", singleversion);
@@ -444,7 +450,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync = false)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDelete");
 		sfApiQuery.addIds(url);
@@ -456,7 +462,7 @@ public class SFItemsEntity extends SFODataEntityBase
 
 	public ISFQuery<Stream> getThumbnail(URI url, Integer size = 75, Boolean redirect = false)
 	{
-		ISFQuery<Stream> sfApiQuery = new SFQuery<Stream>();
+		SFQuery<Stream> sfApiQuery = new SFQuery<Stream>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Thumbnail");
 		sfApiQuery.addIds(url);
@@ -477,7 +483,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path = null)
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Breadcrumbs");
 		sfApiQuery.addIds(url);
@@ -498,7 +504,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> copy(URI url, String targetid, Boolean overwrite = false)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Copy");
 		sfApiQuery.addIds(url);
@@ -573,7 +579,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
 	{
-		ISFQuery<SFUploadSpecification> sfApiQuery = new SFQuery<SFUploadSpecification>();
+		SFQuery<SFUploadSpecification> sfApiQuery = new SFQuery<SFUploadSpecification>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -612,7 +618,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery checkIn(URI url, String message)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckIn");
 		sfApiQuery.addIds(url);
@@ -629,7 +635,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery checkOut(URI url)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckOut");
 		sfApiQuery.addIds(url);
@@ -645,7 +651,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFSearchResults> search(String query)
 	{
-		ISFQuery<SFSearchResults> sfApiQuery = new SFQuery<SFSearchResults>();
+		SFQuery<SFSearchResults> sfApiQuery = new SFQuery<SFSearchResults>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
@@ -661,7 +667,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFRedirection> webView(URI url, String id)
 	{
-		ISFQuery<SFRedirection> sfApiQuery = new SFQuery<SFRedirection>();
+		SFQuery<SFRedirection> sfApiQuery = new SFQuery<SFRedirection>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("WebView");
 		sfApiQuery.addIds(url);
@@ -679,7 +685,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI url)
 	{
-		ISFQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFQuery<SFODataFeed<SFItemProtocolLink>>();
+		SFQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFQuery<SFODataFeed<SFItemProtocolLink>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
 		sfApiQuery.addIds(url);
@@ -695,7 +701,7 @@ public class SFItemsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItemProtocolLink> getProtocolLinks(URI url, String protocol)
 	{
-		ISFQuery<SFItemProtocolLink> sfApiQuery = new SFQuery<SFItemProtocolLink>();
+		SFQuery<SFItemProtocolLink> sfApiQuery = new SFQuery<SFItemProtocolLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
 		sfApiQuery.addIds(url);

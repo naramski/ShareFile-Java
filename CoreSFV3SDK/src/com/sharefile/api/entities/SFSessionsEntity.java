@@ -13,7 +13,13 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFSessionsEntity extends SFODataEntityBase
 {
@@ -26,7 +32,7 @@ public class SFSessionsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFSession> get()
 	{
-		ISFQuery<SFSession> sfApiQuery = new SFQuery<SFSession>();
+		SFQuery<SFSession> sfApiQuery = new SFQuery<SFSession>();
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -38,7 +44,7 @@ public class SFSessionsEntity extends SFODataEntityBase
     */
 	public ISFQuery delete()
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
@@ -69,7 +75,7 @@ public class SFSessionsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFSession> login(String authmethod = null, String authcomparison = null)
 	{
-		ISFQuery<SFSession> sfApiQuery = new SFQuery<SFSession>();
+		SFQuery<SFSession> sfApiQuery = new SFQuery<SFSession>();
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setAction("Login");
 		sfApiQuery.addQueryString("authmethod", authmethod);
@@ -80,7 +86,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 
 	public ISFQuery<SFSession> acs()
 	{
-		ISFQuery<SFSession> sfApiQuery = new SFQuery<SFSession>();
+		SFQuery<SFSession> sfApiQuery = new SFQuery<SFSession>();
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setAction("Acs");
 		sfApiQuery.setHttpMethod("GET");

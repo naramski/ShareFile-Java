@@ -10,10 +10,17 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
+package com.sharefile.api.entities.private;
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFAccountsEntityInternal extends SFAccountsEntity
 {
@@ -23,7 +30,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
     */
 	public ISFQuery<SFOutlookInformation> getOutlookInformation()
 	{
-		ISFQuery<SFOutlookInformation> sfApiQuery = new SFQuery<SFOutlookInformation>();
+		SFQuery<SFOutlookInformation> sfApiQuery = new SFQuery<SFOutlookInformation>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("OutlookInformation");
 		sfApiQuery.setHttpMethod("GET");

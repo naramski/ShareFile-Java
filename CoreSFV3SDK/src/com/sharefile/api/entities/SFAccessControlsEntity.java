@@ -13,7 +13,13 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFAccessControlsEntity extends SFODataEntityBase
 {
@@ -24,7 +30,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControl> get(URI url)
 	{
-		ISFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
+		SFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -39,7 +45,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFAccessControl>> getByItem(URI url)
 	{
-		ISFQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFQuery<SFODataFeed<SFAccessControl>>();
+		SFQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFQuery<SFODataFeed<SFAccessControl>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -70,7 +76,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControl> createByItem(URI url, SFAccessControl accessControl, Boolean recursive = false, Boolean sendDefaultNotification = false)
 	{
-		ISFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
+		SFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -102,7 +108,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControl> updateByItem(URI url, SFAccessControl accessControl, Boolean recursive = false)
 	{
-		ISFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
+		SFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -119,7 +125,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");

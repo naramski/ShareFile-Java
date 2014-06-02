@@ -13,13 +13,19 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFConfigsEntity extends SFODataEntityBase
 {
 	public ISFQuery<SFODataFeed<SFGenericConfig>> get()
 	{
-		ISFQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFQuery<SFODataFeed<SFGenericConfig>>();
+		SFQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFQuery<SFODataFeed<SFGenericConfig>>();
 		sfApiQuery.setFrom("Configs");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

@@ -12,6 +12,14 @@
 
 package com.sharefile.api.models;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
+
 public enum SFVRootType {
 	Account,
 	Virtual,

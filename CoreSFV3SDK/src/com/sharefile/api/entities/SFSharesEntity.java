@@ -13,7 +13,13 @@
 package com.sharefile.api.entities;
 
 
-import java.util.stream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFSharesEntity extends SFODataEntityBase
 {
@@ -24,7 +30,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFShare>> get()
 	{
-		ISFQuery<SFODataFeed<SFShare>> sfApiQuery = new SFQuery<SFODataFeed<SFShare>>();
+		SFQuery<SFODataFeed<SFShare>> sfApiQuery = new SFQuery<SFODataFeed<SFShare>>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -39,7 +45,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFShare> get(URI url)
 	{
-		ISFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
+		SFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -57,7 +63,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFShareAlias>> getRecipients(URI url)
 	{
-		ISFQuery<SFODataFeed<SFShareAlias>> sfApiQuery = new SFQuery<SFODataFeed<SFShareAlias>>();
+		SFQuery<SFODataFeed<SFShareAlias>> sfApiQuery = new SFQuery<SFODataFeed<SFShareAlias>>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(url);
@@ -73,7 +79,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> getItems(URI url)
 	{
-		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(url);
@@ -90,7 +96,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> getItems(URI shareUrl, String itemid)
 	{
-		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
@@ -118,7 +124,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<Stream> download(URI shareUrl, String id, String Name = null, String Email = null, String Company = null, Boolean redirect = true)
 	{
-		ISFQuery<Stream> sfApiQuery = new SFQuery<Stream>();
+		SFQuery<Stream> sfApiQuery = new SFQuery<Stream>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
@@ -168,7 +174,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFShare> create(SFShare share, Boolean notify = false)
 	{
-		ISFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
+		SFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(share);
@@ -191,7 +197,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFShare> update(URI url, SFShare share)
 	{
-		ISFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
+		SFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(share);
@@ -206,7 +212,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -226,7 +232,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFShare> createAlias(URI url, String email, Boolean notify = false)
 	{
-		ISFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
+		SFQuery<SFShare> sfApiQuery = new SFQuery<SFShare>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Alias");
 		sfApiQuery.addIds(url);
@@ -244,7 +250,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery createSend(SFShareSendParams parameters)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Send");
 		sfApiQuery.setBody(parameters);
@@ -260,7 +266,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery createRequest(SFShareRequestParams parameters)
 	{
-		ISFQuery sfApiQuery = new SFQuery();
+		SFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Request");
 		sfApiQuery.setBody(parameters);
@@ -331,7 +337,7 @@ public class SFSharesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
 	{
-		ISFQuery<SFUploadSpecification> sfApiQuery = new SFQuery<SFUploadSpecification>();
+		SFQuery<SFUploadSpecification> sfApiQuery = new SFQuery<SFUploadSpecification>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
