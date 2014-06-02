@@ -12,8 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import java.net.URI;
 
-import java.util.stream;
+import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.models.SFAccessControl;
+import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFQuery;
 
 public class SFAccessControlsEntity extends SFODataEntityBase
 {
@@ -68,7 +72,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param sendDefaultNotification 	
 	* @return the created or modified AccessControl instance
     */
-	public ISFQuery<SFAccessControl> createByItem(URI url, SFAccessControl accessControl, Boolean recursive = false, Boolean sendDefaultNotification = false)
+	public ISFQuery<SFAccessControl> createByItem(URI url, SFAccessControl accessControl, Boolean recursive , Boolean sendDefaultNotification)
 	{
 		ISFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");
@@ -76,7 +80,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("recursive", recursive);
 		sfApiQuery.addQueryString("sendDefaultNotification", sendDefaultNotification);
-		accessControl.Properties["message"] = message;
+		//accessControl.Properties["message"] = message; //SDKMOD
 		sfApiQuery.setBody(accessControl);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -100,7 +104,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param recursive 	
 	* @return the created or modified AccessControl instance
     */
-	public ISFQuery<SFAccessControl> updateByItem(URI url, SFAccessControl accessControl, Boolean recursive = false)
+	public ISFQuery<SFAccessControl> updateByItem(URI url, SFAccessControl accessControl, Boolean recursive)
 	{
 		ISFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");

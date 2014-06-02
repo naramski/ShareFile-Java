@@ -19,6 +19,11 @@
 
 package com.sharefile.api.models;
 
+import java.util.ArrayList;
+
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.enumerations.SFSafeEnum;
+
 
 public class SFAccessControlDomains extends SFODataObject {
 

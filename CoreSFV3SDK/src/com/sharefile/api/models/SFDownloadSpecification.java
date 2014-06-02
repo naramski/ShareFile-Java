@@ -19,6 +19,10 @@
 
 package com.sharefile.api.models;
 
+import java.net.URI;
+
+import com.google.gson.annotations.SerializedName;
+
 
 public class SFDownloadSpecification extends SFODataObject {
 

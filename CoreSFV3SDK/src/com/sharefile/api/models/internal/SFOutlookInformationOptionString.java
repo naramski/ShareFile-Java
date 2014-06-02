@@ -17,12 +17,13 @@
 // ------------------------------------------------------------------------------
 
 
-package com.sharefile.api.models.private;
+package com.sharefile.api.models.internal;
 
-package com.sharefile.api.models;
+import com.google.gson.annotations.SerializedName;
+import com.sharefile.api.models.SFODataObject;
 
 
-public class SFOutlookInformationOptionBool extends SFODataObject {
+public class SFOutlookInformationOptionString extends SFODataObject {
 
 
 
@@ -33,7 +34,7 @@ public class SFOutlookInformationOptionBool extends SFODataObject {
 
 	@SerializedName("Value")
 
-	private Boolean Value;
+	private String Value;
 
 
 
@@ -48,12 +49,12 @@ public class SFOutlookInformationOptionBool extends SFODataObject {
 	}
 
 
-	public Boolean getValue() {
+	public String getValue() {
 		return Value;
 	}
 
 
-	public void setValue(Boolean value) {
+	public void setValue(String value) {
 		Value = value;
 	}
 

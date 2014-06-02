@@ -12,8 +12,9 @@
 
 package com.sharefile.api.entities;
 
-
-import java.util.stream;
+import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.models.SFQuery;
+import com.sharefile.api.models.SFSession;
 
 public class SFSessionsEntity extends SFODataEntityBase
 {
@@ -67,7 +68,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 	* @param authcomparison 	
 	* @return A Session object, if authentication is successful
     */
-	public ISFQuery<SFSession> login(String authmethod = null, String authcomparison = null)
+	public ISFQuery<SFSession> login(String authmethod, String authcomparison)
 	{
 		ISFQuery<SFSession> sfApiQuery = new SFQuery<SFSession>();
 		sfApiQuery.setFrom("Sessions");

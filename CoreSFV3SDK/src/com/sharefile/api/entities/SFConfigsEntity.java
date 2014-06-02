@@ -12,8 +12,10 @@
 
 package com.sharefile.api.entities;
 
-
-import java.util.stream;
+import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.models.SFGenericConfig;
+import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFQuery;
 
 public class SFConfigsEntity extends SFODataEntityBase
 {

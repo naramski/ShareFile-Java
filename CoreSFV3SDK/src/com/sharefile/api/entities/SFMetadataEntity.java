@@ -12,8 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import java.net.URI;
 
-import java.util.stream;
+import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.models.SFMetadata;
+import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFQuery;
 
 public class SFMetadataEntity extends SFODataEntityBase
 {

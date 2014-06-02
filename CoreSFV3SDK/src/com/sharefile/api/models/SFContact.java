@@ -19,6 +19,8 @@
 
 package com.sharefile.api.models;
 
+import com.google.gson.annotations.SerializedName;
+
 
 public class SFContact extends SFPrincipal {
 

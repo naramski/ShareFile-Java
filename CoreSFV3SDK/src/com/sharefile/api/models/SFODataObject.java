@@ -19,6 +19,11 @@
 
 package com.sharefile.api.models;
 
+import java.net.URI;
+import java.util.Map;
+
+import com.google.gson.annotations.SerializedName;
+
 
 public class SFODataObject extends Object {
 

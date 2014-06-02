@@ -12,8 +12,23 @@
 
 package com.sharefile.api.entities;
 
-
-import java.util.stream;
+import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.models.SFAccessControlDomains;
+import com.sharefile.api.models.SFAccount;
+import com.sharefile.api.models.SFAccountPreferences;
+import com.sharefile.api.models.SFContact;
+import com.sharefile.api.models.SFEnsSubscriberConfiguration;
+import com.sharefile.api.models.SFFindSubdomainParams;
+import com.sharefile.api.models.SFFindSubdomainResult;
+import com.sharefile.api.models.SFMobileSecuritySettings;
+import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFProductDefaults;
+import com.sharefile.api.models.SFQuery;
+import com.sharefile.api.models.SFRequireSubdomainResult;
+import com.sharefile.api.models.SFRequireWebPopResult;
+import com.sharefile.api.models.SFSSOAccountProvider;
+import com.sharefile.api.models.SFSSOInfo;
 
 public class SFAccountsEntity extends SFODataEntityBase
 {
@@ -85,7 +100,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param searchTerm 	
 	* @return A Feed of Contact objects representing the Address Book retrieved
     */
-	public ISFQuery<SFODataFeed<SFContact>> getAddressBook(String type = "personal", String searchTerm = "")
+	public ISFQuery<SFODataFeed<SFContact>> getAddressBook(String type, String searchTerm)
 	{
 		ISFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Accounts");
@@ -133,7 +148,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* Retrieve the Single Sign-on configuration for the Account
 	* @param provider 	
     */
-	public ISFQuery<SFSSOAccountProvider> getSSO(String provider = "saml")
+	public ISFQuery<SFSSOAccountProvider> getSSO(String provider)
 	{
 		ISFQuery<SFSSOAccountProvider> sfApiQuery = new SFQuery<SFSSOAccountProvider>();
 		sfApiQuery.setFrom("Accounts");
@@ -159,7 +174,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param sso 	
 	* @param provider 	
     */
-	public ISFQuery<SFSSOAccountProvider> updateSSO(SFSSOAccountProvider sso, String provider = "saml")
+	public ISFQuery<SFSSOAccountProvider> updateSSO(SFSSOAccountProvider sso, String provider)
 	{
 		ISFQuery<SFSSOAccountProvider> sfApiQuery = new SFQuery<SFSSOAccountProvider>();
 		sfApiQuery.setFrom("Accounts");
@@ -190,9 +205,12 @@ public class SFAccountsEntity extends SFODataEntityBase
 		ISFQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFQuery<SFODataFeed<SFAccount>>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
+		/*
+		 * SDKMOD
 		parameters.Properties["username"] = username;
 		parameters.Properties["employeesonly"] = employeesonly;
 		parameters.Properties["requirehomefolders"] = requirehomefolders;
+		*/
 		sfApiQuery.setBody(parameters);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -382,7 +400,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return RequireWebPopResult
     */
-	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain, String username = null, Boolean singlePlane = false)
+	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain, String username, Boolean singlePlane)
 	{
 		ISFQuery<SFRequireWebPopResult> sfApiQuery = new SFQuery<SFRequireWebPopResult>();
 		sfApiQuery.setFrom("Accounts");
@@ -400,7 +418,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return RequireSubdomainResult
     */
-	public ISFQuery<SFRequireSubdomainResult> requireSubdomain(String username, Boolean singlePlane = false)
+	public ISFQuery<SFRequireSubdomainResult> requireSubdomain(String username, Boolean singlePlane)
 	{
 		ISFQuery<SFRequireSubdomainResult> sfApiQuery = new SFQuery<SFRequireSubdomainResult>();
 		sfApiQuery.setFrom("Accounts");
@@ -423,7 +441,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return FindSubdomainResult
     */
-	public ISFQuery<SFFindSubdomainResult> findSubdomain(SFFindSubdomainParams findSubdomainParams, Boolean singlePlane = false)
+	public ISFQuery<SFFindSubdomainResult> findSubdomain(SFFindSubdomainParams findSubdomainParams, Boolean singlePlane)
 	{
 		ISFQuery<SFFindSubdomainResult> sfApiQuery = new SFQuery<SFFindSubdomainResult>();
 		sfApiQuery.setFrom("Accounts");

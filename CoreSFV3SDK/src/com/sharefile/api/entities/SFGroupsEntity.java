@@ -12,8 +12,14 @@
 
 package com.sharefile.api.entities;
 
+import java.net.URI;
+import java.util.ArrayList;
 
-import java.util.stream;
+import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.models.SFContact;
+import com.sharefile.api.models.SFGroup;
+import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFQuery;
 
 public class SFGroupsEntity extends SFODataEntityBase
 {
