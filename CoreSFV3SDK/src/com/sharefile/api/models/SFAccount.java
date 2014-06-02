@@ -19,12 +19,6 @@
 
 package com.sharefile.api.models;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
-
-import com.google.gson.annotations.SerializedName;
-
 
 public class SFAccount extends SFODataObject {
 

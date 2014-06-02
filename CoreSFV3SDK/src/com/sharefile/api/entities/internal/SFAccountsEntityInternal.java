@@ -10,12 +10,10 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.internal;
+package com.sharefile.api.entities;
 
-import com.sharefile.api.entities.SFAccountsEntity;
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFQuery;
-import com.sharefile.api.models.internal.SFOutlookInformation;
+
+import java.util.stream;
 
 public class SFAccountsEntityInternal extends SFAccountsEntity
 {

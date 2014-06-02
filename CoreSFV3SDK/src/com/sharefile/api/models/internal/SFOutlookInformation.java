@@ -17,10 +17,9 @@
 // ------------------------------------------------------------------------------
 
 
-package com.sharefile.api.models.internal;
+package com.sharefile.api.models.private;
 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.models.SFODataObject;
+package com.sharefile.api.models;
 
 
 public class SFOutlookInformation extends SFODataObject {

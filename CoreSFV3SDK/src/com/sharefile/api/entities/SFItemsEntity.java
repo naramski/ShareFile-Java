@@ -12,28 +12,8 @@
 
 package com.sharefile.api.entities;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.stream.Stream;
 
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFDownloadSpecification;
-import com.sharefile.api.models.SFFolder;
-import com.sharefile.api.models.SFItem;
-import com.sharefile.api.models.SFItemInfo;
-import com.sharefile.api.models.SFItemProtocolLink;
-import com.sharefile.api.models.SFLink;
-import com.sharefile.api.models.SFNote;
-import com.sharefile.api.models.SFODataFeed;
-import com.sharefile.api.models.SFQuery;
-import com.sharefile.api.models.SFRedirection;
-import com.sharefile.api.models.SFSearchResults;
-import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.models.SFTreeMode;
-import com.sharefile.api.models.SFUploadMethod;
-import com.sharefile.api.models.SFUploadSpecification;
+import java.util.stream;
 
 public class SFItemsEntity extends SFODataEntityBase
 {
@@ -59,7 +39,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param includeDeleted 	
 	* @return a single Item
     */
-	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted)
+	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted = false)
 	{
 		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
@@ -84,7 +64,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param fileBox 	
 	* @return A tree root element.
     */
-	public ISFQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder, Boolean fileBox)
+	public ISFQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder = false, Boolean fileBox = false)
 	{
 		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
@@ -107,7 +87,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param url 	
 	* @param includeDeleted 	
     */
-	public ISFQuery<SFODataFeed<SFItem>> stream(URI url, Boolean includeDeleted)
+	public ISFQuery<SFODataFeed<SFItem>> stream(URI url, Boolean includeDeleted = false)
 	{
 		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
@@ -217,7 +197,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return the download link for the provided item content.
     */
-	public ISFQuery<SFDownloadSpecification> download(URI url, Boolean redirect)
+	public ISFQuery<SFDownloadSpecification> download(URI url, Boolean redirect = true)
 	{
 		ISFQuery<SFDownloadSpecification> sfApiQuery = new SFQuery<SFDownloadSpecification>();
 		sfApiQuery.setFrom("Items");
@@ -246,7 +226,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param passthrough 	
 	* @return the new Folder
     */
-	public ISFQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder, Boolean overwrite, Boolean passthrough)
+	public ISFQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder, Boolean overwrite = false, Boolean passthrough = false)
 	{
 		ISFQuery<SFFolder> sfApiQuery = new SFQuery<SFFolder>();
 		sfApiQuery.setFrom("Items");
@@ -328,7 +308,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param overwrite 	
 	* @return the new SymbolicLink
     */
-	public ISFQuery<SFSymbolicLink> createSymbolicLink(URI parentUrl, SFSymbolicLink symlink, Boolean overwrite)
+	public ISFQuery<SFSymbolicLink> createSymbolicLink(URI parentUrl, SFSymbolicLink symlink, Boolean overwrite = false)
 	{
 		ISFQuery<SFSymbolicLink> sfApiQuery = new SFQuery<SFSymbolicLink>();
 		sfApiQuery.setFrom("Items");
@@ -356,7 +336,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param forceSync 	
 	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
     */
-	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync)
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid = null, Long batchSizeInBytes = 0, Boolean forceSync = false, Boolean scheduleAsync = true)
 	{
 		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
@@ -384,7 +364,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return A modified Link object
     */
-	public ISFQuery<SFLink> updateLink(URI url, SFLink link, Boolean notify)
+	public ISFQuery<SFLink> updateLink(URI url, SFLink link, Boolean notify = false)
 	{
 		ISFQuery<SFLink> sfApiQuery = new SFQuery<SFLink>();
 		sfApiQuery.setFrom("Items");
@@ -409,7 +389,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return The modified Note object
     */
-	public ISFQuery<SFNote> updateNote(URI url, SFNote note, Boolean notify)
+	public ISFQuery<SFNote> updateNote(URI url, SFNote note, Boolean notify = false)
 	{
 		ISFQuery<SFNote> sfApiQuery = new SFQuery<SFNote>();
 		sfApiQuery.setFrom("Items");
@@ -444,7 +424,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery delete(URI url, Boolean singleversion, Boolean forceSync)
+	public ISFQuery delete(URI url, Boolean singleversion = false, Boolean forceSync = false)
 	{
 		ISFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Items");
@@ -462,7 +442,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param id 	
 	* @param body 	
     */
-	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync)
+	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync = false)
 	{
 		ISFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Items");
@@ -474,7 +454,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<Stream> getThumbnail(URI url, Integer size, Boolean redirect )
+	public ISFQuery<Stream> getThumbnail(URI url, Integer size = 75, Boolean redirect = false)
 	{
 		ISFQuery<Stream> sfApiQuery = new SFQuery<Stream>();
 		sfApiQuery.setFrom("Items");
@@ -495,7 +475,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param path 	
 	* @return A feed containing the path of folders from the specified root to the item, in order
     */
-	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path)
+	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path = null)
 	{
 		ISFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
@@ -516,7 +496,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param overwrite 	
 	* @return the modified source object
     */
-	public ISFQuery<SFItem> copy(URI url, String targetid, Boolean overwrite)
+	public ISFQuery<SFItem> copy(URI url, String targetid, Boolean overwrite = false)
 	{
 		ISFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
@@ -591,7 +571,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param clientModifiedDateUTC 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
     */
-	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw , String fileName , Long fileSize , String batchId , Boolean batchLast , Boolean canResume , Boolean startOver , Boolean unzip , String tool , Boolean overwrite, String title , String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify , Date clientCreatedDateUTC, Date clientModifiedDateUTC, Integer expirationDays)
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method = Standard, Boolean raw = false, String fileName = null, Long fileSize = 0, String batchId = null, Boolean batchLast = false, Boolean canResume = false, Boolean startOver = false, Boolean unzip = false, String tool = "apiv3", Boolean overwrite = false, String title = null, String details = null, Boolean isSend = false, String sendGuid = null, String opid = null, Integer threadCount = 4, String responseFormat = "json", Boolean notify = false, Date clientCreatedDateUTC = null, Date clientModifiedDateUTC = null, Integer expirationDays = null)
 	{
 		ISFQuery<SFUploadSpecification> sfApiQuery = new SFQuery<SFUploadSpecification>();
 		sfApiQuery.setFrom("Items");

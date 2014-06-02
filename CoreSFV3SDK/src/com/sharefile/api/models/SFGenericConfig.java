@@ -19,10 +19,6 @@
 
 package com.sharefile.api.models;
 
-import java.util.Date;
-
-import com.google.gson.annotations.SerializedName;
-
 
 public class SFGenericConfig extends SFODataObject {
 

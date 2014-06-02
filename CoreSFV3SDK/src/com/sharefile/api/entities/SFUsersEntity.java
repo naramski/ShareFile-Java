@@ -12,18 +12,8 @@
 
 package com.sharefile.api.entities;
 
-import java.net.URI;
 
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFAccountUser;
-import com.sharefile.api.models.SFItem;
-import com.sharefile.api.models.SFODataFeed;
-import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.models.SFQuery;
-import com.sharefile.api.models.SFUser;
-import com.sharefile.api.models.SFUserConfirmationSettings;
-import com.sharefile.api.models.SFUserInfo;
-import com.sharefile.api.models.SFUserPreferences;
+import java.util.stream;
 
 public class SFUsersEntity extends SFODataEntityBase
 {
@@ -34,7 +24,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param emailAddress 	
 	* @return the requested User object
     */
-	public ISFQuery<SFUser> get(String id , String emailAddress )
+	public ISFQuery<SFUser> get(String id = null, String emailAddress = null)
 	{
 		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
@@ -71,7 +61,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param ifNecessary 	
 	* @return The new user
     */
-	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings , Boolean addshared , Boolean notify , Boolean ifNecessary )
+	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
 	{
 		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
@@ -127,7 +117,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param ifNecessary 	
 	* @return The new employee user
     */
-	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings , Boolean addshared , Boolean notify , Boolean ifNecessary)
+	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
 	{
 		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
@@ -338,7 +328,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return The modified user record
     */
-	public ISFQuery<SFUser> resetPassword(URI url, SFODataObject properties, Boolean notify)
+	public ISFQuery<SFUser> resetPassword(URI url, SFODataObject properties, Boolean notify = false)
 	{
 		ISFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
@@ -371,7 +361,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param url 	
 	* @param completely 	
     */
-	public ISFQuery delete(URI url, Boolean completely)
+	public ISFQuery delete(URI url, Boolean completely = false)
 	{
 		ISFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Users");

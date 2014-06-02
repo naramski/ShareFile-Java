@@ -10,14 +10,10 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.internal;
+package com.sharefile.api.entities;
 
-import com.sharefile.api.entities.SFItemsEntity;
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFAdvancedSearchResults;
-import com.sharefile.api.models.SFQuery;
-import com.sharefile.api.models.SFSearchQuery;
-import com.sharefile.api.models.SFSimpleSearchQuery;
+
+import java.util.stream;
 
 public class SFItemsEntityInternal extends SFItemsEntity
 {

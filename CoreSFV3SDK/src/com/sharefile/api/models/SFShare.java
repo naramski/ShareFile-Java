@@ -19,13 +19,6 @@
 
 package com.sharefile.api.models;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-
 
 public class SFShare extends SFODataObject {
 

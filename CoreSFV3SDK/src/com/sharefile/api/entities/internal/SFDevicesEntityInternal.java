@@ -10,18 +10,10 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.internal;
+package com.sharefile.api.entities;
 
-import java.net.URI;
 
-import com.sharefile.api.entities.SFODataEntityBase;
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFDevice;
-import com.sharefile.api.models.SFDeviceStatus;
-import com.sharefile.api.models.SFDeviceUser;
-import com.sharefile.api.models.SFDeviceWipeReport;
-import com.sharefile.api.models.SFODataFeed;
-import com.sharefile.api.models.SFQuery;
+import java.util.stream;
 
 public class SFDevicesEntityInternal extends SFODataEntityBase
 {
@@ -103,7 +95,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 	* @param userid 	
 	* @return no data on success
     */
-	public ISFQuery wipe(URI deviceUrl, String userid)
+	public ISFQuery wipe(URI deviceUrl, String userid = null)
 	{
 		ISFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Devices");
@@ -142,7 +134,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return no data on success
     */
-	public ISFQuery wipeDone(URI deviceUrl, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane)
+	public ISFQuery wipeDone(URI deviceUrl, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane = false)
 	{
 		ISFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Devices");

@@ -19,9 +19,6 @@
 
 package com.sharefile.api.models;
 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-
 
 public class SFEnsSubscriptionToken extends SFODataObject {
 

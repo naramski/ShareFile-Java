@@ -10,14 +10,10 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.internal;
+package com.sharefile.api.entities;
 
-import java.net.URI;
 
-import com.sharefile.api.entities.SFUsersEntity;
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFQuery;
-import com.sharefile.api.models.SFUserSecurity;
+import java.util.stream;
 
 public class SFUsersEntityInternal extends SFUsersEntity
 {

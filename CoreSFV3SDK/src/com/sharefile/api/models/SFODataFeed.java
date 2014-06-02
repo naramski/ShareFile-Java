@@ -19,10 +19,6 @@
 
 package com.sharefile.api.models;
 
-import java.util.ArrayList;
-
-import com.google.gson.annotations.SerializedName;
-
 
 public class SFODataFeed<T> extends SFODataObject {
 
@@ -35,7 +31,7 @@ public class SFODataFeed<T> extends SFODataObject {
 
 	@SerializedName("value")
 
-	private ArrayList<T> Feed;
+	private ArrayList<SFT> Feed;
 
 
 	@SerializedName("odata.nextLink")
@@ -55,12 +51,12 @@ public class SFODataFeed<T> extends SFODataObject {
 	}
 
 
-	public ArrayList<T> getFeed() {
+	public ArrayList<SFT> getFeed() {
 		return Feed;
 	}
 
 
-	public void setFeed(ArrayList<T> feed) {
+	public void setFeed(ArrayList<SFT> feed) {
 		Feed = feed;
 	}
 

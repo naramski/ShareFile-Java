@@ -10,19 +10,10 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.internal;
+package com.sharefile.api.entities;
 
-import java.net.URI;
-import java.util.ArrayList;
 
-import com.sharefile.api.entities.SFODataEntityBase;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFMetadata;
-import com.sharefile.api.models.SFODataFeed;
-import com.sharefile.api.models.SFQuery;
-import com.sharefile.api.models.SFZone;
-import com.sharefile.api.models.SFZoneService;
+import java.util.stream;
 
 public class SFZonesEntityInternal extends SFODataEntityBase
 {
@@ -35,7 +26,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param includeDisabled 	
 	* @return The list of public and private zones accessible to this user
     */
-	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnum<SFZoneService> services , Boolean includeDisabled )
+	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnum<SFZoneService> services = StorageZone, Boolean includeDisabled = false)
 	{
 		ISFQuery<SFODataFeed<SFZone>> sfApiQuery = new SFQuery<SFODataFeed<SFZone>>();
 		sfApiQuery.setFrom("Zones");
@@ -54,7 +45,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param includeDisabled 	
 	* @return The list of public and private zones accessible to this user
     */
-	public ISFQuery<SFZone> get(URI url, Boolean secret)
+	public ISFQuery<SFZone> get(URI url, Boolean secret = false)
 	{
 		ISFQuery<SFZone> sfApiQuery = new SFQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
@@ -111,7 +102,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param url 	
 	* @param force 	
     */
-	public ISFQuery delete(URI url, Boolean force)
+	public ISFQuery delete(URI url, Boolean force = false)
 	{
 		ISFQuery sfApiQuery = new SFQuery();
 		sfApiQuery.setFrom("Zones");

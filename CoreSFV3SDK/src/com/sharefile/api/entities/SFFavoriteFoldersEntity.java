@@ -12,12 +12,8 @@
 
 package com.sharefile.api.entities;
 
-import java.net.URI;
 
-import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.models.SFFavoriteFolder;
-import com.sharefile.api.models.SFODataFeed;
-import com.sharefile.api.models.SFQuery;
+import java.util.stream;
 
 public class SFFavoriteFoldersEntity extends SFODataEntityBase
 {

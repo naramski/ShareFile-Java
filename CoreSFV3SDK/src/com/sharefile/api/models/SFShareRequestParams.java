@@ -19,10 +19,6 @@
 
 package com.sharefile.api.models;
 
-import java.util.ArrayList;
-
-import com.google.gson.annotations.SerializedName;
-
 
 public class SFShareRequestParams extends SFODataObject {
 
