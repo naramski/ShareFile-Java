@@ -710,5 +710,21 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get Redirection endpoint Information
+	* Returns the redirection endpoint for this Item.This operation applies to Folders and SymbolicLinks only, will return an error for other Item types.
+	* @param url 	
+	* @return The Redirection endpoint Information
+    */
+	public ISFQuery<SFRedirection> getRedirection(URI url)
+	{
+		SFQuery<SFRedirection> sfApiQuery = new SFQuery<SFRedirection>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Redirection");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
 }
 
