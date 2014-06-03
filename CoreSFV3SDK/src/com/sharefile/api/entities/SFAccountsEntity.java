@@ -218,7 +218,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
 		}
 		sfApiQuery.setBody(parameters);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

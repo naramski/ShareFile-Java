@@ -161,14 +161,16 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
     /**
 	* Check Device Status
 	* @param deviceUrl 	
+	* @param singlePlane 	
 	* @return DeviceStatus
     */
-	public ISFQuery<SFDeviceStatus> status(URI deviceUrl)
+	public ISFQuery<SFDeviceStatus> status(URI deviceUrl, Boolean singlePlane)
 	{
 		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Status");
 		sfApiQuery.addIds(deviceUrl);
+		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

@@ -32,6 +32,8 @@ public class SFFolder extends SFItem {
 	private Boolean HasRemoteChildren;
 	@SerializedName("Info")
 	private SFItemInfo Info;
+	@SerializedName("Redirection")
+	private SFRedirection Redirection;
 
 	public Integer getFileCount() {
 		return FileCount;
@@ -60,5 +62,12 @@ public class SFFolder extends SFItem {
 
 	public void setInfo(SFItemInfo info) {
 		Info = info;
+	}
+	public SFRedirection getRedirection() {
+		return Redirection;
+	}
+
+	public void setRedirection(SFRedirection redirection) {
+		Redirection = redirection;
 	}
 }
