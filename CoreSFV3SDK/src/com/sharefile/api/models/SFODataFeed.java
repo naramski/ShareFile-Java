@@ -16,16 +16,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
- 
+import java.util.Map;
+
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.models.*;
 
 public class SFODataFeed<T> extends SFODataObject {
 
 	@SerializedName("odata.count")
 	private Integer count;
 	@SerializedName("value")
-	private ArrayList<SFT> Feed;
+	private ArrayList<T> Feed;
 	@SerializedName("odata.nextLink")
 	private String NextLink;
 
@@ -36,11 +38,11 @@ public class SFODataFeed<T> extends SFODataObject {
 	public void setcount(Integer count) {
 		count = count;
 	}
-	public ArrayList<SFT> getFeed() {
+	public ArrayList<T> getFeed() {
 		return Feed;
 	}
 
-	public void setFeed(ArrayList<SFT> feed) {
+	public void setFeed(ArrayList<T> feed) {
 		Feed = feed;
 	}
 	public String getNextLink() {

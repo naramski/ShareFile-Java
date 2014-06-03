@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -31,7 +37,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAsyncOperation> get(URI url)
 	{
-		SFQuery<SFAsyncOperation> sfApiQuery = new SFQuery<SFAsyncOperation>();
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -46,7 +52,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFAsyncOperation>> getByBatch(String id)
 	{
-		SFQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFQuery<SFODataFeed<SFAsyncOperation>>();
+		SFApiQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.setAction("GetByBatch");
 		sfApiQuery.addActionIds(id);
@@ -62,7 +68,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFAsyncOperation>> getByFolder(String id)
 	{
-		SFQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFQuery<SFODataFeed<SFAsyncOperation>>();
+		SFApiQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.setAction("GetByFolder");
 		sfApiQuery.addActionIds(id);
@@ -78,7 +84,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAsyncOperation> cancel(URI url)
 	{
-		SFQuery<SFAsyncOperation> sfApiQuery = new SFQuery<SFAsyncOperation>();
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.setAction("Cancel");
 		sfApiQuery.addIds(url);
@@ -93,7 +99,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -109,7 +115,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFAsyncOperation>> cancelBatch(String id)
 	{
-		SFQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFQuery<SFODataFeed<SFAsyncOperation>>();
+		SFApiQuery<SFODataFeed<SFAsyncOperation>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAsyncOperation>>();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.setAction("CancelBatch");
 		sfApiQuery.addActionIds(id);
@@ -127,7 +133,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAsyncOperation> patch(URI url, SFAsyncOperation newAsyncOp)
 	{
-		SFQuery<SFAsyncOperation> sfApiQuery = new SFQuery<SFAsyncOperation>();
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(newAsyncOp);

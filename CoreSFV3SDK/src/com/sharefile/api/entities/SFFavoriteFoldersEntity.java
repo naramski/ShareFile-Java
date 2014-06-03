@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -31,7 +37,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFFavoriteFolder>> getByUser(URI url)
 	{
-		SFQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFQuery<SFODataFeed<SFFavoriteFolder>>();
+		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -48,7 +54,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFFavoriteFolder> getByUser(URI itemUrl, String userid)
 	{
-		SFQuery<SFFavoriteFolder> sfApiQuery = new SFQuery<SFFavoriteFolder>();
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(itemUrl);
@@ -64,7 +70,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFFavoriteFolder> get(URI url)
 	{
-		SFQuery<SFFavoriteFolder> sfApiQuery = new SFQuery<SFFavoriteFolder>();
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
 		sfApiQuery.setFrom("FavoriteFolders");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -84,7 +90,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFFavoriteFolder> createByUser(URI url, SFFavoriteFolder folder)
 	{
-		SFQuery<SFFavoriteFolder> sfApiQuery = new SFQuery<SFFavoriteFolder>();
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -101,7 +107,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url, String itemid)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -112,7 +118,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 
 	public ISFQuery deleteByUser(URI url, String itemId)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);

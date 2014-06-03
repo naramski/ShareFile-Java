@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,7 +36,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControl> get(URI url)
 	{
-		SFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -45,7 +51,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFAccessControl>> getByItem(URI url)
 	{
-		SFQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFQuery<SFODataFeed<SFAccessControl>>();
+		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -74,15 +80,19 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param sendDefaultNotification 	
 	* @return the created or modified AccessControl instance
     */
-	public ISFQuery<SFAccessControl> createByItem(URI url, SFAccessControl accessControl, Boolean recursive = false, Boolean sendDefaultNotification = false)
+	public ISFQuery<SFAccessControl> createByItem(URI url, SFAccessControl accessControl, Boolean recursive, Boolean sendDefaultNotification)
 	{
-		SFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("recursive", recursive);
 		sfApiQuery.addQueryString("sendDefaultNotification", sendDefaultNotification);
-		accessControl.Properties["message"] = message;
+		//accessControl.Properties["message"] = message;
+		if(true)
+		{
+			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
+		}
 		sfApiQuery.setBody(accessControl);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -106,9 +116,9 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param recursive 	
 	* @return the created or modified AccessControl instance
     */
-	public ISFQuery<SFAccessControl> updateByItem(URI url, SFAccessControl accessControl, Boolean recursive = false)
+	public ISFQuery<SFAccessControl> updateByItem(URI url, SFAccessControl accessControl, Boolean recursive)
 	{
-		SFQuery<SFAccessControl> sfApiQuery = new SFQuery<SFAccessControl>();
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -125,7 +135,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");

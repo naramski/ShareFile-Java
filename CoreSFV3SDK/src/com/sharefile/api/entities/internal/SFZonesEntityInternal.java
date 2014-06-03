@@ -10,8 +10,13 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.private;
-package com.sharefile.api.entities;
+package com.sharefile.api.entities.internal;
+
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
 
 
 import java.io.InputStream;
@@ -33,9 +38,9 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param includeDisabled 	
 	* @return The list of public and private zones accessible to this user
     */
-	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnum<SFZoneService> services = StorageZone, Boolean includeDisabled = false)
+	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnum<SFZoneService> services, Boolean includeDisabled)
 	{
-		SFQuery<SFODataFeed<SFZone>> sfApiQuery = new SFQuery<SFODataFeed<SFZone>>();
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addQueryString("services", services);
 		sfApiQuery.addQueryString("includeDisabled", includeDisabled);
@@ -52,9 +57,9 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param includeDisabled 	
 	* @return The list of public and private zones accessible to this user
     */
-	public ISFQuery<SFZone> get(URI url, Boolean secret = false)
+	public ISFQuery<SFZone> get(URI url, Boolean secret)
 	{
-		SFQuery<SFZone> sfApiQuery = new SFQuery<SFZone>();
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("secret", secret);
@@ -74,7 +79,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFZone> create(SFZone zone)
 	{
-		SFQuery<SFZone> sfApiQuery = new SFQuery<SFZone>();
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setBody(zone);
 		sfApiQuery.setHttpMethod("POST");
@@ -95,7 +100,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFZone> update(URI url, SFZone zone)
 	{
-		SFQuery<SFZone> sfApiQuery = new SFQuery<SFZone>();
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(zone);
@@ -109,9 +114,9 @@ public class SFZonesEntityInternal extends SFODataEntityBase
 	* @param url 	
 	* @param force 	
     */
-	public ISFQuery delete(URI url, Boolean force = false)
+	public ISFQuery delete(URI url, Boolean force)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
@@ -130,7 +135,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFZone> resetSecret(URI url)
 	{
-		SFQuery<SFZone> sfApiQuery = new SFQuery<SFZone>();
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("ResetSecret");
 		sfApiQuery.addIds(url);
@@ -146,7 +151,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFMetadata>> getMetadata(URI url)
 	{
-		SFQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFQuery<SFODataFeed<SFMetadata>>();
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -168,7 +173,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFMetadata>> createMetadata(URI url, ArrayList<SFMetadata> metadata)
 	{
-		SFQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFQuery<SFODataFeed<SFMetadata>>();
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -186,7 +191,7 @@ public class SFZonesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery deleteMetadata(URI url, String name)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);

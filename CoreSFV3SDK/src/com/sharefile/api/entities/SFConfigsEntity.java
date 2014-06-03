@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,7 +31,7 @@ public class SFConfigsEntity extends SFODataEntityBase
 {
 	public ISFQuery<SFODataFeed<SFGenericConfig>> get()
 	{
-		SFQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFQuery<SFODataFeed<SFGenericConfig>>();
+		SFApiQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGenericConfig>>();
 		sfApiQuery.setFrom("Configs");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

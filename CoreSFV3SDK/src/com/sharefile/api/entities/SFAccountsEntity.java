@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,7 +36,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccount> get()
 	{
-		SFQuery<SFAccount> sfApiQuery = new SFQuery<SFAccount>();
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -44,7 +50,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccount> getBranding()
 	{
-		SFQuery<SFAccount> sfApiQuery = new SFQuery<SFAccount>();
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Branding");
 		sfApiQuery.setHttpMethod("GET");
@@ -59,7 +65,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFContact>> getEmployees()
 	{
-		SFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Employees");
 		sfApiQuery.setHttpMethod("GET");
@@ -75,7 +81,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFContact>> getClients()
 	{
-		SFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Clients");
 		sfApiQuery.setHttpMethod("GET");
@@ -91,9 +97,9 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param searchTerm 	
 	* @return A Feed of Contact objects representing the Address Book retrieved
     */
-	public ISFQuery<SFODataFeed<SFContact>> getAddressBook(String type = "personal", String searchTerm = "")
+	public ISFQuery<SFODataFeed<SFContact>> getAddressBook(String type, String searchTerm)
 	{
-		SFQuery<SFODataFeed<SFContact>> sfApiQuery = new SFQuery<SFODataFeed<SFContact>>();
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("AddressBook");
 		sfApiQuery.addQueryString("type", type);
@@ -109,7 +115,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFMobileSecuritySettings> getMobileSecuritySettings()
 	{
-		SFQuery<SFMobileSecuritySettings> sfApiQuery = new SFQuery<SFMobileSecuritySettings>();
+		SFApiQuery<SFMobileSecuritySettings> sfApiQuery = new SFApiQuery<SFMobileSecuritySettings>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("MobileSecuritySettings");
 		sfApiQuery.setHttpMethod("GET");
@@ -118,7 +124,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 
 	public ISFQuery<SFProductDefaults> getProductDefaults()
 	{
-		SFQuery<SFProductDefaults> sfApiQuery = new SFQuery<SFProductDefaults>();
+		SFApiQuery<SFProductDefaults> sfApiQuery = new SFApiQuery<SFProductDefaults>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("ProductDefaults");
 		sfApiQuery.setHttpMethod("GET");
@@ -127,7 +133,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 
 	public ISFQuery<SFAccountPreferences> getPreferences()
 	{
-		SFQuery<SFAccountPreferences> sfApiQuery = new SFQuery<SFAccountPreferences>();
+		SFApiQuery<SFAccountPreferences> sfApiQuery = new SFApiQuery<SFAccountPreferences>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Preferences");
 		sfApiQuery.setHttpMethod("GET");
@@ -139,9 +145,9 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* Retrieve the Single Sign-on configuration for the Account
 	* @param provider 	
     */
-	public ISFQuery<SFSSOAccountProvider> getSSO(String provider = "saml")
+	public ISFQuery<SFSSOAccountProvider> getSSO(String provider)
 	{
-		SFQuery<SFSSOAccountProvider> sfApiQuery = new SFQuery<SFSSOAccountProvider>();
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.addQueryString("provider", provider);
@@ -165,9 +171,9 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param sso 	
 	* @param provider 	
     */
-	public ISFQuery<SFSSOAccountProvider> updateSSO(SFSSOAccountProvider sso, String provider = "saml")
+	public ISFQuery<SFSSOAccountProvider> updateSSO(SFSSOAccountProvider sso, String provider)
 	{
-		SFQuery<SFSSOAccountProvider> sfApiQuery = new SFQuery<SFSSOAccountProvider>();
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.addQueryString("provider", provider);
@@ -193,14 +199,26 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters)
 	{
-		SFQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFQuery<SFODataFeed<SFAccount>>();
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
-		parameters.Properties["username"] = username;
-		parameters.Properties["employeesonly"] = employeesonly;
-		parameters.Properties["requirehomefolders"] = requirehomefolders;
+		//parameters.Properties["username"] = username;
+		if(true)
+		{
+			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
+		}
+		//parameters.Properties["employeesonly"] = employeesonly;
+		if(true)
+		{
+			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
+		}
+		//parameters.Properties["requirehomefolders"] = requirehomefolders;
+		if(true)
+		{
+			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
+		}
 		sfApiQuery.setBody(parameters);
-		sfApiQuery.setHttpMethod("POST");
+		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
@@ -212,7 +230,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery sendToEmail(String email)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SendToEmail");
 		sfApiQuery.addQueryString("email", email);
@@ -230,7 +248,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControlDomains> getLoginAccessControlDomains()
 	{
-		SFQuery<SFAccessControlDomains> sfApiQuery = new SFQuery<SFAccessControlDomains>();
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setHttpMethod("GET");
@@ -249,7 +267,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControlDomains> getFolderAccessControlDomains()
 	{
-		SFQuery<SFAccessControlDomains> sfApiQuery = new SFQuery<SFAccessControlDomains>();
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setHttpMethod("GET");
@@ -268,7 +286,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControlDomains> createLoginAccessControlDomains(SFAccessControlDomains accessControlDomains)
 	{
-		SFQuery<SFAccessControlDomains> sfApiQuery = new SFQuery<SFAccessControlDomains>();
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -288,7 +306,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControlDomains> createFolderAccessControlDomains(SFAccessControlDomains accessControlDomains)
 	{
-		SFQuery<SFAccessControlDomains> sfApiQuery = new SFQuery<SFAccessControlDomains>();
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -309,7 +327,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControlDomains> updateLoginAccessControlDomains(SFAccessControlDomains accessControlDomains)
 	{
-		SFQuery<SFAccessControlDomains> sfApiQuery = new SFQuery<SFAccessControlDomains>();
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -331,7 +349,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFAccessControlDomains> updateFolderAccessControlDomains(SFAccessControlDomains accessControlDomains)
 	{
-		SFQuery<SFAccessControlDomains> sfApiQuery = new SFQuery<SFAccessControlDomains>();
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -352,7 +370,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery deleteLoginAccessControlDomains(SFAccessControlDomains accessControlDomains)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -373,7 +391,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery deleteFolderAccessControlDomains(SFAccessControlDomains accessControlDomains)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -388,9 +406,9 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return RequireWebPopResult
     */
-	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain, String username = null, Boolean singlePlane = false)
+	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain, String username, Boolean singlePlane)
 	{
-		SFQuery<SFRequireWebPopResult> sfApiQuery = new SFQuery<SFRequireWebPopResult>();
+		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireWebPop");
 		sfApiQuery.addQueryString("subdomain", subdomain);
@@ -406,9 +424,9 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return RequireSubdomainResult
     */
-	public ISFQuery<SFRequireSubdomainResult> requireSubdomain(String username, Boolean singlePlane = false)
+	public ISFQuery<SFRequireSubdomainResult> requireSubdomain(String username, Boolean singlePlane)
 	{
-		SFQuery<SFRequireSubdomainResult> sfApiQuery = new SFQuery<SFRequireSubdomainResult>();
+		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireSubdomain");
 		sfApiQuery.addQueryString("username", username);
@@ -429,9 +447,9 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return FindSubdomainResult
     */
-	public ISFQuery<SFFindSubdomainResult> findSubdomain(SFFindSubdomainParams findSubdomainParams, Boolean singlePlane = false)
+	public ISFQuery<SFFindSubdomainResult> findSubdomain(SFFindSubdomainParams findSubdomainParams, Boolean singlePlane)
 	{
-		SFQuery<SFFindSubdomainResult> sfApiQuery = new SFQuery<SFFindSubdomainResult>();
+		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FindSubdomain");
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
@@ -445,7 +463,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFEnsSubscriberConfiguration> getEnsSubscriberConfiguration()
 	{
-		SFQuery<SFEnsSubscriberConfiguration> sfApiQuery = new SFQuery<SFEnsSubscriberConfiguration>();
+		SFApiQuery<SFEnsSubscriberConfiguration> sfApiQuery = new SFApiQuery<SFEnsSubscriberConfiguration>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetEnsSubscriberConfiguration");
 		sfApiQuery.setHttpMethod("GET");
@@ -456,7 +474,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery enableEns()
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("EnableEns");
 		sfApiQuery.setHttpMethod("POST");
@@ -467,7 +485,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery disableEns()
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("DisableEns");
 		sfApiQuery.setHttpMethod("POST");
@@ -481,7 +499,7 @@ public class SFAccountsEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFSSOInfo> getSSOInfo(String subdomain)
 	{
-		SFQuery<SFSSOInfo> sfApiQuery = new SFQuery<SFSSOInfo>();
+		SFApiQuery<SFSSOInfo> sfApiQuery = new SFApiQuery<SFSSOInfo>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSOInfo");
 		sfApiQuery.addQueryString("subdomain", subdomain);

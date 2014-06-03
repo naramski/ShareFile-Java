@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -30,9 +36,9 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param emailAddress 	
 	* @return the requested User object
     */
-	public ISFQuery<SFUser> get(String id = null, String emailAddress = null)
+	public ISFQuery<SFUser> get(String id, String emailAddress)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.addQueryString("emailAddress", emailAddress);
@@ -67,9 +73,9 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param ifNecessary 	
 	* @return The new user
     */
-	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
+	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
 		sfApiQuery.addQueryString("addshared", addshared);
@@ -123,9 +129,9 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param ifNecessary 	
 	* @return The new employee user
     */
-	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings = false, Boolean addshared = false, Boolean notify = false, Boolean ifNecessary = false)
+	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
@@ -162,7 +168,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> update(URI url, SFUser user)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(user);
@@ -190,7 +196,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> updateRoles(URI parentUrl, SFUser user)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
 		sfApiQuery.addIds(parentUrl);
@@ -219,7 +225,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> patchRoles(URI parentUrl, SFUser user)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
 		sfApiQuery.addIds(parentUrl);
@@ -255,7 +261,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUser> updateAccountUser(String id, SFAccountUser user)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addActionIds(id);
@@ -272,7 +278,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFItem> getHomeFolder(URI url)
 	{
-		SFQuery<SFItem> sfApiQuery = new SFQuery<SFItem>();
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("HomeFolder");
 		sfApiQuery.addIds(url);
@@ -282,7 +288,7 @@ public class SFUsersEntity extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFItem>> topFolders(URI url)
 	{
-		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("TopFolders");
 		sfApiQuery.addIds(url);
@@ -292,7 +298,7 @@ public class SFUsersEntity extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFItem>> box(URI url)
 	{
-		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Box");
 		sfApiQuery.addIds(url);
@@ -309,7 +315,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUserPreferences> getPreferences(URI url)
 	{
-		SFQuery<SFUserPreferences> sfApiQuery = new SFQuery<SFUserPreferences>();
+		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Preferences");
 		sfApiQuery.addIds(url);
@@ -334,9 +340,9 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param notify 	
 	* @return The modified user record
     */
-	public ISFQuery<SFUser> resetPassword(URI url, SFODataObject properties, Boolean notify = false)
+	public ISFQuery<SFUser> resetPassword(URI url, SFODataObject properties, Boolean notify)
 	{
-		SFQuery<SFUser> sfApiQuery = new SFQuery<SFUser>();
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResetPassword");
 		sfApiQuery.addIds(url);
@@ -353,7 +359,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery resendWelcome(URI url)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResendWelcome");
 		sfApiQuery.addIds(url);
@@ -367,9 +373,9 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param url 	
 	* @param completely 	
     */
-	public ISFQuery delete(URI url, Boolean completely = false)
+	public ISFQuery delete(URI url, Boolean completely)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("completely", completely);
@@ -384,7 +390,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> getAllSharedFolders()
 	{
-		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AllSharedFolders");
 		sfApiQuery.setHttpMethod("GET");
@@ -400,7 +406,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> getTopFolders()
 	{
-		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("TopFolders");
 		sfApiQuery.setHttpMethod("GET");
@@ -414,7 +420,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> networkShareConnectors()
 	{
-		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("NetworkShareConnectors");
 		sfApiQuery.setHttpMethod("GET");
@@ -428,7 +434,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFItem>> sharepointConnectors()
 	{
-		SFQuery<SFODataFeed<SFItem>> sfApiQuery = new SFQuery<SFODataFeed<SFItem>>();
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("SharepointConnectors");
 		sfApiQuery.setHttpMethod("GET");
@@ -453,7 +459,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery confirm(SFUserConfirmationSettings settings)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Confirm");
 		sfApiQuery.setBody(settings);
@@ -467,7 +473,7 @@ public class SFUsersEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFUserInfo> getInfo()
 	{
-		SFQuery<SFUserInfo> sfApiQuery = new SFQuery<SFUserInfo>();
+		SFApiQuery<SFUserInfo> sfApiQuery = new SFApiQuery<SFUserInfo>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Info");
 		sfApiQuery.setHttpMethod("GET");

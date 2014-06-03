@@ -10,16 +10,17 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.models.private;
-package com.sharefile.api.models;
+package com.sharefile.api.models.internal;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
- 
+import java.util.Map;
+
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.models.*;
 
 public class SFOutlookInformationOptionBool extends SFODataObject {
 

@@ -10,8 +10,13 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.private;
-package com.sharefile.api.entities;
+package com.sharefile.api.entities.internal;
+
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
 
 
 import java.io.InputStream;
@@ -31,7 +36,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFStorageCenter> get(URI url)
 	{
-		SFQuery<SFStorageCenter> sfApiQuery = new SFQuery<SFStorageCenter>();
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -50,7 +55,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFStorageCenter> update(URI url, SFStorageCenter sc)
 	{
-		SFQuery<SFStorageCenter> sfApiQuery = new SFQuery<SFStorageCenter>();
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(sc);
@@ -64,7 +69,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -79,7 +84,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFStorageCenter>> getByZone(URI url)
 	{
-		SFQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFQuery<SFODataFeed<SFStorageCenter>>();
+		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(url);
@@ -101,7 +106,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFStorageCenter> createByZone(URI url, SFStorageCenter storageCenter)
 	{
-		SFQuery<SFStorageCenter> sfApiQuery = new SFQuery<SFStorageCenter>();
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(url);
@@ -125,7 +130,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFStorageCenter> updateByZone(URI zUrl, String scid, SFStorageCenter storageCenter)
 	{
-		SFQuery<SFStorageCenter> sfApiQuery = new SFQuery<SFStorageCenter>();
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -143,7 +148,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery deleteByZone(URI zUrl, String scid)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -161,7 +166,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFMetadata>> getMetadata(URI zUrl, String scid)
 	{
-		SFQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFQuery<SFODataFeed<SFMetadata>>();
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -186,7 +191,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFMetadata>> createMetadata(URI zUrl, String scid, ArrayList<SFMetadata> metadata)
 	{
-		SFQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFQuery<SFODataFeed<SFMetadata>>();
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -207,7 +212,7 @@ public class SFStorageCentersEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery deleteMetadata(URI zUrl, String scid, String name)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);

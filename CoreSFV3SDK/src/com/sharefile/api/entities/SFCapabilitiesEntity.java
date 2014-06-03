@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -37,7 +43,7 @@ public class SFCapabilitiesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFCapability>> get()
 	{
-		SFQuery<SFODataFeed<SFCapability>> sfApiQuery = new SFQuery<SFODataFeed<SFCapability>>();
+		SFApiQuery<SFODataFeed<SFCapability>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCapability>>();
 		sfApiQuery.setFrom("Capabilities");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

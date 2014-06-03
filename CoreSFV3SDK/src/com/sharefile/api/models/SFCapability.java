@@ -16,9 +16,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
- 
+import java.util.Map;
+
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.models.*;
 
 public class SFCapability extends SFODataObject {
 

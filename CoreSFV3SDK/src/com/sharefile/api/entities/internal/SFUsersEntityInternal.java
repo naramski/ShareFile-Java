@@ -10,8 +10,13 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.private;
-package com.sharefile.api.entities;
+package com.sharefile.api.entities.internal;
+
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
 
 
 import java.io.InputStream;
@@ -33,7 +38,7 @@ public class SFUsersEntityInternal extends SFUsersEntity
     */
 	public ISFQuery<SFUserSecurity> getSecurity(URI url)
 	{
-		SFQuery<SFUserSecurity> sfApiQuery = new SFQuery<SFUserSecurity>();
+		SFApiQuery<SFUserSecurity> sfApiQuery = new SFApiQuery<SFUserSecurity>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Security");
 		sfApiQuery.addIds(url);

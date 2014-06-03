@@ -10,8 +10,13 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.private;
-package com.sharefile.api.entities;
+package com.sharefile.api.entities.internal;
+
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
 
 
 import java.io.InputStream;
@@ -30,7 +35,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFDeviceUser>> get()
 	{
-		SFQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFQuery<SFODataFeed<SFDeviceUser>>();
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -43,7 +48,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFDevice> get(URI url)
 	{
-		SFQuery<SFDevice> sfApiQuery = new SFQuery<SFDevice>();
+		SFApiQuery<SFDevice> sfApiQuery = new SFApiQuery<SFDevice>();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -52,7 +57,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFDeviceUser>> getByUser(URI url)
 	{
-		SFQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFQuery<SFODataFeed<SFDeviceUser>>();
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
 		sfApiQuery.setFrom("User");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
@@ -67,7 +72,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -76,7 +81,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 
 	public ISFQuery deleteByUser(URI url, String deviceId)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("User");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
@@ -87,7 +92,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFDeviceUser> createByUser(URI url, SFDeviceUser du)
 	{
-		SFQuery<SFDeviceUser> sfApiQuery = new SFQuery<SFDeviceUser>();
+		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>();
 		sfApiQuery.setFrom("User");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
@@ -102,9 +107,9 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 	* @param userid 	
 	* @return no data on success
     */
-	public ISFQuery wipe(URI deviceUrl, String userid = null)
+	public ISFQuery wipe(URI deviceUrl, String userid)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Wipe");
 		sfApiQuery.addIds(deviceUrl);
@@ -141,9 +146,9 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 	* @param singlePlane 	
 	* @return no data on success
     */
-	public ISFQuery wipeDone(URI deviceUrl, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane = false)
+	public ISFQuery wipeDone(URI deviceUrl, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("WipeDone");
 		sfApiQuery.addIds(deviceUrl);
@@ -160,7 +165,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFDeviceStatus> status(URI deviceUrl)
 	{
-		SFQuery<SFDeviceStatus> sfApiQuery = new SFQuery<SFDeviceStatus>();
+		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>();
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Status");
 		sfApiQuery.addIds(deviceUrl);

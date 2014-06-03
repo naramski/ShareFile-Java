@@ -12,6 +12,12 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
+
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,7 +40,7 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFMetadata> get(URI url)
 	{
-		SFQuery<SFMetadata> sfApiQuery = new SFQuery<SFMetadata>();
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -49,7 +55,7 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFMetadata>> getByItem(URI url)
 	{
-		SFQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFQuery<SFODataFeed<SFMetadata>>();
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -69,7 +75,7 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFMetadata> createByItem(URI url, SFMetadata metadata)
 	{
-		SFQuery<SFMetadata> sfApiQuery = new SFQuery<SFMetadata>();
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -90,7 +96,7 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFMetadata> updateByItem(URI url, String metadataId, SFMetadata metadata)
 	{
-		SFQuery<SFMetadata> sfApiQuery = new SFQuery<SFMetadata>();
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -110,7 +116,7 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFMetadata> update(URI url, SFMetadata metadata)
 	{
-		SFQuery<SFMetadata> sfApiQuery = new SFQuery<SFMetadata>();
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(metadata);
@@ -127,7 +133,7 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public ISFQuery deleteByItem(URI url, String metadataId)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -143,7 +149,7 @@ public class SFMetadataEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		SFQuery sfApiQuery = new SFQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");

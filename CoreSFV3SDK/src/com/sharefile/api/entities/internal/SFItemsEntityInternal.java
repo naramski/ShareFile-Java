@@ -10,8 +10,13 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.private;
-package com.sharefile.api.entities;
+package com.sharefile.api.entities.internal;
+
+import com.sharefile.api.entities.*;
+import com.sharefile.api.models.*;
+import com.sharefile.api.models.internal.*;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.interfaces.ISFQuery;
 
 
 import java.io.InputStream;
@@ -55,7 +60,7 @@ public class SFItemsEntityInternal extends SFItemsEntity
     */
 	public ISFQuery<SFAdvancedSearchResults> advancedSimpleSearch(SFSimpleSearchQuery simpleSearchQuery)
 	{
-		SFQuery<SFAdvancedSearchResults> sfApiQuery = new SFQuery<SFAdvancedSearchResults>();
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AdvancedSimpleSearch");
 		sfApiQuery.setBody(simpleSearchQuery);
@@ -94,7 +99,7 @@ public class SFItemsEntityInternal extends SFItemsEntity
     */
 	public ISFQuery<SFAdvancedSearchResults> advancedSearch(SFSearchQuery searchQuery)
 	{
-		SFQuery<SFAdvancedSearchResults> sfApiQuery = new SFQuery<SFAdvancedSearchResults>();
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AdvancedSimpleSearch");
 		sfApiQuery.setBody(searchQuery);
