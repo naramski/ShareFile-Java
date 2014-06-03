@@ -419,15 +419,14 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	}
 
 	@Override
-	public void setHttpMethod(String string) {
-		// TODO Auto-generated method stub
-		
+	public void setHttpMethod(String string) 
+	{
+		mHttpMethod = string;
 	}
 
 	@Override
-	public void addIds(URI url) {
-		// TODO Auto-generated method stub
-		
+	public void addIds(URI url) {		
+		mLink = url;		
 	}
 
 	@Override
