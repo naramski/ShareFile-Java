@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -160,4 +161,5 @@ public class SFUserSecurity extends SFODataObject {
 	public void setFailedLoginCount(Integer failedlogincount) {
 		FailedLoginCount = failedlogincount;
 	}
+
 }

@@ -197,28 +197,16 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param requirehomefolders 	
 	* @return The list of Accounts associated with this username/password.
     */
-	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters)
+	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly, Boolean requirehomefolders)
 	{
 		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
-		//parameters.Properties["username"] = username;
-		if(true)
-		{
-			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
-		}
-		//parameters.Properties["employeesonly"] = employeesonly;
-		if(true)
-		{
-			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
-		}
-		//parameters.Properties["requirehomefolders"] = requirehomefolders;
-		if(true)
-		{
-			throw new com.sharefile.api.exceptions.SFToDoReminderException("need to implement");
-		}
+		parameters.addProperty("username", username);
+		parameters.addProperty("employeesonly", employeesonly);
+		parameters.addProperty("requirehomefolders", requirehomefolders);
 		sfApiQuery.setBody(parameters);
-		sfApiQuery.setHttpMethod("POST");
+		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 

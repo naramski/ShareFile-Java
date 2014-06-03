@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -196,4 +197,5 @@ public class SFFreeTrialAccount extends SFAccount {
 	public void setMarketoID(String marketoid) {
 		MarketoID = marketoid;
 	}
+
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -769,4 +770,5 @@ public class SFAccount extends SFODataObject {
 	public void setToolInformation(ArrayList<SFToolInformation> toolinformation) {
 		ToolInformation = toolinformation;
 	}
+
 }

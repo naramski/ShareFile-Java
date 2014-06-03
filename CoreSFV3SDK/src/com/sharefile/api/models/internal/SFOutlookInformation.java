@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -142,4 +143,5 @@ public class SFOutlookInformation extends SFODataObject {
 	public void setAttachPaperclip(SFOutlookInformationOptionBool attachpaperclip) {
 		AttachPaperclip = attachpaperclip;
 	}
+
 }

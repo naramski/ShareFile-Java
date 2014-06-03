@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -55,4 +56,5 @@ public class SFAccessControlDomains extends SFODataObject {
 	public void setDomains(ArrayList<String> domains) {
 		Domains = domains;
 	}
+
 }

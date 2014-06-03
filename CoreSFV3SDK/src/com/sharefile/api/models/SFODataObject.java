@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -73,4 +74,14 @@ public class SFODataObject extends Object {
 	public void setProperties(Map<String, String> properties) {
 		Properties = properties;
 	}
+
+		public void addProperty(String key, Object value) {
+			if(value == null) return;
+			
+			if(Properties == null) {
+				Properties = new HashMap<String,String>();
+			}
+
+			Properties.put(key, value.toString());
+		}
 }

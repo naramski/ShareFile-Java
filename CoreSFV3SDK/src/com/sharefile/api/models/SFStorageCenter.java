@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -151,4 +152,5 @@ public class SFStorageCenter extends SFODataObject {
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
 		Metadata = metadata;
 	}
+
 }
