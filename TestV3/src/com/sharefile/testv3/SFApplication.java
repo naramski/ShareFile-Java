@@ -1,10 +1,10 @@
 package com.sharefile.testv3;
 
 import com.sharefile.java.AsyncJobFactory;
+import com.sharefile.java.log.LogLevel;
 import com.sharefile.java.log.SLog;
 
 import android.app.Application;
-import android.util.Log;
 import android.webkit.CookieSyncManager;
 
 public class SFApplication extends Application 
@@ -14,6 +14,7 @@ public class SFApplication extends Application
 		AsyncJobFactory asfactory = new AsyncJobFactory();
 		AsyncJobFactory.setInstance(asfactory);
 									
+		SLog.getLogAgency().setLogLevel(LogLevel.V);
 		SLog.getLogAgency().getCollector().addWriter(new SLogSystemLogWriter(), true);
 				
 	}
@@ -25,13 +26,6 @@ public class SFApplication extends Application
 		
 		CookieSyncManager.createInstance(this);
 				
-		setupSLog();
-		
-		SFReLoginActivity r = new SFReLoginActivity();
-		
-		if(r.isLimitedMode)
-		{
-			SLog.d("","Is limited");
-		}
+		setupSLog();				
 	}
 }
