@@ -51,7 +51,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param includeDeleted 	
 	* @return a single Item
     */
-	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted)
+	public static ISFQuery<SFItem> get(URI url, Boolean includeDeleted)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");

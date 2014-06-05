@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 
 /**
@@ -11,15 +12,15 @@ import com.sharefile.api.models.SFODataObject;
  */
 public final class SFReAuthContext<T extends SFODataObject> 
 {	
-	private final SFApiQuery<T> mQuery;
+	private final ISFQuery<T> mQuery;
 	private final SFApiListenerReauthHandler<T> mOriginalListener;	
 	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
 	private final SFApiClient mSFApiClient;
 		
 	@SFSDKDefaultAccessScope
-	SFReAuthContext(SFApiQuery<T> query,SFApiListenerReauthHandler<T> originalListener,SFApiClient sfApiClient)	
+	SFReAuthContext(ISFQuery<T> sfapiApiqueri,SFApiListenerReauthHandler<T> originalListener,SFApiClient sfApiClient)	
 	{
-		mQuery = query;
+		mQuery = sfapiApiqueri;
 		mOriginalListener = originalListener;
 		mSFApiClient = sfApiClient;
 	}
@@ -40,7 +41,7 @@ public final class SFReAuthContext<T extends SFODataObject>
 	 *  We just return a convenience call to return the Query which triggered the auth problem
 	 *  and invalidate the ReAuthContext so that no-one can call the proceedWithCredentials() after cancel has been called.
 	 */	
-	public SFApiQuery<T> cancel()
+	public ISFQuery<T> cancel()
 	{
 		mIsCancelled.set(true);
 		return mQuery;

@@ -15,6 +15,7 @@ import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.https.SFCookieManager;
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
@@ -107,7 +108,7 @@ public class SFApiClient
 	/**
 	 * This will start a seperate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
 	 */
-	public synchronized <T extends SFODataObject> Thread executeQuery(SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public synchronized <T extends SFODataObject> Thread executeQuery(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{		
 		SFApiListenerReauthHandler<T> sfReauthHandler = new SFApiListenerReauthHandler<T>(listener, reauthHandler, this,query);
 		
@@ -121,15 +122,15 @@ public class SFApiClient
 	 *  the infinite recursion while attempting to handle auth errors.
 	 */
 	@SFSDKDefaultAccessScope
-	<T extends SFODataObject> Thread executeQueryInternal(SFApiQuery<T> query , SFApiListenerReauthHandler<T> listener, boolean useTokenRenewer) throws SFInvalidStateException
+	<T extends SFODataObject> Thread executeQueryInternal(ISFQuery<T> query , SFApiListenerReauthHandler<T> sfReauthHandler, boolean useTokenRenewer) throws SFInvalidStateException
 	{
 		validateClientState();
 		
-		SFApiResponseListener<T> targetLisner = listener;
+		SFApiResponseListener<T> targetLisner = sfReauthHandler;
 		
 		if(useTokenRenewer)
 		{
-			SFApiListenerTokenRenewer<T> listenereWrapper = new SFApiListenerTokenRenewer<T>(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 							
+			SFApiListenerTokenRenewer<T> listenereWrapper = new SFApiListenerTokenRenewer<T>(this,sfReauthHandler,query,mOAuthToken.get(),mClientID,mClientSecret); 							
 			targetLisner = listenereWrapper;
 		}			
 		

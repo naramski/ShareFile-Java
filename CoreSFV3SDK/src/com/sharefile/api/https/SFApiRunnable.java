@@ -21,6 +21,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
@@ -30,7 +31,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
 			
-	private SFApiQuery<T> mQuery; 
+	private ISFQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
@@ -56,7 +57,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	FinalResponse mResponse = new FinalResponse();
 		
-	public SFApiRunnable(SFApiQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token,SFCookieManager cookieManager) throws SFInvalidStateException
+	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token,SFCookieManager cookieManager) throws SFInvalidStateException
 	{			
 		mQuery = query;
 		mResponseListener = responseListener;

@@ -1,6 +1,8 @@
 package com.sharefile.api.interfaces;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -39,4 +41,24 @@ public interface ISFQuery<T>
 	void addQueryString(String string, Date date);
 
 	void addSubAction(String string);
+
+	URI getLink();
+
+	String getUserName();
+
+	String getPassword();
+
+	String getHttpMethod();
+
+	String getBody();
+
+	boolean getNeedSpecialHandling();
+
+	String buildQueryUrlString(String server) throws UnsupportedEncodingException;
+
+	void setLink(String string) throws URISyntaxException;
+
+	boolean canReNewTokenInternally();
+
+	void setCredentials(String userName, String password);
 }

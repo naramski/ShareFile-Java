@@ -2,6 +2,7 @@ package com.sharefile.api;
 
 import java.net.URI;
 
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
@@ -20,9 +21,9 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 	/**
 	 *   We store the original query so that on success, we can call the storeCredentials
 	 */
-	private final SFApiQuery<T> mQuery;
+	private final ISFQuery<T> mQuery;
 	
-	public SFApiListenerReauthHandler(SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler, SFApiClient apiClient, SFApiQuery<T> query) 
+	public SFApiListenerReauthHandler(SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler, SFApiClient apiClient, ISFQuery<T> query) 
 	{
 		mOriginalListener = listener;
 		mSFApiClient = apiClient;
@@ -53,7 +54,7 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 	}
 		
 	@Override
-	public void sfApiError(SFV3Error error, SFApiQuery<T> sfapiApiqueri) 
+	public void sfApiError(SFV3Error error, ISFQuery<T> sfapiApiqueri) 
 	{		
 		if(!handleIfAuthError(error, sfapiApiqueri))
 		{
@@ -61,7 +62,7 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 		}
 	}
 					
-	private boolean handleIfAuthError(final SFV3Error error, final SFApiQuery<T> sfapiApiqueri)
+	private boolean handleIfAuthError(final SFV3Error error, final ISFQuery<T> sfapiApiqueri)
 	{
 		boolean ret = false;				
 		if(error!=null && error.isAuthError()) 

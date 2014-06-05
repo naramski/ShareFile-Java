@@ -4,6 +4,7 @@ import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFODataObject;
@@ -21,7 +22,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiListenerTokenRenewer";
 	private final SFApiListenerReauthHandler<T> mListener;
-	private final SFApiQuery<T> mQuery;
+	private final ISFQuery<T> mQuery;
 	private final String mClientID;
 	private final String mClientSecret;
 	private final SFOAuth2Token mOAuthToken;
@@ -58,7 +59,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 		}
 	};
 	
-	SFApiListenerTokenRenewer(SFApiClient client, SFApiListenerReauthHandler<T> listener, SFApiQuery<T> query,SFOAuth2Token oAuthToken ,String clientID,String clientSecret)
+	SFApiListenerTokenRenewer(SFApiClient client, SFApiListenerReauthHandler<T> listener, ISFQuery<T> query,SFOAuth2Token oAuthToken ,String clientID,String clientSecret)
 	{
 		mListener = listener;
 		mQuery = query;
@@ -78,7 +79,7 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 	}
 		
 	@Override
-	public final void sfApiError(final SFV3Error error, SFApiQuery<T> sfapiApiqueri) 
+	public final void sfApiError(final SFV3Error error, ISFQuery<T> sfapiApiqueri) 
 	{
 		if(error.isAuthError() && sfapiApiqueri.canReNewTokenInternally())
 		{

@@ -1,6 +1,7 @@
 package com.sharefile.api;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
@@ -21,7 +22,7 @@ public abstract class SFApiListenerEx<T extends SFODataObject> implements SFApiR
 	}
 		
 	@Override
-	public void sfApiError(SFV3Error error, SFApiQuery<T> sfapiApiqueri) 
+	public void sfApiError(SFV3Error error, ISFQuery<T> sfapiApiqueri) 
 	{		
 		Utils.safeCallErrorListener(mListener, error, sfapiApiqueri);
 	}
