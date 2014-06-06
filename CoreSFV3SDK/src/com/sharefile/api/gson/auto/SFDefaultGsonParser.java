@@ -11,13 +11,19 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.entities.SFCapabilitiesEntity;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.models.SFCapabilityName;
+import com.sharefile.api.models.SFFileVirusStatus;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFPreviewStatus;
 import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.api.utils.SafeEnumHelpers;
 import com.sharefile.java.log.SLog;
 import com.sun.xml.internal.ws.message.saaj.SAAJHeader;
 
@@ -79,28 +85,40 @@ public class SFDefaultGsonParser
 	 */
 	
 	private final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
-	
+			
+	private void registerV3EnumAdapters()
+	{
+		mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new JsonDeserializer<SFSafeEnum>() 
+		{
+			@Override
+			public SFSafeEnum deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
+			{					
+				SFSafeEnum safeEnum = new SFSafeEnum();
+				
+				Class enumClass = SafeEnumHelpers.getEnumClass(arg1.toString());
+				
+				String value = arg0.getAsString();
+				
+				Enum enuM = SafeEnumHelpers.getEnumFromString(enumClass, value);
+				
+				safeEnum.setValue(value, enuM);
+				
+				return safeEnum;
+			}
+		});
+	}
+		
+
 	private void registerSFSpecificGsonAdapters()
 	{		
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
 		
-		mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new JsonDeserializer<SFSafeEnum>() 
-		{
-			@Override
-			public SFSafeEnum deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
-			{	
-				SFSafeEnum safeEnum = new SFSafeEnum();
-				safeEnum.setValue(arg0.getAsString());			
-				SLog.d("","SafeEnum = " + safeEnum.getValue());
-				return safeEnum;
-			}
-		});		
+		registerV3EnumAdapters();		
 		
 		mGsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() 
 		{
-
 			@Override
 			public Date deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
 			{				

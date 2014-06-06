@@ -2,18 +2,26 @@ package com.sharefile.api.enumerations;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SFSafeEnum<T> 
+public class SFSafeEnum<T extends Enum> 
 {
-	@SerializedName("value")
-	private String value;
+	private Enum mEnum;	
 	
-	public void setValue(String v)
+	@SerializedName("value")
+	private String originalString;
+	
+	public void setValue(String v, Enum e)
 	{
-		value = v;
+		originalString = v;
+		mEnum = e;
 	}
 	
-	public String getValue()
+	public String getOriginalString()
 	{
-		return value;
+		return originalString;
 	}	
+	
+	public Enum get()
+	{
+		return mEnum;
+	}
 }
