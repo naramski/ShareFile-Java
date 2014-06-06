@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
@@ -207,7 +208,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 		@Override
 		public void onClick(View v) 
 		{
-			ISFQuery<SFODataFeed<SFCapability>> query = SFCapabilitiesEntity.get();
+			ISFQuery<SFODataFeed<SFCapability>> query = SFQueryBuilder.CAPABILITIES.get();
 			
 			try 
 			{
@@ -242,7 +243,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 		@Override
 		public void onClick(View v) 
 		{
-			ISFQuery<SFODataFeed<SFShare>> query = SFSharesEntity.get();
+			ISFQuery<SFODataFeed<SFShare>> query = SFQueryBuilder.SHARES.get();
 			
 			try 
 			{
@@ -315,7 +316,7 @@ public class FullscreenActivity extends Activity implements SFAuthTokenChangeLis
 		@Override
 		public void onClick(View v) 
 		{
-			ISFQuery<SFAccount> query = SFAccountsEntity.get();
+			ISFQuery<SFAccount> query = SFQueryBuilder.ACCOUNTS.get();
 			
 			try 
 			{

@@ -14,6 +14,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.SFAccessControlsEntity;
@@ -178,7 +179,7 @@ public class FoldersActivity extends Activity
 	{
 		String parenturl = mFolderIdStack.peek();
 		
-		ISFQuery<SFODataFeed<SFAccessControl>> query = SFAccessControlsEntity.getByItem(new URI(parenturl));
+		ISFQuery<SFODataFeed<SFAccessControl>> query = SFQueryBuilder.ACCESS_CONTROL.getByItem(new URI(parenturl));
 		
 		try 
 		{
@@ -483,7 +484,7 @@ public class FoldersActivity extends Activity
 		ISFQuery<SFItem> query =null;
 				
 		
-		query = SFItemsEntity.get(getUriFromLink(link),false);
+		query = SFQueryBuilder.ITEMS.get(getUriFromLink(link),false);
 		
 		
 		query.addQueryString("$expand", "Children");
