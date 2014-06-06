@@ -25,7 +25,7 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 public class SFHttpsCaller 
 {
@@ -39,7 +39,7 @@ public class SFHttpsCaller
 	public static void setBasicAuth(URLConnection conn,String username,String password)
 	{			
 		String combinepass = username +SFKeywords.COLON + password;
-		String basicAuth = "Basic " + new String(Base64.encode(combinepass.getBytes()));
+		String basicAuth = "Basic " + new String(Base64.encodeBase64(combinepass.getBytes()));
 		conn.setRequestProperty ("Authorization", basicAuth);
 	}
 	
