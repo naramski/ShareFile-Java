@@ -286,12 +286,9 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		if(mLink != null)
 		{
 			SFProvider provider = SFProvider.getProviderTypeFromString(mLink.getPath());
-			
-			if(provider != SFProvider.PROVIDER_TYPE_SF)
-			{
-				mProvider = provider;
-				return mLink.toString();
-			}
+						
+			mProvider = provider;
+			return mLink.toString();			
 		}
 		
 		if(!server.startsWith(SFKeywords.PREFIX_HTTPS) && !server.startsWith(SFKeywords.PREFIX_HTTP))

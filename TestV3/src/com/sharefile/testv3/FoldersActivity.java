@@ -65,6 +65,7 @@ public class FoldersActivity extends Activity
 		
 	private void navigateForward(String folderid,String link) throws URISyntaxException
 	{
+		SLog.d("GET", "Nav to: " + link);
 		confirmExit = false;
 		mFolderIdStack.push(link);
 		getContents(folderid, link);
@@ -447,14 +448,22 @@ public class FoldersActivity extends Activity
 	
 	private URI getUriFromLink(String link) throws URISyntaxException
 	{
+		URI uri = null;
+		
+		SLog.d("GET", "build link for = " + link);
+		
 		if(link!=null)
 		{
-			return new URI(link);
+			uri = new URI(link);
 		}
 		else
 		{
-			return new URI("https://enttest1.sf-api.com/sf/v3/Items(top)");
+			uri = new URI("https://enttest1.sf-api.com/sf/v3/Items(top)");
 		}
+		
+		SLog.d("GET", "ret URI = " + uri.toString());
+		
+		return uri;
 	}
 	
 	
@@ -473,7 +482,7 @@ public class FoldersActivity extends Activity
 	
 	private synchronized void getContents(final String folderid,final String link) throws URISyntaxException
 	{		
-		SFFolder folder = getFromCache(folderid);
+		SFFolder folder = getFromCache(link);
 						
 		if(folder!=null)
 		{						
@@ -526,7 +535,15 @@ public class FoldersActivity extends Activity
 					if(SFV3ElementType.isFolderType(object))
 					{																				
 						//mapFolderContents.put(object.getId(), (SFFolder) object);
-						storeToCache(object.getId(), (SFFolder) object);
+						try
+						{
+							SLog.d("GET","Store to cache: " + object.geturl().toString());
+						}
+						catch(Exception e)
+						{
+							SLog.e("",e);
+						}
+						storeToCache(object.geturl().toString(), (SFFolder) object);
 						showContentsList((SFFolder) object);																
 					}
 				}
