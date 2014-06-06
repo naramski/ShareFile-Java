@@ -34,7 +34,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* Retrieves information about the Account defined in the call subdomain
 	* @return The subdomain account information
     */
-	public static ISFQuery<SFAccount> get()
+	public ISFQuery<SFAccount> get()
 	{
 		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
 		sfApiQuery.setFrom("Accounts");

@@ -34,7 +34,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Retrieve all outstanding Shares of the authenticated user
 	* @return List of Shares created by the authenticated user
     */
-	public static ISFQuery<SFODataFeed<SFShare>> get()
+	public ISFQuery<SFODataFeed<SFShare>> get()
 	{
 		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>();
 		sfApiQuery.setFrom("Shares");

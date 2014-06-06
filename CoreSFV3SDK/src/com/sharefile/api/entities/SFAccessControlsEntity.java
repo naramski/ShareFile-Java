@@ -49,7 +49,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 	* @param url 	
 	* @return Access Control List of the given object ID.
     */
-	public static ISFQuery<SFODataFeed<SFAccessControl>> getByItem(URI url)
+	public ISFQuery<SFODataFeed<SFAccessControl>> getByItem(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>();
 		sfApiQuery.setFrom("Items");
