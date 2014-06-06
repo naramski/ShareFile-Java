@@ -12,11 +12,14 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.sharefile.api.SFV3Error;
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.java.log.SLog;
+import com.sun.xml.internal.ws.message.saaj.SAAJHeader;
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
@@ -82,7 +85,19 @@ public class SFDefaultGsonParser
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
-				
+		
+		mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new JsonDeserializer<SFSafeEnum>() 
+		{
+			@Override
+			public SFSafeEnum deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
+			{	
+				SFSafeEnum safeEnum = new SFSafeEnum();
+				safeEnum.setValue(arg0.getAsString());			
+				SLog.d("","SafeEnum = " + safeEnum.getValue());
+				return safeEnum;
+			}
+		});		
+		
 		mGsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() 
 		{
 
