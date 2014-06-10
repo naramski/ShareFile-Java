@@ -29,13 +29,6 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFItemsEntity extends SFODataEntityBase
 {
-    /**
-	* Get List of Items
-	* Retrieve the initial folder and files of the authenticated user.
-	* This method will return the user's root directory, using Item.GetRootFromWasabiPath("root").
-	* It will force expansion of the Children element, so first level of items under the root is also returned
-	* @return a user's root directory and first level of children items
-    */
 	public ISFQuery<SFItem> get()
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
