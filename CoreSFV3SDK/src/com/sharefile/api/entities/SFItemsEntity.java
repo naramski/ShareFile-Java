@@ -648,7 +648,17 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
-
+	
+	public ISFQuery discardCheckOut(URI url)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("DiscardCheckout");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+	
     /**
 	* Search
 	* Search for Items matching the criteria of the query parameter

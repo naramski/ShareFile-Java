@@ -31,4 +31,21 @@ public class Utils
 			listener.sfApiSuccess(object);
 		}	
 	}
+	
+	public static String parseV3IDFromURL(String url)
+	{
+		   String ret = "";
+		   
+		   if(url!=null && url.length()>2)
+		   {
+			   int startIndex = url.indexOf("/Items(");
+			   int endIndex = url.indexOf(")");
+			   if(startIndex>0)
+			   {
+				   ret = url.substring(startIndex + 7,endIndex);
+			   }
+		   }
+		   
+		   return ret;
+	}
 }
