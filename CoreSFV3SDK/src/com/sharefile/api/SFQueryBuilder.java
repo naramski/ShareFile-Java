@@ -1,6 +1,11 @@
 package com.sharefile.api;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.enumerations.SFProvider;
 
 /** 
  * The entities have non-static get* functions to build the queries. The auto-generated SDK does not want to change this. 
@@ -21,4 +26,22 @@ public class SFQueryBuilder
 	public static final SFSessionsEntity SESSIONS = new SFSessionsEntity();
 	public static final SFSharesEntity SHARES = new SFSharesEntity();
 	public static final SFUsersEntity USERS = new SFUsersEntity();
+		
+	private static final String FORMAT_GET_TOP_FOLDER = "https://%s."+SFSDK.API_SERVER+SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
+	
+	
+	/**
+	 *   We need to manually construct the v3 url for the TOP folder. This function provides the helper for the apps
+	 *   to build that url.
+	 */
+	public static final URI getDefaultURL(final String subdomain,final String folderID) throws URISyntaxException
+    {
+          URI uri = null;
+          
+          String urlSpec = String.format(FORMAT_GET_TOP_FOLDER, subdomain,folderID);
+          
+          uri = new URI(urlSpec);
+                      
+          return uri;
+    }
 }
