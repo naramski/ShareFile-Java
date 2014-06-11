@@ -203,7 +203,7 @@ public enum SFV3ElementType
 		
 		if(object!=null)
 		{
-			if(object instanceof SFFolder || object instanceof SFSymbolicLink)
+			if(object instanceof SFFolder)
 			{
 				ret = true;
 			}
@@ -271,8 +271,7 @@ public enum SFV3ElementType
 		
 		return ret;
 	}
-
-	
+			
 	public static final SFV3ElementType getElementTypeFromMetaData(String metadata)
 	{
 		SFV3ElementType ret = null;
