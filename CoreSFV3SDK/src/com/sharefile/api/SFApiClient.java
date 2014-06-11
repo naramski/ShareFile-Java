@@ -50,7 +50,7 @@ public class SFApiClient
 		return mClientInitializedSuccessFully.get();
 	}
 	
-	public SFOAuth2Token getAuthToken()
+	public SFOAuth2Token getOAuthToken()
 	{
 		return mOAuthToken.get();
 	}
