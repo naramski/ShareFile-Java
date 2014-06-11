@@ -203,7 +203,7 @@ public enum SFV3ElementType
 		
 		if(object!=null)
 		{
-			if(object instanceof SFFolder || object instanceof SFSymbolicLink)
+			if(object instanceof SFFolder)
 			{
 				ret = true;
 			}
