@@ -120,7 +120,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("recursive", recursive);
 		sfApiQuery.setBody(accessControl);
-		sfApiQuery.setHttpMethod("POST");
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
