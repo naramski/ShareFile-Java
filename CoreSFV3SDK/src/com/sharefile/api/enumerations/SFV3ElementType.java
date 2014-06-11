@@ -257,6 +257,21 @@ public enum SFV3ElementType
 		return ret;
 	}
 	
+	public static boolean isSymbolicLinkType(SFODataObject object)
+	{
+		boolean ret = false;
+		
+		if(object!=null)
+		{
+			if(object instanceof SFSymbolicLink)
+			{
+				ret = true;
+			}
+		}
+		
+		return ret;
+	}
+			
 	public static final SFV3ElementType getElementTypeFromMetaData(String metadata)
 	{
 		SFV3ElementType ret = null;
