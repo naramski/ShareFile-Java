@@ -27,10 +27,22 @@ public class SFRedirection extends SFODataObject {
 
 	@SerializedName("Method")
 	private String Method;
+	@SerializedName("Root")
+	private String Root;
 	@SerializedName("Zone")
 	private SFZone Zone;
+	@SerializedName("Domain")
+	private Object Domain;
 	@SerializedName("Uri")
 	private URI Uri;
+	@SerializedName("FormsUri")
+	private URI FormsUri;
+	@SerializedName("SessionUri")
+	private URI SessionUri;
+	@SerializedName("TokenUri")
+	private URI TokenUri;
+	@SerializedName("SessionCheck")
+	private Boolean SessionCheck;
 	@SerializedName("Body")
 	private String Body;
 
@@ -41,6 +53,13 @@ public class SFRedirection extends SFODataObject {
 	public void setMethod(String method) {
 		Method = method;
 	}
+	public String getRoot() {
+		return Root;
+	}
+
+	public void setRoot(String root) {
+		Root = root;
+	}
 	public SFZone getZone() {
 		return Zone;
 	}
@@ -48,12 +67,47 @@ public class SFRedirection extends SFODataObject {
 	public void setZone(SFZone zone) {
 		Zone = zone;
 	}
+	public Object getDomain() {
+		return Domain;
+	}
+
+	public void setDomain(Object domain) {
+		Domain = domain;
+	}
 	public URI getUri() {
 		return Uri;
 	}
 
 	public void setUri(URI uri) {
 		Uri = uri;
+	}
+	public URI getFormsUri() {
+		return FormsUri;
+	}
+
+	public void setFormsUri(URI formsuri) {
+		FormsUri = formsuri;
+	}
+	public URI getSessionUri() {
+		return SessionUri;
+	}
+
+	public void setSessionUri(URI sessionuri) {
+		SessionUri = sessionuri;
+	}
+	public URI getTokenUri() {
+		return TokenUri;
+	}
+
+	public void setTokenUri(URI tokenuri) {
+		TokenUri = tokenuri;
+	}
+	public Boolean getSessionCheck() {
+		return SessionCheck;
+	}
+
+	public void setSessionCheck(Boolean sessioncheck) {
+		SessionCheck = sessioncheck;
 	}
 	public String getBody() {
 		return Body;

@@ -23,26 +23,35 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.*;
 
-public class SFSymbolicLink extends SFFolder {
+public class SFConnectorGroupAccessControl extends SFODataObject {
 
-	@SerializedName("Link")
-	private URI Link;
-	@SerializedName("ConnectorGroup")
-	private SFConnectorGroup ConnectorGroup;
+	@SerializedName("Principal")
+	private SFPrincipal Principal;
+	@SerializedName("CanManage")
+	private Boolean CanManage;
+	@SerializedName("CanCreate")
+	private Boolean CanCreate;
 
-	public URI getLink() {
-		return Link;
+	public SFPrincipal getPrincipal() {
+		return Principal;
 	}
 
-	public void setLink(URI link) {
-		Link = link;
+	public void setPrincipal(SFPrincipal principal) {
+		Principal = principal;
 	}
-	public SFConnectorGroup getConnectorGroup() {
-		return ConnectorGroup;
+	public Boolean getCanManage() {
+		return CanManage;
 	}
 
-	public void setConnectorGroup(SFConnectorGroup connectorgroup) {
-		ConnectorGroup = connectorgroup;
+	public void setCanManage(Boolean canmanage) {
+		CanManage = canmanage;
+	}
+	public Boolean getCanCreate() {
+		return CanCreate;
+	}
+
+	public void setCanCreate(Boolean cancreate) {
+		CanCreate = cancreate;
 	}
 
 }

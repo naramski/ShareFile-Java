@@ -20,16 +20,9 @@ import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
-public enum SFAsyncOperationType {
-	Copy,
-	Move,
-	ChangeZone,
-	ScheduleChangeZone,
-	Recovery,
-	Delete,
-	DeletePermanent,
-	CloudConnectorCopy,
-	CloudConnectorFileCopy,
-	CloudConnectorMove,
-	CloudConnectorFileMove
+public enum SFConnectorGroupKind {
+	Cloud,
+	Zone,
+	SDK,
+	Agent
 }
