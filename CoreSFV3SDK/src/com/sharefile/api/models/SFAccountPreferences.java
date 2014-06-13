@@ -173,6 +173,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private String VDRDocViewerURL;
 	@SerializedName("EnableSMBConnectorForAccount")
 	private Boolean EnableSMBConnectorForAccount;
+	@SerializedName("EnablePersonalCloudConnectors")
+	private Boolean EnablePersonalCloudConnectors;
 	@SerializedName("AccountID")
 	private String AccountID;
 	@SerializedName("EnableGetApp")
@@ -699,6 +701,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableSMBConnectorForAccount(Boolean enablesmbconnectorforaccount) {
 		EnableSMBConnectorForAccount = enablesmbconnectorforaccount;
+	}
+	public Boolean getEnablePersonalCloudConnectors() {
+		return EnablePersonalCloudConnectors;
+	}
+
+	public void setEnablePersonalCloudConnectors(Boolean enablepersonalcloudconnectors) {
+		EnablePersonalCloudConnectors = enablepersonalcloudconnectors;
 	}
 	public String getAccountID() {
 		return AccountID;
