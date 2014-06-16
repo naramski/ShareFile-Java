@@ -27,6 +27,8 @@ public class SFODataObject extends Object {
 
 	@SerializedName("odata.metadata")
 	private String MetadataUrl;
+	@SerializedName("odata.type")
+	private String __type;
 	@SerializedName("Id")
 	private String Id;
 	@SerializedName("url")
@@ -46,6 +48,13 @@ public class SFODataObject extends Object {
 		*/
 	public void setMetadataUrl(String metadataurl) {
 		MetadataUrl = metadataurl;
+	}
+	public String get__type() {
+		return __type;
+	}
+
+	public void set__type(String __type) {
+		__type = __type;
 	}
 		/**
 		* Object Identifier

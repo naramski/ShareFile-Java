@@ -29,13 +29,6 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFItemsEntity extends SFODataEntityBase
 {
-    /**
-	* Get List of Items
-	* Retrieve the initial folder and files of the authenticated user.
-	* This method will return the user's root directory, using Item.GetRootFromWasabiPath("root").
-	* It will force expansion of the Children element, so first level of items under the root is also returned
-	* @return a user's root directory and first level of children items
-    */
 	public ISFQuery<SFItem> get()
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
@@ -85,6 +78,16 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.addQueryString("sourceId", sourceId);
 		sfApiQuery.addQueryString("canCreateRootFolder", canCreateRootFolder);
 		sfApiQuery.addQueryString("fileBox", fileBox);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFODataFeed<SFItem>> getChildrenByConnectorGroup(URI url)
+	{
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("ConnectorGroups");
+		sfApiQuery.setAction("Children");
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -299,14 +302,10 @@ public class SFItemsEntity extends SFODataEntityBase
     /**
 	* Create SymbolicLink
     * {
-    * "Name":"Connection Name",
+    * "Name":"RemoteFileName",
     * "Description":"Description",
-    * "Link":"https://server/path"
-    * }
-    * {
-    * "FileName":"RemoteFileName",
-    * "Description":"Description",
-    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" }
+    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" },
+    * "ConnectorGroup": { "Id":"1" }
     * }
 	* Creates a Symbolic Link
 	* The body must contain either a "Link" parameter with a fully qualified URI; or use
@@ -314,7 +313,11 @@ public class SFItemsEntity extends SFODataEntityBase
 	* URI using a call to the Zone - using ShareFile Hash authentication mode. For active
 	* clients, it's recommended to make the convertion call to the Zone directly, using
 	* Items/ByPath=name, retriving the resulting URL, and calling this method with the
-	* Link parameter.SymbolicLinks must be created as top-level folders
+	* Link parameter.SymbolicLinks must be created as top-level folders - i.e., this call requires
+	* the parent to be the Item(accountid) element.Zone defines the location of the SymbolicLink target - for example, for
+	* Network Shares connectors, the SymbolicLink will point to the StorageZone Controller
+	* that will serve the file browsing requests.The ConnectorGroup parameter indicates the kind of symbolic link - e.g., Network
+	* Share, or SharePoint.
 	* @param parentUrl 	
 	* @param symlink 	
 	* @param overwrite 	
@@ -326,6 +329,32 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.setBody(symlink);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Creates SymbolicLink
+    * {
+    * "Name":"RemoteFileName",
+    * "Description":"Description",
+    * "Link":"https://server/provider/version/Items(id)",
+    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" },
+    * "ConnectorGroup": { "Id":"1" }
+    * }
+	* @param url 	
+	* @param symlink 	
+	* @param overwrite 	
+	* @return the new SymbolicLink
+    */
+	public ISFQuery<SFSymbolicLink> createChildrenByConnectorGroup(URI url, SFSymbolicLink symlink, Boolean overwrite)
+	{
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
+		sfApiQuery.setFrom("ConnectorGroups");
+		sfApiQuery.setAction("Children");
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("overwrite", overwrite);
 		sfApiQuery.setBody(symlink);
 		sfApiQuery.setHttpMethod("POST");
@@ -722,6 +751,22 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.setAction("ProtocolLinks");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(protocol);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get Redirection endpoint Information
+	* Returns the redirection endpoint for this Item.This operation applies to Folders and SymbolicLinks only, will return an error for other Item types.
+	* @param url 	
+	* @return The Redirection endpoint Information
+    */
+	public ISFQuery<SFRedirection> getRedirection(URI url)
+	{
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Redirection");
+		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

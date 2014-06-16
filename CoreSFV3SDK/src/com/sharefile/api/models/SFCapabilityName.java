@@ -42,5 +42,6 @@ public enum SFCapabilityName {
 	ItemDescription,
 	VersionMax,
 	VersionMin,
-	Favorites
+	Favorites,
+	ReusableItemId
 }
