@@ -1,9 +1,11 @@
 package com.sharefile.api.https;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -27,6 +29,7 @@ import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
+import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.java.log.SLog;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
@@ -176,7 +179,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
-			SLog.v(TAG, "RAW RESPONSE = " + responseString);						
+			SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);						
 		}
 		catch(Exception ex)
 		{		
@@ -196,7 +199,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				readAheadSymbolicLinks();
 				break;
 					
-			case READ_AHEAD_REDIRECTION:				
+			case READ_AHEAD_REDIRECTION:	
+				readAheadRedirectedObject();
+				break;
+				
 			default:
 				callResponseListeners();
 				break;
@@ -205,6 +211,30 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		return returnResultOrThrow();
 	}		
 	
+	private SFODataObject readAheadRedirectedObject()  
+	{			
+		SFODataObject odataObject = null;
+		
+		try 
+		{
+			SFFolder folder = (SFFolder) mResponse.mResponseObject;
+			
+			URI redirectLink = folder.getRedirection().getUri();
+			
+			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
+			
+			mQuery.setLink(redirectLink);
+			
+			odataObject = executeQuery();
+		} 
+		catch (Exception e) 
+		{			
+			SLog.e(TAG,e);
+		}
+		
+		return odataObject;
+	}
+
 	private SFODataObject readAheadSymbolicLinks()
 	{
 		SFODataObject ret = null;
@@ -270,6 +300,9 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 * @throws SFV3ErrorException 
 	 *   
 	 */
+	
+	private boolean mAlreadRedirecting = false;
+	
 	private SFReadAheadType readAheadRequired()
 	{
 		SFReadAheadType ret = SFReadAheadType.READ_AHEAD_NONE;
@@ -286,9 +319,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				
 				Boolean hadRemoteChildren = folder.getHasRemoteChildren();
 				
-				if(hadRemoteChildren!=null && hadRemoteChildren == true )
-				{
+				if(hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
+				{					
 					ret = SFReadAheadType.READ_AHEAD_REDIRECTION;
+					mAlreadRedirecting = true;
 				}
 			}
 		}

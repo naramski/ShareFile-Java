@@ -57,6 +57,8 @@ public interface ISFQuery<T>
 	String buildQueryUrlString(String server) throws UnsupportedEncodingException;
 
 	void setLink(String string) throws URISyntaxException;
+	
+	void setLink(URI uri);
 
 	boolean canReNewTokenInternally();
 
