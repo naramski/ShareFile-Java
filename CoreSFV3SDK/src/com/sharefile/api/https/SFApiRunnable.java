@@ -16,6 +16,7 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.enumerations.SFReadAheadType;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
@@ -23,6 +24,7 @@ import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.java.log.SLog;
@@ -36,7 +38,6 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private final SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 		
-	
 	/**
 	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
 	 *   The callListerners will be called appropriately based on the contents of this object.
@@ -121,7 +122,6 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		return null;
 	}
 	
-	
 	public SFODataObject executeQuery() throws SFV3ErrorException 
 	{			
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
@@ -187,27 +187,43 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		{
 			SFHttpsCaller.disconnect(connection);
 		}
-				
-		parseResponse(httpErrorCode,responseString);
+						
+		parseResponse(httpErrorCode,responseString);		
 		
-		if(!readAheadSymbolicLinks())
+		switch (readAheadRequired()) 
 		{
-			callResponseListeners();
+			case READ_AHEAD_SYMBOLIC_LINK:
+				readAheadSymbolicLinks();
+				break;
+					
+			case READ_AHEAD_REDIRECTION:				
+			default:
+				callResponseListeners();
+				break;
 		}
-		else
-		{
-			try 
-			{
-				return reExecuteNewQueryForSymbolicLinks();
-			} 
-			catch (URISyntaxException e) 
-			{				
-				SLog.e(TAG,e);
-			}			
-		}
-		
+						
 		return returnResultOrThrow();
-	}		 
+	}		
+	
+	private SFODataObject readAheadSymbolicLinks()
+	{
+		SFODataObject ret = null;
+		
+		try 
+		{
+			ret = reExecuteNewQueryForSymbolicLinks();
+		} 
+		catch (URISyntaxException e) 
+		{				
+			SLog.e(TAG,e);
+		} 
+		catch (SFV3ErrorException e) 
+		{
+			SLog.e(TAG,e);
+		}
+		
+		return ret;
+	}
 			
 	/**
 	 *   Parse the response to the best of our ability. At the end of this function the FinalResponse object 
@@ -249,21 +265,31 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	}
 	
 	/**
-	 *   If the returned object is a Symbolic Link we need to read ahead to get the actual contents.
-	 *   return true if the object is SymbolicLink object and we are handling it internally else return false.
+	 *   If the returned object is a Symbolic Link or has a Redirection feild we need to read ahead to get the actual contents.
 	 * @throws URISyntaxException 
 	 * @throws SFV3ErrorException 
 	 *   
 	 */
-	private boolean readAheadSymbolicLinks()
+	private SFReadAheadType readAheadRequired()
 	{
-		boolean ret = false;
+		SFReadAheadType ret = SFReadAheadType.READ_AHEAD_NONE;
 		
 		if(mResponse.mHttpErrorCode == HttpsURLConnection.HTTP_OK) 
 		{			
 			if(mResponse.mResponseObject instanceof SFSymbolicLink)
 			{
-				ret = true;
+				ret = SFReadAheadType.READ_AHEAD_SYMBOLIC_LINK;
+			}
+			else if(mResponse.mResponseObject instanceof SFFolder)
+			{
+				SFFolder folder = (SFFolder) mResponse.mResponseObject;
+				
+				Boolean hadRemoteChildren = folder.getHasRemoteChildren();
+				
+				if(hadRemoteChildren!=null && hadRemoteChildren == true )
+				{
+					ret = SFReadAheadType.READ_AHEAD_REDIRECTION;
+				}
 			}
 		}
 		
