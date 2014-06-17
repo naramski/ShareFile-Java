@@ -200,7 +200,7 @@ public class SFGsonHelper
 			if(jsonElement!=null)
 			{
 				
-				//SLog.d(TAG,"Custom parse: " +  jsonElement.toString());//enabling this log creates too much noise
+//				SLog.d(TAG,"Custom parse: " +  jsonElement.toString());//enabling this log creates too much noise
 				
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 				

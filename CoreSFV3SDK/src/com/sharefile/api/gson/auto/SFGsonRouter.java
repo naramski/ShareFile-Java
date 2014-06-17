@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
 
 /**
@@ -30,7 +31,12 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		JsonElement ret = null;
 		String str = null;
 		
+		if(sfODataObject instanceof SFItem) {
+			str = "{\"Id\":\"" + sfODataObject.getId() + "\"}";
+		}
+		else {
 		str = SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);
+		}
 		
 		if(str!=null)
 		{
