@@ -52,7 +52,7 @@ public interface ISFQuery<T>
 
 	String getBody();
 
-	boolean getNeedSpecialHandling();
+	boolean constructDownloadSpec();
 
 	String buildQueryUrlString(String server) throws UnsupportedEncodingException;
 

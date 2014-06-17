@@ -48,17 +48,17 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	 * Currently the server is not returning a DownloadSpecification for download requests, 
 	 * its directly returning the download link. For the sake of completeness, implement the local
 	 * response filler for such requests.	 
-	 */
-	private boolean mNeedSpecialHandling = false;
-	
-	public void setNeedSpecialHandling(boolean val)
+	 */			
+	public boolean constructDownloadSpec()
 	{
-		mNeedSpecialHandling = val;
-	}
-	
-	public boolean getNeedSpecialHandling()
-	{
-		return mNeedSpecialHandling;
+		boolean ret = false;
+		
+		if(SFKeywords.Items.equalsIgnoreCase(mFromEntity) && SFKeywords.Download.equalsIgnoreCase(mAction))
+		{
+			ret = true;
+		}
+			
+		return ret;
 	}
 	
 	/**

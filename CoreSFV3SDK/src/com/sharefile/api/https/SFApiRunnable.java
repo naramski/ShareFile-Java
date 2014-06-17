@@ -103,9 +103,9 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 * its directly returning the download link. For the sake of completeness, implement the local
 	 * response filler for such requests.	 
 	 */
-	private boolean needSpecialHandling()
+	private boolean constructDownloadSpec()
 	{
-		return mQuery.getNeedSpecialHandling();
+		return mQuery.constructDownloadSpec();
 	}
 	
 	private String fillSpecialResponse(String downloadURl)
@@ -157,7 +157,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{										
-				if(!needSpecialHandling())
+				if(!constructDownloadSpec())
 				{
 					responseString = SFHttpsCaller.readResponse(connection);
 				}
