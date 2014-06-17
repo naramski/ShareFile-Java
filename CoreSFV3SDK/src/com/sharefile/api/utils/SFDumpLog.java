@@ -12,7 +12,7 @@ public class SFDumpLog
 	
 	private static void longLog(String str) 
 	{
-	    if(str.length() > mLogLimit) 
+	    if(str!=null && str.length() > mLogLimit) 
 	    {
 	        SLog.d(str.substring(0, mLogLimit));
 	        longLog(str.substring(mLogLimit));
