@@ -440,4 +440,10 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	public <T extends SFODataObject> void setBody( ArrayList<T> sfoDataObjectsFeed) 
 	{				
 	}
+
+	@Override
+	public void setLink(URI uri) 
+	{
+		mLink = uri;
+	}
 }

@@ -49,6 +49,10 @@ public class SFAsyncOperation extends SFODataObject {
 	private String BatchSourceID;
 	@SerializedName("BatchTargetID")
 	private String BatchTargetID;
+	@SerializedName("BatchProgress")
+	private Double BatchProgress;
+	@SerializedName("BatchState")
+	private SFSafeEnum<SFAsyncOperationState> BatchState;
 
 		/**
 		* Operation type
@@ -213,6 +217,34 @@ public class SFAsyncOperation extends SFODataObject {
 		*/
 	public void setBatchTargetID(String batchtargetid) {
 		BatchTargetID = batchtargetid;
+	}
+		/**
+		* BatchProgress indicates the progress of the Batch operation
+		*/
+	public Double getBatchProgress() {
+		return BatchProgress;
+	}
+
+		/**
+		* BatchProgress indicates the progress of the Batch operation
+		*/
+	public void setBatchProgress(Double batchprogress) {
+		BatchProgress = batchprogress;
+	}
+		/**
+		* Batch Operation state. State 'Scheduled' indicate the operation is
+		* in progress; States 'Success' and 'Failure' indicate the operation is finalized
+		*/
+	public SFSafeEnum<SFAsyncOperationState> getBatchState() {
+		return BatchState;
+	}
+
+		/**
+		* Batch Operation state. State 'Scheduled' indicate the operation is
+		* in progress; States 'Success' and 'Failure' indicate the operation is finalized
+		*/
+	public void setBatchState(SFSafeEnum<SFAsyncOperationState> batchstate) {
+		BatchState = batchstate;
 	}
 
 }

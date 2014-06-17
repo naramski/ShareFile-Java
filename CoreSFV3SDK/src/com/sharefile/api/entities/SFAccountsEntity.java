@@ -209,7 +209,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		parameters.addProperty("employeesonly", employeesonly);
 		parameters.addProperty("requirehomefolders", requirehomefolders);
 		sfApiQuery.setBody(parameters);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

@@ -59,6 +59,8 @@ public class SFItemInfo extends SFODataObject {
 	private Boolean CanDownload;
 	@SerializedName("CanWatermarkDownload")
 	private Boolean CanWatermarkDownload;
+	@SerializedName("CanDocViewerPrint")
+	private Boolean CanDocViewerPrint;
 	@SerializedName("CanUpload")
 	private Boolean CanUpload;
 	@SerializedName("CanSend")
@@ -200,6 +202,13 @@ public class SFItemInfo extends SFODataObject {
 
 	public void setCanWatermarkDownload(Boolean canwatermarkdownload) {
 		CanWatermarkDownload = canwatermarkdownload;
+	}
+	public Boolean getCanDocViewerPrint() {
+		return CanDocViewerPrint;
+	}
+
+	public void setCanDocViewerPrint(Boolean candocviewerprint) {
+		CanDocViewerPrint = candocviewerprint;
 	}
 	public Boolean getCanUpload() {
 		return CanUpload;

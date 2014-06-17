@@ -27,18 +27,18 @@ public class SFQueryBuilder
 	public static final SFSharesEntity SHARES = new SFSharesEntity();
 	public static final SFUsersEntity USERS = new SFUsersEntity();
 		
-	private static final String FORMAT_GET_TOP_FOLDER = "https://%s."+SFSDK.API_SERVER+SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
+	private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
 	
 	
 	/**
 	 *   We need to manually construct the v3 url for the TOP folder. This function provides the helper for the apps
 	 *   to build that url.
 	 */
-	public static final URI getDefaultURL(final String subdomain,final String folderID) throws URISyntaxException
+	public static final URI getDefaultURL(final String subdomain,String hostname,final String folderID) throws URISyntaxException
     {
           URI uri = null;
           
-          String urlSpec = String.format(FORMAT_GET_TOP_FOLDER, subdomain,folderID);
+          String urlSpec = String.format(FORMAT_GET_TOP_FOLDER, subdomain,SFSDK.getApiServer(hostname),folderID);
           
           uri = new URI(urlSpec);
                       

@@ -11,7 +11,8 @@ public enum SFProvider
 {		
 	PROVIDER_TYPE_SF("/sf/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
 	PROVIDER_TYPE_CIFS("/cifs/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
-	PROVIDER_TYPE_SHAREPOINT("/sp/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH);
+	PROVIDER_TYPE_SHAREPOINT("/sp/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
+	PROVIDER_TYPE_PROXYSERVICE("/ProxyService/"+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH);
 	
 	private static final String keywordV3 = SFKeywords.FWD_SLASH+SFSDK.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH;
 	private static final String TAG = SFKeywords.TAG + "-getProvider";
@@ -69,6 +70,8 @@ public enum SFProvider
 					case 'f': provider = PROVIDER_TYPE_SF;
 					break;
 					case 's': provider = PROVIDER_TYPE_CIFS;
+					break;
+					case 'e': provider = PROVIDER_TYPE_PROXYSERVICE;
 					break;
 				}
 			}
