@@ -31,9 +31,17 @@ public class SFGsonHelper
     	
     	JsonElement element = json.get(memberName);
     	
+    	
     	if(element!=null)
     	{
-    		ret = element.getAsString();
+    		try
+    		{
+    			ret = element.getAsString();
+    		}
+    		catch(Exception e)
+    		{
+    			ret = element.toString();
+    		}
     	}
     	
     	return ret;

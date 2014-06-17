@@ -128,8 +128,10 @@ public class SFApiFileUploadRunnable implements Runnable
 	/**
 	 * Chunk upload response can be of json type sample:
 	 * 
-	 * //Sample error message {"error":true,"errorMessage":"Thread was being aborted.","errorCode":420}
+	 * Sample error message {"error":true,"errorMessage":"Thread was being aborted.","errorCode":420}
 	 * 
+	 * Sample upload response V1: {"error":false,"value":[{"uploadid":"bbd75cd7-8038-4499-bab0-dc4a0522f0ac","parentid":"fo4f74b1-902f-4728-bb30-716851531beb","id":"fi627e76-a97c-4c4e-2e19-67fc65e97597","filename":"20140614_202946.jpg","displayname":"20140614_202946.jpg","size":1048576,"md5":"ea622e415c18add6a229faed8c48912d"}]}
+	 * Sample upload response V3: {"error":false,"value":[{"id":"4L24TVJSEz6Ca22LWoZg44MrInfeT8lRuNA6WtqMyJE_","filename":"","displayname":"","size":267943,"md5":"6f42bdabb534dfb4d5ee6ea6cef22d5b"}]}	 
 	 */
 	public static class SFChunkUploadResponse
 	{

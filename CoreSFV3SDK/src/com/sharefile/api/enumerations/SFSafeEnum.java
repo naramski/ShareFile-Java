@@ -24,4 +24,10 @@ public class SFSafeEnum<T extends Enum>
 	{
 		return mEnum;
 	}
+	
+	@Override
+	public String toString() 
+	{		
+		return originalString;
+	}
 }

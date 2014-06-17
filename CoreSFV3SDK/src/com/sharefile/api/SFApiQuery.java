@@ -427,13 +427,15 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	}
 
 	@Override
-	public void addQueryString(String string, SFSafeEnum value) 
-	{				
+	public void addQueryString(String key, SFSafeEnum value) 
+	{
+		mQueryMap.put(key, value.toString());
 	}
 
 	@Override
-	public void addQueryString(String string, Date date) 
+	public void addQueryString(String key, Date date) 
 	{		
+		mQueryMap.put(key, date.toString());
 	}
 
 	@Override
