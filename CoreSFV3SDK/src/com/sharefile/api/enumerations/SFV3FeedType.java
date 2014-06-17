@@ -78,6 +78,7 @@ public enum SFV3FeedType
 	AsyncOperation("$metadata#AsyncOperation",SFAsyncOperation.class),
 	Capability("$metadata#Capabilities",SFCapability.class),	
 	Contact("$metadata#Contact",SFContact.class),
+	Contacts("$metadata#Contacts",SFContact.class),
 	Device("$metadata#Device",SFDevice.class),
 	DeviceLogEntry("$metadata#DeviceLogEntry",SFDeviceLogEntry.class),
 	DeviceStatus("$metadata#DeviceStatus",SFDeviceStatus.class),

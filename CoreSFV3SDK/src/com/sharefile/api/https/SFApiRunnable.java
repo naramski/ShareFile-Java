@@ -61,7 +61,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	FinalResponse mResponse = new FinalResponse();
 		
-	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener,SFOAuth2Token token,SFCookieManager cookieManager) throws SFInvalidStateException
+	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager) throws SFInvalidStateException
 	{			
 		mQuery = query;
 		mResponseListener = responseListener;

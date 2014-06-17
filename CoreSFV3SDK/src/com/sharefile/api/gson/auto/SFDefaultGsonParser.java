@@ -41,7 +41,7 @@ public class SFDefaultGsonParser
 	{		
 		mGsonBuilder = new GsonBuilder();				
 		registerSFSpecificGsonAdapters();
-		mGson = mGsonBuilder.create();
+		mGson = mGsonBuilder.setDateFormat("yyyy-MM-dd").create();
 	}
 	
 	public static SFDefaultGsonParser getInstance()
