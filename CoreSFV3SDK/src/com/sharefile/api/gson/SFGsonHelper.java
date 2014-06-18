@@ -164,12 +164,26 @@ public class SFGsonHelper
     
     public static SFItem parseSFItem(JsonObject jsonObject)	
 	{					
-		SFItem item = new SFItem();
+		SFItem item = null;
 		
-		item.setMetadataUrl(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
-		item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
-		item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));
-		
+		try 
+		{
+			// note we are creating the override class registered by the app instead of the hardcoding:  new SFItem()
+			item = (SFItem) SFV3ElementType.Item.getV3Class().newInstance();
+			item.setMetadataUrl(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
+			item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
+			item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));		
+		} 			
+		//None of these exceptions should ideally happen since we have done all the checks in registerSubClass()			
+		catch (InstantiationException e) 
+		{	
+			SLog.e(TAG,e);
+		} 
+		catch (IllegalAccessException e) 
+		{				
+			SLog.e(TAG,e);
+		}		 
+		 				
 		return item;
 	}
 	
