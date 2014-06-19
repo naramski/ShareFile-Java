@@ -319,7 +319,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				
 				Boolean hadRemoteChildren = folder.getHasRemoteChildren();
 				
-				if(hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
+				if(folder.getRedirection()!=null && hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
 				{					
 					ret = SFReadAheadType.READ_AHEAD_REDIRECTION;
 					mAlreadRedirecting = true;
