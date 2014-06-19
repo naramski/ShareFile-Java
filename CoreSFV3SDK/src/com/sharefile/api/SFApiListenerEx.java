@@ -14,13 +14,22 @@ import com.sharefile.api.utils.Utils;
  */
 public abstract class SFApiListenerEx<T extends SFODataObject> implements SFApiResponseListener<T> 
 {
-	private final SFApiResponseListener<T>  mListener;
+	private SFApiResponseListener<T>  mListener;
 	
 	public SFApiListenerEx(SFApiResponseListener<T> listener) 
 	{
 		mListener = listener;
 	}
-		
+	
+	public SFApiListenerEx() 
+	{		
+	}
+	
+	public void setListener(SFApiResponseListener<T>  listener)
+	{
+		mListener = listener;
+	}
+	
 	@Override
 	public void sfApiError(SFV3Error error, ISFQuery<T> sfapiApiqueri) 
 	{		
