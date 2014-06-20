@@ -1,5 +1,7 @@
 package com.sharefile.api.enumerations;
 
+import java.net.URI;
+
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.java.log.SLog;
@@ -42,7 +44,7 @@ public enum SFProvider
 	 *  
 	 *  We check all of them since multiple of them may occur in a given string, but the first occurence defines the provider type
 	 */
-	public static SFProvider getProviderTypeFromString(String str)
+	public static SFProvider getProviderType(String str)
 	{
 		SFProvider provider = PROVIDER_TYPE_SF; //return sf by default so as not to cause NullPointer exceptions
 												//for bad strings.
@@ -84,5 +86,17 @@ public enum SFProvider
 		SLog.d(TAG, "Returning provider type = %s" + provider.toString());
 		
 		return provider;
+	}
+	
+	public static SFProvider getProviderType(URI uri)
+	{
+		String str = null;
+		
+		if(uri!=null)
+		{
+			str = uri.toString();
+		}
+		
+		return getProviderType(str);
 	}
 }
