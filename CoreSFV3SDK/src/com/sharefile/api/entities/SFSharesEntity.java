@@ -94,7 +94,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
     /**
-	* Get Recipients of a Share
+	* Get Items of a Share
 	* Retrieve a single Item in the Share
 	* @param shareUrl 	
 	* @param itemid 	

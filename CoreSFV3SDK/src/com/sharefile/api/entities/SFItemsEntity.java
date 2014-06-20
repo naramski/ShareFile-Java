@@ -174,14 +174,16 @@ public class SFItemsEntity extends SFODataEntityBase
 	* A 302 redirection is returned if the folder is a SymbolicLink. The redirection
 	* will enumerate the children of the remote connector
 	* @param url 	
+	* @param includeDeleted 	
 	* @return the list of children under the given object ID
     */
-	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url)
+	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url, Boolean includeDeleted)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -697,16 +699,15 @@ public class SFItemsEntity extends SFODataEntityBase
     /**
 	* Get Web Preview Link
 	* Redirects the caller to the Web Edit application for the selected item.
-	* @param id 	
+	* @param url 	
 	* @return A redirection message to the Web Edit app for this item. It returns 400 (BadRequest) if the Web Preview app doesn't support the file type.
     */
-	public ISFQuery<SFRedirection> webView(URI url, String id)
+	public ISFQuery<SFRedirection> webView(URI url)
 	{
 		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("WebView");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
