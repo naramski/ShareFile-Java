@@ -45,6 +45,8 @@ public class SFSSOAccountProvider extends SFODataObject {
 	private String SPInitatedAuthContext;
 	@SerializedName("SPInitatedAuthMethod")
 	private String SPInitatedAuthMethod;
+	@SerializedName("UseWebAuthentication")
+	private Boolean UseWebAuthentication;
 	@SerializedName("IsActive")
 	private Boolean IsActive;
 	@SerializedName("ProviderID")
@@ -123,6 +125,13 @@ public class SFSSOAccountProvider extends SFODataObject {
 
 	public void setSPInitatedAuthMethod(String spinitatedauthmethod) {
 		SPInitatedAuthMethod = spinitatedauthmethod;
+	}
+	public Boolean getUseWebAuthentication() {
+		return UseWebAuthentication;
+	}
+
+	public void setUseWebAuthentication(Boolean usewebauthentication) {
+		UseWebAuthentication = usewebauthentication;
 	}
 	public Boolean getIsActive() {
 		return IsActive;
