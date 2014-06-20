@@ -285,7 +285,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		 */						
 		if(mLink != null)
 		{
-			SFProvider provider = SFProvider.getProviderTypeFromString(mLink.getPath());
+			SFProvider provider = SFProvider.getProviderType(mLink.getPath());
 						
 			mProvider = provider;
 			return mLink.toString();			
@@ -409,7 +409,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		
 		if(mLink!=null)
 		{
-			ret = (SFProvider.PROVIDER_TYPE_SF == SFProvider.getProviderTypeFromString(mLink.toString())?true:false);
+			ret = (SFProvider.PROVIDER_TYPE_SF == SFProvider.getProviderType(mLink)?true:false);
 		}
 		
 		return ret;

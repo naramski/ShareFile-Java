@@ -15,6 +15,16 @@ public class SFSafeEnum<T extends Enum>
 		mEnum = e;
 	}
 	
+	public SFSafeEnum(Enum e)
+	{
+		setValue(e.toString(), e);
+	}
+	
+	public SFSafeEnum() 
+	{
+		
+	}
+
 	public String getOriginalString()
 	{
 		return originalString;

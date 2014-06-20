@@ -353,7 +353,7 @@ public class SFHttpsCaller
 			cookieManager.setCookies(connection);
 		}
 		
-		switch(SFProvider.getProviderTypeFromString(path))
+		switch(SFProvider.getProviderType(path))
 		{
 			case PROVIDER_TYPE_SF:
 				SFHttpsCaller.addBearerAuthorizationHeader(connection, token);
