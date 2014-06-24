@@ -28,6 +28,7 @@ import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.java.log.SLog;
@@ -199,10 +200,12 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				readAheadSymbolicLinks();
 				break;
 					
-			case READ_AHEAD_REDIRECTION:	
-				readAheadRedirectedObject();
+			case READ_AHEAD_REDIRECTION_FOLDER_ENUM:	
+				readAheadRedirectedFolderEnum();
 				break;
 				
+			case EXECUTE_QUERY_ON_REDIRECTED_URI:
+				executeQueryOnRedirectedObject();				
 			default:
 				callResponseListeners();
 				break;
@@ -211,7 +214,34 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		return returnResultOrThrow();
 	}		
 	
-	private SFODataObject readAheadRedirectedObject()  
+	private SFODataObject executeQueryOnRedirectedObject() 
+	{
+		SFODataObject odataObject = null;
+		
+		try 
+		{
+			SFRedirection redirection = (SFRedirection) mResponse.mResponseObject;
+			
+			URI redirectLink = redirection.getUri();
+			
+			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
+			
+			mQuery.setFullyParametrizedLink(redirectLink);
+			
+			odataObject = executeQuery();
+		} 
+		catch (Exception e) 
+		{			
+			SLog.e(TAG,e);
+		}
+		
+		return odataObject;
+	}
+
+	/**
+	 * 
+	 */
+	private SFODataObject readAheadRedirectedFolderEnum()  
 	{			
 		SFODataObject odataObject = null;
 		
@@ -321,9 +351,13 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				
 				if(folder.getRedirection()!=null && hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
 				{					
-					ret = SFReadAheadType.READ_AHEAD_REDIRECTION;
+					ret = SFReadAheadType.READ_AHEAD_REDIRECTION_FOLDER_ENUM;
 					mAlreadRedirecting = true;
 				}
+			}
+			else if(mResponse.mResponseObject instanceof SFRedirection)
+			{
+				ret = SFReadAheadType.EXECUTE_QUERY_ON_REDIRECTED_URI;				
 			}
 		}
 		

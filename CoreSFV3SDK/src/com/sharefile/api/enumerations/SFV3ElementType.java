@@ -1,5 +1,7 @@
 package com.sharefile.api.enumerations;
 
+import java.lang.ProcessBuilder.Redirect;
+
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.models.SFAccessControl;
@@ -39,6 +41,7 @@ import com.sharefile.api.models.SFProductDefaults;
 import com.sharefile.api.models.SFQuery;
 import com.sharefile.api.models.SFQueryPaging;
 import com.sharefile.api.models.SFQuerySorting;
+import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFRequireSubdomainResult;
 import com.sharefile.api.models.SFRequireWebPopResult;
 import com.sharefile.api.models.SFSSOAccountProvider;
@@ -108,6 +111,7 @@ public enum SFV3ElementType
 	Query("Models.Query@Element",SFQuery.class),
 	QueryPaging("Models.QueryPaging@Element",SFQueryPaging.class),
 	QuerySorting("Models.QuerySorting@Element",SFQuerySorting.class),
+	Redirection("Models.Redirection",SFRedirection.class),
 	RequireSubdomainResult("Models.RequireSubdomainResult@Element",SFRequireSubdomainResult.class),
 	RequireWebPopResult("Models.RequireWebPopResult@Element",SFRequireWebPopResult.class),
 	SearchQuery("Models.SearchQuery@Element",SFSearchQuery.class),
