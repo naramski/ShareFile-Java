@@ -35,7 +35,7 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 			str = "{\"Id\":\"" + sfODataObject.getId() + "\"}";
 		}
 		else {
-		str = SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);
+			str = SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);
 		}
 		
 		if(str!=null)

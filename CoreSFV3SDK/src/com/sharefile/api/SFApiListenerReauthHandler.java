@@ -4,6 +4,7 @@ import java.net.URI;
 
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
+import com.sharefile.api.interfaces.SFApiRawResponseListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.Utils;
@@ -12,7 +13,7 @@ import com.sharefile.api.utils.Utils;
  *   This allows to call the getCredentials() functions on the original caller if they have implemented the ISFReAuthHandler interface
  */
 @SFSDKDefaultAccessScope
-class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiResponseListener<T>  
+class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiResponseListener<T>, SFApiRawResponseListener
 {
 	private final SFApiResponseListener<T> mOriginalListener;
 	private final SFApiClient mSFApiClient;
@@ -77,5 +78,12 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 		}
 		
 		return ret;
+	}
+
+	@Override
+	public void sfApiSuccess(String rawResponse) {
+		if(mOriginalListener instanceof SFApiRawResponseListener) {
+			((SFApiRawResponseListener) mOriginalListener).sfApiSuccess(rawResponse);
+		}
 	}
 }

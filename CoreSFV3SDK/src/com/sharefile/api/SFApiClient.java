@@ -2,6 +2,8 @@ package com.sharefile.api;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,6 +23,7 @@ import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
 import com.sharefile.api.models.SFDownloadSpecification;
+import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
@@ -109,11 +112,18 @@ public class SFApiClient
 	 */
 	public synchronized <T extends SFODataObject> Thread executeQuery(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{		
-		SFApiListenerReauthHandler<T> sfReauthHandler = new SFApiListenerReauthHandler<T>(listener, reauthHandler, this,query);
-		
-		return executeQueryInternal(query, sfReauthHandler, true);
+		return executeQuery(mSFApiRunnableClass, query, listener, reauthHandler);
 	}
 	
+	/**
+	 * This will start a seperate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
+	 */
+	public synchronized <T extends SFODataObject> Thread executeQuery(Class<? extends SFApiRunnable> sfApiRunnableClass, ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	{		
+		SFApiListenerReauthHandler<T> sfReauthHandler = new SFApiListenerReauthHandler<T>(listener, reauthHandler, this,query);
+		
+		return executeQueryInternal(sfApiRunnableClass, query, sfReauthHandler, true);
+	}
 	
 	/**
 	 *  We use this to install our own intermediate API listener. This allows us to handle the token renewal on auth Errors for 
@@ -121,7 +131,7 @@ public class SFApiClient
 	 *  the infinite recursion while attempting to handle auth errors.
 	 */
 	@SFSDKDefaultAccessScope
-	<T extends SFODataObject> Thread executeQueryInternal(ISFQuery<T> query , SFApiListenerReauthHandler<T> sfReauthHandler, boolean useTokenRenewer) throws SFInvalidStateException
+	<T extends SFODataObject> Thread executeQueryInternal(Class<? extends SFApiRunnable> sfApiRunnableClass, ISFQuery<T> query , SFApiListenerReauthHandler<T> sfReauthHandler, boolean useTokenRenewer) throws SFInvalidStateException
 	{
 		validateClientState();
 		
@@ -133,8 +143,26 @@ public class SFApiClient
 			targetLisner = listenereWrapper;
 		}			
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager);
+		SFApiRunnable<T> sfApiRunnable;
+		try {
+			sfApiRunnable = newSFApiRunnable(sfApiRunnableClass, query, targetLisner);
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			SLog.w(TAG, e.getLocalizedMessage(), e);
+			sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager);
+		}
+		
 		return sfApiRunnable.startNewThread();
+	}
+	
+	/**
+	 *  We use this to install our own intermediate API listener. This allows us to handle the token renewal on auth Errors for 
+	 *  ShareFile providers. This function has default access scope so that the SFApiListenerWrapper can call this to avoid 
+	 *  the infinite recursion while attempting to handle auth errors.
+	 */
+	@SFSDKDefaultAccessScope
+	<T extends SFODataObject> Thread executeQueryInternal(ISFQuery<T> query , SFApiListenerReauthHandler<T> sfReauthHandler, boolean useTokenRenewer) throws SFInvalidStateException
+	{
+		return executeQueryInternal(mSFApiRunnableClass, query, sfReauthHandler, useTokenRenewer);
 	}
 	
 	/**
@@ -205,5 +233,27 @@ public class SFApiClient
 	public String getUserId() 
 	{		
 		return mSfUserId;
+	}
+	
+	private Class<? extends SFApiRunnable> mSFApiRunnableClass = SFApiRunnable.class;
+	
+	public <T extends SFODataObject> void registerApiRunnableClass(Class<? extends SFApiRunnable<T>> clazz)
+	{
+		if(clazz==null)
+			return ;
+		
+		mSFApiRunnableClass = clazz;
+	}
+	
+	private <T extends SFODataObject> SFApiRunnable<T> newSFApiRunnable(Class<? extends SFApiRunnable> sfApiRunnableClass, ISFQuery<T> query, SFApiResponseListener<T> targetListner) throws SFInvalidStateException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	{
+		Constructor ctor = sfApiRunnableClass.getConstructor(ISFQuery.class, SFApiResponseListener.class, SFOAuth2Token.class, SFCookieManager.class);
+		Object obj = ctor.newInstance(query, targetListner, mOAuthToken.get(),mCookieManager);
+		return (SFApiRunnable<T>) obj;
+	}
+	
+	private <T extends SFODataObject> SFApiRunnable<T> newSFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> targetListner) throws SFInvalidStateException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	{
+		return newSFApiRunnable(mSFApiRunnableClass, query, targetListner);
 	}
 }

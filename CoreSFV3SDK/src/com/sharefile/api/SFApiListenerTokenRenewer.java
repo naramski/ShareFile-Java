@@ -5,6 +5,7 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.interfaces.SFApiRawResponseListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFODataObject;
@@ -18,7 +19,7 @@ import com.sharefile.java.log.SLog;
  *   where the authtoken for a user can get renewed and stored persistantly.
  */
 @SFSDKDefaultAccessScope
-class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiResponseListener<T>
+class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiResponseListener<T>, SFApiRawResponseListener
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiListenerTokenRenewer";
 	private final SFApiListenerReauthHandler<T> mListener;
@@ -111,4 +112,11 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 			Utils.safeCallErrorListener(mListener, error, sfapiApiqueri);			
 		}
 	}			
+	
+	@Override
+	public void sfApiSuccess(String rawResponse) {
+		if(mListener instanceof SFApiRawResponseListener) {
+			((SFApiRawResponseListener) mListener).sfApiSuccess(rawResponse);
+		}
+	}
 }

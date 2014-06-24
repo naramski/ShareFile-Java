@@ -5,14 +5,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
@@ -409,7 +407,9 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 *  we return the exception description + the original server response in V3Error Object
 	 */
 	private void callSuccessResponseParser(String responseString)
-	{					
+	{
+		preprocessSuccessResponse(responseString);
+		
 		try 
 		{			
 			JsonParser jsonParser = new JsonParser();
@@ -429,7 +429,6 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	private void callFailureResponseParser(int httpCode, String responseString)
 	{
-													
 		try 
 		{
 			JsonParser jsonParser = new JsonParser();
@@ -448,11 +447,20 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 	}
 			
+	protected void preprocessSuccessResponse(String responseString)
+	{
+		
+	}
 	
 	public Thread startNewThread()
 	{
 		Thread sfApithread = new Thread(this);		
 		sfApithread.start();
 		return sfApithread;
-	}				
+	}
+	
+	protected SFApiResponseListener<T> getResponseListener()
+	{
+		return mResponseListener;
+	}
 }
