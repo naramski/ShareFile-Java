@@ -27,6 +27,7 @@ import com.sharefile.java.log.SLog;
 
 public class SFApiQuery<T> implements ISFQuery<T>
 {
+	private static final String TAG = "SFApiQuery";
 	
 	/**
 	 * https://server/provider/version/entity(id)
@@ -43,6 +44,8 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	private Map<String,String> mIdMap = new HashMap<String, String>();	
 	private String mBody = null;
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
+	private boolean mLinkIsParametrized = false;
+	
 	
 	/** 
 	 * Currently the server is not returning a DownloadSpecification for download requests, 
@@ -344,6 +347,12 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	 */
 	public final String buildQueryUrlString(String server) throws UnsupportedEncodingException
 	{
+		if(mLinkIsParametrized && mLink!=null)
+		{
+			SLog.d(TAG,"Link is fully parametrized");
+			return mLink.toString();
+		}
+		
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(buildServerURLWithProviderAndPath(server));
@@ -446,6 +455,14 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	@Override
 	public void setLink(URI uri) 
 	{
+		mLinkIsParametrized = false;
+		mLink = uri;
+	}
+
+	@Override
+	public void setFullyParametrizedLink(URI uri) 
+	{
+		mLinkIsParametrized = true;
 		mLink = uri;
 	}
 }

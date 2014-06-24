@@ -79,5 +79,6 @@ public final class SFKeywords
 
 	public static final String Location = "Location";
 
-	public static final String TOP_FOLDER_ID = "top";		
+	public static final String TOP_FOLDER_ID = "top";
+	public static final String ROOT_FOLDER_ID = "root";
 }
