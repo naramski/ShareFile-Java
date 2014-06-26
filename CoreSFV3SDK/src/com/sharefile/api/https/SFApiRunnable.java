@@ -44,7 +44,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
 	 *   The callListerners will be called appropriately based on the contents of this object.
 	 */
-	private class FinalResponse
+	protected class FinalResponse
 	{
 		private int mHttpErrorCode = 0;
 		private SFV3Error mV3Error = null;
@@ -55,6 +55,11 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			mHttpErrorCode = errorCode;
 			mV3Error = v3Error;
 			mResponseObject = sfObject;
+		}
+		
+		public SFODataObject getResponseObject()
+		{
+			return mResponseObject;
 		}
 	};
 	
@@ -377,7 +382,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		return executeQuery();
 	}
 	
-	private void callResponseListeners()
+	protected void callResponseListeners()
 	{
 		if(mResponseListener == null)
 		{
@@ -389,7 +394,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			switch(mResponse.mHttpErrorCode)
 			{
 				case HttpsURLConnection.HTTP_OK:
-					mResponseListener.sfApiSuccess((T) mResponse.mResponseObject);				
+					mResponseListener.sfApiSuccess((T) mResponse.mResponseObject);		
 				break;	
 				
 				case HttpsURLConnection.HTTP_NO_CONTENT:
@@ -440,7 +445,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 *  If an error happens during parsing the success response, 
 	 *  we return the exception description + the original server response in V3Error Object
 	 */
-	private void callSuccessResponseParser(String responseString)
+	protected void callSuccessResponseParser(String responseString)
 	{
 		preprocessSuccessResponse(responseString);
 		
@@ -496,5 +501,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	protected SFApiResponseListener<T> getResponseListener()
 	{
 		return mResponseListener;
+	}
+	
+	protected FinalResponse getResponse()
+	{
+		return mResponse;
 	}
 }
