@@ -60,6 +60,7 @@ public enum SFProvider
 			if(indexOfV3 == -1)
 			{
 				indexOfV3 = str.indexOf("/upload-streaming");
+				return provider;
 			}
 			
 			try
