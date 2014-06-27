@@ -697,6 +697,84 @@ public class SFItemsEntity extends SFODataEntityBase
 	}
 
     /**
+	* Advanced Simple Search
+    * {
+    * "Query":{
+    * "AuthID":"",
+    * "ItemType":"",
+    * "ParentID":"",
+    * "CreatorID":"",
+    * "LuceneQuery":"",
+    * "SearchQuery":"",
+    * "CreateStartDate":"",
+    * "CreateEndDate":"",
+    * "ItemNameOnly":"",
+    * },
+    * "Paging":{
+    * "Key":"",
+    * "PageNumber":1,
+    * "PageSize":10,
+    * },
+    * "Sort":{
+    * "SortBy":"",
+    * "Ascending":false,
+    * },
+    * "TimeoutInSeconds":10
+    * }
+	* Search for Items matching the criteria of the query parameter
+	* @param simpleSearchQuery 	
+	* @return AdvancedSearchResults
+    */
+	public ISFQuery<SFAdvancedSearchResults> advancedSimpleSearch(SFSimpleSearchQuery simpleSearchQuery)
+	{
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setBody(simpleSearchQuery);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Advanced Search
+    * {
+    * "Query":{
+    * "AuthIDs":["id1", "id2", ...],
+    * "ItemTypes":["type1", "type2", ...],
+    * "ParentID":["id1", "id2", ...],
+    * "CreatorID":["id1", "id2", ...],
+    * "LuceneQuery":"",
+    * "SearchQuery":"",
+    * "CreateStartDate":"",
+    * "CreateEndDate":"",
+    * "ItemNameOnly":"",
+    * },
+    * "Paging":{
+    * "Key":"",
+    * "PageNumber":1,
+    * "PageSize":10,
+    * },
+    * "Sort":{
+    * "SortBy":"",
+    * "Ascending":false,
+    * },
+    * "TimeoutInSeconds":10
+    * }
+	* Search for Items matching the criteria of the query parameter
+	* @param searchQuery 	
+	* @return AdvancedSearchResults
+    */
+	public ISFQuery<SFAdvancedSearchResults> advancedSearch(SFSearchQuery searchQuery)
+	{
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setBody(searchQuery);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get Web Preview Link
 	* Redirects the caller to the Web Edit application for the selected item.
 	* @param url 	
