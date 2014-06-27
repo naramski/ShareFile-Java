@@ -60,7 +60,11 @@ public enum SFProvider
 			if(indexOfV3 == -1)
 			{
 				indexOfV3 = str.indexOf("/upload-streaming");
-				return provider;
+				
+				if(indexOfV3 == -1)  // is needed or the uploafd to connectors wont work.
+				{
+					return provider;
+				}
 			}
 			
 			try
