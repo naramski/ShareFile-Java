@@ -12,20 +12,23 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.entities.*;
-import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.models.SFAccessControlDomains;
+import com.sharefile.api.models.SFAccount;
+import com.sharefile.api.models.SFAccountPreferences;
+import com.sharefile.api.models.SFContact;
+import com.sharefile.api.models.SFEnsSubscriberConfiguration;
+import com.sharefile.api.models.SFFindSubdomainParams;
+import com.sharefile.api.models.SFFindSubdomainResult;
+import com.sharefile.api.models.SFMobileSecuritySettings;
+import com.sharefile.api.models.SFODataFeed;
+import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFProductDefaults;
+import com.sharefile.api.models.SFRequireSubdomainResult;
+import com.sharefile.api.models.SFRequireWebPopResult;
+import com.sharefile.api.models.SFSSOAccountProvider;
+import com.sharefile.api.models.SFSSOInfo;
 
 public class SFAccountsEntity extends SFODataEntityBase
 {

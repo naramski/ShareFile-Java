@@ -1,6 +1,8 @@
 package com.sharefile.api.interfaces;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -39,4 +41,35 @@ public interface ISFQuery<T>
 	void addQueryString(String string, Date date);
 
 	void addSubAction(String string);
+
+	URI getLink();
+
+	String getUserName();
+
+	String getPassword();
+
+	String getHttpMethod();
+
+	String getBody();
+
+	boolean constructDownloadSpec();
+
+	String buildQueryUrlString(String server) throws UnsupportedEncodingException;
+
+	void setLink(String string) throws URISyntaxException;
+	
+	/**
+	 *  This implies that the query parameters need to be appended by the buildQuery function before executing the query.
+	 */
+	void setLink(URI uri);
+	
+	/**
+	 * This implies that the query parameters are included in the URI and no more parameters more needs to be added before executing the query.
+	 * Generally we get such URI from Redirection object.
+	 */
+	void setFullyParametrizedLink(URI uri);
+
+	boolean canReNewTokenInternally();
+
+	void setCredentials(String userName, String password);
 }
