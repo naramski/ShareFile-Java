@@ -45,6 +45,8 @@ public class SFRedirection extends SFODataObject {
 	private Boolean SessionCheck;
 	@SerializedName("Body")
 	private String Body;
+	@SerializedName("Available")
+	private Boolean Available;
 
 	public String getMethod() {
 		return Method;
@@ -115,6 +117,13 @@ public class SFRedirection extends SFODataObject {
 
 	public void setBody(String body) {
 		Body = body;
+	}
+	public Boolean getAvailable() {
+		return Available;
+	}
+
+	public void setAvailable(Boolean available) {
+		Available = available;
 	}
 
 }
