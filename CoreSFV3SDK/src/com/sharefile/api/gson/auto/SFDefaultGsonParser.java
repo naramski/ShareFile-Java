@@ -1,7 +1,6 @@
 package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,21 +10,14 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.api.SFV3Error;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.entities.SFCapabilitiesEntity;
 import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.models.SFCapabilityName;
-import com.sharefile.api.models.SFFileVirusStatus;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
-import com.sharefile.api.models.SFPreviewStatus;
 import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.utils.SafeEnumHelpers;
 import com.sharefile.java.log.SLog;
-import com.sun.xml.internal.ws.message.saaj.SAAJHeader;
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
