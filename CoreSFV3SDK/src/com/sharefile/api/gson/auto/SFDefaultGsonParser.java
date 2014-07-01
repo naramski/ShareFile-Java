@@ -16,6 +16,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.api.utils.SFDateFormat;
 import com.sharefile.api.utils.SafeEnumHelpers;
 import com.sharefile.java.log.SLog;
 
@@ -114,18 +115,7 @@ public class SFDefaultGsonParser
 			@Override
 			public Date deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
 			{				
-				Date date = null;
-				try 
-				{
-					date = v3SimpleDateFormat.parse(arg0.getAsString().replace("Z", "+0000"));
-					//SLog.d("pdate", "got date");			
-				} 
-				catch (Exception e) 
-				{				
-					SLog.d("pdate", "date-parse",e);					
-				}
-				
-				return date;
+				return SFDateFormat.parse(arg0.getAsString());
 			}
 		});
 	}		
