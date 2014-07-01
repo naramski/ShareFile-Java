@@ -1,6 +1,7 @@
 package com.sharefile.api.https;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -16,7 +17,38 @@ import com.sharefile.java.log.SLog;
 
 public class SFCookieManager 
 {
-    
+	private static final String TAG = "SFCookieManager"; 
+	
+	/**
+	 *   mStore is the map of all domains and their corresponding cookie stores.	    
+	 *   so if we have cookies from hosts like:	 citrix.sharefile.com   or  domian.host.com
+	 *   this map will store the cookies stores like:  
+	 *   <br>(citrix, map(cookies) )
+	 *   <br>(domain, map(cookies) ) ...  
+	 *   
+	 *   
+	 *   <br>The inner map of this store is a map of cookie names vs the cookie field name,value pairs
+	 *   
+	 *   <br>So the entire map structure becomes:
+	 *   
+	 *     <p>mStore
+	 *     <br>|
+	 *     <br>--> Map (domain1, DomainStore2)
+	 *     <br>|  
+	 *     <br>--> Map (domain2, DomainStore2)
+	 *     	 
+	 *     <p>DomainStore
+	 *     <br>|
+	 *     <br>--> Map(cookieName1, Cookie1)
+	 *     <br>|
+	 *     <br>--> Map(cookieName2, Cookie2)
+	 *     
+	 *     <p>Cookie
+	 *     <br>|
+	 *     <br>--> Map(cookieFeild1, value)
+	 *     <br>|
+	 *     <br>--> Map(cookieFeild2, value)
+	 */
     private Map<String,Map<String,Map<String,String>>> mStore;
 
     private static final String SET_COOKIE = "Set-Cookie";
@@ -44,6 +76,21 @@ public class SFCookieManager
     	{
     		mStore.clear();
     	}
+    }
+    
+    /**
+     *  Allows the app to store cookies inside the cookie store so that it will automatically be set for connections to the 
+     *  specified domain
+     */
+    public void storeAppSpecificCookies(URI uri,String cookieString)
+    {
+    	uri.get
+    }
+    
+    
+    private Map<String,Map<String,String>> getDomainStoreFromHost(String host)
+    {
+    	
     }
     
     /**
@@ -111,7 +158,7 @@ public class SFCookieManager
 					}
 					catch(Exception e)
 					{
-						//ignore the exceptions here.
+						SLog.e(TAG,e);
 					}
 					
 				}
@@ -122,7 +169,7 @@ public class SFCookieManager
 
     /**
      * Prior to opening a URLConnection, calling this method will set all
-     * unexpired cookies that match the path or subpaths for thi underlying URL
+     * unexpired cookies that match the path or subpaths for the underlying URL
      *
      * The connection MUST NOT have been opened 
      * method or an IOException will be thrown.
