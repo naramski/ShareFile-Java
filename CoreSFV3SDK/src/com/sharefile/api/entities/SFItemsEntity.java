@@ -778,7 +778,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Get Web Preview Link
 	* Redirects the caller to the Web Edit application for the selected item.
 	* @param url 	
-	* @return A redirection message to the Web Edit app for this item. It returns 400 (BadRequest) if the Web Preview app doesn't support the file type.
+	* @return A redirection message to the Web Edit app for this item. It returns 404 (Not Found) if the Web Preview app doesn't support the file type.
     */
 	public ISFQuery<SFRedirection> webView(URI url)
 	{
