@@ -23,17 +23,35 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.*;
 
-public class SFAzureSBTopicsResponse extends SFODataObject {
+public class SFAzureSBTopicsEndPointInfo extends SFODataObject {
 
-	@SerializedName("Success")
-	private String Success;
+	@SerializedName("Key")
+	private String Key;
+	@SerializedName("Secret")
+	private String Secret;
+	@SerializedName("EndPoint")
+	private String EndPoint;
 
-	public String getSuccess() {
-		return Success;
+	public String getKey() {
+		return Key;
 	}
 
-	public void setSuccess(String success) {
-		Success = success;
+	public void setKey(String key) {
+		Key = key;
+	}
+	public String getSecret() {
+		return Secret;
+	}
+
+	public void setSecret(String secret) {
+		Secret = secret;
+	}
+	public String getEndPoint() {
+		return EndPoint;
+	}
+
+	public void setEndPoint(String endpoint) {
+		EndPoint = endpoint;
 	}
 
 }

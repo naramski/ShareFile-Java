@@ -49,9 +49,9 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFServiceBusEndPointInfo> getTopicEndPoint(URI url, String id)
+	public ISFQuery<SFAzureSBTopicsEndPointInfo> getTopicEndPoint(URI url, String id)
 	{
-		SFApiQuery<SFServiceBusEndPointInfo> sfApiQuery = new SFApiQuery<SFServiceBusEndPointInfo>();
+		SFApiQuery<SFAzureSBTopicsEndPointInfo> sfApiQuery = new SFApiQuery<SFAzureSBTopicsEndPointInfo>();
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("GetTopicEndPoint");
 		sfApiQuery.addIds(url);
