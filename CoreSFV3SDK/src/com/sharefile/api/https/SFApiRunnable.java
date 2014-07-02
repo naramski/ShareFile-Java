@@ -11,6 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sharefile.api.SFConfiguration;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
@@ -39,6 +40,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private final SFApiResponseListener<T> mResponseListener;
 	private final SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
+	private final SFConfiguration mAppSpecificConfig;
 		
 	/**
 	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
@@ -65,12 +67,13 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	FinalResponse mResponse = new FinalResponse();
 		
-	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager) throws SFInvalidStateException
+	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config) throws SFInvalidStateException
 	{			
 		mQuery = query;
 		mResponseListener = responseListener;
 		mOauthToken = token;		
 		mCookieManager = cookieManager;
+		mAppSpecificConfig = config;
 	}
 	
 	@Override
@@ -143,7 +146,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			URL url = new URL(urlstr);
 			connection = SFHttpsCaller.getURLConnection(url);		
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
-			SFHttpsCaller.setAcceptLanguage(connection);
+			mAppSpecificConfig.setAddtionalHeaders(connection);
 			
 			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mQuery.getUserName(),mQuery.getPassword(),mCookieManager);
 			

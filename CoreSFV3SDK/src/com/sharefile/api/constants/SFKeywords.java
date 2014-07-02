@@ -81,4 +81,6 @@ public final class SFKeywords
 
 	public static final String TOP_FOLDER_ID = "top";
 	public static final String ROOT_FOLDER_ID = "root";
+	
+	public static final String ACCEPT_LANGUAGE = "Accept-Language";
 }
