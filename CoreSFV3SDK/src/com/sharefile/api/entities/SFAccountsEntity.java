@@ -495,5 +495,16 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+    */
+	public ISFQuery<SFAccount> update(SFAccount account)
+	{
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setBody(account);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
 }
 
