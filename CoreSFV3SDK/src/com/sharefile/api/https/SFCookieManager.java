@@ -2,6 +2,7 @@ package com.sharefile.api.https;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -13,6 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.java.log.SLog;
 
 public class SFCookieManager 
@@ -84,32 +86,33 @@ public class SFCookieManager
      */
     public void storeAppSpecificCookies(URI uri,String cookieString)
     {
-    	uri.get
+    	Map<String,Map<String,String>> domainStore = getDomainStoreFromHost(uri.getHost());
+    	
+    	storeCookieToDomainStore(domainStore, cookieString);
     }
-    
-    
+     
+    /**
+     *  Allows the app to store cookies inside the cookie store so that it will automatically be set for connections to the 
+     *  specified domain
+     */
+    public void storeAppSpecificCookies(String urlstr,String cookieString)
+    {    	
+		try 
+		{
+			URI uri = new URI(urlstr);
+			storeAppSpecificCookies(uri, cookieString);
+		} 
+		catch (URISyntaxException e) 
+		{			
+			SLog.e(TAG,e);
+		}    	    	
+    }
+            
     private Map<String,Map<String,String>> getDomainStoreFromHost(String host)
     {
-    	
-    }
-    
-    /**
-     * Retrieves and stores cookies returned by the host on the other side
-     * of the the open java.net.URLConnection.
-     *
-     * The connection MUST have been opened using the connect()
-     * method or a IOException will be thrown.
-     *
-     * @param conn a java.net.URLConnection - must be open, or IOException will be thrown
-     * @throws java.io.IOException Thrown if conn is not open.
-     */
-    public void readCookiesFromConnection(URLConnection conn) throws IOException 
-    {
-	
-		// let's determine the domain from where these cookies are being sent
-		String domain = getDomainFromHost(conn.getURL().getHost());
-		
-		
+    	// let's determine the domain from where these cookies are being sent
+		String domain = getDomainFromHost(host);
+				
 		Map<String,Map<String,String>> domainStore; // this is where we will store cookies for this domain
 		
 		// now let's check the store to see if we have an entry for this domain
@@ -125,43 +128,66 @@ public class SFCookieManager
 		    mStore.put(domain, domainStore);    
 		}
 		
+		return domainStore;
+    }
+    
+    private void storeCookieToDomainStore(Map<String,Map<String,String>> domainStore,String cookieString)
+    {
+    	Map<String,String> cookie = new HashMap<String,String>();
+		StringTokenizer st = new StringTokenizer(cookieString, COOKIE_VALUE_DELIMITER);
+		
+		// the specification dictates that the first name/value pair
+		// in the string is the cookie name and value, so let's handle
+		// them as a special case: 
+		
+		if (st.hasMoreTokens()) 
+		{
+		    String token  = st.nextToken();
+		    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR));
+		    String value = token.substring(token.indexOf(NAME_VALUE_SEPARATOR) + 1, token.length());
+		    domainStore.put(name, cookie);
+		    cookie.put(name, value);
+		}
+    
+		while (st.hasMoreTokens())
+		{
+			try
+			{
+			    String token  = st.nextToken();
+			    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR)).toLowerCase(Locale.US);
+			    String value = token.substring(token.indexOf(NAME_VALUE_SEPARATOR) + 1, token.length());
+			    cookie.put(name,value);
+			}
+			catch(Exception e)
+			{
+				SLog.e(TAG,e);
+			}
+			
+		}
+    }
+    
+    /**
+     * Retrieves and stores cookies returned by the host on the other side
+     * of the the open java.net.URLConnection.
+     *
+     * The connection MUST have been opened using the connect()
+     * method or a IOException will be thrown.
+     *
+     * @param conn a java.net.URLConnection - must be open, or IOException will be thrown
+     * @throws java.io.IOException Thrown if conn is not open.
+     */
+    @SFSDKDefaultAccessScope void readCookiesFromConnection(URLConnection conn) throws IOException 
+    {
+	
+    	Map<String,Map<String,String>> domainStore = getDomainStoreFromHost(conn.getURL().getHost());
+		
 		// OK, now we are ready to get the cookies out of the URLConnection	
 		String headerName=null;
 		for (int i=1; (headerName = conn.getHeaderFieldKey(i)) != null; i++) 
 		{
 		    if (headerName.equalsIgnoreCase(SET_COOKIE)) 
 		    {
-				Map<String,String> cookie = new HashMap<String,String>();
-				StringTokenizer st = new StringTokenizer(conn.getHeaderField(i), COOKIE_VALUE_DELIMITER);
-				
-				// the specification dictates that the first name/value pair
-				// in the string is the cookie name and value, so let's handle
-				// them as a special case: 
-				
-				if (st.hasMoreTokens()) 
-				{
-				    String token  = st.nextToken();
-				    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR));
-				    String value = token.substring(token.indexOf(NAME_VALUE_SEPARATOR) + 1, token.length());
-				    domainStore.put(name, cookie);
-				    cookie.put(name, value);
-				}
-		    
-				while (st.hasMoreTokens())
-				{
-					try
-					{
-					    String token  = st.nextToken();
-					    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR)).toLowerCase(Locale.US);
-					    String value = token.substring(token.indexOf(NAME_VALUE_SEPARATOR) + 1, token.length());
-					    cookie.put(name,value);
-					}
-					catch(Exception e)
-					{
-						SLog.e(TAG,e);
-					}
-					
-				}
+				storeCookieToDomainStore(domainStore, conn.getHeaderField(i));
 		    }
 		}
     }
@@ -177,7 +203,7 @@ public class SFCookieManager
      * @param conn a java.net.URLConnection - must NOT be open, or IOException will be thrown
      * @throws java.io.IOException Thrown if conn has already been opened.
      */
-    public void setCookies(URLConnection conn) throws IOException 
+    @SFSDKDefaultAccessScope void setCookies(URLConnection conn) throws IOException 
     {
 	
 		// let's determine the domain and path to retrieve the appropriate cookies
@@ -273,4 +299,32 @@ public class SFCookieManager
     	return mStore.toString();
     }
     
+    private void removeCookiesForDomain(String domain)
+    {
+    	mStore.remove(domain);
+    }
+        
+    /**
+     *  removes all cookies for the domain in the given URI
+     */
+    public void removeCookies(URI uri)
+    {
+    	removeCookiesForDomain(getDomainFromHost(uri.getHost()));    	
+    }
+     
+    /**
+     *  removes all cookies for the domain in the given URI
+     */
+    public void removeCookies(String urlstr)
+    {    	
+		try 
+		{
+			URI uri = new URI(urlstr);
+			removeCookies(uri);
+		} 
+		catch (URISyntaxException e) 
+		{			
+			SLog.e(TAG,e);
+		}    	    	
+    }
 }

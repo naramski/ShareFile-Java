@@ -4,6 +4,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -23,13 +27,12 @@ import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
 import com.sharefile.api.models.SFDownloadSpecification;
-import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.java.log.SLog;
 
-public class SFApiClient 
+public class SFApiClient
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiClient";
 	
@@ -42,11 +45,10 @@ public class SFApiClient
 	private final String mClientSecret;
 	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
 	private final String mSfUserId;
-	
+	private final Set<String> mAcceptedLanguages;
+		
 	private final AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
-	
-	public static final SFItemsEntity items = new SFItemsEntity();
-	
+		
 	public boolean isClientInitialised()
 	{
 		return mClientInitializedSuccessFully.get();
@@ -74,7 +76,7 @@ public class SFApiClient
 	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);
-		
+		mAcceptedLanguages = new HashSet<String>();
 		mAuthTokenChangeListener = listener;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
@@ -255,5 +257,35 @@ public class SFApiClient
 	private <T extends SFODataObject> SFApiRunnable<T> newSFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> targetListner) throws SFInvalidStateException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		return newSFApiRunnable(mSFApiRunnableClass, query, targetListner);
+	}
+	
+	public void setCookie(String urlStr, String cookieString) 
+	{
+		mCookieManager.storeAppSpecificCookies(urlStr, cookieString);
+	}
+	
+	public void setCookie(URI uri, String cookieString) 
+	{
+		mCookieManager.storeAppSpecificCookies(uri, cookieString);		
+	}
+	
+	public void removeCookies(String urlStr) 
+	{
+		mCookieManager.removeCookies(urlStr);
+	}
+	
+	public void removeCookies(URI uri) 
+	{
+		mCookieManager.removeCookies(uri);
+	}
+	
+	public void addAcceptLanguages(ArrayList<String> acceptedLanguages) 
+	{
+		mAcceptedLanguages.addAll(acceptedLanguages);
+	}
+	
+	public void addAcceptLanguage(String acceptedLanguage) 
+	{
+		mAcceptedLanguages.add(acceptedLanguage);
 	}
 }
