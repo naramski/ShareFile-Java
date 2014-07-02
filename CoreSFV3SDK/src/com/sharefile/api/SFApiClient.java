@@ -6,14 +6,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
@@ -30,6 +27,7 @@ import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
 public class SFApiClient
@@ -44,9 +42,12 @@ public class SFApiClient
 	private final String mClientID;
 	private final String mClientSecret;
 	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
-	private final String mSfUserId;
-	private final Set<String> mAcceptedLanguages;
-		
+	private String mSfUserId;
+	
+	private static final String DEFAULT_ACCEPTED_LANGUAGE = Utils.getAcceptLanguageString();
+	
+	private final SFConfiguration mSFAppConfig = new SFConfiguration();
+			
 	private final AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
 		
 	public boolean isClientInitialised()
@@ -75,12 +76,14 @@ public class SFApiClient
 	
 	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
 	{	
-		mClientInitializedSuccessFully.set(false);
-		mAcceptedLanguages = new HashSet<String>();
+		mClientInitializedSuccessFully.set(false);		
 		mAuthTokenChangeListener = listener;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
 		mSfUserId = sfUserId;
+				
+		mSFAppConfig.addAcceptedLanguage(DEFAULT_ACCEPTED_LANGUAGE);
+		
 		copyOAuthToken(oauthToken);					
 	}
 	
@@ -150,7 +153,7 @@ public class SFApiClient
 			sfApiRunnable = newSFApiRunnable(sfApiRunnableClass, query, targetLisner);
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			SLog.w(TAG, e.getLocalizedMessage(), e);
-			sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager);
+			sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager,mSFAppConfig);
 		}
 		
 		return sfApiRunnable.startNewThread();
@@ -174,7 +177,7 @@ public class SFApiClient
 	{										
 		validateClientState();
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager);
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager,mSFAppConfig);
 		
 		return sfApiRunnable.executeQuery();
 	}
@@ -277,15 +280,19 @@ public class SFApiClient
 	public void removeCookies(URI uri) 
 	{
 		mCookieManager.removeCookies(uri);
-	}
+	}		
 	
-	public void addAcceptLanguages(ArrayList<String> acceptedLanguages) 
-	{
-		mAcceptedLanguages.addAll(acceptedLanguages);
+	/** 
+	 *  The SDK itself does not use the userid. This id is simply sent back to the app with the reauth-context
+	 *  so that the app can detect the user for which the re-auth was requested.
+	 */
+	public void setUserId(String sfUserid)
+	{		
+		mSfUserId = sfUserid;
 	}
-	
-	public void addAcceptLanguage(String acceptedLanguage) 
+		
+	public SFConfiguration getConfig()
 	{
-		mAcceptedLanguages.add(acceptedLanguage);
+		return mSFAppConfig;
 	}
 }
