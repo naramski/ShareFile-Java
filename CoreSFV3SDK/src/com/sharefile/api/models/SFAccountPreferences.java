@@ -195,6 +195,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer ENSFailSafePollingCount;
 	@SerializedName("ENSMaxNotificationSyncWaitCount")
 	private Integer ENSMaxNotificationSyncWaitCount;
+	@SerializedName("WhiteListDomains")
+	private String WhiteListDomains;
 
 	public Boolean getEnableViewOnly() {
 		return EnableViewOnly;
@@ -790,6 +792,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setENSMaxNotificationSyncWaitCount(Integer ensmaxnotificationsyncwaitcount) {
 		ENSMaxNotificationSyncWaitCount = ensmaxnotificationsyncwaitcount;
+	}
+	public String getWhiteListDomains() {
+		return WhiteListDomains;
+	}
+
+	public void setWhiteListDomains(String whitelistdomains) {
+		WhiteListDomains = whitelistdomains;
 	}
 
 }
