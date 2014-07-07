@@ -478,14 +478,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Delete Multiple Items
-    * ["id1","id2",...]
-	* All items in bulk delete must be children of the same parent, identified in the URI
-	* @param id 	
-	* @param body 	
-    */
-	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync)
+	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
@@ -493,6 +486,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("ids", ids);
 		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.addQueryString("deletePermanently", deletePermanently);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
