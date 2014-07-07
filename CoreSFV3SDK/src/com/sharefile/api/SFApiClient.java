@@ -252,8 +252,8 @@ public class SFApiClient
 	
 	private <T extends SFODataObject> SFApiRunnable<T> newSFApiRunnable(Class<? extends SFApiRunnable> sfApiRunnableClass, ISFQuery<T> query, SFApiResponseListener<T> targetListner) throws SFInvalidStateException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
-		Constructor ctor = sfApiRunnableClass.getConstructor(ISFQuery.class, SFApiResponseListener.class, SFOAuth2Token.class, SFCookieManager.class);
-		Object obj = ctor.newInstance(query, targetListner, mOAuthToken.get(),mCookieManager);
+		Constructor ctor = sfApiRunnableClass.getConstructor(ISFQuery.class, SFApiResponseListener.class, SFOAuth2Token.class, SFCookieManager.class, SFConfiguration.class);
+		Object obj = ctor.newInstance(query, targetListner, mOAuthToken.get(),mCookieManager,mSFAppConfig);
 		return (SFApiRunnable<T>) obj;
 	}
 	
