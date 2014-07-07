@@ -4,12 +4,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
@@ -23,13 +24,13 @@ import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
 import com.sharefile.api.models.SFDownloadSpecification;
-import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
-public class SFApiClient 
+public class SFApiClient
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiClient";
 	
@@ -41,12 +42,14 @@ public class SFApiClient
 	private final String mClientID;
 	private final String mClientSecret;
 	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
-	private final String mSfUserId;
+	private String mSfUserId;
 	
+	private static final String DEFAULT_ACCEPTED_LANGUAGE = Utils.getAcceptLanguageString();
+	
+	private final SFConfiguration mSFAppConfig = new SFConfiguration();
+			
 	private final AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
-	
-	public static final SFItemsEntity items = new SFItemsEntity();
-	
+		
 	public boolean isClientInitialised()
 	{
 		return mClientInitializedSuccessFully.get();
@@ -73,12 +76,14 @@ public class SFApiClient
 	
 	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
 	{	
-		mClientInitializedSuccessFully.set(false);
-		
+		mClientInitializedSuccessFully.set(false);		
 		mAuthTokenChangeListener = listener;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
 		mSfUserId = sfUserId;
+				
+		mSFAppConfig.addAcceptedLanguage(DEFAULT_ACCEPTED_LANGUAGE);
+		
 		copyOAuthToken(oauthToken);					
 	}
 	
@@ -148,7 +153,7 @@ public class SFApiClient
 			sfApiRunnable = newSFApiRunnable(sfApiRunnableClass, query, targetLisner);
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			SLog.w(TAG, e.getLocalizedMessage(), e);
-			sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager);
+			sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager,mSFAppConfig);
 		}
 		
 		return sfApiRunnable.startNewThread();
@@ -172,7 +177,7 @@ public class SFApiClient
 	{										
 		validateClientState();
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager);
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager,mSFAppConfig);
 		
 		return sfApiRunnable.executeQuery();
 	}
@@ -247,13 +252,47 @@ public class SFApiClient
 	
 	private <T extends SFODataObject> SFApiRunnable<T> newSFApiRunnable(Class<? extends SFApiRunnable> sfApiRunnableClass, ISFQuery<T> query, SFApiResponseListener<T> targetListner) throws SFInvalidStateException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
-		Constructor ctor = sfApiRunnableClass.getConstructor(ISFQuery.class, SFApiResponseListener.class, SFOAuth2Token.class, SFCookieManager.class);
-		Object obj = ctor.newInstance(query, targetListner, mOAuthToken.get(),mCookieManager);
+		Constructor ctor = sfApiRunnableClass.getConstructor(ISFQuery.class, SFApiResponseListener.class, SFOAuth2Token.class, SFCookieManager.class, SFConfiguration.class);
+		Object obj = ctor.newInstance(query, targetListner, mOAuthToken.get(),mCookieManager,mSFAppConfig);
 		return (SFApiRunnable<T>) obj;
 	}
 	
 	private <T extends SFODataObject> SFApiRunnable<T> newSFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> targetListner) throws SFInvalidStateException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		return newSFApiRunnable(mSFApiRunnableClass, query, targetListner);
+	}
+	
+	public void setCookie(String urlStr, String cookieString) 
+	{
+		mCookieManager.storeAppSpecificCookies(urlStr, cookieString);
+	}
+	
+	public void setCookie(URI uri, String cookieString) 
+	{
+		mCookieManager.storeAppSpecificCookies(uri, cookieString);		
+	}
+	
+	public void removeCookies(String urlStr) 
+	{
+		mCookieManager.removeCookies(urlStr);
+	}
+	
+	public void removeCookies(URI uri) 
+	{
+		mCookieManager.removeCookies(uri);
+	}		
+	
+	/** 
+	 *  The SDK itself does not use the userid. This id is simply sent back to the app with the reauth-context
+	 *  so that the app can detect the user for which the re-auth was requested.
+	 */
+	public void setUserId(String sfUserid)
+	{		
+		mSfUserId = sfUserid;
+	}
+		
+	public SFConfiguration getConfig()
+	{
+		return mSFAppConfig;
 	}
 }

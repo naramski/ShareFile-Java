@@ -131,7 +131,7 @@ public class FoldersActivity extends Activity
 		folder.setName(folderName);
 		folder.setDescription(folderDescription);
 		
-		ISFQuery<SFFolder> createFolder = SFApiClient.items.createFolder(new URI(parenturl), folder,false, false);
+		ISFQuery<SFFolder> createFolder = SFQueryBuilder.ITEMS.createFolder(new URI(parenturl), folder,false, false);
 		
 		try 
 		{
@@ -458,7 +458,7 @@ public class FoldersActivity extends Activity
 		}
 		else
 		{
-			uri = new URI("https://enttest1.sf-api.com/sf/v3/Items(top)");
+			uri = new URI("https://"+ FullscreenActivity.mOAuthToken.getSubdomain()+".sf-api.com/sf/v3/Items(top)");
 		}
 		
 		SLog.d("GET", "ret URI = " + uri.toString());
@@ -475,7 +475,7 @@ public class FoldersActivity extends Activity
 		}
 		else
 		{
-			return new String("https://enttest1.sf-api.com/sf/v3/Items(top)");
+			return new String("https://"+ FullscreenActivity.mOAuthToken.getSubdomain()+".sf-api.com/sf/v3/Items(top)");
 		}
 	}
 	

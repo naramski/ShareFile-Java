@@ -88,7 +88,7 @@ public class SFHttpsCaller
 	
 	public static void setAcceptLanguage(URLConnection conn)
 	{
-		conn.setRequestProperty("Accept-Language", Utils.getAcceptLanguageString());
+		conn.setRequestProperty(SFKeywords.ACCEPT_LANGUAGE, Utils.getAcceptLanguageString());
 	}
 	
 	private static void setRequestMethod(URLConnection conn, String method) throws ProtocolException
@@ -365,7 +365,6 @@ public class SFHttpsCaller
 					setBasicAuth(connection, userName, password);			
 				}
 			break;	
-		}
-		
+		}		
 	}
 }
