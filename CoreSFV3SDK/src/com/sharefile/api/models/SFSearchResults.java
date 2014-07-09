@@ -25,17 +25,17 @@ import com.sharefile.api.models.*;
 
 public class SFSearchResults extends SFODataObject {
 
-	@SerializedName("ParitalResults")
-	private Boolean ParitalResults;
+	@SerializedName("PartialResults")
+	private Boolean PartialResults;
 	@SerializedName("Results")
 	private ArrayList<SFSearchResult> Results;
 
-	public Boolean getParitalResults() {
-		return ParitalResults;
+	public Boolean getPartialResults() {
+		return PartialResults;
 	}
 
-	public void setParitalResults(Boolean paritalresults) {
-		ParitalResults = paritalresults;
+	public void setPartialResults(Boolean partialresults) {
+		PartialResults = partialresults;
 	}
 	public ArrayList<SFSearchResult> getResults() {
 		return Results;
