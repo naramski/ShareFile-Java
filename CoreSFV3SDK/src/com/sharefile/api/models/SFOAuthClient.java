@@ -59,6 +59,10 @@ public class SFOAuthClient extends SFODataObject {
 	private Boolean Impersonation;
 	@SerializedName("DeviceRegistration")
 	private Boolean DeviceRegistration;
+	@SerializedName("CanCreateFreemiumAccount")
+	private Boolean CanCreateFreemiumAccount;
+	@SerializedName("IsInternalAdmin")
+	private Boolean IsInternalAdmin;
 	@SerializedName("AccessFilesFolders")
 	private SFSafeEnum<SFOAuthClientPermissions> AccessFilesFolders;
 	@SerializedName("ModifyFilesFolders")
@@ -194,6 +198,20 @@ public class SFOAuthClient extends SFODataObject {
 
 	public void setDeviceRegistration(Boolean deviceregistration) {
 		DeviceRegistration = deviceregistration;
+	}
+	public Boolean getCanCreateFreemiumAccount() {
+		return CanCreateFreemiumAccount;
+	}
+
+	public void setCanCreateFreemiumAccount(Boolean cancreatefreemiumaccount) {
+		CanCreateFreemiumAccount = cancreatefreemiumaccount;
+	}
+	public Boolean getIsInternalAdmin() {
+		return IsInternalAdmin;
+	}
+
+	public void setIsInternalAdmin(Boolean isinternaladmin) {
+		IsInternalAdmin = isinternaladmin;
 	}
 	public SFSafeEnum<SFOAuthClientPermissions> getAccessFilesFolders() {
 		return AccessFilesFolders;
