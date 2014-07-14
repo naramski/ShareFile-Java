@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -31,9 +32,12 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private final long mResumeFromByteIndex;
 	private final OutputStream mOutputStream;
 	private final SFApiClient mApiClient;
-	private final SFApiDownloadProgressListener mProgressListener;
+	private SFApiDownloadProgressListener mProgressListener;
 	private FinalResponse mResponse = new FinalResponse();	
 	private final SFCookieManager mCookieManager;
+	private final AtomicBoolean cancelRequested = new AtomicBoolean(false);
+	private Thread mApithread = null; 
+	
 	//credntials for connectors
 		private final String mUsername;
 		private final String mPassword;
@@ -55,9 +59,17 @@ public class SFApiFileDownloadRunnable implements Runnable
 	}
 
 	@Override
-	public void run() 
-	{
-		download();
+	public void run()  {
+		try {
+			download();
+			
+		} finally {
+			mApithread = null;
+		}
+	}
+	
+	public void cancel() {
+		cancelRequested.set(true);
 	}
 	
 	public void download()
@@ -99,6 +111,8 @@ public class SFApiFileDownloadRunnable implements Runnable
 				
 				while ((length = fis.read(buffer)) > 0) 
 				{
+					if ( cancelRequested.get() ) break;
+					
 					mOutputStream.write(buffer, 0, length);
 					bytesRead+= length;
 					updateProgress(bytesRead);
@@ -157,7 +171,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		private SFV3Error mV3Error = null;			
 		private long mBytesDownloaded = 0;
 		
-		public void setFeilds(int errorCode, SFV3Error v3Error, long downloaded)
+		public void setFields(int errorCode, SFV3Error v3Error, long downloaded)
 		{
 			mHttpErrorCode = errorCode;
 			mV3Error = v3Error;			
@@ -172,19 +186,24 @@ public class SFApiFileDownloadRunnable implements Runnable
 	 */
 	private void parseResponse(int httpCode,String responseString,long downloadedBytes)
 	{
+		if ( cancelRequested.get() ) {
+			// download was cancelled: no reason to process response 
+			return;
+		}
+		
 		switch(httpCode)
 		{
 			case HttpsURLConnection.HTTP_OK:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null,downloadedBytes);
+				mResponse.setFields(HttpsURLConnection.HTTP_OK, null,downloadedBytes);
 			break;	
 			
 			case HttpsURLConnection.HTTP_NO_CONTENT:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null,downloadedBytes);
+				mResponse.setFields(HttpsURLConnection.HTTP_NO_CONTENT, null,downloadedBytes);
 			break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				SFV3Error v3Error = new SFV3Error(httpCode,null,responseString);
-				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
+				mResponse.setFields(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
 			break;
 			
 			case SFSDK.INTERNAL_HTTP_ERROR:
@@ -205,7 +224,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 			JsonElement jsonElement =jsonParser.parse(responseString);				
 			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
 			v3Error.httpResponseCode = httpCode;				
-			mResponse.setFeilds(httpCode, v3Error,downloadedBytes);
+			mResponse.setFields(httpCode, v3Error,downloadedBytes);
 		} 
 		catch (Exception e)  
 		{					
@@ -243,6 +262,12 @@ public class SFApiFileDownloadRunnable implements Runnable
 		
 		try
 		{
+			if ( cancelRequested.get() ) {
+				SLog.d(TAG, "Download cancelled");
+				mProgressListener.downloadCanceled(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
+				return;
+			}
+			
 			switch(mResponse.mHttpErrorCode)
 			{
 				case HttpsURLConnection.HTTP_OK:
@@ -253,10 +278,13 @@ public class SFApiFileDownloadRunnable implements Runnable
 					mProgressListener.downloadFailure(mResponse.mV3Error,mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
 				break;				
 			}
-		}
-		catch(Exception ex)
-		{
+			
+		} catch(Exception ex) {
 			SLog.d(TAG, "!!Exception calling the responseListener",ex);
+			
+		} finally {
+			// 
+			mProgressListener = null;
 		}
 	}
 	
@@ -266,13 +294,17 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesDownloaded)
 	{
 		SFV3Error v3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
-		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
+		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 	
-	public Thread startNewThread()
-	{
-		Thread sfApithread = new Thread(this);		
-		sfApithread.start();
-		return sfApithread;
+	public Thread startNewThread() {
+		if ( mApithread!=null ) {
+			SLog.w(TAG, "There is already a thread processing this download");
+			// ...
+		}
+		
+		mApithread = new Thread(this);		
+		mApithread.start();
+		return mApithread;
 	}	
 }
