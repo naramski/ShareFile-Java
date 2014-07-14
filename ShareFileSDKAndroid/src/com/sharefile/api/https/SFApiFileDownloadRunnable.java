@@ -34,6 +34,8 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private final SFApiDownloadProgressListener mProgressListener;
 	private FinalResponse mResponse = new FinalResponse();	
 	private final SFCookieManager mCookieManager;
+	private boolean cancelRequested = false;
+	
 	//credntials for connectors
 		private final String mUsername;
 		private final String mPassword;
@@ -58,6 +60,10 @@ public class SFApiFileDownloadRunnable implements Runnable
 	public void run() 
 	{
 		download();
+	}
+	
+	public void cancel() {
+		cancelRequested = true;
 	}
 	
 	public void download()
@@ -99,6 +105,8 @@ public class SFApiFileDownloadRunnable implements Runnable
 				
 				while ((length = fis.read(buffer)) > 0) 
 				{
+					if ( cancelRequested ) break;
+					
 					mOutputStream.write(buffer, 0, length);
 					bytesRead+= length;
 					updateProgress(bytesRead);
@@ -157,7 +165,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		private SFV3Error mV3Error = null;			
 		private long mBytesDownloaded = 0;
 		
-		public void setFeilds(int errorCode, SFV3Error v3Error, long downloaded)
+		public void setFields(int errorCode, SFV3Error v3Error, long downloaded)
 		{
 			mHttpErrorCode = errorCode;
 			mV3Error = v3Error;			
@@ -172,19 +180,24 @@ public class SFApiFileDownloadRunnable implements Runnable
 	 */
 	private void parseResponse(int httpCode,String responseString,long downloadedBytes)
 	{
+		if ( cancelRequested ) {
+			// download was cancelled: nothing to do 
+			return;
+		}
+		
 		switch(httpCode)
 		{
 			case HttpsURLConnection.HTTP_OK:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null,downloadedBytes);
+				mResponse.setFields(HttpsURLConnection.HTTP_OK, null,downloadedBytes);
 			break;	
 			
 			case HttpsURLConnection.HTTP_NO_CONTENT:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null,downloadedBytes);
+				mResponse.setFields(HttpsURLConnection.HTTP_NO_CONTENT, null,downloadedBytes);
 			break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				SFV3Error v3Error = new SFV3Error(httpCode,null,responseString);
-				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
+				mResponse.setFields(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
 			break;
 			
 			case SFSDK.INTERNAL_HTTP_ERROR:
@@ -205,7 +218,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 			JsonElement jsonElement =jsonParser.parse(responseString);				
 			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
 			v3Error.httpResponseCode = httpCode;				
-			mResponse.setFeilds(httpCode, v3Error,downloadedBytes);
+			mResponse.setFields(httpCode, v3Error,downloadedBytes);
 		} 
 		catch (Exception e)  
 		{					
@@ -243,6 +256,12 @@ public class SFApiFileDownloadRunnable implements Runnable
 		
 		try
 		{
+			if ( cancelRequested ) {
+				SLog.d(TAG, "Download cancelled");
+				mProgressListener.downloadCancelled(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
+				return;
+			}
+			
 			switch(mResponse.mHttpErrorCode)
 			{
 				case HttpsURLConnection.HTTP_OK:
@@ -266,7 +285,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesDownloaded)
 	{
 		SFV3Error v3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
-		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
+		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 	
 	public Thread startNewThread()

@@ -9,4 +9,5 @@ public interface SFApiDownloadProgressListener
 	public void bytesDownloaded(long byteCount,SFDownloadSpecification downloaSpec,SFApiClient client);
 	public void downloadSuccess(long byteCount,SFDownloadSpecification downloaSpec,SFApiClient client);
 	public void downloadFailure(SFV3Error v3error,long byteCount,SFDownloadSpecification downloaSpec,SFApiClient client);
+	public void downloadCancelled(long byteCount,SFDownloadSpecification downloaSpec,SFApiClient client);
 }
