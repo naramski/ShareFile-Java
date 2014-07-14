@@ -36,7 +36,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private FinalResponse mResponse = new FinalResponse();	
 	private final SFCookieManager mCookieManager;
 	private final AtomicBoolean cancelRequested = new AtomicBoolean(false);
-	private boolean wasCanceled = false;
+	private Thread mApithread = null; 
 	
 	//credntials for connectors
 		private final String mUsername;
@@ -59,9 +59,13 @@ public class SFApiFileDownloadRunnable implements Runnable
 	}
 
 	@Override
-	public void run() 
-	{
-		download();
+	public void run()  {
+		try {
+			download();
+			
+		} finally {
+			mApithread = null;
+		}
 	}
 	
 	public void cancel() {
@@ -75,7 +79,6 @@ public class SFApiFileDownloadRunnable implements Runnable
 		long bytesRead = mResumeFromByteIndex;
 		URLConnection connection = null;
 		InputStream fis = null;
-		wasCanceled = false;
 		
 		try
 		{										
@@ -108,10 +111,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 				
 				while ((length = fis.read(buffer)) > 0) 
 				{
-					if ( cancelRequested.get() ) {
-						wasCanceled = true;
-						break;
-					}
+					if ( cancelRequested.get() ) break;
 					
 					mOutputStream.write(buffer, 0, length);
 					bytesRead+= length;
@@ -186,8 +186,8 @@ public class SFApiFileDownloadRunnable implements Runnable
 	 */
 	private void parseResponse(int httpCode,String responseString,long downloadedBytes)
 	{
-		if ( wasCanceled ) {
-			// download was cancelled: nothing to do 
+		if ( cancelRequested.get() ) {
+			// download was cancelled: no reason to process response 
 			return;
 		}
 		
@@ -294,10 +294,14 @@ public class SFApiFileDownloadRunnable implements Runnable
 		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 	
-	public Thread startNewThread()
-	{
-		Thread sfApithread = new Thread(this);		
-		sfApithread.start();
-		return sfApithread;
+	public Thread startNewThread() {
+		if ( mApithread!=null ) {
+			SLog.w(TAG, "There is already a thread processing this download");
+			// ...
+		}
+		
+		mApithread = new Thread(this);		
+		mApithread.start();
+		return mApithread;
 	}	
 }

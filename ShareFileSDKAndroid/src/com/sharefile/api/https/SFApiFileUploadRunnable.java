@@ -52,6 +52,8 @@ public class SFApiFileUploadRunnable implements Runnable
 	private final String mUsername;
 	private final String mPassword;
 	
+	private Thread mApithread = null; 
+	
 	public SFApiFileUploadRunnable(SFUploadSpecification uploadSpecification,
 									 int resumeFromByteIndex, 
 									 long tolalBytes,
@@ -76,7 +78,12 @@ public class SFApiFileUploadRunnable implements Runnable
 	@Override
 	public void run() 
 	{
-		upload();
+		try {
+			upload();
+			
+		} finally {
+			mApithread = null;
+		}
 	}
 	
 	private void seekInputStream()
@@ -410,10 +417,14 @@ public class SFApiFileUploadRunnable implements Runnable
 		}
 	}
 			
-	public Thread startNewThread()
-	{
-		Thread sfApithread = new Thread(this);		
-		sfApithread.start();
-		return sfApithread;
+	public Thread startNewThread() {
+		if ( mApithread!=null ) {
+			SLog.w(TAG, "There is already a thread processing this upload");
+			// ...
+		}
+		
+		mApithread = new Thread(this);		
+		mApithread.start();
+		return mApithread;
 	}	
 }
