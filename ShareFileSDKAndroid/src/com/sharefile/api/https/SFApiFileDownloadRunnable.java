@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -34,7 +35,8 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private final SFApiDownloadProgressListener mProgressListener;
 	private FinalResponse mResponse = new FinalResponse();	
 	private final SFCookieManager mCookieManager;
-	private boolean cancelRequested = false;
+	private final AtomicBoolean cancelRequested = new AtomicBoolean(false);
+	private boolean wasCanceled = false;
 	
 	//credntials for connectors
 		private final String mUsername;
@@ -63,7 +65,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 	}
 	
 	public void cancel() {
-		cancelRequested = true;
+		cancelRequested.set(true);
 	}
 	
 	public void download()
@@ -73,6 +75,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		long bytesRead = mResumeFromByteIndex;
 		URLConnection connection = null;
 		InputStream fis = null;
+		wasCanceled = false;
 		
 		try
 		{										
@@ -105,7 +108,10 @@ public class SFApiFileDownloadRunnable implements Runnable
 				
 				while ((length = fis.read(buffer)) > 0) 
 				{
-					if ( cancelRequested ) break;
+					if ( cancelRequested.get() ) {
+						wasCanceled = true;
+						break;
+					}
 					
 					mOutputStream.write(buffer, 0, length);
 					bytesRead+= length;
@@ -180,7 +186,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 	 */
 	private void parseResponse(int httpCode,String responseString,long downloadedBytes)
 	{
-		if ( cancelRequested ) {
+		if ( wasCanceled ) {
 			// download was cancelled: nothing to do 
 			return;
 		}
@@ -256,9 +262,9 @@ public class SFApiFileDownloadRunnable implements Runnable
 		
 		try
 		{
-			if ( cancelRequested ) {
+			if ( wasCanceled ) {
 				SLog.d(TAG, "Download cancelled");
-				mProgressListener.downloadCancelled(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
+				mProgressListener.downloadCanceled(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
 				return;
 			}
 			
