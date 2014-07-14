@@ -32,7 +32,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 	private final long mResumeFromByteIndex;
 	private final OutputStream mOutputStream;
 	private final SFApiClient mApiClient;
-	private final SFApiDownloadProgressListener mProgressListener;
+	private SFApiDownloadProgressListener mProgressListener;
 	private FinalResponse mResponse = new FinalResponse();	
 	private final SFCookieManager mCookieManager;
 	private final AtomicBoolean cancelRequested = new AtomicBoolean(false);
@@ -262,7 +262,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		
 		try
 		{
-			if ( wasCanceled ) {
+			if ( cancelRequested.get() ) {
 				SLog.d(TAG, "Download cancelled");
 				mProgressListener.downloadCanceled(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
 				return;
@@ -278,10 +278,13 @@ public class SFApiFileDownloadRunnable implements Runnable
 					mProgressListener.downloadFailure(mResponse.mV3Error,mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
 				break;				
 			}
-		}
-		catch(Exception ex)
-		{
+			
+		} catch(Exception ex) {
 			SLog.d(TAG, "!!Exception calling the responseListener",ex);
+			
+		} finally {
+			// 
+			mProgressListener = null;
 		}
 	}
 	
