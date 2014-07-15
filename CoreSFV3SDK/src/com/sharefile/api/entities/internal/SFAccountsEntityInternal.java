@@ -42,5 +42,24 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		return sfApiQuery;
 	}
 
+	public ISFQuery<SFAccount> update(SFAccount account)
+	{
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setBody(account);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	public ISFQuery createAssignSubdomain(String subdomain)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("AssignSubdomain");
+		sfApiQuery.addQueryString("subdomain", subdomain);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 
