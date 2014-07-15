@@ -170,6 +170,8 @@ public class SFGsonHelper
 		{
 			// note we are creating the override class registered by the app instead of the hardcoding:  new SFItem()
 			item = (SFItem) SFV3ElementType.Item.getV3Class().newInstance();
+			item.setName(SFGsonHelper.getString(jsonObject, SFKeywords.Name, null));
+			item.setFileName(SFGsonHelper.getString(jsonObject, SFKeywords.FileName, null));			
 			item.setMetadataUrl(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
 			item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
 			item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));		
