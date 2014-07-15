@@ -7,7 +7,7 @@ package com.sharefile.api.constants;
 public final class SFFolderID 
 {	
 		public static final String ROOT = "root";
-		public static final String TOP = SFFolderID.TOP;
+		public static final String TOP = "top";
 		public static final String FILEBOX = "box";
 		public static final String ALLSHARED = "allshared";
 		public static final String FAVORITES = "favorites";
