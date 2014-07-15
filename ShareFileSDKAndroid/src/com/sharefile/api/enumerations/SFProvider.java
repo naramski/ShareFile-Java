@@ -45,37 +45,32 @@ public enum SFProvider
 	{
 		SFProvider provider = PROVIDER_TYPE_SF; //return sf by default so as not to cause NullPointer exceptions
 												//for bad strings.
-				
-		if(str!=null)
-		{
-			/*
-			 * look for the first occurence of "/v3/" and then look to the left of it. 
-			 * this way we don't waste too much time in string comparison.
-			 */			 													
-			int indexOfV3 = str.indexOf(keywordV3);
+		if (str==null) return provider;
 
-			if(indexOfV3 == -1)
-			{
-				indexOfV3 = str.indexOf("/upload-streaming");
-			}
+		/*
+		 * look for the first occurence of "/v3/" and then look to the left of it. 
+		 * this way we don't waste too much time in string comparison.
+		 */			 													
+		int indexOfV3 = str.indexOf(keywordV3);
+		if(indexOfV3<1) {
+			indexOfV3 = str.indexOf("/upload-streaming");
 			
-			try
-			{
-				//HACK optimize: look for the first chracter before this index since. can change this later if things break. 			
-				switch(str.charAt(indexOfV3-1))
-				{
-					case 'p': provider = PROVIDER_TYPE_SHAREPOINT;
-					break;
-					case 'f': provider = PROVIDER_TYPE_SF;
-					break;
-					case 's': provider = PROVIDER_TYPE_CIFS;
-					break;
-				}
+			if(indexOfV3<1) {
+				return provider;
 			}
-			catch(Exception ex)
-			{
-				SLog.d(TAG, "!!!Exception getting provider type from: " + str, ex);
-			}
+		}
+		
+		//HACK optimize: look for the first chracter before this index since. can change this later if things break. 			
+		switch(str.charAt(indexOfV3-1)) {
+			case 'p': provider = PROVIDER_TYPE_SHAREPOINT;
+				break;
+			case 'f': provider = PROVIDER_TYPE_SF;
+				break;
+			case 's': provider = PROVIDER_TYPE_CIFS;
+				break;
+				
+			default:
+				return provider;
 		}
 				
 		SLog.d(TAG, "Returning provider type = %s" + provider.toString());
