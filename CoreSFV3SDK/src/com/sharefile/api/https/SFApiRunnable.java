@@ -215,7 +215,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 					break;
 					
 				case EXECUTE_QUERY_ON_REDIRECTED_URI:
-					executeQueryOnRedirectedObject();				
+					executeQueryOnRedirectedObject();
+					callResponseListeners(); //lets call this explicitly so that we don't need to skip the break in the case else coverity complains.
+					break;
+					
 				default:
 					callResponseListeners();
 					break;

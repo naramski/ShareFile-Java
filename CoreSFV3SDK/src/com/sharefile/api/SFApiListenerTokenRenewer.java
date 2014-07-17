@@ -114,9 +114,15 @@ class SFApiListenerTokenRenewer<T extends SFODataObject> implements SFApiRespons
 	}			
 	
 	@Override
-	public void sfApiSuccess(String rawResponse) {
-		if(mListener instanceof SFApiRawResponseListener) {
-			((SFApiRawResponseListener) mListener).sfApiSuccess(rawResponse);
+	public void sfApiSuccess(String rawResponse) 
+	{
+		//if(mListener instanceof SFApiRawResponseListener) {
+		//	((SFApiRawResponseListener) mListener).sfApiSuccess(rawResponse);
+		//}
+		
+		if(mListener!=null)// no need to test the instance since SFApiListenerReauthHandler implements the SFApiRawResponseListener
+		{
+			mListener.sfApiSuccess(rawResponse);
 		}
 	}
 }
