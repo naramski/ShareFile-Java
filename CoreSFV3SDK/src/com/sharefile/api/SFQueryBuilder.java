@@ -28,6 +28,7 @@ public class SFQueryBuilder
 	public static final SFUsersEntity USERS = new SFUsersEntity();
 		
 	private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
+	private static final String FORMAT_GET_DEVICES = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Devices(%s)";
 	
 	
 	/**
@@ -44,4 +45,15 @@ public class SFQueryBuilder
                       
           return uri;
     }
+	
+	public static final URI getDeviceURL(final String subdomain, String hostname, final String deviceID) throws URISyntaxException
+	{
+		URI uri = null;
+        
+        String urlSpec = String.format(FORMAT_GET_DEVICES, subdomain,SFSDK.getApiServer(hostname),deviceID);
+        
+        uri = new URI(urlSpec);
+                    
+        return uri;
+	}
 }
