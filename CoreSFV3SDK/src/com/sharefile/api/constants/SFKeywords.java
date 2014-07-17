@@ -78,9 +78,10 @@ public final class SFKeywords
 	public static final String EXCEPTION_MSG_NOT_IMPLEMENTED = "function not implemented";
 
 	public static final String Location = "Location";
-
-	public static final String TOP_FOLDER_ID = "top";
-	public static final String ROOT_FOLDER_ID = "root";
-	
+		
 	public static final String ACCEPT_LANGUAGE = "Accept-Language";
+
+	public static final String FileName = "FileName";
+
+	public static final String CreationDate = "CreationDate";
 }
