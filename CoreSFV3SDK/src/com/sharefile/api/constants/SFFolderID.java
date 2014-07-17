@@ -11,6 +11,6 @@ public final class SFFolderID
 		public static final String FILEBOX = "box";
 		public static final String ALLSHARED = "allshared";
 		public static final String FAVORITES = "favorites";
-		public static final String CONNECTOR_SHAREPOINT = "sharepointconnectors";
-		public static final String CONNECTOR_NETWORKSHARE = "networkshareconnectors";			
+		public static final String CONNECTOR_SHAREPOINT = "c-sp";
+		public static final String CONNECTOR_NETWORKSHARE = "c-cifs";			
 }
