@@ -86,4 +86,6 @@ public final class SFKeywords
 	public static final String CreationDate = "CreationDate";
 	
 	public static final String PREFIX_PERSONAL_CONNECTOR = "c-";
+
+	public static final String INFO = "Info";
 }
