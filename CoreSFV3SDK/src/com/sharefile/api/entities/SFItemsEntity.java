@@ -49,7 +49,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("fileBox", true);
 		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
