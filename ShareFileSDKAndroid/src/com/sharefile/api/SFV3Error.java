@@ -47,7 +47,6 @@ public class SFV3Error
 	
 	public ErrorMessage message = new ErrorMessage();
 			
-	
 	private String getErrorMessageFromErroCode()
 	{
 		switch(httpResponseCode)
@@ -56,7 +55,7 @@ public class SFV3Error
 			case HttpsURLConnection.HTTP_UNAUTHORIZED: return ERR_UNAUTHORIZD;
 			case HttpsURLConnection.HTTP_UNAVAILABLE:return ERR_NOTREACHABLE;
 			case HttpsURLConnection.HTTP_BAD_METHOD:return ERR_BADMETHOD;
-			default: return "Unkown Error.("+ httpResponseCode+")";
+			default: return "Unexpected Error ("+ httpResponseCode+")";
 		}
 	}
 	
@@ -91,7 +90,8 @@ public class SFV3Error
 		} 
 		catch (JSONException e) 
 		{							
-			message.value = "JSON Exception during constructing V3Error. See extraInfo for more details of server response";
+			// message.value = "JSON Exception during constructing V3Error. See extraInfo for more details of server response";
+			message.value = "Error Parsing response";
 			mExtraInfo = respSring;			
 		}
 	}
@@ -124,5 +124,10 @@ public class SFV3Error
 		}
 		
 		return false;
+	}
+	
+	public String getMessageStr() {
+		return ( message==null || message.value==null || message.value.isEmpty() ) ? 
+			"Unspecified" : message.value;
 	}
 }
