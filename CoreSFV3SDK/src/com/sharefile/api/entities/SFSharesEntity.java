@@ -281,6 +281,21 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
     /**
+	* Deliver an existing share link to one or more recipients
+	* Sends an Email to the specified list of addresses, containing a link to a download or an upload.
+	* @param parameters 	
+    */
+	public ISFQuery resend(SFShareResendParams parameters)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Resend");
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
 	* Upload File to Request Share
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
