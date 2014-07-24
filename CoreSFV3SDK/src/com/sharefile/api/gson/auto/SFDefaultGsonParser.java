@@ -1,6 +1,8 @@
 package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -120,5 +122,21 @@ public class SFDefaultGsonParser
 				return SFDateFormat.parse(arg0.getAsString());
 			}
 		});
+		
+		mGsonBuilder.registerTypeAdapter(URI.class, new JsonDeserializer<URI>() 
+		{
+			@Override
+			public URI deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException
+			{											
+				try 
+				{
+					return new URI (arg0.getAsString().trim());
+				} 
+				catch (URISyntaxException e) 
+				{
+					throw new JsonParseException(e);
+				}				
+			}
+		});		
 	}		
 }
