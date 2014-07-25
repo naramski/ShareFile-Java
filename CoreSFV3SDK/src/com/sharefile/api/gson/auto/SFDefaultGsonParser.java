@@ -21,7 +21,6 @@ import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
 import com.sharefile.api.utils.SFDateFormat;
 import com.sharefile.api.utils.SafeEnumHelpers;
-import com.sharefile.java.log.SLog;
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
