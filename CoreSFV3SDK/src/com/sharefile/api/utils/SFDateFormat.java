@@ -1,5 +1,6 @@
 package com.sharefile.api.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,4 +79,15 @@ public class SFDateFormat
 		
 		return ret;
 	}	
+	
+	public static String getUserFriendlyDateString(Date date)
+	{
+		if(date == null)
+		{
+			return "";
+		}
+		
+		DateFormat df = DateFormat.getDateInstance(DateFormat.LONG);
+        return df.format(date);
+	}
 }
