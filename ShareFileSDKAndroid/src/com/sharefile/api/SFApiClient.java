@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFItemsEntity;
@@ -138,9 +139,25 @@ public class SFApiClient
 	}
 	
 	/**
+	 * renew the oauth token synchronously. To be used on by asynctasks
+	 * @return new oath token if successful, null if failed
+	 */
+	public boolean renewAccessTokenSync() {
+		SFGetNewAccessToken task = new SFGetNewAccessToken(mOAuthToken.get(), null, mClientID, mClientSecret);
+		SFOAuth2Token newToken = task.getNewAccessToken();
+		if (newToken!=null) {
+			SLog.i(TAG, "Access Token got renewed, update it");
+			mOAuthToken.set(newToken);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * This will block until operation is done and return the expected SFODataObject or throw a V3Exception. Never call this on UI thread.
 	 */
-	public <T extends SFODataObject> SFODataObject executeQuery(SFApiQuery<T> query) throws SFV3ErrorException, SFInvalidStateException
+	public <T extends SFODataObject> T executeQuery(SFApiQuery<T> query) throws SFV3ErrorException, SFInvalidStateException
 	{										
 		validateClientState();
 		

@@ -46,13 +46,13 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{
 		private int mHttpErrorCode = 0;
 		private SFV3Error mV3Error = null;
-		private SFODataObject mResponseObject = null;	
+		private T mResponseObject = null;	
 		
-		public void setFeilds(int errorCode, SFV3Error v3Error,SFODataObject sfObject)
+		public void setFields(int errorCode, SFV3Error v3Error, SFODataObject sfObject)
 		{
 			mHttpErrorCode = errorCode;
 			mV3Error = v3Error;
-			mResponseObject = sfObject;
+			mResponseObject = (T)sfObject;
 		}
 	};
 	
@@ -123,7 +123,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	}
 	
 	
-	public SFODataObject executeQuery() throws SFV3ErrorException 
+	public T executeQuery() throws SFV3ErrorException 
 	{			
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
@@ -234,17 +234,17 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			break;	
 			
 			case HttpsURLConnection.HTTP_NO_CONTENT:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null, null);
+				mResponse.setFields(HttpsURLConnection.HTTP_NO_CONTENT, null, null);
 			break;
 			
 			case HttpsURLConnection.HTTP_MOVED_TEMP:
 				v3Error = new SFV3Error(httpCode,null,responseString);
-				mResponse.setFeilds(HttpsURLConnection.HTTP_MOVED_TEMP, v3Error, null);
+				mResponse.setFields(HttpsURLConnection.HTTP_MOVED_TEMP, v3Error, null);
 			break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				v3Error = new SFV3Error(httpCode,null,responseString);
-				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error, null);
+				mResponse.setFields(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error, null);
 			break;
 			
 			case SFSDK.INTERNAL_HTTP_ERROR:
@@ -279,7 +279,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		return ret;
 	}
 	
-	private SFODataObject reExecuteNewQueryForSymbolicLinks() throws URISyntaxException, SFV3ErrorException
+	private T reExecuteNewQueryForSymbolicLinks() throws URISyntaxException, SFV3ErrorException
 	{
 		SFSymbolicLink link = (SFSymbolicLink) mResponse.mResponseObject;				
 				
@@ -324,7 +324,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 	}
 	
-	private SFODataObject returnResultOrThrow() throws SFV3ErrorException
+	private T returnResultOrThrow() throws SFV3ErrorException
 	{
 		//Run this only when the responseListener is not installed.
 		if(mResponseListener != null)
@@ -350,7 +350,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo)
 	{
 		SFV3Error v3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
-		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error, null);
+		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, null);
 	}
 				
 	/**
@@ -364,7 +364,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement =jsonParser.parse(responseString);
 			SFODataObject object = SFGsonHelper.customParse(jsonElement);			
-			mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null, object);			
+			mResponse.setFields(HttpsURLConnection.HTTP_OK, null, object);			
 		} 
 		catch (Exception e) 
 		{					
@@ -385,7 +385,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			JsonElement jsonElement =jsonParser.parse(responseString);				
 			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
 			v3Error.httpResponseCode = httpCode;				
-			mResponse.setFeilds(httpCode, v3Error, null);
+			mResponse.setFields(httpCode, v3Error, null);
 		} 
 		catch (Exception e)  
 		{					

@@ -92,7 +92,7 @@ public class SFGetNewAccessToken implements Runnable
 	 *  These could be other AsyncTasks which directly call getNewAccessToken() and don't want to execute another internal AsyncTask for this purpose.
 	 *  We need such tasks to be able get the error codes correctly.		   
 	 */
-	public void getNewAccessToken()
+	public SFOAuth2Token getNewAccessToken()
 	{
 		
 		try 
@@ -137,6 +137,8 @@ public class SFGetNewAccessToken implements Runnable
 		parseResponse(mHttpErrorCode, mResponseString);
 						
 		callResponseListeners();
+		
+		return (mHttpErrorCode==HttpsURLConnection.HTTP_OK ) ? mNewAccessToken : null;
 	}
 		
 
@@ -240,5 +242,9 @@ public class SFGetNewAccessToken implements Runnable
 	public void run() 
 	{		
 		getNewAccessToken();
+	}
+	
+	public SFV3Error getError() { 
+		return mV3Error; 
 	}
 }
