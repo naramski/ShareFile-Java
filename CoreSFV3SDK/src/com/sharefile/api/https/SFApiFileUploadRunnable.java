@@ -6,7 +6,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -50,6 +52,7 @@ public class SFApiFileUploadRunnable implements Runnable
 	//credntials for connectors
 	private final String mUsername;
 	private final String mPassword;
+	private final String mDetails;
 	
 	public SFApiFileUploadRunnable(SFUploadSpecification uploadSpecification,
 									 int resumeFromByteIndex, 
@@ -58,7 +61,7 @@ public class SFApiFileUploadRunnable implements Runnable
 									 InputStream inputStream, 									 
 									 SFApiClient client,
 									 SFApiUploadProgressListener progressListener,
-									 SFCookieManager cookieManager,String connUserName,String connPassword) 
+									 SFCookieManager cookieManager,String connUserName,String connPassword, String details) 
 	{		
 		mUploadSpecification = uploadSpecification;
 		mResumeFromByteIndex = resumeFromByteIndex;
@@ -70,6 +73,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		mCookieManager = cookieManager;
 		mUsername = connUserName;
 		mPassword = connPassword;
+		mDetails = details;
 	}
 
 	@Override
@@ -105,7 +109,19 @@ public class SFApiFileUploadRunnable implements Runnable
 		}
 		sb.append("&fmt=json");
 		sb.append("&hash="+hash);
-		sb.append("&filesize="+fileSize);						
+		sb.append("&filesize="+fileSize);				
+		
+		if(isbatchLast && mDetails!=null && mDetails.length()>0)
+		{
+			try 
+			{
+				sb.append("&details="+URLEncoder.encode(mDetails,SFKeywords.UTF_8));
+			} 
+			catch (UnsupportedEncodingException e) 
+			{				
+				SLog.e(TAG,e);
+			}
+		}
 		
 		String appendParam =  sb.toString();
 		return appendParam;				
