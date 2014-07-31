@@ -15,6 +15,7 @@ import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFStorageCenter;
 import com.sharefile.java.log.SLog;
 
 /**
@@ -188,6 +189,34 @@ public class SFGsonHelper
 		 				
 		return item;
 	}
+    
+    public static SFStorageCenter parseSFStorageCenter(JsonObject jsonObject)	
+   	{					
+   		SFStorageCenter sc = null;
+   		
+   		try 
+   		{
+   			// note we are creating the override class registered by the app instead of the hardcoding:  new SFItem()
+   			sc = (SFStorageCenter) SFV3ElementType.StorageCenter.getV3Class().newInstance();
+   			sc.setExternalAddress(SFGsonHelper.getString(jsonObject, SFKeywords.EXTERNAL_ADDRESS, null));
+   			sc.setExternalUrl(SFGsonHelper.getString(jsonObject, SFKeywords.EXTERNAL_URL, null));
+   			sc.setDefaultExternalUrl(SFGsonHelper.getString(jsonObject, SFKeywords.DEFAULT_EXTERNAL_URL, null));
+   			sc.setMetadataUrl(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
+   			sc.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
+   			sc.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));		
+   		} 			
+   		//None of these exceptions should ideally happen since we have done all the checks in registerSubClass()			
+   		catch (InstantiationException e) 
+   		{	
+   			SLog.e(TAG,e);
+   		} 
+   		catch (IllegalAccessException e) 
+   		{				
+   			SLog.e(TAG,e);
+   		}		 
+   		 				
+   		return sc;
+   	}
 	
     public static SFODataFeed<SFODataObject> parseFeed(Class<?> clazz,JsonObject jsonObject)	
 	{					
@@ -202,7 +231,6 @@ public class SFGsonHelper
 		item.setNextLink(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_NEXTLINK, null));
 						
 		ArrayList<SFODataObject> Feed = SFGsonHelper.getArrayList(clazz, jsonObject, SFKeywords.VALUE, null);
-				
 		item.setFeed(Feed);
 		
 		return item;
@@ -246,7 +274,10 @@ public class SFGsonHelper
 								 *  when enumerating folders.
 								 */
 								ret = SFGsonHelper.parseSFItem(jsonObject);
-							break;
+								break;
+							case StorageCenter:
+								ret = SFGsonHelper.parseSFStorageCenter(jsonObject);
+								break;
 
 						default:
 							ret = SFDefaultGsonParser.parse(elementType.getV3Class(), jsonElement);

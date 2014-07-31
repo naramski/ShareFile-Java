@@ -123,7 +123,7 @@ public enum SFV3FeedType
 	SSOAccountProvider("$metadata#SSOAccountProvider",SFSSOAccountProvider.class),
 	SSOInfo("$metadata#SSOInfo",SFSSOInfo.class),
 	SSOInfoEntry("$metadata#SSOInfoEntry",SFSSOInfoEntry.class),
-	StorageCenter("$metadata#StorageCenter",SFStorageCenter.class),
+	StorageCenter("$metadata#StorageCenters",SFStorageCenter.class),
 	SymbolicLink("$metadata#SymbolicLink",SFSymbolicLink.class),
 	UploadSpecification("$metadata#UploadSpecification",SFUploadSpecification.class),
 	User("$metadata#User",SFUser.class),
