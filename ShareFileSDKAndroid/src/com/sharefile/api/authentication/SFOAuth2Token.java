@@ -77,7 +77,8 @@ public final class SFOAuth2Token
 	 */
 	public String getApiServer()
 	{
-		return mSubdomain + mApicp; // +"." + SFSDK.API_SERVER;
+		// +"." + SFSDK.API_SERVER;
+		return mSubdomain + (mApicp.startsWith(".") ? mApicp : "." + mApicp); 
 	}
 			
 	public SFOAuth2Token(JsonObject json) 
