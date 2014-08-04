@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.entities.internal.SFStorageCentersEntityInternal;
+import com.sharefile.api.entities.internal.SFZonesEntityInternal;
 import com.sharefile.api.enumerations.SFProvider;
 
 /** 
@@ -26,6 +28,8 @@ public class SFQueryBuilder
 	public static final SFSessionsEntity SESSIONS = new SFSessionsEntity();
 	public static final SFSharesEntity SHARES = new SFSharesEntity();
 	public static final SFUsersEntity USERS = new SFUsersEntity();
+	public static final SFStorageCentersEntityInternal STORAGE_CENTER = new SFStorageCentersEntityInternal();
+	public static final SFZonesEntityInternal ZONES = new SFZonesEntityInternal();
 		
 	private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
 	private static final String FORMAT_GET_DEVICES = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Devices(%s)";

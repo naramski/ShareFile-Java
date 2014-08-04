@@ -90,4 +90,9 @@ public final class SFKeywords
 	public static final String INFO = "Info";
 
 	public static final String JSON = "json";
+	
+	/// StorageCenter related
+	public static final String EXTERNAL_ADDRESS = "ExternalAddress";
+	public static final String DEFAULT_EXTERNAL_URL = "DefaultExternalUrl";
+	public static final String EXTERNAL_URL = "ExternalUrl";
 }

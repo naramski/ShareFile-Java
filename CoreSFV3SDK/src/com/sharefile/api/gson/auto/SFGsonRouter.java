@@ -12,6 +12,8 @@ import com.google.gson.JsonSerializer;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFUser;
+import com.sharefile.java.log.SLog;
 
 /**
  *   This class read the odata.metadata from the JsonElement to find out the real type of object contained inside the object 
@@ -19,6 +21,7 @@ import com.sharefile.api.models.SFODataObject;
  */
 public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerializer<SFODataObject>
 {		
+	private static final String TAG = "SFGsonRouter";
 	@Override
 	public SFODataObject deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException 
 	{		
@@ -33,6 +36,23 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 		
 		if(sfODataObject instanceof SFItem) {
 			str = "{\"Id\":\"" + sfODataObject.getId() + "\"}";
+		}
+		else if(sfODataObject instanceof SFUser) {
+			SFUser sfuser = (SFUser) sfODataObject;
+			str = "{";
+			if(sfuser.getId()!=null && sfuser.getId().length()>0)
+				str += "\"Id\":\"" + sfuser.getId() + "\",";
+			if(sfuser.getEmail()!=null && sfuser.getEmail().length()>0)
+				str += "\"Email\":\"" + sfuser.getEmail() + "\",";
+			if(sfuser.getFirstName()!=null && sfuser.getFirstName().length()>0)
+				str += "\"FirstName\":\"" + sfuser.getFirstName() + "\",";
+			if(sfuser.getLastName()!=null && sfuser.getLastName().length()>0)
+				str += "\"LastName\":\"" + sfuser.getLastName() + "\",";
+			if(sfuser.getCompany()!=null && sfuser.getCompany().length()>0)
+				str += "\"Company\":\"" + sfuser.getCompany() + "\",";
+			if(str.length()>2)
+				str = str.substring(0, str.length()-1);
+			str += "}";
 		}
 		else {
 			str = SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);

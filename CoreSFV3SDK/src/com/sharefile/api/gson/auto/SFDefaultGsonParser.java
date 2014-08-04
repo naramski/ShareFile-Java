@@ -19,6 +19,7 @@ import com.sharefile.api.models.SFItemInfo;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.api.models.SFStorageCenter;
 import com.sharefile.api.utils.SFDateFormat;
 import com.sharefile.api.utils.SafeEnumHelpers;
 
@@ -110,6 +111,7 @@ public class SFDefaultGsonParser
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());
+		mGsonBuilder.registerTypeAdapter(SFStorageCenter.class, new SFGsonRouter());
 		
 		registerV3EnumAdapters();		
 		
