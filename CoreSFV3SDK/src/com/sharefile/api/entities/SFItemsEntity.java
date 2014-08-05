@@ -214,9 +214,9 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return the download link for the provided item content.
     */
-	public ISFQuery<InputStream> download(URI url, Boolean redirect)
+	public ISFQuery<SFDownloadSpecification> download(URI url, Boolean redirect)
 	{
-		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+		SFApiQuery<SFDownloadSpecification> sfApiQuery = new SFApiQuery<SFDownloadSpecification>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(url);
