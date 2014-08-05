@@ -11,6 +11,7 @@ import com.sharefile.api.models.SFGroup;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFUser;
+import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
 /**
@@ -18,6 +19,14 @@ import com.sharefile.java.log.SLog;
  */
 public class SFCustomSerializer 
 {
+	private static void addIfNonEmpty(JsonObject jsonObject , String key, String value)
+	{
+		if( !Utils.isEmpty(key) && !Utils.isEmpty(value))
+		{
+			jsonObject.addProperty(key, value);
+		}
+	}
+	
 	@SFSDKDefaultAccessScope static JsonElement serialize(SFODataObject sfODataObject, Type typeOfObject)
 	{
 		String str = SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);
@@ -40,12 +49,8 @@ public class SFCustomSerializer
 								
 		JsonObject jsonObject = new JsonObject();
 		
-		String id = sfItem.getId();
-		if(id!=null && id.length()>0)
-		{
-			jsonObject.addProperty(SFKeywords.Id, id);
-		}
-				
+		addIfNonEmpty(jsonObject, SFKeywords.Id, sfItem.getId());
+						
 		return jsonObject;
 	}
 	
@@ -57,18 +62,13 @@ public class SFCustomSerializer
 		}
 				
 		JsonObject jsonObject = new JsonObject();
-		
-		String id = sfuser.getId();
-		if(id!=null && id.length()>0)
-		{
-			jsonObject.addProperty(SFKeywords.Id, id);
-		}
-		
-		jsonObject.addProperty("Email", sfuser.getEmail());
-		jsonObject.addProperty("FirstName", sfuser.getFirstName());
-		jsonObject.addProperty("LastName", sfuser.getLastName());
-		jsonObject.addProperty("Company", sfuser.getCompany());
-						
+				
+		addIfNonEmpty(jsonObject, SFKeywords.Id, sfuser.getId());
+		addIfNonEmpty(jsonObject, "Email", sfuser.getEmail());			
+		addIfNonEmpty(jsonObject, "FirstName", sfuser.getFirstName());				
+		addIfNonEmpty(jsonObject, "LastName", sfuser.getLastName());				
+		addIfNonEmpty(jsonObject, "Company", sfuser.getCompany());
+								
 		return jsonObject;
 	}
 	
@@ -81,13 +81,8 @@ public class SFCustomSerializer
 				
 		JsonObject jsonObject = new JsonObject();
 		
-		String id = sfgroup.getId();
-		if(id!=null && id.length()>0)
-		{
-			jsonObject.addProperty(SFKeywords.Id, id);
-		}
-						
-		jsonObject.addProperty("Email", sfgroup.getEmail());				
+		addIfNonEmpty(jsonObject, SFKeywords.Id, sfgroup.getId());
+		addIfNonEmpty(jsonObject, "Email", sfgroup.getEmail());				
 		
 		return jsonObject;
 	}
