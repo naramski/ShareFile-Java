@@ -324,6 +324,23 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
     /**
+	* Get User Security
+	* Retrieve the user security record - current state of the user regarding
+	* security and password settings.
+	* @param url 	
+	* @return the user security status
+    */
+	public ISFQuery<SFUserSecurity> getSecurity(URI url)
+	{
+		SFApiQuery<SFUserSecurity> sfApiQuery = new SFApiQuery<SFUserSecurity>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Security");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
 	* Reset Password
     * {
     * "NewPassword":"new password",

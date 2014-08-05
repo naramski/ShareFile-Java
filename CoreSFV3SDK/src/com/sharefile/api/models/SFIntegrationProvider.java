@@ -16,33 +16,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
-import java.util.Map;
-import java.util.HashMap;
-
+ 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.models.*;
 
-public class SFSearchResults extends SFODataObject {
-
-	@SerializedName("PartialResults")
-	private Boolean PartialResults;
-	@SerializedName("Results")
-	private ArrayList<SFSearchResult> Results;
-
-	public Boolean getPartialResults() {
-		return PartialResults;
-	}
-
-	public void setPartialResults(Boolean partialresults) {
-		PartialResults = partialresults;
-	}
-	public ArrayList<SFSearchResult> getResults() {
-		return Results;
-	}
-
-	public void setResults(ArrayList<SFSearchResult> results) {
-		Results = results;
-	}
-
+public enum SFIntegrationProvider {
+	RightSignature
 }

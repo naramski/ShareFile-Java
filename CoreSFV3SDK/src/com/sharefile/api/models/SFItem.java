@@ -93,6 +93,8 @@ public class SFItem extends SFODataObject {
 	private Boolean HasMultipleVersions;
 	@SerializedName("Metadata")
 	private ArrayList<SFMetadata> Metadata;
+	@SerializedName("ESignatureDocument")
+	private SFESignature ESignatureDocument;
 
 		/**
 		* Item Name
@@ -577,6 +579,19 @@ public class SFItem extends SFODataObject {
 		*/
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
 		Metadata = metadata;
+	}
+		/**
+		* Electronic signature object associated with this item
+		*/
+	public SFESignature getESignatureDocument() {
+		return ESignatureDocument;
+	}
+
+		/**
+		* Electronic signature object associated with this item
+		*/
+	public void setESignatureDocument(SFESignature esignaturedocument) {
+		ESignatureDocument = esignaturedocument;
 	}
 
 }

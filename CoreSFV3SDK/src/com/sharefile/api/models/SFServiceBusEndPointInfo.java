@@ -23,26 +23,8 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.*;
 
-public class SFSearchResults extends SFODataObject {
+public class SFServiceBusEndPointInfo extends SFODataObject {
 
-	@SerializedName("PartialResults")
-	private Boolean PartialResults;
-	@SerializedName("Results")
-	private ArrayList<SFSearchResult> Results;
 
-	public Boolean getPartialResults() {
-		return PartialResults;
-	}
-
-	public void setPartialResults(Boolean partialresults) {
-		PartialResults = partialresults;
-	}
-	public ArrayList<SFSearchResult> getResults() {
-		return Results;
-	}
-
-	public void setResults(ArrayList<SFSearchResult> results) {
-		Results = results;
-	}
 
 }

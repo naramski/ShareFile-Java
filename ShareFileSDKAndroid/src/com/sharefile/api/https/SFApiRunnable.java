@@ -181,6 +181,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 		catch(Exception ex)
 		{		
+			SLog.e(TAG,ex);
 			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
 			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " +Log.getStackTraceString(ex);												
 		}		
@@ -189,22 +190,29 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFHttpsCaller.disconnect(connection);
 		}
 				
-		parseResponse(httpErrorCode,responseString);
+		try
+		{
+			parseResponse(httpErrorCode,responseString);		
 		
-		if(!readAheadSymbolicLinks())
-		{
-			callResponseListeners();
-		}
-		else
-		{
-			try 
+			if(!readAheadSymbolicLinks())
 			{
-				return reExecuteNewQueryForSymbolicLinks();
-			} 
-			catch (URISyntaxException e) 
-			{				
-				SLog.e(TAG,e);
-			}			
+				callResponseListeners();
+			}
+			else
+			{
+				try 
+				{
+					return reExecuteNewQueryForSymbolicLinks();
+				} 
+				catch (URISyntaxException e) 
+				{				
+					SLog.e(TAG,e);
+				}			
+			}
+		}
+		catch(Exception e)
+		{
+			SLog.e(TAG,e);
 		}
 		
 		return returnResultOrThrow();

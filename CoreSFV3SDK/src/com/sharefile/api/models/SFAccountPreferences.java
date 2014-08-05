@@ -183,6 +183,22 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableStorageZoneConnector;
 	@SerializedName("HasAnyConnectorZones")
 	private Boolean HasAnyConnectorZones;
+	@SerializedName("EnableENSForAccount")
+	private Boolean EnableENSForAccount;
+	@SerializedName("ENSRecommendedPollingSyncInterval")
+	private String ENSRecommendedPollingSyncInterval;
+	@SerializedName("ENSRecommendedNotificationSyncInterval")
+	private String ENSRecommendedNotificationSyncInterval;
+	@SerializedName("ENSNotificationConfigurationCount")
+	private Integer ENSNotificationConfigurationCount;
+	@SerializedName("ENSFailSafePollingCount")
+	private Integer ENSFailSafePollingCount;
+	@SerializedName("ENSMaxNotificationSyncWaitCount")
+	private Integer ENSMaxNotificationSyncWaitCount;
+	@SerializedName("TrustedDomains")
+	private String TrustedDomains;
+	@SerializedName("EnableEncryptedEmailForOutlookPlugin")
+	private Boolean EnableEncryptedEmailForOutlookPlugin;
 
 	public Boolean getEnableViewOnly() {
 		return EnableViewOnly;
@@ -736,6 +752,62 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setHasAnyConnectorZones(Boolean hasanyconnectorzones) {
 		HasAnyConnectorZones = hasanyconnectorzones;
+	}
+	public Boolean getEnableENSForAccount() {
+		return EnableENSForAccount;
+	}
+
+	public void setEnableENSForAccount(Boolean enableensforaccount) {
+		EnableENSForAccount = enableensforaccount;
+	}
+	public String getENSRecommendedPollingSyncInterval() {
+		return ENSRecommendedPollingSyncInterval;
+	}
+
+	public void setENSRecommendedPollingSyncInterval(String ensrecommendedpollingsyncinterval) {
+		ENSRecommendedPollingSyncInterval = ensrecommendedpollingsyncinterval;
+	}
+	public String getENSRecommendedNotificationSyncInterval() {
+		return ENSRecommendedNotificationSyncInterval;
+	}
+
+	public void setENSRecommendedNotificationSyncInterval(String ensrecommendednotificationsyncinterval) {
+		ENSRecommendedNotificationSyncInterval = ensrecommendednotificationsyncinterval;
+	}
+	public Integer getENSNotificationConfigurationCount() {
+		return ENSNotificationConfigurationCount;
+	}
+
+	public void setENSNotificationConfigurationCount(Integer ensnotificationconfigurationcount) {
+		ENSNotificationConfigurationCount = ensnotificationconfigurationcount;
+	}
+	public Integer getENSFailSafePollingCount() {
+		return ENSFailSafePollingCount;
+	}
+
+	public void setENSFailSafePollingCount(Integer ensfailsafepollingcount) {
+		ENSFailSafePollingCount = ensfailsafepollingcount;
+	}
+	public Integer getENSMaxNotificationSyncWaitCount() {
+		return ENSMaxNotificationSyncWaitCount;
+	}
+
+	public void setENSMaxNotificationSyncWaitCount(Integer ensmaxnotificationsyncwaitcount) {
+		ENSMaxNotificationSyncWaitCount = ensmaxnotificationsyncwaitcount;
+	}
+	public String getTrustedDomains() {
+		return TrustedDomains;
+	}
+
+	public void setTrustedDomains(String trusteddomains) {
+		TrustedDomains = trusteddomains;
+	}
+	public Boolean getEnableEncryptedEmailForOutlookPlugin() {
+		return EnableEncryptedEmailForOutlookPlugin;
+	}
+
+	public void setEnableEncryptedEmailForOutlookPlugin(Boolean enableencryptedemailforoutlookplugin) {
+		EnableEncryptedEmailForOutlookPlugin = enableencryptedemailforoutlookplugin;
 	}
 
 }

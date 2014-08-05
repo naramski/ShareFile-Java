@@ -307,7 +307,7 @@ public class SFGsonHelper
 		}
 		catch(Exception e)
 		{									
-			SLog.d(TAG,"Exception in custome parse" , e);
+			SLog.e(TAG, e);
 		}
 		
 		if(ret ==null)

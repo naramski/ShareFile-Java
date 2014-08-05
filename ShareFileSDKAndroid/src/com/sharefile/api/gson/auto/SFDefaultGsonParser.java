@@ -16,6 +16,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.api.utils.SFDateFormat;
 import com.sharefile.java.log.SLog;
 
 /**
@@ -70,12 +71,7 @@ public class SFDefaultGsonParser
 	 *  the individual SFFile,SFLink,SFFoler,SFLink etc classes. We re-pass the SFItem to SFGsonRouter. Note how we have avoided 
 	 *  self-recursion inside the SFGsonRouter.
 	 *  </p> 
-	 * 
-	 * 
-	 * V3Date Format is: ", ;//yyyy-MM-dd'T'HH:mm:ss.SSSZ
 	 */
-	
-	private final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
 	
 	private void registerSFSpecificGsonAdapters()
 	{		
@@ -88,19 +84,8 @@ public class SFDefaultGsonParser
 
 			@Override
 			public Date deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
-			{				
-				Date date = null;
-				try 
-				{
-					date = v3SimpleDateFormat.parse(arg0.getAsString().replace("Z", "+0000"));
-					//SLog.d("pdate", "got date");			
-				} 
-				catch (Exception e) 
-				{				
-					SLog.d("pdate", "date-parse",e);					
-				}
-				
-				return date;
+			{												
+				return SFDateFormat.parse(arg0.getAsString());				
 			}
 		});
 	}		

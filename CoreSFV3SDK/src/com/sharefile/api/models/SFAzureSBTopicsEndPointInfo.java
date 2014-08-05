@@ -23,26 +23,35 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.*;
 
-public class SFSearchResults extends SFODataObject {
+public class SFAzureSBTopicsEndPointInfo extends SFODataObject {
 
-	@SerializedName("PartialResults")
-	private Boolean PartialResults;
-	@SerializedName("Results")
-	private ArrayList<SFSearchResult> Results;
+	@SerializedName("Key")
+	private String Key;
+	@SerializedName("Secret")
+	private String Secret;
+	@SerializedName("EndPoint")
+	private String EndPoint;
 
-	public Boolean getPartialResults() {
-		return PartialResults;
+	public String getKey() {
+		return Key;
 	}
 
-	public void setPartialResults(Boolean partialresults) {
-		PartialResults = partialresults;
+	public void setKey(String key) {
+		Key = key;
 	}
-	public ArrayList<SFSearchResult> getResults() {
-		return Results;
+	public String getSecret() {
+		return Secret;
 	}
 
-	public void setResults(ArrayList<SFSearchResult> results) {
-		Results = results;
+	public void setSecret(String secret) {
+		Secret = secret;
+	}
+	public String getEndPoint() {
+		return EndPoint;
+	}
+
+	public void setEndPoint(String endpoint) {
+		EndPoint = endpoint;
 	}
 
 }

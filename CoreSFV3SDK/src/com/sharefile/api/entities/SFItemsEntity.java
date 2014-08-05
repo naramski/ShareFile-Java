@@ -49,7 +49,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("fileBox", true);
 		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -175,14 +174,16 @@ public class SFItemsEntity extends SFODataEntityBase
 	* A 302 redirection is returned if the folder is a SymbolicLink. The redirection
 	* will enumerate the children of the remote connector
 	* @param url 	
+	* @param includeDeleted 	
 	* @return the list of children under the given object ID
     */
-	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url)
+	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url, Boolean includeDeleted)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -477,14 +478,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Delete Multiple Items
-    * ["id1","id2",...]
-	* All items in bulk delete must be children of the same parent, identified in the URI
-	* @param id 	
-	* @param body 	
-    */
-	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync)
+	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
@@ -492,6 +486,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("ids", ids);
 		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.addQueryString("deletePermanently", deletePermanently);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -678,17 +673,23 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
-	
+
+    /**
+	* Discard CheckOut
+	* Discards the existing lock on the file
+	* This operation is only implemented in Sharepoint providers (/sp)
+	* @param url 	
+    */
 	public ISFQuery discardCheckOut(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("DiscardCheckout");
+		sfApiQuery.setAction("DiscardCheckOut");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
-	
+
     /**
 	* Search
 	* Search for Items matching the criteria of the query parameter
@@ -706,18 +707,95 @@ public class SFItemsEntity extends SFODataEntityBase
 	}
 
     /**
+	* Advanced Simple Search
+    * {
+    * "Query":{
+    * "AuthID":"",
+    * "ItemType":"",
+    * "ParentID":"",
+    * "CreatorID":"",
+    * "LuceneQuery":"",
+    * "SearchQuery":"",
+    * "CreateStartDate":"",
+    * "CreateEndDate":"",
+    * "ItemNameOnly":"",
+    * },
+    * "Paging":{
+    * "Key":"",
+    * "PageNumber":1,
+    * "PageSize":10,
+    * },
+    * "Sort":{
+    * "SortBy":"",
+    * "Ascending":false,
+    * },
+    * "TimeoutInSeconds":10
+    * }
+	* Search for Items matching the criteria of the query parameter
+	* @param simpleSearchQuery 	
+	* @return AdvancedSearchResults
+    */
+	public ISFQuery<SFAdvancedSearchResults> advancedSimpleSearch(SFSimpleSearchQuery simpleSearchQuery)
+	{
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setBody(simpleSearchQuery);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Advanced Search
+    * {
+    * "Query":{
+    * "AuthIDs":["id1", "id2", ...],
+    * "ItemTypes":["type1", "type2", ...],
+    * "ParentID":["id1", "id2", ...],
+    * "CreatorID":["id1", "id2", ...],
+    * "LuceneQuery":"",
+    * "SearchQuery":"",
+    * "CreateStartDate":"",
+    * "CreateEndDate":"",
+    * "ItemNameOnly":"",
+    * },
+    * "Paging":{
+    * "Key":"",
+    * "PageNumber":1,
+    * "PageSize":10,
+    * },
+    * "Sort":{
+    * "SortBy":"",
+    * "Ascending":false,
+    * },
+    * "TimeoutInSeconds":10
+    * }
+	* Search for Items matching the criteria of the query parameter
+	* @param searchQuery 	
+	* @return AdvancedSearchResults
+    */
+	public ISFQuery<SFAdvancedSearchResults> advancedSearch(SFSearchQuery searchQuery)
+	{
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setBody(searchQuery);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get Web Preview Link
 	* Redirects the caller to the Web Edit application for the selected item.
-	* @param id 	
-	* @return A redirection message to the Web Edit app for this item. It returns 400 (BadRequest) if the Web Preview app doesn't support the file type.
+	* @param url 	
+	* @return A redirection message to the Web Edit app for this item. It returns 404 (Not Found) if the Web Preview app doesn't support the file type.
     */
-	public ISFQuery<SFRedirection> webView(URI url, String id)
+	public ISFQuery<SFRedirection> webView(URI url)
 	{
 		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("WebView");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
