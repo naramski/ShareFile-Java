@@ -48,4 +48,16 @@ public class Utils
 		   
 		   return ret;
 	}
+	
+	public static boolean isEmpty(String str)
+	{
+		boolean ret = false;
+		
+		if(str == null || str.length() ==0 )
+		{
+			ret = true;
+		}
+		
+		return ret;
+	}
 }
