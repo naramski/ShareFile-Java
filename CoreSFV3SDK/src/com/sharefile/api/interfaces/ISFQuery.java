@@ -72,4 +72,11 @@ public interface ISFQuery<T>
 	boolean canReNewTokenInternally();
 
 	void setCredentials(String userName, String password);
+	
+	/**
+	 *  For certain calls like create symbolic link we want to disable readahead done by the SDK. This function allows to set the flag to explicity false if required..
+	 */
+	void setReadAhead(boolean value);
+
+	boolean readAheadAllowed();
 }
