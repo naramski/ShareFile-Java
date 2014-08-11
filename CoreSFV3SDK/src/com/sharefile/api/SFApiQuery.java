@@ -77,6 +77,8 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	 * TODO: For security purpose we may want to wipe the credentials from this object when done using for auth.
 	 */
 	private String mPassword;
+
+	private boolean mEnableReadahead = true;
 	
 	//{@link #getComponentAt(int, int) getComponentAt} method.
 	
@@ -464,5 +466,16 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	{
 		mLinkIsParametrized = true;
 		mLink = uri;
+	}
+
+	@Override
+	public void setReadAhead(boolean value) 
+	{
+		mEnableReadahead = value;		
+	}
+	
+	public boolean readAheadAllowed()
+	{
+		return mEnableReadahead;
 	}
 }
