@@ -355,6 +355,11 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{
 		SFReadAheadType ret = SFReadAheadType.READ_AHEAD_NONE;
 		
+		if(!mQuery.readAheadAllowed())
+		{
+			return ret;
+		}
+				
 		if(mResponse.mHttpErrorCode == HttpsURLConnection.HTTP_OK) 
 		{			
 			if(mResponse.mResponseObject instanceof SFSymbolicLink)
