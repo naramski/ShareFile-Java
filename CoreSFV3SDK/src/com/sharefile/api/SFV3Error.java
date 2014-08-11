@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.gson.SFGsonHelper;
 
 /*
@@ -129,5 +130,19 @@ public class SFV3Error
 		}
 		
 		return false;
+	}
+	
+	
+	/**
+	 *  Allows the clients to show a localized message if its sent from the server or optional string if its an internal error
+	 */
+	public String errorDisplayString(String optionalLocalized)
+	{
+		if(httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && message!=null)
+		{
+			return message.value;
+		}
+		
+		return optionalLocalized;
 	}
 }
