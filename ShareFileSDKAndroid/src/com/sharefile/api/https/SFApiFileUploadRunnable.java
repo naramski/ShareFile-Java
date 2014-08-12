@@ -6,7 +6,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -51,6 +53,7 @@ public class SFApiFileUploadRunnable implements Runnable
 	//credntials for connectors
 	private final String mUsername;
 	private final String mPassword;
+	private final String mDetails;
 	
 	private Thread mApithread = null; 
 	
@@ -61,7 +64,7 @@ public class SFApiFileUploadRunnable implements Runnable
 									 InputStream inputStream, 									 
 									 SFApiClient client,
 									 SFApiUploadProgressListener progressListener,
-									 SFCookieManager cookieManager,String connUserName,String connPassword) 
+									 SFCookieManager cookieManager,String connUserName,String connPassword, String details) 
 	{		
 		mUploadSpecification = uploadSpecification;
 		mResumeFromByteIndex = resumeFromByteIndex;
@@ -73,6 +76,7 @@ public class SFApiFileUploadRunnable implements Runnable
 		mCookieManager = cookieManager;
 		mUsername = connUserName;
 		mPassword = connPassword;
+		mDetails = details;
 	}
 
 	@Override
@@ -102,22 +106,34 @@ public class SFApiFileUploadRunnable implements Runnable
 	}
 	
 	private String getAppendParams(String filename, long fileSize,int finish,boolean isbatchLast,String hash)
-	{		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("&filehash="); sb.append(hash);
-		sb.append("&finish="+ finish);
-		if(isbatchLast)
-		{
-			sb.append("&isbatchlast=true"); 
-		}
-		sb.append("&fmt=json");
-		sb.append("&hash="+hash);
-		sb.append("&filesize="+fileSize);						
-		
-		String appendParam =  sb.toString();
-		return appendParam;				
-	}
+    {          
+          StringBuilder sb = new StringBuilder();
+         
+          sb.append("&filehash="); sb.append(hash);
+          sb.append("&finish="+ finish);
+          if(isbatchLast)
+          {
+                sb.append("&isbatchlast=true");
+          }
+          sb.append("&fmt=json");
+          sb.append("&hash="+hash);
+          sb.append("&filesize="+fileSize);                    
+         
+          if(isbatchLast && mDetails!=null && mDetails.length()>0)
+          {
+                try
+                {
+                   sb.append("&details="+URLEncoder.encode(mDetails,SFKeywords.UTF_8));
+                }
+                catch (UnsupportedEncodingException e)
+                {                      
+                      SLog.e(TAG,e);
+                }
+          }
+         
+          String appendParam =  sb.toString();
+          return appendParam;                      
+    }
 	
 	public static String md5ToString(MessageDigest md) 
 	{
