@@ -1,6 +1,7 @@
 package com.sharefile.api.https;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -30,7 +31,7 @@ import com.sharefile.java.log.SLog;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
-	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
+	private static final String TAG = SFKeywords.TAG + "-SFApiRunnable";
 			
 	private SFApiQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
@@ -94,17 +95,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			}
 		}
 	}
-			
-	/** 
-	 * Currently the server is not returning a DownloadSpecification for download requests, 
-	 * its directly returning the download link. For the sake of completeness, implement the local
-	 * response filler for such requests.	 
-	 */
-	private boolean needSpecialHandling()
-	{
-		return mQuery.getNeedSpecialHandling();
-	}
-	
+
 	private String fillSpecialResponse(String downloadURl)
 	{				
 		try 
@@ -124,16 +115,31 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	
 	public T executeQuery() throws SFV3ErrorException 
-	{			
-		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
+	{
+		String server = mOauthToken.getApiServer();		
+		String urlstr;
+		try {
+			urlstr = mQuery.buildQueryUrlString(server);
+			
+		} catch (UnsupportedEncodingException e) {
+			SLog.e(TAG, e);
+			return handleResponse(Log.getStackTraceString(e), SFSDK.INTERNAL_HTTP_ERROR);
+		}
+		
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// TODO: get rid of the special handling as it is not needed.
+		if(mQuery.getNeedSpecialHandling()) {
+			// hack for download
+			return handleResponse(fillSpecialResponse(urlstr), HttpsURLConnection.HTTP_OK);
+		}
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 		String responseString = null;
+		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		URLConnection connection = null;
 		
 		try
 		{
-			String server = mOauthToken.getApiServer();		
-			String urlstr = mQuery.buildQueryUrlString(server);
-							
 			URL url = new URL(urlstr);
 			connection = SFHttpsCaller.getURLConnection(url);		
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
@@ -155,14 +161,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{										
-				if(!needSpecialHandling())
-				{
-					responseString = SFHttpsCaller.readResponse(connection);
-				}
-				else
-				{
-					responseString = fillSpecialResponse(urlstr);
-				}
+				responseString = SFHttpsCaller.readResponse(connection);
 			}
 			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 			{
@@ -190,6 +189,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFHttpsCaller.disconnect(connection);
 		}
 				
+		return handleResponse(responseString, httpErrorCode);
+	}
+
+	private T handleResponse(String responseString, int httpErrorCode) throws SFV3ErrorException {
 		try
 		{
 			parseResponse(httpErrorCode,responseString);		
