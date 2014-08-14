@@ -33,25 +33,25 @@ public class SFFindSubdomainParams extends SFODataObject {
 	private Boolean EmployeeOnly;
 
 	public String getUsernameShort() {
-		return UsernameShort;
+		return this.UsernameShort;
 	}
 
 	public void setUsernameShort(String usernameshort) {
-		UsernameShort = usernameshort;
+		this.UsernameShort = usernameshort;
 	}
 	public String getPassword() {
-		return Password;
+		return this.Password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
+		this.Password = password;
 	}
 	public Boolean getEmployeeOnly() {
-		return EmployeeOnly;
+		return this.EmployeeOnly;
 	}
 
 	public void setEmployeeOnly(Boolean employeeonly) {
-		EmployeeOnly = employeeonly;
+		this.EmployeeOnly = employeeonly;
 	}
 
 }

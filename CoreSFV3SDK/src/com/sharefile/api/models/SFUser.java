@@ -71,164 +71,164 @@ public class SFUser extends SFPrincipal {
 	private SFUserInfo Info;
 
 	public SFAccount getAccount() {
-		return Account;
+		return this.Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		Account = account;
+		this.Account = account;
 	}
 	public String getCompany() {
-		return Company;
+		return this.Company;
 	}
 
 	public void setCompany(String company) {
-		Company = company;
+		this.Company = company;
 	}
 	public Integer getTotalSharedFiles() {
-		return TotalSharedFiles;
+		return this.TotalSharedFiles;
 	}
 
 	public void setTotalSharedFiles(Integer totalsharedfiles) {
-		TotalSharedFiles = totalsharedfiles;
+		this.TotalSharedFiles = totalsharedfiles;
 	}
 	public Integer getContacted() {
-		return Contacted;
+		return this.Contacted;
 	}
 
 	public void setContacted(Integer contacted) {
-		Contacted = contacted;
+		this.Contacted = contacted;
 	}
 		/**
 		* The first and last name of the user
 		*/
 	public String getFullName() {
-		return FullName;
+		return this.FullName;
 	}
 
 		/**
 		* The first and last name of the user
 		*/
 	public void setFullName(String fullname) {
-		FullName = fullname;
+		this.FullName = fullname;
 	}
 	public String getReferredBy() {
-		return ReferredBy;
+		return this.ReferredBy;
 	}
 
 	public void setReferredBy(String referredby) {
-		ReferredBy = referredby;
+		this.ReferredBy = referredby;
 	}
 	public ArrayList<SFNotification> getNotifications() {
-		return Notifications;
+		return this.Notifications;
 	}
 
 	public void setNotifications(ArrayList<SFNotification> notifications) {
-		Notifications = notifications;
+		this.Notifications = notifications;
 	}
 	public SFZone getDefaultZone() {
-		return DefaultZone;
+		return this.DefaultZone;
 	}
 
 	public void setDefaultZone(SFZone defaultzone) {
-		DefaultZone = defaultzone;
+		this.DefaultZone = defaultzone;
 	}
 	public String getFirstName() {
-		return FirstName;
+		return this.FirstName;
 	}
 
 	public void setFirstName(String firstname) {
-		FirstName = firstname;
+		this.FirstName = firstname;
 	}
 	public String getLastName() {
-		return LastName;
+		return this.LastName;
 	}
 
 	public void setLastName(String lastname) {
-		LastName = lastname;
+		this.LastName = lastname;
 	}
 	public Date getDateCreated() {
-		return DateCreated;
+		return this.DateCreated;
 	}
 
 	public void setDateCreated(Date datecreated) {
-		DateCreated = datecreated;
+		this.DateCreated = datecreated;
 	}
 	public String getFullNameShort() {
-		return FullNameShort;
+		return this.FullNameShort;
 	}
 
 	public void setFullNameShort(String fullnameshort) {
-		FullNameShort = fullnameshort;
+		this.FullNameShort = fullnameshort;
 	}
 	public Boolean getIsConfirmed() {
-		return IsConfirmed;
+		return this.IsConfirmed;
 	}
 
 	public void setIsConfirmed(Boolean isconfirmed) {
-		IsConfirmed = isconfirmed;
+		this.IsConfirmed = isconfirmed;
 	}
 	public String getPassword() {
-		return Password;
+		return this.Password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
+		this.Password = password;
 	}
 	public SFUserPreferences getPreferences() {
-		return Preferences;
+		return this.Preferences;
 	}
 
 	public void setPreferences(SFUserPreferences preferences) {
-		Preferences = preferences;
+		this.Preferences = preferences;
 	}
 	public SFUserSecurity getSecurity() {
-		return Security;
+		return this.Security;
 	}
 
 	public void setSecurity(SFUserSecurity security) {
-		Security = security;
+		this.Security = security;
 	}
 	public ArrayList<SFFavoriteFolder> getFavoriteFolders() {
-		return FavoriteFolders;
+		return this.FavoriteFolders;
 	}
 
 	public void setFavoriteFolders(ArrayList<SFFavoriteFolder> favoritefolders) {
-		FavoriteFolders = favoritefolders;
+		this.FavoriteFolders = favoritefolders;
 	}
 	public SFFolder getHomeFolder() {
-		return HomeFolder;
+		return this.HomeFolder;
 	}
 
 	public void setHomeFolder(SFFolder homefolder) {
-		HomeFolder = homefolder;
+		this.HomeFolder = homefolder;
 	}
 	public ArrayList<SFDeviceUser> getDevices() {
-		return Devices;
+		return this.Devices;
 	}
 
 	public void setDevices(ArrayList<SFDeviceUser> devices) {
-		Devices = devices;
+		this.Devices = devices;
 	}
 	public SFFolder getVirtualRoot() {
-		return VirtualRoot;
+		return this.VirtualRoot;
 	}
 
 	public void setVirtualRoot(SFFolder virtualroot) {
-		VirtualRoot = virtualroot;
+		this.VirtualRoot = virtualroot;
 	}
 	public ArrayList<SFSafeEnum<SFUserRole>> getRoles() {
-		return Roles;
+		return this.Roles;
 	}
 
 	public void setRoles(ArrayList<SFSafeEnum<SFUserRole>> roles) {
-		Roles = roles;
+		this.Roles = roles;
 	}
 	public SFUserInfo getInfo() {
-		return Info;
+		return this.Info;
 	}
 
 	public void setInfo(SFUserInfo info) {
-		Info = info;
+		this.Info = info;
 	}
 
 }

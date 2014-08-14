@@ -29,11 +29,11 @@ public class SFRequireSubdomainResult extends SFODataObject {
 	private Boolean RequireSubdomain;
 
 	public Boolean getRequireSubdomain() {
-		return RequireSubdomain;
+		return this.RequireSubdomain;
 	}
 
 	public void setRequireSubdomain(Boolean requiresubdomain) {
-		RequireSubdomain = requiresubdomain;
+		this.RequireSubdomain = requiresubdomain;
 	}
 
 }

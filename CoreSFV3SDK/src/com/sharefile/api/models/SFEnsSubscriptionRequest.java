@@ -37,39 +37,39 @@ public class SFEnsSubscriptionRequest extends SFODataObject {
 	private Boolean IncludeProgeny;
 
 	public String getEnsServerUrl() {
-		return EnsServerUrl;
+		return this.EnsServerUrl;
 	}
 
 	public void setEnsServerUrl(String ensserverurl) {
-		EnsServerUrl = ensserverurl;
+		this.EnsServerUrl = ensserverurl;
 	}
 	public String getClientId() {
-		return ClientId;
+		return this.ClientId;
 	}
 
 	public void setClientId(String clientid) {
-		ClientId = clientid;
+		this.ClientId = clientid;
 	}
 	public SFODataObject getEntity() {
-		return Entity;
+		return this.Entity;
 	}
 
 	public void setEntity(SFODataObject entity) {
-		Entity = entity;
+		this.Entity = entity;
 	}
 	public SFSafeEnum<SFEnsEventType> getEventTypes() {
-		return EventTypes;
+		return this.EventTypes;
 	}
 
 	public void setEventTypes(SFSafeEnum<SFEnsEventType> eventtypes) {
-		EventTypes = eventtypes;
+		this.EventTypes = eventtypes;
 	}
 	public Boolean getIncludeProgeny() {
-		return IncludeProgeny;
+		return this.IncludeProgeny;
 	}
 
 	public void setIncludeProgeny(Boolean includeprogeny) {
-		IncludeProgeny = includeprogeny;
+		this.IncludeProgeny = includeprogeny;
 	}
 
 }

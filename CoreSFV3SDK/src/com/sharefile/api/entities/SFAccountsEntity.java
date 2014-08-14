@@ -183,7 +183,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	}
 
     /**
-	* Email List of Accounts to User
+	* Get List of Accounts for User
     * {
     * "password":"password"
     * }

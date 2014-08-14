@@ -33,25 +33,25 @@ public class SFPowerTools extends SFODataObject {
 	private Boolean ShowMobileTools;
 
 	public Boolean getEnableDesktopToolsPage() {
-		return EnableDesktopToolsPage;
+		return this.EnableDesktopToolsPage;
 	}
 
 	public void setEnableDesktopToolsPage(Boolean enabledesktoptoolspage) {
-		EnableDesktopToolsPage = enabledesktoptoolspage;
+		this.EnableDesktopToolsPage = enabledesktoptoolspage;
 	}
 	public Boolean getEnableMobileApps() {
-		return EnableMobileApps;
+		return this.EnableMobileApps;
 	}
 
 	public void setEnableMobileApps(Boolean enablemobileapps) {
-		EnableMobileApps = enablemobileapps;
+		this.EnableMobileApps = enablemobileapps;
 	}
 	public Boolean getShowMobileTools() {
-		return ShowMobileTools;
+		return this.ShowMobileTools;
 	}
 
 	public void setShowMobileTools(Boolean showmobiletools) {
-		ShowMobileTools = showmobiletools;
+		this.ShowMobileTools = showmobiletools;
 	}
 
 }

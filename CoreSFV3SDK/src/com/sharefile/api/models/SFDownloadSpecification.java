@@ -35,32 +35,32 @@ public class SFDownloadSpecification extends SFODataObject {
 	private URI DownloadPrepStartURL;
 
 	public String getDownloadToken() {
-		return DownloadToken;
+		return this.DownloadToken;
 	}
 
 	public void setDownloadToken(String downloadtoken) {
-		DownloadToken = downloadtoken;
+		this.DownloadToken = downloadtoken;
 	}
 	public String getPrepareXmlInfo() {
-		return PrepareXmlInfo;
+		return this.PrepareXmlInfo;
 	}
 
 	public void setPrepareXmlInfo(String preparexmlinfo) {
-		PrepareXmlInfo = preparexmlinfo;
+		this.PrepareXmlInfo = preparexmlinfo;
 	}
 	public URI getDownloadUrl() {
-		return DownloadUrl;
+		return this.DownloadUrl;
 	}
 
 	public void setDownloadUrl(URI downloadurl) {
-		DownloadUrl = downloadurl;
+		this.DownloadUrl = downloadurl;
 	}
 	public URI getDownloadPrepStartURL() {
-		return DownloadPrepStartURL;
+		return this.DownloadPrepStartURL;
 	}
 
 	public void setDownloadPrepStartURL(URI downloadprepstarturl) {
-		DownloadPrepStartURL = downloadprepstarturl;
+		this.DownloadPrepStartURL = downloadprepstarturl;
 	}
 
 }

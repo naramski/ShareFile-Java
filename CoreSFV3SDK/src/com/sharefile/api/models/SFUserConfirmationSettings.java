@@ -45,67 +45,67 @@ public class SFUserConfirmationSettings extends SFODataObject {
 	private Integer EmailInterval;
 
 	public String getFirstName() {
-		return FirstName;
+		return this.FirstName;
 	}
 
 	public void setFirstName(String firstname) {
-		FirstName = firstname;
+		this.FirstName = firstname;
 	}
 	public String getLastName() {
-		return LastName;
+		return this.LastName;
 	}
 
 	public void setLastName(String lastname) {
-		LastName = lastname;
+		this.LastName = lastname;
 	}
 	public String getCompany() {
-		return Company;
+		return this.Company;
 	}
 
 	public void setCompany(String company) {
-		Company = company;
+		this.Company = company;
 	}
 	public String getPassword() {
-		return Password;
+		return this.Password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
+		this.Password = password;
 	}
 	public String getDayLightName() {
-		return DayLightName;
+		return this.DayLightName;
 	}
 
 	public void setDayLightName(String daylightname) {
-		DayLightName = daylightname;
+		this.DayLightName = daylightname;
 	}
 	public String getUTCOffset() {
-		return UTCOffset;
+		return this.UTCOffset;
 	}
 
 	public void setUTCOffset(String utcoffset) {
-		UTCOffset = utcoffset;
+		this.UTCOffset = utcoffset;
 	}
 	public String getDateFormat() {
-		return DateFormat;
+		return this.DateFormat;
 	}
 
 	public void setDateFormat(String dateformat) {
-		DateFormat = dateformat;
+		this.DateFormat = dateformat;
 	}
 	public String getTimeFormat() {
-		return TimeFormat;
+		return this.TimeFormat;
 	}
 
 	public void setTimeFormat(String timeformat) {
-		TimeFormat = timeformat;
+		this.TimeFormat = timeformat;
 	}
 	public Integer getEmailInterval() {
-		return EmailInterval;
+		return this.EmailInterval;
 	}
 
 	public void setEmailInterval(Integer emailinterval) {
-		EmailInterval = emailinterval;
+		this.EmailInterval = emailinterval;
 	}
 
 }

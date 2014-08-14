@@ -33,25 +33,25 @@ public class SFAdvancedSearchResults extends SFODataObject {
 	private SFQueryPaging QueryPaging;
 
 	public Boolean getPartialResults() {
-		return PartialResults;
+		return this.PartialResults;
 	}
 
 	public void setPartialResults(Boolean partialresults) {
-		PartialResults = partialresults;
+		this.PartialResults = partialresults;
 	}
 	public ArrayList<SFSearchResult> getResults() {
-		return Results;
+		return this.Results;
 	}
 
 	public void setResults(ArrayList<SFSearchResult> results) {
-		Results = results;
+		this.Results = results;
 	}
 	public SFQueryPaging getQueryPaging() {
-		return QueryPaging;
+		return this.QueryPaging;
 	}
 
 	public void setQueryPaging(SFQueryPaging querypaging) {
-		QueryPaging = querypaging;
+		this.QueryPaging = querypaging;
 	}
 
 }

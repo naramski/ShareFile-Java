@@ -31,18 +31,18 @@ public class SFSearchResults extends SFODataObject {
 	private ArrayList<SFSearchResult> Results;
 
 	public Boolean getPartialResults() {
-		return PartialResults;
+		return this.PartialResults;
 	}
 
 	public void setPartialResults(Boolean partialresults) {
-		PartialResults = partialresults;
+		this.PartialResults = partialresults;
 	}
 	public ArrayList<SFSearchResult> getResults() {
-		return Results;
+		return this.Results;
 	}
 
 	public void setResults(ArrayList<SFSearchResult> results) {
-		Results = results;
+		this.Results = results;
 	}
 
 }

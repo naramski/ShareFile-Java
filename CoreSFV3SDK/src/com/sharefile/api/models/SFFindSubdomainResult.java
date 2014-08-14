@@ -37,39 +37,39 @@ public class SFFindSubdomainResult extends SFODataObject {
 	private String Subdomain;
 
 	public String getUserID() {
-		return UserID;
+		return this.UserID;
 	}
 
 	public void setUserID(String userid) {
-		UserID = userid;
+		this.UserID = userid;
 	}
 	public String getEmail() {
-		return Email;
+		return this.Email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.Email = email;
 	}
 	public String getAccountID() {
-		return AccountID;
+		return this.AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		AccountID = accountid;
+		this.AccountID = accountid;
 	}
 	public String getCompanyName() {
-		return CompanyName;
+		return this.CompanyName;
 	}
 
 	public void setCompanyName(String companyname) {
-		CompanyName = companyname;
+		this.CompanyName = companyname;
 	}
 	public String getSubdomain() {
-		return Subdomain;
+		return this.Subdomain;
 	}
 
 	public void setSubdomain(String subdomain) {
-		Subdomain = subdomain;
+		this.Subdomain = subdomain;
 	}
 
 }

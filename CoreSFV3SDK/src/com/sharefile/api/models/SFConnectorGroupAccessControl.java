@@ -33,25 +33,25 @@ public class SFConnectorGroupAccessControl extends SFODataObject {
 	private Boolean CanCreate;
 
 	public SFPrincipal getPrincipal() {
-		return Principal;
+		return this.Principal;
 	}
 
 	public void setPrincipal(SFPrincipal principal) {
-		Principal = principal;
+		this.Principal = principal;
 	}
 	public Boolean getCanManage() {
-		return CanManage;
+		return this.CanManage;
 	}
 
 	public void setCanManage(Boolean canmanage) {
-		CanManage = canmanage;
+		this.CanManage = canmanage;
 	}
 	public Boolean getCanCreate() {
-		return CanCreate;
+		return this.CanCreate;
 	}
 
 	public void setCanCreate(Boolean cancreate) {
-		CanCreate = cancreate;
+		this.CanCreate = cancreate;
 	}
 
 }

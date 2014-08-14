@@ -81,193 +81,193 @@ public class SFOAuthClient extends SFODataObject {
 	private ArrayList<String> RedirectUrls;
 
 	public String getClientSecret() {
-		return ClientSecret;
+		return this.ClientSecret;
 	}
 
 	public void setClientSecret(String clientsecret) {
-		ClientSecret = clientsecret;
+		this.ClientSecret = clientsecret;
 	}
 	public String getAccountID() {
-		return AccountID;
+		return this.AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		AccountID = accountid;
+		this.AccountID = accountid;
 	}
 	public String getImage() {
-		return Image;
+		return this.Image;
 	}
 
 	public void setImage(String image) {
-		Image = image;
+		this.Image = image;
 	}
 	public String getImageSmall() {
-		return ImageSmall;
+		return this.ImageSmall;
 	}
 
 	public void setImageSmall(String imagesmall) {
-		ImageSmall = imagesmall;
+		this.ImageSmall = imagesmall;
 	}
 	public SFSafeEnum<SFOAuthState> getState() {
-		return State;
+		return this.State;
 	}
 
 	public void setState(SFSafeEnum<SFOAuthState> state) {
-		State = state;
+		this.State = state;
 	}
 	public String getName() {
-		return Name;
+		return this.Name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.Name = name;
 	}
 	public String getCompanyName() {
-		return CompanyName;
+		return this.CompanyName;
 	}
 
 	public void setCompanyName(String companyname) {
-		CompanyName = companyname;
+		this.CompanyName = companyname;
 	}
 	public String getToolUrl() {
-		return ToolUrl;
+		return this.ToolUrl;
 	}
 
 	public void setToolUrl(String toolurl) {
-		ToolUrl = toolurl;
+		this.ToolUrl = toolurl;
 	}
 	public Date getCreationDate() {
-		return CreationDate;
+		return this.CreationDate;
 	}
 
 	public void setCreationDate(Date creationdate) {
-		CreationDate = creationdate;
+		this.CreationDate = creationdate;
 	}
 	public Date getLastModifiedDate() {
-		return LastModifiedDate;
+		return this.LastModifiedDate;
 	}
 
 	public void setLastModifiedDate(Date lastmodifieddate) {
-		LastModifiedDate = lastmodifieddate;
+		this.LastModifiedDate = lastmodifieddate;
 	}
 	public Boolean getServerFlow() {
-		return ServerFlow;
+		return this.ServerFlow;
 	}
 
 	public void setServerFlow(Boolean serverflow) {
-		ServerFlow = serverflow;
+		this.ServerFlow = serverflow;
 	}
 	public Boolean getClientFlow() {
-		return ClientFlow;
+		return this.ClientFlow;
 	}
 
 	public void setClientFlow(Boolean clientflow) {
-		ClientFlow = clientflow;
+		this.ClientFlow = clientflow;
 	}
 	public Boolean getUsernamePasswordFlow() {
-		return UsernamePasswordFlow;
+		return this.UsernamePasswordFlow;
 	}
 
 	public void setUsernamePasswordFlow(Boolean usernamepasswordflow) {
-		UsernamePasswordFlow = usernamepasswordflow;
+		this.UsernamePasswordFlow = usernamepasswordflow;
 	}
 	public Boolean getSamlFlow() {
-		return SamlFlow;
+		return this.SamlFlow;
 	}
 
 	public void setSamlFlow(Boolean samlflow) {
-		SamlFlow = samlflow;
+		this.SamlFlow = samlflow;
 	}
 	public Boolean getIsQA() {
-		return IsQA;
+		return this.IsQA;
 	}
 
 	public void setIsQA(Boolean isqa) {
-		IsQA = isqa;
+		this.IsQA = isqa;
 	}
 	public Boolean getImpersonation() {
-		return Impersonation;
+		return this.Impersonation;
 	}
 
 	public void setImpersonation(Boolean impersonation) {
-		Impersonation = impersonation;
+		this.Impersonation = impersonation;
 	}
 	public Boolean getDeviceRegistration() {
-		return DeviceRegistration;
+		return this.DeviceRegistration;
 	}
 
 	public void setDeviceRegistration(Boolean deviceregistration) {
-		DeviceRegistration = deviceregistration;
+		this.DeviceRegistration = deviceregistration;
 	}
 	public Boolean getCanCreateFreemiumAccount() {
-		return CanCreateFreemiumAccount;
+		return this.CanCreateFreemiumAccount;
 	}
 
 	public void setCanCreateFreemiumAccount(Boolean cancreatefreemiumaccount) {
-		CanCreateFreemiumAccount = cancreatefreemiumaccount;
+		this.CanCreateFreemiumAccount = cancreatefreemiumaccount;
 	}
 	public Boolean getIsInternalAdmin() {
-		return IsInternalAdmin;
+		return this.IsInternalAdmin;
 	}
 
 	public void setIsInternalAdmin(Boolean isinternaladmin) {
-		IsInternalAdmin = isinternaladmin;
+		this.IsInternalAdmin = isinternaladmin;
 	}
 	public SFSafeEnum<SFOAuthClientPermissions> getAccessFilesFolders() {
-		return AccessFilesFolders;
+		return this.AccessFilesFolders;
 	}
 
 	public void setAccessFilesFolders(SFSafeEnum<SFOAuthClientPermissions> accessfilesfolders) {
-		AccessFilesFolders = accessfilesfolders;
+		this.AccessFilesFolders = accessfilesfolders;
 	}
 	public SFSafeEnum<SFOAuthClientPermissions> getModifyFilesFolders() {
-		return ModifyFilesFolders;
+		return this.ModifyFilesFolders;
 	}
 
 	public void setModifyFilesFolders(SFSafeEnum<SFOAuthClientPermissions> modifyfilesfolders) {
-		ModifyFilesFolders = modifyfilesfolders;
+		this.ModifyFilesFolders = modifyfilesfolders;
 	}
 	public SFSafeEnum<SFOAuthClientPermissions> getAdminUsers() {
-		return AdminUsers;
+		return this.AdminUsers;
 	}
 
 	public void setAdminUsers(SFSafeEnum<SFOAuthClientPermissions> adminusers) {
-		AdminUsers = adminusers;
+		this.AdminUsers = adminusers;
 	}
 	public SFSafeEnum<SFOAuthClientPermissions> getAdminAccounts() {
-		return AdminAccounts;
+		return this.AdminAccounts;
 	}
 
 	public void setAdminAccounts(SFSafeEnum<SFOAuthClientPermissions> adminaccounts) {
-		AdminAccounts = adminaccounts;
+		this.AdminAccounts = adminaccounts;
 	}
 	public SFSafeEnum<SFOAuthClientPermissions> getChangeMySettings() {
-		return ChangeMySettings;
+		return this.ChangeMySettings;
 	}
 
 	public void setChangeMySettings(SFSafeEnum<SFOAuthClientPermissions> changemysettings) {
-		ChangeMySettings = changemysettings;
+		this.ChangeMySettings = changemysettings;
 	}
 	public SFSafeEnum<SFOAuthClientPermissions> getWebAppLogin() {
-		return WebAppLogin;
+		return this.WebAppLogin;
 	}
 
 	public void setWebAppLogin(SFSafeEnum<SFOAuthClientPermissions> webapplogin) {
-		WebAppLogin = webapplogin;
+		this.WebAppLogin = webapplogin;
 	}
 	public SFSafeEnum<SFAppCodes> getAppCode() {
-		return AppCode;
+		return this.AppCode;
 	}
 
 	public void setAppCode(SFSafeEnum<SFAppCodes> appcode) {
-		AppCode = appcode;
+		this.AppCode = appcode;
 	}
 	public ArrayList<String> getRedirectUrls() {
-		return RedirectUrls;
+		return this.RedirectUrls;
 	}
 
 	public void setRedirectUrls(ArrayList<String> redirecturls) {
-		RedirectUrls = redirecturls;
+		this.RedirectUrls = redirecturls;
 	}
 
 }

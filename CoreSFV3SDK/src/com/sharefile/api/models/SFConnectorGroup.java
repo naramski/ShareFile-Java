@@ -34,14 +34,14 @@ public class SFConnectorGroup extends SFFolder {
 		* Zones that contain this Connector type
 		*/
 	public ArrayList<SFConnectorGroupZone> getZones() {
-		return Zones;
+		return this.Zones;
 	}
 
 		/**
 		* Zones that contain this Connector type
 		*/
 	public void setZones(ArrayList<SFConnectorGroupZone> zones) {
-		Zones = zones;
+		this.Zones = zones;
 	}
 		/**
 		* Provider identifier for this group. This is the 1st element in a ShareFile URL,
@@ -49,7 +49,7 @@ public class SFConnectorGroup extends SFFolder {
 		* will always have the url /cifs/vN/...
 		*/
 	public String getProvider() {
-		return Provider;
+		return this.Provider;
 	}
 
 		/**
@@ -58,7 +58,7 @@ public class SFConnectorGroup extends SFFolder {
 		* will always have the url /cifs/vN/...
 		*/
 	public void setProvider(String provider) {
-		Provider = provider;
+		this.Provider = provider;
 	}
 
 }

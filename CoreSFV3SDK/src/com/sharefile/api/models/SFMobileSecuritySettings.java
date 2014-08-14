@@ -39,46 +39,46 @@ public class SFMobileSecuritySettings extends SFODataObject {
 	private SFSafeEnum<SFPinLockType> PinLockType;
 
 	public Integer getPoisonPillInterval() {
-		return PoisonPillInterval;
+		return this.PoisonPillInterval;
 	}
 
 	public void setPoisonPillInterval(Integer poisonpillinterval) {
-		PoisonPillInterval = poisonpillinterval;
+		this.PoisonPillInterval = poisonpillinterval;
 	}
 	public Boolean getEnableOpenExternal() {
-		return EnableOpenExternal;
+		return this.EnableOpenExternal;
 	}
 
 	public void setEnableOpenExternal(Boolean enableopenexternal) {
-		EnableOpenExternal = enableopenexternal;
+		this.EnableOpenExternal = enableopenexternal;
 	}
 	public Boolean getEnableOfflineCache() {
-		return EnableOfflineCache;
+		return this.EnableOfflineCache;
 	}
 
 	public void setEnableOfflineCache(Boolean enableofflinecache) {
-		EnableOfflineCache = enableofflinecache;
+		this.EnableOfflineCache = enableofflinecache;
 	}
 	public Boolean getEnableAutoLogin() {
-		return EnableAutoLogin;
+		return this.EnableAutoLogin;
 	}
 
 	public void setEnableAutoLogin(Boolean enableautologin) {
-		EnableAutoLogin = enableautologin;
+		this.EnableAutoLogin = enableautologin;
 	}
 	public Boolean getRestrictModifiedDevices() {
-		return RestrictModifiedDevices;
+		return this.RestrictModifiedDevices;
 	}
 
 	public void setRestrictModifiedDevices(Boolean restrictmodifieddevices) {
-		RestrictModifiedDevices = restrictmodifieddevices;
+		this.RestrictModifiedDevices = restrictmodifieddevices;
 	}
 	public SFSafeEnum<SFPinLockType> getPinLockType() {
-		return PinLockType;
+		return this.PinLockType;
 	}
 
 	public void setPinLockType(SFSafeEnum<SFPinLockType> pinlocktype) {
-		PinLockType = pinlocktype;
+		this.PinLockType = pinlocktype;
 	}
 
 }

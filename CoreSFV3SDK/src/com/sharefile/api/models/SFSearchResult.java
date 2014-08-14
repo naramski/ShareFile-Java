@@ -75,172 +75,172 @@ public class SFSearchResult extends SFODataObject {
 	private String AccountID;
 
 	public Integer getRank() {
-		return Rank;
+		return this.Rank;
 	}
 
 	public void setRank(Integer rank) {
-		Rank = rank;
+		this.Rank = rank;
 	}
 	public Double getScore() {
-		return Score;
+		return this.Score;
 	}
 
 	public void setScore(Double score) {
-		Score = score;
+		this.Score = score;
 	}
 	public String getItemID() {
-		return ItemID;
+		return this.ItemID;
 	}
 
 	public void setItemID(String itemid) {
-		ItemID = itemid;
+		this.ItemID = itemid;
 	}
 	public String getParentID() {
-		return ParentID;
+		return this.ParentID;
 	}
 
 	public void setParentID(String parentid) {
-		ParentID = parentid;
+		this.ParentID = parentid;
 	}
 	public String getParentName() {
-		return ParentName;
+		return this.ParentName;
 	}
 
 	public void setParentName(String parentname) {
-		ParentName = parentname;
+		this.ParentName = parentname;
 	}
 	public String getItemType() {
-		return ItemType;
+		return this.ItemType;
 	}
 
 	public void setItemType(String itemtype) {
-		ItemType = itemtype;
+		this.ItemType = itemtype;
 	}
 	public String getFileName() {
-		return FileName;
+		return this.FileName;
 	}
 
 	public void setFileName(String filename) {
-		FileName = filename;
+		this.FileName = filename;
 	}
 	public String getDisplayName() {
-		return DisplayName;
+		return this.DisplayName;
 	}
 
 	public void setDisplayName(String displayname) {
-		DisplayName = displayname;
+		this.DisplayName = displayname;
 	}
 	public Long getSize() {
-		return Size;
+		return this.Size;
 	}
 
 	public void setSize(Long size) {
-		Size = size;
+		this.Size = size;
 	}
 	public String getCreatorID() {
-		return CreatorID;
+		return this.CreatorID;
 	}
 
 	public void setCreatorID(String creatorid) {
-		CreatorID = creatorid;
+		this.CreatorID = creatorid;
 	}
 	public String getCreatorName() {
-		return CreatorName;
+		return this.CreatorName;
 	}
 
 	public void setCreatorName(String creatorname) {
-		CreatorName = creatorname;
+		this.CreatorName = creatorname;
 	}
 	public String getCreatorFirstName() {
-		return CreatorFirstName;
+		return this.CreatorFirstName;
 	}
 
 	public void setCreatorFirstName(String creatorfirstname) {
-		CreatorFirstName = creatorfirstname;
+		this.CreatorFirstName = creatorfirstname;
 	}
 	public String getCreatorLastName() {
-		return CreatorLastName;
+		return this.CreatorLastName;
 	}
 
 	public void setCreatorLastName(String creatorlastname) {
-		CreatorLastName = creatorlastname;
+		this.CreatorLastName = creatorlastname;
 	}
 	public String getCreationDate() {
-		return CreationDate;
+		return this.CreationDate;
 	}
 
 	public void setCreationDate(String creationdate) {
-		CreationDate = creationdate;
+		this.CreationDate = creationdate;
 	}
 	public String getDetails() {
-		return Details;
+		return this.Details;
 	}
 
 	public void setDetails(String details) {
-		Details = details;
+		this.Details = details;
 	}
 	public String getMD5() {
-		return MD5;
+		return this.MD5;
 	}
 
 	public void setMD5(String md5) {
-		MD5 = md5;
+		this.MD5 = md5;
 	}
 	public Integer getPreviewStatus() {
-		return PreviewStatus;
+		return this.PreviewStatus;
 	}
 
 	public void setPreviewStatus(Integer previewstatus) {
-		PreviewStatus = previewstatus;
+		this.PreviewStatus = previewstatus;
 	}
 	public Integer getVirusStatus() {
-		return VirusStatus;
+		return this.VirusStatus;
 	}
 
 	public void setVirusStatus(Integer virusstatus) {
-		VirusStatus = virusstatus;
+		this.VirusStatus = virusstatus;
 	}
 	public String getUrl() {
-		return Url;
+		return this.Url;
 	}
 
 	public void setUrl(String url) {
-		Url = url;
+		this.Url = url;
 	}
 	public Boolean getCanDownload() {
-		return CanDownload;
+		return this.CanDownload;
 	}
 
 	public void setCanDownload(Boolean candownload) {
-		CanDownload = candownload;
+		this.CanDownload = candownload;
 	}
 	public Boolean getCanView() {
-		return CanView;
+		return this.CanView;
 	}
 
 	public void setCanView(Boolean canview) {
-		CanView = canview;
+		this.CanView = canview;
 	}
 	public String getParentSemanticPath() {
-		return ParentSemanticPath;
+		return this.ParentSemanticPath;
 	}
 
 	public void setParentSemanticPath(String parentsemanticpath) {
-		ParentSemanticPath = parentsemanticpath;
+		this.ParentSemanticPath = parentsemanticpath;
 	}
 	public String getStreamID() {
-		return StreamID;
+		return this.StreamID;
 	}
 
 	public void setStreamID(String streamid) {
-		StreamID = streamid;
+		this.StreamID = streamid;
 	}
 	public String getAccountID() {
-		return AccountID;
+		return this.AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		AccountID = accountid;
+		this.AccountID = accountid;
 	}
 
 }

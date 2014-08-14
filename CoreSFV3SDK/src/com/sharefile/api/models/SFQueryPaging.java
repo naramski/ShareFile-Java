@@ -33,25 +33,25 @@ public class SFQueryPaging extends SFODataObject {
 	private Integer PageSize;
 
 	public String getKey() {
-		return Key;
+		return this.Key;
 	}
 
 	public void setKey(String key) {
-		Key = key;
+		this.Key = key;
 	}
 	public Integer getPageNumber() {
-		return PageNumber;
+		return this.PageNumber;
 	}
 
 	public void setPageNumber(Integer pagenumber) {
-		PageNumber = pagenumber;
+		this.PageNumber = pagenumber;
 	}
 	public Integer getPageSize() {
-		return PageSize;
+		return this.PageSize;
 	}
 
 	public void setPageSize(Integer pagesize) {
-		PageSize = pagesize;
+		this.PageSize = pagesize;
 	}
 
 }

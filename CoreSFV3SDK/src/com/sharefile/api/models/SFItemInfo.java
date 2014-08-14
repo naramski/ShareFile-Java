@@ -85,207 +85,207 @@ public class SFItemInfo extends SFODataObject {
 	private String TreeModeSourceId;
 
 	public SFAccessControl getCurrentAccessControl() {
-		return CurrentAccessControl;
+		return this.CurrentAccessControl;
 	}
 
 	public void setCurrentAccessControl(SFAccessControl currentaccesscontrol) {
-		CurrentAccessControl = currentaccesscontrol;
+		this.CurrentAccessControl = currentaccesscontrol;
 	}
 	public Boolean getHasVroot() {
-		return HasVroot;
+		return this.HasVroot;
 	}
 
 	public void setHasVroot(Boolean hasvroot) {
-		HasVroot = hasvroot;
+		this.HasVroot = hasvroot;
 	}
 	public Boolean getIsSystemRoot() {
-		return IsSystemRoot;
+		return this.IsSystemRoot;
 	}
 
 	public void setIsSystemRoot(Boolean issystemroot) {
-		IsSystemRoot = issystemroot;
+		this.IsSystemRoot = issystemroot;
 	}
 	public Boolean getIsAccountRoot() {
-		return IsAccountRoot;
+		return this.IsAccountRoot;
 	}
 
 	public void setIsAccountRoot(Boolean isaccountroot) {
-		IsAccountRoot = isaccountroot;
+		this.IsAccountRoot = isaccountroot;
 	}
 	public Boolean getIsVRoot() {
-		return IsVRoot;
+		return this.IsVRoot;
 	}
 
 	public void setIsVRoot(Boolean isvroot) {
-		IsVRoot = isvroot;
+		this.IsVRoot = isvroot;
 	}
 	public Boolean getIsMyFolders() {
-		return IsMyFolders;
+		return this.IsMyFolders;
 	}
 
 	public void setIsMyFolders(Boolean ismyfolders) {
-		IsMyFolders = ismyfolders;
+		this.IsMyFolders = ismyfolders;
 	}
 	public Boolean getIsAHomeFolder() {
-		return IsAHomeFolder;
+		return this.IsAHomeFolder;
 	}
 
 	public void setIsAHomeFolder(Boolean isahomefolder) {
-		IsAHomeFolder = isahomefolder;
+		this.IsAHomeFolder = isahomefolder;
 	}
 	public Boolean getIsMyHomeFolder() {
-		return IsMyHomeFolder;
+		return this.IsMyHomeFolder;
 	}
 
 	public void setIsMyHomeFolder(Boolean ismyhomefolder) {
-		IsMyHomeFolder = ismyhomefolder;
+		this.IsMyHomeFolder = ismyhomefolder;
 	}
 	public Boolean getIsAStartFolder() {
-		return IsAStartFolder;
+		return this.IsAStartFolder;
 	}
 
 	public void setIsAStartFolder(Boolean isastartfolder) {
-		IsAStartFolder = isastartfolder;
+		this.IsAStartFolder = isastartfolder;
 	}
 	public Boolean getIsSharedFolder() {
-		return IsSharedFolder;
+		return this.IsSharedFolder;
 	}
 
 	public void setIsSharedFolder(Boolean issharedfolder) {
-		IsSharedFolder = issharedfolder;
+		this.IsSharedFolder = issharedfolder;
 	}
 	public Boolean getIsPassthrough() {
-		return IsPassthrough;
+		return this.IsPassthrough;
 	}
 
 	public void setIsPassthrough(Boolean ispassthrough) {
-		IsPassthrough = ispassthrough;
+		this.IsPassthrough = ispassthrough;
 	}
 	public Boolean getIsVersioned() {
-		return IsVersioned;
+		return this.IsVersioned;
 	}
 
 	public void setIsVersioned(Boolean isversioned) {
-		IsVersioned = isversioned;
+		this.IsVersioned = isversioned;
 	}
 	public Boolean getCanAddFolder() {
-		return CanAddFolder;
+		return this.CanAddFolder;
 	}
 
 	public void setCanAddFolder(Boolean canaddfolder) {
-		CanAddFolder = canaddfolder;
+		this.CanAddFolder = canaddfolder;
 	}
 	public Boolean getCanAddNode() {
-		return CanAddNode;
+		return this.CanAddNode;
 	}
 
 	public void setCanAddNode(Boolean canaddnode) {
-		CanAddNode = canaddnode;
+		this.CanAddNode = canaddnode;
 	}
 	public Boolean getCanView() {
-		return CanView;
+		return this.CanView;
 	}
 
 	public void setCanView(Boolean canview) {
-		CanView = canview;
+		this.CanView = canview;
 	}
 	public Boolean getCanDownload() {
-		return CanDownload;
+		return this.CanDownload;
 	}
 
 	public void setCanDownload(Boolean candownload) {
-		CanDownload = candownload;
+		this.CanDownload = candownload;
 	}
 	public Boolean getCanWatermarkDownload() {
-		return CanWatermarkDownload;
+		return this.CanWatermarkDownload;
 	}
 
 	public void setCanWatermarkDownload(Boolean canwatermarkdownload) {
-		CanWatermarkDownload = canwatermarkdownload;
+		this.CanWatermarkDownload = canwatermarkdownload;
 	}
 	public Boolean getCanDocViewerPrint() {
-		return CanDocViewerPrint;
+		return this.CanDocViewerPrint;
 	}
 
 	public void setCanDocViewerPrint(Boolean candocviewerprint) {
-		CanDocViewerPrint = candocviewerprint;
+		this.CanDocViewerPrint = candocviewerprint;
 	}
 	public Boolean getCanUpload() {
-		return CanUpload;
+		return this.CanUpload;
 	}
 
 	public void setCanUpload(Boolean canupload) {
-		CanUpload = canupload;
+		this.CanUpload = canupload;
 	}
 	public Boolean getCanSend() {
-		return CanSend;
+		return this.CanSend;
 	}
 
 	public void setCanSend(Boolean cansend) {
-		CanSend = cansend;
+		this.CanSend = cansend;
 	}
 	public Boolean getCanDeleteCurrentItem() {
-		return CanDeleteCurrentItem;
+		return this.CanDeleteCurrentItem;
 	}
 
 	public void setCanDeleteCurrentItem(Boolean candeletecurrentitem) {
-		CanDeleteCurrentItem = candeletecurrentitem;
+		this.CanDeleteCurrentItem = candeletecurrentitem;
 	}
 	public Boolean getCanDeleteChildItems() {
-		return CanDeleteChildItems;
+		return this.CanDeleteChildItems;
 	}
 
 	public void setCanDeleteChildItems(Boolean candeletechilditems) {
-		CanDeleteChildItems = candeletechilditems;
+		this.CanDeleteChildItems = candeletechilditems;
 	}
 	public Boolean getCanManagePermissions() {
-		return CanManagePermissions;
+		return this.CanManagePermissions;
 	}
 
 	public void setCanManagePermissions(Boolean canmanagepermissions) {
-		CanManagePermissions = canmanagepermissions;
+		this.CanManagePermissions = canmanagepermissions;
 	}
 	public Boolean getCanEditFolderOpts() {
-		return CanEditFolderOpts;
+		return this.CanEditFolderOpts;
 	}
 
 	public void setCanEditFolderOpts(Boolean caneditfolderopts) {
-		CanEditFolderOpts = caneditfolderopts;
+		this.CanEditFolderOpts = caneditfolderopts;
 	}
 	public String getFolderPayID() {
-		return FolderPayID;
+		return this.FolderPayID;
 	}
 
 	public void setFolderPayID(String folderpayid) {
-		FolderPayID = folderpayid;
+		this.FolderPayID = folderpayid;
 	}
 	public Boolean getShowFolderPayBuyButton() {
-		return ShowFolderPayBuyButton;
+		return this.ShowFolderPayBuyButton;
 	}
 
 	public void setShowFolderPayBuyButton(Boolean showfolderpaybuybutton) {
-		ShowFolderPayBuyButton = showfolderpaybuybutton;
+		this.ShowFolderPayBuyButton = showfolderpaybuybutton;
 	}
 	public SFSafeEnum<SFTreeMode> getTreeMode() {
-		return TreeMode;
+		return this.TreeMode;
 	}
 
 	public void setTreeMode(SFSafeEnum<SFTreeMode> treemode) {
-		TreeMode = treemode;
+		this.TreeMode = treemode;
 	}
 	public Boolean getTreeModeOperationAllowed() {
-		return TreeModeOperationAllowed;
+		return this.TreeModeOperationAllowed;
 	}
 
 	public void setTreeModeOperationAllowed(Boolean treemodeoperationallowed) {
-		TreeModeOperationAllowed = treemodeoperationallowed;
+		this.TreeModeOperationAllowed = treemodeoperationallowed;
 	}
 	public String getTreeModeSourceId() {
-		return TreeModeSourceId;
+		return this.TreeModeSourceId;
 	}
 
 	public void setTreeModeSourceId(String treemodesourceid) {
-		TreeModeSourceId = treemodesourceid;
+		this.TreeModeSourceId = treemodesourceid;
 	}
 
 }

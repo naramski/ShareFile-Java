@@ -63,130 +63,130 @@ public class SFDeviceUser extends SFODataObject {
 	private String LastErrorMessage;
 
 	public SFAccount getAccount() {
-		return Account;
+		return this.Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		Account = account;
+		this.Account = account;
 	}
 	public SFUser getUser() {
-		return User;
+		return this.User;
 	}
 
 	public void setUser(SFUser user) {
-		User = user;
+		this.User = user;
 	}
 	public SFDevice getDevice() {
-		return Device;
+		return this.Device;
 	}
 
 	public void setDevice(SFDevice device) {
-		Device = device;
+		this.Device = device;
 	}
 	public Boolean getIsOwner() {
-		return IsOwner;
+		return this.IsOwner;
 	}
 
 	public void setIsOwner(Boolean isowner) {
-		IsOwner = isowner;
+		this.IsOwner = isowner;
 	}
 	public String getFriendlyName() {
-		return FriendlyName;
+		return this.FriendlyName;
 	}
 
 	public void setFriendlyName(String friendlyname) {
-		FriendlyName = friendlyname;
+		this.FriendlyName = friendlyname;
 	}
 	public Boolean getWipe() {
-		return Wipe;
+		return this.Wipe;
 	}
 
 	public void setWipe(Boolean wipe) {
-		Wipe = wipe;
+		this.Wipe = wipe;
 	}
 	public Boolean getIsLocked() {
-		return IsLocked;
+		return this.IsLocked;
 	}
 
 	public void setIsLocked(Boolean islocked) {
-		IsLocked = islocked;
+		this.IsLocked = islocked;
 	}
 	public Boolean getIsDeleted() {
-		return IsDeleted;
+		return this.IsDeleted;
 	}
 
 	public void setIsDeleted(Boolean isdeleted) {
-		IsDeleted = isdeleted;
+		this.IsDeleted = isdeleted;
 	}
 	public Date getCreated() {
-		return Created;
+		return this.Created;
 	}
 
 	public void setCreated(Date created) {
-		Created = created;
+		this.Created = created;
 	}
 	public Date getLastLogin() {
-		return LastLogin;
+		return this.LastLogin;
 	}
 
 	public void setLastLogin(Date lastlogin) {
-		LastLogin = lastlogin;
+		this.LastLogin = lastlogin;
 	}
 	public Date getLastWipe() {
-		return LastWipe;
+		return this.LastWipe;
 	}
 
 	public void setLastWipe(Date lastwipe) {
-		LastWipe = lastwipe;
+		this.LastWipe = lastwipe;
 	}
 	public String getWipeToken() {
-		return WipeToken;
+		return this.WipeToken;
 	}
 
 	public void setWipeToken(String wipetoken) {
-		WipeToken = wipetoken;
+		this.WipeToken = wipetoken;
 	}
 	public String getWipeInitiator() {
-		return WipeInitiator;
+		return this.WipeInitiator;
 	}
 
 	public void setWipeInitiator(String wipeinitiator) {
-		WipeInitiator = wipeinitiator;
+		this.WipeInitiator = wipeinitiator;
 	}
 	public SFSafeEnum<SFDeviceActionInitiatorRole> getWipeInitiatorRole() {
-		return WipeInitiatorRole;
+		return this.WipeInitiatorRole;
 	}
 
 	public void setWipeInitiatorRole(SFSafeEnum<SFDeviceActionInitiatorRole> wipeinitiatorrole) {
-		WipeInitiatorRole = wipeinitiatorrole;
+		this.WipeInitiatorRole = wipeinitiatorrole;
 	}
 	public String getLockInitiator() {
-		return LockInitiator;
+		return this.LockInitiator;
 	}
 
 	public void setLockInitiator(String lockinitiator) {
-		LockInitiator = lockinitiator;
+		this.LockInitiator = lockinitiator;
 	}
 	public SFSafeEnum<SFDeviceActionInitiatorRole> getLockInitiatorRole() {
-		return LockInitiatorRole;
+		return this.LockInitiatorRole;
 	}
 
 	public void setLockInitiatorRole(SFSafeEnum<SFDeviceActionInitiatorRole> lockinitiatorrole) {
-		LockInitiatorRole = lockinitiatorrole;
+		this.LockInitiatorRole = lockinitiatorrole;
 	}
 	public SFSafeEnum<SFSFTool> getDeviceType() {
-		return DeviceType;
+		return this.DeviceType;
 	}
 
 	public void setDeviceType(SFSafeEnum<SFSFTool> devicetype) {
-		DeviceType = devicetype;
+		this.DeviceType = devicetype;
 	}
 	public String getLastErrorMessage() {
-		return LastErrorMessage;
+		return this.LastErrorMessage;
 	}
 
 	public void setLastErrorMessage(String lasterrormessage) {
-		LastErrorMessage = lasterrormessage;
+		this.LastErrorMessage = lasterrormessage;
 	}
 
 }

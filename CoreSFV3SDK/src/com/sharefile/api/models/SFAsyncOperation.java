@@ -58,34 +58,34 @@ public class SFAsyncOperation extends SFODataObject {
 		* Operation type
 		*/
 	public SFSafeEnum<SFAsyncOperationType> getOperation() {
-		return Operation;
+		return this.Operation;
 	}
 
 		/**
 		* Operation type
 		*/
 	public void setOperation(SFSafeEnum<SFAsyncOperationType> operation) {
-		Operation = operation;
+		this.Operation = operation;
 	}
 		/**
 		* ShareFile Account
 		*/
 	public SFAccount getAccount() {
-		return Account;
+		return this.Account;
 	}
 
 		/**
 		* ShareFile Account
 		*/
 	public void setAccount(SFAccount account) {
-		Account = account;
+		this.Account = account;
 	}
 		/**
 		* Represents the Zone that is driving the asynchronous operation process. It
 		* may be null if the operation is driven by the control plane.
 		*/
 	public SFZone getAuthorityZone() {
-		return AuthorityZone;
+		return this.AuthorityZone;
 	}
 
 		/**
@@ -93,53 +93,53 @@ public class SFAsyncOperation extends SFODataObject {
 		* may be null if the operation is driven by the control plane.
 		*/
 	public void setAuthorityZone(SFZone authorityzone) {
-		AuthorityZone = authorityzone;
+		this.AuthorityZone = authorityzone;
 	}
 		/**
 		* Source Item for the operation.
 		*/
 	public SFItem getSource() {
-		return Source;
+		return this.Source;
 	}
 
 		/**
 		* Source Item for the operation.
 		*/
 	public void setSource(SFItem source) {
-		Source = source;
+		this.Source = source;
 	}
 		/**
 		* User that initiated the operation
 		*/
 	public SFUser getUser() {
-		return User;
+		return this.User;
 	}
 
 		/**
 		* User that initiated the operation
 		*/
 	public void setUser(SFUser user) {
-		User = user;
+		this.User = user;
 	}
 		/**
 		* Operation creation date
 		*/
 	public Date getCreationDate() {
-		return CreationDate;
+		return this.CreationDate;
 	}
 
 		/**
 		* Operation creation date
 		*/
 	public void setCreationDate(Date creationdate) {
-		CreationDate = creationdate;
+		this.CreationDate = creationdate;
 	}
 		/**
 		* Operation state. States 'Created' and 'Scheduled' indicate the operation is
 		* in progress; States 'Success' and 'Failure' indicate the operatoin is finalized
 		*/
 	public SFSafeEnum<SFAsyncOperationState> getState() {
-		return State;
+		return this.State;
 	}
 
 		/**
@@ -147,33 +147,33 @@ public class SFAsyncOperation extends SFODataObject {
 		* in progress; States 'Success' and 'Failure' indicate the operatoin is finalized
 		*/
 	public void setState(SFSafeEnum<SFAsyncOperationState> state) {
-		State = state;
+		this.State = state;
 	}
 		/**
 		* Last time the operation state was modified
 		*/
 	public Date getUpdateDate() {
-		return UpdateDate;
+		return this.UpdateDate;
 	}
 
 		/**
 		* Last time the operation state was modified
 		*/
 	public void setUpdateDate(Date updatedate) {
-		UpdateDate = updatedate;
+		this.UpdateDate = updatedate;
 	}
 		/**
 		* Target Item for the operation.
 		*/
 	public SFItem getTarget() {
-		return Target;
+		return this.Target;
 	}
 
 		/**
 		* Target Item for the operation.
 		*/
 	public void setTarget(SFItem target) {
-		Target = target;
+		this.Target = target;
 	}
 		/**
 		* Batch Identifier for an asynchronous operation that includes multiple Items - for
@@ -181,7 +181,7 @@ public class SFAsyncOperation extends SFODataObject {
 		* the same BatchID
 		*/
 	public String getBatchID() {
-		return BatchID;
+		return this.BatchID;
 	}
 
 		/**
@@ -190,53 +190,53 @@ public class SFAsyncOperation extends SFODataObject {
 		* the same BatchID
 		*/
 	public void setBatchID(String batchid) {
-		BatchID = batchid;
+		this.BatchID = batchid;
 	}
 		/**
 		* Item ID used as source for the Batch operation
 		*/
 	public String getBatchSourceID() {
-		return BatchSourceID;
+		return this.BatchSourceID;
 	}
 
 		/**
 		* Item ID used as source for the Batch operation
 		*/
 	public void setBatchSourceID(String batchsourceid) {
-		BatchSourceID = batchsourceid;
+		this.BatchSourceID = batchsourceid;
 	}
 		/**
 		* Item ID used as target for the Batch operation
 		*/
 	public String getBatchTargetID() {
-		return BatchTargetID;
+		return this.BatchTargetID;
 	}
 
 		/**
 		* Item ID used as target for the Batch operation
 		*/
 	public void setBatchTargetID(String batchtargetid) {
-		BatchTargetID = batchtargetid;
+		this.BatchTargetID = batchtargetid;
 	}
 		/**
 		* BatchProgress indicates the progress of the Batch operation
 		*/
 	public Double getBatchProgress() {
-		return BatchProgress;
+		return this.BatchProgress;
 	}
 
 		/**
 		* BatchProgress indicates the progress of the Batch operation
 		*/
 	public void setBatchProgress(Double batchprogress) {
-		BatchProgress = batchprogress;
+		this.BatchProgress = batchprogress;
 	}
 		/**
 		* Batch Operation state. State 'Scheduled' indicate the operation is
 		* in progress; States 'Success' and 'Failure' indicate the operation is finalized
 		*/
 	public SFSafeEnum<SFAsyncOperationState> getBatchState() {
-		return BatchState;
+		return this.BatchState;
 	}
 
 		/**
@@ -244,7 +244,7 @@ public class SFAsyncOperation extends SFODataObject {
 		* in progress; States 'Success' and 'Failure' indicate the operation is finalized
 		*/
 	public void setBatchState(SFSafeEnum<SFAsyncOperationState> batchstate) {
-		BatchState = batchstate;
+		this.BatchState = batchstate;
 	}
 
 }

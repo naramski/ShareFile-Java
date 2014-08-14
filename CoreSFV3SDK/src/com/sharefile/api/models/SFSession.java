@@ -45,67 +45,67 @@ public class SFSession extends SFODataObject {
 	private SFDeviceUser DeviceUser;
 
 	public SFPrincipal getPrincipal() {
-		return Principal;
+		return this.Principal;
 	}
 
 	public void setPrincipal(SFPrincipal principal) {
-		Principal = principal;
+		this.Principal = principal;
 	}
 	public String getAuthenticationType() {
-		return AuthenticationType;
+		return this.AuthenticationType;
 	}
 
 	public void setAuthenticationType(String authenticationtype) {
-		AuthenticationType = authenticationtype;
+		this.AuthenticationType = authenticationtype;
 	}
 	public String getOAuth2ClientName() {
-		return OAuth2ClientName;
+		return this.OAuth2ClientName;
 	}
 
 	public void setOAuth2ClientName(String oauth2clientname) {
-		OAuth2ClientName = oauth2clientname;
+		this.OAuth2ClientName = oauth2clientname;
 	}
 	public String getTool() {
-		return Tool;
+		return this.Tool;
 	}
 
 	public void setTool(String tool) {
-		Tool = tool;
+		this.Tool = tool;
 	}
 	public String getVersion() {
-		return Version;
+		return this.Version;
 	}
 
 	public void setVersion(String version) {
-		Version = version;
+		this.Version = version;
 	}
 	public String getClientIPAddress() {
-		return ClientIPAddress;
+		return this.ClientIPAddress;
 	}
 
 	public void setClientIPAddress(String clientipaddress) {
-		ClientIPAddress = clientipaddress;
+		this.ClientIPAddress = clientipaddress;
 	}
 	public Boolean getIsAuthenticated() {
-		return IsAuthenticated;
+		return this.IsAuthenticated;
 	}
 
 	public void setIsAuthenticated(Boolean isauthenticated) {
-		IsAuthenticated = isauthenticated;
+		this.IsAuthenticated = isauthenticated;
 	}
 	public String getName() {
-		return Name;
+		return this.Name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.Name = name;
 	}
 	public SFDeviceUser getDeviceUser() {
-		return DeviceUser;
+		return this.DeviceUser;
 	}
 
 	public void setDeviceUser(SFDeviceUser deviceuser) {
-		DeviceUser = deviceuser;
+		this.DeviceUser = deviceuser;
 	}
 
 }

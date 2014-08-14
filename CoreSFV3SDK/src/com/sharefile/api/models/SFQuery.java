@@ -45,67 +45,67 @@ public class SFQuery extends SFODataObject {
 	private Boolean ItemNameOnly;
 
 	public ArrayList<String> getAuthIDs() {
-		return AuthIDs;
+		return this.AuthIDs;
 	}
 
 	public void setAuthIDs(ArrayList<String> authids) {
-		AuthIDs = authids;
+		this.AuthIDs = authids;
 	}
 	public ArrayList<String> getItemTypes() {
-		return ItemTypes;
+		return this.ItemTypes;
 	}
 
 	public void setItemTypes(ArrayList<String> itemtypes) {
-		ItemTypes = itemtypes;
+		this.ItemTypes = itemtypes;
 	}
 	public ArrayList<String> getParentID() {
-		return ParentID;
+		return this.ParentID;
 	}
 
 	public void setParentID(ArrayList<String> parentid) {
-		ParentID = parentid;
+		this.ParentID = parentid;
 	}
 	public ArrayList<String> getCreatorID() {
-		return CreatorID;
+		return this.CreatorID;
 	}
 
 	public void setCreatorID(ArrayList<String> creatorid) {
-		CreatorID = creatorid;
+		this.CreatorID = creatorid;
 	}
 	public String getLuceneQuery() {
-		return LuceneQuery;
+		return this.LuceneQuery;
 	}
 
 	public void setLuceneQuery(String lucenequery) {
-		LuceneQuery = lucenequery;
+		this.LuceneQuery = lucenequery;
 	}
 	public String getSearchQuery() {
-		return SearchQuery;
+		return this.SearchQuery;
 	}
 
 	public void setSearchQuery(String searchquery) {
-		SearchQuery = searchquery;
+		this.SearchQuery = searchquery;
 	}
 	public String getCreateStartDate() {
-		return CreateStartDate;
+		return this.CreateStartDate;
 	}
 
 	public void setCreateStartDate(String createstartdate) {
-		CreateStartDate = createstartdate;
+		this.CreateStartDate = createstartdate;
 	}
 	public String getCreateEndDate() {
-		return CreateEndDate;
+		return this.CreateEndDate;
 	}
 
 	public void setCreateEndDate(String createenddate) {
-		CreateEndDate = createenddate;
+		this.CreateEndDate = createenddate;
 	}
 	public Boolean getItemNameOnly() {
-		return ItemNameOnly;
+		return this.ItemNameOnly;
 	}
 
 	public void setItemNameOnly(Boolean itemnameonly) {
-		ItemNameOnly = itemnameonly;
+		this.ItemNameOnly = itemnameonly;
 	}
 
 }

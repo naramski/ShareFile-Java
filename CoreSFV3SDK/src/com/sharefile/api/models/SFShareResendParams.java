@@ -39,46 +39,46 @@ public class SFShareResendParams extends SFODataObject {
 	private Boolean NotifyOnUse;
 
 	public String getShareId() {
-		return ShareId;
+		return this.ShareId;
 	}
 
 	public void setShareId(String shareid) {
-		ShareId = shareid;
+		this.ShareId = shareid;
 	}
 	public ArrayList<String> getRecipients() {
-		return Recipients;
+		return this.Recipients;
 	}
 
 	public void setRecipients(ArrayList<String> recipients) {
-		Recipients = recipients;
+		this.Recipients = recipients;
 	}
 	public String getSubject() {
-		return Subject;
+		return this.Subject;
 	}
 
 	public void setSubject(String subject) {
-		Subject = subject;
+		this.Subject = subject;
 	}
 	public String getBody() {
-		return Body;
+		return this.Body;
 	}
 
 	public void setBody(String body) {
-		Body = body;
+		this.Body = body;
 	}
 	public Boolean getCcSender() {
-		return CcSender;
+		return this.CcSender;
 	}
 
 	public void setCcSender(Boolean ccsender) {
-		CcSender = ccsender;
+		this.CcSender = ccsender;
 	}
 	public Boolean getNotifyOnUse() {
-		return NotifyOnUse;
+		return this.NotifyOnUse;
 	}
 
 	public void setNotifyOnUse(Boolean notifyonuse) {
-		NotifyOnUse = notifyonuse;
+		this.NotifyOnUse = notifyonuse;
 	}
 
 }

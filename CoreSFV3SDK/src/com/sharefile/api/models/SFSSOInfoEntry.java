@@ -31,18 +31,18 @@ public class SFSSOInfoEntry extends SFODataObject {
 	private String Value;
 
 	public String getKey() {
-		return Key;
+		return this.Key;
 	}
 
 	public void setKey(String key) {
-		Key = key;
+		this.Key = key;
 	}
 	public String getValue() {
-		return Value;
+		return this.Value;
 	}
 
 	public void setValue(String value) {
-		Value = value;
+		this.Value = value;
 	}
 
 }

@@ -31,18 +31,18 @@ public class SFOutlookInformationOptionString extends SFODataObject {
 	private String Value;
 
 	public Boolean getLocked() {
-		return Locked;
+		return this.Locked;
 	}
 
 	public void setLocked(Boolean locked) {
-		Locked = locked;
+		this.Locked = locked;
 	}
 	public String getValue() {
-		return Value;
+		return this.Value;
 	}
 
 	public void setValue(String value) {
-		Value = value;
+		this.Value = value;
 	}
 
 }

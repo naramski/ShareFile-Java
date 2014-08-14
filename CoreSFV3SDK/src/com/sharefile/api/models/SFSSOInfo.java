@@ -33,25 +33,25 @@ public class SFSSOInfo extends SFODataObject {
 	private String ApiControlPlane;
 
 	public ArrayList<SFSSOInfoEntry> getInfo() {
-		return Info;
+		return this.Info;
 	}
 
 	public void setInfo(ArrayList<SFSSOInfoEntry> info) {
-		Info = info;
+		this.Info = info;
 	}
 	public String getAppControlPlane() {
-		return AppControlPlane;
+		return this.AppControlPlane;
 	}
 
 	public void setAppControlPlane(String appcontrolplane) {
-		AppControlPlane = appcontrolplane;
+		this.AppControlPlane = appcontrolplane;
 	}
 	public String getApiControlPlane() {
-		return ApiControlPlane;
+		return this.ApiControlPlane;
 	}
 
 	public void setApiControlPlane(String apicontrolplane) {
-		ApiControlPlane = apicontrolplane;
+		this.ApiControlPlane = apicontrolplane;
 	}
 
 }

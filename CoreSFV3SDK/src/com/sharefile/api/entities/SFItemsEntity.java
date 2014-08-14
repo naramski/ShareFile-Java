@@ -29,6 +29,12 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFItemsEntity extends SFODataEntityBase
 {
+    /**
+	* Get HomeFolder for Current User
+	* Returns home folder for current user.
+	* Note that home folders are not available for client users, or if the account doesn't have the "My Files & Folders" feature enabled.
+	* @return home folder for current user
+    */
 	public ISFQuery<SFItem> get()
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
@@ -39,7 +45,12 @@ public class SFItemsEntity extends SFODataEntityBase
 
     /**
 	* Get Item by ID
-	* Returns a single Item
+	* Returns a single Item.
+	* Special Id's:home, favorites, allshared, connectors, box, top. home - Return home folder.
+	* favorites - Return parent favorite item; use .../Items(favorites)/Children to get the favorite folders.
+	* allshared - Return parent Shared Folders item; use .../Items(allshared)/Children to get the shared folders.
+	* connectors - Return parent Connectors item; use .../Items(connectors)/Children to get indiviual connectors.
+	* box - Return the FileBox folder. top - Returns the Top item; use .../Items(top)/Children to get the home, favorites, and shared folders as well as the connectors
 	* @param url 	
 	* @param includeDeleted 	
 	* @return a single Item
@@ -82,23 +93,33 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFODataFeed<SFItem>> getChildrenByConnectorGroup(URI url)
+    /**
+	* Get Symbolic Links of a Connector Group
+	* Retrieves the Symbolic Links of the provided Connector Group type. Connector Groups define
+	* classes of external data connectors - such as SharePoint, Network Shares. Symbolic Links
+	* represent a single Connector point to such classes - for example, a single SharePoint site,
+	* or a network share drive.
+	* @param parentUrl 	
+	* @return The list of Symbolic Links associated with the given connector group.
+    */
+	public ISFQuery<SFODataFeed<SFItem>> getChildrenByConnectorGroup(URI parentUrl)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Children");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
     /**
 	* Get Stream
-	* Retrieves the versions of a given Stream.
-	* An Item represents a single version of a file system object. The stream identifies
-	* all versions of the same file system object. For example, when users upload or modify an existing file, a new Item
+	* Retrieves the versions of a given Stream. The ID parameter must be a StreamID, otherwise an empty list is returned.
+	* StreamID is a property of all Items, representing the "Stream", ie., the collection of all versions of a file. In
+	* contrast, an Item ID represents a single version of a file.
+	* For example, when users upload or modify an existing file, a new Item
 	* is created with the same StreamID. All default Item enumerations return only the latest version of a given stream.
-	* Use this method to retrieve previous versions of a given stream
+	* Use this method to retrieve previous versions of a given stream.
 	* @param url 	
 	* @param includeDeleted 	
     */
@@ -214,14 +235,36 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return the download link for the provided item content.
     */
-	public ISFQuery<SFDownloadSpecification> download(URI url, Boolean redirect)
+	public ISFQuery<InputStream> download(URI url, Boolean redirect)
 	{
-		SFApiQuery<SFDownloadSpecification> sfApiQuery = new SFApiQuery<SFDownloadSpecification>();
+		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Download Multiple Items
+    * ["id1","id2",...]
+	* Initiate the download operation for items. It will return 302 redirection to the
+	* actual download link.
+	* @param parentUrl 	
+	* @param ids 	
+	* @param redirect 	
+	* @return the download link for the provided item content.
+    */
+	public ISFQuery bulkDownload(URI parentUrl, ArrayList<String> ids, Boolean redirect)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkDownload");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
@@ -467,6 +510,13 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Delete Item
+	* Removes an item
+	* @param url 	
+	* @param singleversion 	
+	* @param forceSync 	
+    */
 	public ISFQuery delete(URI url, Boolean singleversion, Boolean forceSync)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
@@ -478,19 +528,36 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Delete Multiple Items
+    * ["id1","id2",...]
+	* All items in bulk delete must be children of the same parent, identified in the URI
+	* @param id 	
+	* @param body 	
+	* @param forceSync 	
+	* @param deletePermanently 	
+    */
 	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDelete");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("ids", ids);
 		sfApiQuery.addQueryString("forceSync", forceSync);
 		sfApiQuery.addQueryString("deletePermanently", deletePermanently);
+		sfApiQuery.setBody(ids);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
+    /**
+	* Get Thumbnail
+	* Retrieve a thumbnail link from the specified Item.
+	* @param url 	
+	* @param size 	
+	* @param redirect 	
+	* @return A 302 redirection to the Thumbnail link
+    */
 	public ISFQuery<InputStream> getThumbnail(URI url, Integer size, Boolean redirect)
 	{
 		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();

@@ -171,604 +171,604 @@ public class SFAccount extends SFODataObject {
 	private ArrayList<SFToolInformation> ToolInformation;
 
 	public String getCompanyName() {
-		return CompanyName;
+		return this.CompanyName;
 	}
 
 	public void setCompanyName(String companyname) {
-		CompanyName = companyname;
+		this.CompanyName = companyname;
 	}
 	public SFUser getBillingContact() {
-		return BillingContact;
+		return this.BillingContact;
 	}
 
 	public void setBillingContact(SFUser billingcontact) {
-		BillingContact = billingcontact;
+		this.BillingContact = billingcontact;
 	}
 	public String getBillingContactId() {
-		return BillingContactId;
+		return this.BillingContactId;
 	}
 
 	public void setBillingContactId(String billingcontactid) {
-		BillingContactId = billingcontactid;
+		this.BillingContactId = billingcontactid;
 	}
 	public SFUser getTechnicalContact() {
-		return TechnicalContact;
+		return this.TechnicalContact;
 	}
 
 	public void setTechnicalContact(SFUser technicalcontact) {
-		TechnicalContact = technicalcontact;
+		this.TechnicalContact = technicalcontact;
 	}
 	public String getTechnicalContactId() {
-		return TechnicalContactId;
+		return this.TechnicalContactId;
 	}
 
 	public void setTechnicalContactId(String technicalcontactid) {
-		TechnicalContactId = technicalcontactid;
+		this.TechnicalContactId = technicalcontactid;
 	}
 	public SFUser getAccountManager() {
-		return AccountManager;
+		return this.AccountManager;
 	}
 
 	public void setAccountManager(SFUser accountmanager) {
-		AccountManager = accountmanager;
+		this.AccountManager = accountmanager;
 	}
 	public String getAccountManagerId() {
-		return AccountManagerId;
+		return this.AccountManagerId;
 	}
 
 	public void setAccountManagerId(String accountmanagerid) {
-		AccountManagerId = accountmanagerid;
+		this.AccountManagerId = accountmanagerid;
 	}
 	public String getAccountType() {
-		return AccountType;
+		return this.AccountType;
 	}
 
 	public void setAccountType(String accounttype) {
-		AccountType = accounttype;
+		this.AccountType = accounttype;
 	}
 		/**
 		* Basic, Professional, Enterprise
 		*/
 	public String getPlanName() {
-		return PlanName;
+		return this.PlanName;
 	}
 
 		/**
 		* Basic, Professional, Enterprise
 		*/
 	public void setPlanName(String planname) {
-		PlanName = planname;
+		this.PlanName = planname;
 	}
 	public String getPlanTrack() {
-		return PlanTrack;
+		return this.PlanTrack;
 	}
 
 	public void setPlanTrack(String plantrack) {
-		PlanTrack = plantrack;
+		this.PlanTrack = plantrack;
 	}
 	public String getPlanTrackEnum() {
-		return PlanTrackEnum;
+		return this.PlanTrackEnum;
 	}
 
 	public void setPlanTrackEnum(String plantrackenum) {
-		PlanTrackEnum = plantrackenum;
+		this.PlanTrackEnum = plantrackenum;
 	}
 		/**
 		* Credit Card, Invoice, Comp
 		*/
 	public String getBillingType() {
-		return BillingType;
+		return this.BillingType;
 	}
 
 		/**
 		* Credit Card, Invoice, Comp
 		*/
 	public void setBillingType(String billingtype) {
-		BillingType = billingtype;
+		this.BillingType = billingtype;
 	}
 		/**
 		* Monthly, Quarterly, Annually
 		*/
 	public String getBillingCycle() {
-		return BillingCycle;
+		return this.BillingCycle;
 	}
 
 		/**
 		* Monthly, Quarterly, Annually
 		*/
 	public void setBillingCycle(String billingcycle) {
-		BillingCycle = billingcycle;
+		this.BillingCycle = billingcycle;
 	}
 	public Double getBillingRate() {
-		return BillingRate;
+		return this.BillingRate;
 	}
 
 	public void setBillingRate(Double billingrate) {
-		BillingRate = billingrate;
+		this.BillingRate = billingrate;
 	}
 	public Double getBaseBillingRate() {
-		return BaseBillingRate;
+		return this.BaseBillingRate;
 	}
 
 	public void setBaseBillingRate(Double basebillingrate) {
-		BaseBillingRate = basebillingrate;
+		this.BaseBillingRate = basebillingrate;
 	}
 		/**
 		* Bandwidth included in plan in megabytes
 		*/
 	public Integer getBaseBandwidth() {
-		return BaseBandwidth;
+		return this.BaseBandwidth;
 	}
 
 		/**
 		* Bandwidth included in plan in megabytes
 		*/
 	public void setBaseBandwidth(Integer basebandwidth) {
-		BaseBandwidth = basebandwidth;
+		this.BaseBandwidth = basebandwidth;
 	}
 		/**
 		* Disk space included in megabytes
 		*/
 	public Integer getBaseDiskSpace() {
-		return BaseDiskSpace;
+		return this.BaseDiskSpace;
 	}
 
 		/**
 		* Disk space included in megabytes
 		*/
 	public void setBaseDiskSpace(Integer basediskspace) {
-		BaseDiskSpace = basediskspace;
+		this.BaseDiskSpace = basediskspace;
 	}
 		/**
 		* Users included in plan
 		*/
 	public Integer getBaseUsers() {
-		return BaseUsers;
+		return this.BaseUsers;
 	}
 
 		/**
 		* Users included in plan
 		*/
 	public void setBaseUsers(Integer baseusers) {
-		BaseUsers = baseusers;
+		this.BaseUsers = baseusers;
 	}
 		/**
 		* Additional bandwidth purchased for account
 		*/
 	public Integer getAdditionalBandwidth() {
-		return AdditionalBandwidth;
+		return this.AdditionalBandwidth;
 	}
 
 		/**
 		* Additional bandwidth purchased for account
 		*/
 	public void setAdditionalBandwidth(Integer additionalbandwidth) {
-		AdditionalBandwidth = additionalbandwidth;
+		this.AdditionalBandwidth = additionalbandwidth;
 	}
 		/**
 		* Additional disk space purchased for account
 		*/
 	public Integer getAdditionalDiskSpace() {
-		return AdditionalDiskSpace;
+		return this.AdditionalDiskSpace;
 	}
 
 		/**
 		* Additional disk space purchased for account
 		*/
 	public void setAdditionalDiskSpace(Integer additionaldiskspace) {
-		AdditionalDiskSpace = additionaldiskspace;
+		this.AdditionalDiskSpace = additionaldiskspace;
 	}
 		/**
 		* Additional users purchased for account
 		*/
 	public Integer getAdditionalUsers() {
-		return AdditionalUsers;
+		return this.AdditionalUsers;
 	}
 
 		/**
 		* Additional users purchased for account
 		*/
 	public void setAdditionalUsers(Integer additionalusers) {
-		AdditionalUsers = additionalusers;
+		this.AdditionalUsers = additionalusers;
 	}
 		/**
 		* Additional rate for extra bandwidth. NOTE: This is specified in gigbytes, not megabytes.
 		*/
 	public Double getAdditionalBandwidthRate() {
-		return AdditionalBandwidthRate;
+		return this.AdditionalBandwidthRate;
 	}
 
 		/**
 		* Additional rate for extra bandwidth. NOTE: This is specified in gigbytes, not megabytes.
 		*/
 	public void setAdditionalBandwidthRate(Double additionalbandwidthrate) {
-		AdditionalBandwidthRate = additionalbandwidthrate;
+		this.AdditionalBandwidthRate = additionalbandwidthrate;
 	}
 		/**
 		* Additional rate for extra diskspace. NOTE: This is specified in gigbytes, not megabytes.
 		*/
 	public Double getAdditionalDiskSpaceRate() {
-		return AdditionalDiskSpaceRate;
+		return this.AdditionalDiskSpaceRate;
 	}
 
 		/**
 		* Additional rate for extra diskspace. NOTE: This is specified in gigbytes, not megabytes.
 		*/
 	public void setAdditionalDiskSpaceRate(Double additionaldiskspacerate) {
-		AdditionalDiskSpaceRate = additionaldiskspacerate;
+		this.AdditionalDiskSpaceRate = additionaldiskspacerate;
 	}
 		/**
 		* Additional rate for extra users
 		*/
 	public Double getAdditionalUserRate() {
-		return AdditionalUserRate;
+		return this.AdditionalUserRate;
 	}
 
 		/**
 		* Additional rate for extra users
 		*/
 	public void setAdditionalUserRate(Double additionaluserrate) {
-		AdditionalUserRate = additionaluserrate;
+		this.AdditionalUserRate = additionaluserrate;
 	}
 	public Integer getUserMax() {
-		return UserMax;
+		return this.UserMax;
 	}
 
 	public void setUserMax(Integer usermax) {
-		UserMax = usermax;
+		this.UserMax = usermax;
 	}
 		/**
 		* Maximum disk space for the account in megabtyes
 		*/
 	public Integer getDiskSpaceMax() {
-		return DiskSpaceMax;
+		return this.DiskSpaceMax;
 	}
 
 		/**
 		* Maximum disk space for the account in megabtyes
 		*/
 	public void setDiskSpaceMax(Integer diskspacemax) {
-		DiskSpaceMax = diskspacemax;
+		this.DiskSpaceMax = diskspacemax;
 	}
 		/**
 		* Maximum bandwidth for the account in megabtyes
 		*/
 	public Integer getBandwidthMax() {
-		return BandwidthMax;
+		return this.BandwidthMax;
 	}
 
 		/**
 		* Maximum bandwidth for the account in megabtyes
 		*/
 	public void setBandwidthMax(Integer bandwidthmax) {
-		BandwidthMax = bandwidthmax;
+		this.BandwidthMax = bandwidthmax;
 	}
 	public Boolean getHasPowerTools() {
-		return HasPowerTools;
+		return this.HasPowerTools;
 	}
 
 	public void setHasPowerTools(Boolean haspowertools) {
-		HasPowerTools = haspowertools;
+		this.HasPowerTools = haspowertools;
 	}
 	public Boolean getHasEncryption() {
-		return HasEncryption;
+		return this.HasEncryption;
 	}
 
 	public void setHasEncryption(Boolean hasencryption) {
-		HasEncryption = hasencryption;
+		this.HasEncryption = hasencryption;
 	}
 		/**
 		* Additional rate for adding PowerTools.
 		*/
 	public Double getPowerToolsRate() {
-		return PowerToolsRate;
+		return this.PowerToolsRate;
 	}
 
 		/**
 		* Additional rate for adding PowerTools.
 		*/
 	public void setPowerToolsRate(Double powertoolsrate) {
-		PowerToolsRate = powertoolsrate;
+		this.PowerToolsRate = powertoolsrate;
 	}
 		/**
 		* Additional rate for stored file encryption
 		*/
 	public Double getEncryptionRate() {
-		return EncryptionRate;
+		return this.EncryptionRate;
 	}
 
 		/**
 		* Additional rate for stored file encryption
 		*/
 	public void setEncryptionRate(Double encryptionrate) {
-		EncryptionRate = encryptionrate;
+		this.EncryptionRate = encryptionrate;
 	}
 	public String getAddress1() {
-		return Address1;
+		return this.Address1;
 	}
 
 	public void setAddress1(String address1) {
-		Address1 = address1;
+		this.Address1 = address1;
 	}
 	public String getAddress2() {
-		return Address2;
+		return this.Address2;
 	}
 
 	public void setAddress2(String address2) {
-		Address2 = address2;
+		this.Address2 = address2;
 	}
 	public String getCity() {
-		return City;
+		return this.City;
 	}
 
 	public void setCity(String city) {
-		City = city;
+		this.City = city;
 	}
 	public String getState() {
-		return State;
+		return this.State;
 	}
 
 	public void setState(String state) {
-		State = state;
+		this.State = state;
 	}
 	public String getZip() {
-		return Zip;
+		return this.Zip;
 	}
 
 	public void setZip(String zip) {
-		Zip = zip;
+		this.Zip = zip;
 	}
 	public String getCountry() {
-		return Country;
+		return this.Country;
 	}
 
 	public void setCountry(String country) {
-		Country = country;
+		this.Country = country;
 	}
 	public String getCreditCardType() {
-		return CreditCardType;
+		return this.CreditCardType;
 	}
 
 	public void setCreditCardType(String creditcardtype) {
-		CreditCardType = creditcardtype;
+		this.CreditCardType = creditcardtype;
 	}
 	public String getCreditCardNumber() {
-		return CreditCardNumber;
+		return this.CreditCardNumber;
 	}
 
 	public void setCreditCardNumber(String creditcardnumber) {
-		CreditCardNumber = creditcardnumber;
+		this.CreditCardNumber = creditcardnumber;
 	}
 	public String getCreditCardExpirationMonth() {
-		return CreditCardExpirationMonth;
+		return this.CreditCardExpirationMonth;
 	}
 
 	public void setCreditCardExpirationMonth(String creditcardexpirationmonth) {
-		CreditCardExpirationMonth = creditcardexpirationmonth;
+		this.CreditCardExpirationMonth = creditcardexpirationmonth;
 	}
 	public String getCreditCardExpirationYear() {
-		return CreditCardExpirationYear;
+		return this.CreditCardExpirationYear;
 	}
 
 	public void setCreditCardExpirationYear(String creditcardexpirationyear) {
-		CreditCardExpirationYear = creditcardexpirationyear;
+		this.CreditCardExpirationYear = creditcardexpirationyear;
 	}
 	public String getCreditCardFirstName() {
-		return CreditCardFirstName;
+		return this.CreditCardFirstName;
 	}
 
 	public void setCreditCardFirstName(String creditcardfirstname) {
-		CreditCardFirstName = creditcardfirstname;
+		this.CreditCardFirstName = creditcardfirstname;
 	}
 	public String getCreditCardLastName() {
-		return CreditCardLastName;
+		return this.CreditCardLastName;
 	}
 
 	public void setCreditCardLastName(String creditcardlastname) {
-		CreditCardLastName = creditcardlastname;
+		this.CreditCardLastName = creditcardlastname;
 	}
 	public String getPhone() {
-		return Phone;
+		return this.Phone;
 	}
 
 	public void setPhone(String phone) {
-		Phone = phone;
+		this.Phone = phone;
 	}
 	public Date getLastBillingDate() {
-		return LastBillingDate;
+		return this.LastBillingDate;
 	}
 
 	public void setLastBillingDate(Date lastbillingdate) {
-		LastBillingDate = lastbillingdate;
+		this.LastBillingDate = lastbillingdate;
 	}
 	public Date getNextBillingDate() {
-		return NextBillingDate;
+		return this.NextBillingDate;
 	}
 
 	public void setNextBillingDate(Date nextbillingdate) {
-		NextBillingDate = nextbillingdate;
+		this.NextBillingDate = nextbillingdate;
 	}
 	public Boolean getUseAdvancedCustomBranding() {
-		return UseAdvancedCustomBranding;
+		return this.UseAdvancedCustomBranding;
 	}
 
 	public void setUseAdvancedCustomBranding(Boolean useadvancedcustombranding) {
-		UseAdvancedCustomBranding = useadvancedcustombranding;
+		this.UseAdvancedCustomBranding = useadvancedcustombranding;
 	}
 	public String getAdvancedCustomBrandingFolderName() {
-		return AdvancedCustomBrandingFolderName;
+		return this.AdvancedCustomBrandingFolderName;
 	}
 
 	public void setAdvancedCustomBrandingFolderName(String advancedcustombrandingfoldername) {
-		AdvancedCustomBrandingFolderName = advancedcustombrandingfoldername;
+		this.AdvancedCustomBrandingFolderName = advancedcustombrandingfoldername;
 	}
 	public Map<String, String> getBrandingStyles() {
-		return BrandingStyles;
+		return this.BrandingStyles;
 	}
 
 	public void setBrandingStyles(Map<String, String> brandingstyles) {
-		BrandingStyles = brandingstyles;
+		this.BrandingStyles = brandingstyles;
 	}
 	public String getLogoURL() {
-		return LogoURL;
+		return this.LogoURL;
 	}
 
 	public void setLogoURL(String logourl) {
-		LogoURL = logourl;
+		this.LogoURL = logourl;
 	}
 	public SFItem getRootItem() {
-		return RootItem;
+		return this.RootItem;
 	}
 
 	public void setRootItem(SFItem rootitem) {
-		RootItem = rootitem;
+		this.RootItem = rootitem;
 	}
 	public String getRootItemId() {
-		return RootItemId;
+		return this.RootItemId;
 	}
 
 	public void setRootItemId(String rootitemid) {
-		RootItemId = rootitemid;
+		this.RootItemId = rootitemid;
 	}
 	public Date getCreationDate() {
-		return CreationDate;
+		return this.CreationDate;
 	}
 
 	public void setCreationDate(Date creationdate) {
-		CreationDate = creationdate;
+		this.CreationDate = creationdate;
 	}
 	public Boolean getIsFreeTrial() {
-		return IsFreeTrial;
+		return this.IsFreeTrial;
 	}
 
 	public void setIsFreeTrial(Boolean isfreetrial) {
-		IsFreeTrial = isfreetrial;
+		this.IsFreeTrial = isfreetrial;
 	}
 	public Boolean getIsCancelled() {
-		return IsCancelled;
+		return this.IsCancelled;
 	}
 
 	public void setIsCancelled(Boolean iscancelled) {
-		IsCancelled = iscancelled;
+		this.IsCancelled = iscancelled;
 	}
 	public Date getCancellationDate() {
-		return CancellationDate;
+		return this.CancellationDate;
 	}
 
 	public void setCancellationDate(Date cancellationdate) {
-		CancellationDate = cancellationdate;
+		this.CancellationDate = cancellationdate;
 	}
 	public SFSSOAccountProvider getSSO() {
-		return SSO;
+		return this.SSO;
 	}
 
 	public void setSSO(SFSSOAccountProvider sso) {
-		SSO = sso;
+		this.SSO = sso;
 	}
 	public SFAccountPreferences getPreferences() {
-		return Preferences;
+		return this.Preferences;
 	}
 
 	public void setPreferences(SFAccountPreferences preferences) {
-		Preferences = preferences;
+		this.Preferences = preferences;
 	}
 	public SFProductDefaults getProductDefaults() {
-		return ProductDefaults;
+		return this.ProductDefaults;
 	}
 
 	public void setProductDefaults(SFProductDefaults productdefaults) {
-		ProductDefaults = productdefaults;
+		this.ProductDefaults = productdefaults;
 	}
 	public String getSubdomain() {
-		return Subdomain;
+		return this.Subdomain;
 	}
 
 	public void setSubdomain(String subdomain) {
-		Subdomain = subdomain;
+		this.Subdomain = subdomain;
 	}
 	public ArrayList<String> getSubdomains() {
-		return Subdomains;
+		return this.Subdomains;
 	}
 
 	public void setSubdomains(ArrayList<String> subdomains) {
-		Subdomains = subdomains;
+		this.Subdomains = subdomains;
 	}
 	public SFMobileSecuritySettings getMobileSecuritySettings() {
-		return MobileSecuritySettings;
+		return this.MobileSecuritySettings;
 	}
 
 	public void setMobileSecuritySettings(SFMobileSecuritySettings mobilesecuritysettings) {
-		MobileSecuritySettings = mobilesecuritysettings;
+		this.MobileSecuritySettings = mobilesecuritysettings;
 	}
 	public SFAccessControlDomains getLoginAccessControlDomains() {
-		return LoginAccessControlDomains;
+		return this.LoginAccessControlDomains;
 	}
 
 	public void setLoginAccessControlDomains(SFAccessControlDomains loginaccesscontroldomains) {
-		LoginAccessControlDomains = loginaccesscontroldomains;
+		this.LoginAccessControlDomains = loginaccesscontroldomains;
 	}
 	public SFAccessControlDomains getFolderAccessControlDomains() {
-		return FolderAccessControlDomains;
+		return this.FolderAccessControlDomains;
 	}
 
 	public void setFolderAccessControlDomains(SFAccessControlDomains folderaccesscontroldomains) {
-		FolderAccessControlDomains = folderaccesscontroldomains;
+		this.FolderAccessControlDomains = folderaccesscontroldomains;
 	}
 	public Integer getStorageQuotaPerUser() {
-		return StorageQuotaPerUser;
+		return this.StorageQuotaPerUser;
 	}
 
 	public void setStorageQuotaPerUser(Integer storagequotaperuser) {
-		StorageQuotaPerUser = storagequotaperuser;
+		this.StorageQuotaPerUser = storagequotaperuser;
 	}
 	public String getFreeTrialId() {
-		return FreeTrialId;
+		return this.FreeTrialId;
 	}
 
 	public void setFreeTrialId(String freetrialid) {
-		FreeTrialId = freetrialid;
+		this.FreeTrialId = freetrialid;
 	}
 	public String getSource() {
-		return Source;
+		return this.Source;
 	}
 
 	public void setSource(String source) {
-		Source = source;
+		this.Source = source;
 	}
 	public String getAttributedSource() {
-		return AttributedSource;
+		return this.AttributedSource;
 	}
 
 	public void setAttributedSource(String attributedsource) {
-		AttributedSource = attributedsource;
+		this.AttributedSource = attributedsource;
 	}
 	public String getCompanyURL() {
-		return CompanyURL;
+		return this.CompanyURL;
 	}
 
 	public void setCompanyURL(String companyurl) {
-		CompanyURL = companyurl;
+		this.CompanyURL = companyurl;
 	}
 	public Boolean getMarketingOptIn() {
-		return MarketingOptIn;
+		return this.MarketingOptIn;
 	}
 
 	public void setMarketingOptIn(Boolean marketingoptin) {
-		MarketingOptIn = marketingoptin;
+		this.MarketingOptIn = marketingoptin;
 	}
 	public String getCreditCardSecurityCode() {
-		return CreditCardSecurityCode;
+		return this.CreditCardSecurityCode;
 	}
 
 	public void setCreditCardSecurityCode(String creditcardsecuritycode) {
-		CreditCardSecurityCode = creditcardsecuritycode;
+		this.CreditCardSecurityCode = creditcardsecuritycode;
 	}
 	public ArrayList<SFToolInformation> getToolInformation() {
-		return ToolInformation;
+		return this.ToolInformation;
 	}
 
 	public void setToolInformation(ArrayList<SFToolInformation> toolinformation) {
-		ToolInformation = toolinformation;
+		this.ToolInformation = toolinformation;
 	}
 
 }
