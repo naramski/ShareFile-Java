@@ -8,12 +8,14 @@ public class SFSDK
 	public static final String API_SERVER_TEST = "sf-apitest.com";
 	public static final String API_SERVER_DEV = "sf-apidev.com";
 	public static final String API_SERVER_PRODUCTION = "sf-api.com";
+	public static final String API_SERVER_PRODUCTION_EU = "sf-api.eu";
 		
-	public static final String[] mApiServer = {API_SERVER_PRODUCTION, API_SERVER_DEV,API_SERVER_TEST};
+	public static final String[] mApiServer = {API_SERVER_PRODUCTION, API_SERVER_DEV,API_SERVER_TEST,API_SERVER_PRODUCTION_EU};
 		
 	private static final int HOST_INDEX_PRODUCTION = 0;
 	private static final int HOST_INDEX_DEV 		  = 1;
 	private static final int HOST_INDEX_TEST 	  = 2;
+	private static final int HOST_INDEX_PRODUCTION_EU 	  = 3;
 		
 	public static final int getHostIndex(final String hostName)
 	{
@@ -26,6 +28,10 @@ public class SFSDK
 		else if(hostName.endsWith("test.com"))
 		{
 			index = HOST_INDEX_TEST;
+		}
+		else if(hostName.endsWith(".eu"))
+		{
+			index = HOST_INDEX_PRODUCTION_EU;
 		}
 		
 		return index;
