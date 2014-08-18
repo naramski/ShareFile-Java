@@ -157,9 +157,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			connection.connect();
 			
 			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);			
-			
-			//Use the bearer token currently. ignore the cookies untill we have a good cookie mgr. might impact sharepoint testing without cookies. 
-			//v3Error = SFHttpsCaller.handleErrorAndCookies(connection, httpErrorCode, url);
+						
 			SFHttpsCaller.getAndStoreCookies(connection, url,mCookieManager);
 		    
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
