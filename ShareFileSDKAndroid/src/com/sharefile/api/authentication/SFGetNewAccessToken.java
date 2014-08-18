@@ -92,8 +92,12 @@ public class SFGetNewAccessToken implements Runnable
 	 *  These could be other AsyncTasks which directly call getNewAccessToken() and don't want to execute another internal AsyncTask for this purpose.
 	 *  We need such tasks to be able get the error codes correctly.		   
 	 */
-	public SFOAuth2Token getNewAccessToken()
-	{
+	public SFOAuth2Token getNewAccessToken() {
+		
+		if ( mOldAccessToken.isValid() ) {
+			SLog.v(TAG, "The old Access Token is invalid: can't renew");
+			return null;
+		}
 		
 		try 
 		{									

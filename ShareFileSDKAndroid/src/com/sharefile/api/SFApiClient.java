@@ -3,6 +3,8 @@ package com.sharefile.api;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -12,6 +14,7 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.https.FileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
@@ -194,7 +197,8 @@ public class SFApiClient
 	{
 		return mSession;
 	}
-				
+
+	@Deprecated
 	public SFApiFileDownloadRunnable downloadFile(SFDownloadSpecification downloadSpecification,int resumeFromByteIndex, OutputStream outpuStream, SFApiDownloadProgressListener progressListener, String connUserName,String connPassword) throws SFInvalidStateException
 	{
 		validateClientState();
@@ -203,6 +207,31 @@ public class SFApiClient
 		sfDownloadFile.startNewThread();
 		return sfDownloadFile;
 	}
+	
+	public FileDownloadRunnable getDownloadRunnable(String itemId, String v3Url, int resumeFromByteIndex, OutputStream outpuStream, FileDownloadRunnable.IProgress progressListener, String connUserName, String connPassword) throws SFInvalidStateException {
+		validateClientState();
+		
+		// calculate download URL
+		String url = null;
+		try  {
+			SFApiQuery<SFDownloadSpecification> downloadQuery = SFItemsEntity.download(itemId, true);
+			if ( v3Url!=null ) downloadQuery.setLink(v3Url);
+			String server = getAuthToken().getApiServer();
+			url = downloadQuery.buildQueryUrlString(server);
+			
+		} catch (URISyntaxException e)  {
+			SLog.e(TAG, e);
+			return null;
+			
+		} catch (UnsupportedEncodingException e) {
+			SLog.e(TAG, e);
+			return null;
+		}
+		
+		// create runnable
+		return new FileDownloadRunnable(url, resumeFromByteIndex, outpuStream , this, progressListener, mCookieManager, connUserName, connPassword);
+	}
+	
 	
 	public SFApiFileUploadRunnable uploadFile(SFUploadSpecification uploadSpecification,int resumeFromByteIndex, long tolalBytes, String destinationName, InputStream inputStream, SFApiUploadProgressListener progressListener, String connUserName,String connPassword, String details) throws SFInvalidStateException
 	{
