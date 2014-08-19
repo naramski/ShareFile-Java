@@ -1,6 +1,5 @@
 package com.sharefile.api;
 
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -12,13 +11,16 @@ import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
-import com.sharefile.api.https.FileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.https.SFCookieManager;
+import com.sharefile.api.https.SFDownloadRunnable;
+import com.sharefile.api.https.SFUploadRunnable;
+import com.sharefile.api.https.TransferRunnable;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
@@ -157,6 +159,31 @@ public class SFApiClient
 		return false;
 	}
 	
+	public <T extends SFODataObject> T executeWithReAuth(SFApiQuery<T> query) throws SFV3ErrorException, SFInvalidStateException {
+		validateClientState();
+
+		SFApiRunnable<T> sfApiRunnable =  null;
+		try {
+			sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager);
+			return sfApiRunnable.executeQuery();
+			
+		} catch ( SFV3ErrorException e) {
+			if ( !e.isAuthException() ) throw e;
+			if ( query.getProvider()!=SFProvider.PROVIDER_TYPE_SF ) {
+				// Nothing to do since we assume this is being used on a non-interactive environment
+				// TODO: allow for some call back so the user can enter new credentials?
+				throw e;
+			}
+			if ( !renewAccessTokenSync() ) {
+				SLog.w(TAG, "Failed to reauth");
+				throw e;
+			}
+			SLog.i(TAG, "Repeat query after successful re-auth");
+			return sfApiRunnable.executeQuery();
+		}
+		
+	}
+	
 	/**
 	 * This will block until operation is done and return the expected SFODataObject or throw a V3Exception. Never call this on UI thread.
 	 */
@@ -198,6 +225,17 @@ public class SFApiClient
 		return mSession;
 	}
 
+	/**
+	 * download file on separate thread
+	 * @param downloadSpecification
+	 * @param resumeFromByteIndex
+	 * @param outpuStream
+	 * @param progressListener
+	 * @param connUserName
+	 * @param connPassword
+	 * @return
+	 * @throws SFInvalidStateException
+	 */
 	@Deprecated
 	public SFApiFileDownloadRunnable downloadFile(SFDownloadSpecification downloadSpecification,int resumeFromByteIndex, OutputStream outpuStream, SFApiDownloadProgressListener progressListener, String connUserName,String connPassword) throws SFInvalidStateException
 	{
@@ -208,7 +246,20 @@ public class SFApiClient
 		return sfDownloadFile;
 	}
 	
-	public FileDownloadRunnable getDownloadRunnable(String itemId, String v3Url, int resumeFromByteIndex, OutputStream outpuStream, FileDownloadRunnable.IProgress progressListener, String connUserName, String connPassword) throws SFInvalidStateException {
+	/**
+	 * create a runnable to handle downloading the file
+	 * it is up to the developer to decide how to run this asynchronously (AsyncTask, Thread, ...) 
+	 * @param itemId
+	 * @param v3Url
+	 * @param resumeFromByteIndex
+	 * @param outpuStream
+	 * @param progressListener
+	 * @param connUserName
+	 * @param connPassword
+	 * @return
+	 * @throws SFInvalidStateException
+	 */
+	public SFDownloadRunnable prepareDownload(String itemId, String v3Url, int resumeFromByteIndex, OutputStream outpuStream, TransferRunnable.IProgress progressListener, String connUserName, String connPassword) throws SFInvalidStateException {
 		validateClientState();
 		
 		// calculate download URL
@@ -229,10 +280,24 @@ public class SFApiClient
 		}
 		
 		// create runnable
-		return new FileDownloadRunnable(url, resumeFromByteIndex, outpuStream , this, progressListener, mCookieManager, connUserName, connPassword);
+		return new SFDownloadRunnable(url, resumeFromByteIndex, outpuStream , this, progressListener, mCookieManager, connUserName, connPassword);
 	}
 	
-	
+	/**
+	 * Upload file on separate Thread
+	 * @param uploadSpecification
+	 * @param resumeFromByteIndex
+	 * @param tolalBytes
+	 * @param destinationName
+	 * @param inputStream
+	 * @param progressListener
+	 * @param connUserName
+	 * @param connPassword
+	 * @param details
+	 * @return
+	 * @throws SFInvalidStateException
+	 */
+	@Deprecated
 	public SFApiFileUploadRunnable uploadFile(SFUploadSpecification uploadSpecification,int resumeFromByteIndex, long tolalBytes, String destinationName, InputStream inputStream, SFApiUploadProgressListener progressListener, String connUserName,String connPassword, String details) throws SFInvalidStateException
 	{
 		validateClientState();
@@ -241,6 +306,30 @@ public class SFApiClient
 		sfUploadFile.startNewThread();
 		return sfUploadFile;
 	}	
+
+	/**
+	 * prepare runnable to be used to upload a file
+	 * TODO: create a different version that can handle prompting the users for connector credentials
+	 * @param parentId
+	 * @param destinationName
+	 * @param details
+	 * @param v3Url
+	 * @param overwrite
+	 * @param resumeFromByteIndex
+	 * @param tolalBytes
+	 * @param inputStream
+	 * @param progressListener
+	 * @param connUserName
+	 * @param connPassword
+	 * @return
+	 * @throws SFInvalidStateException
+	 * @throws SFV3ErrorException
+	 */
+	public SFUploadRunnable prepareUpload(String parentId, String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFV3ErrorException {
+		validateClientState();
+
+		return new SFUploadRunnable(parentId, v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);
+	}
 	
 	/**
 	 *  Resets the token and nulls the internal callbacks. Call this when you no longer want to use this object.

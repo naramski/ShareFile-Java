@@ -420,4 +420,8 @@ public class SFApiQuery<T extends SFODataObject>
 		
 		return ret;
 	}
+	
+	public SFProvider getProvider() {
+		return mProvider;
+	}
 }

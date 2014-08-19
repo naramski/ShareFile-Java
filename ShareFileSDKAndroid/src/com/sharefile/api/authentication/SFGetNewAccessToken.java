@@ -94,7 +94,8 @@ public class SFGetNewAccessToken implements Runnable
 	 */
 	public SFOAuth2Token getNewAccessToken() {
 		
-		if ( mOldAccessToken.isValid() ) {
+		String refreshToken = mOldAccessToken.getRefreshToken();
+		if ( refreshToken==null || refreshToken.isEmpty() ) {
 			SLog.v(TAG, "The old Access Token is invalid: can't renew");
 			return null;
 		}
@@ -123,7 +124,8 @@ public class SFGetNewAccessToken implements Runnable
 			mHttpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
 																			    
 			if(mHttpErrorCode == HttpsURLConnection.HTTP_OK)
-			{										
+			{
+				SLog.i(TAG, "Successfully re-authenticated");
 				mResponseString = SFHttpsCaller.readResponse(conn);
 			}		
 			else

@@ -24,6 +24,7 @@ import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.java.log.SLog;
 
+@Deprecated
 public class SFApiFileDownloadRunnable implements Runnable  
 {	
 	private static final String TAG = SFKeywords.TAG + "-download";

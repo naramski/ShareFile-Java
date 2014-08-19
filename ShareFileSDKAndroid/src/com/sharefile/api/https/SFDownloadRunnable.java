@@ -22,50 +22,8 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.java.log.SLog;
 
-public class FileDownloadRunnable implements Runnable {
+public class SFDownloadRunnable extends TransferRunnable {
 	private static final String TAG = SFKeywords.TAG + "-FileDownloadRunnable";
-
-	public interface IProgress {
-		public void bytesDownloaded(long byteCount);
-	};
-
-	/**
-	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
-	 */
-	public static class Result
-	{
-		private int mHttpErrorCode = 0;
-		private SFV3Error mV3Error = null;			
-		private long mBytesDownloaded = 0;
-		private final AtomicBoolean cancelRequested = new AtomicBoolean(false);
-		
-		public void setFields(int errorCode, SFV3Error v3Error, long downloaded)
-		{
-			mHttpErrorCode = errorCode;
-			mV3Error = v3Error;			
-			mBytesDownloaded = downloaded;
-		}
-
-		public void requestCancel() {
-			cancelRequested.set(true);
-		}
-
-		public SFV3Error getError() {
-			return mV3Error;
-		}
-
-		public long getBytesDownloaded() {
-			return mBytesDownloaded;
-		}
-
-		public boolean isCanceled() {
-			return cancelRequested.get();
-		}
-		
-		public boolean isSuccess() {
-			return !isCanceled() && mHttpErrorCode==HttpsURLConnection.HTTP_OK;
-		}
-	};
 	
 	private String mUrl;
 	private final long mResumeFromByteIndex;
@@ -84,7 +42,10 @@ public class FileDownloadRunnable implements Runnable {
 	private String responseString = null;
 	private long bytesRead = 0;
 
-	public FileDownloadRunnable(String url,
+	private AtomicBoolean cancelRequested = new AtomicBoolean(false);
+	
+
+	public SFDownloadRunnable(String url,
 									 int resumeFromByteIndex, 
 									 OutputStream outpuStream, 
 									 SFApiClient client,
@@ -105,6 +66,20 @@ public class FileDownloadRunnable implements Runnable {
 		runInThisThread();
 	}
 	
+	/**
+	 * execute download in this thread overriding the cancel signal
+	 * @param cancel
+	 * @return
+	 */
+	public Result runInThisThread(AtomicBoolean cancel) {
+		cancelRequested = cancel;
+		return runInThisThread();
+	}
+	
+	/**
+	 * execute download in this thread
+	 * @return
+	 */
 	public Result runInThisThread() {
 		try {
 			download();
@@ -114,16 +89,24 @@ public class FileDownloadRunnable implements Runnable {
 			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " +Log.getStackTraceString(ex);												
 		}
 		
+		if ( isCanceled() ) {
+			// create "cancel error" regardless of result			
+			return createCancelResult(bytesRead);
+		}
+		
 		parseResponse(httpErrorCode, responseString, bytesRead);
-//		callResponseListeners();
+
 		return mResponse;
 	}
 	
+	/**
+	 * request the current download to cancel
+	 */
 	public void cancel() {
-		mResponse.requestCancel();
+		cancelRequested.set(true);
 	}
 	
-	public void download() throws IOException {
+	private void download() throws IOException {
 		bytesRead = mResumeFromByteIndex;
 		
 		URLConnection connection = null;
@@ -160,7 +143,7 @@ public class FileDownloadRunnable implements Runnable {
 				
 				while ((length = fis.read(buffer)) > 0) 
 				{
-					if ( mResponse.isCanceled() ) break;
+					if ( isCanceled() ) break;
 					
 					mOutputStream.write(buffer, 0, length);
 					bytesRead+= length;
@@ -203,13 +186,7 @@ public class FileDownloadRunnable implements Runnable {
 	 *   has to be filled with an ErrorCode or HTTP_OK and the V3Error or SFOBject should be filled based on success or failure or 
 	 *   response parsing.	 
 	 */
-	private void parseResponse(int httpCode,String responseString,long downloadedBytes)
-	{
-		if ( mResponse.isCanceled() ) {
-			// download was cancelled: no reason to process response 
-			return;
-		}
-		
+	private void parseResponse(int httpCode,String responseString,long downloadedBytes) {
 		switch(httpCode)
 		{
 			case HttpsURLConnection.HTTP_OK:
@@ -262,48 +239,13 @@ public class FileDownloadRunnable implements Runnable {
 		}
 		
 		try {
-			mProgressListener.bytesDownloaded(downloadedBytes);
+			mProgressListener.bytesTransfered(downloadedBytes);
 			
 		} catch(Exception e) {
 			SLog.d(TAG, "exception in updateProgress" , e);
 		}		
 	}
 	
-	
-//	private void callResponseListeners()
-//	{
-//		if(mProgressListener == null)
-//		{
-//			return;
-//		}
-//		
-//		try
-//		{
-//			if ( cancelRequested.get() ) {
-//				SLog.d(TAG, "Download cancelled");
-//				mProgressListener.downloadCanceled(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
-//				return;
-//			}
-//			
-//			switch(mResponse.mHttpErrorCode)
-//			{
-//				case HttpsURLConnection.HTTP_OK:
-//					mProgressListener.downloadSuccess(mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);				
-//					break;	
-//																
-//				default:
-//					mProgressListener.downloadFailure(mResponse.mV3Error,mResponse.mBytesDownloaded, mDownloadSpecification, mApiClient);
-//					break;				
-//			}
-//			
-//		} catch(Exception ex) {
-//			SLog.d(TAG, "!!Exception calling the responseListener",ex);
-//			
-//		} finally {
-//			// 
-//			mProgressListener = null;
-//		}
-//	}
 	
 	/**
 	 *   This is a filler only. wont do any parsing.
@@ -320,5 +262,9 @@ public class FileDownloadRunnable implements Runnable {
 
 	public String getUrl() {
 		return mUrl;
+	}
+	
+	public boolean isCanceled() {
+		return cancelRequested.get();
 	}
 }
