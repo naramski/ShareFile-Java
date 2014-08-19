@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.gson.SFGsonHelper;
 
 /*
@@ -115,6 +116,11 @@ public class SFV3Error
 		}
 		else if(mInternalException!=null && mInternalException.getLocalizedMessage()!=null)
 		{
+			if(mInternalException instanceof SFOutOfMemoryException)
+			{
+				return "Out of Memory";
+			}
+			
 			return mInternalException.getLocalizedMessage();
 		}
 		
