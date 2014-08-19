@@ -445,17 +445,17 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Link object
-	* @param url 	
+	* @param id 	
 	* @param link 	
 	* @param notify 	
 	* @return A modified Link object
     */
-	public ISFQuery<SFLink> updateLink(URI url, SFLink link, Boolean notify)
+	public ISFQuery<SFLink> updateLink(String id, SFLink link, Boolean notify)
 	{
 		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addActionIds(id);
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(link);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -470,17 +470,17 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Note object
-	* @param url 	
+	* @param id 	
 	* @param note 	
 	* @param notify 	
 	* @return The modified Note object
     */
-	public ISFQuery<SFNote> updateNote(URI url, SFNote note, Boolean notify)
+	public ISFQuery<SFNote> updateNote(String id, SFNote note, Boolean notify)
 	{
 		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addActionIds(id);
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(note);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -495,16 +495,16 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Link": "https://server/path"
     * }
 	* Updates a Symbolic Link object
-	* @param url 	
+	* @param id 	
 	* @param symlink 	
 	* @return The modified SymbolicLink object
     */
-	public ISFQuery<SFSymbolicLink> updateSymbolicLink(URI url, SFSymbolicLink symlink)
+	public ISFQuery<SFSymbolicLink> updateSymbolicLink(String id, SFSymbolicLink symlink)
 	{
 		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addActionIds(id);
 		sfApiQuery.setBody(symlink);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
