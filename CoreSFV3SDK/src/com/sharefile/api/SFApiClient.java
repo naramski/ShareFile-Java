@@ -179,7 +179,7 @@ public class SFApiClient
 		
 		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager,mSFAppConfig);
 		
-		return sfApiRunnable.executeQuery();
+		return sfApiRunnable.executeBlockingQuery();
 	}
 	
 	/**

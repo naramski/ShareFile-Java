@@ -55,10 +55,10 @@ public class SFDefaultGsonParser
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	
 			
-	public static SFV3Error parse(JsonElement jsonElement)	
+	/*public static SFV3Error parse(JsonElement jsonElement)	
 	{		
 		return getInstance().mGson.fromJson(jsonElement, SFV3Error.class);		
-	}
+	}*/
 	
 	public static String serialize(Type clazz,Object src)	
 	{		

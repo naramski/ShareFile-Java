@@ -217,26 +217,24 @@ public class SFHttpsCaller
 	public static SFV3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url,SFCookieManager cookieManager) throws IOException
 	{
 		SFV3Error v3Error = null;
-		
-		if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
-		{
-			getAndStoreCookies(conn,url,cookieManager);
-			return v3Error;
-		}
-		
+						
 		try
 		{
+			if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
+			{
+				getAndStoreCookies(conn,url,cookieManager);
+				return v3Error;
+			}
+			
 			String inputLine = readErrorResponse(conn);
 			
 			SLog.d(TAG,  "ERR PAGE: " + inputLine);
 			
-			v3Error = new SFV3Error(httpErrorCode,inputLine);
+			v3Error = new SFV3Error(httpErrorCode,inputLine,null);
 		}
 		catch (Exception e) 
-		{			
-			//try constructing the error from the exception.
-			
-			v3Error = new SFV3Error(httpErrorCode, e.getLocalizedMessage());
+		{						
+			v3Error = new SFV3Error(httpErrorCode,null, e);
 		}
 		
 		return v3Error;
