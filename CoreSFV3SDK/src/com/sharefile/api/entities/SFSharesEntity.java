@@ -242,7 +242,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.addSubAction("BulkDownload");
 		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setBody(ids);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
