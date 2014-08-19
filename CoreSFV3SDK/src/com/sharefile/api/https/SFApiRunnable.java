@@ -18,6 +18,7 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.interfaces.ISFQuery;
@@ -109,10 +110,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		URLConnection connection = null;		
 		
 		try
-		{
+		{						
 			String server = mOauthToken.getApiServer();		
 			String urlstr = mQuery.buildQueryUrlString(server);
-							
+								
 			URL url = new URL(urlstr);
 			connection = SFHttpsCaller.getURLConnection(url);		
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
@@ -182,6 +183,12 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
 			mResponse.setResponse(null, sfV3error);
 		}		
+		catch (OutOfMemoryError e) 
+		{
+			SLog.e(TAG,e.getLocalizedMessage());
+			SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(e.getStackTrace().toString()));
+			mResponse.setResponse(null, sfV3error);
+		}
 		finally
 		{
 			SFHttpsCaller.disconnect(connection);
