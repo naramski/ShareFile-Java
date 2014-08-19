@@ -18,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.https.SFHttpsCaller;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.java.log.SLog;
@@ -25,10 +26,9 @@ import com.sharefile.java.log.SLog;
 public class SFGetNewAccessToken implements Runnable
 {
 	private static final String TAG = SFKeywords.TAG + "-SFGetNewAccessToken";
-	private int mHttpErrorCode = HttpsURLConnection.HTTP_OK;
-	private String mResponseString = null;
+	
 	private final SFGetNewAccessTokenListener mCallback;		
-	private SFV3Error mV3Error = null;	
+	
 	private final SFOAuth2Token mOldAccessToken;
 	private SFOAuth2Token mNewAccessToken = null;
 	private final String mWebLoginClientID;
@@ -94,6 +94,9 @@ public class SFGetNewAccessToken implements Runnable
 	 */
 	public void getNewAccessToken()
 	{
+		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+		String responseString = null;
+		SFV3Error sfV3Error = null;
 		
 		try 
 		{									
@@ -116,85 +119,51 @@ public class SFGetNewAccessToken implements Runnable
 			 				
 			postBody(conn, body);
 			
-			mHttpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
-																			    
-			if(mHttpErrorCode == HttpsURLConnection.HTTP_OK)
-			{										
-				mResponseString = SFHttpsCaller.readResponse(conn);
-			}		
-			else
+			httpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
+			responseString = null;			
+															
+			switch(httpErrorCode)
 			{
-				mResponseString = SFHttpsCaller.readErrorResponse(conn);
-													
-			}				    			
+				case HttpsURLConnection.HTTP_OK:
+					responseString = SFHttpsCaller.readResponse(conn);
+					callSuccessResponseParser(responseString);
+				break;	
+								
+				case HttpsURLConnection.HTTP_UNAUTHORIZED:
+					sfV3Error = callErrorResponseFiller(httpErrorCode,null,null);
+				break;
+				
+				default:
+					responseString = SFHttpsCaller.readErrorResponse(conn);
+					sfV3Error = callFailureResponseParser(httpErrorCode, responseString);
+				break;	
+			}							    			
+						
 		}		
 		catch (Exception e) 
 		{
-			mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			mResponseString = e.getLocalizedMessage();
+			sfV3Error = callErrorResponseFiller(httpErrorCode,null,e);
 		} 		
-		
-		parseResponse(mHttpErrorCode, mResponseString);
-						
-		callResponseListeners();
+										
+		callResponseListeners(sfV3Error);
 	}
-		
-
-	/**
-	 *   Parse the response to the best of our ability. At the end of this function the FinalResponse object 
-	 *   has to be filled with an ErrorCode or HTTP_OK and the V3Error or SFOBject should be filled based on success or failure or 
-	 *   response parsing.	 
-	 */
-	private void parseResponse(int httpCode,String responseString)
-	{
-		switch(httpCode)
-		{
-			case HttpsURLConnection.HTTP_OK:
-				callSuccessResponseParser(responseString);				
-			break;	
-									
-			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				mHttpErrorCode = HttpsURLConnection.HTTP_UNAUTHORIZED;
-				mV3Error = new SFV3Error(httpCode,null,responseString);				
-			break;
-			
-			case SFSDK.INTERNAL_HTTP_ERROR:				
-				callInternalErrorResponseFiller(httpCode, responseString, null);
-			break;
-			
-			default:
-				callFailureResponseParser(httpCode, responseString);
-			break;				
-		}				
+				
+	private void callSuccessResponseParser(String responseString) throws SFJsonException
+	{					
+		mNewAccessToken = new SFOAuth2Token(responseString);		
 	}
 	
-	private void callSuccessResponseParser(String responseString)
-	{
-		try
-		{
-			mHttpErrorCode = HttpsURLConnection.HTTP_OK;
-			mNewAccessToken = new SFOAuth2Token(responseString);
-		}
-		catch(Exception e)
-		{			
-			callInternalErrorResponseFiller(SFSDK.INTERNAL_HTTP_ERROR, e.getLocalizedMessage(), responseString);
-		}
+	private SFV3Error callFailureResponseParser(int httpCode, String responseString)
+	{		
+		return callErrorResponseFiller(httpCode, responseString, null);		
 	}
 	
-	private void callFailureResponseParser(int httpCode, String responseString)
-	{
-		try
-		{
-			mHttpErrorCode = httpCode;
-			mV3Error = new SFV3Error(httpCode,responseString,null);
-		}
-		catch(Exception e)
-		{			
-			callInternalErrorResponseFiller(SFSDK.INTERNAL_HTTP_ERROR, e.getLocalizedMessage(), responseString);
-		}
+	private SFV3Error callErrorResponseFiller(int httpCode,String errorDetails, Exception internalEx)
+	{		
+		return new SFV3Error(httpCode,errorDetails,internalEx);		
 	}
 	
-	private void callResponseListeners()
+	private void callResponseListeners(SFV3Error error)
 	{
 		if(mCallback == null)
 		{
@@ -203,32 +172,22 @@ public class SFGetNewAccessToken implements Runnable
 		
 		try
 		{
-			switch(mHttpErrorCode)
+			if(error == null)
 			{
-				case HttpsURLConnection.HTTP_OK:
-					mCallback.successGetAccessToken(mNewAccessToken);				
-				break;	
-																
-				default:
-					mCallback.errorGetAccessToken(mV3Error);
-				break;				
+				mCallback.successGetAccessToken(mNewAccessToken);				
+			}
+			else
+			{
+				mCallback.errorGetAccessToken(error);								
 			}
 		}
 		catch(Exception ex)
 		{
-			SLog.d(TAG, "!!Exception calling the responseListener " , ex);
+			SLog.e(TAG, "!!Exception calling the responseListener " , ex);
 		}
 	}
-		
-	/**
-	 *   This is a filler only. wont do any parsing.
-	 */
-	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo)
-	{
-		mHttpErrorCode = httpCode;
-		mV3Error = new SFV3Error(httpCode,errorDetails,extraInfo);		
-	}
-
+			
+	
 	public Thread startNewThread()
 	{
 		Thread sfApithread = new Thread(this);		
