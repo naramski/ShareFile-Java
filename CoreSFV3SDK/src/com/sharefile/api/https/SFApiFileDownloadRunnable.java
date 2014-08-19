@@ -161,7 +161,7 @@ public class SFApiFileDownloadRunnable implements Runnable
 		
 		try
 		{
-			if(sfv3Error!=null)
+			if(sfv3Error==null)
 			{
 					mProgressListener.downloadSuccess(bytesDownloaded, mDownloadSpecification, mApiClient);
 			}
