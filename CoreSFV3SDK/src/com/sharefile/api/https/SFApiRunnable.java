@@ -9,7 +9,6 @@ import java.net.URLConnection;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFConfiguration;
 import com.sharefile.api.SFV3Error;
@@ -17,12 +16,10 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFReadAheadType;
-import com.sharefile.api.enumerations.SFV3ElementType;
+import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
-import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
@@ -32,6 +29,10 @@ import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.java.log.SLog;
 
+/**
+ *   This class provides two methods: executeQuery() and executeBlockingQuery() to execute the V3 api calls.
+ *   <br>executeQuery() is launched on a separate thread and internally calls  executeBlockingQuery() to get its work done.
+ */
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
@@ -41,32 +42,22 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private final SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
-		
-	/**
-	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
-	 *   The callListerners will be called appropriately based on the contents of this object.
-	 */
-	protected class FinalResponse
-	{
-		private int mHttpErrorCode = 0;
-		private SFV3Error mV3Error = null;
-		private SFODataObject mResponseObject = null;	
-		
-		public void setFeilds(int errorCode, SFV3Error v3Error,SFODataObject sfObject)
-		{
-			mHttpErrorCode = errorCode;
-			mV3Error = v3Error;
-			mResponseObject = sfObject;
-		}
-		
-		public SFODataObject getResponseObject()
-		{
-			return mResponseObject;
-		}
-	};
 	
-	FinalResponse mResponse = new FinalResponse();
+	
+	private final class Response
+	{
+		SFODataObject returnObject;
+		SFV3Error errorObject;
 		
+		public void setResponse(SFODataObject ret,SFV3Error err)
+		{
+			returnObject = ret;
+			errorObject = err;
+		}
+	}
+	
+	private final Response mResponse = new Response();
+						
 	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config) throws SFInvalidStateException
 	{			
 		mQuery = query;
@@ -78,15 +69,8 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	@Override
 	public void run() 
-	{
-		try 
-		{
-			executeQuery();
-		} 
-		catch (SFV3ErrorException e) 
-		{			
-			SLog.d(TAG, "Exception. This should not happen." , e);
-		}
+	{		
+		executeQuery();		
 	}
 	
 	private void handleHttPost(URLConnection conn) throws IOException
@@ -104,39 +88,25 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			}
 		}
 	}
-			
-	/** 
-	 * Currently the server is not returning a DownloadSpecification for download requests, 
-	 * its directly returning the download link. For the sake of completeness, implement the local
-	 * response filler for such requests.	 
-	 */
-	private boolean constructDownloadSpec()
+				
+	private void executeQuery() 
 	{
-		return mQuery.constructDownloadSpec();
-	}
-	
-	private String fillSpecialResponse(String downloadURl)
-	{				
-		try 
-		{			
-			JsonObject  jsonObject = new JsonObject();
-			jsonObject.addProperty(SFKeywords.ODATA_METADATA, SFV3ElementType.DownloadSpecification.toString());
-			jsonObject.addProperty(SFKeywords.DownloadUrl, downloadURl);
-			return jsonObject.toString();
-		} 
-		catch (Exception e) 
-		{			
-			SLog.e(TAG,e);
+		try
+		{
+			 executeBlockingQuery();
+			 callResponseListeners(mResponse.returnObject, mResponse.errorObject);
 		}
-		
-		return null;
+		catch(Exception e)
+		{
+			SLog.e(TAG, "Exception. This should not happen." , e);
+		}
 	}
-	
-	public SFODataObject executeQuery() throws SFV3ErrorException 
+		
+	public SFODataObject executeBlockingQuery() throws SFV3ErrorException 
 	{			
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
-		URLConnection connection = null;
+		URLConnection connection = null;		
 		
 		try
 		{
@@ -157,96 +127,82 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			connection.connect();
 			
 			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);			
-			
-			//Use the bearer token currently. ignore the cookies untill we have a good cookie mgr. might impact sharepoint testing without cookies. 
-			//v3Error = SFHttpsCaller.handleErrorAndCookies(connection, httpErrorCode, url);
+						
 			SFHttpsCaller.getAndStoreCookies(connection, url,mCookieManager);
-		    
-			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
-			{										
-				if(!constructDownloadSpec())
-				{
+			
+			switch(httpErrorCode)
+			{
+				case HttpsURLConnection.HTTP_OK:
+				{															
 					responseString = SFHttpsCaller.readResponse(connection);
+					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
+					
+					SFODataObject ret = callSuccessResponseParser(responseString);
+					
+					if(ret!=null)
+					{
+						mResponse.setResponse(ret, null);
+					}
+					else
+					{
+						if(mResponse.errorObject == null)
+						{
+							mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,null,null));
+						}
+					}
 				}
-				else
+				break;
+				
+				case HttpsURLConnection.HTTP_NO_CONTENT:
 				{
-					responseString = fillSpecialResponse(urlstr);
+					mResponse.setResponse(null, null);
 				}
-			}
-			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
-			{
-				//no content. might be valid. let the listeners handle this.
-			}
-			else if(httpErrorCode == HttpsURLConnection.HTTP_MOVED_TEMP)
-			{
-				responseString = connection.getHeaderField(SFKeywords.Location);								
-			}
-			else
-			{
-				responseString = SFHttpsCaller.readErrorResponse(connection);
-			}
-				    
-			SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);						
+				break;
+				
+				case HttpsURLConnection.HTTP_UNAUTHORIZED:
+				{
+					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", "AUTH ERROR");
+					SFV3Error sfV3error = new SFV3Error(httpErrorCode,null,null);
+					mResponse.setResponse(null, sfV3error);
+				}
+				break;
+				
+				default:
+				{
+					responseString = SFHttpsCaller.readErrorResponse(connection);
+					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
+					SFV3Error sfV3error = new SFV3Error(httpErrorCode,responseString,null);
+					mResponse.setResponse(null, sfV3error);
+				}
+			}		    							    															
 		}
 		catch(Exception ex)
 		{		
 			SLog.e(TAG,ex);
-			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " +ex.getStackTrace().toString();												
+			SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
+			mResponse.setResponse(null, sfV3error);
 		}		
 		finally
 		{
 			SFHttpsCaller.disconnect(connection);
 		}
-						
-		
-		try
-		{
-			parseResponse(httpErrorCode,responseString);		
-			
-			switch (readAheadRequired()) 
-			{
-				case READ_AHEAD_SYMBOLIC_LINK:
-					readAheadSymbolicLinks();
-					break;
-						
-				case READ_AHEAD_REDIRECTION_FOLDER_ENUM:	
-					readAheadRedirectedFolderEnum();
-					break;
-					
-				case EXECUTE_QUERY_ON_REDIRECTED_URI:
-					executeQueryOnRedirectedObject();
-					callResponseListeners(); //lets call this explicitly so that we don't need to skip the break in the case else coverity complains.
-					break;
-					
-				default:
-					callResponseListeners();
-					break;
-			}
-		}
-		catch(Exception e)
-		{
-			SLog.e(TAG,e);
-		}
-						
-		return returnResultOrThrow();
+								
+		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
 	}		
 	
-	private SFODataObject executeQueryOnRedirectedObject() 
+	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) 
 	{
 		SFODataObject odataObject = null;
 		
 		try 
-		{
-			SFRedirection redirection = (SFRedirection) mResponse.mResponseObject;
-			
+		{						
 			URI redirectLink = redirection.getUri();
 			
 			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
 			
 			mQuery.setFullyParametrizedLink(redirectLink);
 			
-			odataObject = executeQuery();
+			odataObject = executeBlockingQuery();
 		} 
 		catch (Exception e) 
 		{			
@@ -255,93 +211,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		
 		return odataObject;
 	}
-
-	/**
-	 * 
-	 */
-	private SFODataObject readAheadRedirectedFolderEnum()  
-	{			
-		SFODataObject odataObject = null;
 		
-		try 
-		{
-			SFFolder folder = (SFFolder) mResponse.mResponseObject;
-			
-			URI redirectLink = folder.getRedirection().getUri();
-			
-			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
-			
-			mQuery.setLink(redirectLink);
-			
-			odataObject = executeQuery();
-		} 
-		catch (Exception e) 
-		{			
-			SLog.e(TAG,e);
-		}
-		
-		return odataObject;
-	}
-
-	private SFODataObject readAheadSymbolicLinks()
-	{
-		SFODataObject ret = null;
-		
-		try 
-		{
-			ret = reExecuteNewQueryForSymbolicLinks();
-		} 
-		catch (URISyntaxException e) 
-		{				
-			SLog.e(TAG,e);
-		} 
-		catch (SFV3ErrorException e) 
-		{
-			SLog.e(TAG,e);
-		}
-		
-		return ret;
-	}
-			
-	/**
-	 *   Parse the response to the best of our ability. At the end of this function the FinalResponse object 
-	 *   has to be filled with an ErrorCode or HTTP_OK and the V3Error or SFOBject should be filled based on success or failure or 
-	 *   response parsing.	 
-	 */
-	private void parseResponse(int httpCode,String responseString)
-	{
-		SFV3Error v3Error;
-		
-		switch(httpCode)
-		{
-			case HttpsURLConnection.HTTP_OK:
-				callSuccessResponseParser(responseString);				
-			break;	
-			
-			case HttpsURLConnection.HTTP_NO_CONTENT:
-				mResponse.setFeilds(HttpsURLConnection.HTTP_NO_CONTENT, null, null);
-			break;
-			
-			case HttpsURLConnection.HTTP_MOVED_TEMP:
-				v3Error = new SFV3Error(httpCode,null,responseString);
-				mResponse.setFeilds(HttpsURLConnection.HTTP_MOVED_TEMP, v3Error, null);
-			break;
-			
-			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				v3Error = new SFV3Error(httpCode,null,responseString);
-				mResponse.setFeilds(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error, null);
-			break;
-			
-			case SFSDK.INTERNAL_HTTP_ERROR:
-				callInternalErrorResponseFiller(httpCode, responseString, null);
-			break;
-			
-			default:
-				callFailureResponseParser(httpCode, responseString);
-			break;				
-		}				
-	}
-	
 	/**
 	 *   If the returned object is a Symbolic Link or has a Redirection feild we need to read ahead to get the actual contents.
 	 * @throws URISyntaxException 
@@ -351,161 +221,128 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	private boolean mAlreadRedirecting = false;
 	
-	private SFReadAheadType readAheadRequired()
+	private SFRedirectionType redirectionRequired(SFODataObject object)
 	{
-		SFReadAheadType ret = SFReadAheadType.READ_AHEAD_NONE;
+		SFRedirectionType ret = SFRedirectionType.NONE;
 		
 		if(!mQuery.readAheadAllowed())
 		{
 			return ret;
 		}
+		
+		if((object == null) )
+		{
+			return ret;
+		}
 				
-		if(mResponse.mHttpErrorCode == HttpsURLConnection.HTTP_OK) 
-		{			
-			if(mResponse.mResponseObject instanceof SFSymbolicLink)
-			{
-				ret = SFReadAheadType.READ_AHEAD_SYMBOLIC_LINK;
-			}
-			else if(mResponse.mResponseObject instanceof SFFolder)
-			{
-				SFFolder folder = (SFFolder) mResponse.mResponseObject;
-				
-				Boolean hadRemoteChildren = folder.getHasRemoteChildren();
-				
-				if(folder.getRedirection()!=null && hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
-				{					
-					ret = SFReadAheadType.READ_AHEAD_REDIRECTION_FOLDER_ENUM;
-					mAlreadRedirecting = true;
-				}
-			}
-			else if(mResponse.mResponseObject instanceof SFRedirection)
-			{
-				ret = SFReadAheadType.EXECUTE_QUERY_ON_REDIRECTED_URI;				
+		if(object instanceof SFSymbolicLink)
+		{
+			ret = SFRedirectionType.SYMBOLIC_LINK;
+		}
+		else if(object instanceof SFFolder)
+		{
+			SFFolder folder = (SFFolder) object;
+			
+			Boolean hadRemoteChildren = folder.getHasRemoteChildren();
+			
+			if(folder.getRedirection()!=null && hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
+			{					
+				ret = SFRedirectionType.FOLDER_ENUM;
+				mAlreadRedirecting = true;
 			}
 		}
+		else if(object instanceof SFRedirection)
+		{
+			ret = SFRedirectionType.URI;				
+		}		
 		
 		return ret;
 	}
 	
-	private SFODataObject reExecuteNewQueryForSymbolicLinks() throws URISyntaxException, SFV3ErrorException
+	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException
 	{
-		SFSymbolicLink link = (SFSymbolicLink) mResponse.mResponseObject;				
-				
-		//SFApiQuery<T> tempQuery = new SFApiQuery<T>(); //Build a new Query				
-		//tempQuery.copyQuery(mQuery); //Copy the vital fields from the original query into the new query.		
-		//tempQuery.setLink(link.getLink().toString()); //Override the symbolic link		
-		//mQuery.copyQuery(tempQuery); //copy back
-		
-		//Dont create new query object. just replace the link
-		mQuery.setLink(link.getLink().toString());
-		
-		return executeQuery();
+		mQuery.setLink(link.getLink().toString());		
+		return executeBlockingQuery();
 	}
 	
-	protected void callResponseListeners()
+	@SuppressWarnings("unchecked")
+	protected void callResponseListeners(SFODataObject sfobject,SFV3Error v3error)
 	{
 		if(mResponseListener == null)
 		{
 			return;
 		}
-		
+				
 		try
 		{
-			switch(mResponse.mHttpErrorCode)
+			if(v3error !=null)
 			{
-				case HttpsURLConnection.HTTP_OK:
-					mResponseListener.sfApiSuccess((T) mResponse.mResponseObject);		
-				break;	
-				
-				case HttpsURLConnection.HTTP_NO_CONTENT:
-					mResponseListener.sfApiSuccess(null);
-				break;
-												
-				default:
-					mResponseListener.sfApiError(mResponse.mV3Error, mQuery);
-				break;				
+				mResponseListener.sfApiError(v3error, mQuery);				
 			}
+			else
+			{
+				mResponseListener.sfApiSuccess((T) sfobject);
+			}						
 		}
 		catch(Exception ex)
 		{
-			SLog.d(TAG, "!!Exception calling the responseListener ",ex);
+			SLog.e(TAG,ex);
 		}
 	}
 	
-	private SFODataObject returnResultOrThrow() throws SFV3ErrorException
+	private SFODataObject returnResultOrThrow(SFODataObject sfobject,SFV3Error v3error) throws SFV3ErrorException
 	{
 		//Run this only when the responseListener is not installed.
 		if(mResponseListener != null)
 		{
-			return null;
+			return sfobject;
 		}
-		
-		switch(mResponse.mHttpErrorCode)
+				
+		if(v3error == null)
 		{
-			case HttpsURLConnection.HTTP_OK:
-			return mResponse.mResponseObject;							
-			
-			case HttpsURLConnection.HTTP_NO_CONTENT:
-			return	null;										
+			return sfobject;
 		}
 		
-		throw new SFV3ErrorException(mResponse.mV3Error);
+		throw new SFV3ErrorException(v3error);
 	}
-		
-	/**
-	 *   This is a filler only. wont do any parsing.
-	 */
-	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo)
-	{
-		SFV3Error v3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
-		mResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, v3Error, null);
-	}
+				
 				
 	/**
 	 *  If an error happens during parsing the success response, 
 	 *  we return the exception description + the original server response in V3Error Object
+	 * @throws URISyntaxException 
+	 * @throws SFV3ErrorException 
 	 */
-	protected void callSuccessResponseParser(String responseString)
+	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException
 	{
 		preprocessSuccessResponse(responseString);
-		
-		try 
-		{			
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonElement =jsonParser.parse(responseString);
-			SFODataObject object = SFGsonHelper.customParse(jsonElement);			
-			mResponse.setFeilds(HttpsURLConnection.HTTP_OK, null, object);			
-		} 
-		catch (Exception e) 
-		{					
-			/* 
-			 * Note how we fill the httpErrorcode in V3Object to 200. Thats coz the server originally returned 200, 
-			 * just the response object was malformed or caused some other exception while parsing.			 
-			 */						
-			callInternalErrorResponseFiller(HttpsURLConnection.HTTP_OK,e.getLocalizedMessage().toString(),responseString);
-		}					
+							
+		JsonParser jsonParser = new JsonParser();
+		JsonElement jsonElement =jsonParser.parse(responseString);
+		SFODataObject sfobject = SFGsonHelper.customParse(jsonElement);
+				
+		switch (redirectionRequired(sfobject)) 
+		{
+			case SYMBOLIC_LINK:
+				sfobject = executeQueryOnSymbolicLink((SFSymbolicLink)sfobject);
+			break;
+					
+			case FOLDER_ENUM:	
+				sfobject = executeQueryOnRedirectedObject(((SFFolder)sfobject).getRedirection());
+			break;
+				
+			case URI:
+				sfobject = executeQueryOnRedirectedObject((SFRedirection) sfobject);							
+			break;
+				
+			case NONE:
+				//do nothing
+			break;
+		}
+				
+		return sfobject;
 	}
 	
-	private void callFailureResponseParser(int httpCode, String responseString)
-	{
-		try 
-		{
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonElement =jsonParser.parse(responseString);				
-			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
-			v3Error.httpResponseCode = httpCode;				
-			mResponse.setFeilds(httpCode, v3Error, null);
-		} 
-		catch (Exception e)  
-		{					
-			/* 
-			 * Note how we fill the httpErrorcode to httpCode. Thats coz the server originally returned it, 
-			 * just the error object was malformed or caused some other exception while parsing.			 
-			 */						
-			callInternalErrorResponseFiller(httpCode,e.getStackTrace().toString(),responseString);
-		}
-	}
-			
 	protected void preprocessSuccessResponse(String responseString)
 	{
 		
@@ -521,10 +358,5 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	protected SFApiResponseListener<T> getResponseListener()
 	{
 		return mResponseListener;
-	}
-	
-	protected FinalResponse getResponse()
-	{
-		return mResponse;
-	}
+	}		
 }

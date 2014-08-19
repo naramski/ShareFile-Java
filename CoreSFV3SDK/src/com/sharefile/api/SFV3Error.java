@@ -31,26 +31,23 @@ import com.sharefile.api.gson.SFGsonHelper;
  */
 public class SFV3Error 
 {
-	private static final String ERR_FORBIDDEN =   "Forbidden (403)";
-	private static final String ERR_UNAUTHORIZD = "Unauthorized (401)";
-	private static final String ERR_NOTREACHABLE = "Server Not reachable (503)";
-	private static final String ERR_BADMETHOD = "Method not allowed (405)";
-	
-	public int httpResponseCode = 0;
-	public String code = "";	
-	
-	public String mExtraInfo = null;	
-	
-	public static class ErrorMessage
+	public static class ServerResponse
 	{
+		public int httpResponseCode = SFSDK.INTERNAL_HTTP_ERROR;
+		public String code = "";
 		public String lang = null;
 		public String value = null;
 	}
 	
-	public ErrorMessage message = new ErrorMessage();
-			
-	
-	private String getErrorMessageFromErroCode()
+	private static final String ERR_FORBIDDEN =   "Forbidden (403)";
+	private static final String ERR_UNAUTHORIZD = "Unauthorized (401)";
+	private static final String ERR_NOTREACHABLE = "Server Not reachable (503)";
+	private static final String ERR_BADMETHOD = "Method not allowed (405)";
+					
+	private Exception mInternalException = null;				
+	private ServerResponse mServerResponse = new ServerResponse();
+				
+	private String getErrorMessageFromErroCode(int httpResponseCode)
 	{
 		switch(httpResponseCode)
 		{
@@ -61,12 +58,7 @@ public class SFV3Error
 			default: return "Unkown Error.("+ httpResponseCode+")";
 		}
 	}
-	
-	public SFV3Error()
-	{
-		
-	}
-		
+			
 	/**
 	 *   V3Error are JSON objects. It might happen that the server returns a Non-Json object responsestring/or something we got from an http exception causing 
 	 *   a JSONException in this constructor. In such case, the constructor simply returns the following:
@@ -74,75 +66,68 @@ public class SFV3Error
 	 *   <p>message.value = Exception stack
 	 *   <p>mExtraInfo = original response string which we tried to parse
 	 */
-	public SFV3Error(int httpcode , String respSring)
+	public SFV3Error(int serverHttpCode , String serverRespSring, Exception exception)
 	{				
-		httpResponseCode = httpcode;
-		mExtraInfo = null;
-						
-		if(respSring == null)
+		mServerResponse.httpResponseCode = serverHttpCode;		
+		mInternalException = exception ;
+		
+		if(serverRespSring == null)
 		{
-			respSring = getErrorMessageFromErroCode();
+			mServerResponse.value = getErrorMessageFromErroCode(serverHttpCode);
+			return;
 		}
-				
+										
 		try 
 		{											
 			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonElement = jsonParser.parse(respSring);
+			JsonElement jsonElement = jsonParser.parse(serverRespSring);
 			JsonObject jsonObject = jsonElement.getAsJsonObject();
 			
-			code = SFGsonHelper.getString(jsonObject, SFKeywords.CODE, "");
+			mServerResponse.code = SFGsonHelper.getString(jsonObject, SFKeywords.CODE, "");
 			
 			JsonObject messageObject = jsonObject.getAsJsonObject(SFKeywords.MESSAGE);
-			message.value = SFGsonHelper.getString(messageObject, SFKeywords.VALUE, "");			
+			mServerResponse.value = SFGsonHelper.getString(messageObject, SFKeywords.VALUE, "");			
 		} 
 		catch (Exception e) 
-		{							
-			message.value = "Exception during constructing V3Error. See extraInfo for more details of server response";
-			mExtraInfo = respSring;			
+		{										
+			mInternalException = exception;			
 		}
 	}
 				
-	/**
-	 *   Call this constructor only for non-server error parsing. V3Error are JSON objects. It might happen that the server returns a Non-Json object responsestring/or something we got from an http exception causing 
-	 *   a JSONException in this constructor. In such case, the constructor simply returns the following:
-	 *   <p>httpError = original code
-	 *   <p>message.value = Exception stack
-	 *   <p>mExtraInfo = original response string which we tried to parse
-	 */
-	public SFV3Error(int httpcode , String respSring, String extraInfo)
-	{
-		httpResponseCode = httpcode;
-		mExtraInfo = extraInfo;	
-		
-		if(respSring == null)
-		{
-			respSring = getErrorMessageFromErroCode();
-		}
-		
-		message.value = respSring;				
-	}
-	
 	public boolean isAuthError()
 	{
-		if(httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED)
+		if(mServerResponse.httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED)
 		{
 			return true;
 		}
 		
 		return false;
 	}
-	
-	
+		
 	/**
-	 *  Allows the clients to show a localized message if its sent from the server or optional string if its an internal error
+	 *  Allows the clients to show a localized message if it is sent from the server or optional string if its an internal error
 	 */
 	public String errorDisplayString(String optionalLocalized)
 	{
-		if(httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && message!=null)
+		if(mServerResponse.httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && mServerResponse.value!=null)
 		{
-			return message.value;
+			return mServerResponse.value;
+		}
+		else if(mInternalException!=null && mInternalException.getLocalizedMessage()!=null)
+		{
+			return mInternalException.getLocalizedMessage();
 		}
 		
 		return optionalLocalized;
+	}
+	
+	public ServerResponse getServerResponse()
+	{
+		return mServerResponse;
+	}
+	
+	public Exception getException()
+	{
+		return mInternalException;
 	}
 }

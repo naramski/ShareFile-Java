@@ -24,7 +24,7 @@ public class SFV3ErrorException extends SFAbstractException
 	{
 		boolean result = false;
 		
-		if(mV3Error.httpResponseCode ==  HttpsURLConnection.HTTP_UNAUTHORIZED)
+		if(mV3Error!=null && mV3Error.getServerResponse().httpResponseCode ==  HttpsURLConnection.HTTP_UNAUTHORIZED)
 		{
 			result = true;
 		}
