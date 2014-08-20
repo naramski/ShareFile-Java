@@ -172,13 +172,13 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public ISFQuery<InputStream> download(URI shareUrl, String id, String Name, String Email, String Company, Boolean redirect)
+	public ISFQuery<InputStream> download(URI shareUrl, String itemId, String Name, String Email, String Company, Boolean redirect)
 	{
 		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
-		sfApiQuery.addQueryString("itemId", id);
+		sfApiQuery.addQueryString("id", itemId);
 		sfApiQuery.addQueryString("Name", Name);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.addQueryString("Company", Company);
@@ -205,7 +205,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public ISFQuery<InputStream> download(URI shareUrl, String aliasid, String id, Boolean redirect)
+	public ISFQuery<InputStream> download(URI shareUrl, String aliasid, String itemId, Boolean redirect)
 	{
 		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
 		sfApiQuery.setFrom("Shares");
@@ -213,7 +213,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.addIds(shareUrl);
 		sfApiQuery.addActionIds(aliasid);
 		sfApiQuery.addSubAction("Download");
-		sfApiQuery.addQueryString("itemId", id);
+		sfApiQuery.addQueryString("id", itemId);
 		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
