@@ -111,8 +111,6 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDocViewerPrinting;
 	@SerializedName("EnableWatermarkedDownloads")
 	private Boolean EnableWatermarkedDownloads;
-	@SerializedName("EnableCaseSensitivePasswords")
-	private Boolean EnableCaseSensitivePasswords;
 	@SerializedName("EnableTwoFactorAuth")
 	private Boolean EnableTwoFactorAuth;
 	@SerializedName("LoginFailMaxAttempts")
@@ -151,14 +149,10 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer PasswordHistoryCount;
 	@SerializedName("MinimumLength")
 	private Integer MinimumLength;
-	@SerializedName("AlphaRequired")
-	private Boolean AlphaRequired;
-	@SerializedName("CaseRequired")
-	private Boolean CaseRequired;
-	@SerializedName("NumericRequired")
-	private Boolean NumericRequired;
-	@SerializedName("SpecialRequired")
-	private Boolean SpecialRequired;
+	@SerializedName("MinimumSpecialCharacters")
+	private Integer MinimumSpecialCharacters;
+	@SerializedName("MinimumNumeric")
+	private Integer MinimumNumeric;
 	@SerializedName("AllowedSpecialCharacters")
 	private String AllowedSpecialCharacters;
 	@SerializedName("EnableWebDAV")
@@ -501,13 +495,6 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableWatermarkedDownloads(Boolean enablewatermarkeddownloads) {
 		this.EnableWatermarkedDownloads = enablewatermarkeddownloads;
 	}
-	public Boolean getEnableCaseSensitivePasswords() {
-		return this.EnableCaseSensitivePasswords;
-	}
-
-	public void setEnableCaseSensitivePasswords(Boolean enablecasesensitivepasswords) {
-		this.EnableCaseSensitivePasswords = enablecasesensitivepasswords;
-	}
 	public Boolean getEnableTwoFactorAuth() {
 		return this.EnableTwoFactorAuth;
 	}
@@ -641,33 +628,19 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setMinimumLength(Integer minimumlength) {
 		this.MinimumLength = minimumlength;
 	}
-	public Boolean getAlphaRequired() {
-		return this.AlphaRequired;
+	public Integer getMinimumSpecialCharacters() {
+		return this.MinimumSpecialCharacters;
 	}
 
-	public void setAlphaRequired(Boolean alpharequired) {
-		this.AlphaRequired = alpharequired;
+	public void setMinimumSpecialCharacters(Integer minimumspecialcharacters) {
+		this.MinimumSpecialCharacters = minimumspecialcharacters;
 	}
-	public Boolean getCaseRequired() {
-		return this.CaseRequired;
-	}
-
-	public void setCaseRequired(Boolean caserequired) {
-		this.CaseRequired = caserequired;
-	}
-	public Boolean getNumericRequired() {
-		return this.NumericRequired;
+	public Integer getMinimumNumeric() {
+		return this.MinimumNumeric;
 	}
 
-	public void setNumericRequired(Boolean numericrequired) {
-		this.NumericRequired = numericrequired;
-	}
-	public Boolean getSpecialRequired() {
-		return this.SpecialRequired;
-	}
-
-	public void setSpecialRequired(Boolean specialrequired) {
-		this.SpecialRequired = specialrequired;
+	public void setMinimumNumeric(Integer minimumnumeric) {
+		this.MinimumNumeric = minimumnumeric;
 	}
 	public String getAllowedSpecialCharacters() {
 		return this.AllowedSpecialCharacters;
