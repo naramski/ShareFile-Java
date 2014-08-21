@@ -33,7 +33,7 @@ public final class SFReAuthContext<T extends SFODataObject>
 		}
 		
 		mQuery.setCredentials(userName, password);
-		mSFApiClient.executeQueryInternal(mQuery,mOriginalListener,false);								
+		//mSFApiClient.executeQueryInternal(mQuery,mOriginalListener,false);								
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package com.sharefile.api.https;
+package com.sharefile.api;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,8 +10,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.sharefile.api.SFConfiguration;
-import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
@@ -21,6 +19,9 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.https.SFCookieManager;
+import com.sharefile.api.https.SFHttpsCaller;
+import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
@@ -31,10 +32,31 @@ import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.java.log.SLog;
 
 /**
- *   This class provides two methods: executeQuery() and executeBlockingQuery() to execute the V3 api calls.
- *   <br>executeQuery() is launched on a separate thread and internally calls  executeBlockingQuery() to get its work done.
+ *  This class provides the bare-minimum functions to make the V3 API server calls and read + parse their responses.
+ *  <br>These calls are blocking calls so that the application can use its own thread management.
+ *  
+ *  <br><br>The calls to be made are in this sequence:<br>
+ *  
+ *  <b>
+ *  <br>executeBlockingQuery();
+ *  <br>callresponseListeners();
+ *  </b>
+ *  
+ *  <br><br>Typical usage in Android AsyncTask would be :<br>
+ *  
+ *  <br>doInBackgrond()
+ *  <br>{
+ *  <br>	executeBlockingQuery();
+ *  <br>}
+ *  <br>
+ *  <br>onPostExecute()
+ *  <br>{
+ *  <br>	callresponseListeners();
+ *  <br>}
+ *  
  */
-public class SFApiRunnable<T extends SFODataObject> implements Runnable 
+@SFSDKDefaultAccessScope 
+class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
 			
@@ -43,8 +65,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	private final SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
-	
-	
+		
 	private final class Response
 	{
 		SFODataObject returnObject;
@@ -57,9 +78,9 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 	}
 	
-	private final Response mResponse = new Response();
+	private Response mResponse = null;
 						
-	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config) throws SFInvalidStateException
+	public SFApiQueryExecutor(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config) throws SFInvalidStateException
 	{			
 		mQuery = query;
 		mResponseListener = responseListener;
@@ -67,13 +88,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		mCookieManager = cookieManager;
 		mAppSpecificConfig = config;
 	}
-	
-	@Override
-	public void run() 
-	{		
-		executeQuery();		
-	}
-	
+		
 	private void handleHttPost(URLConnection conn) throws IOException
 	{
 		if(mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.POST.toString()))
@@ -88,23 +103,24 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				SFHttpsCaller.postBody(conn, body);				
 			}
 		}
-	}
-				
-	private void executeQuery() 
+	}			
+	
+	@Override
+	public void callResponseListeners() throws SFInvalidStateException 
 	{
-		try
+		if(mResponse == null)
 		{
-			 executeBlockingQuery();
-			 callResponseListeners(mResponse.returnObject, mResponse.errorObject);
+			throw new SFInvalidStateException("The Application needs to call executeBlockingQuery() before calling responselistener.");
 		}
-		catch(Exception e)
-		{
-			SLog.e(TAG, "Exception. This should not happen." , e);
-		}
+		
+		callResponseListeners(mResponse.returnObject, mResponse.errorObject);
 	}
 		
+	@Override
 	public SFODataObject executeBlockingQuery() throws SFV3ErrorException 
 	{			
+		mResponse = new Response();
+		
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
 		URLConnection connection = null;		
@@ -354,16 +370,9 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	{
 		
 	}
-	
-	public Thread startNewThread()
-	{
-		Thread sfApithread = new Thread(this);		
-		sfApithread.start();
-		return sfApithread;
-	}
-	
+		
 	protected SFApiResponseListener<T> getResponseListener()
 	{
 		return mResponseListener;
-	}		
+	}			
 }
