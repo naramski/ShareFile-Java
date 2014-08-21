@@ -10,6 +10,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
@@ -62,10 +63,11 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			
 	private ISFQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
-	private final SFOAuth2Token mOauthToken;
+	private SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
-		
+	private SFOAuthTokenRenewer mAccessTokenRenewer;
+				
 	private final class Response
 	{
 		SFODataObject returnObject;
@@ -80,13 +82,14 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	
 	private Response mResponse = null;
 						
-	public SFApiQueryExecutor(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config) throws SFInvalidStateException
+	public SFApiQueryExecutor(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer) throws SFInvalidStateException
 	{			
 		mQuery = query;
 		mResponseListener = responseListener;
 		mOauthToken = token;		
 		mCookieManager = cookieManager;
 		mAppSpecificConfig = config;
+		mAccessTokenRenewer = tokenRenewer;
 	}
 		
 	private void handleHttPost(URLConnection conn) throws IOException
@@ -179,8 +182,28 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 				case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				{
 					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", "AUTH ERROR");
-					SFV3Error sfV3error = new SFV3Error(httpErrorCode,null,null);
-					mResponse.setResponse(null, sfV3error);
+					
+					if(!mQuery.canReNewTokenInternally() || mAccessTokenRenewer==null)
+					{
+						SFV3Error sfV3error = new SFV3Error(httpErrorCode,null,null);
+						mResponse.setResponse(null, sfV3error);
+					}
+					else
+					{												
+						SFODataObject ret = executeQueryAfterTokenRenew();
+						
+						if(ret!=null)
+						{
+							mResponse.setResponse(ret, null);
+						}
+						else
+						{
+							if(mResponse.errorObject == null)
+							{
+								mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,null,null));
+							}
+						}
+					}
 				}
 				break;
 				
@@ -213,6 +236,38 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
 	}		
 	
+	private boolean renewToken() throws SFV3ErrorException
+	{
+		if(mAccessTokenRenewer==null)
+		{
+			return false;
+		}
+		
+		mOauthToken = mAccessTokenRenewer.getNewAccessToken();
+		mAccessTokenRenewer.callResponseListeners();		
+		SFV3Error error = mAccessTokenRenewer.getError();		
+		mAccessTokenRenewer = null; //this stops the app from going into infinite loop if errors are encountered after the first auth.
+		
+		if(mOauthToken != null)
+		{
+			mResponse.setResponse(null, error);
+			
+			return true;
+		}
+						
+		return false;
+	}
+	
+	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException 
+	{
+		if(!renewToken())
+		{
+			return null;
+		}
+		
+		return executeBlockingQuery();
+	}
+
 	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) 
 	{
 		SFODataObject odataObject = null;
@@ -315,18 +370,17 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	
 	private SFODataObject returnResultOrThrow(SFODataObject sfobject,SFV3Error v3error) throws SFV3ErrorException
 	{
-		//Run this only when the responseListener is not installed.
-		if(mResponseListener != null)
-		{
-			return sfobject;
-		}
-				
-		if(v3error == null)
-		{
+		if(sfobject!=null)
+		{		
 			return sfobject;
 		}
 		
-		throw new SFV3ErrorException(v3error);
+		if(mResponseListener == null)
+		{		
+			throw new SFV3ErrorException(v3error);
+		}
+		
+		return null;
 	}
 				
 				

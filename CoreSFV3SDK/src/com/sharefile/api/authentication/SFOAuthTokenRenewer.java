@@ -1,9 +1,5 @@
 package com.sharefile.api.authentication;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -18,12 +14,15 @@ import org.apache.http.message.BasicNameValuePair;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.exceptions.SFJsonException;
+import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFHttpsCaller;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.java.log.SLog;
 
-public class SFGetNewAccessToken implements Runnable
+/**
+ *   This provides the bare minimum functionality to renew the access token. Client app is free to use its own threading mechanism
+ */
+public class SFOAuthTokenRenewer
 {
 	private static final String TAG = SFKeywords.TAG + "-SFGetNewAccessToken";
 	
@@ -33,8 +32,9 @@ public class SFGetNewAccessToken implements Runnable
 	private SFOAuth2Token mNewAccessToken = null;
 	private final String mWebLoginClientID;
 	private final String mWebLoginClientSecret;
+	private SFV3Error mSFV3Error = null;
 		
-	public SFGetNewAccessToken(SFOAuth2Token oldtoken,SFGetNewAccessTokenListener callback,String clientID,String clientSecret)
+	public SFOAuthTokenRenewer(SFOAuth2Token oldtoken,SFGetNewAccessTokenListener callback,String clientID,String clientSecret)
 	{		
 		mCallback = callback;
 		mOldAccessToken = oldtoken;
@@ -76,27 +76,36 @@ public class SFGetNewAccessToken implements Runnable
 
 	    return result.toString();
 	}
-	
-	public static void postBody(URLConnection conn, String body) throws IOException
-	{		
-		OutputStream os = conn.getOutputStream();
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-		writer.write(body);
-		writer.flush();
-		writer.close();
-		os.close();
+		
+	/**
+	 *  This will call in sequence:
+	 *  <br>getNewAccessToken();
+		<br>callResponseListeners();
+	 */
+	public void getNewAccessTokenEx() throws SFV3ErrorException
+	{
+		getNewAccessToken();
+		callResponseListeners();
 	}
 	/**
-	 *  Never call the function getNewAccessToken() on UI thread. 
-	 *  The override callback is only for callers that explicitly invoke  getNewAccessToken() 
-	 *  These could be other AsyncTasks which directly call getNewAccessToken() and don't want to execute another internal AsyncTask for this purpose.
-	 *  We need such tasks to be able get the error codes correctly.		   
+	 *  This function offers fine grained control so that the app call getTheAccessToken and call response listeners separately.
+	 *  
+	 *  For Example: Android apps which can use an AsycnTask for this can call
+	 *  <br> doInBackGround()
+	 *  <br>{
+	 *  <br>   getNewAccessToken();
+	 *  <br>}	
+	 *  
+	 *  <br> onPostExecute()
+	 *  <br>{
+	 *  <br>   callResponseListener();
+	 *  <br>}
+	 *  
 	 */
-	public void getNewAccessToken()
+	public SFOAuth2Token getNewAccessToken() throws SFV3ErrorException
 	{
 		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
-		SFV3Error sfV3Error = null;
 		
 		try 
 		{									
@@ -117,7 +126,7 @@ public class SFGetNewAccessToken implements Runnable
 			conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.length());			
 			conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_FORM_URLENCODED);
 			 				
-			postBody(conn, body);
+			SFHttpsCaller.postBody(conn, body);
 			
 			httpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
 			responseString = null;			
@@ -126,44 +135,54 @@ public class SFGetNewAccessToken implements Runnable
 			{
 				case HttpsURLConnection.HTTP_OK:
 					responseString = SFHttpsCaller.readResponse(conn);
-					callSuccessResponseParser(responseString);
+					mNewAccessToken = new SFOAuth2Token(responseString);
 				break;	
 								
 				case HttpsURLConnection.HTTP_UNAUTHORIZED:
-					sfV3Error = callErrorResponseFiller(httpErrorCode,null,null);
+					mSFV3Error = new SFV3Error(HttpsURLConnection.HTTP_UNAUTHORIZED,null,null);
 				break;
 				
 				default:
 					responseString = SFHttpsCaller.readErrorResponse(conn);
-					sfV3Error = callFailureResponseParser(httpErrorCode, responseString);
+					mSFV3Error = new SFV3Error(httpErrorCode,responseString,null);
 				break;	
 			}							    			
 						
 		}		
 		catch (Exception e) 
 		{
-			sfV3Error = callErrorResponseFiller(httpErrorCode,null,e);
+			mSFV3Error = new SFV3Error(httpErrorCode,null,e);
 		} 		
 										
-		callResponseListeners(sfV3Error);
+		
+		return returnResultOrThrowException();
 	}
 				
-	private void callSuccessResponseParser(String responseString) throws SFJsonException
-	{					
-		mNewAccessToken = new SFOAuth2Token(responseString);		
+	public SFV3Error getError()
+	{
+		return mSFV3Error;
 	}
 	
-	private SFV3Error callFailureResponseParser(int httpCode, String responseString)
-	{		
-		return callErrorResponseFiller(httpCode, responseString, null);		
+	/**
+	 *  Throws SFV3Error as an exception only when the callers of the class have not installed callback. 
+	 */
+	private SFOAuth2Token returnResultOrThrowException() throws SFV3ErrorException
+	{
+		if(mNewAccessToken!=null)
+		{
+			return mNewAccessToken;
+		}
+		
+		//throw exception on when callbacks are not installed .else the user is expect to get the response on callbacks
+		if(mCallback ==null)
+		{
+			throw new SFV3ErrorException(mSFV3Error);
+		}
+				
+		return null;
 	}
 	
-	private SFV3Error callErrorResponseFiller(int httpCode,String errorDetails, Exception internalEx)
-	{		
-		return new SFV3Error(httpCode,errorDetails,internalEx);		
-	}
-	
-	private void callResponseListeners(SFV3Error error)
+	public void callResponseListeners()
 	{
 		if(mCallback == null)
 		{
@@ -172,32 +191,18 @@ public class SFGetNewAccessToken implements Runnable
 		
 		try
 		{
-			if(error == null)
+			if(mSFV3Error == null)
 			{
 				mCallback.successGetAccessToken(mNewAccessToken);				
 			}
 			else
 			{
-				mCallback.errorGetAccessToken(error);								
+				mCallback.errorGetAccessToken(mSFV3Error);								
 			}
 		}
 		catch(Exception ex)
 		{
 			SLog.e(TAG, "!!Exception calling the responseListener " , ex);
 		}
-	}
-			
-	
-	public Thread startNewThread()
-	{
-		Thread sfApithread = new Thread(this);		
-		sfApithread.start();
-		return sfApithread;
-	}		
-	
-	@Override
-	public void run() 
-	{		
-		getNewAccessToken();
 	}
 }

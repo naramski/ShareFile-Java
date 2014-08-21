@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidStateException;
@@ -20,6 +21,7 @@ import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
+import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFDeviceStatus;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
@@ -47,6 +49,31 @@ public class SFApiClient
 	private final SFConfiguration mSFAppConfig = new SFConfiguration();
 			
 	private final AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
+	
+	private SFOAuthTokenRenewer mOauthTokenRenewer;
+	
+	private final SFGetNewAccessTokenListener mGetNewAccessTokenListener = new SFGetNewAccessTokenListener()
+	{
+		@Override
+		public void successGetAccessToken(SFOAuth2Token oAuthToken) 
+		{
+			try 
+			{
+				reinitClientState(oAuthToken);				
+			} 
+			catch (SFInvalidStateException e) 
+			{				
+				SLog.e(TAG,e);
+			}						
+		}
+
+		@Override
+		public void errorGetAccessToken(SFV3Error v3error) 
+		{			
+			SLog.e(TAG,v3error.errorDisplayString("error getting access token"));
+		}		
+	};
+	
 		
 	public boolean isClientInitialised()
 	{
@@ -83,6 +110,8 @@ public class SFApiClient
 		mSFAppConfig.addAcceptedLanguage(DEFAULT_ACCEPTED_LANGUAGE);
 		
 		copyOAuthToken(oauthToken);					
+		
+		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
 	}
 	
 	/**
@@ -96,6 +125,8 @@ public class SFApiClient
 		mClientInitializedSuccessFully.set(false);
 		
 		copyOAuthToken(oauthtoken);		
+		
+		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
 		
 		if(mAuthTokenChangeListener!=null)
 		{
@@ -121,7 +152,9 @@ public class SFApiClient
 	
 	public <T extends SFODataObject> ISFApiExecuteQuery getExecutor(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
-		return new SFApiQueryExecutor<T>(query, listener, mOAuthToken.get(), mCookieManager, mSFAppConfig);
+		validateClientState();
+		
+		return new SFApiQueryExecutor<T>(query, listener, mOAuthToken.get(), mCookieManager, mSFAppConfig,mOauthTokenRenewer);
 	}
 						
 	/**
