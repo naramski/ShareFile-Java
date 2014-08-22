@@ -308,12 +308,15 @@ public class SFUploadRunnable extends TransferRunnable
 			int currentBytesRead = 0;					
 			OutputStream poster = new DataOutputStream(conn.getOutputStream());					
 						
+			int count = 0; 
 			while((currentBytesRead = in.read(buffer,0,1024)) >0)
 			{						
 				poster.write(buffer,0,currentBytesRead);
 				bytesUploaded+=(long)currentBytesRead;				
 				poster.flush();//needs to be here				
-				updateProgress(bytesUploaded+previousChunkTotal);
+				
+				// onlu send notifications every 50kb
+				if ( count++ % 50 == 0 ) updateProgress(bytesUploaded+previousChunkTotal);
 				
 				if (cancelRequested.get()) {
 					// cancel
@@ -406,6 +409,8 @@ public class SFUploadRunnable extends TransferRunnable
 				if(mChunkUploadResponse.mBytesTransferedInChunk > 0) {
 					previousChunkTotalBytes+= mChunkUploadResponse.mBytesTransferedInChunk;
 				}
+				
+				Thread.yield();
 			}
 			
 		} catch(Exception ex) {					
@@ -434,8 +439,7 @@ public class SFUploadRunnable extends TransferRunnable
 					
 	private void updateProgress(long uploadedBytes)
 	{
-		if(mProgressListener == null)
-		{
+		if(mProgressListener == null) {
 			return;
 		}
 		
