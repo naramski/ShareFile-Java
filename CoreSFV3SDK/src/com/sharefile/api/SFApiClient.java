@@ -154,7 +154,7 @@ public class SFApiClient
 	{
 		validateClientState();
 		
-		return new SFApiQueryExecutor<T>(query, listener, mOAuthToken.get(), mCookieManager, mSFAppConfig,mOauthTokenRenewer);
+		return new SFApiQueryExecutor<T>(this,query, listener, mOAuthToken.get(), mCookieManager, mSFAppConfig,mOauthTokenRenewer, reauthHandler);
 	}
 						
 	/**

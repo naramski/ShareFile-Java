@@ -5,6 +5,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.interfaces.ISFReAuthHandler;
+import com.sharefile.api.interfaces.ISFReExcecuteQuery;
+import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 
 /**
@@ -13,19 +16,21 @@ import com.sharefile.api.models.SFODataObject;
 public final class SFReAuthContext<T extends SFODataObject> 
 {	
 	private final ISFQuery<T> mQuery;
-	private final SFApiListenerReauthHandler<T> mOriginalListener;	
+	private final SFApiResponseListener<T> mOriginalListener;	
 	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
 	private final SFApiClient mSFApiClient;
+	private final ISFReAuthHandler mReauthHandler;
 		
 	@SFSDKDefaultAccessScope
-	SFReAuthContext(ISFQuery<T> sfapiApiqueri,SFApiListenerReauthHandler<T> originalListener,SFApiClient sfApiClient)	
+	SFReAuthContext(ISFQuery<T> sfapiApiqueri,SFApiResponseListener<T> originalListener, ISFReAuthHandler reauthHandler,SFApiClient sfApiClient)	
 	{
 		mQuery = sfapiApiqueri;
 		mOriginalListener = originalListener;
 		mSFApiClient = sfApiClient;
+		mReauthHandler = reauthHandler;
 	}
 			
-	public void proceedWithCredentials(String userName, String password) throws SFInvalidStateException 
+	public void reExecuteQueryWithCredentials(String userName, String password, ISFReExcecuteQuery<T> reExecutor) throws SFInvalidStateException 
 	{		
 		if(mIsCancelled.get())
 		{
@@ -33,7 +38,8 @@ public final class SFReAuthContext<T extends SFODataObject>
 		}
 		
 		mQuery.setCredentials(userName, password);
-		//mSFApiClient.executeQueryInternal(mQuery,mOriginalListener,false);								
+				
+		reExecutor.execute(mSFApiClient, mQuery, mOriginalListener, mReauthHandler);		
 	}
 	
 	/**

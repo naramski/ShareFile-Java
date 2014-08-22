@@ -1,6 +1,7 @@
 package com.sharefile.api;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,6 +25,7 @@ import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFHttpsCaller;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
@@ -61,12 +63,14 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
 			
-	private ISFQuery<T> mQuery; 
+	private final ISFQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
 	private SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
-	private SFOAuthTokenRenewer mAccessTokenRenewer;
+	private final SFOAuthTokenRenewer mAccessTokenRenewer;
+	private final ISFReAuthHandler mReauthHandler;
+	private final SFApiClient mSFApiClient;	
 				
 	private final class Response
 	{
@@ -82,14 +86,16 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	
 	private Response mResponse = null;
 						
-	public SFApiQueryExecutor(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer) throws SFInvalidStateException
+	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{			
+		mSFApiClient = apiClient;				
 		mQuery = query;
 		mResponseListener = responseListener;
 		mOauthToken = token;		
 		mCookieManager = cookieManager;
 		mAppSpecificConfig = config;
 		mAccessTokenRenewer = tokenRenewer;
+		mReauthHandler = reauthHandler; 
 	}
 		
 	private void handleHttPost(URLConnection conn) throws IOException
@@ -245,8 +251,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 		mOauthToken = mAccessTokenRenewer.getNewAccessToken();
 		mAccessTokenRenewer.callResponseListeners();		
-		SFV3Error error = mAccessTokenRenewer.getError();		
-		mAccessTokenRenewer = null; //this stops the app from going into infinite loop if errors are encountered after the first auth.
+		SFV3Error error = mAccessTokenRenewer.getError();				
 		
 		if(mOauthToken != null)
 		{
@@ -278,7 +283,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			
 			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
 			
-			mQuery.setFullyParametrizedLink(redirectLink);
+			mQuery.setLinkAndAppendPreviousParameters(redirectLink);
 			
 			odataObject = executeBlockingQuery();
 		} 
@@ -337,10 +342,28 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		return ret;
 	}
 	
-	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException
+	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException
 	{
-		mQuery.setLink(link.getLink().toString());		
+		mQuery.setLinkAndAppendPreviousParameters(link.getLink());		
 		return executeBlockingQuery();
+	}
+	
+	
+	private boolean handleIfAuthError(final SFV3Error error, final ISFQuery<T> sfapiApiqueri)
+	{
+		boolean ret = false;				
+		if(error!=null && error.isAuthError()) 
+		{
+			//We explicitly check !sfapiApiqueri.canReNewTokenInternally() since we should never call the getCredentials for SFProvider.
+			if( (mReauthHandler !=null && !sfapiApiqueri.canReNewTokenInternally()) )
+			{								
+				SFReAuthContext<T> reauthContext = new SFReAuthContext<T>(sfapiApiqueri, mResponseListener,mReauthHandler, mSFApiClient); 
+				mReauthHandler.getCredentials(reauthContext);
+				ret = true;
+			}			
+		}
+		
+		return ret;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -355,7 +378,10 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		{
 			if(v3error !=null)
 			{
-				mResponseListener.sfApiError(v3error, mQuery);				
+				if(!handleIfAuthError(v3error, mQuery))
+				{
+					mResponseListener.sfApiError(v3error, mQuery);
+				}
 			}
 			else
 			{
@@ -389,11 +415,10 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	 *  we return the exception description + the original server response in V3Error Object
 	 * @throws URISyntaxException 
 	 * @throws SFV3ErrorException 
+	 * @throws UnsupportedEncodingException 
 	 */
-	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException
+	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException, UnsupportedEncodingException
 	{
-		preprocessSuccessResponse(responseString);
-							
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
 		SFODataObject sfobject = SFGsonHelper.customParse(jsonElement);
@@ -419,12 +444,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 				
 		return sfobject;
 	}
-	
-	protected void preprocessSuccessResponse(String responseString)
-	{
-		
-	}
-		
+			
 	protected SFApiResponseListener<T> getResponseListener()
 	{
 		return mResponseListener;

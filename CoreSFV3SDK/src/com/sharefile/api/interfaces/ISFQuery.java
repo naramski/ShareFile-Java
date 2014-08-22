@@ -79,4 +79,20 @@ public interface ISFQuery<T>
 	void setReadAhead(boolean value);
 
 	boolean readAheadAllowed();
+	
+	/**
+	 * This will append the query paremeters from previuos query to the new link. use this only when re-executing the query for a redirected object.
+	 * Also , this will ignore the previous params if new query already has some params
+	 * @throws URISyntaxException 
+	 * @throws UnsupportedEncodingException 
+	 */
+	void setLinkAndAppendPreviousParameters(URI uri) throws URISyntaxException, UnsupportedEncodingException;
+
+	/**
+	 * This will append the query paremeters from previuos query to the new link. use this only when re-executing the query for a redirected object.
+	 * Also , this will ignore the previous params if new query already has some params
+	 * @throws URISyntaxException 
+	 * @throws UnsupportedEncodingException 
+	 */
+	void setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException;;
 }
