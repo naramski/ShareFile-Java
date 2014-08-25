@@ -181,7 +181,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 				
 				case HttpsURLConnection.HTTP_NO_CONTENT:
 				{
-					mResponse.setResponse(null, null);
+					mResponse.setResponse(new SFNoContent(), null);
 				}
 				break;
 				
