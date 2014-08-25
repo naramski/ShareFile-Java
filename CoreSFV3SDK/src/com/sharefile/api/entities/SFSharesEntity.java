@@ -189,8 +189,8 @@ public class SFSharesEntity extends SFODataEntityBase
 
     /**
 	* Download Items from a Share for a Recipient
-    * GET https://account.sf-api.com/sf/v3/Shares(shareid)/Recipients(aliasid)/Download?id=itemid
-    * GET https://account.sf-api.com/sf/v3/Shares(shareid)/Recipients(aliasid)/Download(itemid)
+    * GET https://account.sf-api.com/sf/v3/Shares(shareid)/Recipients(aliasid)/DownloadWithAlias?id=itemid
+    * GET https://account.sf-api.com/sf/v3/Shares(shareid)/Recipients(aliasid)/DownloadWithAlias(itemid)
 	* Downloads items from the Share. The default action will download all Items in the Share.
 	* If a Share has a single item, the download attachment name
 	* will use the item name. Otherwise, the download will contain a ZIP archive containing all
@@ -205,7 +205,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public ISFQuery<InputStream> download(URI shareUrl, String aliasid, String itemId, Boolean redirect)
+	public ISFQuery<InputStream> downloadWithAlias(URI shareUrl, String aliasid, String itemId, Boolean redirect)
 	{
 		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
 		sfApiQuery.setFrom("Shares");
