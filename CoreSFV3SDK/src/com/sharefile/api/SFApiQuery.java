@@ -23,6 +23,7 @@ import com.sharefile.api.models.SFTreeMode;
 import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFVRootType;
 import com.sharefile.api.models.SFZoneService;
+import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
 public class SFApiQuery<T> implements ISFQuery<T>
@@ -358,7 +359,6 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(buildServerURLWithProviderAndPath(server));
-		
 		//Add the Actions part
 		if(mAction!=null && mAction.length()>0)
 		{
@@ -366,15 +366,30 @@ public class SFApiQuery<T> implements ISFQuery<T>
 			sb.append(mAction);
 		}
 		
+		String queryParams = buildQueryParameters();
+		
+		if(!Utils.isEmpty(queryParams))
+		{
+			sb.append(SFKeywords.CHAR_QUERY);
+			sb.append(buildQueryParameters());
+		}
+				
+		String queryUrlString = sb.toString();
+		
+		SLog.d(SFKeywords.TAG,"QUERY URL String = " + queryUrlString);
+		
+		return queryUrlString;
+	}
+	
+	private String buildQueryParameters() throws UnsupportedEncodingException
+	{
+		StringBuilder sb = new StringBuilder();
+						
 		boolean isFirst = true;
 		
 		//Add query key , value pairs
 		if(mQueryMap!=null && mQueryMap.size()>0)
-		{
-			sb.append(SFKeywords.CHAR_QUERY);
-			
-			//char ampersAnd = SFKeywords.CHAR_AMPERSAND.charAt(0);
-			
+		{						
 			Set<String> keyset = mQueryMap.keySet();			
 						
 			for(String key:keyset)
@@ -395,15 +410,10 @@ public class SFApiQuery<T> implements ISFQuery<T>
 					String urlencoded = URLEncoder.encode(value, SFKeywords.UTF_8);
 					sb.append(key + SFKeywords.EQUALS + urlencoded);
 				}
-			}
-						
+			}						
 		}
 		
-		String queryUrlString = sb.toString();
-		
-		SLog.d(SFKeywords.TAG,"QUERY URL String = " + queryUrlString);
-		
-		return queryUrlString;
+		return sb.toString();
 	}
 	
 	public final String getHttpMethod()
@@ -478,4 +488,39 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	{
 		return mEnableReadahead;
 	}
+
+	@Override
+	public void setLinkAndAppendPreviousParameters(URI newuri) throws URISyntaxException, UnsupportedEncodingException 
+	{	
+		String newQueryParams = newuri.getQuery(); 
+		
+		if(newQueryParams !=null)
+		{
+			setFullyParametrizedLink(newuri);
+			return;
+		}
+		
+		String oldQueryParms = buildQueryParameters();		
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(newuri.toString());
+		
+		if(!Utils.isEmpty(oldQueryParms))
+		{
+			sb.append(SFKeywords.CHAR_QUERY);
+			sb.append(oldQueryParms);
+		}
+		
+		String strNewUrl = sb.toString();
+		
+		SLog.d(TAG,"Setting new URL by appending old query parameter to: " + strNewUrl);
+		
+		setFullyParametrizedLink(new URI(strNewUrl));		
+	}
+
+	@Override
+	public void setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException 
+	{
+		setLinkAndAppendPreviousParameters(new URI(string));		
+	}	
 }
