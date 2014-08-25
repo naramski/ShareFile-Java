@@ -4,7 +4,6 @@ import java.net.URI;
 
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.SFApiRawResponseListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.Utils;
@@ -13,7 +12,7 @@ import com.sharefile.api.utils.Utils;
  *   This allows to call the getCredentials() functions on the original caller if they have implemented the ISFReAuthHandler interface
  */
 @SFSDKDefaultAccessScope
-class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiResponseListener<T>, SFApiRawResponseListener
+class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiResponseListener<T>
 {
 	private final SFApiResponseListener<T> mOriginalListener;
 	private final SFApiClient mSFApiClient;
@@ -71,19 +70,12 @@ class SFApiListenerReauthHandler<T extends SFODataObject> implements SFApiRespon
 			//We explicitly check !sfapiApiqueri.canReNewTokenInternally() since we should never call the getCredentials for SFProvider.
 			if( (mReauthHandler !=null && !sfapiApiqueri.canReNewTokenInternally()) )
 			{								
-				SFReAuthContext<T> reauthContext = new SFReAuthContext<T>(sfapiApiqueri, this, mSFApiClient); 
-				mReauthHandler.getCredentials(reauthContext);
+				//SFReAuthContext<T> reauthContext = new SFReAuthContext<T>(sfapiApiqueri, this, mSFApiClient); 
+				//mReauthHandler.getCredentials(reauthContext);
 				ret = true;
 			}			
 		}
 		
 		return ret;
-	}
-
-	@Override
-	public void sfApiSuccess(String rawResponse) {
-		if(mOriginalListener instanceof SFApiRawResponseListener) {
-			((SFApiRawResponseListener) mOriginalListener).sfApiSuccess(rawResponse);
-		}
-	}
+	}	
 }
