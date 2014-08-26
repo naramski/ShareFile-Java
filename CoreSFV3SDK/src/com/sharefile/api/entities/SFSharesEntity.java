@@ -212,7 +212,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
 		sfApiQuery.addActionIds(aliasid);
-		sfApiQuery.addSubAction("Download");
+		sfApiQuery.addSubAction("DownloadWithAlias");
 		sfApiQuery.addQueryString("id", itemId);
 		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setHttpMethod("GET");
