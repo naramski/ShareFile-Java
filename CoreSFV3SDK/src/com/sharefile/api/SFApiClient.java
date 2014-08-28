@@ -241,7 +241,7 @@ public class SFApiClient
 		return mSFAppConfig;
 	}
 
-	public SFODataObject executeQuery(SFApiQuery<SFDeviceStatus> query) throws SFV3ErrorException, SFInvalidStateException 
+	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws SFV3ErrorException, SFInvalidStateException 
 	{
 		return getExecutor(query, null, null).executeBlockingQuery();		
 	}
