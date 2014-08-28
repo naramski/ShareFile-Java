@@ -141,14 +141,6 @@ public class SFApiClient
 		}
 	}
 						
-	/**
-	 * This will start a seperate thread to perform the operation and return immediately. Callers should use callback listeners to gather results
-	 
-	public synchronized <T extends SFODataObject> Thread executeQuery(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
-	{		
-		return null;
-	}
-	*/
 	
 	public <T extends SFODataObject> ISFApiExecuteQuery getExecutor(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
