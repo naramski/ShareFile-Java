@@ -1,6 +1,7 @@
-package com.sharefile.api.https;
+package com.sharefile.api;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -10,8 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.sharefile.api.SFConfiguration;
-import com.sharefile.api.SFV3Error;
+import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
@@ -21,7 +21,11 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.https.SFCookieManager;
+import com.sharefile.api.https.SFHttpsCaller;
+import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
@@ -31,20 +35,43 @@ import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.java.log.SLog;
 
 /**
- *   This class provides two methods: executeQuery() and executeBlockingQuery() to execute the V3 api calls.
- *   <br>executeQuery() is launched on a separate thread and internally calls  executeBlockingQuery() to get its work done.
+ *  This class provides the bare-minimum functions to make the V3 API server calls and read + parse their responses.
+ *  <br>These calls are blocking calls so that the application can use its own thread management.
+ *  
+ *  <br><br>The calls to be made are in this sequence:<br>
+ *  
+ *  <b>
+ *  <br>executeBlockingQuery();
+ *  <br>callresponseListeners();
+ *  </b>
+ *  
+ *  <br><br>Typical usage in Android AsyncTask would be :<br>
+ *  
+ *  <br>doInBackgrond()
+ *  <br>{
+ *  <br>	executeBlockingQuery();
+ *  <br>}
+ *  <br>
+ *  <br>onPostExecute()
+ *  <br>{
+ *  <br>	callresponseListeners();
+ *  <br>}
+ *  
  */
-public class SFApiRunnable<T extends SFODataObject> implements Runnable 
+@SFSDKDefaultAccessScope 
+class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
 			
-	private ISFQuery<T> mQuery; 
+	private final ISFQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
-	private final SFOAuth2Token mOauthToken;
+	private SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
-	
-	
+	private final SFOAuthTokenRenewer mAccessTokenRenewer;
+	private final ISFReAuthHandler mReauthHandler;
+	private final SFApiClient mSFApiClient;	
+				
 	private final class Response
 	{
 		SFODataObject returnObject;
@@ -57,23 +84,20 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		}
 	}
 	
-	private final Response mResponse = new Response();
+	private Response mResponse = null;
 						
-	public SFApiRunnable(ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config) throws SFInvalidStateException
+	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{			
+		mSFApiClient = apiClient;				
 		mQuery = query;
 		mResponseListener = responseListener;
 		mOauthToken = token;		
 		mCookieManager = cookieManager;
 		mAppSpecificConfig = config;
+		mAccessTokenRenewer = tokenRenewer;
+		mReauthHandler = reauthHandler; 
 	}
-	
-	@Override
-	public void run() 
-	{		
-		executeQuery();		
-	}
-	
+		
 	private void handleHttPost(URLConnection conn) throws IOException
 	{
 		if(mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.POST.toString()))
@@ -88,23 +112,24 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				SFHttpsCaller.postBody(conn, body);				
 			}
 		}
-	}
-				
-	private void executeQuery() 
+	}			
+	
+	@Override
+	public void callResponseListeners() throws SFInvalidStateException 
 	{
-		try
+		if(mResponse == null)
 		{
-			 executeBlockingQuery();
-			 callResponseListeners(mResponse.returnObject, mResponse.errorObject);
+			throw new SFInvalidStateException("The Application needs to call executeBlockingQuery() before calling responselistener.");
 		}
-		catch(Exception e)
-		{
-			SLog.e(TAG, "Exception. This should not happen." , e);
-		}
+		
+		callResponseListeners(mResponse.returnObject, mResponse.errorObject);
 	}
 		
+	@Override
 	public SFODataObject executeBlockingQuery() throws SFV3ErrorException 
 	{			
+		mResponse = new Response();
+		
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
 		URLConnection connection = null;		
@@ -156,15 +181,35 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				
 				case HttpsURLConnection.HTTP_NO_CONTENT:
 				{
-					mResponse.setResponse(null, null);
+					mResponse.setResponse(new SFNoContent(), null);
 				}
 				break;
 				
 				case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				{
 					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", "AUTH ERROR");
-					SFV3Error sfV3error = new SFV3Error(httpErrorCode,null,null);
-					mResponse.setResponse(null, sfV3error);
+					
+					if(!mQuery.canReNewTokenInternally() || mAccessTokenRenewer==null)
+					{
+						SFV3Error sfV3error = new SFV3Error(httpErrorCode,null,null);
+						mResponse.setResponse(null, sfV3error);
+					}
+					else
+					{												
+						SFODataObject ret = executeQueryAfterTokenRenew();
+						
+						if(ret!=null)
+						{
+							mResponse.setResponse(ret, null);
+						}
+						else
+						{
+							if(mResponse.errorObject == null)
+							{
+								mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,null,null));
+							}
+						}
+					}
 				}
 				break;
 				
@@ -197,6 +242,37 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
 	}		
 	
+	private boolean renewToken() throws SFV3ErrorException
+	{
+		if(mAccessTokenRenewer==null)
+		{
+			return false;
+		}
+		
+		mOauthToken = mAccessTokenRenewer.getNewAccessToken();
+		mAccessTokenRenewer.callResponseListeners();		
+		SFV3Error error = mAccessTokenRenewer.getError();				
+		
+		if(mOauthToken != null)
+		{
+			mResponse.setResponse(null, error);
+			
+			return true;
+		}
+						
+		return false;
+	}
+	
+	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException 
+	{
+		if(!renewToken())
+		{
+			return null;
+		}
+		
+		return executeBlockingQuery();
+	}
+
 	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) 
 	{
 		SFODataObject odataObject = null;
@@ -207,7 +283,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 			
 			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
 			
-			mQuery.setFullyParametrizedLink(redirectLink);
+			mQuery.setLinkAndAppendPreviousParameters(redirectLink);
 			
 			odataObject = executeBlockingQuery();
 		} 
@@ -266,10 +342,28 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		return ret;
 	}
 	
-	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException
+	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException
 	{
-		mQuery.setLink(link.getLink().toString());		
+		mQuery.setLinkAndAppendPreviousParameters(link.getLink());		
 		return executeBlockingQuery();
+	}
+	
+	
+	private boolean handleIfAuthError(final SFV3Error error, final ISFQuery<T> sfapiApiqueri)
+	{
+		boolean ret = false;				
+		if(error!=null && error.isAuthError()) 
+		{
+			//We explicitly check !sfapiApiqueri.canReNewTokenInternally() since we should never call the getCredentials for SFProvider.
+			if( (mReauthHandler !=null && !sfapiApiqueri.canReNewTokenInternally()) )
+			{								
+				SFReAuthContext<T> reauthContext = new SFReAuthContext<T>(sfapiApiqueri, mResponseListener,mReauthHandler, mSFApiClient); 
+				mReauthHandler.getCredentials(reauthContext);
+				ret = true;
+			}			
+		}
+		
+		return ret;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -284,7 +378,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 		{
 			if(v3error !=null)
 			{
-				mResponseListener.sfApiError(v3error, mQuery);				
+				if(!handleIfAuthError(v3error, mQuery))
+				{
+					mResponseListener.sfApiError(v3error, mQuery);
+				}
 			}
 			else
 			{
@@ -299,18 +396,17 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	
 	private SFODataObject returnResultOrThrow(SFODataObject sfobject,SFV3Error v3error) throws SFV3ErrorException
 	{
-		//Run this only when the responseListener is not installed.
-		if(mResponseListener != null)
-		{
-			return sfobject;
-		}
-				
-		if(v3error == null)
-		{
+		if(sfobject!=null)
+		{		
 			return sfobject;
 		}
 		
-		throw new SFV3ErrorException(v3error);
+		if(mResponseListener == null)
+		{		
+			throw new SFV3ErrorException(v3error);
+		}
+		
+		return null;
 	}
 				
 				
@@ -319,11 +415,10 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 	 *  we return the exception description + the original server response in V3Error Object
 	 * @throws URISyntaxException 
 	 * @throws SFV3ErrorException 
+	 * @throws UnsupportedEncodingException 
 	 */
-	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException
+	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException, UnsupportedEncodingException
 	{
-		preprocessSuccessResponse(responseString);
-							
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
 		SFODataObject sfobject = SFGsonHelper.customParse(jsonElement);
@@ -349,21 +444,9 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				
 		return sfobject;
 	}
-	
-	protected void preprocessSuccessResponse(String responseString)
-	{
-		
-	}
-	
-	public Thread startNewThread()
-	{
-		Thread sfApithread = new Thread(this);		
-		sfApithread.start();
-		return sfApithread;
-	}
-	
+			
 	protected SFApiResponseListener<T> getResponseListener()
 	{
 		return mResponseListener;
-	}		
+	}			
 }
