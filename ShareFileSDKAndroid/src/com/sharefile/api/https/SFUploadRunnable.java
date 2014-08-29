@@ -1,5 +1,23 @@
 package com.sharefile.api.https;
 
+import android.util.Log;
+
+import com.sharefile.api.SFApiClient;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFSDKDefaultAccessScope;
+import com.sharefile.api.SFV3Error;
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.models.SFUploadMethod;
+import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.java.log.SLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.DataOutputStream;
@@ -14,25 +32,6 @@ import java.security.MessageDigest;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Log;
-import android.widget.GridLayout.Spec;
-
-import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFApiQuery;
-import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.api.SFV3Error;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.entities.SFItemsEntity;
-import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
-import com.sharefile.api.models.SFUploadMethod;
-import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.java.log.SLog;
 
 /**
  * 
@@ -403,7 +402,10 @@ public class SFUploadRunnable extends TransferRunnable
 				//Note here we can rely on the 	uploadResponse.mChunkUploadResponse.mWasError to decide the succuess or failure.			
 				if(mChunkUploadResponse.mWasError) {
 					SLog.d(TAG, "Error uploading chunk - break");
-					break;
+                    uploadResponse = new Result();
+                    SFV3Error v3Error = new SFV3Error(mChunkUploadResponse.mErrorCode, mChunkUploadResponse.mErrorMessage, null);
+                    uploadResponse.setFields(mChunkUploadResponse.mErrorCode, v3Error, previousChunkTotalBytes);
+					return uploadResponse;
 				}					
 
 				if(mChunkUploadResponse.mBytesTransferedInChunk > 0) {
