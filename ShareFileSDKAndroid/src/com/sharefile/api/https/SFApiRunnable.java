@@ -27,6 +27,7 @@ import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
+import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.java.log.SLog;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
@@ -176,7 +177,9 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
-			SLog.v(TAG, "RAW RESPONSE = " + responseString);						
+			//SLog.d(TAG, "RAW RESPONSE = " + responseString);
+			SFDumpLog.dumpLog(TAG,"RAW RESPONSE" , responseString);
+	
 		}
 		catch(Exception ex)
 		{		
