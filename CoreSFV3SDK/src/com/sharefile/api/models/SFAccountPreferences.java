@@ -193,6 +193,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private String TrustedDomains;
 	@SerializedName("EnableEncryptedEmailForOutlookPlugin")
 	private Boolean EnableEncryptedEmailForOutlookPlugin;
+	@SerializedName("EnableDocPreviews")
+	private Boolean EnableDocPreviews;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -781,6 +783,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableEncryptedEmailForOutlookPlugin(Boolean enableencryptedemailforoutlookplugin) {
 		this.EnableEncryptedEmailForOutlookPlugin = enableencryptedemailforoutlookplugin;
+	}
+	public Boolean getEnableDocPreviews() {
+		return this.EnableDocPreviews;
+	}
+
+	public void setEnableDocPreviews(Boolean enabledocpreviews) {
+		this.EnableDocPreviews = enabledocpreviews;
 	}
 
 }
