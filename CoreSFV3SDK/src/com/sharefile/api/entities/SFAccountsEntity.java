@@ -195,9 +195,10 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* @param password 	
 	* @param employeesonly 	
 	* @param requirehomefolders 	
+	* @param singleplane 	
 	* @return The list of Accounts associated with this username/password.
     */
-	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly, Boolean requirehomefolders)
+	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly, Boolean requirehomefolders, Boolean singleplane)
 	{
 		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>();
 		sfApiQuery.setFrom("Accounts");
@@ -205,6 +206,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		parameters.addProperty("username", username);
 		parameters.addProperty("employeesonly", employeesonly);
 		parameters.addProperty("requirehomefolders", requirehomefolders);
+		parameters.addProperty("singleplane", singleplane);
 		sfApiQuery.setBody(parameters);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
