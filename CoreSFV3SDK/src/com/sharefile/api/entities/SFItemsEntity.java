@@ -619,7 +619,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("targetid", targetid);
 		sfApiQuery.addQueryString("overwrite", overwrite);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
