@@ -21,9 +21,9 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
 public enum SFPlanAddonsStatus {
-	TRIAL_NOT_STARTED,
-	TRIAL,
-	TRIAL_EXPIRED,
-	PAID,
-	PAID_EXPIRED
+	TrialNotStarted,
+	Trial,
+	TrialExpired,
+	Paid,
+	PaidExpired
 }

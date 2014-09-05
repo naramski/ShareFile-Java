@@ -21,7 +21,7 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
 public enum SFMobileUserRole {
-	SINGLE_USER,
-	TEAM_USER,
-	TEAM_ADMIN
+	SingleUser,
+	TeamUser,
+	TeamAdmin
 }

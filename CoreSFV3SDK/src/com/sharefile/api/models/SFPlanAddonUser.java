@@ -23,16 +23,25 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.*;
 
-public class SFPlanAddonUser extends SFUser {
+public class SFPlanAddonUser extends SFODataObject {
 
+	@SerializedName("User")
+	private SFUser User;
 	@SerializedName("SpecialUserRole")
-	private ArrayList<String> SpecialUserRole;
+	private ArrayList<SFSafeEnum<SFMobileUserRole>> SpecialUserRole;
 
-	public ArrayList<String> getSpecialUserRole() {
+	public SFUser getUser() {
+		return this.User;
+	}
+
+	public void setUser(SFUser user) {
+		this.User = user;
+	}
+	public ArrayList<SFSafeEnum<SFMobileUserRole>> getSpecialUserRole() {
 		return this.SpecialUserRole;
 	}
 
-	public void setSpecialUserRole(ArrayList<String> specialuserrole) {
+	public void setSpecialUserRole(ArrayList<SFSafeEnum<SFMobileUserRole>> specialuserrole) {
 		this.SpecialUserRole = specialuserrole;
 	}
 

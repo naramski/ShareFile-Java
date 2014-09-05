@@ -21,7 +21,7 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
 public enum SFAppStore {
-	IOS,
-	ANDROID,
-	WEB
+	iOS,
+	Android,
+	Web
 }

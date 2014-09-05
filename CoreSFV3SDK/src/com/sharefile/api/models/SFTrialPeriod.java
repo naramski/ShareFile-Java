@@ -29,10 +29,8 @@ public class SFTrialPeriod extends SFODataObject {
 	private String ProductID;
 	@SerializedName("AppStore")
 	private String AppStore;
-	@SerializedName("PurchaseDate")
-	private Date PurchaseDate;
-	@SerializedName("ExpirationDate")
-	private Date ExpirationDate;
+	@SerializedName("DurationInDays")
+	private Integer DurationInDays;
 
 	public String getProductID() {
 		return this.ProductID;
@@ -48,19 +46,12 @@ public class SFTrialPeriod extends SFODataObject {
 	public void setAppStore(String appstore) {
 		this.AppStore = appstore;
 	}
-	public Date getPurchaseDate() {
-		return this.PurchaseDate;
+	public Integer getDurationInDays() {
+		return this.DurationInDays;
 	}
 
-	public void setPurchaseDate(Date purchasedate) {
-		this.PurchaseDate = purchasedate;
-	}
-	public Date getExpirationDate() {
-		return this.ExpirationDate;
-	}
-
-	public void setExpirationDate(Date expirationdate) {
-		this.ExpirationDate = expirationdate;
+	public void setDurationInDays(Integer durationindays) {
+		this.DurationInDays = durationindays;
 	}
 
 }
