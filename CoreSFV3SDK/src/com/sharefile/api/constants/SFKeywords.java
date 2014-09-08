@@ -95,4 +95,6 @@ public final class SFKeywords
 	public static final String EXTERNAL_ADDRESS = "ExternalAddress";
 	public static final String DEFAULT_EXTERNAL_URL = "DefaultExternalUrl";
 	public static final String EXTERNAL_URL = "ExternalUrl";
+
+	public static final String HTTP_METHOD_OVERRIDE = "X-HTTP-Method-Override";
 }
