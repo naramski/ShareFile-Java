@@ -78,6 +78,49 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
     /**
+	* Get Recipient of a Share
+	* Retrieve a single Share Recipient identified by the alias id.
+	* @param parentUrl 	
+	* @param id 	
+	* @return A Share Alias representing a single recipient of the Share
+    */
+	public ISFQuery<SFShareAlias> getRecipients(URI parentUrl, String id)
+	{
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Recipients");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Create Recipient for a Share
+	* To create a Recipient for Shares that require user informaion ( Email, First Name, Last Name and Company), make sure
+	* pass those parameters
+	* @param parentUrl 	
+	* @param Email 	
+	* @param FirstName 	
+	* @param LastName 	
+	* @param Company 	
+	* @return A Share Alias representing a single recipient of the Share
+    */
+	public ISFQuery<SFShareAlias> createRecipients(URI parentUrl, String Email, String FirstName, String LastName, String Company)
+	{
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Recipients");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addQueryString("Email", Email);
+		sfApiQuery.addQueryString("FirstName", FirstName);
+		sfApiQuery.addQueryString("LastName", LastName);
+		sfApiQuery.addQueryString("Company", Company);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get Items of a Share
 	* Retrieve the list of Items (files and folders) in the Share.
 	* @param url 	
@@ -122,24 +165,84 @@ public class SFSharesEntity extends SFODataEntityBase
 	* item ID must be a top-level item in the Share - i.e., you cannot download or address files contained inside
 	* a shared folder.
 	* @param shareUrl 	
+	* @param itemId 	
 	* @param Name 	
 	* @param Email 	
 	* @param Company 	
 	* @param redirect 	
 	* @return Redirects the caller (302) to the download address for the share contents.
     */
-	public ISFQuery<InputStream> download(URI shareUrl, String id, String Name, String Email, String Company, Boolean redirect)
+	public ISFQuery<InputStream> download(URI shareUrl, String itemId, String Name, String Email, String Company, Boolean redirect)
 	{
 		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
-		sfApiQuery.addQueryString("id", id);
+		sfApiQuery.addQueryString("id", itemId);
 		sfApiQuery.addQueryString("Name", Name);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.addQueryString("Company", Company);
 		sfApiQuery.addQueryString("redirect", redirect);
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Download Items from a Share for a Recipient
+    * GET https://account.sf-api.com/sf/v3/Shares(shareid)/Recipients(aliasid)/DownloadWithAlias?id=itemid
+    * GET https://account.sf-api.com/sf/v3/Shares(shareid)/Recipients(aliasid)/DownloadWithAlias(itemid)
+	* Downloads items from the Share. The default action will download all Items in the Share.
+	* If a Share has a single item, the download attachment name
+	* will use the item name. Otherwise, the download will contain a ZIP archive containing all
+	* files and folders in the share, named Files.zip.To download Shares that require user informaion ( Email, First Name, Last Name and Company), make sure
+	* to create an Recipient (alias)To download Shares that require authentication, make sure this request is authenticated.
+	* Anyone can download files from anonymous shares.You can also download individual Items in the Share. Use the Shares(id)/Recipients(aliasid)/Download action. The
+	* item ID must be a top-level item in the Share - i.e., you cannot download or address files contained inside
+	* a shared folder.
+	* @param shareUrl 	
+	* @param aliasid 	
+	* @param itemId 	
+	* @param redirect 	
+	* @return Redirects the caller (302) to the download address for the share contents.
+    */
+	public ISFQuery<InputStream> downloadWithAlias(URI shareUrl, String aliasid, String itemId, Boolean redirect)
+	{
+		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Recipients");
+		sfApiQuery.addIds(shareUrl);
+		sfApiQuery.addActionIds(aliasid);
+		sfApiQuery.addSubAction("DownloadWithAlias");
+		sfApiQuery.addQueryString("id", itemId);
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Download Multiple Items from a Share for a Recipient
+    * ["id1","id2",...]
+	* Download Multiple Items from a Share for a Recipient. The download will contain a ZIP archive containing all
+	* files and folders in the share, named Files.zip.To download Shares that require user informaion ( Email, First Name, Last Name and Company), make sure
+	* to create an Recipient (alias) and pass in the alaisId.To download Shares that require authentication, make sure this request is authenticated.
+	* Anyone can download files from anonymous shares.
+	* @param shareUrl 	
+	* @param aliasid 	
+	* @param ids 	
+	* @param redirect 	
+	* @return Redirects the caller (302) to the download address for the share contents.
+    */
+	public ISFQuery bulkDownload(URI shareUrl, String aliasid, ArrayList<String> ids, Boolean redirect)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Recipients");
+		sfApiQuery.addIds(shareUrl);
+		sfApiQuery.addActionIds(aliasid);
+		sfApiQuery.addSubAction("BulkDownload");
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
@@ -281,6 +384,21 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
     /**
+	* Deliver an existing share link to one or more recipients
+	* Sends an Email to the specified list of addresses, containing a link to a download or an upload.
+	* @param parameters 	
+    */
+	public ISFQuery resend(SFShareResendParams parameters)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Resend");
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
 	* Upload File to Request Share
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -370,6 +488,22 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
 		sfApiQuery.addQueryString("expirationDays", expirationDays);
 		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get Redirection endpoint Information
+	* Returns the redirection endpoint for this Share.
+	* @param url 	
+	* @return The Redirection endpoint Information
+    */
+	public ISFQuery<SFRedirection> getRedirection(URI url)
+	{
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Redirection");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 

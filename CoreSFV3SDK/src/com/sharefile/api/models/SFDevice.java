@@ -39,46 +39,46 @@ public class SFDevice extends SFODataObject {
 	private Boolean JustRegistered;
 
 	public SFSafeEnum<SFSFTool> getTool() {
-		return Tool;
+		return this.Tool;
 	}
 
 	public void setTool(SFSafeEnum<SFSFTool> tool) {
-		Tool = tool;
+		this.Tool = tool;
 	}
 	public String getToolRaw() {
-		return ToolRaw;
+		return this.ToolRaw;
 	}
 
 	public void setToolRaw(String toolraw) {
-		ToolRaw = toolraw;
+		this.ToolRaw = toolraw;
 	}
 	public SFUser getOwner() {
-		return Owner;
+		return this.Owner;
 	}
 
 	public void setOwner(SFUser owner) {
-		Owner = owner;
+		this.Owner = owner;
 	}
 	public Date getCreated() {
-		return Created;
+		return this.Created;
 	}
 
 	public void setCreated(Date created) {
-		Created = created;
+		this.Created = created;
 	}
 	public String getToolVersion() {
-		return ToolVersion;
+		return this.ToolVersion;
 	}
 
 	public void setToolVersion(String toolversion) {
-		ToolVersion = toolversion;
+		this.ToolVersion = toolversion;
 	}
 	public Boolean getJustRegistered() {
-		return JustRegistered;
+		return this.JustRegistered;
 	}
 
 	public void setJustRegistered(Boolean justregistered) {
-		JustRegistered = justregistered;
+		this.JustRegistered = justregistered;
 	}
 
 }

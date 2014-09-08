@@ -57,109 +57,109 @@ public class SFUserSecurity extends SFODataObject {
 	private Integer FailedLoginCount;
 
 	public Boolean getIsDisabled() {
-		return IsDisabled;
+		return this.IsDisabled;
 	}
 
 	public void setIsDisabled(Boolean isdisabled) {
-		IsDisabled = isdisabled;
+		this.IsDisabled = isdisabled;
 	}
 	public Boolean getIsLocked() {
-		return IsLocked;
+		return this.IsLocked;
 	}
 
 	public void setIsLocked(Boolean islocked) {
-		IsLocked = islocked;
+		this.IsLocked = islocked;
 	}
 	public Date getLockExpires() {
-		return LockExpires;
+		return this.LockExpires;
 	}
 
 	public void setLockExpires(Date lockexpires) {
-		LockExpires = lockexpires;
+		this.LockExpires = lockexpires;
 	}
 	public Date getLastWebAppLogin() {
-		return LastWebAppLogin;
+		return this.LastWebAppLogin;
 	}
 
 	public void setLastWebAppLogin(Date lastwebapplogin) {
-		LastWebAppLogin = lastwebapplogin;
+		this.LastWebAppLogin = lastwebapplogin;
 	}
 	public Date getLastAnyLogin() {
-		return LastAnyLogin;
+		return this.LastAnyLogin;
 	}
 
 	public void setLastAnyLogin(Date lastanylogin) {
-		LastAnyLogin = lastanylogin;
+		this.LastAnyLogin = lastanylogin;
 	}
 	public String getUserIPRestrictions() {
-		return UserIPRestrictions;
+		return this.UserIPRestrictions;
 	}
 
 	public void setUserIPRestrictions(String useriprestrictions) {
-		UserIPRestrictions = useriprestrictions;
+		this.UserIPRestrictions = useriprestrictions;
 	}
 	public Date getDisableLoginBefore() {
-		return DisableLoginBefore;
+		return this.DisableLoginBefore;
 	}
 
 	public void setDisableLoginBefore(Date disableloginbefore) {
-		DisableLoginBefore = disableloginbefore;
+		this.DisableLoginBefore = disableloginbefore;
 	}
 	public Date getDisableLoginAfter() {
-		return DisableLoginAfter;
+		return this.DisableLoginAfter;
 	}
 
 	public void setDisableLoginAfter(Date disableloginafter) {
-		DisableLoginAfter = disableloginafter;
+		this.DisableLoginAfter = disableloginafter;
 	}
 	public Boolean getForcePasswordChange() {
-		return ForcePasswordChange;
+		return this.ForcePasswordChange;
 	}
 
 	public void setForcePasswordChange(Boolean forcepasswordchange) {
-		ForcePasswordChange = forcepasswordchange;
+		this.ForcePasswordChange = forcepasswordchange;
 	}
 	public Boolean getPasswordNeverExpires() {
-		return PasswordNeverExpires;
+		return this.PasswordNeverExpires;
 	}
 
 	public void setPasswordNeverExpires(Boolean passwordneverexpires) {
-		PasswordNeverExpires = passwordneverexpires;
+		this.PasswordNeverExpires = passwordneverexpires;
 	}
 	public Date getLastPasswordChange() {
-		return LastPasswordChange;
+		return this.LastPasswordChange;
 	}
 
 	public void setLastPasswordChange(Date lastpasswordchange) {
-		LastPasswordChange = lastpasswordchange;
+		this.LastPasswordChange = lastpasswordchange;
 	}
 	public String getUsernameShort() {
-		return UsernameShort;
+		return this.UsernameShort;
 	}
 
 	public void setUsernameShort(String usernameshort) {
-		UsernameShort = usernameshort;
+		this.UsernameShort = usernameshort;
 	}
 	public Date getLastFailedLogin() {
-		return LastFailedLogin;
+		return this.LastFailedLogin;
 	}
 
 	public void setLastFailedLogin(Date lastfailedlogin) {
-		LastFailedLogin = lastfailedlogin;
+		this.LastFailedLogin = lastfailedlogin;
 	}
 	public String getLastFailedLoginIP() {
-		return LastFailedLoginIP;
+		return this.LastFailedLoginIP;
 	}
 
 	public void setLastFailedLoginIP(String lastfailedloginip) {
-		LastFailedLoginIP = lastfailedloginip;
+		this.LastFailedLoginIP = lastfailedloginip;
 	}
 	public Integer getFailedLoginCount() {
-		return FailedLoginCount;
+		return this.FailedLoginCount;
 	}
 
 	public void setFailedLoginCount(Integer failedlogincount) {
-		FailedLoginCount = failedlogincount;
+		this.FailedLoginCount = failedlogincount;
 	}
 
 }

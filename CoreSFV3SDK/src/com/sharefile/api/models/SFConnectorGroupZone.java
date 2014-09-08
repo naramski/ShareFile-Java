@@ -42,79 +42,79 @@ public class SFConnectorGroupZone extends SFODataObject {
 		* Zone that contains this connector class
 		*/
 	public SFZone getZone() {
-		return Zone;
+		return this.Zone;
 	}
 
 		/**
 		* Zone that contains this connector class
 		*/
 	public void setZone(SFZone zone) {
-		Zone = zone;
+		this.Zone = zone;
 	}
 		/**
 		* List of Storage Centers in this Zone that contain this Connector
 		*/
 	public ArrayList<SFStorageCenter> getStorageCenters() {
-		return StorageCenters;
+		return this.StorageCenters;
 	}
 
 		/**
 		* List of Storage Centers in this Zone that contain this Connector
 		*/
 	public void setStorageCenters(ArrayList<SFStorageCenter> storagecenters) {
-		StorageCenters = storagecenters;
+		this.StorageCenters = storagecenters;
 	}
 		/**
 		* Minimum API version supported by this connector group
 		*/
 	public String getApiVersionMin() {
-		return ApiVersionMin;
+		return this.ApiVersionMin;
 	}
 
 		/**
 		* Minimum API version supported by this connector group
 		*/
 	public void setApiVersionMin(String apiversionmin) {
-		ApiVersionMin = apiversionmin;
+		this.ApiVersionMin = apiversionmin;
 	}
 		/**
 		* Maximum API version supported by this connector group
 		*/
 	public String getApiVersionMax() {
-		return ApiVersionMax;
+		return this.ApiVersionMax;
 	}
 
 		/**
 		* Maximum API version supported by this connector group
 		*/
 	public void setApiVersionMax(String apiversionmax) {
-		ApiVersionMax = apiversionmax;
+		this.ApiVersionMax = apiversionmax;
 	}
 		/**
 		* URL for the Connector Group Icon.
 		*/
 	public String getIconUrl() {
-		return IconUrl;
+		return this.IconUrl;
 	}
 
 		/**
 		* URL for the Connector Group Icon.
 		*/
 	public void setIconUrl(String iconurl) {
-		IconUrl = iconurl;
+		this.IconUrl = iconurl;
 	}
 		/**
 		* URL for the Form that creates or updates connectors
 		*/
 	public String getFormUrl() {
-		return FormUrl;
+		return this.FormUrl;
 	}
 
 		/**
 		* URL for the Form that creates or updates connectors
 		*/
 	public void setFormUrl(String formurl) {
-		FormUrl = formurl;
+		this.FormUrl = formurl;
 	}
 
 }

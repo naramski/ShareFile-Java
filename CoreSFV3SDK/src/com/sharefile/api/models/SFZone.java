@@ -47,74 +47,74 @@ public class SFZone extends SFPrincipal {
 	private ArrayList<SFMetadata> Metadata;
 
 	public String getSecret() {
-		return Secret;
+		return this.Secret;
 	}
 
 	public void setSecret(String secret) {
-		Secret = secret;
+		this.Secret = secret;
 	}
 	public SFSafeEnum<SFZoneType> getZoneType() {
-		return ZoneType;
+		return this.ZoneType;
 	}
 
 	public void setZoneType(SFSafeEnum<SFZoneType> zonetype) {
-		ZoneType = zonetype;
+		this.ZoneType = zonetype;
 	}
 	public SFAccount getAccount() {
-		return Account;
+		return this.Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		Account = account;
+		this.Account = account;
 	}
 	public Integer getHeartBeatTolerance() {
-		return HeartBeatTolerance;
+		return this.HeartBeatTolerance;
 	}
 
 	public void setHeartBeatTolerance(Integer heartbeattolerance) {
-		HeartBeatTolerance = heartbeattolerance;
+		this.HeartBeatTolerance = heartbeattolerance;
 	}
 	public Integer getPingBackInterval() {
-		return PingBackInterval;
+		return this.PingBackInterval;
 	}
 
 	public void setPingBackInterval(Integer pingbackinterval) {
-		PingBackInterval = pingbackinterval;
+		this.PingBackInterval = pingbackinterval;
 	}
 	public String getVersion() {
-		return Version;
+		return this.Version;
 	}
 
 	public void setVersion(String version) {
-		Version = version;
+		this.Version = version;
 	}
 	public SFSafeEnum<SFZoneService> getZoneServices() {
-		return ZoneServices;
+		return this.ZoneServices;
 	}
 
 	public void setZoneServices(SFSafeEnum<SFZoneService> zoneservices) {
-		ZoneServices = zoneservices;
+		this.ZoneServices = zoneservices;
 	}
 	public Boolean getIsHIPAAZone() {
-		return IsHIPAAZone;
+		return this.IsHIPAAZone;
 	}
 
 	public void setIsHIPAAZone(Boolean ishipaazone) {
-		IsHIPAAZone = ishipaazone;
+		this.IsHIPAAZone = ishipaazone;
 	}
 	public ArrayList<SFStorageCenter> getStorageCenters() {
-		return StorageCenters;
+		return this.StorageCenters;
 	}
 
 	public void setStorageCenters(ArrayList<SFStorageCenter> storagecenters) {
-		StorageCenters = storagecenters;
+		this.StorageCenters = storagecenters;
 	}
 	public ArrayList<SFMetadata> getMetadata() {
-		return Metadata;
+		return this.Metadata;
 	}
 
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
-		Metadata = metadata;
+		this.Metadata = metadata;
 	}
 
 }

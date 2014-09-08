@@ -35,32 +35,32 @@ public class SFGroup extends SFPrincipal {
 	private ArrayList<SFContact> Contacts;
 
 	public SFUser getOwner() {
-		return Owner;
+		return this.Owner;
 	}
 
 	public void setOwner(SFUser owner) {
-		Owner = owner;
+		this.Owner = owner;
 	}
 	public SFAccount getAccount() {
-		return Account;
+		return this.Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		Account = account;
+		this.Account = account;
 	}
 	public Boolean getIsShared() {
-		return IsShared;
+		return this.IsShared;
 	}
 
 	public void setIsShared(Boolean isshared) {
-		IsShared = isshared;
+		this.IsShared = isshared;
 	}
 	public ArrayList<SFContact> getContacts() {
-		return Contacts;
+		return this.Contacts;
 	}
 
 	public void setContacts(ArrayList<SFContact> contacts) {
-		Contacts = contacts;
+		this.Contacts = contacts;
 	}
 
 }

@@ -47,74 +47,74 @@ public class SFShareRequestParams extends SFODataObject {
 	private Boolean IsViewOnly;
 
 	public String getFolderId() {
-		return FolderId;
+		return this.FolderId;
 	}
 
 	public void setFolderId(String folderid) {
-		FolderId = folderid;
+		this.FolderId = folderid;
 	}
 	public String getFolderPath() {
-		return FolderPath;
+		return this.FolderPath;
 	}
 
 	public void setFolderPath(String folderpath) {
-		FolderPath = folderpath;
+		this.FolderPath = folderpath;
 	}
 	public ArrayList<String> getEmails() {
-		return Emails;
+		return this.Emails;
 	}
 
 	public void setEmails(ArrayList<String> emails) {
-		Emails = emails;
+		this.Emails = emails;
 	}
 	public String getSubject() {
-		return Subject;
+		return this.Subject;
 	}
 
 	public void setSubject(String subject) {
-		Subject = subject;
+		this.Subject = subject;
 	}
 	public String getBody() {
-		return Body;
+		return this.Body;
 	}
 
 	public void setBody(String body) {
-		Body = body;
+		this.Body = body;
 	}
 	public Boolean getCcSender() {
-		return CcSender;
+		return this.CcSender;
 	}
 
 	public void setCcSender(Boolean ccsender) {
-		CcSender = ccsender;
+		this.CcSender = ccsender;
 	}
 	public Boolean getRequireLogin() {
-		return RequireLogin;
+		return this.RequireLogin;
 	}
 
 	public void setRequireLogin(Boolean requirelogin) {
-		RequireLogin = requirelogin;
+		this.RequireLogin = requirelogin;
 	}
 	public Integer getExpirationDays() {
-		return ExpirationDays;
+		return this.ExpirationDays;
 	}
 
 	public void setExpirationDays(Integer expirationdays) {
-		ExpirationDays = expirationdays;
+		this.ExpirationDays = expirationdays;
 	}
 	public Boolean getNotifyOnUpload() {
-		return NotifyOnUpload;
+		return this.NotifyOnUpload;
 	}
 
 	public void setNotifyOnUpload(Boolean notifyonupload) {
-		NotifyOnUpload = notifyonupload;
+		this.NotifyOnUpload = notifyonupload;
 	}
 	public Boolean getIsViewOnly() {
-		return IsViewOnly;
+		return this.IsViewOnly;
 	}
 
 	public void setIsViewOnly(Boolean isviewonly) {
-		IsViewOnly = isviewonly;
+		this.IsViewOnly = isviewonly;
 	}
 
 }

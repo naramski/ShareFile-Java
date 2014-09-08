@@ -29,11 +29,11 @@ public class SFAzureSBTopicsResponse extends SFODataObject {
 	private String Success;
 
 	public String getSuccess() {
-		return Success;
+		return this.Success;
 	}
 
 	public void setSuccess(String success) {
-		Success = success;
+		this.Success = success;
 	}
 
 }

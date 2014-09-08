@@ -59,116 +59,116 @@ public class SFProductDefaults extends SFODataObject {
 	private String SystemType;
 
 	public String getProductName() {
-		return ProductName;
+		return this.ProductName;
 	}
 
 	public void setProductName(String productname) {
-		ProductName = productname;
+		this.ProductName = productname;
 	}
 	public String getDefaultWindowTitle() {
-		return DefaultWindowTitle;
+		return this.DefaultWindowTitle;
 	}
 
 	public void setDefaultWindowTitle(String defaultwindowtitle) {
-		DefaultWindowTitle = defaultwindowtitle;
+		this.DefaultWindowTitle = defaultwindowtitle;
 	}
 	public String getTopLevelDomain() {
-		return TopLevelDomain;
+		return this.TopLevelDomain;
 	}
 
 	public void setTopLevelDomain(String topleveldomain) {
-		TopLevelDomain = topleveldomain;
+		this.TopLevelDomain = topleveldomain;
 	}
 	public String getAPITopLevelDomain() {
-		return APITopLevelDomain;
+		return this.APITopLevelDomain;
 	}
 
 	public void setAPITopLevelDomain(String apitopleveldomain) {
-		APITopLevelDomain = apitopleveldomain;
+		this.APITopLevelDomain = apitopleveldomain;
 	}
 	public String getDefaultApiVersion() {
-		return DefaultApiVersion;
+		return this.DefaultApiVersion;
 	}
 
 	public void setDefaultApiVersion(String defaultapiversion) {
-		DefaultApiVersion = defaultapiversion;
+		this.DefaultApiVersion = defaultapiversion;
 	}
 	public String getDefaultSmtpServer() {
-		return DefaultSmtpServer;
+		return this.DefaultSmtpServer;
 	}
 
 	public void setDefaultSmtpServer(String defaultsmtpserver) {
-		DefaultSmtpServer = defaultsmtpserver;
+		this.DefaultSmtpServer = defaultsmtpserver;
 	}
 	public String getNoReplyUserName() {
-		return NoReplyUserName;
+		return this.NoReplyUserName;
 	}
 
 	public void setNoReplyUserName(String noreplyusername) {
-		NoReplyUserName = noreplyusername;
+		this.NoReplyUserName = noreplyusername;
 	}
 	public String getNoReplyUserEmail() {
-		return NoReplyUserEmail;
+		return this.NoReplyUserEmail;
 	}
 
 	public void setNoReplyUserEmail(String noreplyuseremail) {
-		NoReplyUserEmail = noreplyuseremail;
+		this.NoReplyUserEmail = noreplyuseremail;
 	}
 	public String getSupportUserName() {
-		return SupportUserName;
+		return this.SupportUserName;
 	}
 
 	public void setSupportUserName(String supportusername) {
-		SupportUserName = supportusername;
+		this.SupportUserName = supportusername;
 	}
 	public String getSupportUserEmail() {
-		return SupportUserEmail;
+		return this.SupportUserEmail;
 	}
 
 	public void setSupportUserEmail(String supportuseremail) {
-		SupportUserEmail = supportuseremail;
+		this.SupportUserEmail = supportuseremail;
 	}
 	public String getDefaultEmailFooter() {
-		return DefaultEmailFooter;
+		return this.DefaultEmailFooter;
 	}
 
 	public void setDefaultEmailFooter(String defaultemailfooter) {
-		DefaultEmailFooter = defaultemailfooter;
+		this.DefaultEmailFooter = defaultemailfooter;
 	}
 	public String getDefaultEmailFooterHtml() {
-		return DefaultEmailFooterHtml;
+		return this.DefaultEmailFooterHtml;
 	}
 
 	public void setDefaultEmailFooterHtml(String defaultemailfooterhtml) {
-		DefaultEmailFooterHtml = defaultemailfooterhtml;
+		this.DefaultEmailFooterHtml = defaultemailfooterhtml;
 	}
 	public String getDefaultEmailFooterPlaintext() {
-		return DefaultEmailFooterPlaintext;
+		return this.DefaultEmailFooterPlaintext;
 	}
 
 	public void setDefaultEmailFooterPlaintext(String defaultemailfooterplaintext) {
-		DefaultEmailFooterPlaintext = defaultemailfooterplaintext;
+		this.DefaultEmailFooterPlaintext = defaultemailfooterplaintext;
 	}
 	public String getDefaultEmailOverview() {
-		return DefaultEmailOverview;
+		return this.DefaultEmailOverview;
 	}
 
 	public void setDefaultEmailOverview(String defaultemailoverview) {
-		DefaultEmailOverview = defaultemailoverview;
+		this.DefaultEmailOverview = defaultemailoverview;
 	}
 	public String getSupportUserNotificationEmail() {
-		return SupportUserNotificationEmail;
+		return this.SupportUserNotificationEmail;
 	}
 
 	public void setSupportUserNotificationEmail(String supportusernotificationemail) {
-		SupportUserNotificationEmail = supportusernotificationemail;
+		this.SupportUserNotificationEmail = supportusernotificationemail;
 	}
 	public String getSystemType() {
-		return SystemType;
+		return this.SystemType;
 	}
 
 	public void setSystemType(String systemtype) {
-		SystemType = systemtype;
+		this.SystemType = systemtype;
 	}
 
 }

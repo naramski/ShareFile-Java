@@ -31,18 +31,18 @@ public class SFToolInformation extends SFODataObject {
 	private String Version;
 
 	public String getToolName() {
-		return ToolName;
+		return this.ToolName;
 	}
 
 	public void setToolName(String toolname) {
-		ToolName = toolname;
+		this.ToolName = toolname;
 	}
 	public String getVersion() {
-		return Version;
+		return this.Version;
 	}
 
 	public void setVersion(String version) {
-		Version = version;
+		this.Version = version;
 	}
 
 }

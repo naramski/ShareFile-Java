@@ -51,88 +51,88 @@ public class SFShareSendParams extends SFODataObject {
 	private Integer MaxDownloads;
 
 	public ArrayList<String> getItems() {
-		return Items;
+		return this.Items;
 	}
 
 	public void setItems(ArrayList<String> items) {
-		Items = items;
+		this.Items = items;
 	}
 	public ArrayList<String> getEmails() {
-		return Emails;
+		return this.Emails;
 	}
 
 	public void setEmails(ArrayList<String> emails) {
-		Emails = emails;
+		this.Emails = emails;
 	}
 	public String getSubject() {
-		return Subject;
+		return this.Subject;
 	}
 
 	public void setSubject(String subject) {
-		Subject = subject;
+		this.Subject = subject;
 	}
 	public String getBody() {
-		return Body;
+		return this.Body;
 	}
 
 	public void setBody(String body) {
-		Body = body;
+		this.Body = body;
 	}
 	public Boolean getCcSender() {
-		return CcSender;
+		return this.CcSender;
 	}
 
 	public void setCcSender(Boolean ccsender) {
-		CcSender = ccsender;
+		this.CcSender = ccsender;
 	}
 	public Boolean getRequireLogin() {
-		return RequireLogin;
+		return this.RequireLogin;
 	}
 
 	public void setRequireLogin(Boolean requirelogin) {
-		RequireLogin = requirelogin;
+		this.RequireLogin = requirelogin;
 	}
 	public Boolean getSendAnon() {
-		return SendAnon;
+		return this.SendAnon;
 	}
 
 	public void setSendAnon(Boolean sendanon) {
-		SendAnon = sendanon;
+		this.SendAnon = sendanon;
 	}
 	public Boolean getRequireUserInfo() {
-		return RequireUserInfo;
+		return this.RequireUserInfo;
 	}
 
 	public void setRequireUserInfo(Boolean requireuserinfo) {
-		RequireUserInfo = requireuserinfo;
+		this.RequireUserInfo = requireuserinfo;
 	}
 	public Integer getExpirationDays() {
-		return ExpirationDays;
+		return this.ExpirationDays;
 	}
 
 	public void setExpirationDays(Integer expirationdays) {
-		ExpirationDays = expirationdays;
+		this.ExpirationDays = expirationdays;
 	}
 	public Boolean getNotifyOnDownload() {
-		return NotifyOnDownload;
+		return this.NotifyOnDownload;
 	}
 
 	public void setNotifyOnDownload(Boolean notifyondownload) {
-		NotifyOnDownload = notifyondownload;
+		this.NotifyOnDownload = notifyondownload;
 	}
 	public Boolean getIsViewOnly() {
-		return IsViewOnly;
+		return this.IsViewOnly;
 	}
 
 	public void setIsViewOnly(Boolean isviewonly) {
-		IsViewOnly = isviewonly;
+		this.IsViewOnly = isviewonly;
 	}
 	public Integer getMaxDownloads() {
-		return MaxDownloads;
+		return this.MaxDownloads;
 	}
 
 	public void setMaxDownloads(Integer maxdownloads) {
-		MaxDownloads = maxdownloads;
+		this.MaxDownloads = maxdownloads;
 	}
 
 }

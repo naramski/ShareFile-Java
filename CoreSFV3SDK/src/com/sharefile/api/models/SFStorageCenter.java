@@ -55,102 +55,102 @@ public class SFStorageCenter extends SFODataObject {
 	private ArrayList<SFMetadata> Metadata;
 
 	public SFZone getZone() {
-		return Zone;
+		return this.Zone;
 	}
 
 	public void setZone(SFZone zone) {
-		Zone = zone;
+		this.Zone = zone;
 	}
 	public String getAddress() {
-		return Address;
+		return this.Address;
 	}
 
 	public void setAddress(String address) {
-		Address = address;
+		this.Address = address;
 	}
 	public String getLocalAddress() {
-		return LocalAddress;
+		return this.LocalAddress;
 	}
 
 	public void setLocalAddress(String localaddress) {
-		LocalAddress = localaddress;
+		this.LocalAddress = localaddress;
 	}
 	public String getExternalAddress() {
-		return ExternalAddress;
+		return this.ExternalAddress;
 	}
 
 	public void setExternalAddress(String externaladdress) {
-		ExternalAddress = externaladdress;
+		this.ExternalAddress = externaladdress;
 	}
 	public String getDefaultExternalUrl() {
-		return DefaultExternalUrl;
+		return this.DefaultExternalUrl;
 	}
 
 	public void setDefaultExternalUrl(String defaultexternalurl) {
-		DefaultExternalUrl = defaultexternalurl;
+		this.DefaultExternalUrl = defaultexternalurl;
 	}
 	public String getHostName() {
-		return HostName;
+		return this.HostName;
 	}
 
 	public void setHostName(String hostname) {
-		HostName = hostname;
+		this.HostName = hostname;
 	}
 	public SFSafeEnum<SFZoneService> getServices() {
-		return Services;
+		return this.Services;
 	}
 
 	public void setServices(SFSafeEnum<SFZoneService> services) {
-		Services = services;
+		this.Services = services;
 	}
 	public String getVersion() {
-		return Version;
+		return this.Version;
 	}
 
 	public void setVersion(String version) {
-		Version = version;
+		this.Version = version;
 	}
 	public Boolean getEnabled() {
-		return Enabled;
+		return this.Enabled;
 	}
 
 	public void setEnabled(Boolean enabled) {
-		Enabled = enabled;
+		this.Enabled = enabled;
 	}
 	public Date getLastHeartBeat() {
-		return LastHeartBeat;
+		return this.LastHeartBeat;
 	}
 
 	public void setLastHeartBeat(Date lastheartbeat) {
-		LastHeartBeat = lastheartbeat;
+		this.LastHeartBeat = lastheartbeat;
 	}
 	public String getExternalUrl() {
-		return ExternalUrl;
+		return this.ExternalUrl;
 	}
 
 	public void setExternalUrl(String externalurl) {
-		ExternalUrl = externalurl;
+		this.ExternalUrl = externalurl;
 	}
 	public String getMetadataProxyAddress() {
-		return MetadataProxyAddress;
+		return this.MetadataProxyAddress;
 	}
 
 	public void setMetadataProxyAddress(String metadataproxyaddress) {
-		MetadataProxyAddress = metadataproxyaddress;
+		this.MetadataProxyAddress = metadataproxyaddress;
 	}
 	public Date getLastPingBack() {
-		return LastPingBack;
+		return this.LastPingBack;
 	}
 
 	public void setLastPingBack(Date lastpingback) {
-		LastPingBack = lastpingback;
+		this.LastPingBack = lastpingback;
 	}
 	public ArrayList<SFMetadata> getMetadata() {
-		return Metadata;
+		return this.Metadata;
 	}
 
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
-		Metadata = metadata;
+		this.Metadata = metadata;
 	}
 
 }

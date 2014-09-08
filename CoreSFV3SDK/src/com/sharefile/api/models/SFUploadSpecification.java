@@ -48,118 +48,118 @@ public class SFUploadSpecification extends SFODataObject {
 		* The Upload method that must be used for this upload
 		*/
 	public SFSafeEnum<SFUploadMethod> getMethod() {
-		return Method;
+		return this.Method;
 	}
 
 		/**
 		* The Upload method that must be used for this upload
 		*/
 	public void setMethod(SFSafeEnum<SFUploadMethod> method) {
-		Method = method;
+		this.Method = method;
 	}
 		/**
 		* If provided, clients must issue a request to this Uri before uploading any data.
 		*/
 	public URI getPrepareUri() {
-		return PrepareUri;
+		return this.PrepareUri;
 	}
 
 		/**
 		* If provided, clients must issue a request to this Uri before uploading any data.
 		*/
 	public void setPrepareUri(URI prepareuri) {
-		PrepareUri = prepareuri;
+		this.PrepareUri = prepareuri;
 	}
 		/**
 		* Specifies the URI the client must send the file data to
 		*/
 	public URI getChunkUri() {
-		return ChunkUri;
+		return this.ChunkUri;
 	}
 
 		/**
 		* Specifies the URI the client must send the file data to
 		*/
 	public void setChunkUri(URI chunkuri) {
-		ChunkUri = chunkuri;
+		this.ChunkUri = chunkuri;
 	}
 		/**
 		* If provided, specifies the final call the client must perform to finish the upload process
 		*/
 	public URI getFinishUri() {
-		return FinishUri;
+		return this.FinishUri;
 	}
 
 		/**
 		* If provided, specifies the final call the client must perform to finish the upload process
 		*/
 	public void setFinishUri(URI finishuri) {
-		FinishUri = finishuri;
+		this.FinishUri = finishuri;
 	}
 		/**
 		* Allows the client to check progress of standard uploads
 		*/
 	public String getProgressData() {
-		return ProgressData;
+		return this.ProgressData;
 	}
 
 		/**
 		* Allows the client to check progress of standard uploads
 		*/
 	public void setProgressData(String progressdata) {
-		ProgressData = progressdata;
+		this.ProgressData = progressdata;
 	}
 		/**
 		* Specifies a Resumable upload is supproted.
 		*/
 	public Boolean getIsResume() {
-		return IsResume;
+		return this.IsResume;
 	}
 
 		/**
 		* Specifies a Resumable upload is supproted.
 		*/
 	public void setIsResume(Boolean isresume) {
-		IsResume = isresume;
+		this.IsResume = isresume;
 	}
 		/**
 		* Specifies the initial index for resuming, if IsResume is true.
 		*/
 	public Long getResumeIndex() {
-		return ResumeIndex;
+		return this.ResumeIndex;
 	}
 
 		/**
 		* Specifies the initial index for resuming, if IsResume is true.
 		*/
 	public void setResumeIndex(Long resumeindex) {
-		ResumeIndex = resumeindex;
+		this.ResumeIndex = resumeindex;
 	}
 		/**
 		* Specifies the initial file offset by bytes, if IsResume is true
 		*/
 	public Long getResumeOffset() {
-		return ResumeOffset;
+		return this.ResumeOffset;
 	}
 
 		/**
 		* Specifies the initial file offset by bytes, if IsResume is true
 		*/
 	public void setResumeOffset(Long resumeoffset) {
-		ResumeOffset = resumeoffset;
+		this.ResumeOffset = resumeoffset;
 	}
 		/**
 		* Specifies the MD5 hash of the first ResumeOffset bytes of the partial file found at the server
 		*/
 	public String getResumeFileHash() {
-		return ResumeFileHash;
+		return this.ResumeFileHash;
 	}
 
 		/**
 		* Specifies the MD5 hash of the first ResumeOffset bytes of the partial file found at the server
 		*/
 	public void setResumeFileHash(String resumefilehash) {
-		ResumeFileHash = resumefilehash;
+		this.ResumeFileHash = resumefilehash;
 	}
 
 }

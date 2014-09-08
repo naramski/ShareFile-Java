@@ -36,40 +36,40 @@ public class SFMetadata extends SFODataObject {
 		* The name of a custom metadata entry
 		*/
 	public String getName() {
-		return Name;
+		return this.Name;
 	}
 
 		/**
 		* The name of a custom metadata entry
 		*/
 	public void setName(String name) {
-		Name = name;
+		this.Name = name;
 	}
 		/**
 		* The value of a custom metadata entry
 		*/
 	public String getValue() {
-		return Value;
+		return this.Value;
 	}
 
 		/**
 		* The value of a custom metadata entry
 		*/
 	public void setValue(String value) {
-		Value = value;
+		this.Value = value;
 	}
 		/**
 		* Whether the metadata entry is public or private. Used only by the zone or storage center metadata where only zone admins have access to private metadata.
 		*/
 	public Boolean getIsPublic() {
-		return IsPublic;
+		return this.IsPublic;
 	}
 
 		/**
 		* Whether the metadata entry is public or private. Used only by the zone or storage center metadata where only zone admins have access to private metadata.
 		*/
 	public void setIsPublic(Boolean ispublic) {
-		IsPublic = ispublic;
+		this.IsPublic = ispublic;
 	}
 
 }

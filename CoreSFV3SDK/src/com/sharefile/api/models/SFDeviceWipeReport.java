@@ -34,27 +34,27 @@ public class SFDeviceWipeReport extends SFODataObject {
 		* Logs
 		*/
 	public ArrayList<SFDeviceLogEntry> getLogs() {
-		return Logs;
+		return this.Logs;
 	}
 
 		/**
 		* Logs
 		*/
 	public void setLogs(ArrayList<SFDeviceLogEntry> logs) {
-		Logs = logs;
+		this.Logs = logs;
 	}
 		/**
 		* Wipe results
 		*/
 	public ArrayList<SFDeviceUserWipe> getWipeResults() {
-		return WipeResults;
+		return this.WipeResults;
 	}
 
 		/**
 		* Wipe results
 		*/
 	public void setWipeResults(ArrayList<SFDeviceUserWipe> wiperesults) {
-		WipeResults = wiperesults;
+		this.WipeResults = wiperesults;
 	}
 
 }

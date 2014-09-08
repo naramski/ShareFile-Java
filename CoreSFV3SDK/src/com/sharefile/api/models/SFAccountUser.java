@@ -45,67 +45,67 @@ public class SFAccountUser extends SFUser {
 	private Integer StorageQuotaPercent;
 
 	public Boolean getIsAdministrator() {
-		return IsAdministrator;
+		return this.IsAdministrator;
 	}
 
 	public void setIsAdministrator(Boolean isadministrator) {
-		IsAdministrator = isadministrator;
+		this.IsAdministrator = isadministrator;
 	}
 	public Boolean getCanCreateFolders() {
-		return CanCreateFolders;
+		return this.CanCreateFolders;
 	}
 
 	public void setCanCreateFolders(Boolean cancreatefolders) {
-		CanCreateFolders = cancreatefolders;
+		this.CanCreateFolders = cancreatefolders;
 	}
 	public Boolean getCanUseFileBox() {
-		return CanUseFileBox;
+		return this.CanUseFileBox;
 	}
 
 	public void setCanUseFileBox(Boolean canusefilebox) {
-		CanUseFileBox = canusefilebox;
+		this.CanUseFileBox = canusefilebox;
 	}
 	public Boolean getCanManageUsers() {
-		return CanManageUsers;
+		return this.CanManageUsers;
 	}
 
 	public void setCanManageUsers(Boolean canmanageusers) {
-		CanManageUsers = canmanageusers;
+		this.CanManageUsers = canmanageusers;
 	}
 	public Boolean getIsVirtualClient() {
-		return IsVirtualClient;
+		return this.IsVirtualClient;
 	}
 
 	public void setIsVirtualClient(Boolean isvirtualclient) {
-		IsVirtualClient = isvirtualclient;
+		this.IsVirtualClient = isvirtualclient;
 	}
 	public Integer getDiskSpace() {
-		return DiskSpace;
+		return this.DiskSpace;
 	}
 
 	public void setDiskSpace(Integer diskspace) {
-		DiskSpace = diskspace;
+		this.DiskSpace = diskspace;
 	}
 	public Integer getBandwidth() {
-		return Bandwidth;
+		return this.Bandwidth;
 	}
 
 	public void setBandwidth(Integer bandwidth) {
-		Bandwidth = bandwidth;
+		this.Bandwidth = bandwidth;
 	}
 	public Integer getStorageQuotaLimitGB() {
-		return StorageQuotaLimitGB;
+		return this.StorageQuotaLimitGB;
 	}
 
 	public void setStorageQuotaLimitGB(Integer storagequotalimitgb) {
-		StorageQuotaLimitGB = storagequotalimitgb;
+		this.StorageQuotaLimitGB = storagequotalimitgb;
 	}
 	public Integer getStorageQuotaPercent() {
-		return StorageQuotaPercent;
+		return this.StorageQuotaPercent;
 	}
 
 	public void setStorageQuotaPercent(Integer storagequotapercent) {
-		StorageQuotaPercent = storagequotapercent;
+		this.StorageQuotaPercent = storagequotapercent;
 	}
 
 }

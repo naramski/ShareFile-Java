@@ -43,66 +43,66 @@ public class SFShareAlias extends SFODataObject {
 	private URI Uri;
 
 	public SFUser getUser() {
-		return User;
+		return this.User;
 	}
 
 	public void setUser(SFUser user) {
-		User = user;
+		this.User = user;
 	}
 	public SFShare getShare() {
-		return Share;
+		return this.Share;
 	}
 
 	public void setShare(SFShare share) {
-		Share = share;
+		this.Share = share;
 	}
 	public String getEmail() {
-		return Email;
+		return this.Email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.Email = email;
 	}
 	public Integer getDownloads() {
-		return Downloads;
+		return this.Downloads;
 	}
 
 	public void setDownloads(Integer downloads) {
-		Downloads = downloads;
+		this.Downloads = downloads;
 	}
 	public Boolean getIsConsumed() {
-		return IsConsumed;
+		return this.IsConsumed;
 	}
 
 	public void setIsConsumed(Boolean isconsumed) {
-		IsConsumed = isconsumed;
+		this.IsConsumed = isconsumed;
 	}
 	public Boolean getIsArchived() {
-		return IsArchived;
+		return this.IsArchived;
 	}
 
 	public void setIsArchived(Boolean isarchived) {
-		IsArchived = isarchived;
+		this.IsArchived = isarchived;
 	}
 	public Boolean getIsRead() {
-		return IsRead;
+		return this.IsRead;
 	}
 
 	public void setIsRead(Boolean isread) {
-		IsRead = isread;
+		this.IsRead = isread;
 	}
 		/**
 		* Uri to access the share through the Web portal
 		*/
 	public URI getUri() {
-		return Uri;
+		return this.Uri;
 	}
 
 		/**
 		* Uri to access the share through the Web portal
 		*/
 	public void setUri(URI uri) {
-		Uri = uri;
+		this.Uri = uri;
 	}
 
 }

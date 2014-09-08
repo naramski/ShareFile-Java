@@ -1,6 +1,7 @@
 package com.sharefile.api.enumerations;
 
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFAccountPreferences;
@@ -123,7 +124,7 @@ public enum SFV3FeedType
 	SSOAccountProvider("$metadata#SSOAccountProvider",SFSSOAccountProvider.class),
 	SSOInfo("$metadata#SSOInfo",SFSSOInfo.class),
 	SSOInfoEntry("$metadata#SSOInfoEntry",SFSSOInfoEntry.class),
-	StorageCenter("$metadata#StorageCenter",SFStorageCenter.class),
+	StorageCenter("$metadata#StorageCenters",SFStorageCenter.class),
 	SymbolicLink("$metadata#SymbolicLink",SFSymbolicLink.class),
 	UploadSpecification("$metadata#UploadSpecification",SFUploadSpecification.class),
 	User("$metadata#User",SFUser.class),
@@ -139,12 +140,14 @@ public enum SFV3FeedType
 		
 	private final static String TAG = SFKeywords.TAG + "-SFV3FeedType";
 	private final String mToString;
-	private final Class<?> mClass;
+	private final Class<?> mOriginalClass;
+	private Class<?> mOverrideClass;
 	
 	private SFV3FeedType(String toStr,Class<?> clazz)
 	{
 		mToString = toStr;
-		mClass = clazz;
+		mOriginalClass = clazz;
+		mOverrideClass = mOriginalClass;
 	}
 	
 	@Override
@@ -155,7 +158,7 @@ public enum SFV3FeedType
 	
 	public Class<?> getV3Class()
 	{
-		return mClass;
+		return mOverrideClass;
 	}
 	
 	public static final SFV3FeedType getFeedTypeFromMetaData(String metadata)
@@ -183,5 +186,40 @@ public enum SFV3FeedType
 		}
 		
 		return ret;
-	}		
+	}	
+	
+	/** 
+	 *  We are allowing consumers of the SDK to register their own deriived classes from the base models 
+	 *  we have inside the SDK. This allows for cases where the consumer wants to add addtional flags and functions
+	 *  to the model and yet have orginal parsed objects of his liking. Example SFFile does not provide the isSynced
+	 *  flag. The consumer app can extend like : 
+	 *  	<p>SFFileEx extends SFFile 
+	 *  	<p>{ 
+	 *  	<p>	boolean mIsSync
+	 *  	<p>}
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SFInvalidTypeException 
+	 */
+	public static void registerSubClass(SFV3FeedType feedType, Class<?> newClass) throws InstantiationException, IllegalAccessException, SFInvalidTypeException
+	{
+		if(newClass == null)
+		{
+			throw new SFInvalidTypeException(" NULL does not extend " + feedType.mOriginalClass.toString());
+		}
+				 						
+		//test if the new class is a real extension of the type being replaced.
+		if(!feedType.mOriginalClass.isInstance(newClass.newInstance()))
+		{
+			String msg = newClass.toString() + " does not extend " + feedType.mOriginalClass.toString();
+			
+			SLog.d(TAG, msg);
+			
+			throw new SFInvalidTypeException(msg);
+		}
+		
+		SLog.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + feedType.mOriginalClass.toString());
+		
+		feedType.mOverrideClass = newClass;
+	}
 }

@@ -111,8 +111,6 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDocViewerPrinting;
 	@SerializedName("EnableWatermarkedDownloads")
 	private Boolean EnableWatermarkedDownloads;
-	@SerializedName("EnableCaseSensitivePasswords")
-	private Boolean EnableCaseSensitivePasswords;
 	@SerializedName("EnableTwoFactorAuth")
 	private Boolean EnableTwoFactorAuth;
 	@SerializedName("LoginFailMaxAttempts")
@@ -151,14 +149,10 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer PasswordHistoryCount;
 	@SerializedName("MinimumLength")
 	private Integer MinimumLength;
-	@SerializedName("AlphaRequired")
-	private Boolean AlphaRequired;
-	@SerializedName("CaseRequired")
-	private Boolean CaseRequired;
-	@SerializedName("NumericRequired")
-	private Boolean NumericRequired;
-	@SerializedName("SpecialRequired")
-	private Boolean SpecialRequired;
+	@SerializedName("MinimumSpecialCharacters")
+	private Integer MinimumSpecialCharacters;
+	@SerializedName("MinimumNumeric")
+	private Integer MinimumNumeric;
 	@SerializedName("AllowedSpecialCharacters")
 	private String AllowedSpecialCharacters;
 	@SerializedName("EnableWebDAV")
@@ -197,608 +191,614 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer ENSMaxNotificationSyncWaitCount;
 	@SerializedName("TrustedDomains")
 	private String TrustedDomains;
+	@SerializedName("EnableEncryptedEmailForOutlookPlugin")
+	private Boolean EnableEncryptedEmailForOutlookPlugin;
+	@SerializedName("EnableDocPreviews")
+	private Boolean EnableDocPreviews;
+	@SerializedName("EnableDesktopEditorForAccount")
+	private Boolean EnableDesktopEditorForAccount;
 
 	public Boolean getEnableViewOnly() {
-		return EnableViewOnly;
+		return this.EnableViewOnly;
 	}
 
 	public void setEnableViewOnly(Boolean enableviewonly) {
-		EnableViewOnly = enableviewonly;
+		this.EnableViewOnly = enableviewonly;
 	}
 	public Boolean getEnableWatermarkOnViewOnly() {
-		return EnableWatermarkOnViewOnly;
+		return this.EnableWatermarkOnViewOnly;
 	}
 
 	public void setEnableWatermarkOnViewOnly(Boolean enablewatermarkonviewonly) {
-		EnableWatermarkOnViewOnly = enablewatermarkonviewonly;
+		this.EnableWatermarkOnViewOnly = enablewatermarkonviewonly;
 	}
 	public Boolean getAllowProactiveNotifications() {
-		return AllowProactiveNotifications;
+		return this.AllowProactiveNotifications;
 	}
 
 	public void setAllowProactiveNotifications(Boolean allowproactivenotifications) {
-		AllowProactiveNotifications = allowproactivenotifications;
+		this.AllowProactiveNotifications = allowproactivenotifications;
 	}
 	public Boolean getShowUserListToClients() {
-		return ShowUserListToClients;
+		return this.ShowUserListToClients;
 	}
 
 	public void setShowUserListToClients(Boolean showuserlisttoclients) {
-		ShowUserListToClients = showuserlisttoclients;
+		this.ShowUserListToClients = showuserlisttoclients;
 	}
 	public Boolean getRequireLoginOnDownload() {
-		return RequireLoginOnDownload;
+		return this.RequireLoginOnDownload;
 	}
 
 	public void setRequireLoginOnDownload(Boolean requireloginondownload) {
-		RequireLoginOnDownload = requireloginondownload;
+		this.RequireLoginOnDownload = requireloginondownload;
 	}
 	public Boolean getRequireLoginByDefault() {
-		return RequireLoginByDefault;
+		return this.RequireLoginByDefault;
 	}
 
 	public void setRequireLoginByDefault(Boolean requireloginbydefault) {
-		RequireLoginByDefault = requireloginbydefault;
+		this.RequireLoginByDefault = requireloginbydefault;
 	}
 	public Boolean getEnableClientSend() {
-		return EnableClientSend;
+		return this.EnableClientSend;
 	}
 
 	public void setEnableClientSend(Boolean enableclientsend) {
-		EnableClientSend = enableclientsend;
+		this.EnableClientSend = enableclientsend;
 	}
 	public Boolean getEnableThumbnails() {
-		return EnableThumbnails;
+		return this.EnableThumbnails;
 	}
 
 	public void setEnableThumbnails(Boolean enablethumbnails) {
-		EnableThumbnails = enablethumbnails;
+		this.EnableThumbnails = enablethumbnails;
 	}
 	public Boolean getEnableSSO() {
-		return EnableSSO;
+		return this.EnableSSO;
 	}
 
 	public void setEnableSSO(Boolean enablesso) {
-		EnableSSO = enablesso;
+		this.EnableSSO = enablesso;
 	}
 	public Integer getVirusStrictness() {
-		return VirusStrictness;
+		return this.VirusStrictness;
 	}
 
 	public void setVirusStrictness(Integer virusstrictness) {
-		VirusStrictness = virusstrictness;
+		this.VirusStrictness = virusstrictness;
 	}
 	public Boolean getEnableSfAdi() {
-		return EnableSfAdi;
+		return this.EnableSfAdi;
 	}
 
 	public void setEnableSfAdi(Boolean enablesfadi) {
-		EnableSfAdi = enablesfadi;
+		this.EnableSfAdi = enablesfadi;
 	}
 	public Boolean getEnableMultipleZones() {
-		return EnableMultipleZones;
+		return this.EnableMultipleZones;
 	}
 
 	public void setEnableMultipleZones(Boolean enablemultiplezones) {
-		EnableMultipleZones = enablemultiplezones;
+		this.EnableMultipleZones = enablemultiplezones;
 	}
 	public SFZone getDefaultZone() {
-		return DefaultZone;
+		return this.DefaultZone;
 	}
 
 	public void setDefaultZone(SFZone defaultzone) {
-		DefaultZone = defaultzone;
+		this.DefaultZone = defaultzone;
 	}
 	public Boolean getEnableVersioning() {
-		return EnableVersioning;
+		return this.EnableVersioning;
 	}
 
 	public void setEnableVersioning(Boolean enableversioning) {
-		EnableVersioning = enableversioning;
+		this.EnableVersioning = enableversioning;
 	}
 	public String getSystemType() {
-		return SystemType;
+		return this.SystemType;
 	}
 
 	public void setSystemType(String systemtype) {
-		SystemType = systemtype;
+		this.SystemType = systemtype;
 	}
 	public Boolean getEnableSync() {
-		return EnableSync;
+		return this.EnableSync;
 	}
 
 	public void setEnableSync(Boolean enablesync) {
-		EnableSync = enablesync;
+		this.EnableSync = enablesync;
 	}
 	public Boolean getEnableSyncAutoUpdate() {
-		return EnableSyncAutoUpdate;
+		return this.EnableSyncAutoUpdate;
 	}
 
 	public void setEnableSyncAutoUpdate(Boolean enablesyncautoupdate) {
-		EnableSyncAutoUpdate = enablesyncautoupdate;
+		this.EnableSyncAutoUpdate = enablesyncautoupdate;
 	}
 	public String getSystemName() {
-		return SystemName;
+		return this.SystemName;
 	}
 
 	public void setSystemName(String systemname) {
-		SystemName = systemname;
+		this.SystemName = systemname;
 	}
 	public String getHomeScreenName() {
-		return HomeScreenName;
+		return this.HomeScreenName;
 	}
 
 	public void setHomeScreenName(String homescreenname) {
-		HomeScreenName = homescreenname;
+		this.HomeScreenName = homescreenname;
 	}
 	public Boolean getShowTermsCheckbox() {
-		return ShowTermsCheckbox;
+		return this.ShowTermsCheckbox;
 	}
 
 	public void setShowTermsCheckbox(Boolean showtermscheckbox) {
-		ShowTermsCheckbox = showtermscheckbox;
+		this.ShowTermsCheckbox = showtermscheckbox;
 	}
 	public String getTermsCheckboxText() {
-		return TermsCheckboxText;
+		return this.TermsCheckboxText;
 	}
 
 	public void setTermsCheckboxText(String termscheckboxtext) {
-		TermsCheckboxText = termscheckboxtext;
+		this.TermsCheckboxText = termscheckboxtext;
 	}
 	public Integer getTermsCheckboxStrictness() {
-		return TermsCheckboxStrictness;
+		return this.TermsCheckboxStrictness;
 	}
 
 	public void setTermsCheckboxStrictness(Integer termscheckboxstrictness) {
-		TermsCheckboxStrictness = termscheckboxstrictness;
+		this.TermsCheckboxStrictness = termscheckboxstrictness;
 	}
 	public Boolean getRequireCompanyNameWithUserInfo() {
-		return RequireCompanyNameWithUserInfo;
+		return this.RequireCompanyNameWithUserInfo;
 	}
 
 	public void setRequireCompanyNameWithUserInfo(Boolean requirecompanynamewithuserinfo) {
-		RequireCompanyNameWithUserInfo = requirecompanynamewithuserinfo;
+		this.RequireCompanyNameWithUserInfo = requirecompanynamewithuserinfo;
 	}
 	public Boolean getEnableEditor() {
-		return EnableEditor;
+		return this.EnableEditor;
 	}
 
 	public void setEnableEditor(Boolean enableeditor) {
-		EnableEditor = enableeditor;
+		this.EnableEditor = enableeditor;
 	}
 	public Integer getShareIDMaxExpirationDays() {
-		return ShareIDMaxExpirationDays;
+		return this.ShareIDMaxExpirationDays;
 	}
 
 	public void setShareIDMaxExpirationDays(Integer shareidmaxexpirationdays) {
-		ShareIDMaxExpirationDays = shareidmaxexpirationdays;
+		this.ShareIDMaxExpirationDays = shareidmaxexpirationdays;
 	}
 	public Boolean getAdminIsSuperUser() {
-		return AdminIsSuperUser;
+		return this.AdminIsSuperUser;
 	}
 
 	public void setAdminIsSuperUser(Boolean adminissuperuser) {
-		AdminIsSuperUser = adminissuperuser;
+		this.AdminIsSuperUser = adminissuperuser;
 	}
 	public Boolean getShowFolderAccessList() {
-		return ShowFolderAccessList;
+		return this.ShowFolderAccessList;
 	}
 
 	public void setShowFolderAccessList(Boolean showfolderaccesslist) {
-		ShowFolderAccessList = showfolderaccesslist;
+		this.ShowFolderAccessList = showfolderaccesslist;
 	}
 	public Boolean getFromEmailIsShareFile() {
-		return FromEmailIsShareFile;
+		return this.FromEmailIsShareFile;
 	}
 
 	public void setFromEmailIsShareFile(Boolean fromemailissharefile) {
-		FromEmailIsShareFile = fromemailissharefile;
+		this.FromEmailIsShareFile = fromemailissharefile;
 	}
 	public Boolean getUseAlternateSMTP() {
-		return UseAlternateSMTP;
+		return this.UseAlternateSMTP;
 	}
 
 	public void setUseAlternateSMTP(Boolean usealternatesmtp) {
-		UseAlternateSMTP = usealternatesmtp;
+		this.UseAlternateSMTP = usealternatesmtp;
 	}
 	public Boolean getShowPasswordInEmail() {
-		return ShowPasswordInEmail;
+		return this.ShowPasswordInEmail;
 	}
 
 	public void setShowPasswordInEmail(Boolean showpasswordinemail) {
-		ShowPasswordInEmail = showpasswordinemail;
+		this.ShowPasswordInEmail = showpasswordinemail;
 	}
 	public String getEmailPasswordText() {
-		return EmailPasswordText;
+		return this.EmailPasswordText;
 	}
 
 	public void setEmailPasswordText(String emailpasswordtext) {
-		EmailPasswordText = emailpasswordtext;
+		this.EmailPasswordText = emailpasswordtext;
 	}
 	public Boolean getEnableSelfNotificationsUpload() {
-		return EnableSelfNotificationsUpload;
+		return this.EnableSelfNotificationsUpload;
 	}
 
 	public void setEnableSelfNotificationsUpload(Boolean enableselfnotificationsupload) {
-		EnableSelfNotificationsUpload = enableselfnotificationsupload;
+		this.EnableSelfNotificationsUpload = enableselfnotificationsupload;
 	}
 	public Boolean getEnableSelfNotificationsDownload() {
-		return EnableSelfNotificationsDownload;
+		return this.EnableSelfNotificationsDownload;
 	}
 
 	public void setEnableSelfNotificationsDownload(Boolean enableselfnotificationsdownload) {
-		EnableSelfNotificationsDownload = enableselfnotificationsdownload;
+		this.EnableSelfNotificationsDownload = enableselfnotificationsdownload;
 	}
 	public Boolean getEnableUploadShareIDReceipt() {
-		return EnableUploadShareIDReceipt;
+		return this.EnableUploadShareIDReceipt;
 	}
 
 	public void setEnableUploadShareIDReceipt(Boolean enableuploadshareidreceipt) {
-		EnableUploadShareIDReceipt = enableuploadshareidreceipt;
+		this.EnableUploadShareIDReceipt = enableuploadshareidreceipt;
 	}
 	public Integer getDefaultConsolidatedNotificationInterval() {
-		return DefaultConsolidatedNotificationInterval;
+		return this.DefaultConsolidatedNotificationInterval;
 	}
 
 	public void setDefaultConsolidatedNotificationInterval(Integer defaultconsolidatednotificationinterval) {
-		DefaultConsolidatedNotificationInterval = defaultconsolidatednotificationinterval;
+		this.DefaultConsolidatedNotificationInterval = defaultconsolidatednotificationinterval;
 	}
 	public Integer getExpirationDays() {
-		return ExpirationDays;
+		return this.ExpirationDays;
 	}
 
 	public void setExpirationDays(Integer expirationdays) {
-		ExpirationDays = expirationdays;
+		this.ExpirationDays = expirationdays;
 	}
 	public String getDefaultSortField() {
-		return DefaultSortField;
+		return this.DefaultSortField;
 	}
 
 	public void setDefaultSortField(String defaultsortfield) {
-		DefaultSortField = defaultsortfield;
+		this.DefaultSortField = defaultsortfield;
 	}
 	public String getDefaultSortOrder() {
-		return DefaultSortOrder;
+		return this.DefaultSortOrder;
 	}
 
 	public void setDefaultSortOrder(String defaultsortorder) {
-		DefaultSortOrder = defaultsortorder;
+		this.DefaultSortOrder = defaultsortorder;
 	}
 	public Boolean getDefaultIsVersioned() {
-		return DefaultIsVersioned;
+		return this.DefaultIsVersioned;
 	}
 
 	public void setDefaultIsVersioned(Boolean defaultisversioned) {
-		DefaultIsVersioned = defaultisversioned;
+		this.DefaultIsVersioned = defaultisversioned;
 	}
 	public Integer getDefaultMaxVersions() {
-		return DefaultMaxVersions;
+		return this.DefaultMaxVersions;
 	}
 
 	public void setDefaultMaxVersions(Integer defaultmaxversions) {
-		DefaultMaxVersions = defaultmaxversions;
+		this.DefaultMaxVersions = defaultmaxversions;
 	}
 	public String getViewOnlyWatermarkText() {
-		return ViewOnlyWatermarkText;
+		return this.ViewOnlyWatermarkText;
 	}
 
 	public void setViewOnlyWatermarkText(String viewonlywatermarktext) {
-		ViewOnlyWatermarkText = viewonlywatermarktext;
+		this.ViewOnlyWatermarkText = viewonlywatermarktext;
 	}
 	public Boolean getEnableDocViewerPrinting() {
-		return EnableDocViewerPrinting;
+		return this.EnableDocViewerPrinting;
 	}
 
 	public void setEnableDocViewerPrinting(Boolean enabledocviewerprinting) {
-		EnableDocViewerPrinting = enabledocviewerprinting;
+		this.EnableDocViewerPrinting = enabledocviewerprinting;
 	}
 	public Boolean getEnableWatermarkedDownloads() {
-		return EnableWatermarkedDownloads;
+		return this.EnableWatermarkedDownloads;
 	}
 
 	public void setEnableWatermarkedDownloads(Boolean enablewatermarkeddownloads) {
-		EnableWatermarkedDownloads = enablewatermarkeddownloads;
-	}
-	public Boolean getEnableCaseSensitivePasswords() {
-		return EnableCaseSensitivePasswords;
-	}
-
-	public void setEnableCaseSensitivePasswords(Boolean enablecasesensitivepasswords) {
-		EnableCaseSensitivePasswords = enablecasesensitivepasswords;
+		this.EnableWatermarkedDownloads = enablewatermarkeddownloads;
 	}
 	public Boolean getEnableTwoFactorAuth() {
-		return EnableTwoFactorAuth;
+		return this.EnableTwoFactorAuth;
 	}
 
 	public void setEnableTwoFactorAuth(Boolean enabletwofactorauth) {
-		EnableTwoFactorAuth = enabletwofactorauth;
+		this.EnableTwoFactorAuth = enabletwofactorauth;
 	}
 	public Integer getLoginFailMaxAttempts() {
-		return LoginFailMaxAttempts;
+		return this.LoginFailMaxAttempts;
 	}
 
 	public void setLoginFailMaxAttempts(Integer loginfailmaxattempts) {
-		LoginFailMaxAttempts = loginfailmaxattempts;
+		this.LoginFailMaxAttempts = loginfailmaxattempts;
 	}
 	public Integer getLoginFailLockoutSecs() {
-		return LoginFailLockoutSecs;
+		return this.LoginFailLockoutSecs;
 	}
 
 	public void setLoginFailLockoutSecs(Integer loginfaillockoutsecs) {
-		LoginFailLockoutSecs = loginfaillockoutsecs;
+		this.LoginFailLockoutSecs = loginfaillockoutsecs;
 	}
 	public String getIPRestrictions() {
-		return IPRestrictions;
+		return this.IPRestrictions;
 	}
 
 	public void setIPRestrictions(String iprestrictions) {
-		IPRestrictions = iprestrictions;
+		this.IPRestrictions = iprestrictions;
 	}
 	public Integer getInactiveTimeoutMins() {
-		return InactiveTimeoutMins;
+		return this.InactiveTimeoutMins;
 	}
 
 	public void setInactiveTimeoutMins(Integer inactivetimeoutmins) {
-		InactiveTimeoutMins = inactivetimeoutmins;
+		this.InactiveTimeoutMins = inactivetimeoutmins;
 	}
 	public Integer getOAuth2RefreshTokenLifetimeMinutes() {
-		return OAuth2RefreshTokenLifetimeMinutes;
+		return this.OAuth2RefreshTokenLifetimeMinutes;
 	}
 
 	public void setOAuth2RefreshTokenLifetimeMinutes(Integer oauth2refreshtokenlifetimeminutes) {
-		OAuth2RefreshTokenLifetimeMinutes = oauth2refreshtokenlifetimeminutes;
+		this.OAuth2RefreshTokenLifetimeMinutes = oauth2refreshtokenlifetimeminutes;
 	}
 	public String getPasswordRegEx() {
-		return PasswordRegEx;
+		return this.PasswordRegEx;
 	}
 
 	public void setPasswordRegEx(String passwordregex) {
-		PasswordRegEx = passwordregex;
+		this.PasswordRegEx = passwordregex;
 	}
 	public String getPasswordRegExFormula() {
-		return PasswordRegExFormula;
+		return this.PasswordRegExFormula;
 	}
 
 	public void setPasswordRegExFormula(String passwordregexformula) {
-		PasswordRegExFormula = passwordregexformula;
+		this.PasswordRegExFormula = passwordregexformula;
 	}
 	public String getPasswordRegExDescription() {
-		return PasswordRegExDescription;
+		return this.PasswordRegExDescription;
 	}
 
 	public void setPasswordRegExDescription(String passwordregexdescription) {
-		PasswordRegExDescription = passwordregexdescription;
+		this.PasswordRegExDescription = passwordregexdescription;
 	}
 	public Boolean getEnableActivationLinks() {
-		return EnableActivationLinks;
+		return this.EnableActivationLinks;
 	}
 
 	public void setEnableActivationLinks(Boolean enableactivationlinks) {
-		EnableActivationLinks = enableactivationlinks;
+		this.EnableActivationLinks = enableactivationlinks;
 	}
 	public Boolean getIsFINRA() {
-		return IsFINRA;
+		return this.IsFINRA;
 	}
 
 	public void setIsFINRA(Boolean isfinra) {
-		IsFINRA = isfinra;
+		this.IsFINRA = isfinra;
 	}
 	public Boolean getEnableOAuth() {
-		return EnableOAuth;
+		return this.EnableOAuth;
 	}
 
 	public void setEnableOAuth(Boolean enableoauth) {
-		EnableOAuth = enableoauth;
+		this.EnableOAuth = enableoauth;
 	}
 	public Boolean getEnableQandA() {
-		return EnableQandA;
+		return this.EnableQandA;
 	}
 
 	public void setEnableQandA(Boolean enableqanda) {
-		EnableQandA = enableqanda;
+		this.EnableQandA = enableqanda;
 	}
 	public Boolean getEnableQandATextInNotifications() {
-		return EnableQandATextInNotifications;
+		return this.EnableQandATextInNotifications;
 	}
 
 	public void setEnableQandATextInNotifications(Boolean enableqandatextinnotifications) {
-		EnableQandATextInNotifications = enableqandatextinnotifications;
+		this.EnableQandATextInNotifications = enableqandatextinnotifications;
 	}
 	public SFSafeEnum<SFUXMode> getUXMode() {
-		return UXMode;
+		return this.UXMode;
 	}
 
 	public void setUXMode(SFSafeEnum<SFUXMode> uxmode) {
-		UXMode = uxmode;
+		this.UXMode = uxmode;
 	}
 	public Integer getIndustryCode() {
-		return IndustryCode;
+		return this.IndustryCode;
 	}
 
 	public void setIndustryCode(Integer industrycode) {
-		IndustryCode = industrycode;
+		this.IndustryCode = industrycode;
 	}
 	public Integer getPasswordMaxAgeDays() {
-		return PasswordMaxAgeDays;
+		return this.PasswordMaxAgeDays;
 	}
 
 	public void setPasswordMaxAgeDays(Integer passwordmaxagedays) {
-		PasswordMaxAgeDays = passwordmaxagedays;
+		this.PasswordMaxAgeDays = passwordmaxagedays;
 	}
 	public Integer getPasswordHistoryCount() {
-		return PasswordHistoryCount;
+		return this.PasswordHistoryCount;
 	}
 
 	public void setPasswordHistoryCount(Integer passwordhistorycount) {
-		PasswordHistoryCount = passwordhistorycount;
+		this.PasswordHistoryCount = passwordhistorycount;
 	}
 	public Integer getMinimumLength() {
-		return MinimumLength;
+		return this.MinimumLength;
 	}
 
 	public void setMinimumLength(Integer minimumlength) {
-		MinimumLength = minimumlength;
+		this.MinimumLength = minimumlength;
 	}
-	public Boolean getAlphaRequired() {
-		return AlphaRequired;
-	}
-
-	public void setAlphaRequired(Boolean alpharequired) {
-		AlphaRequired = alpharequired;
-	}
-	public Boolean getCaseRequired() {
-		return CaseRequired;
+	public Integer getMinimumSpecialCharacters() {
+		return this.MinimumSpecialCharacters;
 	}
 
-	public void setCaseRequired(Boolean caserequired) {
-		CaseRequired = caserequired;
+	public void setMinimumSpecialCharacters(Integer minimumspecialcharacters) {
+		this.MinimumSpecialCharacters = minimumspecialcharacters;
 	}
-	public Boolean getNumericRequired() {
-		return NumericRequired;
-	}
-
-	public void setNumericRequired(Boolean numericrequired) {
-		NumericRequired = numericrequired;
-	}
-	public Boolean getSpecialRequired() {
-		return SpecialRequired;
+	public Integer getMinimumNumeric() {
+		return this.MinimumNumeric;
 	}
 
-	public void setSpecialRequired(Boolean specialrequired) {
-		SpecialRequired = specialrequired;
+	public void setMinimumNumeric(Integer minimumnumeric) {
+		this.MinimumNumeric = minimumnumeric;
 	}
 	public String getAllowedSpecialCharacters() {
-		return AllowedSpecialCharacters;
+		return this.AllowedSpecialCharacters;
 	}
 
 	public void setAllowedSpecialCharacters(String allowedspecialcharacters) {
-		AllowedSpecialCharacters = allowedspecialcharacters;
+		this.AllowedSpecialCharacters = allowedspecialcharacters;
 	}
 	public Boolean getEnableWebDAV() {
-		return EnableWebDAV;
+		return this.EnableWebDAV;
 	}
 
 	public void setEnableWebDAV(Boolean enablewebdav) {
-		EnableWebDAV = enablewebdav;
+		this.EnableWebDAV = enablewebdav;
 	}
 	public Boolean getEnableFTP() {
-		return EnableFTP;
+		return this.EnableFTP;
 	}
 
 	public void setEnableFTP(Boolean enableftp) {
-		EnableFTP = enableftp;
+		this.EnableFTP = enableftp;
 	}
 	public Boolean getEnableSFTP() {
-		return EnableSFTP;
+		return this.EnableSFTP;
 	}
 
 	public void setEnableSFTP(Boolean enablesftp) {
-		EnableSFTP = enablesftp;
+		this.EnableSFTP = enablesftp;
 	}
 	public Boolean getDisableMarketing() {
-		return DisableMarketing;
+		return this.DisableMarketing;
 	}
 
 	public void setDisableMarketing(Boolean disablemarketing) {
-		DisableMarketing = disablemarketing;
+		this.DisableMarketing = disablemarketing;
 	}
 	public String getVDRDocViewerURL() {
-		return VDRDocViewerURL;
+		return this.VDRDocViewerURL;
 	}
 
 	public void setVDRDocViewerURL(String vdrdocviewerurl) {
-		VDRDocViewerURL = vdrdocviewerurl;
+		this.VDRDocViewerURL = vdrdocviewerurl;
 	}
 	public Boolean getEnableSMBConnectorForAccount() {
-		return EnableSMBConnectorForAccount;
+		return this.EnableSMBConnectorForAccount;
 	}
 
 	public void setEnableSMBConnectorForAccount(Boolean enablesmbconnectorforaccount) {
-		EnableSMBConnectorForAccount = enablesmbconnectorforaccount;
+		this.EnableSMBConnectorForAccount = enablesmbconnectorforaccount;
 	}
 	public Boolean getEnablePersonalCloudConnectors() {
-		return EnablePersonalCloudConnectors;
+		return this.EnablePersonalCloudConnectors;
 	}
 
 	public void setEnablePersonalCloudConnectors(Boolean enablepersonalcloudconnectors) {
-		EnablePersonalCloudConnectors = enablepersonalcloudconnectors;
+		this.EnablePersonalCloudConnectors = enablepersonalcloudconnectors;
 	}
 	public String getAccountID() {
-		return AccountID;
+		return this.AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		AccountID = accountid;
+		this.AccountID = accountid;
 	}
 	public Boolean getEnableGetApp() {
-		return EnableGetApp;
+		return this.EnableGetApp;
 	}
 
 	public void setEnableGetApp(Boolean enablegetapp) {
-		EnableGetApp = enablegetapp;
+		this.EnableGetApp = enablegetapp;
 	}
 	public Boolean getEnableStorageZoneConnector() {
-		return EnableStorageZoneConnector;
+		return this.EnableStorageZoneConnector;
 	}
 
 	public void setEnableStorageZoneConnector(Boolean enablestoragezoneconnector) {
-		EnableStorageZoneConnector = enablestoragezoneconnector;
+		this.EnableStorageZoneConnector = enablestoragezoneconnector;
 	}
 	public Boolean getHasAnyConnectorZones() {
-		return HasAnyConnectorZones;
+		return this.HasAnyConnectorZones;
 	}
 
 	public void setHasAnyConnectorZones(Boolean hasanyconnectorzones) {
-		HasAnyConnectorZones = hasanyconnectorzones;
+		this.HasAnyConnectorZones = hasanyconnectorzones;
 	}
 	public Boolean getEnableENSForAccount() {
-		return EnableENSForAccount;
+		return this.EnableENSForAccount;
 	}
 
 	public void setEnableENSForAccount(Boolean enableensforaccount) {
-		EnableENSForAccount = enableensforaccount;
+		this.EnableENSForAccount = enableensforaccount;
 	}
 	public String getENSRecommendedPollingSyncInterval() {
-		return ENSRecommendedPollingSyncInterval;
+		return this.ENSRecommendedPollingSyncInterval;
 	}
 
 	public void setENSRecommendedPollingSyncInterval(String ensrecommendedpollingsyncinterval) {
-		ENSRecommendedPollingSyncInterval = ensrecommendedpollingsyncinterval;
+		this.ENSRecommendedPollingSyncInterval = ensrecommendedpollingsyncinterval;
 	}
 	public String getENSRecommendedNotificationSyncInterval() {
-		return ENSRecommendedNotificationSyncInterval;
+		return this.ENSRecommendedNotificationSyncInterval;
 	}
 
 	public void setENSRecommendedNotificationSyncInterval(String ensrecommendednotificationsyncinterval) {
-		ENSRecommendedNotificationSyncInterval = ensrecommendednotificationsyncinterval;
+		this.ENSRecommendedNotificationSyncInterval = ensrecommendednotificationsyncinterval;
 	}
 	public Integer getENSNotificationConfigurationCount() {
-		return ENSNotificationConfigurationCount;
+		return this.ENSNotificationConfigurationCount;
 	}
 
 	public void setENSNotificationConfigurationCount(Integer ensnotificationconfigurationcount) {
-		ENSNotificationConfigurationCount = ensnotificationconfigurationcount;
+		this.ENSNotificationConfigurationCount = ensnotificationconfigurationcount;
 	}
 	public Integer getENSFailSafePollingCount() {
-		return ENSFailSafePollingCount;
+		return this.ENSFailSafePollingCount;
 	}
 
 	public void setENSFailSafePollingCount(Integer ensfailsafepollingcount) {
-		ENSFailSafePollingCount = ensfailsafepollingcount;
+		this.ENSFailSafePollingCount = ensfailsafepollingcount;
 	}
 	public Integer getENSMaxNotificationSyncWaitCount() {
-		return ENSMaxNotificationSyncWaitCount;
+		return this.ENSMaxNotificationSyncWaitCount;
 	}
 
 	public void setENSMaxNotificationSyncWaitCount(Integer ensmaxnotificationsyncwaitcount) {
-		ENSMaxNotificationSyncWaitCount = ensmaxnotificationsyncwaitcount;
+		this.ENSMaxNotificationSyncWaitCount = ensmaxnotificationsyncwaitcount;
 	}
 	public String getTrustedDomains() {
-		return TrustedDomains;
+		return this.TrustedDomains;
 	}
 
 	public void setTrustedDomains(String trusteddomains) {
-		TrustedDomains = trusteddomains;
+		this.TrustedDomains = trusteddomains;
+	}
+	public Boolean getEnableEncryptedEmailForOutlookPlugin() {
+		return this.EnableEncryptedEmailForOutlookPlugin;
+	}
+
+	public void setEnableEncryptedEmailForOutlookPlugin(Boolean enableencryptedemailforoutlookplugin) {
+		this.EnableEncryptedEmailForOutlookPlugin = enableencryptedemailforoutlookplugin;
+	}
+	public Boolean getEnableDocPreviews() {
+		return this.EnableDocPreviews;
+	}
+
+	public void setEnableDocPreviews(Boolean enabledocpreviews) {
+		this.EnableDocPreviews = enabledocpreviews;
+	}
+	public Boolean getEnableDesktopEditorForAccount() {
+		return this.EnableDesktopEditorForAccount;
+	}
+
+	public void setEnableDesktopEditorForAccount(Boolean enabledesktopeditorforaccount) {
+		this.EnableDesktopEditorForAccount = enabledesktopeditorforaccount;
 	}
 
 }

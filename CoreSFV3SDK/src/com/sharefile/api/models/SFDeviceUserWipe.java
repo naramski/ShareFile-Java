@@ -36,40 +36,40 @@ public class SFDeviceUserWipe extends SFODataObject {
 		* Wipe token
 		*/
 	public String getWipeToken() {
-		return WipeToken;
+		return this.WipeToken;
 	}
 
 		/**
 		* Wipe token
 		*/
 	public void setWipeToken(String wipetoken) {
-		WipeToken = wipetoken;
+		this.WipeToken = wipetoken;
 	}
 		/**
 		* Success
 		*/
 	public String getSuccess() {
-		return Success;
+		return this.Success;
 	}
 
 		/**
 		* Success
 		*/
 	public void setSuccess(String success) {
-		Success = success;
+		this.Success = success;
 	}
 		/**
 		* Error message
 		*/
 	public String getErrorMessage() {
-		return ErrorMessage;
+		return this.ErrorMessage;
 	}
 
 		/**
 		* Error message
 		*/
 	public void setErrorMessage(String errormessage) {
-		ErrorMessage = errormessage;
+		this.ErrorMessage = errormessage;
 	}
 
 }

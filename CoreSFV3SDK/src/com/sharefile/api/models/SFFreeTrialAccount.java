@@ -65,137 +65,137 @@ public class SFFreeTrialAccount extends SFAccount {
 	private String MarketoID;
 
 	public String getPromoCode() {
-		return PromoCode;
+		return this.PromoCode;
 	}
 
 	public void setPromoCode(String promocode) {
-		PromoCode = promocode;
+		this.PromoCode = promocode;
 	}
 	public Date getEndDate() {
-		return EndDate;
+		return this.EndDate;
 	}
 
 	public void setEndDate(Date enddate) {
-		EndDate = enddate;
+		this.EndDate = enddate;
 	}
 	public Boolean getIsValid() {
-		return IsValid;
+		return this.IsValid;
 	}
 
 	public void setIsValid(Boolean isvalid) {
-		IsValid = isvalid;
+		this.IsValid = isvalid;
 	}
 	public String getConversionType() {
-		return ConversionType;
+		return this.ConversionType;
 	}
 
 	public void setConversionType(String conversiontype) {
-		ConversionType = conversiontype;
+		this.ConversionType = conversiontype;
 	}
 	public Boolean getHasFollowedUp() {
-		return HasFollowedUp;
+		return this.HasFollowedUp;
 	}
 
 	public void setHasFollowedUp(Boolean hasfollowedup) {
-		HasFollowedUp = hasfollowedup;
+		this.HasFollowedUp = hasfollowedup;
 	}
 	public Date getFollowUpDate() {
-		return FollowUpDate;
+		return this.FollowUpDate;
 	}
 
 	public void setFollowUpDate(Date followupdate) {
-		FollowUpDate = followupdate;
+		this.FollowUpDate = followupdate;
 	}
 	public String getCancellationReason() {
-		return CancellationReason;
+		return this.CancellationReason;
 	}
 
 	public void setCancellationReason(String cancellationreason) {
-		CancellationReason = cancellationreason;
+		this.CancellationReason = cancellationreason;
 	}
 	public String getSignupProcess() {
-		return SignupProcess;
+		return this.SignupProcess;
 	}
 
 	public void setSignupProcess(String signupprocess) {
-		SignupProcess = signupprocess;
+		this.SignupProcess = signupprocess;
 	}
 	public Double getConversionIndexDay7() {
-		return ConversionIndexDay7;
+		return this.ConversionIndexDay7;
 	}
 
 	public void setConversionIndexDay7(Double conversionindexday7) {
-		ConversionIndexDay7 = conversionindexday7;
+		this.ConversionIndexDay7 = conversionindexday7;
 	}
 	public Double getConversionIndexDay14() {
-		return ConversionIndexDay14;
+		return this.ConversionIndexDay14;
 	}
 
 	public void setConversionIndexDay14(Double conversionindexday14) {
-		ConversionIndexDay14 = conversionindexday14;
+		this.ConversionIndexDay14 = conversionindexday14;
 	}
 	public Double getLTVIndex() {
-		return LTVIndex;
+		return this.LTVIndex;
 	}
 
 	public void setLTVIndex(Double ltvindex) {
-		LTVIndex = ltvindex;
+		this.LTVIndex = ltvindex;
 	}
 	public String getAllSources() {
-		return AllSources;
+		return this.AllSources;
 	}
 
 	public void setAllSources(String allsources) {
-		AllSources = allsources;
+		this.AllSources = allsources;
 	}
 	public String getReferralID() {
-		return ReferralID;
+		return this.ReferralID;
 	}
 
 	public void setReferralID(String referralid) {
-		ReferralID = referralid;
+		this.ReferralID = referralid;
 	}
 	public Integer getTrialTypeID() {
-		return TrialTypeID;
+		return this.TrialTypeID;
 	}
 
 	public void setTrialTypeID(Integer trialtypeid) {
-		TrialTypeID = trialtypeid;
+		this.TrialTypeID = trialtypeid;
 	}
 	public String getInitialCallRepID() {
-		return InitialCallRepID;
+		return this.InitialCallRepID;
 	}
 
 	public void setInitialCallRepID(String initialcallrepid) {
-		InitialCallRepID = initialcallrepid;
+		this.InitialCallRepID = initialcallrepid;
 	}
 	public Date getInitialCallDate() {
-		return InitialCallDate;
+		return this.InitialCallDate;
 	}
 
 	public void setInitialCallDate(Date initialcalldate) {
-		InitialCallDate = initialcalldate;
+		this.InitialCallDate = initialcalldate;
 	}
 	public Integer getDemoStatus() {
-		return DemoStatus;
+		return this.DemoStatus;
 	}
 
 	public void setDemoStatus(Integer demostatus) {
-		DemoStatus = demostatus;
+		this.DemoStatus = demostatus;
 	}
 	public Date getDemoDate() {
-		return DemoDate;
+		return this.DemoDate;
 	}
 
 	public void setDemoDate(Date demodate) {
-		DemoDate = demodate;
+		this.DemoDate = demodate;
 	}
 	public String getMarketoID() {
-		return MarketoID;
+		return this.MarketoID;
 	}
 
 	public void setMarketoID(String marketoid) {
-		MarketoID = marketoid;
+		this.MarketoID = marketoid;
 	}
 
 }

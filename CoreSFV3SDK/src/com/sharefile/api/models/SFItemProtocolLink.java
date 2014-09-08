@@ -29,11 +29,11 @@ public class SFItemProtocolLink extends SFODataObject {
 	private String Link;
 
 	public String getLink() {
-		return Link;
+		return this.Link;
 	}
 
 	public void setLink(String link) {
-		Link = link;
+		this.Link = link;
 	}
 
 }

@@ -78,9 +78,21 @@ public final class SFKeywords
 	public static final String EXCEPTION_MSG_NOT_IMPLEMENTED = "function not implemented";
 
 	public static final String Location = "Location";
-
-	public static final String TOP_FOLDER_ID = "top";
-	public static final String ROOT_FOLDER_ID = "root";
-	
+		
 	public static final String ACCEPT_LANGUAGE = "Accept-Language";
+
+	public static final String FileName = "FileName";
+
+	public static final String CreationDate = "CreationDate";
+	
+	public static final String PREFIX_PERSONAL_CONNECTOR = "c-";
+
+	public static final String INFO = "Info";
+
+	public static final String JSON = "json";
+	
+	/// StorageCenter related
+	public static final String EXTERNAL_ADDRESS = "ExternalAddress";
+	public static final String DEFAULT_EXTERNAL_URL = "DefaultExternalUrl";
+	public static final String EXTERNAL_URL = "ExternalUrl";
 }

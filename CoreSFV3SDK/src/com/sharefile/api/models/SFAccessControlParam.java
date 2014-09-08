@@ -38,21 +38,21 @@ public class SFAccessControlParam extends SFODataObject {
 		* AccessControl.Item is inherited from AccessControlsBulkParams and cannot be specified here
 		*/
 	public SFAccessControl getAccessControl() {
-		return AccessControl;
+		return this.AccessControl;
 	}
 
 		/**
 		* AccessControl.Item is inherited from AccessControlsBulkParams and cannot be specified here
 		*/
 	public void setAccessControl(SFAccessControl accesscontrol) {
-		AccessControl = accesscontrol;
+		this.AccessControl = accesscontrol;
 	}
 		/**
 		* Defines whether this principal should receieve a notice on the permission grant.
 		* If not specified it is inherited AccessControlsBulkParams
 		*/
 	public Boolean getNotifyUser() {
-		return NotifyUser;
+		return this.NotifyUser;
 	}
 
 		/**
@@ -60,14 +60,14 @@ public class SFAccessControlParam extends SFODataObject {
 		* If not specified it is inherited AccessControlsBulkParams
 		*/
 	public void setNotifyUser(Boolean notifyuser) {
-		NotifyUser = notifyuser;
+		this.NotifyUser = notifyuser;
 	}
 		/**
 		* Custom notification message, if any
 		* If not specified it is inherited AccessControlsBulkParams
 		*/
 	public String getNotifyMessage() {
-		return NotifyMessage;
+		return this.NotifyMessage;
 	}
 
 		/**
@@ -75,20 +75,20 @@ public class SFAccessControlParam extends SFODataObject {
 		* If not specified it is inherited AccessControlsBulkParams
 		*/
 	public void setNotifyMessage(String notifymessage) {
-		NotifyMessage = notifymessage;
+		this.NotifyMessage = notifymessage;
 	}
 		/**
 		* Defines whether this ACL change should be applied recursively
 		*/
 	public Boolean getRecursive() {
-		return Recursive;
+		return this.Recursive;
 	}
 
 		/**
 		* Defines whether this ACL change should be applied recursively
 		*/
 	public void setRecursive(Boolean recursive) {
-		Recursive = recursive;
+		this.Recursive = recursive;
 	}
 
 }

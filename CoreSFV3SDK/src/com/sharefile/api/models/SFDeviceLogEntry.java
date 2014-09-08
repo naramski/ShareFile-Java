@@ -44,56 +44,56 @@ public class SFDeviceLogEntry extends SFODataObject {
 		* File name
 		*/
 	public String getFileName() {
-		return FileName;
+		return this.FileName;
 	}
 
 		/**
 		* File name
 		*/
 	public void setFileName(String filename) {
-		FileName = filename;
+		this.FileName = filename;
 	}
 	public String getFileID() {
-		return FileID;
+		return this.FileID;
 	}
 
 	public void setFileID(String fileid) {
-		FileID = fileid;
+		this.FileID = fileid;
 	}
 	public Long getTimestamp() {
-		return Timestamp;
+		return this.Timestamp;
 	}
 
 	public void setTimestamp(Long timestamp) {
-		Timestamp = timestamp;
+		this.Timestamp = timestamp;
 	}
 	public String getAccountID() {
-		return AccountID;
+		return this.AccountID;
 	}
 
 	public void setAccountID(String accountid) {
-		AccountID = accountid;
+		this.AccountID = accountid;
 	}
 	public String getUserID() {
-		return UserID;
+		return this.UserID;
 	}
 
 	public void setUserID(String userid) {
-		UserID = userid;
+		this.UserID = userid;
 	}
 	public SFSafeEnum<SFDeviceLogEntryAction> getAction() {
-		return Action;
+		return this.Action;
 	}
 
 	public void setAction(SFSafeEnum<SFDeviceLogEntryAction> action) {
-		Action = action;
+		this.Action = action;
 	}
 	public String getAdditionalInfo() {
-		return AdditionalInfo;
+		return this.AdditionalInfo;
 	}
 
 	public void setAdditionalInfo(String additionalinfo) {
-		AdditionalInfo = additionalinfo;
+		this.AdditionalInfo = additionalinfo;
 	}
 
 }

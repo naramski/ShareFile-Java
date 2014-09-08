@@ -35,32 +35,32 @@ public class SFSimpleSearchQuery extends SFODataObject {
 	private Integer TimeoutInSeconds;
 
 	public SFSimpleQuery getQuery() {
-		return Query;
+		return this.Query;
 	}
 
 	public void setQuery(SFSimpleQuery query) {
-		Query = query;
+		this.Query = query;
 	}
 	public SFQueryPaging getPaging() {
-		return Paging;
+		return this.Paging;
 	}
 
 	public void setPaging(SFQueryPaging paging) {
-		Paging = paging;
+		this.Paging = paging;
 	}
 	public SFQuerySorting getSort() {
-		return Sort;
+		return this.Sort;
 	}
 
 	public void setSort(SFQuerySorting sort) {
-		Sort = sort;
+		this.Sort = sort;
 	}
 	public Integer getTimeoutInSeconds() {
-		return TimeoutInSeconds;
+		return this.TimeoutInSeconds;
 	}
 
 	public void setTimeoutInSeconds(Integer timeoutinseconds) {
-		TimeoutInSeconds = timeoutinseconds;
+		this.TimeoutInSeconds = timeoutinseconds;
 	}
 
 }

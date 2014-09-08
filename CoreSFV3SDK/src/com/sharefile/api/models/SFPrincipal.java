@@ -38,34 +38,34 @@ public class SFPrincipal extends SFODataObject {
 		* User name
 		*/
 	public String getName() {
-		return Name;
+		return this.Name;
 	}
 
 		/**
 		* User name
 		*/
 	public void setName(String name) {
-		Name = name;
+		this.Name = name;
 	}
 		/**
 		* Email address
 		*/
 	public String getEmail() {
-		return Email;
+		return this.Email;
 	}
 
 		/**
 		* Email address
 		*/
 	public void setEmail(String email) {
-		Email = email;
+		this.Email = email;
 	}
 		/**
 		* Username for the account - the value used for login. This is the same as Email for ShareFile accounts, but
 		* may be different on Connectors
 		*/
 	public String getUsername() {
-		return Username;
+		return this.Username;
 	}
 
 		/**
@@ -73,20 +73,20 @@ public class SFPrincipal extends SFODataObject {
 		* may be different on Connectors
 		*/
 	public void setUsername(String username) {
-		Username = username;
+		this.Username = username;
 	}
 		/**
 		* Account domain
 		*/
 	public String getDomain() {
-		return Domain;
+		return this.Domain;
 	}
 
 		/**
 		* Account domain
 		*/
 	public void setDomain(String domain) {
-		Domain = domain;
+		this.Domain = domain;
 	}
 
 }

@@ -45,7 +45,7 @@ public class SFFile extends SFItem {
 		* blobs and do not populate this field.
 		*/
 	public String getFilePath() {
-		return FilePath;
+		return this.FilePath;
 	}
 
 		/**
@@ -55,72 +55,72 @@ public class SFFile extends SFItem {
 		* blobs and do not populate this field.
 		*/
 	public void setFilePath(String filepath) {
-		FilePath = filepath;
+		this.FilePath = filepath;
 	}
 		/**
 		* MD5 Hash of the File contents.
 		*/
 	public String getHash() {
-		return Hash;
+		return this.Hash;
 	}
 
 		/**
 		* MD5 Hash of the File contents.
 		*/
 	public void setHash(String hash) {
-		Hash = hash;
+		this.Hash = hash;
 	}
 		/**
 		* Indicates that the File has an image Preview.
 		*/
 	public Boolean getHasPreview() {
-		return HasPreview;
+		return this.HasPreview;
 	}
 
 		/**
 		* Indicates that the File has an image Preview.
 		*/
 	public void setHasPreview(Boolean haspreview) {
-		HasPreview = haspreview;
+		this.HasPreview = haspreview;
 	}
 		/**
 		* Current Anti-Virus scanning status for this file
 		*/
 	public SFSafeEnum<SFFileVirusStatus> getVirusStatus() {
-		return VirusStatus;
+		return this.VirusStatus;
 	}
 
 		/**
 		* Current Anti-Virus scanning status for this file
 		*/
 	public void setVirusStatus(SFSafeEnum<SFFileVirusStatus> virusstatus) {
-		VirusStatus = virusstatus;
+		this.VirusStatus = virusstatus;
 	}
 		/**
 		* Indicates the user that has locked the file
 		*/
 	public SFUser getLockedBy() {
-		return LockedBy;
+		return this.LockedBy;
 	}
 
 		/**
 		* Indicates the user that has locked the file
 		*/
 	public void setLockedBy(SFUser lockedby) {
-		LockedBy = lockedby;
+		this.LockedBy = lockedby;
 	}
 		/**
 		* File version.
 		*/
 	public Float getVersion() {
-		return Version;
+		return this.Version;
 	}
 
 		/**
 		* File version.
 		*/
 	public void setVersion(Float version) {
-		Version = version;
+		this.Version = version;
 	}
 
 }

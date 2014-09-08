@@ -29,11 +29,11 @@ public class SFRequireWebPopResult extends SFODataObject {
 	private Boolean RequireWebPop;
 
 	public Boolean getRequireWebPop() {
-		return RequireWebPop;
+		return this.RequireWebPop;
 	}
 
 	public void setRequireWebPop(Boolean requirewebpop) {
-		RequireWebPop = requirewebpop;
+		this.RequireWebPop = requirewebpop;
 	}
 
 }

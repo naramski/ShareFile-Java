@@ -33,25 +33,25 @@ public class SFODataFeed<T> extends SFODataObject {
 	private String NextLink;
 
 	public Integer getcount() {
-		return count;
+		return this.count;
 	}
 
 	public void setcount(Integer count) {
-		count = count;
+		this.count = count;
 	}
 	public ArrayList<T> getFeed() {
-		return Feed;
+		return this.Feed;
 	}
 
 	public void setFeed(ArrayList<T> feed) {
-		Feed = feed;
+		this.Feed = feed;
 	}
 	public String getNextLink() {
-		return NextLink;
+		return this.NextLink;
 	}
 
 	public void setNextLink(String nextlink) {
-		NextLink = nextlink;
+		this.NextLink = nextlink;
 	}
 
 }

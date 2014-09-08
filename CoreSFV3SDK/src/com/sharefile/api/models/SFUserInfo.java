@@ -37,39 +37,39 @@ public class SFUserInfo extends SFODataObject {
 	private String StorageCenterUrl;
 
 	public String getCompanyName() {
-		return CompanyName;
+		return this.CompanyName;
 	}
 
 	public void setCompanyName(String companyname) {
-		CompanyName = companyname;
+		this.CompanyName = companyname;
 	}
 	public String getPlanName() {
-		return PlanName;
+		return this.PlanName;
 	}
 
 	public void setPlanName(String planname) {
-		PlanName = planname;
+		this.PlanName = planname;
 	}
 	public SFPlanFeatures getPlanFeatures() {
-		return PlanFeatures;
+		return this.PlanFeatures;
 	}
 
 	public void setPlanFeatures(SFPlanFeatures planfeatures) {
-		PlanFeatures = planfeatures;
+		this.PlanFeatures = planfeatures;
 	}
 	public String getApplicationUrl() {
-		return ApplicationUrl;
+		return this.ApplicationUrl;
 	}
 
 	public void setApplicationUrl(String applicationurl) {
-		ApplicationUrl = applicationurl;
+		this.ApplicationUrl = applicationurl;
 	}
 	public String getStorageCenterUrl() {
-		return StorageCenterUrl;
+		return this.StorageCenterUrl;
 	}
 
 	public void setStorageCenterUrl(String storagecenterurl) {
-		StorageCenterUrl = storagecenterurl;
+		this.StorageCenterUrl = storagecenterurl;
 	}
 
 }

@@ -47,74 +47,74 @@ public class SFFavoriteFolder extends SFODataObject {
 	private String CreatorLastName;
 
 	public SFUser getUser() {
-		return User;
+		return this.User;
 	}
 
 	public void setUser(SFUser user) {
-		User = user;
+		this.User = user;
 	}
 	public SFItem getFolder() {
-		return Folder;
+		return this.Folder;
 	}
 
 	public void setFolder(SFItem folder) {
-		Folder = folder;
+		this.Folder = folder;
 	}
 	public Integer getSortOrder() {
-		return SortOrder;
+		return this.SortOrder;
 	}
 
 	public void setSortOrder(Integer sortorder) {
-		SortOrder = sortorder;
+		this.SortOrder = sortorder;
 	}
 	public String getFolderAlias() {
-		return FolderAlias;
+		return this.FolderAlias;
 	}
 
 	public void setFolderAlias(String folderalias) {
-		FolderAlias = folderalias;
+		this.FolderAlias = folderalias;
 	}
 	public String getFolderName() {
-		return FolderName;
+		return this.FolderName;
 	}
 
 	public void setFolderName(String foldername) {
-		FolderName = foldername;
+		this.FolderName = foldername;
 	}
 	public String getPath() {
-		return Path;
+		return this.Path;
 	}
 
 	public void setPath(String path) {
-		Path = path;
+		this.Path = path;
 	}
 	public Long getFileSize() {
-		return FileSize;
+		return this.FileSize;
 	}
 
 	public void setFileSize(Long filesize) {
-		FileSize = filesize;
+		this.FileSize = filesize;
 	}
 	public Date getCreationDate() {
-		return CreationDate;
+		return this.CreationDate;
 	}
 
 	public void setCreationDate(Date creationdate) {
-		CreationDate = creationdate;
+		this.CreationDate = creationdate;
 	}
 	public String getCreatorFirstName() {
-		return CreatorFirstName;
+		return this.CreatorFirstName;
 	}
 
 	public void setCreatorFirstName(String creatorfirstname) {
-		CreatorFirstName = creatorfirstname;
+		this.CreatorFirstName = creatorfirstname;
 	}
 	public String getCreatorLastName() {
-		return CreatorLastName;
+		return this.CreatorLastName;
 	}
 
 	public void setCreatorLastName(String creatorlastname) {
-		CreatorLastName = creatorlastname;
+		this.CreatorLastName = creatorlastname;
 	}
 
 }

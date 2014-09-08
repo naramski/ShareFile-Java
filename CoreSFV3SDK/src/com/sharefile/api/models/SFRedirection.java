@@ -49,81 +49,81 @@ public class SFRedirection extends SFODataObject {
 	private Boolean Available;
 
 	public String getMethod() {
-		return Method;
+		return this.Method;
 	}
 
 	public void setMethod(String method) {
-		Method = method;
+		this.Method = method;
 	}
 	public String getRoot() {
-		return Root;
+		return this.Root;
 	}
 
 	public void setRoot(String root) {
-		Root = root;
+		this.Root = root;
 	}
 	public SFZone getZone() {
-		return Zone;
+		return this.Zone;
 	}
 
 	public void setZone(SFZone zone) {
-		Zone = zone;
+		this.Zone = zone;
 	}
 	public Object getDomain() {
-		return Domain;
+		return this.Domain;
 	}
 
 	public void setDomain(Object domain) {
-		Domain = domain;
+		this.Domain = domain;
 	}
 	public URI getUri() {
-		return Uri;
+		return this.Uri;
 	}
 
 	public void setUri(URI uri) {
-		Uri = uri;
+		this.Uri = uri;
 	}
 	public URI getFormsUri() {
-		return FormsUri;
+		return this.FormsUri;
 	}
 
 	public void setFormsUri(URI formsuri) {
-		FormsUri = formsuri;
+		this.FormsUri = formsuri;
 	}
 	public URI getSessionUri() {
-		return SessionUri;
+		return this.SessionUri;
 	}
 
 	public void setSessionUri(URI sessionuri) {
-		SessionUri = sessionuri;
+		this.SessionUri = sessionuri;
 	}
 	public URI getTokenUri() {
-		return TokenUri;
+		return this.TokenUri;
 	}
 
 	public void setTokenUri(URI tokenuri) {
-		TokenUri = tokenuri;
+		this.TokenUri = tokenuri;
 	}
 	public Boolean getSessionCheck() {
-		return SessionCheck;
+		return this.SessionCheck;
 	}
 
 	public void setSessionCheck(Boolean sessioncheck) {
-		SessionCheck = sessioncheck;
+		this.SessionCheck = sessioncheck;
 	}
 	public String getBody() {
-		return Body;
+		return this.Body;
 	}
 
 	public void setBody(String body) {
-		Body = body;
+		this.Body = body;
 	}
 	public Boolean getAvailable() {
-		return Available;
+		return this.Available;
 	}
 
 	public void setAvailable(Boolean available) {
-		Available = available;
+		this.Available = available;
 	}
 
 }
