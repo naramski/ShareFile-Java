@@ -110,8 +110,30 @@ public class SFHttpsCaller
 		conn.setDoOutput(true);
 	}
 	
+	/**
+	 * PATCH is not recognized by android. Use POST as surrogate
+	 */
+	private static final boolean overridePatchMethod(URLConnection conn,String methodName)
+	{	
+		boolean ret = false;
+		
+		if(methodName.equalsIgnoreCase(SFHttpMethod.PATCH.toString()))
+		{			
+			conn.setRequestProperty(SFKeywords.HTTP_METHOD_OVERRIDE, SFHttpMethod.PATCH.toString());
+			
+			ret = true;
+		}
+		
+		return ret;
+	}
+	
 	public static void setMethod(URLConnection conn,String methodName) throws ProtocolException
-	{
+	{		
+		if(overridePatchMethod(conn, methodName))
+		{
+			methodName = SFHttpMethod.POST.toString();
+		}
+		
 		setRequestMethod(conn, methodName);
 				 
 		if(methodName.equalsIgnoreCase(SFHttpMethod.GET.toString()))
@@ -125,8 +147,8 @@ public class SFHttpsCaller
 		{
 			return;
 		}
-		
-		conn.setDoOutput(true);		
+						
+		conn.setDoOutput(true); //POST, PUT
 	}
 	
 	public static int catchIfAuthException(IOException e) throws IOException
