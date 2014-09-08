@@ -6,7 +6,8 @@ public enum SFHttpMethod
 	POST("POST"),
 	PUT("PUT"),
 	PATCH("PATCH"),
-	DELETE("DELETE");
+	DELETE("DELETE"),
+	UPDATE("UPDATE");
 		
 	private final String mToString;
 	

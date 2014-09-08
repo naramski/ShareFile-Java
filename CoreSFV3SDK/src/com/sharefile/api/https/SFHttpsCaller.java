@@ -112,26 +112,23 @@ public class SFHttpsCaller
 	
 	public static void setMethod(URLConnection conn,String methodName) throws ProtocolException
 	{
-		if(methodName.equalsIgnoreCase(SFHttpMethod.POST.toString()))
+		setRequestMethod(conn, methodName);
+				 
+		if(methodName.equalsIgnoreCase(SFHttpMethod.GET.toString()))
 		{
-			setPostMethod(conn);
+			return;
 		}
-		else if(methodName.equalsIgnoreCase(SFHttpMethod.DELETE.toString()))
+		
+		conn.setDoInput(true);
+		
+		if(methodName.equalsIgnoreCase(SFHttpMethod.DELETE.toString()))
 		{
-			setDeleteMethod(conn);
-		} 
-		else if(methodName.equalsIgnoreCase(SFHttpMethod.GET.toString()))
-		{
-			setRequestMethod(conn, methodName);
+			return;
 		}
+		
+		conn.setDoOutput(true);		
 	}
 	
-	private static void setDeleteMethod(URLConnection conn) throws ProtocolException
-	{		
-		setRequestMethod(conn,SFHttpMethod.DELETE.toString());		
-		conn.setDoInput(true);
-	}
-			
 	public static int catchIfAuthException(IOException e) throws IOException
 	{
 		String errMessage = e.getLocalizedMessage();
