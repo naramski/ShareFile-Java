@@ -1,12 +1,5 @@
 package com.sharefile.api;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.sharefile.api.authentication.SFGetNewAccessToken;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
@@ -31,6 +24,13 @@ import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.java.log.SLog;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SFApiClient 
 {
@@ -91,7 +91,7 @@ public class SFApiClient
 	 *   to store the new token to Persistant storage.
 	 */
 	@SFSDKDefaultAccessScope
-	void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
+	public void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
 	{
 		mClientInitializedSuccessFully.set(false);
 		
@@ -105,7 +105,7 @@ public class SFApiClient
 			}
 			catch(Exception e)
 			{
-				SLog.d(TAG, "Exception in initclient", e);
+				SLog.d(TAG, "Failed to store token", e);
 			}
 		}
 	}
@@ -147,16 +147,19 @@ public class SFApiClient
 	 * renew the oauth token synchronously. To be used on by asynctasks
 	 * @return new oath token if successful, null if failed
 	 */
-	public boolean renewAccessTokenSync() {
+	public boolean renewAccessTokenSync() throws SFInvalidStateException {
 		SFGetNewAccessToken task = new SFGetNewAccessToken(mOAuthToken.get(), null, mClientID, mClientSecret);
 		SFOAuth2Token newToken = task.getNewAccessToken();
-		if (newToken!=null) {
-			SLog.i(TAG, "Access Token got renewed, update it");
-			mOAuthToken.set(newToken);
-			return true;
-		}
-		
-		return false;
+		if (newToken==null) {
+            SLog.w(TAG, "Error renewing token");
+            return false;
+        }
+
+        SLog.i(TAG, "Access Token got renewed, update it");
+        // mOAuthToken.set(newToken);
+        reinitClientState(newToken);
+
+        return true;
 	}
 	
 	public <T extends SFODataObject> T executeWithReAuth(SFApiQuery<T> query) throws SFV3ErrorException, SFInvalidStateException {
