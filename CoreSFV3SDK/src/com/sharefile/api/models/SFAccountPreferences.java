@@ -195,6 +195,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableEncryptedEmailForOutlookPlugin;
 	@SerializedName("EnableDocPreviews")
 	private Boolean EnableDocPreviews;
+	@SerializedName("EnableDesktopEditorForAccount")
+	private Boolean EnableDesktopEditorForAccount;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -790,6 +792,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableDocPreviews(Boolean enabledocpreviews) {
 		this.EnableDocPreviews = enabledocpreviews;
+	}
+	public Boolean getEnableDesktopEditorForAccount() {
+		return this.EnableDesktopEditorForAccount;
+	}
+
+	public void setEnableDesktopEditorForAccount(Boolean enabledesktopeditorforaccount) {
+		this.EnableDesktopEditorForAccount = enabledesktopeditorforaccount;
 	}
 
 }
