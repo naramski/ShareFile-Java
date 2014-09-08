@@ -5,9 +5,8 @@ public enum SFHttpMethod
 	GET("GET"),
 	POST("POST"),
 	PUT("PUT"),
-	PATCH("PATCH"),
-	DELETE("DELETE"),
-	UPDATE("UPDATE");
+	PATCH("PATCH"), //Android was throwing Protocol exception on this Verb during last test since PATCH is not recognized.
+	DELETE("DELETE");
 		
 	private final String mToString;
 	

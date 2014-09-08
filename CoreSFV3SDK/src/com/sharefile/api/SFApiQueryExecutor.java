@@ -100,7 +100,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 	private void handleHttPost(URLConnection conn) throws IOException
 	{
-		if(mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.POST.toString()))
+		if(mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.POST.toString()) || 
+		   mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.PATCH.toString()) )
 		{
 			String body = mQuery.getBody(); 
 			
