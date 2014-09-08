@@ -57,109 +57,109 @@ public class SFSSOAccountProvider extends SFODataObject {
 	private Boolean LenientSignatures;
 
 	public String getLogoutUrl() {
-		return LogoutUrl;
+		return this.LogoutUrl;
 	}
 
 	public void setLogoutUrl(String logouturl) {
-		LogoutUrl = logouturl;
+		this.LogoutUrl = logouturl;
 	}
 	public String getLoginUrl() {
-		return LoginUrl;
+		return this.LoginUrl;
 	}
 
 	public void setLoginUrl(String loginurl) {
-		LoginUrl = loginurl;
+		this.LoginUrl = loginurl;
 	}
 	public String getIPRestrictions() {
-		return IPRestrictions;
+		return this.IPRestrictions;
 	}
 
 	public void setIPRestrictions(String iprestrictions) {
-		IPRestrictions = iprestrictions;
+		this.IPRestrictions = iprestrictions;
 	}
 	public Boolean getForceSSO() {
-		return ForceSSO;
+		return this.ForceSSO;
 	}
 
 	public void setForceSSO(Boolean forcesso) {
-		ForceSSO = forcesso;
+		this.ForceSSO = forcesso;
 	}
 	public String getCertificate() {
-		return Certificate;
+		return this.Certificate;
 	}
 
 	public void setCertificate(String certificate) {
-		Certificate = certificate;
+		this.Certificate = certificate;
 	}
 	public SFAccount getAccount() {
-		return Account;
+		return this.Account;
 	}
 
 	public void setAccount(SFAccount account) {
-		Account = account;
+		this.Account = account;
 	}
 	public String getEntityID() {
-		return EntityID;
+		return this.EntityID;
 	}
 
 	public void setEntityID(String entityid) {
-		EntityID = entityid;
+		this.EntityID = entityid;
 	}
 	public String getSFEntityID() {
-		return SFEntityID;
+		return this.SFEntityID;
 	}
 
 	public void setSFEntityID(String sfentityid) {
-		SFEntityID = sfentityid;
+		this.SFEntityID = sfentityid;
 	}
 	public String getSPInitatedAuthContext() {
-		return SPInitatedAuthContext;
+		return this.SPInitatedAuthContext;
 	}
 
 	public void setSPInitatedAuthContext(String spinitatedauthcontext) {
-		SPInitatedAuthContext = spinitatedauthcontext;
+		this.SPInitatedAuthContext = spinitatedauthcontext;
 	}
 	public String getSPInitatedAuthMethod() {
-		return SPInitatedAuthMethod;
+		return this.SPInitatedAuthMethod;
 	}
 
 	public void setSPInitatedAuthMethod(String spinitatedauthmethod) {
-		SPInitatedAuthMethod = spinitatedauthmethod;
+		this.SPInitatedAuthMethod = spinitatedauthmethod;
 	}
 	public Boolean getUseWebAuthentication() {
-		return UseWebAuthentication;
+		return this.UseWebAuthentication;
 	}
 
 	public void setUseWebAuthentication(Boolean usewebauthentication) {
-		UseWebAuthentication = usewebauthentication;
+		this.UseWebAuthentication = usewebauthentication;
 	}
 	public Boolean getIsActive() {
-		return IsActive;
+		return this.IsActive;
 	}
 
 	public void setIsActive(Boolean isactive) {
-		IsActive = isactive;
+		this.IsActive = isactive;
 	}
 	public String getProviderID() {
-		return ProviderID;
+		return this.ProviderID;
 	}
 
 	public void setProviderID(String providerid) {
-		ProviderID = providerid;
+		this.ProviderID = providerid;
 	}
 	public Boolean getDebugMode() {
-		return DebugMode;
+		return this.DebugMode;
 	}
 
 	public void setDebugMode(Boolean debugmode) {
-		DebugMode = debugmode;
+		this.DebugMode = debugmode;
 	}
 	public Boolean getLenientSignatures() {
-		return LenientSignatures;
+		return this.LenientSignatures;
 	}
 
 	public void setLenientSignatures(Boolean lenientsignatures) {
-		LenientSignatures = lenientsignatures;
+		this.LenientSignatures = lenientsignatures;
 	}
 
 }

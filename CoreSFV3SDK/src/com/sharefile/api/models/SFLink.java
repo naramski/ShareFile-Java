@@ -32,14 +32,14 @@ public class SFLink extends SFItem {
 		* Universal Reference Identifier for this Link object
 		*/
 	public URI getUri() {
-		return Uri;
+		return this.Uri;
 	}
 
 		/**
 		* Universal Reference Identifier for this Link object
 		*/
 	public void setUri(URI uri) {
-		Uri = uri;
+		this.Uri = uri;
 	}
 
 }

@@ -31,18 +31,18 @@ public class SFCapability extends SFODataObject {
 	private String Version;
 
 	public SFSafeEnum<SFCapabilityName> getName() {
-		return Name;
+		return this.Name;
 	}
 
 	public void setName(SFSafeEnum<SFCapabilityName> name) {
-		Name = name;
+		this.Name = name;
 	}
 	public String getVersion() {
-		return Version;
+		return this.Version;
 	}
 
 	public void setVersion(String version) {
-		Version = version;
+		this.Version = version;
 	}
 
 }

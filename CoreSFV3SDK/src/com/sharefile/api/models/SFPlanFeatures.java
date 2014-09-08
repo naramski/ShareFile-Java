@@ -91,228 +91,228 @@ public class SFPlanFeatures extends SFODataObject {
 	private Boolean EnableTopLevelView;
 
 	public String getPlanType() {
-		return PlanType;
+		return this.PlanType;
 	}
 
 	public void setPlanType(String plantype) {
-		PlanType = plantype;
+		this.PlanType = plantype;
 	}
 	public Boolean getAPI() {
-		return API;
+		return this.API;
 	}
 
 	public void setAPI(Boolean api) {
-		API = api;
+		this.API = api;
 	}
 	public Boolean getOutlook() {
-		return Outlook;
+		return this.Outlook;
 	}
 
 	public void setOutlook(Boolean outlook) {
-		Outlook = outlook;
+		this.Outlook = outlook;
 	}
 	public Boolean getDriveMapping() {
-		return DriveMapping;
+		return this.DriveMapping;
 	}
 
 	public void setDriveMapping(Boolean drivemapping) {
-		DriveMapping = drivemapping;
+		this.DriveMapping = drivemapping;
 	}
 	public Boolean getCLI() {
-		return CLI;
+		return this.CLI;
 	}
 
 	public void setCLI(Boolean cli) {
-		CLI = cli;
+		this.CLI = cli;
 	}
 	public Boolean getFTP() {
-		return FTP;
+		return this.FTP;
 	}
 
 	public void setFTP(Boolean ftp) {
-		FTP = ftp;
+		this.FTP = ftp;
 	}
 	public Boolean getFTPS() {
-		return FTPS;
+		return this.FTPS;
 	}
 
 	public void setFTPS(Boolean ftps) {
-		FTPS = ftps;
+		this.FTPS = ftps;
 	}
 	public Boolean getSync() {
-		return Sync;
+		return this.Sync;
 	}
 
 	public void setSync(Boolean sync) {
-		Sync = sync;
+		this.Sync = sync;
 	}
 	public Boolean getAntiVirus() {
-		return AntiVirus;
+		return this.AntiVirus;
 	}
 
 	public void setAntiVirus(Boolean antivirus) {
-		AntiVirus = antivirus;
+		this.AntiVirus = antivirus;
 	}
 	public Boolean getRequireLoginOnDownload() {
-		return RequireLoginOnDownload;
+		return this.RequireLoginOnDownload;
 	}
 
 	public void setRequireLoginOnDownload(Boolean requireloginondownload) {
-		RequireLoginOnDownload = requireloginondownload;
+		this.RequireLoginOnDownload = requireloginondownload;
 	}
 	public Integer getMaxFileMB() {
-		return MaxFileMB;
+		return this.MaxFileMB;
 	}
 
 	public void setMaxFileMB(Integer maxfilemb) {
-		MaxFileMB = maxfilemb;
+		this.MaxFileMB = maxfilemb;
 	}
 	public Integer getPlanStorMB() {
-		return PlanStorMB;
+		return this.PlanStorMB;
 	}
 
 	public void setPlanStorMB(Integer planstormb) {
-		PlanStorMB = planstormb;
+		this.PlanStorMB = planstormb;
 	}
 	public Integer getPlanBandMB() {
-		return PlanBandMB;
+		return this.PlanBandMB;
 	}
 
 	public void setPlanBandMB(Integer planbandmb) {
-		PlanBandMB = planbandmb;
+		this.PlanBandMB = planbandmb;
 	}
 	public String getSystemName() {
-		return SystemName;
+		return this.SystemName;
 	}
 
 	public void setSystemName(String systemname) {
-		SystemName = systemname;
+		this.SystemName = systemname;
 	}
 	public String getSystemType() {
-		return SystemType;
+		return this.SystemType;
 	}
 
 	public void setSystemType(String systemtype) {
-		SystemType = systemtype;
+		this.SystemType = systemtype;
 	}
 	public Boolean getHasOutlookOptions() {
-		return HasOutlookOptions;
+		return this.HasOutlookOptions;
 	}
 
 	public void setHasOutlookOptions(Boolean hasoutlookoptions) {
-		HasOutlookOptions = hasoutlookoptions;
+		this.HasOutlookOptions = hasoutlookoptions;
 	}
 	public Boolean getSimpleMAPI() {
-		return SimpleMAPI;
+		return this.SimpleMAPI;
 	}
 
 	public void setSimpleMAPI(Boolean simplemapi) {
-		SimpleMAPI = simplemapi;
+		this.SimpleMAPI = simplemapi;
 	}
 	public Boolean getForceAttachLink() {
-		return ForceAttachLink;
+		return this.ForceAttachLink;
 	}
 
 	public void setForceAttachLink(Boolean forceattachlink) {
-		ForceAttachLink = forceattachlink;
+		this.ForceAttachLink = forceattachlink;
 	}
 	public String getUsedStorMB() {
-		return UsedStorMB;
+		return this.UsedStorMB;
 	}
 
 	public void setUsedStorMB(String usedstormb) {
-		UsedStorMB = usedstormb;
+		this.UsedStorMB = usedstormb;
 	}
 	public String getUsedStorUtcTicks() {
-		return UsedStorUtcTicks;
+		return this.UsedStorUtcTicks;
 	}
 
 	public void setUsedStorUtcTicks(String usedstorutcticks) {
-		UsedStorUtcTicks = usedstorutcticks;
+		this.UsedStorUtcTicks = usedstorutcticks;
 	}
 	public String getUsedStorBytes() {
-		return UsedStorBytes;
+		return this.UsedStorBytes;
 	}
 
 	public void setUsedStorBytes(String usedstorbytes) {
-		UsedStorBytes = usedstorbytes;
+		this.UsedStorBytes = usedstorbytes;
 	}
 	public Boolean getIsEmployee() {
-		return IsEmployee;
+		return this.IsEmployee;
 	}
 
 	public void setIsEmployee(Boolean isemployee) {
-		IsEmployee = isemployee;
+		this.IsEmployee = isemployee;
 	}
 	public Boolean getIsAdministrator() {
-		return IsAdministrator;
+		return this.IsAdministrator;
 	}
 
 	public void setIsAdministrator(Boolean isadministrator) {
-		IsAdministrator = isadministrator;
+		this.IsAdministrator = isadministrator;
 	}
 	public Boolean getCanCreateRootFolders() {
-		return CanCreateRootFolders;
+		return this.CanCreateRootFolders;
 	}
 
 	public void setCanCreateRootFolders(Boolean cancreaterootfolders) {
-		CanCreateRootFolders = cancreaterootfolders;
+		this.CanCreateRootFolders = cancreaterootfolders;
 	}
 	public Boolean getCanUseFileBox() {
-		return CanUseFileBox;
+		return this.CanUseFileBox;
 	}
 
 	public void setCanUseFileBox(Boolean canusefilebox) {
-		CanUseFileBox = canusefilebox;
+		this.CanUseFileBox = canusefilebox;
 	}
 	public Boolean getIsConfirmed() {
-		return IsConfirmed;
+		return this.IsConfirmed;
 	}
 
 	public void setIsConfirmed(Boolean isconfirmed) {
-		IsConfirmed = isconfirmed;
+		this.IsConfirmed = isconfirmed;
 	}
 	public Boolean getCanResetPassword() {
-		return CanResetPassword;
+		return this.CanResetPassword;
 	}
 
 	public void setCanResetPassword(Boolean canresetpassword) {
-		CanResetPassword = canresetpassword;
+		this.CanResetPassword = canresetpassword;
 	}
 	public String getPasswordRegEx() {
-		return PasswordRegEx;
+		return this.PasswordRegEx;
 	}
 
 	public void setPasswordRegEx(String passwordregex) {
-		PasswordRegEx = passwordregex;
+		this.PasswordRegEx = passwordregex;
 	}
 	public Boolean getCanManageMySettings() {
-		return CanManageMySettings;
+		return this.CanManageMySettings;
 	}
 
 	public void setCanManageMySettings(Boolean canmanagemysettings) {
-		CanManageMySettings = canmanagemysettings;
+		this.CanManageMySettings = canmanagemysettings;
 	}
 	public String getHomeFolder() {
-		return HomeFolder;
+		return this.HomeFolder;
 	}
 
 	public void setHomeFolder(String homefolder) {
-		HomeFolder = homefolder;
+		this.HomeFolder = homefolder;
 	}
 	public Boolean getEnableAutoUpdate() {
-		return EnableAutoUpdate;
+		return this.EnableAutoUpdate;
 	}
 
 	public void setEnableAutoUpdate(Boolean enableautoupdate) {
-		EnableAutoUpdate = enableautoupdate;
+		this.EnableAutoUpdate = enableautoupdate;
 	}
 	public Boolean getEnableTopLevelView() {
-		return EnableTopLevelView;
+		return this.EnableTopLevelView;
 	}
 
 	public void setEnableTopLevelView(Boolean enabletoplevelview) {
-		EnableTopLevelView = enabletoplevelview;
+		this.EnableTopLevelView = enabletoplevelview;
 	}
 
 }

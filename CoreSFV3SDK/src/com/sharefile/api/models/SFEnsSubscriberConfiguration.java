@@ -43,60 +43,60 @@ public class SFEnsSubscriberConfiguration extends SFODataObject {
 	private Integer MaxNotificationSyncWaitCount;
 
 	public Boolean getIsEnsEnabled() {
-		return IsEnsEnabled;
+		return this.IsEnsEnabled;
 	}
 
 	public void setIsEnsEnabled(Boolean isensenabled) {
-		IsEnsEnabled = isensenabled;
+		this.IsEnsEnabled = isensenabled;
 	}
 	public String getEnsServerUrl() {
-		return EnsServerUrl;
+		return this.EnsServerUrl;
 	}
 
 	public void setEnsServerUrl(String ensserverurl) {
-		EnsServerUrl = ensserverurl;
+		this.EnsServerUrl = ensserverurl;
 	}
 	public String getVersion() {
-		return Version;
+		return this.Version;
 	}
 
 	public void setVersion(String version) {
-		Version = version;
+		this.Version = version;
 	}
 	public Object getRecommendedPollingSyncInterval() {
-		return RecommendedPollingSyncInterval;
+		return this.RecommendedPollingSyncInterval;
 	}
 
 	public void setRecommendedPollingSyncInterval(Object recommendedpollingsyncinterval) {
-		RecommendedPollingSyncInterval = recommendedpollingsyncinterval;
+		this.RecommendedPollingSyncInterval = recommendedpollingsyncinterval;
 	}
 	public Object getRecommendedNotificationSyncInterval() {
-		return RecommendedNotificationSyncInterval;
+		return this.RecommendedNotificationSyncInterval;
 	}
 
 	public void setRecommendedNotificationSyncInterval(Object recommendednotificationsyncinterval) {
-		RecommendedNotificationSyncInterval = recommendednotificationsyncinterval;
+		this.RecommendedNotificationSyncInterval = recommendednotificationsyncinterval;
 	}
 	public Integer getNotificationConfigurationCount() {
-		return NotificationConfigurationCount;
+		return this.NotificationConfigurationCount;
 	}
 
 	public void setNotificationConfigurationCount(Integer notificationconfigurationcount) {
-		NotificationConfigurationCount = notificationconfigurationcount;
+		this.NotificationConfigurationCount = notificationconfigurationcount;
 	}
 	public Integer getFailSafePollingCount() {
-		return FailSafePollingCount;
+		return this.FailSafePollingCount;
 	}
 
 	public void setFailSafePollingCount(Integer failsafepollingcount) {
-		FailSafePollingCount = failsafepollingcount;
+		this.FailSafePollingCount = failsafepollingcount;
 	}
 	public Integer getMaxNotificationSyncWaitCount() {
-		return MaxNotificationSyncWaitCount;
+		return this.MaxNotificationSyncWaitCount;
 	}
 
 	public void setMaxNotificationSyncWaitCount(Integer maxnotificationsyncwaitcount) {
-		MaxNotificationSyncWaitCount = maxnotificationsyncwaitcount;
+		this.MaxNotificationSyncWaitCount = maxnotificationsyncwaitcount;
 	}
 
 }

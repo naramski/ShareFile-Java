@@ -31,18 +31,18 @@ public class SFOutlookInformationOptionBool extends SFODataObject {
 	private Boolean Value;
 
 	public Boolean getLocked() {
-		return Locked;
+		return this.Locked;
 	}
 
 	public void setLocked(Boolean locked) {
-		Locked = locked;
+		this.Locked = locked;
 	}
 	public Boolean getValue() {
-		return Value;
+		return this.Value;
 	}
 
 	public void setValue(Boolean value) {
-		Value = value;
+		this.Value = value;
 	}
 
 }

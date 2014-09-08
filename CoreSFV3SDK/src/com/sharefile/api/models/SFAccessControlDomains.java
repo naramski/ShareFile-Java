@@ -34,27 +34,27 @@ public class SFAccessControlDomains extends SFODataObject {
 		* Specifies that the list is interpreted as a list of allowed or disallowed domains
 		*/
 	public SFSafeEnum<SFAccessControlFilter> getAccessControlType() {
-		return AccessControlType;
+		return this.AccessControlType;
 	}
 
 		/**
 		* Specifies that the list is interpreted as a list of allowed or disallowed domains
 		*/
 	public void setAccessControlType(SFSafeEnum<SFAccessControlFilter> accesscontroltype) {
-		AccessControlType = accesscontroltype;
+		this.AccessControlType = accesscontroltype;
 	}
 		/**
 		* A list of domain names
 		*/
 	public ArrayList<String> getDomains() {
-		return Domains;
+		return this.Domains;
 	}
 
 		/**
 		* A list of domain names
 		*/
 	public void setDomains(ArrayList<String> domains) {
-		Domains = domains;
+		this.Domains = domains;
 	}
 
 }

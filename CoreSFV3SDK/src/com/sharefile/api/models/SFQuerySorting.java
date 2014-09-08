@@ -31,18 +31,18 @@ public class SFQuerySorting extends SFODataObject {
 	private Boolean Ascending;
 
 	public String getSortBy() {
-		return SortBy;
+		return this.SortBy;
 	}
 
 	public void setSortBy(String sortby) {
-		SortBy = sortby;
+		this.SortBy = sortby;
 	}
 	public Boolean getAscending() {
-		return Ascending;
+		return this.Ascending;
 	}
 
 	public void setAscending(Boolean ascending) {
-		Ascending = ascending;
+		this.Ascending = ascending;
 	}
 
 }

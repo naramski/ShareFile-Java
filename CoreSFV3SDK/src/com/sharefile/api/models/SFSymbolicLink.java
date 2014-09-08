@@ -31,18 +31,18 @@ public class SFSymbolicLink extends SFFolder {
 	private SFConnectorGroup ConnectorGroup;
 
 	public URI getLink() {
-		return Link;
+		return this.Link;
 	}
 
 	public void setLink(URI link) {
-		Link = link;
+		this.Link = link;
 	}
 	public SFConnectorGroup getConnectorGroup() {
-		return ConnectorGroup;
+		return this.ConnectorGroup;
 	}
 
 	public void setConnectorGroup(SFConnectorGroup connectorgroup) {
-		ConnectorGroup = connectorgroup;
+		this.ConnectorGroup = connectorgroup;
 	}
 
 }

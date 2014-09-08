@@ -49,81 +49,81 @@ public class SFESignature extends SFODataObject {
 	private String DocumentUrl;
 
 	public String getID() {
-		return ID;
+		return this.ID;
 	}
 
 	public void setID(String id) {
-		ID = id;
+		this.ID = id;
 	}
 	public String getItemID() {
-		return ItemID;
+		return this.ItemID;
 	}
 
 	public void setItemID(String itemid) {
-		ItemID = itemid;
+		this.ItemID = itemid;
 	}
 	public String getReferenceID() {
-		return ReferenceID;
+		return this.ReferenceID;
 	}
 
 	public void setReferenceID(String referenceid) {
-		ReferenceID = referenceid;
+		this.ReferenceID = referenceid;
 	}
 	public String getAlternateReferenceID() {
-		return AlternateReferenceID;
+		return this.AlternateReferenceID;
 	}
 
 	public void setAlternateReferenceID(String alternatereferenceid) {
-		AlternateReferenceID = alternatereferenceid;
+		this.AlternateReferenceID = alternatereferenceid;
 	}
 	public String getSignedItemID() {
-		return SignedItemID;
+		return this.SignedItemID;
 	}
 
 	public void setSignedItemID(String signeditemid) {
-		SignedItemID = signeditemid;
+		this.SignedItemID = signeditemid;
 	}
 	public SFSafeEnum<SFIntegrationProvider> getProvider() {
-		return Provider;
+		return this.Provider;
 	}
 
 	public void setProvider(SFSafeEnum<SFIntegrationProvider> provider) {
-		Provider = provider;
+		this.Provider = provider;
 	}
 	public String getUserID() {
-		return UserID;
+		return this.UserID;
 	}
 
 	public void setUserID(String userid) {
-		UserID = userid;
+		this.UserID = userid;
 	}
 	public SFSafeEnum<SFESignatureDocumentStatus> getStatus() {
-		return Status;
+		return this.Status;
 	}
 
 	public void setStatus(SFSafeEnum<SFESignatureDocumentStatus> status) {
-		Status = status;
+		this.Status = status;
 	}
 	public Date getDateCreated() {
-		return DateCreated;
+		return this.DateCreated;
 	}
 
 	public void setDateCreated(Date datecreated) {
-		DateCreated = datecreated;
+		this.DateCreated = datecreated;
 	}
 	public Date getDateLastUpdated() {
-		return DateLastUpdated;
+		return this.DateLastUpdated;
 	}
 
 	public void setDateLastUpdated(Date datelastupdated) {
-		DateLastUpdated = datelastupdated;
+		this.DateLastUpdated = datelastupdated;
 	}
 	public String getDocumentUrl() {
-		return DocumentUrl;
+		return this.DocumentUrl;
 	}
 
 	public void setDocumentUrl(String documenturl) {
-		DocumentUrl = documenturl;
+		this.DocumentUrl = documenturl;
 	}
 
 }

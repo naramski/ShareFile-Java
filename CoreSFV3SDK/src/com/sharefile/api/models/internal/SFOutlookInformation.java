@@ -53,95 +53,95 @@ public class SFOutlookInformation extends SFODataObject {
 	private SFOutlookInformationOptionBool AttachPaperclip;
 
 	public SFOutlookInformationOptionString getDownloadInfoLevel() {
-		return DownloadInfoLevel;
+		return this.DownloadInfoLevel;
 	}
 
 	public void setDownloadInfoLevel(SFOutlookInformationOptionString downloadinfolevel) {
-		DownloadInfoLevel = downloadinfolevel;
+		this.DownloadInfoLevel = downloadinfolevel;
 	}
 	public SFOutlookInformationOptionString getUploadInfoLevel() {
-		return UploadInfoLevel;
+		return this.UploadInfoLevel;
 	}
 
 	public void setUploadInfoLevel(SFOutlookInformationOptionString uploadinfolevel) {
-		UploadInfoLevel = uploadinfolevel;
+		this.UploadInfoLevel = uploadinfolevel;
 	}
 	public SFOutlookInformationOptionBool getNotifyOnDownload() {
-		return NotifyOnDownload;
+		return this.NotifyOnDownload;
 	}
 
 	public void setNotifyOnDownload(SFOutlookInformationOptionBool notifyondownload) {
-		NotifyOnDownload = notifyondownload;
+		this.NotifyOnDownload = notifyondownload;
 	}
 	public SFOutlookInformationOptionBool getNotifyOnUpload() {
-		return NotifyOnUpload;
+		return this.NotifyOnUpload;
 	}
 
 	public void setNotifyOnUpload(SFOutlookInformationOptionBool notifyonupload) {
-		NotifyOnUpload = notifyonupload;
+		this.NotifyOnUpload = notifyonupload;
 	}
 	public SFOutlookInformationOptionInt getMaxDownloads() {
-		return MaxDownloads;
+		return this.MaxDownloads;
 	}
 
 	public void setMaxDownloads(SFOutlookInformationOptionInt maxdownloads) {
-		MaxDownloads = maxdownloads;
+		this.MaxDownloads = maxdownloads;
 	}
 	public SFOutlookInformationOptionString getLinkExpiration() {
-		return LinkExpiration;
+		return this.LinkExpiration;
 	}
 
 	public void setLinkExpiration(SFOutlookInformationOptionString linkexpiration) {
-		LinkExpiration = linkexpiration;
+		this.LinkExpiration = linkexpiration;
 	}
 	public SFOutlookInformationOptionString getRequestText() {
-		return RequestText;
+		return this.RequestText;
 	}
 
 	public void setRequestText(SFOutlookInformationOptionString requesttext) {
-		RequestText = requesttext;
+		this.RequestText = requesttext;
 	}
 	public SFOutlookInformationOptionString getSendText() {
-		return SendText;
+		return this.SendText;
 	}
 
 	public void setSendText(SFOutlookInformationOptionString sendtext) {
-		SendText = sendtext;
+		this.SendText = sendtext;
 	}
 	public SFOutlookInformationOptionString getBannerHTML() {
-		return BannerHTML;
+		return this.BannerHTML;
 	}
 
 	public void setBannerHTML(SFOutlookInformationOptionString bannerhtml) {
-		BannerHTML = bannerhtml;
+		this.BannerHTML = bannerhtml;
 	}
 	public SFOutlookInformationOptionBool getUseBanner() {
-		return UseBanner;
+		return this.UseBanner;
 	}
 
 	public void setUseBanner(SFOutlookInformationOptionBool usebanner) {
-		UseBanner = usebanner;
+		this.UseBanner = usebanner;
 	}
 	public SFOutlookInformationOptionBool getAutoConvert() {
-		return AutoConvert;
+		return this.AutoConvert;
 	}
 
 	public void setAutoConvert(SFOutlookInformationOptionBool autoconvert) {
-		AutoConvert = autoconvert;
+		this.AutoConvert = autoconvert;
 	}
 	public SFOutlookInformationOptionInt getConvertAbove() {
-		return ConvertAbove;
+		return this.ConvertAbove;
 	}
 
 	public void setConvertAbove(SFOutlookInformationOptionInt convertabove) {
-		ConvertAbove = convertabove;
+		this.ConvertAbove = convertabove;
 	}
 	public SFOutlookInformationOptionBool getAttachPaperclip() {
-		return AttachPaperclip;
+		return this.AttachPaperclip;
 	}
 
 	public void setAttachPaperclip(SFOutlookInformationOptionBool attachpaperclip) {
-		AttachPaperclip = attachpaperclip;
+		this.AttachPaperclip = attachpaperclip;
 	}
 
 }

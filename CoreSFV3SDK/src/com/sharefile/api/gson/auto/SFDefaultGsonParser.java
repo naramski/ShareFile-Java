@@ -1,6 +1,8 @@
 package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,12 +15,13 @@ import com.google.gson.JsonParseException;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.SFItem;
+import com.sharefile.api.models.SFItemInfo;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.api.models.SFStorageCenter;
 import com.sharefile.api.utils.SFDateFormat;
 import com.sharefile.api.utils.SafeEnumHelpers;
-import com.sharefile.java.log.SLog;
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
@@ -52,10 +55,10 @@ public class SFDefaultGsonParser
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	
 			
-	public static SFV3Error parse(JsonElement jsonElement)	
+	/*public static SFV3Error parse(JsonElement jsonElement)	
 	{		
 		return getInstance().mGson.fromJson(jsonElement, SFV3Error.class);		
-	}
+	}*/
 	
 	public static String serialize(Type clazz,Object src)	
 	{		
@@ -107,6 +110,8 @@ public class SFDefaultGsonParser
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
+		mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());
+		mGsonBuilder.registerTypeAdapter(SFStorageCenter.class, new SFGsonRouter());
 		
 		registerV3EnumAdapters();		
 		
@@ -118,5 +123,21 @@ public class SFDefaultGsonParser
 				return SFDateFormat.parse(arg0.getAsString());
 			}
 		});
+		
+		mGsonBuilder.registerTypeAdapter(URI.class, new JsonDeserializer<URI>() 
+		{
+			@Override
+			public URI deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException
+			{											
+				try 
+				{
+					return new URI (arg0.getAsString().trim());
+				} 
+				catch (URISyntaxException e) 
+				{
+					throw new JsonParseException(e);
+				}				
+			}
+		});		
 	}		
 }

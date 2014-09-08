@@ -34,27 +34,27 @@ public class SFDeviceStatus extends SFODataObject {
 		* Locked users
 		*/
 	public ArrayList<SFUser> getLockedUsers() {
-		return LockedUsers;
+		return this.LockedUsers;
 	}
 
 		/**
 		* Locked users
 		*/
 	public void setLockedUsers(ArrayList<SFUser> lockedusers) {
-		LockedUsers = lockedusers;
+		this.LockedUsers = lockedusers;
 	}
 		/**
 		* Users to wipe
 		*/
 	public ArrayList<SFDeviceUserWipe> getUsersToWipe() {
-		return UsersToWipe;
+		return this.UsersToWipe;
 	}
 
 		/**
 		* Users to wipe
 		*/
 	public void setUsersToWipe(ArrayList<SFDeviceUserWipe> userstowipe) {
-		UsersToWipe = userstowipe;
+		this.UsersToWipe = userstowipe;
 	}
 
 }

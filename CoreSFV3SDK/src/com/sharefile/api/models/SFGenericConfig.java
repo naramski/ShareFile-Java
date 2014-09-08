@@ -39,46 +39,46 @@ public class SFGenericConfig extends SFODataObject {
 	private String Config;
 
 	public SFUser getUser() {
-		return User;
+		return this.User;
 	}
 
 	public void setUser(SFUser user) {
-		User = user;
+		this.User = user;
 	}
 	public String getConfigName() {
-		return ConfigName;
+		return this.ConfigName;
 	}
 
 	public void setConfigName(String configname) {
-		ConfigName = configname;
+		this.ConfigName = configname;
 	}
 	public Integer getConfigSize() {
-		return ConfigSize;
+		return this.ConfigSize;
 	}
 
 	public void setConfigSize(Integer configsize) {
-		ConfigSize = configsize;
+		this.ConfigSize = configsize;
 	}
 	public Date getCreationDate() {
-		return CreationDate;
+		return this.CreationDate;
 	}
 
 	public void setCreationDate(Date creationdate) {
-		CreationDate = creationdate;
+		this.CreationDate = creationdate;
 	}
 	public Date getModifiedDate() {
-		return ModifiedDate;
+		return this.ModifiedDate;
 	}
 
 	public void setModifiedDate(Date modifieddate) {
-		ModifiedDate = modifieddate;
+		this.ModifiedDate = modifieddate;
 	}
 	public String getConfig() {
-		return Config;
+		return this.Config;
 	}
 
 	public void setConfig(String config) {
-		Config = config;
+		this.Config = config;
 	}
 
 }

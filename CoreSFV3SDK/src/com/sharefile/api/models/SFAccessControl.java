@@ -50,93 +50,93 @@ public class SFAccessControl extends SFODataObject {
 		* Item that was given permission through this rule
 		*/
 	public SFItem getItem() {
-		return Item;
+		return this.Item;
 	}
 
 		/**
 		* Item that was given permission through this rule
 		*/
 	public void setItem(SFItem item) {
-		Item = item;
+		this.Item = item;
 	}
 	public SFPrincipal getPrincipal() {
-		return Principal;
+		return this.Principal;
 	}
 
 	public void setPrincipal(SFPrincipal principal) {
-		Principal = principal;
+		this.Principal = principal;
 	}
 		/**
 		* Defines whether the principal can add files (upload) into the Item
 		*/
 	public Boolean getCanUpload() {
-		return CanUpload;
+		return this.CanUpload;
 	}
 
 		/**
 		* Defines whether the principal can add files (upload) into the Item
 		*/
 	public void setCanUpload(Boolean canupload) {
-		CanUpload = canupload;
+		this.CanUpload = canupload;
 	}
 		/**
 		* Defines whether the principal can read file content (download) from this Item
 		*/
 	public Boolean getCanDownload() {
-		return CanDownload;
+		return this.CanDownload;
 	}
 
 		/**
 		* Defines whether the principal can read file content (download) from this Item
 		*/
 	public void setCanDownload(Boolean candownload) {
-		CanDownload = candownload;
+		this.CanDownload = candownload;
 	}
 		/**
 		* Defines whether the principal can view items (browse) from this Item
 		*/
 	public Boolean getCanView() {
-		return CanView;
+		return this.CanView;
 	}
 
 		/**
 		* Defines whether the principal can view items (browse) from this Item
 		*/
 	public void setCanView(Boolean canview) {
-		CanView = canview;
+		this.CanView = canview;
 	}
 		/**
 		* Defines whether the principal can remove items from this Item
 		*/
 	public Boolean getCanDelete() {
-		return CanDelete;
+		return this.CanDelete;
 	}
 
 		/**
 		* Defines whether the principal can remove items from this Item
 		*/
 	public void setCanDelete(Boolean candelete) {
-		CanDelete = candelete;
+		this.CanDelete = candelete;
 	}
 		/**
 		* Defines whether the principal can configure Access Controls in this Item
 		*/
 	public Boolean getCanManagePermissions() {
-		return CanManagePermissions;
+		return this.CanManagePermissions;
 	}
 
 		/**
 		* Defines whether the principal can configure Access Controls in this Item
 		*/
 	public void setCanManagePermissions(Boolean canmanagepermissions) {
-		CanManagePermissions = canmanagepermissions;
+		this.CanManagePermissions = canmanagepermissions;
 	}
 		/**
 		* Defines the notification preference for upload events. If set, the principal will receive
 		* notifications when new files are uploaded into this Item
 		*/
 	public Boolean getNotifyOnUpload() {
-		return NotifyOnUpload;
+		return this.NotifyOnUpload;
 	}
 
 		/**
@@ -144,14 +144,14 @@ public class SFAccessControl extends SFODataObject {
 		* notifications when new files are uploaded into this Item
 		*/
 	public void setNotifyOnUpload(Boolean notifyonupload) {
-		NotifyOnUpload = notifyonupload;
+		this.NotifyOnUpload = notifyonupload;
 	}
 		/**
 		* Defines the notification preference for download events. If set, the principal will receive
 		* notifiation when items are downloaded from this Item.
 		*/
 	public Boolean getNotifyOnDownload() {
-		return NotifyOnDownload;
+		return this.NotifyOnDownload;
 	}
 
 		/**
@@ -159,20 +159,20 @@ public class SFAccessControl extends SFODataObject {
 		* notifiation when items are downloaded from this Item.
 		*/
 	public void setNotifyOnDownload(Boolean notifyondownload) {
-		NotifyOnDownload = notifyondownload;
+		this.NotifyOnDownload = notifyondownload;
 	}
 		/**
 		* Defines whether the principal is the owner of this Item
 		*/
 	public Boolean getIsOwner() {
-		return IsOwner;
+		return this.IsOwner;
 	}
 
 		/**
 		* Defines whether the principal is the owner of this Item
 		*/
 	public void setIsOwner(Boolean isowner) {
-		IsOwner = isowner;
+		this.IsOwner = isowner;
 	}
 
 }

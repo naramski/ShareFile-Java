@@ -35,71 +35,86 @@ public class SFFolder extends SFItem {
 	private SFItemInfo Info;
 	@SerializedName("Redirection")
 	private SFRedirection Redirection;
+	@SerializedName("FavoriteFolder")
+	private SFFavoriteFolder FavoriteFolder;
 
 		/**
 		* Number of Items defined under this Folder, including sub-folder counts.
 		*/
 	public Integer getFileCount() {
-		return FileCount;
+		return this.FileCount;
 	}
 
 		/**
 		* Number of Items defined under this Folder, including sub-folder counts.
 		*/
 	public void setFileCount(Integer filecount) {
-		FileCount = filecount;
+		this.FileCount = filecount;
 	}
 		/**
 		* List of Children defined under this folder.
 		*/
 	public ArrayList<SFItem> getChildren() {
-		return Children;
+		return this.Children;
 	}
 
 		/**
 		* List of Children defined under this folder.
 		*/
 	public void setChildren(ArrayList<SFItem> children) {
-		Children = children;
+		this.Children = children;
 	}
 		/**
 		* Defines whether the request to retreive Children is to be navigated to a remote endpoint.
 		*/
 	public Boolean getHasRemoteChildren() {
-		return HasRemoteChildren;
+		return this.HasRemoteChildren;
 	}
 
 		/**
 		* Defines whether the request to retreive Children is to be navigated to a remote endpoint.
 		*/
 	public void setHasRemoteChildren(Boolean hasremotechildren) {
-		HasRemoteChildren = hasremotechildren;
+		this.HasRemoteChildren = hasremotechildren;
 	}
 		/**
 		* Effective Access Control Permissions for this Folder
 		*/
 	public SFItemInfo getInfo() {
-		return Info;
+		return this.Info;
 	}
 
 		/**
 		* Effective Access Control Permissions for this Folder
 		*/
 	public void setInfo(SFItemInfo info) {
-		Info = info;
+		this.Info = info;
 	}
 		/**
 		* Redirection endpoint for this Item.
 		*/
 	public SFRedirection getRedirection() {
-		return Redirection;
+		return this.Redirection;
 	}
 
 		/**
 		* Redirection endpoint for this Item.
 		*/
 	public void setRedirection(SFRedirection redirection) {
-		Redirection = redirection;
+		this.Redirection = redirection;
+	}
+		/**
+		* Favorite Folder object associated to this item
+		*/
+	public SFFavoriteFolder getFavoriteFolder() {
+		return this.FavoriteFolder;
+	}
+
+		/**
+		* Favorite Folder object associated to this item
+		*/
+	public void setFavoriteFolder(SFFavoriteFolder favoritefolder) {
+		this.FavoriteFolder = favoritefolder;
 	}
 
 }

@@ -37,7 +37,7 @@ public class SFAccessControlsBulkParams extends SFODataObject {
 		* If an AccessControlParam doesn't specify the property it is inherited from here.
 		*/
 	public Boolean getNotifyUser() {
-		return NotifyUser;
+		return this.NotifyUser;
 	}
 
 		/**
@@ -45,14 +45,14 @@ public class SFAccessControlsBulkParams extends SFODataObject {
 		* If an AccessControlParam doesn't specify the property it is inherited from here.
 		*/
 	public void setNotifyUser(Boolean notifyuser) {
-		NotifyUser = notifyuser;
+		this.NotifyUser = notifyuser;
 	}
 		/**
 		* Custom notification message, if any
 		* If an AccessControlParam doesn't specify the property it is inherited from here.
 		*/
 	public String getNotifyMessage() {
-		return NotifyMessage;
+		return this.NotifyMessage;
 	}
 
 		/**
@@ -60,20 +60,20 @@ public class SFAccessControlsBulkParams extends SFODataObject {
 		* If an AccessControlParam doesn't specify the property it is inherited from here.
 		*/
 	public void setNotifyMessage(String notifymessage) {
-		NotifyMessage = notifymessage;
+		this.NotifyMessage = notifymessage;
 	}
 		/**
 		* AccessControlParams
 		*/
 	public ArrayList<SFAccessControlParam> getAccessControlParams() {
-		return AccessControlParams;
+		return this.AccessControlParams;
 	}
 
 		/**
 		* AccessControlParams
 		*/
 	public void setAccessControlParams(ArrayList<SFAccessControlParam> accesscontrolparams) {
-		AccessControlParams = accesscontrolparams;
+		this.AccessControlParams = accesscontrolparams;
 	}
 
 }

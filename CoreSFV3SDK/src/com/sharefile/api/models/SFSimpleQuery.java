@@ -45,67 +45,67 @@ public class SFSimpleQuery extends SFODataObject {
 	private Boolean ItemNameOnly;
 
 	public String getAuthID() {
-		return AuthID;
+		return this.AuthID;
 	}
 
 	public void setAuthID(String authid) {
-		AuthID = authid;
+		this.AuthID = authid;
 	}
 	public String getItemType() {
-		return ItemType;
+		return this.ItemType;
 	}
 
 	public void setItemType(String itemtype) {
-		ItemType = itemtype;
+		this.ItemType = itemtype;
 	}
 	public String getParentID() {
-		return ParentID;
+		return this.ParentID;
 	}
 
 	public void setParentID(String parentid) {
-		ParentID = parentid;
+		this.ParentID = parentid;
 	}
 	public String getCreatorID() {
-		return CreatorID;
+		return this.CreatorID;
 	}
 
 	public void setCreatorID(String creatorid) {
-		CreatorID = creatorid;
+		this.CreatorID = creatorid;
 	}
 	public String getLuceneQuery() {
-		return LuceneQuery;
+		return this.LuceneQuery;
 	}
 
 	public void setLuceneQuery(String lucenequery) {
-		LuceneQuery = lucenequery;
+		this.LuceneQuery = lucenequery;
 	}
 	public String getSearchQuery() {
-		return SearchQuery;
+		return this.SearchQuery;
 	}
 
 	public void setSearchQuery(String searchquery) {
-		SearchQuery = searchquery;
+		this.SearchQuery = searchquery;
 	}
 	public String getCreateStartDate() {
-		return CreateStartDate;
+		return this.CreateStartDate;
 	}
 
 	public void setCreateStartDate(String createstartdate) {
-		CreateStartDate = createstartdate;
+		this.CreateStartDate = createstartdate;
 	}
 	public String getCreateEndDate() {
-		return CreateEndDate;
+		return this.CreateEndDate;
 	}
 
 	public void setCreateEndDate(String createenddate) {
-		CreateEndDate = createenddate;
+		this.CreateEndDate = createenddate;
 	}
 	public Boolean getItemNameOnly() {
-		return ItemNameOnly;
+		return this.ItemNameOnly;
 	}
 
 	public void setItemNameOnly(Boolean itemnameonly) {
-		ItemNameOnly = itemnameonly;
+		this.ItemNameOnly = itemnameonly;
 	}
 
 }

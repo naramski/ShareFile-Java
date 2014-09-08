@@ -33,25 +33,25 @@ public class SFAzureSBTopicsEndPointInfo extends SFODataObject {
 	private String EndPoint;
 
 	public String getKey() {
-		return Key;
+		return this.Key;
 	}
 
 	public void setKey(String key) {
-		Key = key;
+		this.Key = key;
 	}
 	public String getSecret() {
-		return Secret;
+		return this.Secret;
 	}
 
 	public void setSecret(String secret) {
-		Secret = secret;
+		this.Secret = secret;
 	}
 	public String getEndPoint() {
-		return EndPoint;
+		return this.EndPoint;
 	}
 
 	public void setEndPoint(String endpoint) {
-		EndPoint = endpoint;
+		this.EndPoint = endpoint;
 	}
 
 }

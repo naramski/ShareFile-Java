@@ -64,6 +64,22 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 	}
 
     /**
+	* Get Item as Favorite Folder
+	* Retrieves a Favorite Folder representation of a given parent Item
+	* @param parentUrl 	
+	* @return The specified Favorite Folder if it belongs to the specified parent Item
+    */
+	public ISFQuery<SFFavoriteFolder> getFavoriteFolderByItem(URI parentUrl)
+	{
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("FavoriteFolder");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get FavoriteFolder
 	* Retrieve a single Favorite Folder from a give user
 	* @return The selected Favorite Folder

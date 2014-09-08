@@ -1,7 +1,5 @@
 package com.sharefile.api.enumerations;
 
-import java.lang.ProcessBuilder.Redirect;
-
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.models.SFAccessControl;
@@ -172,9 +170,9 @@ public enum SFV3ElementType
 	 *  to the model and yet have orginal parsed objects of his liking. Example SFFile does not provide the isSynced
 	 *  flag. The consumer app can extend like : 
 	 *  	<p>SFFileEx extends SFFile 
-	 *  	<p>{ 
-	 *  	<p>	boolean mIsSync
-	 *  	<p>}
+	 *  	<br>{ 
+	 *  	<br>	boolean mIsSync
+	 *  	<br>}
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws SFInvalidTypeException 

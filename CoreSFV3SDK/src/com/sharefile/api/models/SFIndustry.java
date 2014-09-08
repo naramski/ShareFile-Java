@@ -29,11 +29,11 @@ public class SFIndustry extends SFODataObject {
 	private String Name;
 
 	public String getName() {
-		return Name;
+		return this.Name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.Name = name;
 	}
 
 }

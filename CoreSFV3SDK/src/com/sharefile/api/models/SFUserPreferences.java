@@ -73,165 +73,165 @@ public class SFUserPreferences extends SFODataObject {
 	private String DateFormat;
 
 	public Boolean getEnableFlashUpload() {
-		return EnableFlashUpload;
+		return this.EnableFlashUpload;
 	}
 
 	public void setEnableFlashUpload(Boolean enableflashupload) {
-		EnableFlashUpload = enableflashupload;
+		this.EnableFlashUpload = enableflashupload;
 	}
 	public Boolean getEnableJavaUpload() {
-		return EnableJavaUpload;
+		return this.EnableJavaUpload;
 	}
 
 	public void setEnableJavaUpload(Boolean enablejavaupload) {
-		EnableJavaUpload = enablejavaupload;
+		this.EnableJavaUpload = enablejavaupload;
 	}
 	public Boolean getEnableJavaDownload() {
-		return EnableJavaDownload;
+		return this.EnableJavaDownload;
 	}
 
 	public void setEnableJavaDownload(Boolean enablejavadownload) {
-		EnableJavaDownload = enablejavadownload;
+		this.EnableJavaDownload = enablejavadownload;
 	}
 	public Boolean getRememberCustomMessages() {
-		return RememberCustomMessages;
+		return this.RememberCustomMessages;
 	}
 
 	public void setRememberCustomMessages(Boolean remembercustommessages) {
-		RememberCustomMessages = remembercustommessages;
+		this.RememberCustomMessages = remembercustommessages;
 	}
 	public Boolean getRequireLoginByDefault() {
-		return RequireLoginByDefault;
+		return this.RequireLoginByDefault;
 	}
 
 	public void setRequireLoginByDefault(Boolean requireloginbydefault) {
-		RequireLoginByDefault = requireloginbydefault;
+		this.RequireLoginByDefault = requireloginbydefault;
 	}
 	public Boolean getNotifyOnUploadByDefault() {
-		return NotifyOnUploadByDefault;
+		return this.NotifyOnUploadByDefault;
 	}
 
 	public void setNotifyOnUploadByDefault(Boolean notifyonuploadbydefault) {
-		NotifyOnUploadByDefault = notifyonuploadbydefault;
+		this.NotifyOnUploadByDefault = notifyonuploadbydefault;
 	}
 	public Boolean getNotifyOnDownloadByDefault() {
-		return NotifyOnDownloadByDefault;
+		return this.NotifyOnDownloadByDefault;
 	}
 
 	public void setNotifyOnDownloadByDefault(Boolean notifyondownloadbydefault) {
-		NotifyOnDownloadByDefault = notifyondownloadbydefault;
+		this.NotifyOnDownloadByDefault = notifyondownloadbydefault;
 	}
 	public Boolean getCanResetPassword() {
-		return CanResetPassword;
+		return this.CanResetPassword;
 	}
 
 	public void setCanResetPassword(Boolean canresetpassword) {
-		CanResetPassword = canresetpassword;
+		this.CanResetPassword = canresetpassword;
 	}
 	public Boolean getCanViewMySettings() {
-		return CanViewMySettings;
+		return this.CanViewMySettings;
 	}
 
 	public void setCanViewMySettings(Boolean canviewmysettings) {
-		CanViewMySettings = canviewmysettings;
+		this.CanViewMySettings = canviewmysettings;
 	}
 	public Boolean getIsSharedUserAccount() {
-		return IsSharedUserAccount;
+		return this.IsSharedUserAccount;
 	}
 
 	public void setIsSharedUserAccount(Boolean isshareduseraccount) {
-		IsSharedUserAccount = isshareduseraccount;
+		this.IsSharedUserAccount = isshareduseraccount;
 	}
 	public String getTimeZone() {
-		return TimeZone;
+		return this.TimeZone;
 	}
 
 	public void setTimeZone(String timezone) {
-		TimeZone = timezone;
+		this.TimeZone = timezone;
 	}
 	public String getDaylightSavingMode() {
-		return DaylightSavingMode;
+		return this.DaylightSavingMode;
 	}
 
 	public void setDaylightSavingMode(String daylightsavingmode) {
-		DaylightSavingMode = daylightsavingmode;
+		this.DaylightSavingMode = daylightsavingmode;
 	}
 	public Integer getTimeZoneOffset() {
-		return TimeZoneOffset;
+		return this.TimeZoneOffset;
 	}
 
 	public void setTimeZoneOffset(Integer timezoneoffset) {
-		TimeZoneOffset = timezoneoffset;
+		this.TimeZoneOffset = timezoneoffset;
 	}
 	public Integer getTimeZoneOffsetMins() {
-		return TimeZoneOffsetMins;
+		return this.TimeZoneOffsetMins;
 	}
 
 	public void setTimeZoneOffsetMins(Integer timezoneoffsetmins) {
-		TimeZoneOffsetMins = timezoneoffsetmins;
+		this.TimeZoneOffsetMins = timezoneoffsetmins;
 	}
 	public Boolean getDisplayUserMessage() {
-		return DisplayUserMessage;
+		return this.DisplayUserMessage;
 	}
 
 	public void setDisplayUserMessage(Boolean displayusermessage) {
-		DisplayUserMessage = displayusermessage;
+		this.DisplayUserMessage = displayusermessage;
 	}
 	public String getUserMessageCode() {
-		return UserMessageCode;
+		return this.UserMessageCode;
 	}
 
 	public void setUserMessageCode(String usermessagecode) {
-		UserMessageCode = usermessagecode;
+		this.UserMessageCode = usermessagecode;
 	}
 	public Integer getNotificationInterval() {
-		return NotificationInterval;
+		return this.NotificationInterval;
 	}
 
 	public void setNotificationInterval(Integer notificationinterval) {
-		NotificationInterval = notificationinterval;
+		this.NotificationInterval = notificationinterval;
 	}
 	public Integer getShowTutorial() {
-		return ShowTutorial;
+		return this.ShowTutorial;
 	}
 
 	public void setShowTutorial(Integer showtutorial) {
-		ShowTutorial = showtutorial;
+		this.ShowTutorial = showtutorial;
 	}
 	public Integer getEnableToolOverride() {
-		return EnableToolOverride;
+		return this.EnableToolOverride;
 	}
 
 	public void setEnableToolOverride(Integer enabletooloverride) {
-		EnableToolOverride = enabletooloverride;
+		this.EnableToolOverride = enabletooloverride;
 	}
 	public Boolean getIsResetSecurityQuestionRequired() {
-		return IsResetSecurityQuestionRequired;
+		return this.IsResetSecurityQuestionRequired;
 	}
 
 	public void setIsResetSecurityQuestionRequired(Boolean isresetsecurityquestionrequired) {
-		IsResetSecurityQuestionRequired = isresetsecurityquestionrequired;
+		this.IsResetSecurityQuestionRequired = isresetsecurityquestionrequired;
 	}
 	public String getTimeFormat() {
-		return TimeFormat;
+		return this.TimeFormat;
 	}
 
 	public void setTimeFormat(String timeformat) {
-		TimeFormat = timeformat;
+		this.TimeFormat = timeformat;
 	}
 	public String getLongTimeFormat() {
-		return LongTimeFormat;
+		return this.LongTimeFormat;
 	}
 
 	public void setLongTimeFormat(String longtimeformat) {
-		LongTimeFormat = longtimeformat;
+		this.LongTimeFormat = longtimeformat;
 	}
 	public String getDateFormat() {
-		return DateFormat;
+		return this.DateFormat;
 	}
 
 	public void setDateFormat(String dateformat) {
-		DateFormat = dateformat;
+		this.DateFormat = dateformat;
 	}
 
 }

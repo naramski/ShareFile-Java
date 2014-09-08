@@ -60,7 +60,7 @@ public class SFHttpsCaller
 	}
 		
 	/**     
-     grant_type=authorization_code&code=CvJ4LMgMDHuZGLXgJgJdDYR17Hd3b5&client_id=3fTJB2mjJ7KaNflPWJ8MylHos&client_secret=Y8LzHuYvxjxc8FE7s1HNe96s0xGVM4
+     grant_type=authorization_code&code=CvJ4LMgMDHuZGLXgJgJdDYR17Hd3b5&client_id=xyz&client_secret=abc
 	 */
 	public static String getBodyForWebLogin(List<NameValuePair> params) throws UnsupportedEncodingException
 	{
@@ -112,26 +112,23 @@ public class SFHttpsCaller
 	
 	public static void setMethod(URLConnection conn,String methodName) throws ProtocolException
 	{
-		if(methodName.equalsIgnoreCase(SFHttpMethod.POST.toString()))
+		setRequestMethod(conn, methodName);
+				 
+		if(methodName.equalsIgnoreCase(SFHttpMethod.GET.toString()))
 		{
-			setPostMethod(conn);
+			return;
 		}
-		else if(methodName.equalsIgnoreCase(SFHttpMethod.DELETE.toString()))
+		
+		conn.setDoInput(true);
+		
+		if(methodName.equalsIgnoreCase(SFHttpMethod.DELETE.toString()))
 		{
-			setDeleteMethod(conn);
-		} 
-		else if(methodName.equalsIgnoreCase(SFHttpMethod.GET.toString()))
-		{
-			setRequestMethod(conn, methodName);
+			return;
 		}
+		
+		conn.setDoOutput(true);		
 	}
 	
-	private static void setDeleteMethod(URLConnection conn) throws ProtocolException
-	{		
-		setRequestMethod(conn,SFHttpMethod.DELETE.toString());		
-		conn.setDoInput(true);
-	}
-			
 	public static int catchIfAuthException(IOException e) throws IOException
 	{
 		String errMessage = e.getLocalizedMessage();
@@ -217,26 +214,24 @@ public class SFHttpsCaller
 	public static SFV3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url,SFCookieManager cookieManager) throws IOException
 	{
 		SFV3Error v3Error = null;
-		
-		if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
-		{
-			getAndStoreCookies(conn,url,cookieManager);
-			return v3Error;
-		}
-		
+						
 		try
 		{
+			if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
+			{
+				getAndStoreCookies(conn,url,cookieManager);
+				return v3Error;
+			}
+			
 			String inputLine = readErrorResponse(conn);
 			
 			SLog.d(TAG,  "ERR PAGE: " + inputLine);
 			
-			v3Error = new SFV3Error(httpErrorCode,inputLine);
+			v3Error = new SFV3Error(httpErrorCode,inputLine,null);
 		}
 		catch (Exception e) 
-		{			
-			//try constructing the error from the exception.
-			
-			v3Error = new SFV3Error(httpErrorCode, e.getLocalizedMessage());
+		{						
+			v3Error = new SFV3Error(httpErrorCode,null, e);
 		}
 		
 		return v3Error;

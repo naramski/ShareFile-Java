@@ -40,57 +40,57 @@ public class SFODataObject extends Object {
 		* ODATA Metadata information about the model instance
 		*/
 	public String getMetadataUrl() {
-		return MetadataUrl;
+		return this.MetadataUrl;
 	}
 
 		/**
 		* ODATA Metadata information about the model instance
 		*/
 	public void setMetadataUrl(String metadataurl) {
-		MetadataUrl = metadataurl;
+		this.MetadataUrl = metadataurl;
 	}
 	public String get__type() {
-		return __type;
+		return this.__type;
 	}
 
 	public void set__type(String __type) {
-		__type = __type;
+		this.__type = __type;
 	}
 		/**
 		* Object Identifier
 		*/
 	public String getId() {
-		return Id;
+		return this.Id;
 	}
 
 		/**
 		* Object Identifier
 		*/
 	public void setId(String id) {
-		Id = id;
+		this.Id = id;
 	}
 	public URI geturl() {
-		return url;
+		return this.url;
 	}
 
 	public void seturl(URI url) {
-		url = url;
+		this.url = url;
 	}
 	public Map<String, String> getProperties() {
-		return Properties;
+		return this.Properties;
 	}
 
 	public void setProperties(Map<String, String> properties) {
-		Properties = properties;
+		this.Properties = properties;
 	}
 
 		public void addProperty(String key, Object value) {
 			if(value == null) return;
 			
 			if(Properties == null) {
-				Properties = new HashMap<String,String>();
+				this.Properties = new HashMap<String,String>();
 			}
 
-			Properties.put(key, value.toString());
+			this.Properties.put(key, value.toString());
 		}
 }

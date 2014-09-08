@@ -37,39 +37,39 @@ public class SFEnsSubscriptionToken extends SFODataObject {
 	private Long LastEventCount;
 
 	public String getSubscriptionId() {
-		return SubscriptionId;
+		return this.SubscriptionId;
 	}
 
 	public void setSubscriptionId(String subscriptionid) {
-		SubscriptionId = subscriptionid;
+		this.SubscriptionId = subscriptionid;
 	}
 	public String getEntityId() {
-		return EntityId;
+		return this.EntityId;
 	}
 
 	public void setEntityId(String entityid) {
-		EntityId = entityid;
+		this.EntityId = entityid;
 	}
 	public SFSafeEnum<SFEnsEventType> getEventTypes() {
-		return EventTypes;
+		return this.EventTypes;
 	}
 
 	public void setEventTypes(SFSafeEnum<SFEnsEventType> eventtypes) {
-		EventTypes = eventtypes;
+		this.EventTypes = eventtypes;
 	}
 	public Boolean getIncludeProgeny() {
-		return IncludeProgeny;
+		return this.IncludeProgeny;
 	}
 
 	public void setIncludeProgeny(Boolean includeprogeny) {
-		IncludeProgeny = includeprogeny;
+		this.IncludeProgeny = includeprogeny;
 	}
 	public Long getLastEventCount() {
-		return LastEventCount;
+		return this.LastEventCount;
 	}
 
 	public void setLastEventCount(Long lasteventcount) {
-		LastEventCount = lasteventcount;
+		this.LastEventCount = lasteventcount;
 	}
 
 }

@@ -73,165 +73,165 @@ public class SFNotification extends SFODataObject {
 	private Boolean IsModelBased;
 
 	public String getNotificationType() {
-		return NotificationType;
+		return this.NotificationType;
 	}
 
 	public void setNotificationType(String notificationtype) {
-		NotificationType = notificationtype;
+		this.NotificationType = notificationtype;
 	}
 	public String getEventID() {
-		return EventID;
+		return this.EventID;
 	}
 
 	public void setEventID(String eventid) {
-		EventID = eventid;
+		this.EventID = eventid;
 	}
 	public String getSenderID() {
-		return SenderID;
+		return this.SenderID;
 	}
 
 	public void setSenderID(String senderid) {
-		SenderID = senderid;
+		this.SenderID = senderid;
 	}
 	public String getRecipientID() {
-		return RecipientID;
+		return this.RecipientID;
 	}
 
 	public void setRecipientID(String recipientid) {
-		RecipientID = recipientid;
+		this.RecipientID = recipientid;
 	}
 	public String getFromName() {
-		return FromName;
+		return this.FromName;
 	}
 
 	public void setFromName(String fromname) {
-		FromName = fromname;
+		this.FromName = fromname;
 	}
 	public String getFromEmail() {
-		return FromEmail;
+		return this.FromEmail;
 	}
 
 	public void setFromEmail(String fromemail) {
-		FromEmail = fromemail;
+		this.FromEmail = fromemail;
 	}
 	public String getReplyTo() {
-		return ReplyTo;
+		return this.ReplyTo;
 	}
 
 	public void setReplyTo(String replyto) {
-		ReplyTo = replyto;
+		this.ReplyTo = replyto;
 	}
 	public String getTo() {
-		return To;
+		return this.To;
 	}
 
 	public void setTo(String to) {
-		To = to;
+		this.To = to;
 	}
 	public String getCC() {
-		return CC;
+		return this.CC;
 	}
 
 	public void setCC(String cc) {
-		CC = cc;
+		this.CC = cc;
 	}
 	public String getBCC() {
-		return BCC;
+		return this.BCC;
 	}
 
 	public void setBCC(String bcc) {
-		BCC = bcc;
+		this.BCC = bcc;
 	}
 	public String getSubject() {
-		return Subject;
+		return this.Subject;
 	}
 
 	public void setSubject(String subject) {
-		Subject = subject;
+		this.Subject = subject;
 	}
 	public String getMessage() {
-		return Message;
+		return this.Message;
 	}
 
 	public void setMessage(String message) {
-		Message = message;
+		this.Message = message;
 	}
 	public String getPlainTextMessage() {
-		return PlainTextMessage;
+		return this.PlainTextMessage;
 	}
 
 	public void setPlainTextMessage(String plaintextmessage) {
-		PlainTextMessage = plaintextmessage;
+		this.PlainTextMessage = plaintextmessage;
 	}
 	public Date getDateSent() {
-		return DateSent;
+		return this.DateSent;
 	}
 
 	public void setDateSent(Date datesent) {
-		DateSent = datesent;
+		this.DateSent = datesent;
 	}
 	public String getStatus() {
-		return Status;
+		return this.Status;
 	}
 
 	public void setStatus(String status) {
-		Status = status;
+		this.Status = status;
 	}
 	public Boolean getIsImportant() {
-		return IsImportant;
+		return this.IsImportant;
 	}
 
 	public void setIsImportant(Boolean isimportant) {
-		IsImportant = isimportant;
+		this.IsImportant = isimportant;
 	}
 	public Boolean getReadReceipt() {
-		return ReadReceipt;
+		return this.ReadReceipt;
 	}
 
 	public void setReadReceipt(Boolean readreceipt) {
-		ReadReceipt = readreceipt;
+		this.ReadReceipt = readreceipt;
 	}
 	public ArrayList<String> getAttachmentPaths() {
-		return AttachmentPaths;
+		return this.AttachmentPaths;
 	}
 
 	public void setAttachmentPaths(ArrayList<String> attachmentpaths) {
-		AttachmentPaths = attachmentpaths;
+		this.AttachmentPaths = attachmentpaths;
 	}
 	public Boolean getForceEmailFromShareFile() {
-		return ForceEmailFromShareFile;
+		return this.ForceEmailFromShareFile;
 	}
 
 	public void setForceEmailFromShareFile(Boolean forceemailfromsharefile) {
-		ForceEmailFromShareFile = forceemailfromsharefile;
+		this.ForceEmailFromShareFile = forceemailfromsharefile;
 	}
 	public ArrayList<String> getMergeNames() {
-		return MergeNames;
+		return this.MergeNames;
 	}
 
 	public void setMergeNames(ArrayList<String> mergenames) {
-		MergeNames = mergenames;
+		this.MergeNames = mergenames;
 	}
 	public ArrayList<Object> getMergeValues() {
-		return MergeValues;
+		return this.MergeValues;
 	}
 
 	public void setMergeValues(ArrayList<Object> mergevalues) {
-		MergeValues = mergevalues;
+		this.MergeValues = mergevalues;
 	}
 	public Boolean getRecordSend() {
-		return RecordSend;
+		return this.RecordSend;
 	}
 
 	public void setRecordSend(Boolean recordsend) {
-		RecordSend = recordsend;
+		this.RecordSend = recordsend;
 	}
 	public Boolean getIsModelBased() {
-		return IsModelBased;
+		return this.IsModelBased;
 	}
 
 	public void setIsModelBased(Boolean ismodelbased) {
-		IsModelBased = ismodelbased;
+		this.IsModelBased = ismodelbased;
 	}
 
 }

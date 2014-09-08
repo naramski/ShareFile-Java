@@ -41,53 +41,53 @@ public class SFContact extends SFPrincipal {
 	private Boolean IsConfirmed;
 
 	public SFUser getUser() {
-		return User;
+		return this.User;
 	}
 
 	public void setUser(SFUser user) {
-		User = user;
+		this.User = user;
 	}
 	public String getFirstName() {
-		return FirstName;
+		return this.FirstName;
 	}
 
 	public void setFirstName(String firstname) {
-		FirstName = firstname;
+		this.FirstName = firstname;
 	}
 	public String getLastName() {
-		return LastName;
+		return this.LastName;
 	}
 
 	public void setLastName(String lastname) {
-		LastName = lastname;
+		this.LastName = lastname;
 	}
 	public String getCompany() {
-		return Company;
+		return this.Company;
 	}
 
 	public void setCompany(String company) {
-		Company = company;
+		this.Company = company;
 	}
 	public String getEmailMedium() {
-		return EmailMedium;
+		return this.EmailMedium;
 	}
 
 	public void setEmailMedium(String emailmedium) {
-		EmailMedium = emailmedium;
+		this.EmailMedium = emailmedium;
 	}
 	public String getEmailShort() {
-		return EmailShort;
+		return this.EmailShort;
 	}
 
 	public void setEmailShort(String emailshort) {
-		EmailShort = emailshort;
+		this.EmailShort = emailshort;
 	}
 	public Boolean getIsConfirmed() {
-		return IsConfirmed;
+		return this.IsConfirmed;
 	}
 
 	public void setIsConfirmed(Boolean isconfirmed) {
-		IsConfirmed = isconfirmed;
+		this.IsConfirmed = isconfirmed;
 	}
 
 }
