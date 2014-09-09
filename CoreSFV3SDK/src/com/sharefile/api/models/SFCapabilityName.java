@@ -43,5 +43,11 @@ public enum SFCapabilityName {
 	VersionMax,
 	VersionMin,
 	Favorites,
-	ReusableItemId
+	ReusableItemId,
+	StandardUploadRaw,
+	StandardUploadForms,
+	StreamedUploadRaw,
+	StreamedUploadForms,
+	ThreadedUploadRaw,
+	ThreadedUploadForms
 }
