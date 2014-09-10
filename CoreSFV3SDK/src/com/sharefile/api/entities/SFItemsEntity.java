@@ -882,15 +882,15 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Get all Item Protocol Link
 	* This method returns all alternate protocol links supported by ShareFile (such
 	* as WOPI, FTP, WebDAV).
-	* @param id 	
+	* @param parentUrl 	
 	* @return A Feed containing all protocols links supported by the given item
     */
-	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI url)
+	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI parentUrl)
 	{
 		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
