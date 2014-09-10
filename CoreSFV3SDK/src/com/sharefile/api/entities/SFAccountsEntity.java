@@ -58,6 +58,22 @@ public class SFAccountsEntity extends SFODataEntityBase
 	}
 
     /**
+	* Modify the Branding for this account
+	* Modifies Branding information about the subdomain account.
+	* This operation requires authentication.
+	* @return Branding information for a given sharefile account
+    */
+	public ISFQuery<SFAccount> updateBranding(SFAccount account)
+	{
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("Branding");
+		sfApiQuery.setBody(account);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get List of current Account Employees
 	* Retrives the list of Employees in the Account
 	* Employees are named users in the Account.
