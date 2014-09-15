@@ -1,5 +1,23 @@
 package com.sharefile.api.https;
 
+import android.util.Log;
+
+import com.sharefile.api.SFApiClient;
+import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFSDKDefaultAccessScope;
+import com.sharefile.api.SFV3Error;
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.models.SFUploadMethod;
+import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.java.log.SLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.DataOutputStream;
@@ -7,24 +25,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Log;
-
-import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.interfaces.SFApiUploadProgressListener;
-import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.java.log.SLog;
 
 /**
  * 
@@ -38,35 +45,38 @@ import com.sharefile.java.log.SLog;
   "odata.metadata": "https://nilesh.sf-api.com/sf/v3/$metadata#UploadSpecification/ShareFile.Api.Models.UploadSpecification@Element"
 }
  */
-public class SFApiFileUploadRunnable implements Runnable  
+public class SFUploadRunnable extends TransferRunnable  
 {	
-	private static final String TAG = SFKeywords.TAG + "-upload";
+	private static final String TAG = "SFUploadRunnable";
 	
-	private final SFUploadSpecification mUploadSpecification;
 	private final long mResumeFromByteIndex;
 	private final long mTotalBytes;
 	private final InputStream mFileInputStream;
 	private final SFApiClient mApiClient;
-	private final SFApiUploadProgressListener mProgressListener;
+	private final IProgress mProgressListener;
 	private final String mDestinationFileName;	
 	private final SFCookieManager mCookieManager;
-	//credntials for connectors
+	
+	//credentials for connectors
 	private final String mUsername;
 	private final String mPassword;
+	
 	private final String mDetails;
 	
-	private Thread mApithread = null; 
+	private final String mParentId;
+	private final String mV3Url;
+	private final boolean mOverwrite;
+
+	private SFUploadSpecification mUploadSpecification;
+	private SFChunkUploadResponse mChunkUploadResponse=null;
+	private AtomicBoolean cancelRequested = new AtomicBoolean(false);
 	
-	public SFApiFileUploadRunnable(SFUploadSpecification uploadSpecification,
-									 int resumeFromByteIndex, 
-									 long tolalBytes,
-									 String destinationName,
-									 InputStream inputStream, 									 
-									 SFApiClient client,
-									 SFApiUploadProgressListener progressListener,
-									 SFCookieManager cookieManager,String connUserName,String connPassword, String details) 
-	{		
-		mUploadSpecification = uploadSpecification;
+	public SFUploadRunnable(
+		String parentId, String v3Url, boolean overwrite,  
+		int resumeFromByteIndex, long tolalBytes, String destinationName,
+		InputStream inputStream, SFApiClient client, IProgress progressListener,
+		SFCookieManager cookieManager,String connUserName,String connPassword, String details
+	) {		
 		mResumeFromByteIndex = resumeFromByteIndex;
 		mDestinationFileName = destinationName;
 		mTotalBytes = tolalBytes;
@@ -77,17 +87,76 @@ public class SFApiFileUploadRunnable implements Runnable
 		mUsername = connUserName;
 		mPassword = connPassword;
 		mDetails = details;
+		
+		mParentId = parentId;
+		mV3Url = v3Url;
+		mOverwrite = overwrite;
 	}
 
 	@Override
-	public void run() 
-	{
+	public void run() {
+		runInThisThread();
+	}
+	
+	/**
+	 * execute download in this thread overriding the cancel signal
+	 * @param cancel
+	 * @return
+	 */
+	public Result runInThisThread(AtomicBoolean cancel) {
+		cancelRequested = cancel;
+		return runInThisThread();
+	}
+	
+	
+	public Result runInThisThread() {
 		try {
-			upload();
+			// get spec
+			mUploadSpecification = getSpecification();
+			if ( cancelRequested.get() ) {
+				// create "cancel error" regardless of result
+				return createCancelResult(0);
+			}
 			
-		} finally {
-			mApithread = null;
+			// upload
+			Result result = upload();
+			if ( cancelRequested.get() ) {
+				// create "cancel error" regardless of result
+				return createCancelResult(result.getBytesTransfered());
+			}
+			return result;
+			
+		} catch (SFV3ErrorException e) {
+			SLog.e(TAG, e);
+			Result ret = new Result();
+			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, e.getV3Error(), 0);
+			return ret;
+			
+		} catch(Exception e) {		
+			SLog.e(TAG, e);
+			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage(),null);
+			Result ret = new Result();
+			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
+			return ret;
+			
 		}
+	}
+	
+	private SFUploadSpecification getSpecification() throws SFInvalidStateException, SFV3ErrorException {
+		SFApiQuery<SFUploadSpecification> uploadQuery = SFItemsEntity.upload(
+				mParentId, SFUploadMethod.Streamed, true, 
+				mDestinationFileName, mTotalBytes, null, false, true, false, false, "sfsdk", 
+				mOverwrite, mDestinationFileName, mDetails, false, null, null, 1, "json", false, 365
+			);
+			
+		try {
+			uploadQuery.setLink(mV3Url);
+			
+		}  catch (URISyntaxException e)  {				
+			SLog.v(TAG, Log.getStackTraceString(e));
+		}
+		
+		return mApiClient.executeWithReAuth(uploadQuery);
 	}
 	
 	private void seekInputStream()
@@ -202,14 +271,14 @@ public class SFApiFileUploadRunnable implements Runnable
 	 *   This tries to upload a chunk. Returns a detialed object with the httpErrorCode and the ChunkResponse from the server.
 	 *   ChunkResonse will never be null. In case of http errors or exceptions we fill the chunk response with https err response string.
 	 */
-	private SFAPiUploadResponse uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws Exception
+	private Result uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws Exception
 	{
 		long bytesUploaded = 0;
 		HttpsURLConnection conn = null;	
 		String responseString = null;
 		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
 		
-		SFAPiUploadResponse ret = new SFAPiUploadResponse();
+		Result ret = new Result();
 		
 		try
 		{			
@@ -238,12 +307,20 @@ public class SFApiFileUploadRunnable implements Runnable
 			int currentBytesRead = 0;					
 			OutputStream poster = new DataOutputStream(conn.getOutputStream());					
 						
+			int count = 0; 
 			while((currentBytesRead = in.read(buffer,0,1024)) >0)
 			{						
 				poster.write(buffer,0,currentBytesRead);
 				bytesUploaded+=(long)currentBytesRead;				
 				poster.flush();//needs to be here				
-				updateProgress(bytesUploaded+previousChunkTotal);
+				
+				// onlu send notifications every 50kb
+				if ( count++ % 50 == 0 ) updateProgress(bytesUploaded+previousChunkTotal);
+				
+				if (cancelRequested.get()) {
+					// cancel
+					return ret;
+				}
 			}
 					
 			poster.close();
@@ -257,45 +334,42 @@ public class SFApiFileUploadRunnable implements Runnable
 				responseString = SFHttpsCaller.readResponse(conn);		
 				SLog.d(TAG, "Upload Response: " + responseString);
 				
-				SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(responseString);
-				if(!chunkResonse.mWasError)
+				mChunkUploadResponse = new SFChunkUploadResponse(responseString);
+				if(!mChunkUploadResponse.mWasError)
 				{
-					chunkResonse.mBytesTransferedInChunk = (int) bytesUploaded;
+					mChunkUploadResponse.mBytesTransferedInChunk = (int) bytesUploaded;
 				}
-				ret.setFeilds(httpErrorCode, null, chunkResonse,bytesUploaded);
+				ret.setFields(httpErrorCode, null, bytesUploaded); 
 			}			
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(conn);		
 				SLog.d(TAG, "Upload Response: " + responseString);
-				SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(responseString,httpErrorCode);				
-				ret.setFeilds(httpErrorCode, null, chunkResonse,bytesUploaded);
-			}						
-		}	
-		catch(Exception ex)
-		{
+				mChunkUploadResponse = new SFChunkUploadResponse(responseString,httpErrorCode);
+				ret.setFields(httpErrorCode, null, bytesUploaded);
+			}
+			
+		} catch(Exception ex) {
 			SLog.e(TAG,"chunk", ex);
-			SFChunkUploadResponse chunkResonse = new SFChunkUploadResponse(ex.getLocalizedMessage(),SFSDK.INTERNAL_HTTP_ERROR);				
-			ret.setFeilds(SFSDK.INTERNAL_HTTP_ERROR,ex.getLocalizedMessage(), chunkResonse,bytesUploaded);
-		}
-		finally
-		{
+			mChunkUploadResponse = new SFChunkUploadResponse(ex.getLocalizedMessage(),SFSDK.INTERNAL_HTTP_ERROR);
+			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,ex.getLocalizedMessage(),responseString);
+			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, bytesUploaded);
+			
+		} finally {
 			SFHttpsCaller.disconnect(conn);
 		}
 				
 		return ret;
 	}
 	
-	public void upload()
-	{		
+	public Result upload() {		
 		String responseString = null;
-		long bytesRead = mResumeFromByteIndex;
+//		long bytesRead = mResumeFromByteIndex;
 		int chunkSize = 1024*1024;		
 		long previousChunkTotalBytes = mResumeFromByteIndex;
-		SFAPiUploadResponse uploadResponse = null;
+		Result uploadResponse = null;
 		
-		try
-		{										
+		try {										
 			SLog.d(TAG, "POST " + mUploadSpecification.getChunkUri());
 			
 			seekInputStream();			
@@ -303,144 +377,81 @@ public class SFApiFileUploadRunnable implements Runnable
 			final MessageDigest md = MessageDigest.getInstance("MD5");						
 			byte[] fileChunk = new byte[chunkSize];			
 			boolean done = false;
-			while(!done) 
-			{													
+			while(!done)  {													
 				//fill chunk
 				chunkLength = mFileInputStream.read(fileChunk, 0, fileChunk.length);
-				
-				if(chunkLength<0)
-				{
+				if (chunkLength<0) {
 					SLog.d(TAG,"Chunk < 0: " + chunkLength);
-					
 					done = true;
 					break;
 				}
 									
 				boolean isLast = (mFileInputStream.available() ==0) ? true : false;
-																		
-				if(isLast)
-				{
+				if(isLast) {
 					SLog.d(TAG,"isLast = true");
 					done = true;
 				}
 				
 				uploadResponse  =  uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
-				
+
+				if (cancelRequested.get()) {
+					// cancel
+					return uploadResponse;
+				}
+
 				//Note here we can rely on the 	uploadResponse.mChunkUploadResponse.mWasError to decide the succuess or failure.			
-				if(uploadResponse.mChunkUploadResponse.mWasError == false)
-				{
-					if(uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk > 0)
-					{
-						previousChunkTotalBytes+= uploadResponse.mChunkUploadResponse.mBytesTransferedInChunk;
-					}
+				if(mChunkUploadResponse.mWasError) {
+					SLog.d(TAG, "Error uploading chunk - break");
+                    uploadResponse = new Result();
+                    SFV3Error v3Error = new SFV3Error(mChunkUploadResponse.mErrorCode, mChunkUploadResponse.mErrorMessage, null);
+                    uploadResponse.setFields(mChunkUploadResponse.mErrorCode, v3Error, previousChunkTotalBytes);
+					return uploadResponse;
+				}					
+
+				if(mChunkUploadResponse.mBytesTransferedInChunk > 0) {
+					previousChunkTotalBytes+= mChunkUploadResponse.mBytesTransferedInChunk;
 				}
-				else
-				{					
-					SLog.d(TAG,"break");
-					break;
-				}
-			}											
-		}
-		catch(Exception ex)
-		{					
+				
+				Thread.yield();
+			}
+			
+		} catch(Exception ex) {					
 			responseString = "\nExceptionStack = " +Log.getStackTraceString(ex);	
-			uploadResponse = new SFAPiUploadResponse();
-			uploadResponse.setFeilds(SFSDK.INTERNAL_HTTP_ERROR, responseString, null, previousChunkTotalBytes);
-		}
-		finally
-		{			
+			uploadResponse = new Result();
+			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,ex.getLocalizedMessage(),responseString);
+			uploadResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, previousChunkTotalBytes);
+			
+		} finally {			
 			closeStream(mFileInputStream);			
 		}
-								
-		callResponseListeners(uploadResponse);
+		
+		return uploadResponse;
+	}
+	
+	private void closeStream(Closeable fis) {
+		if(fis==null) return;
 
-	}
-	
-	private void closeStream(Closeable fis)
-	{
-		if(fis!=null)
-		{
-			try 
-			{
-				fis.close();
-			}
-			catch (IOException e) 
-			{				
-				SLog.e(TAG,e);
-			}
+		try {
+			fis.close();
+			
+		} catch (IOException e)  {				
+			SLog.e(TAG,e);
 		}
 	}
-	
-	/**
-	 *   This object will get filled with an errorCoode and the SFChunkUploadResponse . Http 200 doesn not necessarily mean 
-	 *   upload success. Listeners should use the SFChunkUploadResponse to figure out final state of the upload operation.
-	 *   the httpErrorCode and be used to decide retries etc.
-	 */
-	public static class SFAPiUploadResponse
-	{
-		public int mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-		public String mExtraMessae = "internal error";
-		public SFChunkUploadResponse mChunkUploadResponse=null;			
-		public long mTotalBytesUploadedTillNow = 0;
-				
-		public void setFeilds(int httpErrorCode,String extraMessage, SFChunkUploadResponse respnonse, long totalBytesUploaded)
-		{
-			mHttpErrorCode = httpErrorCode;
-			mExtraMessae = extraMessage;
-			mChunkUploadResponse = respnonse;						
-			mTotalBytesUploadedTillNow = totalBytesUploaded;
-		}
-	};
 					
 	private void updateProgress(long uploadedBytes)
 	{
-		if(mProgressListener == null)
-		{
+		if(mProgressListener == null) {
 			return;
 		}
 		
 		try
 		{
-			mProgressListener.bytesUploaded(uploadedBytes, mUploadSpecification, mApiClient);
+			mProgressListener.bytesTransfered(uploadedBytes);
 		}
 		catch(Exception e)
 		{
 			SLog.d(TAG, "exception update progress", e);
 		}		
-	}
-	
-	private void callResponseListeners(SFAPiUploadResponse uploadResponse)
-	{
-		if(mProgressListener == null)
-		{
-			return;
-		}
-		
-		try
-		{
-			if(!uploadResponse.mChunkUploadResponse.mWasError)
-			{				
-				mProgressListener.uploadSuccess(uploadResponse.mTotalBytesUploadedTillNow, mUploadSpecification, mApiClient);				
-			}
-			else
-			{		
-				mProgressListener.uploadFailure(uploadResponse, mUploadSpecification, mApiClient);								
-			}
-		}
-		catch(Exception ex)
-		{
-			SLog.d(TAG, "!!Exception calling the responseListener : ",ex);
-		}
-	}
-			
-	public Thread startNewThread() {
-		if ( mApithread!=null ) {
-			SLog.w(TAG, "There is already a thread processing this upload");
-			// ...
-		}
-		
-		mApithread = new Thread(this);		
-		mApithread.start();
-		return mApithread;
-	}	
+	}			
 }

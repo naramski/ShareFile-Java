@@ -41,18 +41,19 @@ public class SFApiQuery<T extends SFODataObject>
 	private String mBody = null;
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
 	
-	/** 
-	 * Currently the server is not returning a DownloadSpecification for download requests, 
-	 * its directly returning the download link. For the sake of completeness, implement the local
-	 * response filler for such requests.	 
+	/**
+	 * client supposedly will not need to get the download spec so we won't have any need for this
 	 */
+	@Deprecated
 	private boolean mNeedSpecialHandling = false;
 	
+	@Deprecated
 	public void setNeedSpecialHandling(boolean val)
 	{
 		mNeedSpecialHandling = val;
 	}
 	
+	@Deprecated
 	public boolean getNeedSpecialHandling()
 	{
 		return mNeedSpecialHandling;
@@ -418,5 +419,9 @@ public class SFApiQuery<T extends SFODataObject>
 		}
 		
 		return ret;
+	}
+	
+	public SFProvider getProvider() {
+		return mProvider;
 	}
 }
