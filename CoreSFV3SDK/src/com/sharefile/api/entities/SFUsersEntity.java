@@ -324,6 +324,29 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
     /**
+	* Update User Preferences
+    * {
+    * "EnableFlashUpload":"true",
+    * "EnableJavaUpload":"true"
+    * .
+    * .
+    * .
+    * }
+	* @param parentUrl 	
+	* @param preferences 	
+    */
+	public ISFQuery<SFUserPreferences> updatePreferences(URI parentUrl, SFUserPreferences preferences)
+	{
+		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Preferences");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.setBody(preferences);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get User Security
 	* Retrieve the user security record - current state of the user regarding
 	* security and password settings.
