@@ -15,8 +15,12 @@ package com.sharefile.api.entities.internal;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
+import com.sharefile.api.models.internal.SFAzureSBTopicsEndPointInfo;
+import com.sharefile.api.models.internal.SFAzureSBTopicsResponse;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
+
+
 
 
 import java.io.InputStream;
@@ -24,6 +28,8 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
  
+
+
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
