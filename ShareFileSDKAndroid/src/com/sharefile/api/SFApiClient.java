@@ -148,7 +148,13 @@ public class SFApiClient
 	 * @return new oath token if successful, null if failed
 	 */
 	public boolean renewAccessTokenSync() throws SFInvalidStateException {
-		SFGetNewAccessToken task = new SFGetNewAccessToken(mOAuthToken.get(), null, mClientID, mClientSecret);
+        SFOAuth2Token token = mOAuthToken.get();
+        if ( !token.isValid() ) {
+            SLog.w(TAG, "Invalid Token, don't even try to renew.");
+            return false;
+        }
+
+		SFGetNewAccessToken task = new SFGetNewAccessToken(token, null, mClientID, mClientSecret);
 		SFOAuth2Token newToken = task.getNewAccessToken();
 		if (newToken==null) {
             SLog.w(TAG, "Error renewing token");
