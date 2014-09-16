@@ -40,6 +40,7 @@ public enum SFUserRole {
 	CreateBoxConnectors,
 	CreateDropboxConnectors,
 	CreateGoogleDriveConnectors,
+	CreateOneDriveBusinessConnectors,
 	AdminAccountPolicies,
 	AdminBilling,
 	AdminBranding,
