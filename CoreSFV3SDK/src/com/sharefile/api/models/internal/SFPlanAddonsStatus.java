@@ -26,5 +26,6 @@ public enum SFPlanAddonsStatus {
 	Trial,
 	TrialExpired,
 	Paid,
-	PaidExpired
+	PaidExpired,
+	Disabled
 }
