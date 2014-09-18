@@ -5,6 +5,7 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.exceptions.ReAuthException;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
@@ -30,7 +31,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class SFApiClient 
 {
@@ -38,7 +38,8 @@ public class SFApiClient
 	
 	public static final String MSG_INVALID_STATE_OAUTH_NULL = "Invalid state: Oauth token not initialized for SFApiClient";
 	
-	private final AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
+	// private final AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
+
 	private SFSession mSession = null;	
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
 	private final String mClientID;
@@ -57,7 +58,7 @@ public class SFApiClient
 	
 	public SFOAuth2Token getAuthToken()
 	{
-		return mOAuthToken.get();
+        return OAuthTokensCache.getInstance().get(mSfUserId);
 	}
 	
 	public void clearAllCookies()
@@ -69,7 +70,7 @@ public class SFApiClient
 	{
 		validateStateBeforeInit(oauthToken);
 		
-		mOAuthToken.set(oauthToken);
+        OAuthTokensCache.getInstance().set(mSfUserId, oauthToken);
 		
 		mClientInitializedSuccessFully.set(true);
 	}
@@ -135,11 +136,11 @@ public class SFApiClient
 		
 		if(useTokenRenewer)
 		{
-			SFApiListenerTokenRenewer<T> listenereWrapper = new SFApiListenerTokenRenewer<T>(this,listener,query,mOAuthToken.get(),mClientID,mClientSecret); 							
+			SFApiListenerTokenRenewer<T> listenereWrapper = new SFApiListenerTokenRenewer<T>(this,listener,query,getAuthToken(),mClientID,mClientSecret);
 			targetLisner = listenereWrapper;
 		}			
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, mOAuthToken.get(),mCookieManager);
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, targetLisner, getAuthToken(),mCookieManager);
 		return sfApiRunnable.startNewThread();
 	}
 	
@@ -147,33 +148,27 @@ public class SFApiClient
 	 * renew the oauth token synchronously. To be used on by asynctasks
 	 * @return new oath token if successful, null if failed
 	 */
-	public boolean renewAccessTokenSync() throws SFInvalidStateException {
-        SFOAuth2Token token = mOAuthToken.get();
-        if ( !token.isValid() ) {
-            SLog.w(TAG, "Invalid Token, don't even try to renew.");
-            return false;
-        }
-
-		SFGetNewAccessToken task = new SFGetNewAccessToken(token, null, mClientID, mClientSecret);
+	public boolean renewAccessTokenSync() throws SFInvalidStateException, ReAuthException {
+		SFGetNewAccessToken task = new SFGetNewAccessToken(getAuthToken(), null, mClientID, mClientSecret);
 		SFOAuth2Token newToken = task.getNewAccessToken();
-		if (newToken==null) {
-            SLog.w(TAG, "Error renewing token");
+        if ( newToken==null ) {
+            // should not happen since we
+            SLog.w(TAG, "Can't re-authenticate");
             return false;
         }
 
         SLog.i(TAG, "Access Token got renewed, update it");
-        // mOAuthToken.set(newToken);
         reinitClientState(newToken);
 
         return true;
 	}
 	
-	public <T extends SFODataObject> T executeWithReAuth(SFApiQuery<T> query) throws SFV3ErrorException, SFInvalidStateException {
+	public <T extends SFODataObject> T executeWithReAuth(SFApiQuery<T> query) throws SFV3ErrorException, SFInvalidStateException, ReAuthException {
 		validateClientState();
 
 		SFApiRunnable<T> sfApiRunnable =  null;
 		try {
-			sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager);
+			sfApiRunnable = new SFApiRunnable<T>(query, null, getAuthToken(), mCookieManager);
 			return sfApiRunnable.executeQuery();
 			
 		} catch ( SFV3ErrorException e) {
@@ -200,7 +195,7 @@ public class SFApiClient
 	{										
 		validateClientState();
 		
-		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, mOAuthToken.get(),mCookieManager);
+		SFApiRunnable<T> sfApiRunnable = new SFApiRunnable<T>(query, null, getAuthToken(), mCookieManager);
 		
 		return sfApiRunnable.executeQuery();
 	}

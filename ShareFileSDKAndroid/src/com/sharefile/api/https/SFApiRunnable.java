@@ -1,13 +1,5 @@
 package com.sharefile.api.https;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import android.util.Log;
 
 import com.google.gson.JsonElement;
@@ -27,8 +19,15 @@ import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.java.log.SLog;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class SFApiRunnable<T extends SFODataObject> implements Runnable 
 {
@@ -177,9 +176,7 @@ public class SFApiRunnable<T extends SFODataObject> implements Runnable
 				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    
-			//SLog.d(TAG, "RAW RESPONSE = " + responseString);
-			SFDumpLog.dumpLog(TAG,"RAW RESPONSE" , responseString);
-	
+			SLog.d(TAG, "RAW RESPONSE = " + responseString);
 		}
 		catch(Exception ex)
 		{		
