@@ -64,6 +64,7 @@ public class SFUsersEntity extends SFODataEntityBase
     * "Id":"zoneid"
     * }
     * }
+	* Creates a new Customer User and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
 	* @param user 	
@@ -71,7 +72,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param addshared 	
 	* @param notify 	
 	* @param ifNecessary 	
-	* @return The new user
+	* @return The new User
     */
 	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary)
 	{
@@ -117,17 +118,17 @@ public class SFUsersEntity extends SFODataEntityBase
     * "AdminEmailMessages", "AdminSSO", "AdminSuperGroup", "AdminZones", "AdminCreateSharedGroups", "AdminConnectors"
     * ]
     * }
-	* Create a new Employee user (AccountUser)
+	* Creates a new Employee User (AccountUser) and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, IsEmployee, IsAdministrator, CanCreateFolders, CanUseFileBox, CanManageUsers,
 	* Preferences.CanResetPassword and Preferences.CanViewMySettings.
-	* Other parameters are ignoredStorageQuotaLimitGB parameter is optional. If not specified or equal to -1 the account default storage quota value will be set for the user.
+	* Other parameters are ignoredStorageQuotaLimitGB parameter is optional. If not specified or equal to -1 the account default storage quota value will be set for the User.
 	* @param user 	
 	* @param pushCreatorDefaultSettings 	
 	* @param addshared 	
 	* @param notify 	
 	* @param ifNecessary 	
-	* @return The new employee user
+	* @return The new employee User
     */
 	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary)
 	{
