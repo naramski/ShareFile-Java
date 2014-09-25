@@ -39,6 +39,7 @@ public class SFApiClient
 	public static final String MSG_INVALID_STATE_OAUTH_NULL = "Invalid state: Oauth token not initialized for SFApiClient";
 	
 	// private final AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
+    //Dummy changes
 
 	private SFSession mSession = null;	
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
