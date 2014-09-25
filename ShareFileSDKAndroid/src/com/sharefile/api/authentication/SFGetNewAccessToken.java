@@ -1,5 +1,16 @@
 package com.sharefile.api.authentication;
 
+import com.sharefile.api.SFV3Error;
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.exceptions.ReAuthException;
+import com.sharefile.api.https.SFHttpsCaller;
+import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
+import com.sharefile.java.log.SLog;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -11,16 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import com.sharefile.api.SFV3Error;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.https.SFHttpsCaller;
-import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
-import com.sharefile.java.log.SLog;
 
 public class SFGetNewAccessToken implements Runnable
 {
@@ -92,61 +93,75 @@ public class SFGetNewAccessToken implements Runnable
 	 *  These could be other AsyncTasks which directly call getNewAccessToken() and don't want to execute another internal AsyncTask for this purpose.
 	 *  We need such tasks to be able get the error codes correctly.		   
 	 */
-	public SFOAuth2Token getNewAccessToken() {
-		
-		String refreshToken = mOldAccessToken.getRefreshToken();
-		if ( refreshToken==null || refreshToken.isEmpty() ) {
-			SLog.v(TAG, "The old Access Token is invalid: can't renew");
-			return null;
-		}
-		
-		try 
-		{									
-			URL url = new URL(buildWebLoginTokenUrl(mOldAccessToken.getApiCP(), mOldAccessToken.getSubdomain()));
-				  						
-			URLConnection conn = SFHttpsCaller.getURLConnection(url);
-			SFHttpsCaller.setPostMethod(conn);
-			SFHttpsCaller.setAcceptLanguage(conn);
-											
-			List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
-			nvPairs.add(new BasicNameValuePair(SFKeywords.GRANT_TYPE, SFKeywords.REFRESH_TOKEN));
-			nvPairs.add(new BasicNameValuePair(SFKeywords.REFRESH_TOKEN, mOldAccessToken.getRefreshToken()));
-			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, mWebLoginClientID));
-			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, mWebLoginClientSecret));		
-			
-			String body = getBodyForWebLogin(nvPairs);
-			
-			conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.length());			
-			conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_FORM_URLENCODED);
-			 				
-			postBody(conn, body);
-			
-			mHttpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
-																			    
-			if(mHttpErrorCode == HttpsURLConnection.HTTP_OK)
-			{
-				SLog.i(TAG, "Successfully re-authenticated");
-				mResponseString = SFHttpsCaller.readResponse(conn);
-			}		
-			else
-			{
-				mResponseString = SFHttpsCaller.readErrorResponse(conn);
-													
-			}				    			
-		}		
-		catch (Exception e) 
-		{
-			mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			mResponseString = e.getLocalizedMessage();
-		} 		
-		
-		parseResponse(mHttpErrorCode, mResponseString);
-						
-		callResponseListeners();
-		
-		return (mHttpErrorCode==HttpsURLConnection.HTTP_OK ) ? mNewAccessToken : null;
+	public SFOAuth2Token getNewAccessToken() throws ReAuthException {
+        if ( !process() ) return null;
+
+        if ( mCallback!=null ) {
+            // use callback to report result
+            callResponseListeners();
+            return mNewAccessToken;
+
+        }
+
+        // throw exception in case of errors
+        if ( mHttpErrorCode==HttpsURLConnection.HTTP_OK ) return mNewAccessToken;
+
+        SLog.w(TAG, "Failed to re-authenticate");
+        throw new ReAuthException(mV3Error);
 	}
-		
+
+    private boolean process() {
+        String refreshToken = mOldAccessToken.getRefreshToken();
+        if ( refreshToken==null || refreshToken.isEmpty() ) {
+            SLog.v(TAG, "The old Access Token is invalid: can't renew");
+            mNewAccessToken = null;
+            return false;
+        }
+
+        try
+        {
+            URL url = new URL(buildWebLoginTokenUrl(mOldAccessToken.getApiCP(), mOldAccessToken.getSubdomain()));
+
+            URLConnection conn = SFHttpsCaller.getURLConnection(url);
+            SFHttpsCaller.setPostMethod(conn);
+            SFHttpsCaller.setAcceptLanguage(conn);
+
+            List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
+            nvPairs.add(new BasicNameValuePair(SFKeywords.GRANT_TYPE, SFKeywords.REFRESH_TOKEN));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.REFRESH_TOKEN, mOldAccessToken.getRefreshToken()));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, mWebLoginClientID));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, mWebLoginClientSecret));
+
+            String body = getBodyForWebLogin(nvPairs);
+
+            conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.length());
+            conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_FORM_URLENCODED);
+
+            postBody(conn, body);
+
+            mHttpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
+
+            if(mHttpErrorCode == HttpsURLConnection.HTTP_OK)
+            {
+                SLog.i(TAG, "Successfully re-authenticated");
+                mResponseString = SFHttpsCaller.readResponse(conn);
+            }
+            else
+            {
+                mResponseString = SFHttpsCaller.readErrorResponse(conn);
+
+            }
+        }
+        catch (Exception e)
+        {
+            mHttpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+            mResponseString = e.getLocalizedMessage();
+        }
+
+        parseResponse(mHttpErrorCode, mResponseString);
+
+        return true;
+    }
 
 	/**
 	 *   Parse the response to the best of our ability. At the end of this function the FinalResponse object 
@@ -159,20 +174,20 @@ public class SFGetNewAccessToken implements Runnable
 		{
 			case HttpsURLConnection.HTTP_OK:
 				callSuccessResponseParser(responseString);				
-			break;	
+			    break;
 									
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				mHttpErrorCode = HttpsURLConnection.HTTP_UNAUTHORIZED;
 				mV3Error = new SFV3Error(httpCode,null,responseString);				
-			break;
+			    break;
 			
 			case SFSDK.INTERNAL_HTTP_ERROR:				
 				callInternalErrorResponseFiller(httpCode, responseString, null);
-			break;
+			    break;
 			
 			default:
 				callFailureResponseParser(httpCode, responseString);
-			break;				
+			    break;
 		}				
 	}
 	
@@ -195,7 +210,8 @@ public class SFGetNewAccessToken implements Runnable
 		{
 			mHttpErrorCode = httpCode;
 			mV3Error = new SFV3Error(httpCode,responseString,null);
-		}
+            mNewAccessToken = null;
+        }
 		catch(Exception e)
 		{			
 			callInternalErrorResponseFiller(SFSDK.INTERNAL_HTTP_ERROR, e.getLocalizedMessage(), responseString);
@@ -215,11 +231,11 @@ public class SFGetNewAccessToken implements Runnable
 			{
 				case HttpsURLConnection.HTTP_OK:
 					mCallback.successGetAccessToken(mNewAccessToken);				
-				break;	
+				    break;
 																
 				default:
 					mCallback.errorGetAccessToken(mV3Error);
-				break;				
+				    break;
 			}
 		}
 		catch(Exception ex)
@@ -234,7 +250,8 @@ public class SFGetNewAccessToken implements Runnable
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo)
 	{
 		mHttpErrorCode = httpCode;
-		mV3Error = new SFV3Error(httpCode,errorDetails,extraInfo);		
+		mV3Error = new SFV3Error(httpCode,errorDetails,extraInfo);
+        mNewAccessToken = null;
 	}
 
 	public Thread startNewThread()
@@ -245,10 +262,12 @@ public class SFGetNewAccessToken implements Runnable
 	}		
 	
 	@Override
-	public void run() 
-	{		
-		getNewAccessToken();
-	}
+	public void run() {
+		process();
+
+        // use callback to report result
+        callResponseListeners();
+    }
 	
 	public SFV3Error getError() { 
 		return mV3Error; 
