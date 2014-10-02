@@ -1,5 +1,6 @@
 package com.sharefile.api.utils;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import com.sharefile.api.SFV3Error;
@@ -60,4 +61,16 @@ public class Utils
 		
 		return ret;
 	}
+
+    public static boolean isEmpty(ArrayList arrayList)
+    {
+        boolean ret = false;
+
+        if(arrayList == null || arrayList.size() ==0 )
+        {
+            ret = true;
+        }
+
+        return ret;
+    }
 }

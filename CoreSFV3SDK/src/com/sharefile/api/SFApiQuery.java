@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -86,8 +87,6 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	/**
 	 * When whenever you want to re-execute a previous query with slightly different parameters
 	 * always use this function to copy feilds from the source query and then modify the necessry feilds.
-	 * Sample use of this is in {@link com.sharefile.api.https.SFApiRunnable SFApiRunnable}	    
-	 *     
 	 */
 	public void copyQuery(SFApiQuery<T> sourceQuery)
 	{
@@ -210,12 +209,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	{		
 		return mBody;
 	}
-		
-	public final void addQueryString(String key, String value) 
-	{
-		mQueryMap.put(key, value);
-	}
-	
+
 	public final void addQueryString(String key,SFZoneService services)
 	{
 		mQueryMap.put(key, services.toString());
@@ -236,31 +230,65 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		mQueryMap.put(key, rootType.toString());		
 	}
 
+    public final void addQueryString(String key, String value)
+    {
+        if(Utils.isEmpty(key))
+        {
+            return;
+        }
+
+        //put expansion parameters in expansion map instead
+        if(SFQueryParams.EXPAND.equals(key))
+        {
+            expand(value);
+            return;
+        }
+
+        mQueryMap.put(key, value);
+    }
+
 	public void addQueryString(String key, ArrayList<String> ids) 
 	{
-		if(ids!=null)
-		{
-			StringBuilder sb = new StringBuilder();
-			
-			boolean isFirst = true;
-			
-			for(String str:ids)
-			{
-				if(!isFirst)
-				{					
-					sb.append(SFKeywords.COMMA);
-				}
-				else
-				{
-					isFirst = false;	
-				}
-				
-				sb.append(str);
-			}
-			
-			mQueryMap.put(key, sb.toString());
-		}				
+		if(ids == null || key == null)
+        {
+            return;
+        }
+
+        //put expansion parameters in expansion map instead
+        if(SFQueryParams.EXPAND.equals(key))
+        {
+            expand(ids);
+            return;
+        }
+
+        addQueryStringInternal(key,ids);
 	}
+
+    private void addQueryStringInternal(String key, ArrayList<String> ids)
+    {
+        if(ids!=null)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            boolean isFirst = true;
+
+            for(String str:ids)
+            {
+                if(!isFirst)
+                {
+                    sb.append(SFKeywords.COMMA);
+                }
+                else
+                {
+                    isFirst = false;
+                }
+
+                sb.append(str);
+            }
+
+            mQueryMap.put(key, sb.toString());
+        }
+    }
 
 	public void addQueryString(String key, Integer size) 
 	{		
@@ -380,9 +408,20 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		
 		return queryUrlString;
 	}
-	
+
+
+    private void addExpansionParams()
+    {
+        if(mExpansionParameters.size()>0)
+        {
+            addQueryStringInternal(SFQueryParams.EXPAND, mExpansionParameters);
+        }
+    }
+
 	private String buildQueryParameters() throws UnsupportedEncodingException
 	{
+        addExpansionParams();
+
 		StringBuilder sb = new StringBuilder();
 						
 		boolean isFirst = true;
@@ -522,5 +561,48 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	public void setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException 
 	{
 		setLinkAndAppendPreviousParameters(new URI(string));		
-	}	
+	}
+
+
+    /**
+     The client has an option to add query any parameters as follows:
+
+     ArrayList<String> expand = new ArrayList<String>(){};
+     expand.add(SFKeywords.INFO);
+     expand.add(SFKeywords.CHILDREN);
+     expand.add(SFKeywords.REDIRECTION);
+     expand.add(SFKeywords.CHILDREN+ "/" +SFKeywords.PARENT);
+     expand.add(SFKeywords.CHILDREN+ "/" +SFKeywords.REDIRECTION);
+     addQueryString(SFQueryParams.EXPAND, expand);
+
+     Expansion parameters are most frequently used so provide a simpler way
+     for the client to add them. so that the client can call query.expand("somevalue1").expand("somevalue2")....expand("somevaluen") etc
+     */
+    private final ArrayList<String> mExpansionParameters = new ArrayList<String>(){};
+
+    @Override
+    public ISFQuery<T> expand(String expansionParameter)
+    {
+       if(Utils.isEmpty(expansionParameter))
+       {
+           return this;
+       }
+
+       mExpansionParameters.add(expansionParameter);
+
+       return this;
+    }
+
+    private void expand(ArrayList<String> expansionParameters)
+    {
+        if(Utils.isEmpty(expansionParameters))
+        {
+            return ;
+        }
+
+        for(String str: expansionParameters)
+        {
+            mExpansionParameters.add(str);
+        }
+    }
 }

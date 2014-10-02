@@ -95,6 +95,7 @@ public enum SFV3FeedType
 	GenericConfig("$metadata#GenericConfig",SFGenericConfig.class),
 	Group("$metadata#Group",SFGroup.class),
 	Item("$metadata#Item",SFItem.class),
+    Items("$metadata#Items",SFItem.class),
 	ItemInfo("$metadata#ItemInfo",SFItemInfo.class),
 	ItemProtocolLink("$metadata#ItemProtocolLink",SFItemProtocolLink.class),
 	Link("$metadata#Link",SFLink.class),

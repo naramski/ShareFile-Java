@@ -110,7 +110,7 @@ public class SFDefaultGsonParser
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
-		mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());
+		//mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());//remove this!
 		mGsonBuilder.registerTypeAdapter(SFStorageCenter.class, new SFGsonRouter());
 		
 		registerV3EnumAdapters();		
