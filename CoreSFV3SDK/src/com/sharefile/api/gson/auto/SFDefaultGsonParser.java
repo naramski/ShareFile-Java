@@ -29,13 +29,12 @@ import com.sharefile.api.utils.SafeEnumHelpers;
  */
 public class SFDefaultGsonParser 
 {	
-	private final GsonBuilder mGsonBuilder;
+	private static final GsonBuilder mGsonBuilder = new GsonBuilder();
 	private final Gson mGson;
 	private static SFDefaultGsonParser mInstance = null; 
 	
 	SFDefaultGsonParser()
-	{		
-		mGsonBuilder = new GsonBuilder();				
+	{
 		registerSFSpecificGsonAdapters();
 		mGson = mGsonBuilder.setDateFormat("yyyy-MM-dd").create();
 	}
@@ -103,14 +102,17 @@ public class SFDefaultGsonParser
 			}
 		});
 	}
-		
+
+    public static void registerTypeAdapter(Class clazz)
+    {
+        mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());
+    }
 
 	private void registerSFSpecificGsonAdapters()
 	{		
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
-		//mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());//remove this!
 		mGsonBuilder.registerTypeAdapter(SFStorageCenter.class, new SFGsonRouter());
 		
 		registerV3EnumAdapters();		

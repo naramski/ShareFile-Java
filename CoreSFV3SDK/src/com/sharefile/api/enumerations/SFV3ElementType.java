@@ -2,6 +2,7 @@ package com.sharefile.api.enumerations;
 
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
+import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFAccountPreferences;
@@ -197,6 +198,12 @@ public enum SFV3ElementType
 		SLog.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
 		
 		elementType.mOverrideClass = newClass;
+
+        /*
+            This is required so that we call our custom Gson parser which knows about instantiating
+            the user supplied class instead of the base type.
+         */
+        SFDefaultGsonParser.registerTypeAdapter(elementType.mOriginalClass);
 	}
 	
 	public static boolean isFolderType(SFODataObject object)
