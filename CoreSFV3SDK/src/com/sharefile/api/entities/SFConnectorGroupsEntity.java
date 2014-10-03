@@ -52,6 +52,11 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get the Connector Group by Provider
+	* @param provider 	
+	* @return A single ConnectorGroup matching the query
+    */
 	public ISFQuery<SFConnectorGroup> byProvider(String provider)
 	{
 		SFApiQuery<SFConnectorGroup> sfApiQuery = new SFApiQuery<SFConnectorGroup>();

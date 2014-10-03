@@ -406,17 +406,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFEnsSubscriptionToken> subscribe(URI url, SFEnsSubscriptionRequest subreq)
-	{
-		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>();
-		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("Subscribe");
-		sfApiQuery.addIds(url);
-		sfApiQuery.setBody(subreq);
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
     /**
 	* Update Item
     * {

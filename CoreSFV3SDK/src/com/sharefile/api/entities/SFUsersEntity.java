@@ -287,6 +287,11 @@ public class SFUsersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get User's top Folder
+	* @param url 	
+	* @return User's Top Folders
+    */
 	public ISFQuery<SFODataFeed<SFItem>> topFolders(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
@@ -297,6 +302,11 @@ public class SFUsersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get User's FileBox folder
+	* @param url 	
+	* @return User's FileBox
+    */
 	public ISFQuery<SFODataFeed<SFItem>> box(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();

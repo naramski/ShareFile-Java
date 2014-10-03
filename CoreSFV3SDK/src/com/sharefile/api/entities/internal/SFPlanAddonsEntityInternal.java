@@ -29,6 +29,11 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 {
+    /**
+	* Get Plan add-ons
+	* @param productCode 	
+	* @return PlanAddons
+    */
 	public ISFQuery<SFPlanAddon> get(String productCode)
 	{
 		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>();
@@ -38,6 +43,14 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Create inApp Purchase
+    * {
+    * "ProductId": "productId"
+    * }
+	* @param inAppPurchase 	
+	* @return inAppPurchase created
+    */
 	public ISFQuery<SFPlanAddon> createInAppPurchase(SFInAppPurchase inAppPurchase)
 	{
 		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>();
@@ -48,6 +61,14 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Create Trial Period
+    * {
+    * "ProductId": "productId"
+    * }
+	* @param trialPeriod 	
+	* @return TrialPeriod created
+    */
 	public ISFQuery<SFPlanAddon> createTrialPeriod(SFTrialPeriod trialPeriod)
 	{
 		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>();
@@ -58,6 +79,11 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get User Info
+	* @param productCode 	
+	* @return PlanAddonUser with info
+    */
 	public ISFQuery<SFPlanAddonUser> getUserInfo(String productCode)
 	{
 		SFApiQuery<SFPlanAddonUser> sfApiQuery = new SFApiQuery<SFPlanAddonUser>();

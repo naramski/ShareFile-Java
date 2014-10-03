@@ -27,31 +27,17 @@ import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
-public class SFItemsEntityInternal extends SFItemsEntity
+public class SFConfigsEntityInternal extends SFODataEntityBase
 {
     /**
-	* Subscribe to ENS event notifications for an Item
-    * {
-    * "ClientId": "ENS Client ID",
-    * "EventTypes": "all"
-    * }
-    * POST https://account.sf-api.com/sf/v3/Items(id)/EnsSubscriptionRequest
-    * {
-    * "ClientId": "ENS Client ID",
-    * "EventTypes": "update|delete"
-    * }
-	* @param url 	
-	* @param subreq 	
-	* @return an ENS subscription token, which the client can use to register for Event notifications
+	* Get Configs
+	* @return List of GenericConfg
     */
-	public ISFQuery<SFEnsSubscriptionToken> subscribe(URI url, SFEnsSubscriptionRequest subreq)
+	public ISFQuery<SFODataFeed<SFGenericConfig>> get()
 	{
-		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>();
-		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("Subscribe");
-		sfApiQuery.addIds(url);
-		sfApiQuery.setBody(subreq);
-		sfApiQuery.setHttpMethod("POST");
+		SFApiQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGenericConfig>>();
+		sfApiQuery.setFrom("Configs");
+		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 

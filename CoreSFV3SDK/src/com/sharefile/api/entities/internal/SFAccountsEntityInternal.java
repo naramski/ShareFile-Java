@@ -42,6 +42,52 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		return sfApiQuery;
 	}
 
+    /**
+	* Get EnsSubscriber Configuration
+	* @return EnsSubscriber Configuration
+    */
+	public ISFQuery<SFEnsSubscriberConfiguration> getEnsSubscriberConfiguration()
+	{
+		SFApiQuery<SFEnsSubscriberConfiguration> sfApiQuery = new SFApiQuery<SFEnsSubscriberConfiguration>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("GetEnsSubscriberConfiguration");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Enable ENS for the Account
+    */
+	public ISFQuery enableEns()
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("EnableEns");
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Disable ENS for account
+    */
+	public ISFQuery disableEns()
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("DisableEns");
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Update Account Preferences
+    * {
+    * "Preferences": {
+    * "LoginFailLockoutSecs": 60,
+    * }
+    * }
+	* @return Account
+    */
 	public ISFQuery<SFAccount> update(SFAccount account)
 	{
 		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
@@ -51,6 +97,13 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		return sfApiQuery;
 	}
 
+    /**
+	* Assign Subdomain to Account
+    * {
+    * "subdomain":"TheSubdomain"
+    * }
+	* @param subdomain 	
+    */
 	public ISFQuery createAssignSubdomain(String subdomain)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();

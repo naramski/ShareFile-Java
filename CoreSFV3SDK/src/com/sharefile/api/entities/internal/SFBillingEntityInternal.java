@@ -29,6 +29,10 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFBillingEntityInternal extends SFODataEntityBase
 {
+    /**
+	* Get Billing
+	* @return Billing
+    */
 	public ISFQuery<SFBilling> get()
 	{
 		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>();
