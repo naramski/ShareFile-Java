@@ -72,7 +72,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param addshared 	
 	* @param notify 	
 	* @param ifNecessary 	
-	* @return The new User
+	* @return The new user
     */
 	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary)
 	{
@@ -128,7 +128,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param addshared 	
 	* @param notify 	
 	* @param ifNecessary 	
-	* @return The new employee User
+	* @return The new employee user
     */
 	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary)
 	{
@@ -389,6 +389,23 @@ public class SFUsersEntity extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(properties);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Forgot Password
+	* Triggers a reset password email
+	* @param email 	
+	* @param resetOnMobile 	
+    */
+	public ISFQuery forgotPassword(String email, Boolean resetOnMobile)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("ForgotPassword");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.addQueryString("resetOnMobile", resetOnMobile);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
