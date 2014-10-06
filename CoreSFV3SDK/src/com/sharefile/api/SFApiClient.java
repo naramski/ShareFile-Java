@@ -253,7 +253,7 @@ public class SFApiClient
 	}
 
 
-    //TODO-V3: This should be in SFDownloadRunnable
+    //TODO+V3: This should be in SFDownloadRunnable
     /**
      * create a runnable to handle downloading the file
      * it is up to the developer to decide how to run this asynchronously (AsyncTask, Thread, ...)
