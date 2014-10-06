@@ -2,18 +2,24 @@ package com.sharefile.api;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFCookieManager;
+import com.sharefile.api.https.SFDownloadRunnable;
+import com.sharefile.api.https.TransferRunnable;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
@@ -245,4 +251,43 @@ public class SFApiClient
 	{
 		return getExecutor(query, null, null).executeBlockingQuery();		
 	}
+
+
+    //TODO-V3: This should be in SFDownloadRunnable
+    /**
+     * create a runnable to handle downloading the file
+     * it is up to the developer to decide how to run this asynchronously (AsyncTask, Thread, ...)
+     * @param itemId
+     * @param v3Url
+     * @param resumeFromByteIndex
+     * @param outpuStream
+     * @param progressListener
+     * @param connUserName
+     * @param connPassword
+     * @return
+     * @throws SFInvalidStateException
+     */
+    public SFDownloadRunnable prepareDownload(String itemId, String v3Url, int resumeFromByteIndex, OutputStream outpuStream, TransferRunnable.IProgress progressListener, String connUserName, String connPassword) throws SFInvalidStateException {
+        validateClientState();
+
+        // calculate download URL
+        String url = null;
+        try  {
+            ISFQuery<InputStream> downloadQuery = SFQueryBuilder.ITEMS.;//SFItemsEntity.download(new URI(v3Url), true);
+            if ( v3Url!=null ) downloadQuery.setLink(v3Url);
+            String server = mOAuthToken.get().getApiServer();
+            url = downloadQuery.buildQueryUrlString(server);
+
+        } catch (URISyntaxException e)  {
+            SLog.e(TAG, e);
+            return null;
+
+        } catch (UnsupportedEncodingException e) {
+            SLog.e(TAG, e);
+            return null;
+        }
+
+        // create runnable
+        return new SFDownloadRunnable(url, resumeFromByteIndex, outpuStream , this, progressListener, mCookieManager, connUserName, connPassword);
+    }
 }
