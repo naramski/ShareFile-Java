@@ -19,6 +19,7 @@ import com.sharefile.api.https.SFApiFileDownloadRunnable;
 import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
+import com.sharefile.api.https.SFUploadRunnable;
 import com.sharefile.api.https.TransferRunnable;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
@@ -289,5 +290,30 @@ public class SFApiClient
 
         // create runnable
         return new SFDownloadRunnable(url, resumeFromByteIndex, outpuStream , this, progressListener, mCookieManager, connUserName, connPassword);
+    }
+
+    /**
+     * prepare runnable to be used to upload a file
+     * TODO+V3: needs to be moved to SFUploadRunnable.
+     * create a different version that can handle prompting the users for connector credentials
+     * @param parentId
+     * @param destinationName
+     * @param details
+     * @param v3Url
+     * @param overwrite
+     * @param resumeFromByteIndex
+     * @param tolalBytes
+     * @param inputStream
+     * @param progressListener
+     * @param connUserName
+     * @param connPassword
+     * @return
+     * @throws SFInvalidStateException
+     * @throws SFV3ErrorException
+     */
+    public SFUploadRunnable prepareUpload(String parentId, String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFV3ErrorException {
+        validateClientState();
+
+        return new SFUploadRunnable(parentId, v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);
     }
 }
