@@ -219,13 +219,10 @@ public class SFDownloadRunnable extends TransferRunnable {
 	{													
 		try 
 		{
-			//TODO: V3TOFIX
-			/*
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement =jsonParser.parse(responseString);				
-			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);							
+			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
 			mResponse.setFields(httpCode, v3Error,downloadedBytes);
-			*/
 		} 
 		catch (Exception e)  
 		{					
@@ -257,7 +254,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 	 */
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesDownloaded)
 	{
-		SFV3Error v3Error = new SFV3Error(httpCode,null,null);//V3TOFIX
+		SFV3Error v3Error = new SFV3Error(httpCode,null,null);
 		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 
