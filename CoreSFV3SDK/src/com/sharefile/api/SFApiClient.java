@@ -254,7 +254,7 @@ public class SFApiClient
 	}
 
 
-    //TODO+V3: This should be in SFDownloadRunnable
+    //TODO_ADD_V3: This should be in SFDownloadRunnable
     /**
      * create a runnable to handle downloading the file
      * it is up to the developer to decide how to run this asynchronously (AsyncTask, Thread, ...)
@@ -294,7 +294,7 @@ public class SFApiClient
 
     /**
      * prepare runnable to be used to upload a file
-     * TODO+V3: needs to be moved to SFUploadRunnable.
+     * TODO_ADD_V3: needs to be moved to SFUploadRunnable.
      * create a different version that can handle prompting the users for connector credentials
      * @param parentId
      * @param destinationName
