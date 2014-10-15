@@ -45,10 +45,10 @@ public class SFV3Error
 	private static final String ERR_NOTREACHABLE = "Server Not reachable (503)";
 	private static final String ERR_BADMETHOD = "Method not allowed (405)";
 					
-	private Exception mInternalException = null;				
-	private ServerResponse mServerResponse = new ServerResponse();
+	@SFSDKDefaultAccessScope Exception mInternalException = null;
+	@SFSDKDefaultAccessScope ServerResponse mServerResponse = new ServerResponse();
 				
-	private String getErrorMessageFromErroCode(int httpResponseCode)
+	@SFSDKDefaultAccessScope String getErrorMessageFromErroCode(int httpResponseCode)
 	{
 		switch(httpResponseCode)
 		{
@@ -94,6 +94,12 @@ public class SFV3Error
 			mInternalException = exception;			
 		}
 	}
+
+    protected SFV3Error(int serverHttpCode ,Exception exception)
+    {
+        mServerResponse.httpResponseCode = serverHttpCode;
+        mInternalException = exception ;
+    }
 				
 	public boolean isAuthError()
 	{

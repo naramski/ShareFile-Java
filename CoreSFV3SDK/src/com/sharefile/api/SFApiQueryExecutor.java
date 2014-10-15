@@ -256,12 +256,13 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 		if(mOauthToken != null)
 		{
-			mResponse.setResponse(null, error);
-			
 			return true;
 		}
-						
-		return false;
+        else
+        {
+            mResponse.setResponse(null, error);
+            return false;
+        }
 	}
 	
 	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException 

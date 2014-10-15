@@ -11,6 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.sharefile.api.SFTokenRenewError;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
@@ -144,7 +145,7 @@ public class SFOAuthTokenRenewer
 				
 				default:
 					responseString = SFHttpsCaller.readErrorResponse(conn);
-					mSFV3Error = new SFV3Error(httpErrorCode,responseString,null);
+					mSFV3Error = new SFTokenRenewError(httpErrorCode,responseString,null);
 				break;	
 			}							    			
 						
