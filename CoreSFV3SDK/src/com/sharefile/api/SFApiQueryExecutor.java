@@ -65,7 +65,6 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			
 	private final ISFQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
-	private SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
 	private final SFOAuthTokenRenewer mAccessTokenRenewer;
@@ -86,16 +85,15 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	
 	private Response mResponse = null;
 						
-	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{			
 		mSFApiClient = apiClient;				
 		mQuery = query;
 		mResponseListener = responseListener;
-		mOauthToken = token;		
 		mCookieManager = cookieManager;
 		mAppSpecificConfig = config;
 		mAccessTokenRenewer = tokenRenewer;
-		mReauthHandler = reauthHandler; 
+		mReauthHandler = reauthHandler;
 	}
 		
 	private void handleHttPost(URLConnection conn) throws IOException
@@ -132,8 +130,10 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
         and one of them renews the OAuthToken leaving the other one with a stale copy.
      */
 	@Override
-	public synchronized SFODataObject executeBlockingQuery() throws SFV3ErrorException
-	{			
+	public synchronized SFODataObject executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException
+    {
+        mSFApiClient.validateClientState();
+
 		mResponse = new Response();
 		
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
@@ -142,7 +142,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 		try
 		{						
-			String server = mOauthToken.getApiServer();		
+			String server = mSFApiClient.getOAuthToken().getApiServer();
 			String urlstr = mQuery.buildQueryUrlString(server);
 								
 			URL url = new URL(urlstr);
@@ -150,7 +150,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
 			mAppSpecificConfig.setAddtionalHeaders(connection);
 			
-			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mQuery.getUserName(),mQuery.getPassword(),mCookieManager);
+			SFHttpsCaller.addAuthenticationHeader(connection,mSFApiClient.getOAuthToken(),mQuery.getUserName(),mQuery.getPassword(),mCookieManager);
 			
 			handleHttPost(connection);
 			
@@ -254,24 +254,22 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		{
 			return false;
 		}
-		
-		mOauthToken = mAccessTokenRenewer.getNewAccessToken();
+
 		mAccessTokenRenewer.callResponseListeners();		
-		SFV3Error error = mAccessTokenRenewer.getError();				
-		
-		if(mOauthToken != null)
+
+		if(mAccessTokenRenewer.getNewAccessToken() != null)
 		{
 			return true;
 		}
         else
         {
-            mResponse.setResponse(null, error);
+            mResponse.setResponse(null, mAccessTokenRenewer.getError());
             return false;
         }
 	}
 	
-	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException 
-	{
+	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException, SFInvalidStateException
+    {
 		if(!renewToken())
 		{
 			return null;
@@ -349,8 +347,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		return ret;
 	}
 	
-	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException
-	{
+	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException, SFInvalidStateException
+    {
 		mQuery.setLinkAndAppendPreviousParameters(link.getLink());		
 		return executeBlockingQuery();
 	}
@@ -424,8 +422,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	 * @throws SFV3ErrorException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException, UnsupportedEncodingException
-	{
+	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException, UnsupportedEncodingException, SFInvalidStateException
+    {
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
 		SFODataObject sfobject = SFGsonHelper.customParse(jsonElement);

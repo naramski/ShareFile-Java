@@ -78,6 +78,10 @@ public class SFApiClient
 		public void errorGetAccessToken(SFV3Error v3error) 
 		{			
 			SLog.e(TAG,v3error.errorDisplayString("error getting access token"));
+            if(v3error.getServerResponse().httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR)
+            {
+                reset();
+            }
 		}		
 	};
 	
@@ -151,9 +155,7 @@ public class SFApiClient
 	
 	public <T extends SFODataObject> ISFApiExecuteQuery getExecutor(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
-		validateClientState();
-		
-		return new SFApiQueryExecutor<T>(this,query, listener, mOAuthToken.get(), mCookieManager, mSFAppConfig,mOauthTokenRenewer, reauthHandler);
+		return new SFApiQueryExecutor<T>(this,query, listener, mCookieManager, mSFAppConfig,mOauthTokenRenewer, reauthHandler);
 	}
 						
 	/**
@@ -172,7 +174,7 @@ public class SFApiClient
 		}
 	}	
 	
-	private void validateClientState() throws SFInvalidStateException 
+	@SFSDKDefaultAccessScope void validateClientState() throws SFInvalidStateException
 	{
 		if(!mClientInitializedSuccessFully.get())
 		{

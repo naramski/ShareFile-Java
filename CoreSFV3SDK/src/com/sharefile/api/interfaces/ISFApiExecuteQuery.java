@@ -30,6 +30,6 @@ import com.sharefile.api.models.SFODataObject;
  */
 public interface ISFApiExecuteQuery 
 {
-	public <T extends SFODataObject> T executeBlockingQuery() throws SFV3ErrorException;
+	public <T extends SFODataObject> T executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException;
 	public void callResponseListeners() throws SFInvalidStateException;	
 }
