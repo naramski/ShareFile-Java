@@ -125,9 +125,14 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 		callResponseListeners(mResponse.returnObject, mResponse.errorObject);
 	}
-		
+
+    /**
+        This call has to be synchronized to protect from the OAuthToken renewal problems otherwise
+        it nmay happen that two parellel threads invoke this function, receive 401 for ShareFile
+        and one of them renews the OAuthToken leaving the other one with a stale copy.
+     */
 	@Override
-	public SFODataObject executeBlockingQuery() throws SFV3ErrorException 
+	public synchronized SFODataObject executeBlockingQuery() throws SFV3ErrorException
 	{			
 		mResponse = new Response();
 		
