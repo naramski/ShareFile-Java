@@ -761,14 +761,20 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Search
 	* Search for Items matching the criteria of the query parameter
 	* @param query 	
+	* @param maxResults 	
+	* @param skip 	
+	* @param homeFolderOnly 	
 	* @return SearchResults
     */
-	public ISFQuery<SFSearchResults> search(String query)
+	public ISFQuery<SFSearchResults> search(String query, Integer maxResults, Integer skip, Boolean homeFolderOnly)
 	{
 		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.addQueryString("maxResults", maxResults);
+		sfApiQuery.addQueryString("skip", skip);
+		sfApiQuery.addQueryString("homeFolderOnly", homeFolderOnly);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -777,20 +783,19 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Advanced Simple Search
     * {
     * "Query":{
-    * "AuthID":"",
     * "ItemType":"",
     * "ParentID":"",
     * "CreatorID":"",
-    * "LuceneQuery":"",
     * "SearchQuery":"",
     * "CreateStartDate":"",
     * "CreateEndDate":"",
-    * "ItemNameOnly":"",
+    * "ItemNameOnly":false
     * },
     * "Paging":{
-    * "Key":"",
-    * "PageNumber":1,
-    * "PageSize":10,
+    * "PageNumber":1, (Deprecated)
+    * "PageSize":10, (Deprecated)
+    * "Count": 50
+    * "Skip": 0
     * },
     * "Sort":{
     * "SortBy":"",
@@ -816,20 +821,19 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Advanced Search
     * {
     * "Query":{
-    * "AuthIDs":["id1", "id2", ...],
     * "ItemTypes":["type1", "type2", ...],
     * "ParentID":["id1", "id2", ...],
     * "CreatorID":["id1", "id2", ...],
-    * "LuceneQuery":"",
     * "SearchQuery":"",
     * "CreateStartDate":"",
     * "CreateEndDate":"",
-    * "ItemNameOnly":"",
+    * "ItemNameOnly":false
     * },
     * "Paging":{
-    * "Key":"",
-    * "PageNumber":1,
-    * "PageSize":10,
+    * "PageNumber":1, (deprecated)
+    * "PageSize":10, (deprecated)
+    * "Count":50,
+    * "Skip":0
     * },
     * "Sort":{
     * "SortBy":"",

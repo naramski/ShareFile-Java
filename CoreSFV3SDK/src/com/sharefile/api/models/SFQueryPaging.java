@@ -25,33 +25,66 @@ import com.sharefile.api.models.*;
 
 public class SFQueryPaging extends SFODataObject {
 
-	@SerializedName("Key")
-	private String Key;
 	@SerializedName("PageNumber")
 	private Integer PageNumber;
 	@SerializedName("PageSize")
 	private Integer PageSize;
+	@SerializedName("Count")
+	private Integer Count;
+	@SerializedName("Skip")
+	private Integer Skip;
 
-	public String getKey() {
-		return this.Key;
-	}
-
-	public void setKey(String key) {
-		this.Key = key;
-	}
+		/**
+		* Deprecated, use the Skip property to skip some number of results
+		*/
 	public Integer getPageNumber() {
 		return this.PageNumber;
 	}
 
+		/**
+		* Deprecated, use the Skip property to skip some number of results
+		*/
 	public void setPageNumber(Integer pagenumber) {
 		this.PageNumber = pagenumber;
 	}
+		/**
+		* Deprecated, use the Count property
+		*/
 	public Integer getPageSize() {
 		return this.PageSize;
 	}
 
+		/**
+		* Deprecated, use the Count property
+		*/
 	public void setPageSize(Integer pagesize) {
 		this.PageSize = pagesize;
+	}
+		/**
+		* The number of search results to get
+		*/
+	public Integer getCount() {
+		return this.Count;
+	}
+
+		/**
+		* The number of search results to get
+		*/
+	public void setCount(Integer count) {
+		this.Count = count;
+	}
+		/**
+		* How many results to skip before returning "Count" number results.
+		*/
+	public Integer getSkip() {
+		return this.Skip;
+	}
+
+		/**
+		* How many results to skip before returning "Count" number results.
+		*/
+	public void setSkip(Integer skip) {
+		this.Skip = skip;
 	}
 
 }
