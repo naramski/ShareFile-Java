@@ -159,6 +159,29 @@ public enum SFV3ElementType
 	{		
 		return mToString;
 	}
+
+    /**
+        returns the ShareFile type string as required by the odata.type
+     */
+    public String type()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("ShareFile.Api.");
+
+        int index = mToString.indexOf("@");
+
+        if(index>0)
+        {
+            sb.append(mToString.substring(0, index));
+        }
+        else
+        {
+            sb.append(mToString);
+        }
+
+        return sb.toString();
+    }
 	
 	public Class<?> getV3Class()
 	{

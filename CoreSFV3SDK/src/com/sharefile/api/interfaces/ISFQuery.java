@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.models.SFODataObject;
 
-public interface ISFQuery<T> 
+public interface ISFQuery<T> extends ISFTypeFilter
 {
-
 	void setFrom(String string);
 
 	void setHttpMethod(String string);

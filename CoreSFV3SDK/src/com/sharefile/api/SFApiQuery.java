@@ -15,6 +15,7 @@ import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.ISFQuery;
@@ -47,8 +48,24 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	private String mBody = null;
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
 	private boolean mLinkIsParametrized = false;
-	
-	
+
+    /**
+     The client has an option to add query any parameters as follows:
+
+     ArrayList<String> expand = new ArrayList<String>(){};
+     expand.add(SFKeywords.INFO);
+     expand.add(SFKeywords.CHILDREN);
+     expand.add(SFKeywords.REDIRECTION);
+     expand.add(SFKeywords.CHILDREN+ "/" +SFKeywords.PARENT);
+     expand.add(SFKeywords.CHILDREN+ "/" +SFKeywords.REDIRECTION);
+     addQueryString(SFQueryParams.EXPAND, expand);
+
+     Expansion parameters are most frequently used so provide a simpler way
+     for the client to add them. so that the client can call query.expand("somevalue1").expand("somevalue2")....expand("somevaluen") etc
+     */
+    private final ArrayList<String> mExpansionParameters = new ArrayList<String>(){};
+    private final SFFilterParam mFilter = new SFFilterParam();
+
 	/** 
 	 * Currently the server is not returning a DownloadSpecification for download requests, 
 	 * its directly returning the download link. For the sake of completeness, implement the local
@@ -418,9 +435,25 @@ public class SFApiQuery<T> implements ISFQuery<T>
         }
     }
 
+    private void addFilterParams()
+    {
+        String filters = mFilter.get();
+
+        if(!Utils.isEmpty(filters))
+        {
+            addQueryString(SFQueryParams.FILTER, filters);
+        }
+    }
+
+    private void addAllQueryParams()
+    {
+        addExpansionParams();
+        addFilterParams();
+    }
+
 	private String buildQueryParameters() throws UnsupportedEncodingException
 	{
-        addExpansionParams();
+        addAllQueryParams();
 
 		StringBuilder sb = new StringBuilder();
 						
@@ -445,8 +478,9 @@ public class SFApiQuery<T> implements ISFQuery<T>
 					{
 						isFirst = false;	
 					}
-					
-					String urlencoded = URLEncoder.encode(value, SFKeywords.UTF_8);
+
+					String urlencoded = URLEncoder.encode(value, SFKeywords.UTF_8).replace("+", "%20");
+
 					sb.append(key + SFKeywords.EQUALS + urlencoded);
 				}
 			}						
@@ -563,23 +597,6 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		setLinkAndAppendPreviousParameters(new URI(string));		
 	}
 
-
-    /**
-     The client has an option to add query any parameters as follows:
-
-     ArrayList<String> expand = new ArrayList<String>(){};
-     expand.add(SFKeywords.INFO);
-     expand.add(SFKeywords.CHILDREN);
-     expand.add(SFKeywords.REDIRECTION);
-     expand.add(SFKeywords.CHILDREN+ "/" +SFKeywords.PARENT);
-     expand.add(SFKeywords.CHILDREN+ "/" +SFKeywords.REDIRECTION);
-     addQueryString(SFQueryParams.EXPAND, expand);
-
-     Expansion parameters are most frequently used so provide a simpler way
-     for the client to add them. so that the client can call query.expand("somevalue1").expand("somevalue2")....expand("somevaluen") etc
-     */
-    private final ArrayList<String> mExpansionParameters = new ArrayList<String>(){};
-
     @Override
     public ISFQuery<T> expand(String expansionParameter)
     {
@@ -591,6 +608,40 @@ public class SFApiQuery<T> implements ISFQuery<T>
        mExpansionParameters.add(expansionParameter);
 
        return this;
+    }
+
+    @Override
+    public ISFQuery<T> filter(String filterValue)
+    {
+        if(Utils.isEmpty(filterValue))
+        {
+            return this;
+        }
+
+        mFilter.filter(filterValue);
+
+        return this;
+    }
+
+    @Override
+    public ISFQuery and(SFV3ElementType type)
+    {
+        mFilter.and(type);
+        return this;
+    }
+
+    @Override
+    public ISFQuery or(SFV3ElementType type)
+    {
+        mFilter.or(type);
+        return this;
+    }
+
+    @Override
+    public ISFQuery is(SFV3ElementType type)
+    {
+        mFilter.is(type);
+        return this;
     }
 
     private void expand(ArrayList<String> expansionParameters)
