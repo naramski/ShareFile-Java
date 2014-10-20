@@ -73,4 +73,9 @@ public class Utils
 
         return ret;
     }
+
+    public static boolean isConnectorGroup(String id)
+    {
+        return id.indexOf("c-")==0;
+    }
 }
