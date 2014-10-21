@@ -422,7 +422,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param forceSync 	
 	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
     */
-	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync)
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync, Boolean resolveFolderNameConflict)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
@@ -431,6 +431,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
 		sfApiQuery.addQueryString("forceSync", forceSync);
 		sfApiQuery.addQueryString("scheduleAsync", scheduleAsync);
+		sfApiQuery.addQueryString("resolveFolderNameConflict", resolveFolderNameConflict);
 		sfApiQuery.setBody(item);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
