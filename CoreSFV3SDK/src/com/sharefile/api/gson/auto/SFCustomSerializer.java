@@ -1,6 +1,7 @@
 package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
+import java.net.URI;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -26,18 +27,37 @@ public class SFCustomSerializer
 			jsonObject.addProperty(key, value);
 		}
 	}
-	
+
+    private static void addIfNonEmpty(JsonObject jsonObject , String key, URI value)
+    {
+        if( !Utils.isEmpty(key) && value!=null && !Utils.isEmpty(value.toString()))
+        {
+            jsonObject.addProperty(key, value.toString());
+        }
+    }
+
+    private static void add(JsonObject jsonObject , String key, String value, String defaultValue)
+    {
+        if( !Utils.isEmpty(key))
+        {
+            if(!Utils.isEmpty(value))
+            {
+                jsonObject.addProperty(key, value);
+            }
+            else
+            {
+                jsonObject.addProperty(key, defaultValue);
+            }
+        }
+    }
+
 	@SFSDKDefaultAccessScope static JsonElement serialize(SFODataObject sfODataObject, Type typeOfObject)
 	{
-		String str = SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);
-		
-		if(str==null)
-		{
-			return null;
-		}
-		
-		JsonParser parser = new JsonParser();
-		return parser.parse(str);
+		/*
+		   dont call SFDefaultGsonParser.serialize(typeOfObject, sfODataObject);
+		   or it leads to StackOverflow due to infinite recursive calls back here.
+		*/
+        throw new RuntimeException("Implement the custom serializer for: " + sfODataObject.getClass().getCanonicalName());
 	}
 	
 	@SFSDKDefaultAccessScope static JsonObject serialize(SFItem sfItem)
@@ -50,6 +70,8 @@ public class SFCustomSerializer
 		JsonObject jsonObject = new JsonObject();
 		
 		addIfNonEmpty(jsonObject, SFKeywords.Id, sfItem.getId());
+        add(jsonObject, SFKeywords.Description, sfItem.getDescription(), "");
+        addIfNonEmpty(jsonObject,SFKeywords.URL,sfItem.geturl());
 						
 		return jsonObject;
 	}
