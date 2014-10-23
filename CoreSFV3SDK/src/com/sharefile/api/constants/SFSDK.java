@@ -5,7 +5,7 @@ public class SFSDK
 	public static final String VERSION_FOR_QUERY_URL = "v3";
 	public static final String VERSION= "V3.1.0";
 	
-	public static final String API_SERVER_TEST = "sf-apitest.com";
+	public static final String API_SERVER_TEST = "sharefiletest.com";
 	public static final String API_SERVER_DEV = "sf-apidev.com";
 	public static final String API_SERVER_PRODUCTION = "sf-api.com";
 	public static final String API_SERVER_PRODUCTION_EU = "sf-api.eu";

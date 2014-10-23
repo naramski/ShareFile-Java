@@ -286,24 +286,33 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		return executeBlockingQuery();
 	}
 
-	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) 
-	{
+	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) throws SFInvalidStateException, SFV3ErrorException
+    {
 		SFODataObject odataObject = null;
-		
-		try 
-		{						
-			URI redirectLink = redirection.getUri();
-			
-			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
-			
-			mQuery.setLinkAndAppendPreviousParameters(redirectLink);
-			
-			odataObject = executeBlockingQuery();
-		} 
-		catch (Exception e) 
-		{			
-			SLog.e(TAG,e);
-		}
+
+        try
+        {
+            URI redirectLink = redirection.getUri();
+            SLog.d(TAG,"REDIRECT TO: " + redirectLink);
+            mQuery.setLinkAndAppendPreviousParameters(redirectLink);
+        }
+        catch (NullPointerException e)
+        {
+            SLog.e(TAG,e);
+            throw new RuntimeException("Server Bug: Redirection object or Uri is null");
+        }
+        catch (URISyntaxException e)
+        {
+            SLog.e(TAG,e);
+            throw new RuntimeException("Server Bug: Redirection object syntax error");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            SLog.e(TAG,e);
+            throw new RuntimeException("Server Bug: Redirection object unsupported encoding");
+        }
+
+        odataObject = executeBlockingQuery();
 		
 		return odataObject;
 	}
