@@ -250,22 +250,30 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	
 	private boolean renewToken() throws SFV3ErrorException
 	{
+        SLog.d(TAG, "!!!Trying to renew token");
+
 		if(mAccessTokenRenewer==null)
 		{
+            SLog.d(TAG, "!!!no token renewer");
 			return false;
 		}
 
-		mAccessTokenRenewer.callResponseListeners();		
+        boolean ret = false;
 
 		if(mAccessTokenRenewer.getNewAccessToken() != null)
 		{
-			return true;
+            SLog.d(TAG, "!!!renewed token successfuly");
+            ret = true;
 		}
         else
         {
+            SLog.e(TAG, "!!!token renew failed due to: " + mAccessTokenRenewer.getError().errorDisplayString("unknown"));
             mResponse.setResponse(null, mAccessTokenRenewer.getError());
-            return false;
         }
+
+        mAccessTokenRenewer.callResponseListeners();
+
+        return ret;
 	}
 	
 	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException, SFInvalidStateException

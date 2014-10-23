@@ -66,7 +66,8 @@ public class SFApiClient
 		{
 			try 
 			{
-				reinitClientState(oAuthToken);				
+				reinitClientState(oAuthToken);
+                SLog.d(TAG, "!!!Re-init SFClient with new token");
 			} 
 			catch (SFInvalidStateException e) 
 			{				
@@ -77,7 +78,7 @@ public class SFApiClient
 		@Override
 		public void errorGetAccessToken(SFV3Error v3error) 
 		{			
-			SLog.e(TAG,v3error.errorDisplayString("error getting access token"));
+			SLog.e(TAG,v3error.errorDisplayString("!!!error getting access token"));
             if(v3error.getServerResponse().httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR)
             {
                 reset();
