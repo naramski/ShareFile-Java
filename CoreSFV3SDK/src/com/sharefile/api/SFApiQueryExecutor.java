@@ -134,6 +134,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
     {
         mSFApiClient.validateClientState();
 
+        SLog.v(TAG,"executeBlockingQuery init with: [" + mSFApiClient.getOAuthToken().getAccessToken() + "]:["+mSFApiClient.getOAuthToken().getRefreshToken()+"]");//TODO-REMOVE-LOG
+
 		mResponse = new Response();
 		
 		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
@@ -193,7 +195,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 				
 				case HttpsURLConnection.HTTP_UNAUTHORIZED:
 				{
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", "AUTH ERROR");
+					SLog.d(TAG, "RESPONSE = AUTH ERROR");
 					
 					if(!mQuery.canReNewTokenInternally() || mAccessTokenRenewer==null)
 					{

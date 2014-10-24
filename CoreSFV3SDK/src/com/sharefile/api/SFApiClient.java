@@ -107,7 +107,7 @@ public class SFApiClient
 		validateStateBeforeInit(oauthToken);
 		
 		mOAuthToken.set(oauthToken);
-		
+		SLog.v(TAG,"SFApiClient init with: [" + oauthToken.getAccessToken() + "]:["+oauthToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 		mClientInitializedSuccessFully.set(true);
 	}
 	
@@ -144,6 +144,7 @@ public class SFApiClient
 		{
 			try
 			{
+                SLog.d(TAG,"Store token: [" + oauthtoken.getAccessToken() + "]:["+oauthtoken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 				mAuthTokenChangeListener.sfApiStoreNewToken(oauthtoken);
 			}
 			catch(Exception e)
