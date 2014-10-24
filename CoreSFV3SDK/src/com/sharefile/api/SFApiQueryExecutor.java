@@ -32,6 +32,7 @@ import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.SFDumpLog;
+import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
 /**
@@ -246,10 +247,38 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		{
 			SFHttpsCaller.disconnect(connection);
 		}
-								
+
+
+        callSaveCredentialsCallback(mResponse.returnObject,mResponse.errorObject);
+
 		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
 	}		
-	
+
+    private void callSaveCredentialsCallback(SFODataObject sfobject,SFV3Error v3error)
+    {
+        if(mReauthHandler == null)
+        {
+            return;
+        }
+
+        //the auth was success. if the query had credentials, callback the caller to store those creds
+        if(sfobject!=null)
+        {
+            if(!Utils.isEmpty(mQuery.getPassword()))
+            {
+                try
+                {
+                    mReauthHandler.storeCredentials(mQuery.getUserName(),mQuery.getPassword(),mQuery.getLink().toString());
+                }
+                catch (Exception e)
+                {
+                    SLog.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
+                }
+            }
+        }
+
+    }
+
 	private boolean renewToken() throws SFV3ErrorException
 	{
         SLog.d(TAG, "!!!Trying to renew token");
