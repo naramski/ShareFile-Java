@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.gson.SFGsonHelper;
-import com.sharefile.mobile.v3.SFFolderV3;
 
 /**
  * //Token refresh errors are different json format than the regular V3 errors
