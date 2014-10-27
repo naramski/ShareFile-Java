@@ -135,7 +135,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
     {
         mSFApiClient.validateClientState();
 
-        SLog.v(TAG,"executeBlockingQuery init with: [" + mSFApiClient.getOAuthToken().getAccessToken() + "]:["+mSFApiClient.getOAuthToken().getRefreshToken()+"]");//TODO-REMOVE-LOG
+        SLog.d(TAG,"executeBlockingQuery init with: [" + mSFApiClient.getOAuthToken().getAccessToken() + "]:["+mSFApiClient.getOAuthToken().getRefreshToken()+"]");//TODO-REMOVE-LOG
 
 		mResponse = new Response();
 		

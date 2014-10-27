@@ -107,7 +107,7 @@ public class SFApiClient
 		validateStateBeforeInit(oauthToken);
 		
 		mOAuthToken.set(oauthToken);
-		SLog.v(TAG,"SFApiClient init with: [" + oauthToken.getAccessToken() + "]:["+oauthToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
+		SLog.d(TAG,"SFApiClient init with: [" + oauthToken.getAccessToken() + "]:["+oauthToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 		mClientInitializedSuccessFully.set(true);
 	}
 	
