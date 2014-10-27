@@ -1,18 +1,8 @@
 package com.sharefile.api;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
-import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -31,9 +21,17 @@ import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  *  This class provides the bare-minimum functions to make the V3 API server calls and read + parse their responses.
@@ -170,7 +168,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 				case HttpsURLConnection.HTTP_OK:
 				{															
 					responseString = SFHttpsCaller.readResponse(connection);
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
+					SLog.v(TAG, responseString);
 					
 					SFODataObject ret = callSuccessResponseParser(responseString);
 					
@@ -225,7 +223,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 				default:
 				{
 					responseString = SFHttpsCaller.readErrorResponse(connection);
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
+					SLog.v(TAG, responseString);
 					SFV3Error sfV3error = new SFV3Error(httpErrorCode,responseString,null);
 					mResponse.setResponse(null, sfV3error);
 				}
