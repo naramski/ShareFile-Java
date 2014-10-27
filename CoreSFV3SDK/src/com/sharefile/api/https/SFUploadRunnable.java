@@ -4,13 +4,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
@@ -173,7 +171,8 @@ public class SFUploadRunnable extends TransferRunnable
                             "json",
                             false, now,now, 5*365);
 
-			uploadQuery.setLink(mV3Url);
+			// uploadQuery.setLink(mV3Url);
+
             return mApiClient.executeQuery(uploadQuery);
 		}  
 		catch (URISyntaxException e)  
