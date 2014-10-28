@@ -548,5 +548,50 @@ public class SFUsersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* delete the email address from user
+	* @param email 	
+	* @return User
+    */
+	public ISFQuery<SFUser> deleteEmailAddress(String email)
+	{
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("DeleteEmailAddress");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* set email address as the primary email address for CURRENT user
+	* @param email 	
+	* @return User
+    */
+	public ISFQuery<SFUser> makePrimary(String email)
+	{
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("MakePrimary");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* send notification email address to this email address for verification
+	* @param email 	
+	* @return User
+    */
+	public ISFQuery sendConfirmationEmail(String email)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("SendConfirmationEmail");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 
