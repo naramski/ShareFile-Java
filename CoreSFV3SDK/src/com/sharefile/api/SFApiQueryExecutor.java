@@ -31,7 +31,6 @@ import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.utils.SFDumpLog;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
@@ -172,7 +171,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
                 switch (httpErrorCode) {
                     case HttpsURLConnection.HTTP_OK: {
                         responseString = SFHttpsCaller.readResponse(connection);
-                        SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", responseString);
+                        SLog.v(TAG, responseString);
 
                         SFODataObject ret = callSuccessResponseParser(responseString);
 
@@ -213,7 +212,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 
                     default: {
                         responseString = SFHttpsCaller.readErrorResponse(connection);
-                        SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", responseString);
+                        SLog.v(TAG, responseString);
                         SFV3Error sfV3error = new SFV3Error(httpErrorCode, responseString, null);
                         mResponse.setResponse(null, sfV3error);
                     }
