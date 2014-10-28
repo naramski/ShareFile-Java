@@ -131,125 +131,107 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
         and one of them renews the OAuthToken leaving the other one with a stale copy.
      */
 	@Override
-	public synchronized SFODataObject executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException
+	public SFODataObject executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException
     {
-        mSFApiClient.validateClientState();
-
-        SLog.d(TAG,"executeBlockingQuery init with: [" + mSFApiClient.getOAuthToken().getAccessToken() + "]:["+mSFApiClient.getOAuthToken().getRefreshToken()+"]");//TODO-REMOVE-LOG
-
-		mResponse = new Response();
-		
-		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
-		String responseString = null;
-		URLConnection connection = null;		
-		
-		try
-		{						
-			String server = mSFApiClient.getOAuthToken().getApiServer();
-			String urlstr = mQuery.buildQueryUrlString(server);
-								
-			URL url = new URL(urlstr);
-			connection = SFHttpsCaller.getURLConnection(url);		
-			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
-			mAppSpecificConfig.setAddtionalHeaders(connection);
-			
-			SFHttpsCaller.addAuthenticationHeader(connection,mSFApiClient.getOAuthToken(),mQuery.getUserName(),mQuery.getPassword(),mCookieManager);
-			
-			handleHttPost(connection);
-			
-			SLog.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
-			
-			connection.connect();
-			
-			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);			
-						
-			SFHttpsCaller.getAndStoreCookies(connection, url,mCookieManager);
-			
-			switch(httpErrorCode)
-			{
-				case HttpsURLConnection.HTTP_OK:
-				{															
-					responseString = SFHttpsCaller.readResponse(connection);
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
-					
-					SFODataObject ret = callSuccessResponseParser(responseString);
-					
-					if(ret!=null)
-					{
-						mResponse.setResponse(ret, null);
-					}
-					else
-					{
-						if(mResponse.errorObject == null)
-						{
-							mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,null,null));
-						}
-					}
-				}
-				break;
-				
-				case HttpsURLConnection.HTTP_NO_CONTENT:
-				{
-					mResponse.setResponse(new SFNoContent(), null);
-				}
-				break;
-				
-				case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				{
-					SLog.d(TAG, "RESPONSE = AUTH ERROR");
-					
-					if(!mQuery.canReNewTokenInternally() || mAccessTokenRenewer==null)
-					{
-						SFV3Error sfV3error = new SFV3Error(httpErrorCode,null,null);
-						mResponse.setResponse(null, sfV3error);
-					}
-					else
-					{												
-						SFODataObject ret = executeQueryAfterTokenRenew();
-						
-						if(ret!=null)
-						{
-							mResponse.setResponse(ret, null);
-						}
-						else
-						{
-							if(mResponse.errorObject == null)
-							{
-								mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,null,null));
-							}
-						}
-					}
-				}
-				break;
-				
-				default:
-				{
-					responseString = SFHttpsCaller.readErrorResponse(connection);
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
-					SFV3Error sfV3error = new SFV3Error(httpErrorCode,responseString,null);
-					mResponse.setResponse(null, sfV3error);
-				}
-			}		    							    															
-		}
-		catch(Exception ex)
-		{		
-			SLog.e(TAG,ex);
-			SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
-			mResponse.setResponse(null, sfV3error);
-		}		
-		catch (OutOfMemoryError e) 
-		{
-			SLog.e(TAG,e.getLocalizedMessage());
-			SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(e.getStackTrace().toString()));
-			mResponse.setResponse(null, sfV3error);
-		}
-		finally
-		{
-			SFHttpsCaller.disconnect(connection);
-		}
 
 
-        callSaveCredentialsCallback(mResponse.returnObject,mResponse.errorObject);
+        synchronized (mSFApiClient)
+        {
+
+            mSFApiClient.validateClientState();
+
+            SLog.d(TAG, "executeBlockingQuery init with: [" + mSFApiClient.getOAuthToken().getAccessToken() + "]:[" + mSFApiClient.getOAuthToken().getRefreshToken() + "]");//TODO-REMOVE-LOG
+
+            mResponse = new Response();
+
+            int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+            String responseString = null;
+            URLConnection connection = null;
+
+            try {
+                String server = mSFApiClient.getOAuthToken().getApiServer();
+                String urlstr = mQuery.buildQueryUrlString(server);
+
+                URL url = new URL(urlstr);
+                connection = SFHttpsCaller.getURLConnection(url);
+                SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
+                mAppSpecificConfig.setAddtionalHeaders(connection);
+
+                SFHttpsCaller.addAuthenticationHeader(connection, mSFApiClient.getOAuthToken(), mQuery.getUserName(), mQuery.getPassword(), mCookieManager);
+
+                handleHttPost(connection);
+
+                SLog.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
+
+                connection.connect();
+
+                httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);
+
+                SFHttpsCaller.getAndStoreCookies(connection, url, mCookieManager);
+
+                switch (httpErrorCode) {
+                    case HttpsURLConnection.HTTP_OK: {
+                        responseString = SFHttpsCaller.readResponse(connection);
+                        SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", responseString);
+
+                        SFODataObject ret = callSuccessResponseParser(responseString);
+
+                        if (ret != null) {
+                            mResponse.setResponse(ret, null);
+                        } else {
+                            if (mResponse.errorObject == null) {
+                                mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, null));
+                            }
+                        }
+                    }
+                    break;
+
+                    case HttpsURLConnection.HTTP_NO_CONTENT: {
+                        mResponse.setResponse(new SFNoContent(), null);
+                    }
+                    break;
+
+                    case HttpsURLConnection.HTTP_UNAUTHORIZED: {
+                        SLog.d(TAG, "RESPONSE = AUTH ERROR");
+
+                        if (!mQuery.canReNewTokenInternally() || mAccessTokenRenewer == null) {
+                            SFV3Error sfV3error = new SFV3Error(httpErrorCode, null, null);
+                            mResponse.setResponse(null, sfV3error);
+                        } else {
+                            SFODataObject ret = executeQueryAfterTokenRenew();
+
+                            if (ret != null) {
+                                mResponse.setResponse(ret, null);
+                            } else {
+                                if (mResponse.errorObject == null) {
+                                    mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, null));
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                    default: {
+                        responseString = SFHttpsCaller.readErrorResponse(connection);
+                        SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", responseString);
+                        SFV3Error sfV3error = new SFV3Error(httpErrorCode, responseString, null);
+                        mResponse.setResponse(null, sfV3error);
+                    }
+                }
+            } catch (Exception ex) {
+                SLog.e(TAG, ex);
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
+                mResponse.setResponse(null, sfV3error);
+            } catch (OutOfMemoryError e) {
+                SLog.e(TAG, e.getLocalizedMessage());
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(e.getStackTrace().toString()));
+                mResponse.setResponse(null, sfV3error);
+            } finally {
+                SFHttpsCaller.disconnect(connection);
+            }
+
+            callSaveCredentialsCallback(mResponse.returnObject, mResponse.errorObject);
+        }
 
 		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
 	}		
