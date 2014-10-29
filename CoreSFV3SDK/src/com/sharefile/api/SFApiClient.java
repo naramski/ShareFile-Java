@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.authentication.SFOAuth2Token;
+import com.sharefile.api.constants.SFFolderID;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.SFItemsEntity;
@@ -58,7 +59,9 @@ public class SFApiClient
 	private final AtomicBoolean mClientInitializedSuccessFully = new AtomicBoolean(false);
 	
 	private SFOAuthTokenRenewer mOauthTokenRenewer;
-	
+
+    private final URI mDefaultTopUrl;
+
 	private final SFGetNewAccessTokenListener mGetNewAccessTokenListener = new SFGetNewAccessTokenListener()
 	{
 		@Override
@@ -121,9 +124,18 @@ public class SFApiClient
 				
 		mSFAppConfig.addAcceptedLanguage(DEFAULT_ACCEPTED_LANGUAGE);
 		
-		copyOAuthToken(oauthToken);					
-		
-		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
+		copyOAuthToken(oauthToken);
+
+        try
+        {
+            mDefaultTopUrl = SFQueryBuilder.getDefaultURL(oauthToken.getSubdomain(),oauthToken.getApiCP(), SFFolderID.TOP);
+        }
+        catch (URISyntaxException e)
+        {
+            throw new SFInvalidStateException(e.getLocalizedMessage());
+        }
+
+        mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
 	}
 	
 	/**
@@ -319,5 +331,15 @@ public class SFApiClient
         validateClientState();
 
         return new SFUploadRunnable(parentId, v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);
+    }
+
+    public URI getDefaultUrl(String folderID) throws URISyntaxException
+    {
+        if(SFFolderID.TOP.equalsIgnoreCase(folderID))
+        {
+            return mDefaultTopUrl;
+        }
+
+        return SFQueryBuilder.getDefaultURL(mOAuthToken.get().getSubdomain(),mOAuthToken.get().getApiCP(), folderID);
     }
 }
