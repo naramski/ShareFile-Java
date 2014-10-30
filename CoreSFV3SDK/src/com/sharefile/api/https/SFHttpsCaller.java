@@ -1,5 +1,16 @@
 package com.sharefile.api.https;
 
+import com.sharefile.api.SFV3Error;
+import com.sharefile.api.authentication.SFOAuth2Token;
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.utils.Utils;
+import com.sharefile.java.log.SLog;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.NameValuePair;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -15,17 +26,6 @@ import java.net.URLConnection;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import org.apache.http.NameValuePair;
-
-import com.sharefile.api.SFV3Error;
-import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFProvider;
-import com.sharefile.api.utils.Utils;
-import com.sharefile.java.log.SLog;
-import org.apache.commons.codec.binary.Base64;
 
 public class SFHttpsCaller 
 {
@@ -363,25 +363,24 @@ public class SFHttpsCaller
 	*/	
 	public static void addAuthenticationHeader(URLConnection connection,SFOAuth2Token token,String userName,String password, SFCookieManager cookieManager) throws IOException
 	{
-		String path = connection.getURL().getPath();
-		
 		if(cookieManager!=null)
 		{			
 			cookieManager.setCookies(connection);
 		}
-		
-		switch(SFProvider.getProviderType(path))
+
+        String url = connection.getURL().toString();
+        switch(SFProvider.getProviderType(url))
 		{
 			case PROVIDER_TYPE_SF:
 				SFHttpsCaller.addBearerAuthorizationHeader(connection, token);
-			break;
+			    break;
 			
 			default:
 				if(userName!=null && password!=null)
 				{			
 					setBasicAuth(connection, userName, password);			
 				}
-			break;	
+			    break;
 		}		
 	}
 }
