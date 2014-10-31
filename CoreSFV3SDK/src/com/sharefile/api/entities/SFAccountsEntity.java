@@ -487,5 +487,21 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Request Plan Changes for this account
+	* Request Plan Changes for the account.
+	* This operation requires authentication.
+	* @return Account object
+    */
+	public ISFQuery<SFAccount> requestPlanChanges(SFAccount account)
+	{
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("RequestPlanChanges");
+		sfApiQuery.setBody(account);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
 }
 
