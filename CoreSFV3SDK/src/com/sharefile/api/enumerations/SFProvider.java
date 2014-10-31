@@ -1,10 +1,10 @@
 package com.sharefile.api.enumerations;
 
-import java.net.URI;
-
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.java.log.SLog;
+
+import java.net.URI;
 
 /**
  *  toString of this will return complete provider with API version alongwith slashes: "/cifs/v3/", "/sp/v3/", "/sf/v3/",... etc
@@ -59,27 +59,28 @@ public enum SFProvider
 
 			if(indexOfV3 == -1)
 			{
+                // is needed or the upload to connectors wont work.
 				indexOfV3 = str.indexOf("/upload-streaming");
-				
-				if(indexOfV3 == -1)  // is needed or the uploafd to connectors wont work.
-				{
-					return provider;
-				}
 			}
-			
-			try
+
+            if(indexOfV3 <1)
+            {
+                return provider;
+            }
+
+            try
 			{
 				//HACK optimize: look for the first chracter before this index since. can change this later if things break. 			
 				switch(str.charAt(indexOfV3-1))
 				{
 					case 'p': provider = PROVIDER_TYPE_SHAREPOINT;
-					break;
+			    		break;
 					case 'f': provider = PROVIDER_TYPE_SF;
-					break;
+				    	break;
 					case 's': provider = PROVIDER_TYPE_CIFS;
-					break;
+					    break;
 					case 'e': provider = PROVIDER_TYPE_PROXYSERVICE;
-					break;
+					    break;
 				}
 			}
 			catch(Exception ex)
