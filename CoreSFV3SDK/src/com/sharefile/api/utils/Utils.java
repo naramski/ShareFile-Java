@@ -1,5 +1,6 @@
 package com.sharefile.api.utils;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -49,7 +50,17 @@ public class Utils
 		   
 		   return ret;
 	}
-	
+
+    public static String parseV3IDFromURL(URI url)
+    {
+        if(url == null)
+        {
+             return null;
+        }
+
+        return parseV3IDFromURL(url.toString());
+    }
+
 	public static boolean isEmpty(String str)
 	{
 		boolean ret = false;
