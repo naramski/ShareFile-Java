@@ -44,4 +44,5 @@ public class SFSDK
 	
 	public static final int INTERNAL_HTTP_ERROR = 599; //last http error code i s 505. Lets start our internal errors by leaving some difference.
 	public static final int HTTP_ERROR_CANCELED = 600;
+    public static final int INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM = 601;
 }

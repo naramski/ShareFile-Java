@@ -110,13 +110,26 @@ public class SFV3Error
 		
 		return false;
 	}
-		
+
+    public boolean isConnectionError()
+    {
+        if(mServerResponse.httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
+        {
+            return true;
+        }
+
+        return false;
+    }
 	/**
 	 *  Allows the clients to show a localized message if it is sent from the server or optional string if its an internal error
 	 */
 	public String errorDisplayString(String optionalLocalized)
 	{
-		if(mServerResponse.httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && mServerResponse.value!=null)
+        if(mServerResponse.httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
+        {
+            return "Cannot connect to network";
+        }
+		else if(mServerResponse.httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && mServerResponse.value!=null)
 		{
 			return mServerResponse.value;
 		}

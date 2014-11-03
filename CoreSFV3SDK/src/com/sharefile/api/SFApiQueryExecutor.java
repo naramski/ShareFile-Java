@@ -2,6 +2,7 @@ package com.sharefile.api;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -217,7 +218,14 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
                         mResponse.setResponse(null, sfV3error);
                     }
                 }
-            } catch (Exception ex) {
+            }
+            catch (ConnectException ex)
+            {
+                SLog.e(TAG, ex);
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
+                mResponse.setResponse(null, sfV3error);
+            }
+            catch (Exception ex) {
                 SLog.e(TAG, ex);
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
                 mResponse.setResponse(null, sfV3error);
