@@ -147,6 +147,7 @@ public class SFOAuthTokenRenewer
 				
 				default:
 					responseString = SFHttpsCaller.readErrorResponse(conn);
+                    SLog.d(TAG, "!!! Server err repsonse for token renew = " + responseString);
 					mSFV3Error = new SFTokenRenewError(httpErrorCode,responseString,null);
 				break;	
 			}							    			
