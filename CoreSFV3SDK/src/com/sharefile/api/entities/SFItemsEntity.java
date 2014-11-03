@@ -256,9 +256,9 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return the download link for the provided item content.
     */
-	public ISFQuery bulkDownload(URI parentUrl, ArrayList<String> ids, Boolean redirect)
+	public ISFQuery<InputStream> bulkDownload(URI parentUrl, ArrayList<String> ids, Boolean redirect)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDownload");
 		sfApiQuery.addIds(parentUrl);
