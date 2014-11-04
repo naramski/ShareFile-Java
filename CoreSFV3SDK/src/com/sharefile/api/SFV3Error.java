@@ -111,6 +111,11 @@ public class SFV3Error
 		return false;
 	}
 
+    public boolean isCancelled()
+    {
+        return (mServerResponse.httpResponseCode == SFSDK.HTTP_ERROR_CANCELED);
+    }
+
     public boolean isConnectionError()
     {
         if(mServerResponse.httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
