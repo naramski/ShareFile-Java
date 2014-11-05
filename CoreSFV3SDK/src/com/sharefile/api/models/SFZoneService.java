@@ -32,5 +32,6 @@ public enum SFZoneService {
 	OneDriveConnector,
 	GoogleDriveConnector,
 	ExchangeConnector,
-	GenericConnector
+	GenericConnector,
+	OneDriveBusinessConnector
 }

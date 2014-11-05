@@ -69,6 +69,8 @@ public class SFSearchResult extends SFODataObject {
 	private Boolean CanView;
 	@SerializedName("ParentSemanticPath")
 	private String ParentSemanticPath;
+	@SerializedName("Path")
+	private String Path;
 	@SerializedName("StreamID")
 	private String StreamID;
 	@SerializedName("AccountID")
@@ -227,6 +229,13 @@ public class SFSearchResult extends SFODataObject {
 
 	public void setParentSemanticPath(String parentsemanticpath) {
 		this.ParentSemanticPath = parentsemanticpath;
+	}
+	public String getPath() {
+		return this.Path;
+	}
+
+	public void setPath(String path) {
+		this.Path = path;
 	}
 	public String getStreamID() {
 		return this.StreamID;

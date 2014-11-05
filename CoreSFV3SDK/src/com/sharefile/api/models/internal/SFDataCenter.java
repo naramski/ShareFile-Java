@@ -10,39 +10,26 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.entities.internal;
-
-import com.sharefile.api.entities.*;
-import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
-import com.sharefile.api.models.internal.SFBilling;
-import com.sharefile.api.SFApiQuery;
-import com.sharefile.api.interfaces.ISFQuery;
-
-
+package com.sharefile.api.models.internal;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
  
-
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
-public class SFBillingEntityInternal extends SFODataEntityBase
-{
-    /**
-	* Get Billing
-	* @return Billing
-    */
-	public ISFQuery<SFBilling> get()
-	{
-		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>();
-		sfApiQuery.setFrom("Billing");
-		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
+public enum SFDataCenter {
+	Hosted,
+	Amazon_US_VA,
+	Amazon_US_CA,
+	Amazon_EU_IE,
+	Amazon_EU_IE_NoBackup,
+	Amazon_AP_SG,
+	Amazon_AP_JP,
+	Amazon_US_OR,
+	Amazon_SA_BR,
+	Amazon_AU_SYD,
+	Azure_US_East
 }
-

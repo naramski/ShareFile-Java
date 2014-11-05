@@ -256,9 +256,9 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param redirect 	
 	* @return the download link for the provided item content.
     */
-	public ISFQuery bulkDownload(URI parentUrl, ArrayList<String> ids, Boolean redirect)
+	public ISFQuery<InputStream> bulkDownload(URI parentUrl, ArrayList<String> ids, Boolean redirect)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDownload");
 		sfApiQuery.addIds(parentUrl);
@@ -406,17 +406,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFEnsSubscriptionToken> subscribe(URI url, SFEnsSubscriptionRequest subreq)
-	{
-		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>();
-		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("Subscribe");
-		sfApiQuery.addIds(url);
-		sfApiQuery.setBody(subreq);
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
     /**
 	* Update Item
     * {
@@ -433,7 +422,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param forceSync 	
 	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
     */
-	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync)
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync, Boolean resolveFolderNameConflict)
 	{
 		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
 		sfApiQuery.setFrom("Items");
@@ -442,6 +431,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
 		sfApiQuery.addQueryString("forceSync", forceSync);
 		sfApiQuery.addQueryString("scheduleAsync", scheduleAsync);
+		sfApiQuery.addQueryString("resolveFolderNameConflict", resolveFolderNameConflict);
 		sfApiQuery.setBody(item);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
@@ -770,14 +760,20 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Search
 	* Search for Items matching the criteria of the query parameter
 	* @param query 	
+	* @param maxResults 	
+	* @param skip 	
+	* @param homeFolderOnly 	
 	* @return SearchResults
     */
-	public ISFQuery<SFSearchResults> search(String query)
+	public ISFQuery<SFSearchResults> search(String query, Integer maxResults, Integer skip, Boolean homeFolderOnly)
 	{
 		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.addQueryString("maxResults", maxResults);
+		sfApiQuery.addQueryString("skip", skip);
+		sfApiQuery.addQueryString("homeFolderOnly", homeFolderOnly);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -786,20 +782,19 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Advanced Simple Search
     * {
     * "Query":{
-    * "AuthID":"",
     * "ItemType":"",
     * "ParentID":"",
     * "CreatorID":"",
-    * "LuceneQuery":"",
     * "SearchQuery":"",
     * "CreateStartDate":"",
     * "CreateEndDate":"",
-    * "ItemNameOnly":"",
+    * "ItemNameOnly":false
     * },
     * "Paging":{
-    * "Key":"",
-    * "PageNumber":1,
-    * "PageSize":10,
+    * "PageNumber":1, (Deprecated)
+    * "PageSize":10, (Deprecated)
+    * "Count": 50
+    * "Skip": 0
     * },
     * "Sort":{
     * "SortBy":"",
@@ -825,20 +820,19 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Advanced Search
     * {
     * "Query":{
-    * "AuthIDs":["id1", "id2", ...],
     * "ItemTypes":["type1", "type2", ...],
     * "ParentID":["id1", "id2", ...],
     * "CreatorID":["id1", "id2", ...],
-    * "LuceneQuery":"",
     * "SearchQuery":"",
     * "CreateStartDate":"",
     * "CreateEndDate":"",
-    * "ItemNameOnly":"",
+    * "ItemNameOnly":false
     * },
     * "Paging":{
-    * "Key":"",
-    * "PageNumber":1,
-    * "PageSize":10,
+    * "PageNumber":1, (deprecated)
+    * "PageSize":10, (deprecated)
+    * "Count":50,
+    * "Skip":0
     * },
     * "Sort":{
     * "SortBy":"",

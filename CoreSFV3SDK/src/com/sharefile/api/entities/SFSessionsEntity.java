@@ -90,6 +90,9 @@ public class SFSessionsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get Assertion Consumer Service. This is the IDP callback endpoint in SAML authentication
+    */
 	public ISFQuery<SFSession> acs()
 	{
 		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>();

@@ -169,6 +169,8 @@ public class SFAccount extends SFODataObject {
 	private String CreditCardSecurityCode;
 	@SerializedName("ToolInformation")
 	private ArrayList<SFToolInformation> ToolInformation;
+	@SerializedName("BillingInformation")
+	private SFBillingInfo BillingInformation;
 
 	public String getCompanyName() {
 		return this.CompanyName;
@@ -769,6 +771,13 @@ public class SFAccount extends SFODataObject {
 
 	public void setToolInformation(ArrayList<SFToolInformation> toolinformation) {
 		this.ToolInformation = toolinformation;
+	}
+	public SFBillingInfo getBillingInformation() {
+		return this.BillingInformation;
+	}
+
+	public void setBillingInformation(SFBillingInfo billinginformation) {
+		this.BillingInformation = billinginformation;
 	}
 
 }

@@ -30,17 +30,29 @@ public class SFQuerySorting extends SFODataObject {
 	@SerializedName("Ascending")
 	private Boolean Ascending;
 
+		/**
+		* What property to sort the search results by. Set to "" to not sort them
+		*/
 	public String getSortBy() {
 		return this.SortBy;
 	}
 
+		/**
+		* What property to sort the search results by. Set to "" to not sort them
+		*/
 	public void setSortBy(String sortby) {
 		this.SortBy = sortby;
 	}
+		/**
+		* Whether the sort order should be ascending or not
+		*/
 	public Boolean getAscending() {
 		return this.Ascending;
 	}
 
+		/**
+		* Whether the sort order should be ascending or not
+		*/
 	public void setAscending(Boolean ascending) {
 		this.Ascending = ascending;
 	}

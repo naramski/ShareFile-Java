@@ -138,6 +138,10 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get Account Product Defaults
+	* @return Account defaults
+    */
 	public ISFQuery<SFProductDefaults> getProductDefaults()
 	{
 		SFApiQuery<SFProductDefaults> sfApiQuery = new SFApiQuery<SFProductDefaults>();
@@ -147,6 +151,10 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get Account Preferences
+	* @return Account preferences
+    */
 	public ISFQuery<SFAccountPreferences> getPreferences()
 	{
 		SFApiQuery<SFAccountPreferences> sfApiQuery = new SFApiQuery<SFAccountPreferences>();
@@ -460,40 +468,6 @@ public class SFAccountsEntity extends SFODataEntityBase
 		sfApiQuery.setAction("FindSubdomain");
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setBody(findSubdomainParams);
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
-	* Get ENS Subscriber Configuration
-    */
-	public ISFQuery<SFEnsSubscriberConfiguration> getEnsSubscriberConfiguration()
-	{
-		SFApiQuery<SFEnsSubscriberConfiguration> sfApiQuery = new SFApiQuery<SFEnsSubscriberConfiguration>();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("GetEnsSubscriberConfiguration");
-		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
-    /**
-    */
-	public ISFQuery enableEns()
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("EnableEns");
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
-    */
-	public ISFQuery disableEns()
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("DisableEns");
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}

@@ -55,12 +55,17 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFODataFeed<SFDeviceUser>> getByUser(URI url)
+    /**
+	* Get Devices for given User
+	* @param parentUrl 	
+	* @return List of Devices
+    */
+	public ISFQuery<SFODataFeed<SFDeviceUser>> getByUser(URI parentUrl)
 	{
 		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -79,23 +84,40 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery deleteByUser(URI url, String deviceId)
+    /**
+	* Delete specific Device for given User
+	* @param parentUrl 	
+	* @param id 	
+	* @return No content
+    */
+	public ISFQuery deleteByUser(URI parentUrl, String id)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
-		sfApiQuery.addIds(url);
-		sfApiQuery.addActionIds(deviceId);
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addActionIds(id);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFDeviceUser> createByUser(URI url, SFDeviceUser du)
+    /**
+	* Create Device for User
+    * {
+    * "Device":{"id":"deviceId"},
+    * "FriendlyName":"fname",
+    * "ToolRaw":"toolRaw",
+    * "ToolVersion":"toolVersion"
+    * }
+	* @param parentUrl 	
+	* @return Created Device
+    */
+	public ISFQuery<SFDeviceUser> createByUser(URI parentUrl, SFDeviceUser du)
 	{
 		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setBody(du);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
