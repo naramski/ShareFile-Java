@@ -114,5 +114,37 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		return sfApiQuery;
 	}
 
+    /**
+	* Request Plan Changes for this account
+	* Request Plan Changes for the account.
+	* This operation requires authentication.
+	* @return Account object
+    */
+	public ISFQuery<SFAccount> requestPlanChanges(SFAccount account)
+	{
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("RequestPlanChanges");
+		sfApiQuery.setBody(account);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Convert Account To Paid
+	* Convert Account To Paid.
+	* This operation requires authentication.
+	* @return Account object
+    */
+	public ISFQuery<SFAccount> upgradeToPaid(SFAccount account)
+	{
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("UpgradeToPaid");
+		sfApiQuery.setBody(account);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
 }
 
