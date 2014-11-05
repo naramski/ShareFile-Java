@@ -24,7 +24,7 @@ public interface ISFQuery<T> extends ISFTypeFilter
 
 	void setBody(SFODataObject sfoDataObject);
 	
-	<T extends SFODataObject > void  setBody(ArrayList<T> sfoDataObjectsFeed);
+	void  setBody(ArrayList<?> sfoDataObjectsFeed);
 
 	void addQueryString(String string, String type);
 

@@ -533,7 +533,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	}
 
 	@Override
-	public <T extends SFODataObject> void setBody( ArrayList<T> sfoDataObjectsFeed) 
+	public void setBody( ArrayList<?> sfoDataObjectsFeed) 
 	{				
 	}
 
