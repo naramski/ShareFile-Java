@@ -534,7 +534,8 @@ public class SFApiQuery<T> implements ISFQuery<T>
 
 	@Override
 	public void setBody( ArrayList<?> sfoDataObjectsFeed) 
-	{				
+	{
+        SLog.e(TAG,"This is not implemented");
 	}
 
 	@Override
