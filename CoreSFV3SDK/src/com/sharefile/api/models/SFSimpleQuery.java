@@ -25,16 +25,12 @@ import com.sharefile.api.models.*;
 
 public class SFSimpleQuery extends SFODataObject {
 
-	@SerializedName("AuthID")
-	private String AuthID;
 	@SerializedName("ItemType")
 	private String ItemType;
 	@SerializedName("ParentID")
 	private String ParentID;
 	@SerializedName("CreatorID")
 	private String CreatorID;
-	@SerializedName("LuceneQuery")
-	private String LuceneQuery;
 	@SerializedName("SearchQuery")
 	private String SearchQuery;
 	@SerializedName("CreateStartDate")
@@ -44,66 +40,94 @@ public class SFSimpleQuery extends SFODataObject {
 	@SerializedName("ItemNameOnly")
 	private Boolean ItemNameOnly;
 
-	public String getAuthID() {
-		return this.AuthID;
-	}
-
-	public void setAuthID(String authid) {
-		this.AuthID = authid;
-	}
+		/**
+		* Item type to search for (ex "File", "Folder", etc.)
+		*/
 	public String getItemType() {
 		return this.ItemType;
 	}
 
+		/**
+		* Item type to search for (ex "File", "Folder", etc.)
+		*/
 	public void setItemType(String itemtype) {
 		this.ItemType = itemtype;
 	}
+		/**
+		* Parent id constraint on search results
+		*/
 	public String getParentID() {
 		return this.ParentID;
 	}
 
+		/**
+		* Parent id constraint on search results
+		*/
 	public void setParentID(String parentid) {
 		this.ParentID = parentid;
 	}
+		/**
+		* Creator id constraint on search results
+		*/
 	public String getCreatorID() {
 		return this.CreatorID;
 	}
 
+		/**
+		* Creator id constraint on search results
+		*/
 	public void setCreatorID(String creatorid) {
 		this.CreatorID = creatorid;
 	}
-	public String getLuceneQuery() {
-		return this.LuceneQuery;
-	}
-
-	public void setLuceneQuery(String lucenequery) {
-		this.LuceneQuery = lucenequery;
-	}
+		/**
+		* Search term to search for
+		*/
 	public String getSearchQuery() {
 		return this.SearchQuery;
 	}
 
+		/**
+		* Search term to search for
+		*/
 	public void setSearchQuery(String searchquery) {
 		this.SearchQuery = searchquery;
 	}
+		/**
+		* Item creation date range constraint start date in UTC
+		*/
 	public String getCreateStartDate() {
 		return this.CreateStartDate;
 	}
 
+		/**
+		* Item creation date range constraint start date in UTC
+		*/
 	public void setCreateStartDate(String createstartdate) {
 		this.CreateStartDate = createstartdate;
 	}
+		/**
+		* Item creation date range constraint end date in UTC
+		*/
 	public String getCreateEndDate() {
 		return this.CreateEndDate;
 	}
 
+		/**
+		* Item creation date range constraint end date in UTC
+		*/
 	public void setCreateEndDate(String createenddate) {
 		this.CreateEndDate = createenddate;
 	}
+		/**
+		* Whether item content should be included in the search or not.
+		*/
 	public Boolean getItemNameOnly() {
 		return this.ItemNameOnly;
 	}
 
+		/**
+		* Whether item content should be included in the search or not.
+		*/
 	public void setItemNameOnly(Boolean itemnameonly) {
 		this.ItemNameOnly = itemnameonly;
 	}

@@ -30,79 +30,27 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 public class SFItemsEntityInternal extends SFItemsEntity
 {
     /**
-	* Advanced Simple Search
+	* Subscribe to ENS event notifications for an Item
     * {
-    * "Query":{
-    * "AuthID":"",
-    * "ItemType":"",
-    * "ParentID":"",
-    * "CreatorID":"",
-    * "LuceneQuery":"",
-    * "SearchQuery":"",
-    * "CreateStartDate":"",
-    * "CreateEndDate":"",
-    * "ItemNameOnly":"",
-    * },
-    * "Paging":{
-    * "Key":"",
-    * "PageNumber":1,
-    * "PageSize":10,
-    * },
-    * "Sort":{
-    * "SortBy":"",
-    * "Ascending":false,
-    * },
-    * "TimeoutInSeconds":10
+    * "ClientId": "ENS Client ID",
+    * "EventTypes": "all"
     * }
-	* Search for Items matching the criteria of the query parameter
-	* @param simpleSearchQuery 	
-	* @return AdvancedSearchResults
-    */
-	public ISFQuery<SFAdvancedSearchResults> advancedSimpleSearch(SFSimpleSearchQuery simpleSearchQuery)
-	{
-		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
-		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("AdvancedSimpleSearch");
-		sfApiQuery.setBody(simpleSearchQuery);
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
-	* Advanced Search
+    * POST https://account.sf-api.com/sf/v3/Items(id)/EnsSubscriptionRequest
     * {
-    * "Query":{
-    * "AuthIDs":["id1", "id2", ...],
-    * "ItemTypes":["type1", "type2", ...],
-    * "ParentID":["id1", "id2", ...],
-    * "CreatorID":["id1", "id2", ...],
-    * "LuceneQuery":"",
-    * "SearchQuery":"",
-    * "CreateStartDate":"",
-    * "CreateEndDate":"",
-    * "ItemNameOnly":"",
-    * },
-    * "Paging":{
-    * "Key":"",
-    * "PageNumber":1,
-    * "PageSize":10,
-    * },
-    * "Sort":{
-    * "SortBy":"",
-    * "Ascending":false,
-    * },
-    * "TimeoutInSeconds":10
+    * "ClientId": "ENS Client ID",
+    * "EventTypes": "update|delete"
     * }
-	* Search for Items matching the criteria of the query parameter
-	* @param searchQuery 	
-	* @return AdvancedSearchResults
+	* @param url 	
+	* @param subreq 	
+	* @return an ENS subscription token, which the client can use to register for Event notifications
     */
-	public ISFQuery<SFAdvancedSearchResults> advancedSearch(SFSearchQuery searchQuery)
+	public ISFQuery<SFEnsSubscriptionToken> subscribe(URI url, SFEnsSubscriptionRequest subreq)
 	{
-		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>();
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("AdvancedSimpleSearch");
-		sfApiQuery.setBody(searchQuery);
+		sfApiQuery.setAction("Subscribe");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setBody(subreq);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}

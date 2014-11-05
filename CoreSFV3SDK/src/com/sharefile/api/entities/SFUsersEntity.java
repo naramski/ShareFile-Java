@@ -64,6 +64,7 @@ public class SFUsersEntity extends SFODataEntityBase
     * "Id":"zoneid"
     * }
     * }
+	* Creates a new Customer User and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
 	* @param user 	
@@ -117,11 +118,11 @@ public class SFUsersEntity extends SFODataEntityBase
     * "AdminEmailMessages", "AdminSSO", "AdminSuperGroup", "AdminZones", "AdminCreateSharedGroups", "AdminConnectors"
     * ]
     * }
-	* Create a new Employee user (AccountUser)
+	* Creates a new Employee User (AccountUser) and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, IsEmployee, IsAdministrator, CanCreateFolders, CanUseFileBox, CanManageUsers,
 	* Preferences.CanResetPassword and Preferences.CanViewMySettings.
-	* Other parameters are ignoredStorageQuotaLimitGB parameter is optional. If not specified or equal to -1 the account default storage quota value will be set for the user.
+	* Other parameters are ignoredStorageQuotaLimitGB parameter is optional. If not specified or equal to -1 the account default storage quota value will be set for the User.
 	* @param user 	
 	* @param pushCreatorDefaultSettings 	
 	* @param addshared 	
@@ -286,6 +287,11 @@ public class SFUsersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get User's top Folder
+	* @param url 	
+	* @return User's Top Folders
+    */
 	public ISFQuery<SFODataFeed<SFItem>> topFolders(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
@@ -296,6 +302,11 @@ public class SFUsersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get User's FileBox folder
+	* @param url 	
+	* @return User's FileBox
+    */
 	public ISFQuery<SFODataFeed<SFItem>> box(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
@@ -388,6 +399,23 @@ public class SFUsersEntity extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(properties);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Forgot Password
+	* Triggers a reset password email
+	* @param email 	
+	* @param resetOnMobile 	
+    */
+	public ISFQuery forgotPassword(String email, Boolean resetOnMobile)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("ForgotPassword");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.addQueryString("resetOnMobile", resetOnMobile);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -517,6 +545,51 @@ public class SFUsersEntity extends SFODataEntityBase
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Info");
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* delete the email address from user
+	* @param email 	
+	* @return User
+    */
+	public ISFQuery<SFUser> deleteEmailAddress(String email)
+	{
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("DeleteEmailAddress");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* set email address as the primary email address for CURRENT user
+	* @param email 	
+	* @return User
+    */
+	public ISFQuery<SFUser> makePrimary(String email)
+	{
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("MakePrimary");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* send notification email address to this email address for verification
+	* @param email 	
+	* @return User
+    */
+	public ISFQuery sendConfirmationEmail(String email)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("SendConfirmationEmail");
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

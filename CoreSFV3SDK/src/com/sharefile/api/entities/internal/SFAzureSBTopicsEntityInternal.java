@@ -35,53 +35,79 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 {
-	public ISFQuery<SFAzureSBTopicsResponse> checkIfTopicExists(URI url)
+    /**
+	* Check if Topic exists in namespace
+	* @param parentUrl 	
+    */
+	public ISFQuery<SFAzureSBTopicsResponse> checkIfTopicExists(URI parentUrl)
 	{
 		SFApiQuery<SFAzureSBTopicsResponse> sfApiQuery = new SFApiQuery<SFAzureSBTopicsResponse>();
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("CheckIfTopicExists");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-	public ISFQuery createTopic(URI url)
+    /**
+	* Create Topic in namespace
+	* During Topic creation, it creates Manager, Send and Listen access policies
+	* Send policy will be used by Publishers and Listens policy will be used by Subscribers
+	* @param parentUrl 	
+	* @return True if creation successful, else returns false
+    */
+	public ISFQuery createTopic(URI parentUrl)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("CreateTopic");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFAzureSBTopicsEndPointInfo> getTopicEndPoint(URI url, String id)
+    /**
+	* Get restricted end-point credentials on Topic
+	* @param parentUrl 	
+	* @param id 	
+	* @return Associate end-point credentials for specified policy
+    */
+	public ISFQuery<SFAzureSBTopicsEndPointInfo> getTopicEndPoint(URI parentUrl, String id)
 	{
 		SFApiQuery<SFAzureSBTopicsEndPointInfo> sfApiQuery = new SFApiQuery<SFAzureSBTopicsEndPointInfo>();
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("GetTopicEndPoint");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addActionIds(id);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-	public ISFQuery regenerateTopicCredentials(URI url)
+    /**
+	* Regenerate Topics Access policies
+	* @param parentUrl 	
+	* @return Returns true if succeed, else returns false
+    */
+	public ISFQuery regenerateTopicCredentials(URI parentUrl)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("RegenerateTopicCredentials");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-	public ISFQuery deleteTopic(URI url)
+    /**
+	* Delete Topic from namespace
+	* @param parentUrl 	
+    */
+	public ISFQuery deleteTopic(URI parentUrl)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("DeleteTopic");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}

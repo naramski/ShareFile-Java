@@ -15,10 +15,8 @@ package com.sharefile.api.entities.internal;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
-import com.sharefile.api.models.internal.SFBilling;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
-
 
 
 import java.io.InputStream;
@@ -26,20 +24,19 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
  
-
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 
-public class SFBillingEntityInternal extends SFODataEntityBase
+public class SFConfigsEntityInternal extends SFODataEntityBase
 {
     /**
-	* Get Billing
-	* @return Billing
+	* Get Configs
+	* @return List of GenericConfg
     */
-	public ISFQuery<SFBilling> get()
+	public ISFQuery<SFODataFeed<SFGenericConfig>> get()
 	{
-		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>();
-		sfApiQuery.setFrom("Billing");
+		SFApiQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGenericConfig>>();
+		sfApiQuery.setFrom("Configs");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

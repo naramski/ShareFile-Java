@@ -25,16 +25,12 @@ import com.sharefile.api.models.*;
 
 public class SFQuery extends SFODataObject {
 
-	@SerializedName("AuthIDs")
-	private ArrayList<String> AuthIDs;
 	@SerializedName("ItemTypes")
 	private ArrayList<String> ItemTypes;
 	@SerializedName("ParentID")
 	private ArrayList<String> ParentID;
 	@SerializedName("CreatorID")
 	private ArrayList<String> CreatorID;
-	@SerializedName("LuceneQuery")
-	private String LuceneQuery;
 	@SerializedName("SearchQuery")
 	private String SearchQuery;
 	@SerializedName("CreateStartDate")
@@ -44,66 +40,94 @@ public class SFQuery extends SFODataObject {
 	@SerializedName("ItemNameOnly")
 	private Boolean ItemNameOnly;
 
-	public ArrayList<String> getAuthIDs() {
-		return this.AuthIDs;
-	}
-
-	public void setAuthIDs(ArrayList<String> authids) {
-		this.AuthIDs = authids;
-	}
+		/**
+		* Types of items to search for (ex "File", "Folder", etc.)
+		*/
 	public ArrayList<String> getItemTypes() {
 		return this.ItemTypes;
 	}
 
+		/**
+		* Types of items to search for (ex "File", "Folder", etc.)
+		*/
 	public void setItemTypes(ArrayList<String> itemtypes) {
 		this.ItemTypes = itemtypes;
 	}
+		/**
+		* Parent id constraints on search results
+		*/
 	public ArrayList<String> getParentID() {
 		return this.ParentID;
 	}
 
+		/**
+		* Parent id constraints on search results
+		*/
 	public void setParentID(ArrayList<String> parentid) {
 		this.ParentID = parentid;
 	}
+		/**
+		* Creator id constraints on search results
+		*/
 	public ArrayList<String> getCreatorID() {
 		return this.CreatorID;
 	}
 
+		/**
+		* Creator id constraints on search results
+		*/
 	public void setCreatorID(ArrayList<String> creatorid) {
 		this.CreatorID = creatorid;
 	}
-	public String getLuceneQuery() {
-		return this.LuceneQuery;
-	}
-
-	public void setLuceneQuery(String lucenequery) {
-		this.LuceneQuery = lucenequery;
-	}
+		/**
+		* Search term to search for
+		*/
 	public String getSearchQuery() {
 		return this.SearchQuery;
 	}
 
+		/**
+		* Search term to search for
+		*/
 	public void setSearchQuery(String searchquery) {
 		this.SearchQuery = searchquery;
 	}
+		/**
+		* Item creation date range constraint start date in UTC
+		*/
 	public String getCreateStartDate() {
 		return this.CreateStartDate;
 	}
 
+		/**
+		* Item creation date range constraint start date in UTC
+		*/
 	public void setCreateStartDate(String createstartdate) {
 		this.CreateStartDate = createstartdate;
 	}
+		/**
+		* Item creation date range constraint end date in UTC
+		*/
 	public String getCreateEndDate() {
 		return this.CreateEndDate;
 	}
 
+		/**
+		* Item creation date range constraint end date in UTC
+		*/
 	public void setCreateEndDate(String createenddate) {
 		this.CreateEndDate = createenddate;
 	}
+		/**
+		* Whether item content should be included in the search or not.
+		*/
 	public Boolean getItemNameOnly() {
 		return this.ItemNameOnly;
 	}
 
+		/**
+		* Whether item content should be included in the search or not.
+		*/
 	public void setItemNameOnly(Boolean itemnameonly) {
 		this.ItemNameOnly = itemnameonly;
 	}

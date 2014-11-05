@@ -32,6 +32,10 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 {
+    /**
+	* Get List of OAuthClients for the Current Account
+	* @return List of OAuthClients
+    */
 	public ISFQuery<SFODataFeed<SFOAuthClient>> get()
 	{
 		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>();
@@ -40,6 +44,11 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get OAuthClient
+	* @param url 	
+	* @return a single OAuthClient
+    */
 	public ISFQuery<SFOAuthClient> get(URI url)
 	{
 		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>();
@@ -49,6 +58,11 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get List of OAuthClients for the Specified Account
+	* @param accountId 	
+	* @return List of OAuthClients
+    */
 	public ISFQuery<SFODataFeed<SFOAuthClient>> byAccount(String accountId)
 	{
 		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>();
@@ -59,6 +73,16 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Create OAuthClient
+    * {
+    * "Name":"App Name",
+    * "RedirectUrls":["https:///redirectUrl1", "https:///redirectUrl2"],
+    * "ToolUrl":"https:///toolUrl"
+    * }
+	* @param oauthClient 	
+	* @return created OAuthClient
+    */
 	public ISFQuery<SFOAuthClient> create(SFOAuthClient oauthClient, Boolean singlePlane)
 	{
 		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>();
@@ -69,6 +93,17 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Update OAuthClient
+    * {
+    * "State":"Revoked",
+    * "Name":"Updated App Name",
+    * "RedirectUrls":["https:///redirectUrl1", "https:///redirectUrl2"],
+    * "ToolUrl":"https:///toolUrl"
+    * }
+	* @param url 	
+	* @return updated OAuthClient
+    */
 	public ISFQuery<SFOAuthClient> update(URI url, SFOAuthClient oauthClient, Boolean singlePlane)
 	{
 		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>();
@@ -80,6 +115,10 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Delete OAuthClient
+	* @return no data
+    */
 	public ISFQuery delete(URI url, Boolean singlePlane)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();

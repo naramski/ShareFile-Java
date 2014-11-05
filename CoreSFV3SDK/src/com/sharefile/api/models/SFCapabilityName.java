@@ -49,5 +49,6 @@ public enum SFCapabilityName {
 	StreamedUploadRaw,
 	StreamedUploadForms,
 	ThreadedUploadRaw,
-	ThreadedUploadForms
+	ThreadedUploadForms,
+	RightSignature
 }

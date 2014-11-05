@@ -49,6 +49,8 @@ public class SFUser extends SFPrincipal {
 	private Date DateCreated;
 	@SerializedName("FullNameShort")
 	private String FullNameShort;
+	@SerializedName("Emails")
+	private ArrayList<String> Emails;
 	@SerializedName("IsConfirmed")
 	private Boolean IsConfirmed;
 	@SerializedName("Password")
@@ -159,6 +161,13 @@ public class SFUser extends SFPrincipal {
 
 	public void setFullNameShort(String fullnameshort) {
 		this.FullNameShort = fullnameshort;
+	}
+	public ArrayList<String> getEmails() {
+		return this.Emails;
+	}
+
+	public void setEmails(ArrayList<String> emails) {
+		this.Emails = emails;
 	}
 	public Boolean getIsConfirmed() {
 		return this.IsConfirmed;

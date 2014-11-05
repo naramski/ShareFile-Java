@@ -58,7 +58,7 @@ public class SFDevicesEntity extends SFODataEntityBase
 	public ISFQuery<SFODataFeed<SFDeviceUser>> getByUser(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -82,7 +82,7 @@ public class SFDevicesEntity extends SFODataEntityBase
 	public ISFQuery deleteByUser(URI url, String deviceId)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addActionIds(deviceId);
@@ -93,7 +93,7 @@ public class SFDevicesEntity extends SFODataEntityBase
 	public ISFQuery<SFDeviceUser> createByUser(URI url, SFDeviceUser du)
 	{
 		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>();
-		sfApiQuery.setFrom("User");
+		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(du);

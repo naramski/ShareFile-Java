@@ -29,20 +29,47 @@ public class SFSearchResults extends SFODataObject {
 	private Boolean PartialResults;
 	@SerializedName("Results")
 	private ArrayList<SFSearchResult> Results;
+	@SerializedName("TimedOut")
+	private Boolean TimedOut;
 
+		/**
+		* Are these only partial results?
+		*/
 	public Boolean getPartialResults() {
 		return this.PartialResults;
 	}
 
+		/**
+		* Are these only partial results?
+		*/
 	public void setPartialResults(Boolean partialresults) {
 		this.PartialResults = partialresults;
 	}
+		/**
+		* Collection of search result hits
+		*/
 	public ArrayList<SFSearchResult> getResults() {
 		return this.Results;
 	}
 
+		/**
+		* Collection of search result hits
+		*/
 	public void setResults(ArrayList<SFSearchResult> results) {
 		this.Results = results;
+	}
+		/**
+		* Did the search query timeout?
+		*/
+	public Boolean getTimedOut() {
+		return this.TimedOut;
+	}
+
+		/**
+		* Did the search query timeout?
+		*/
+	public void setTimedOut(Boolean timedout) {
+		this.TimedOut = timedout;
 	}
 
 }
