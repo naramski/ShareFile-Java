@@ -126,7 +126,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequestPlanChanges");
 		sfApiQuery.setBody(account);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
@@ -142,7 +142,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("UpgradeToPaid");
 		sfApiQuery.setBody(account);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
