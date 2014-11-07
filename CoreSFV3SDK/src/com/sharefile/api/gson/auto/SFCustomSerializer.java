@@ -2,15 +2,19 @@ package com.sharefile.api.gson.auto;
 
 import java.lang.reflect.Type;
 import java.net.URI;
+import java.util.ArrayList;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.SFGroup;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFUser;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
@@ -27,6 +31,38 @@ public class SFCustomSerializer
 			jsonObject.addProperty(key, value);
 		}
 	}
+
+    private static void addIfNonEmpty(JsonObject jsonObject , String key, Boolean value)
+    {
+        if( !Utils.isEmpty(key) && value !=null)
+        {
+            jsonObject.addProperty(key, value);
+        }
+    }
+
+    private static void addIfNonEmpty(JsonObject jsonObject , String key, SFSafeEnum value)
+    {
+        if( !Utils.isEmpty(key) && value !=null)
+        {
+            jsonObject.addProperty(key, value.getOriginalString());
+        }
+    }
+
+    private static void addIfNonEmpty(JsonObject jsonObject , String key, Integer value)
+    {
+        if( !Utils.isEmpty(key) && value !=null)
+        {
+            jsonObject.addProperty(key, value);
+        }
+    }
+
+    private static void addIfNonEmpty(JsonObject jsonObject , String key, JsonArray value)
+    {
+        if( !Utils.isEmpty(key) && value !=null)
+        {
+            jsonObject.add(key, value);
+        }
+    }
 
     private static void addIfNonEmpty(JsonObject jsonObject , String key, URI value)
     {
@@ -75,6 +111,23 @@ public class SFCustomSerializer
 						
 		return jsonObject;
 	}
+
+    @SFSDKDefaultAccessScope static JsonArray serialize(ArrayList<SFItem> sfItems)
+    {
+        if(sfItems == null)
+        {
+            return null;
+        }
+
+        JsonArray jsonObject = new JsonArray();
+
+        for(SFItem item: sfItems)
+        {
+            jsonObject.add(serialize(item));
+        }
+
+        return jsonObject;
+    }
 	
 	@SFSDKDefaultAccessScope static JsonObject serialize(SFUser sfuser)
 	{				
@@ -104,8 +157,30 @@ public class SFCustomSerializer
 		JsonObject jsonObject = new JsonObject();
 		
 		addIfNonEmpty(jsonObject, SFKeywords.Id, sfgroup.getId());
-		addIfNonEmpty(jsonObject, "Email", sfgroup.getEmail());				
+		addIfNonEmpty(jsonObject, "Email", sfgroup.getEmail());
 		
 		return jsonObject;
 	}
+
+    @SFSDKDefaultAccessScope static JsonObject serialize(SFShare sfshare)
+    {
+        if(sfshare == null)
+        {
+            return null;
+        }
+
+        JsonObject jsonObject = new JsonObject();
+
+        addIfNonEmpty(jsonObject, SFKeywords.Id, sfshare.getId());
+        addIfNonEmpty(jsonObject, SFKeywords.URL,sfshare.geturl());
+        addIfNonEmpty(jsonObject, "SendMethod",sfshare.getSendMethod());
+        addIfNonEmpty(jsonObject, "Uri",sfshare.getUri());
+        addIfNonEmpty(jsonObject, "Items",serialize(sfshare.getItems()));
+        addIfNonEmpty(jsonObject, "RequireLogin",sfshare.getRequireLogin());
+        addIfNonEmpty(jsonObject, "RequireUserInfo",sfshare.getRequireUserInfo());
+        addIfNonEmpty(jsonObject, "MaxDownloads",sfshare.getMaxDownloads());
+        addIfNonEmpty(jsonObject, "ShareType",sfshare.getShareType());
+
+        return jsonObject;
+    }
 }

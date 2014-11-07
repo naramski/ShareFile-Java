@@ -1,7 +1,13 @@
 package com.sharefile.api.utils;
 
+import com.sharefile.api.models.SFAccessControlFilter;
+import com.sharefile.api.models.SFCapabilityName;
 import com.sharefile.api.models.SFFileVirusStatus;
 import com.sharefile.api.models.SFPreviewStatus;
+import com.sharefile.api.models.SFShareType;
+import com.sharefile.api.models.SFVRootType;
+import com.sharefile.api.models.SFZoneService;
+import com.sharefile.api.models.SFZoneType;
 
 public class SafeEnumHelpers 
 {
@@ -22,7 +28,12 @@ public class SafeEnumHelpers
 	private static final EnumClassNames[] mEnumClassNames = new EnumClassNames[]
 	{
 		new EnumClassNames("SFFileVirusStatus",SFFileVirusStatus.class),
-		new EnumClassNames("SFPreviewStatus",SFPreviewStatus.class)
+		new EnumClassNames("SFPreviewStatus",SFPreviewStatus.class),
+        new EnumClassNames("SFShareType",SFShareType.class),
+        new EnumClassNames("SFCapabilityName",SFCapabilityName.class),
+        new EnumClassNames("SFZoneType",SFZoneType.class),
+        new EnumClassNames("SFVRootType",SFVRootType.class),
+        new EnumClassNames("SFZoneService",SFZoneService.class)
 	};
 		
 	public static Class getEnumClass(String str)
