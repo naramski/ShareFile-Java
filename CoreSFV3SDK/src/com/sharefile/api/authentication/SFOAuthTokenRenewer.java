@@ -155,7 +155,7 @@ public class SFOAuthTokenRenewer
 		}		
 		catch (Exception e) 
 		{
-			mSFV3Error = new SFV3Error(httpErrorCode,null,e);
+			mSFV3Error = new SFTokenRenewError(httpErrorCode,null,e);
 		} 		
 										
 		
