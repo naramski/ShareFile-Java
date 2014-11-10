@@ -1,14 +1,5 @@
 package com.sharefile.api.https;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
@@ -18,6 +9,16 @@ import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.java.log.SLog;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
+
+@Deprecated
 public class SFApiFileDownloadRunnable implements Runnable  
 {	
 	private static final String TAG = SFKeywords.TAG + "-download";

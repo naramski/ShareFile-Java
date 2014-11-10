@@ -1,5 +1,17 @@
 package com.sharefile.api.https;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.sharefile.api.SFApiClient;
+import com.sharefile.api.SFSDKDefaultAccessScope;
+import com.sharefile.api.constants.SFKeywords;
+import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.interfaces.SFApiUploadProgressListener;
+import com.sharefile.api.models.SFUploadSpecification;
+import com.sharefile.java.log.SLog;
+
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
 import java.io.DataOutputStream;
@@ -13,18 +25,6 @@ import java.security.MessageDigest;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.gson.SFGsonHelper;
-import com.sharefile.api.interfaces.SFApiUploadProgressListener;
-import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.java.log.SLog;
-
 /**
  * 
  *  {
@@ -37,7 +37,8 @@ import com.sharefile.java.log.SLog;
   "odata.metadata": "https://nilesh.sf-api.com/sf/v3/$metadata#UploadSpecification/ShareFile.Api.Models.UploadSpecification@Element"
 }
  */
-public class SFApiFileUploadRunnable implements Runnable  
+@Deprecated
+public class SFApiFileUploadRunnable implements Runnable
 {	
 	private static final String TAG = SFKeywords.TAG + "-upload";
 	
