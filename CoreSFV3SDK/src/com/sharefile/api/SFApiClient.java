@@ -86,6 +86,12 @@ public class SFApiClient
             {
                 reset();
             }
+
+            if(mAuthTokenChangeListener!=null)
+            {
+                mAuthTokenChangeListener.tokenRenewFailed(v3error);
+            }
+
 		}		
 	};
 	
@@ -156,12 +162,11 @@ public class SFApiClient
 		{
 			try
 			{
-                SLog.d(TAG,"Store token: [" + oauthtoken.getAccessToken() + "]:["+oauthtoken.getRefreshToken()+"]");//TODO-REMOVE-LOG
-				mAuthTokenChangeListener.sfApiStoreNewToken(oauthtoken);
+				mAuthTokenChangeListener.storeNewToken(oauthtoken);
 			}
 			catch(Exception e)
 			{
-				SLog.d(TAG, "Exception in initclient", e);
+				SLog.d(TAG, "Exception in init client", e);
 			}
 		}
 	}
