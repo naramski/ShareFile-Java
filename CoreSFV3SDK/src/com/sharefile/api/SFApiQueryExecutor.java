@@ -225,15 +225,20 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
                 mResponse.setResponse(null, sfV3error);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 SLog.e(TAG, ex);
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
                 mResponse.setResponse(null, sfV3error);
-            } catch (OutOfMemoryError e) {
+            }
+            catch (OutOfMemoryError e)
+            {
                 SLog.e(TAG, e.getLocalizedMessage());
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(e.getStackTrace().toString()));
                 mResponse.setResponse(null, sfV3error);
-            } finally {
+            }
+            finally
+            {
                 SFHttpsCaller.disconnect(connection);
             }
 
@@ -350,7 +355,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	{
 		SFRedirectionType ret = SFRedirectionType.NONE;
 		
-		if(!mQuery.readAheadAllowed())
+		if(!mQuery.reDirectionAllowed())
 		{
 			return ret;
 		}

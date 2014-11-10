@@ -97,7 +97,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	 */
 	private String mPassword;
 
-	private boolean mEnableReadahead = true;
+	private boolean mEnableRedirection = true;
 	
 	//{@link #getComponentAt(int, int) getComponentAt} method.
 	
@@ -553,14 +553,14 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	}
 
 	@Override
-	public void setReadAhead(boolean value) 
+	public void setRedirection(boolean value)
 	{
-		mEnableReadahead = value;		
+        mEnableRedirection = value;
 	}
 	
-	public boolean readAheadAllowed()
+	public boolean reDirectionAllowed()
 	{
-		return mEnableReadahead;
+		return mEnableRedirection;
 	}
 
 	@Override

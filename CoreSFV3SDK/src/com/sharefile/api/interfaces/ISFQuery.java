@@ -76,9 +76,9 @@ public interface ISFQuery<T> extends ISFTypeFilter
 	/**
 	 *  For certain calls like create symbolic link we want to disable readahead done by the SDK. This function allows to set the flag to explicity false if required..
 	 */
-	void setReadAhead(boolean value);
+	void setRedirection(boolean value);
 
-	boolean readAheadAllowed();
+	boolean reDirectionAllowed();
 	
 	/**
 	 * This will append the query paremeters from previuos query to the new link. use this only when re-executing the query for a redirected object.
