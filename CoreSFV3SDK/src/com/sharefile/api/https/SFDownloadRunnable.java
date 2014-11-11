@@ -1,15 +1,5 @@
 package com.sharefile.api.https;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
@@ -19,6 +9,16 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.java.log.SLog;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class SFDownloadRunnable extends TransferRunnable {
 	private static final String TAG = SFKeywords.TAG + "-FileDownloadRunnable";
@@ -157,10 +157,6 @@ public class SFDownloadRunnable extends TransferRunnable {
 				responseString = SFHttpsCaller.readErrorResponse(connection);
 			}
 				    									
-		}
-		catch(Exception e)
-		{
-			SLog.e(TAG,e);
 		}
 		finally {
 			closeStream(fis);

@@ -196,7 +196,7 @@ public class SFHttpsCaller
 	 * @throws IOException 
 	 * 
 	 */
-	public static synchronized int safeGetResponseCode(URLConnection conn) throws Exception
+	public static synchronized int safeGetResponseCode(URLConnection conn) throws IOException
 	{
 		int httpErrorCode = HttpsURLConnection.HTTP_INTERNAL_ERROR;
 		
