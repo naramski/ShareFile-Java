@@ -310,7 +310,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(share);
-		sfApiQuery.setHttpMethod("POST");
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
