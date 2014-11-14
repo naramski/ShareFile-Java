@@ -197,6 +197,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDocPreviews;
 	@SerializedName("EnableDesktopEditorForAccount")
 	private Boolean EnableDesktopEditorForAccount;
+	@SerializedName("DisableShareConnectForAccount")
+	private Boolean DisableShareConnectForAccount;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -799,6 +801,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableDesktopEditorForAccount(Boolean enabledesktopeditorforaccount) {
 		this.EnableDesktopEditorForAccount = enabledesktopeditorforaccount;
+	}
+	public Boolean getDisableShareConnectForAccount() {
+		return this.DisableShareConnectForAccount;
+	}
+
+	public void setDisableShareConnectForAccount(Boolean disableshareconnectforaccount) {
+		this.DisableShareConnectForAccount = disableshareconnectforaccount;
 	}
 
 }
