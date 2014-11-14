@@ -36,4 +36,10 @@ public class SFTokenRenewError extends SFV3Error
             mInternalException = exception;
         }
     }
+
+    @Override
+    public String errorDisplayString(String optionalLocalized)
+    {
+        return "OAuth token renew failed";
+    }
 }
