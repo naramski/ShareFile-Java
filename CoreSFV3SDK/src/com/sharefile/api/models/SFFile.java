@@ -35,6 +35,8 @@ public class SFFile extends SFItem {
 	private SFSafeEnum<SFFileVirusStatus> VirusStatus;
 	@SerializedName("LockedBy")
 	private SFUser LockedBy;
+	@SerializedName("FileLockInfo")
+	private SFFileLock FileLockInfo;
 	@SerializedName("Version")
 	private Float Version;
 
@@ -108,6 +110,19 @@ public class SFFile extends SFItem {
 		*/
 	public void setLockedBy(SFUser lockedby) {
 		this.LockedBy = lockedby;
+	}
+		/**
+		* File lock info
+		*/
+	public SFFileLock getFileLockInfo() {
+		return this.FileLockInfo;
+	}
+
+		/**
+		* File lock info
+		*/
+	public void setFileLockInfo(SFFileLock filelockinfo) {
+		this.FileLockInfo = filelockinfo;
 	}
 		/**
 		* File version.

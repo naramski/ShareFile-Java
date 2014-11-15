@@ -729,8 +729,8 @@ public class SFItemsEntity extends SFODataEntityBase
     /**
 	* Lock File
 	* Locks a file.
-	* This operation is only implemented in Sharepoint providers (/sp)
 	* @param url 	
+	* @param lockdata 	
     */
 	public ISFQuery checkOut(URI url)
 	{
@@ -745,7 +745,6 @@ public class SFItemsEntity extends SFODataEntityBase
     /**
 	* Discard CheckOut
 	* Discards the existing lock on the file
-	* This operation is only implemented in Sharepoint providers (/sp)
 	* @param url 	
     */
 	public ISFQuery discardCheckOut(URI url)
