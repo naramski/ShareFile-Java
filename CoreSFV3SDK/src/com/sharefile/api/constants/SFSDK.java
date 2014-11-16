@@ -4,7 +4,10 @@ public class SFSDK
 {
 	public static final String VERSION_FOR_QUERY_URL = "v3";
 	public static final String VERSION= "V3.1.0";
-	
+
+    public static final String GLOBAL_SUBDOMAIN = "g";
+    public static final String DEFAULT_HOST = ".sharefile.com";
+
 	public static final String API_SERVER_TEST = "sharefiletest.com";
 	public static final String API_SERVER_DEV = "sf-apidev.com";
 	public static final String API_SERVER_PRODUCTION = "sf-api.com";

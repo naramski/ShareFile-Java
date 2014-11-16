@@ -119,7 +119,7 @@ public class SFApiClient
 		SLog.d(TAG,"SFApiClient init with: [" + oauthToken.getAccessToken() + "]:["+oauthToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 		mClientInitializedSuccessFully.set(true);
 	}
-	
+
 	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);		
@@ -180,7 +180,7 @@ public class SFApiClient
 	/**
 	 *   Make this a more stronger check than a simple null check on OAuth. 
 	 */
-	private void validateStateBeforeInit(SFOAuth2Token token) throws SFInvalidStateException
+	@SFSDKDefaultAccessScope void validateStateBeforeInit(SFOAuth2Token token) throws SFInvalidStateException
 	{
 		if(token == null)
 		{
@@ -192,7 +192,7 @@ public class SFApiClient
 			throw new SFInvalidStateException(MSG_INVALID_STATE_OAUTH_NULL);
 		}
 	}	
-	
+
 	@SFSDKDefaultAccessScope void validateClientState() throws SFInvalidStateException
 	{
 		if(!mClientInitializedSuccessFully.get())
@@ -346,5 +346,12 @@ public class SFApiClient
         }
 
         return SFQueryBuilder.getDefaultURL(mOAuthToken.get().getSubdomain(),mOAuthToken.get().getApiCP(), folderID);
+    }
+
+    public URI getDeviceUrl(String deviceId) throws URISyntaxException
+    {
+        return SFQueryBuilder.getDeviceURL(getOAuthToken().getSubdomain(),
+                getOAuthToken().getApiCP(),
+                deviceId);
     }
 }
