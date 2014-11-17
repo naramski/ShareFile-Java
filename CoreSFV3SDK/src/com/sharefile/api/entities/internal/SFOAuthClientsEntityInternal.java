@@ -126,5 +126,20 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* get an OAuth code to be used to exchange for a OAuth token
+	* @param appCode 	
+	* @return OAuth code
+    */
+	public ISFQuery<SFOAuthCode> getOAuthCode(SFSafeEnum<SFAppCodes> appCode)
+	{
+		SFApiQuery<SFOAuthCode> sfApiQuery = new SFApiQuery<SFOAuthCode>();
+		sfApiQuery.setFrom("OAuthClients");
+		sfApiQuery.setAction("GetOAuthCode");
+		sfApiQuery.addQueryString("appCode", appCode);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 
