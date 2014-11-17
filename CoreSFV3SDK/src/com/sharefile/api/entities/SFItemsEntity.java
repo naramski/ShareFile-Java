@@ -416,7 +416,9 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * "Zone": { "Id": "zoneid" }
     * }
-	* Updates an Item object
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
 	* @param url 	
 	* @param item 	
 	* @param forceSync 	
