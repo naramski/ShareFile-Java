@@ -136,7 +136,7 @@ public class SFUploadRunnable extends TransferRunnable
 			
 		} catch(Exception e) {		
 			SLog.e(TAG, e);
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage(),null);
+			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage());
 			Result ret = new Result();
 			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
 			return ret;

@@ -42,7 +42,7 @@ public abstract class TransferRunnable implements Runnable {
 	
 	protected Result createCancelResult(long bytesTransfered) {
 		Result ret = new Result();
-		SFV3Error v3Error = new SFV3Error(SFSDK.HTTP_ERROR_CANCELED, "Canceled", null);
+		SFV3Error v3Error = new SFV3Error(SFSDK.HTTP_ERROR_CANCELED, "Canceled");
 		ret.setFields(SFSDK.HTTP_ERROR_CANCELED, v3Error, bytesTransfered);
 		return ret;
 	}
