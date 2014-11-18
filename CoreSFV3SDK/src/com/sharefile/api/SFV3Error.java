@@ -1,7 +1,5 @@
 package com.sharefile.api;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,6 +7,8 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.gson.SFGsonHelper;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /*
  *   
@@ -94,6 +94,12 @@ public class SFV3Error
 			mInternalException = exception;			
 		}
 	}
+
+    public SFV3Error(int errorCode, String message) {
+        mServerResponse.httpResponseCode = 200; // ???
+        mServerResponse.code = String.valueOf(errorCode);
+        mServerResponse.value = message;
+    }
 
     protected SFV3Error(int serverHttpCode ,Exception exception)
     {
