@@ -78,7 +78,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 	 * execute download in this thread
 	 * @return
 	 */
-	public Result runInThisThread() {
+	private Result runInThisThread() {
 		try {
 			download();
 		
@@ -88,7 +88,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 		}
 		
 		if ( isCanceled() ) {
-			// create "cancel error" regardless of result			
+			// create "cancel error" regardless of result
 			return createCancelResult(bytesRead);
 		}
 		
@@ -96,8 +96,8 @@ public class SFDownloadRunnable extends TransferRunnable {
 
 		return mResponse;
 	}
-	
-	/**
+
+    /**
 	 * request the current download to cancel
 	 */
 	public void cancel() {
