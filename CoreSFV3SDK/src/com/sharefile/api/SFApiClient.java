@@ -317,7 +317,6 @@ public class SFApiClient
      * prepare runnable to be used to upload a file
      * TODO_ADD_V3: needs to be moved to SFUploadRunnable.
      * create a different version that can handle prompting the users for connector credentials
-     * @param parentId
      * @param destinationName
      * @param details
      * @param v3Url
@@ -332,10 +331,10 @@ public class SFApiClient
      * @throws SFInvalidStateException
      * @throws SFV3ErrorException
      */
-    public SFUploadRunnable prepareUpload(String parentId, String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFV3ErrorException {
+    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFV3ErrorException {
         validateClientState();
 
-        return new SFUploadRunnable(parentId, v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);
+        return new SFUploadRunnable(v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);
     }
 
     public URI getDefaultUrl(String folderID) throws URISyntaxException

@@ -65,7 +65,7 @@ public class SFUploadRunnable extends TransferRunnable
 	
 	private final String mDetails;
 	
-	private final String mParentId;
+//	private final String mParentId;
 	private final String mV3Url;
 	private final boolean mOverwrite;
 
@@ -74,7 +74,7 @@ public class SFUploadRunnable extends TransferRunnable
 	private AtomicBoolean cancelRequested = new AtomicBoolean(false);
 	
 	public SFUploadRunnable(
-		String parentId, String v3Url, boolean overwrite,  
+		String v3Url, boolean overwrite,
 		int resumeFromByteIndex, long tolalBytes, String destinationName,
 		InputStream inputStream, SFApiClient client, IProgress progressListener,
 		SFCookieManager cookieManager,String connUserName,String connPassword, String details
@@ -90,7 +90,7 @@ public class SFUploadRunnable extends TransferRunnable
 		mPassword = connPassword;
 		mDetails = details;
 		
-		mParentId = parentId;
+		// mParentId = parentId;
 		mV3Url = v3Url;
 		mOverwrite = overwrite;
 	}
@@ -111,7 +111,7 @@ public class SFUploadRunnable extends TransferRunnable
 	}
 	
 	
-	public Result runInThisThread() {
+	private Result runInThisThread() {
 		try {
 			// get spec
 			mUploadSpecification = getSpecification();
@@ -407,7 +407,7 @@ public class SFUploadRunnable extends TransferRunnable
 		return ret;
 	}
 	
-	public Result upload() {		
+	private Result upload() {
 		String responseString = null;
 //		long bytesRead = mResumeFromByteIndex;
 		int chunkSize = 1024*1024;		
