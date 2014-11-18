@@ -122,7 +122,7 @@ public class SFSharesEntity extends SFODataEntityBase
 
     /**
 	* Get Items of a Share
-	* Retrieve the list of Items (files and folders) in the Share.
+	* Retrieve the list of Items (files and folders) in the Send Share.
 	* @param url 	
 	* @return A feed of Items of the Share
     */
@@ -137,8 +137,8 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
     /**
-	* Get Items of a Share
-	* Retrieve a single Item in the Share
+	* Get Items of a Send Share
+	* Retrieve a single Item in the Send Share
 	* @param shareUrl 	
 	* @param itemid 	
 	* @return An item in the Share
