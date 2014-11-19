@@ -201,6 +201,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean DisableShareConnectForAccount;
 	@SerializedName("EnableWebAppConnectorBrowsing")
 	private Boolean EnableWebAppConnectorBrowsing;
+	@SerializedName("EnableStrictCrossdomainPolicy")
+	private Boolean EnableStrictCrossdomainPolicy;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -817,6 +819,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableWebAppConnectorBrowsing(Boolean enablewebappconnectorbrowsing) {
 		this.EnableWebAppConnectorBrowsing = enablewebappconnectorbrowsing;
+	}
+	public Boolean getEnableStrictCrossdomainPolicy() {
+		return this.EnableStrictCrossdomainPolicy;
+	}
+
+	public void setEnableStrictCrossdomainPolicy(Boolean enablestrictcrossdomainpolicy) {
+		this.EnableStrictCrossdomainPolicy = enablestrictcrossdomainpolicy;
 	}
 
 }
