@@ -199,6 +199,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDesktopEditorForAccount;
 	@SerializedName("DisableShareConnectForAccount")
 	private Boolean DisableShareConnectForAccount;
+	@SerializedName("EnableWebAppConnectorBrowsing")
+	private Boolean EnableWebAppConnectorBrowsing;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -808,6 +810,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setDisableShareConnectForAccount(Boolean disableshareconnectforaccount) {
 		this.DisableShareConnectForAccount = disableshareconnectforaccount;
+	}
+	public Boolean getEnableWebAppConnectorBrowsing() {
+		return this.EnableWebAppConnectorBrowsing;
+	}
+
+	public void setEnableWebAppConnectorBrowsing(Boolean enablewebappconnectorbrowsing) {
+		this.EnableWebAppConnectorBrowsing = enablewebappconnectorbrowsing;
 	}
 
 }
