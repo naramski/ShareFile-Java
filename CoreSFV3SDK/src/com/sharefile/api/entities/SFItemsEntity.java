@@ -728,12 +728,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Lock File
-	* Locks a file.
-	* @param url 	
-	* @param lockdata 	
-    */
 	public ISFQuery checkOut(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
@@ -744,11 +738,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Discard CheckOut
-	* Discards the existing lock on the file
-	* @param url 	
-    */
 	public ISFQuery discardCheckOut(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
