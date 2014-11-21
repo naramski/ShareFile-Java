@@ -197,6 +197,12 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDocPreviews;
 	@SerializedName("EnableDesktopEditorForAccount")
 	private Boolean EnableDesktopEditorForAccount;
+	@SerializedName("UseStrictEmployeeDefinition")
+	private Boolean UseStrictEmployeeDefinition;
+	@SerializedName("EmployeeEmailDomains")
+	private String EmployeeEmailDomains;
+	@SerializedName("IsPremier")
+	private Boolean IsPremier;
 	@SerializedName("DisableShareConnectForAccount")
 	private Boolean DisableShareConnectForAccount;
 	@SerializedName("EnableWebAppConnectorBrowsing")
@@ -805,6 +811,27 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableDesktopEditorForAccount(Boolean enabledesktopeditorforaccount) {
 		this.EnableDesktopEditorForAccount = enabledesktopeditorforaccount;
+	}
+	public Boolean getUseStrictEmployeeDefinition() {
+		return this.UseStrictEmployeeDefinition;
+	}
+
+	public void setUseStrictEmployeeDefinition(Boolean usestrictemployeedefinition) {
+		this.UseStrictEmployeeDefinition = usestrictemployeedefinition;
+	}
+	public String getEmployeeEmailDomains() {
+		return this.EmployeeEmailDomains;
+	}
+
+	public void setEmployeeEmailDomains(String employeeemaildomains) {
+		this.EmployeeEmailDomains = employeeemaildomains;
+	}
+	public Boolean getIsPremier() {
+		return this.IsPremier;
+	}
+
+	public void setIsPremier(Boolean ispremier) {
+		this.IsPremier = ispremier;
 	}
 	public Boolean getDisableShareConnectForAccount() {
 		return this.DisableShareConnectForAccount;
