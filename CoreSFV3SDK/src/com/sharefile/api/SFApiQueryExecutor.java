@@ -362,7 +362,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
         }
     }
 
-    private boolean isAlreadyRedirectingToCurrentURI(SFRedirection redirection)
+    private boolean isNewRedirectionUri(SFRedirection redirection)
     {
         if(redirection == null)
         {
@@ -385,15 +385,16 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
             if (currentHost.equalsIgnoreCase(targetHost) && currentPath.equalsIgnoreCase(targetPath))
             {
                 SLog.v(TAG, "Don't Redirect. Already fetched response from link " + redirection.getUri());
-                return true;
+                return false;
             }
         }
         catch (Exception e)
         {
             SLog.e(TAG, "ZK folder might not show up correctly.",e);
+            return false;
         }
 
-        return false;
+        return true;
     }
 	
 	private SFRedirectionType redirectionRequired(SFODataObject object)
@@ -421,7 +422,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			Boolean hasRemoteChildren = folder.getHasRemoteChildren();
 			
 			if(hasRemoteChildren!=null && hasRemoteChildren == true &&
-                    !isAlreadyRedirectingToCurrentURI(folder.getRedirection()))
+                    isNewRedirectionUri(folder.getRedirection()))
 			{					
 				ret = SFRedirectionType.FOLDER_ENUM;
 			}
