@@ -863,35 +863,18 @@ public class SFItemsEntity extends SFODataEntityBase
 	}
 
     /**
-	* Get all Item Protocol Link
-	* This method returns all alternate protocol links supported by ShareFile (such
-	* as WOPI, FTP, WebDAV).
-	* @param parentUrl 	
-	* @return A Feed containing all protocols links supported by the given item
+	* Get List of Item Protocol Links
+	* @param url 	
+	* @param platform 	
+	* @return A list of protocol links depending on the input parameter 'platform', 404 (Not Found) if not supported by the item
     */
-	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI parentUrl)
+	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI url, SFSafeEnum<SFPreviewPlatform> platform)
 	{
 		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
-		sfApiQuery.addIds(parentUrl);
-		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
-    /**
-	* Get an Item Protocol Link
-	* @param url 	
-	* @param protocol 	
-	* @return A single protocol link if supported, 404 (Not Found) if not supported by the item
-    */
-	public ISFQuery<SFItemProtocolLink> getProtocolLinks(URI url, String protocol)
-	{
-		SFApiQuery<SFItemProtocolLink> sfApiQuery = new SFApiQuery<SFItemProtocolLink>();
-		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("ProtocolLinks");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addActionIds(protocol);
+		sfApiQuery.addActionIds(platform);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

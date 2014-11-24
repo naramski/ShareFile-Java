@@ -155,6 +155,48 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
     /**
+	* Get Thumbnail of a Share Item
+	* Retrieve a thumbnail link for the specified Item in the Share.
+	* @param shareUrl 	
+	* @param itemid 	
+	* @param size 	
+	* @param redirect 	
+	* @return A 302 redirection to the Thumbnail link
+    */
+	public ISFQuery<InputStream> thumbnail(URI shareUrl, String itemid, Integer size, Boolean redirect)
+	{
+		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Items");
+		sfApiQuery.addIds(shareUrl);
+		sfApiQuery.addActionIds(itemid);
+		sfApiQuery.addSubAction("Thumbnail");
+		sfApiQuery.addQueryString("size", size);
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get List of Protocol Links of a Share item
+	* @param shareUrl 	
+	* @param itemid 	
+	* @param platform 	
+	* @return A list of protocol links depending on the input parameter 'platform', 404 (Not Found) if not supported by the item
+    */
+	public ISFQuery<SFODataFeed<SFItemProtocolLink>> protocolLinks(URI shareUrl, String itemid)
+	{
+		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Items");
+		sfApiQuery.addIds(shareUrl);
+		sfApiQuery.addActionIds(itemid);
+		sfApiQuery.addSubAction("ProtocolLinks", platform);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
 	* Downloads Share Items
 	* Downloads items from the Share. The default action will download all Items in the Share.
 	* If a Share has a single item, the download attachment name
