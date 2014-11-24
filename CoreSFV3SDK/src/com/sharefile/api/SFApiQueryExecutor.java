@@ -1,19 +1,8 @@
 package com.sharefile.api;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.ConnectException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
-import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -34,6 +23,16 @@ import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  *  This class provides the bare-minimum functions to make the V3 API server calls and read + parse their responses.
@@ -151,6 +150,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
             try {
                 String server = mSFApiClient.getOAuthToken().getApiServer();
                 String urlstr = mQuery.buildQueryUrlString(server);
+
+                setCurrentUri(urlstr);
 
                 URL url = new URL(urlstr);
                 connection = SFHttpsCaller.getURLConnection(url);
@@ -341,15 +342,59 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 		return odataObject;
 	}
-		
-	/**
-	 *   If the returned object is a Symbolic Link or has a Redirection feild we need to read ahead to get the actual contents.
-	 * @throws URISyntaxException 
-	 * @throws SFV3ErrorException 
-	 *   
-	 */
-	
-	private boolean mAlreadRedirecting = false;
+
+    private URI mCurrentUri = null;
+
+    /**
+        Use this to keep track of the current Uri on which the executor made an https call
+        that way we can avoid making extra redirection calls.
+     */
+    private void setCurrentUri(String str)
+    {
+        try
+        {
+            mCurrentUri = new URI(str);
+            //Want to control max number of redirects here?
+        }
+        catch(Exception e)
+        {
+            SLog.e(TAG,e);
+        }
+    }
+
+    private boolean isAlreadyRedirectingToCurrentURI(SFRedirection redirection)
+    {
+        if(redirection == null)
+        {
+            return false;
+        }
+
+        if(mCurrentUri ==null || redirection.getUri()==null)
+        {
+            return false;
+        }
+
+        try
+        {
+            String currentHost = mCurrentUri.getHost();
+            String currentPath = mCurrentUri.getPath();
+
+            String targetHost = redirection.getUri().getHost();
+            String targetPath = redirection.getUri().getPath();
+
+            if (currentHost.equalsIgnoreCase(targetHost) && currentPath.equalsIgnoreCase(targetPath))
+            {
+                SLog.v(TAG, "Don't Redirect. Already fetched response from link " + redirection.getUri());
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            SLog.e(TAG, "ZK folder might not show up correctly.",e);
+        }
+
+        return false;
+    }
 	
 	private SFRedirectionType redirectionRequired(SFODataObject object)
 	{
@@ -373,12 +418,12 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		{
 			SFFolder folder = (SFFolder) object;
 			
-			Boolean hadRemoteChildren = folder.getHasRemoteChildren();
+			Boolean hasRemoteChildren = folder.getHasRemoteChildren();
 			
-			if(folder.getRedirection()!=null && hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
+			if(hasRemoteChildren!=null && hasRemoteChildren == true &&
+                    !isAlreadyRedirectingToCurrentURI(folder.getRedirection()))
 			{					
 				ret = SFRedirectionType.FOLDER_ENUM;
-				mAlreadRedirecting = true;
 			}
 		}
 		else if(object instanceof SFRedirection)
