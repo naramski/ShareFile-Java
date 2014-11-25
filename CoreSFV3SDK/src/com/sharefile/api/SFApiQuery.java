@@ -416,7 +416,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		if(!Utils.isEmpty(queryParams))
 		{
 			sb.append(SFKeywords.CHAR_QUERY);
-			sb.append(buildQueryParameters());
+			sb.append(queryParams);
 		}
 				
 		String queryUrlString = sb.toString();
