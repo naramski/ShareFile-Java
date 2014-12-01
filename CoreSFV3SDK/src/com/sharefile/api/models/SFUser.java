@@ -65,6 +65,8 @@ public class SFUser extends SFPrincipal {
 	private SFFolder HomeFolder;
 	@SerializedName("Devices")
 	private ArrayList<SFDeviceUser> Devices;
+	@SerializedName("Integrations")
+	private ArrayList<SFSafeEnum<SFIntegrationProvider>> Integrations;
 	@SerializedName("VirtualRoot")
 	private SFFolder VirtualRoot;
 	@SerializedName("Roles")
@@ -217,6 +219,13 @@ public class SFUser extends SFPrincipal {
 
 	public void setDevices(ArrayList<SFDeviceUser> devices) {
 		this.Devices = devices;
+	}
+	public ArrayList<SFSafeEnum<SFIntegrationProvider>> getIntegrations() {
+		return this.Integrations;
+	}
+
+	public void setIntegrations(ArrayList<SFSafeEnum<SFIntegrationProvider>> integrations) {
+		this.Integrations = integrations;
 	}
 	public SFFolder getVirtualRoot() {
 		return this.VirtualRoot;
