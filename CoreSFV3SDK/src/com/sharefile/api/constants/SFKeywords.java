@@ -32,6 +32,8 @@ public final class SFKeywords
 	public static final String CHILDREN = "Children";
 	public static final String PARENT = "Parent";
 	public static final String REDIRECTION = "Redirection";
+    public static final String FAVORITE_FOLDER = "FavoriteFolder";
+    public static final String CHILDREN_FAVORITE_FOLDER = CHILDREN + "/" + FAVORITE_FOLDER;
 			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";
