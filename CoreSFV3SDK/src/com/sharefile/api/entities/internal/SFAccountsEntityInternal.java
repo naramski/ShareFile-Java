@@ -71,30 +71,6 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 	}
 
     /**
-	* Enable ENS for the Account
-    */
-	public ISFQuery enableEns()
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("EnableEns");
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
-	* Disable ENS for account
-    */
-	public ISFQuery disableEns()
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("DisableEns");
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
 	* Update Account Preferences
     * {
     * "Preferences": {
