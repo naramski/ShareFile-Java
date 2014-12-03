@@ -462,6 +462,11 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	@SuppressWarnings("unchecked")
 	protected void callResponseListeners(SFODataObject sfobject,SFV3Error v3error)
 	{
+        if(v3error!=null && handleIfAuthError(v3error, mQuery))
+        {
+            return;
+        }
+
 		if(mResponseListener == null)
 		{
 			return;
@@ -471,10 +476,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		{
 			if(v3error !=null)
 			{
-				if(!handleIfAuthError(v3error, mQuery))
-				{
-					mResponseListener.sfApiError(v3error, mQuery);
-				}
+                mResponseListener.sfApiError(v3error, mQuery);
 			}
 			else
 			{

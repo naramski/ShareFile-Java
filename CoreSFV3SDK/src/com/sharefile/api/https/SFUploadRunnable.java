@@ -173,6 +173,9 @@ public class SFUploadRunnable extends TransferRunnable
 
 			// uploadQuery.setLink(mV3Url);
 
+
+            uploadQuery.setCredentials(mUsername,mPassword);
+
             return mApiClient.executeQuery(uploadQuery);
 		}  
 		catch (URISyntaxException e)  
