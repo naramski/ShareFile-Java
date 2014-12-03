@@ -442,6 +442,13 @@ public class SFSharesEntity extends SFODataEntityBase
 
     /**
 	* Upload File to Request Share
+    * POST https://account.sf-api.com/sf/v3/Shares(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
 	* populated based on the upload method, provider, and resume parameters passed to the
@@ -529,6 +536,18 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
 		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
 		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays)
+	{
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Upload2");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setBody(uploadParams);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}

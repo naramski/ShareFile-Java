@@ -617,11 +617,22 @@ public class SFItemsEntity extends SFODataEntityBase
 
     /**
 	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
 	* populated based on the upload method, provider, and resume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
@@ -706,6 +717,18 @@ public class SFItemsEntity extends SFODataEntityBase
 		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
 		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
 		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays)
+	{
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload2");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setBody(uploadParams);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}

@@ -171,5 +171,17 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays)
+	{
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		sfApiQuery.setFrom("EncryptedEmails");
+		sfApiQuery.setAction("Upload2");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setBody(uploadParams);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 
