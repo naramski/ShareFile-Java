@@ -102,16 +102,10 @@ public class SFUser extends SFPrincipal {
 	public void setContacted(Integer contacted) {
 		this.Contacted = contacted;
 	}
-		/**
-		* The first and last name of the user
-		*/
 	public String getFullName() {
 		return this.FullName;
 	}
 
-		/**
-		* The first and last name of the user
-		*/
 	public void setFullName(String fullname) {
 		this.FullName = fullname;
 	}
