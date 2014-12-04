@@ -209,6 +209,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableWebAppConnectorBrowsing;
 	@SerializedName("EnableStrictCrossdomainPolicy")
 	private Boolean EnableStrictCrossdomainPolicy;
+	@SerializedName("DisableScanSnap")
+	private Boolean DisableScanSnap;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -853,6 +855,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableStrictCrossdomainPolicy(Boolean enablestrictcrossdomainpolicy) {
 		this.EnableStrictCrossdomainPolicy = enablestrictcrossdomainpolicy;
+	}
+	public Boolean getDisableScanSnap() {
+		return this.DisableScanSnap;
+	}
+
+	public void setDisableScanSnap(Boolean disablescansnap) {
+		this.DisableScanSnap = disablescansnap;
 	}
 
 }
