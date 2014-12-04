@@ -23,35 +23,26 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.*;
 
-public class SFEncryptedEmailParams extends SFODataObject {
+public class SFEncryptedEmailCreateParams extends SFEncrypedEmailReplyParams {
 
-	@SerializedName("Subject")
-	private String Subject;
-	@SerializedName("ExpirationDays")
-	private Integer ExpirationDays;
-	@SerializedName("SendSeparateActivation")
-	private Boolean SendSeparateActivation;
+	@SerializedName("RequireUserInfo")
+	private Boolean RequireUserInfo;
+	@SerializedName("RequireLogin")
+	private Boolean RequireLogin;
 
-	public String getSubject() {
-		return this.Subject;
+	public Boolean getRequireUserInfo() {
+		return this.RequireUserInfo;
 	}
 
-	public void setSubject(String subject) {
-		this.Subject = subject;
+	public void setRequireUserInfo(Boolean requireuserinfo) {
+		this.RequireUserInfo = requireuserinfo;
 	}
-	public Integer getExpirationDays() {
-		return this.ExpirationDays;
-	}
-
-	public void setExpirationDays(Integer expirationdays) {
-		this.ExpirationDays = expirationdays;
-	}
-	public Boolean getSendSeparateActivation() {
-		return this.SendSeparateActivation;
+	public Boolean getRequireLogin() {
+		return this.RequireLogin;
 	}
 
-	public void setSendSeparateActivation(Boolean sendseparateactivation) {
-		this.SendSeparateActivation = sendseparateactivation;
+	public void setRequireLogin(Boolean requirelogin) {
+		this.RequireLogin = requirelogin;
 	}
 
 }

@@ -65,7 +65,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFEncryptedEmail> reply(URI url, SFEncryptedEmailParams encryptedEmailParams)
+	public ISFQuery<SFEncryptedEmail> reply(URI url, SFEncrypedEmailReplyParams encryptedEmailParams)
 	{
 		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>();
 		sfApiQuery.setFrom("EncryptedEmails");
@@ -87,7 +87,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFEncryptedEmail> create(SFEncryptedEmailParams encryptedEmailParams)
+	public ISFQuery<SFEncryptedEmail> create(SFEncryptedEmailCreateParams encryptedEmailParams)
 	{
 		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>();
 		sfApiQuery.setFrom("EncryptedEmails");
