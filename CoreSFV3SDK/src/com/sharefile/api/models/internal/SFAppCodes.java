@@ -55,5 +55,9 @@ public enum SFAppCodes {
 	SFAndroid_MDM,
 	ThirdParty,
 	SF_FTP,
-	SF_SFTP
+	SF_SFTP,
+	SFWebApp,
+	SFMarketing,
+	ShareConnect,
+	ShareConnectWeb
 }
