@@ -29,6 +29,8 @@ public class SFEncryptedEmailParams extends SFODataObject {
 	private String Subject;
 	@SerializedName("ExpirationDays")
 	private Integer ExpirationDays;
+	@SerializedName("NotifyOnUse")
+	private Boolean NotifyOnUse;
 	@SerializedName("SendSeparateActivation")
 	private Boolean SendSeparateActivation;
 
@@ -45,6 +47,13 @@ public class SFEncryptedEmailParams extends SFODataObject {
 
 	public void setExpirationDays(Integer expirationdays) {
 		this.ExpirationDays = expirationdays;
+	}
+	public Boolean getNotifyOnUse() {
+		return this.NotifyOnUse;
+	}
+
+	public void setNotifyOnUse(Boolean notifyonuse) {
+		this.NotifyOnUse = notifyonuse;
 	}
 	public Boolean getSendSeparateActivation() {
 		return this.SendSeparateActivation;
