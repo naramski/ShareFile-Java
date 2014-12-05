@@ -23,7 +23,7 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.*;
 
-public class SFEncryptedEmailCreateParams extends SFEncrypedEmailReplyParams {
+public class SFEncryptedEmailCreateParams extends SFEncryptedEmailReplyParams {
 
 	@SerializedName("RequireUserInfo")
 	private Boolean RequireUserInfo;
