@@ -1,23 +1,12 @@
 package com.sharefile.api;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-
-import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.authentication.SFOAuth2Token;
+import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.constants.SFFolderID;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
-import com.sharefile.api.https.SFApiFileDownloadRunnable;
-import com.sharefile.api.https.SFApiFileUploadRunnable;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
 import com.sharefile.api.https.SFUploadRunnable;
@@ -25,18 +14,21 @@ import com.sharefile.api.https.TransferRunnable;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
-import com.sharefile.api.models.SFDeviceStatus;
-import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
-import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SFApiClient
 {
@@ -205,23 +197,7 @@ public class SFApiClient
 	{
 		return mSession;
 	}
-				
-	public Thread downloadFile(SFDownloadSpecification downloadSpecification,int resumeFromByteIndex, OutputStream outpuStream, SFApiDownloadProgressListener progressListener, String connUserName,String connPassword) throws SFInvalidStateException
-	{
-		validateClientState();
-		
-		SFApiFileDownloadRunnable sfDownloadFile = new SFApiFileDownloadRunnable(downloadSpecification, resumeFromByteIndex, outpuStream , this,progressListener,mCookieManager,connUserName,connPassword);
-		return sfDownloadFile.startNewThread();				
-	}
-	
-	public Thread uploadFile(SFUploadSpecification uploadSpecification,int resumeFromByteIndex, long tolalBytes, String destinationName, InputStream inputStream, SFApiUploadProgressListener progressListener, String connUserName,String connPassword, String details) throws SFInvalidStateException
-	{
-		validateClientState();
-		
-		SFApiFileUploadRunnable sfUploadFile = new SFApiFileUploadRunnable(uploadSpecification, resumeFromByteIndex, tolalBytes,destinationName, inputStream, this,progressListener,mCookieManager, connUserName,connPassword,details);
-		return sfUploadFile.startNewThread();				
-	}	
-	
+
 	/**
 	 *  Resets the token and nulls the internal callbacks. Call this when you no longer want to use this object.
 	 */
