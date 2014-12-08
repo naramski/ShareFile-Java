@@ -535,7 +535,9 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Delete Multiple Items
     * ["id1","id2",...]
 	* All items in bulk delete must be children of the same parent, identified in the URI
-	* @param forceSync
+	* @param id 	
+	* @param body 	
+	* @param forceSync 	
 	* @param deletePermanently 	
     */
 	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently)
