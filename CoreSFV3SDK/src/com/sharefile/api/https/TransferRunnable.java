@@ -2,10 +2,34 @@ package com.sharefile.api.https;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.sharefile.api.SFApiClient;
+import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFSDK;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public abstract class TransferRunnable implements Runnable {
+
+    protected AtomicBoolean cancelRequested = new AtomicBoolean(false);
+    protected final SFApiClient mApiClient;
+    protected final IProgress mProgressListener;
+    protected final SFCookieManager mCookieManager;
+
+    //credentials for connectors
+    protected final String mUsername;
+    protected final String mPassword;
+
+    TransferRunnable(SFApiClient client,IProgress progressListener, SFCookieManager cookieManager,
+                     String userName,String password)
+    {
+        mApiClient = client;
+        mProgressListener = progressListener;
+        mCookieManager = cookieManager;
+        mUsername = userName;
+        mPassword = password;
+    }
+
 	public interface IProgress {
 		public void bytesTransfered(long byteCount);
 	};
@@ -47,4 +71,22 @@ public abstract class TransferRunnable implements Runnable {
 		return ret;
 	}
 
+    protected abstract Result runInThisThread();
+
+    /**
+     * execute Transfer in this thread overriding the cancel signal
+     * @param cancel
+     * @return
+     */
+    public Result runInThisThread(AtomicBoolean cancel)
+    {
+        cancelRequested = cancel;
+        return runInThisThread();
+    }
+
+    @Override
+    public void run()
+    {
+        runInThisThread();
+    }
 }

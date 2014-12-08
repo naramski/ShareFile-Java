@@ -26,59 +26,30 @@ public class SFDownloadRunnable extends TransferRunnable {
 	private String mUrl;
 	private final long mResumeFromByteIndex;
 	private final OutputStream mOutputStream;
-	private final SFApiClient mApiClient;
-	private IProgress mProgressListener;
-	private final Result mResponse = new Result();	
-	private final SFCookieManager mCookieManager;
-
-	//credentials for connectors
-	private final String mUsername;
-	private final String mPassword;
+	private final Result mResponse = new Result();
 
 	// current transfer
 	private int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
 	private String responseString = null;
 	private long bytesRead = 0;
 
-	private AtomicBoolean cancelRequested = new AtomicBoolean(false);
-	
-
 	public SFDownloadRunnable(String url,
 									 int resumeFromByteIndex, 
 									 OutputStream outpuStream, 
 									 SFApiClient client,
 									 IProgress progressListener,SFCookieManager cookieManager,String connUserName,String connPassword) 
-	{		
+	{
+        super(client,progressListener,cookieManager,connUserName,connPassword);
 		mUrl = url;
 		mResumeFromByteIndex = resumeFromByteIndex;
 		mOutputStream = outpuStream;
-		mApiClient = client;
-		mProgressListener = progressListener;
-		mCookieManager = cookieManager;
-		mUsername = connUserName;
-		mPassword = connPassword;
 	}
 
-	@Override
-	public void run()  {
-		runInThisThread();
-	}
-	
-	/**
-	 * execute download in this thread overriding the cancel signal
-	 * @param cancel
-	 * @return
-	 */
-	public Result runInThisThread(AtomicBoolean cancel) {
-		cancelRequested = cancel;
-		return runInThisThread();
-	}
-	
 	/**
 	 * execute download in this thread
 	 * @return
 	 */
-	private Result runInThisThread() {
+	protected Result runInThisThread() {
 		try {
 			download();
 		
