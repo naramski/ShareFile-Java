@@ -89,4 +89,10 @@ public abstract class TransferRunnable implements Runnable {
     {
         runInThisThread();
     }
+
+
+    public void cancel()
+    {
+        cancelRequested.set(true);
+    }
 }

@@ -68,13 +68,6 @@ public class SFDownloadRunnable extends TransferRunnable {
 		return mResponse;
 	}
 
-    /**
-	 * request the current download to cancel
-	 */
-	public void cancel() {
-		cancelRequested.set(true);
-	}
-	
 	private void download() throws IOException {
 		bytesRead = mResumeFromByteIndex;
 		
