@@ -1,5 +1,8 @@
 package com.sharefile.api.https;
 
+import com.sharefile.api.SFSDKDefaultAccessScope;
+import com.sharefile.java.log.SLog;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,44 +17,24 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.java.log.SLog;
-
 public class SFCookieManager 
 {
-	private static final String TAG = "SFCookieManager"; 
+	private static final String TAG = "SFCookieManager";
+
+    public static class Cookie {
+        public String value;
+        public String path=null;
+        public String expires=null;
+        public Cookie(String value) {
+            this.value = value;
+        }
+    }
 	
 	/**
-	 *   mStore is the map of all domains and their corresponding cookie stores.	    
+	 *   mStore is the map of all domains and their corresponding cookie stores.
 	 *   so if we have cookies from hosts like:	 citrix.sharefile.com   or  domian.host.com
-	 *   this map will store the cookies stores like:  
-	 *   <br>(citrix, map(cookies) )
-	 *   <br>(domain, map(cookies) ) ...  
-	 *   
-	 *   
-	 *   <br>The inner map of this store is a map of cookie names vs the cookie field name,value pairs
-	 *   
-	 *   <br>So the entire map structure becomes:
-	 *   
-	 *     <p>mStore
-	 *     <br>|
-	 *     <br>--> Map (domain1, DomainStore2)
-	 *     <br>|  
-	 *     <br>--> Map (domain2, DomainStore2)
-	 *     	 
-	 *     <p>DomainStore
-	 *     <br>|
-	 *     <br>--> Map(cookieName1, Cookie1)
-	 *     <br>|
-	 *     <br>--> Map(cookieName2, Cookie2)
-	 *     
-	 *     <p>Cookie
-	 *     <br>|
-	 *     <br>--> Map(cookieFeild1, value)
-	 *     <br>|
-	 *     <br>--> Map(cookieFeild2, value)
 	 */
-    private Map<String,Map<String,Map<String,String>>> mStore;
+    private Map<String,Map<String,Cookie>> mStore;
 
     private static final String SET_COOKIE = "Set-Cookie";
     private static final String COOKIE_VALUE_DELIMITER = ";";
@@ -68,7 +51,7 @@ public class SFCookieManager
 
     public SFCookieManager() 
     {
-		mStore = new HashMap<String,Map<String, Map<String, String>>>();
+		mStore = new HashMap<String,Map<String, Cookie>>();
 		dateFormat = new SimpleDateFormat(DATE_FORMAT,Locale.US);
     }
     
@@ -86,7 +69,7 @@ public class SFCookieManager
      */
     public void storeAppSpecificCookies(URI uri,String cookieString)
     {
-    	Map<String,Map<String,String>> domainStore = getDomainStoreFromHost(uri.getHost());
+    	Map<String,Cookie> domainStore = getDomainStoreFromHost(uri.getHost());
     	
     	storeCookieToDomainStore(domainStore, cookieString);
     }
@@ -108,12 +91,12 @@ public class SFCookieManager
 		}    	    	
     }
             
-    private Map<String,Map<String,String>> getDomainStoreFromHost(String host)
+    private Map<String,Cookie> getDomainStoreFromHost(String host)
     {
     	// let's determine the domain from where these cookies are being sent
 		String domain = getDomainFromHost(host);
 				
-		Map<String,Map<String,String>> domainStore; // this is where we will store cookies for this domain
+		Map<String,Cookie> domainStore; // this is where we will store cookies for this domain
 		
 		// now let's check the store to see if we have an entry for this domain
 		if (mStore.containsKey(domain)) 
@@ -124,48 +107,55 @@ public class SFCookieManager
 		else 
 		{
 		    // we don't, so let's create it and put it in the store
-		    domainStore = new HashMap<String, Map<String, String>>();
+		    domainStore = new HashMap<String, Cookie>();
 		    mStore.put(domain, domainStore);    
 		}
 		
 		return domainStore;
     }
     
-    private void storeCookieToDomainStore(Map<String,Map<String,String>> domainStore,String cookieString)
+    private void storeCookieToDomainStore(Map<String,Cookie> domainStore,String cookieString)
     {
-    	Map<String,String> cookie = new HashMap<String,String>();
+        // the specification dictates that the first name/value pair
+        // in the string is the cookie name and value, so let's handle
+        // them as a special case:
+
+    	Cookie cookie = null;
 		StringTokenizer st = new StringTokenizer(cookieString, COOKIE_VALUE_DELIMITER);
-		
-		// the specification dictates that the first name/value pair
-		// in the string is the cookie name and value, so let's handle
-		// them as a special case: 
-		
-		if (st.hasMoreTokens()) 
-		{
-		    String token  = st.nextToken();
-		    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR));
-		    String value = token.substring(token.indexOf(NAME_VALUE_SEPARATOR) + 1, token.length());
-		    domainStore.put(name, cookie);
-		    cookie.put(name, value);
-		}
-    
-		while (st.hasMoreTokens())
-		{
-			try
-			{
-			    String token  = st.nextToken();
-			    String name = token.substring(0, token.indexOf(NAME_VALUE_SEPARATOR)).toLowerCase(Locale.US);
-			    String value = token.substring(token.indexOf(NAME_VALUE_SEPARATOR) + 1, token.length());
-			    cookie.put(name,value);
-			}
-			catch(Exception e)
-			{
-				SLog.e(TAG,e);
-			}
-			
-		}
+
+        while ( st.hasMoreTokens() ) {
+            String token = st.nextToken();
+            int index = token.indexOf(NAME_VALUE_SEPARATOR);
+            if ( index<0 || index>= token.length() ) {
+                if ( cookie==null ) {
+                    // e
+                    SLog.e(TAG, "Invalid cookie string: " + cookieString);
+                    return;
+                }
+                SLog.v(TAG, "Not a value/pair, ignore for now as we don't use it: " + token);
+                continue;
+            }
+
+            // value pair
+            String name = token.substring(0, index).toLowerCase(Locale.US);
+            String value = token.substring(index + 1);
+
+            if ( cookie==null ) {
+                cookie = new Cookie(value);
+                domainStore.put(name, cookie);
+            }
+
+            if ( EXPIRES.equals(name) ) {
+                cookie.expires = value;
+            } else if ( PATH.equals(name) ) {
+                cookie.path = value;
+            } else {
+                // don't have any use for this part of the cookie
+                // ...
+            }
+        }
     }
-    
+
     /**
      * Retrieves and stores cookies returned by the host on the other side
      * of the the open java.net.URLConnection.
@@ -179,7 +169,7 @@ public class SFCookieManager
     @SFSDKDefaultAccessScope void readCookiesFromConnection(URLConnection conn) throws IOException 
     {
 	
-    	Map<String,Map<String,String>> domainStore = getDomainStoreFromHost(conn.getURL().getHost());
+    	Map<String,Cookie> domainStore = getDomainStoreFromHost(conn.getURL().getHost());
 		
 		// OK, now we are ready to get the cookies out of the URLConnection	
 		String headerName=null;
@@ -211,7 +201,7 @@ public class SFCookieManager
 		String domain = getDomainFromHost(url.getHost());
 		String path = url.getPath();
 		
-		Map<?, ?> domainStore = mStore.get(domain);
+		Map<String, Cookie> domainStore = mStore.get(domain);
 		if (domainStore == null) return;
 		StringBuffer cookieStringBuffer = new StringBuffer();
 		
@@ -219,14 +209,14 @@ public class SFCookieManager
 		while(cookieNames.hasNext()) 
 		{
 		    String cookieName = (String)cookieNames.next();
-		    Map<?, ?> cookie = (Map<?, ?>)domainStore.get(cookieName);
+		    Cookie cookie = domainStore.get(cookieName);
 		    // check cookie to ensure path matches  and cookie is not expired
 		    // if all is cool, add cookie to header string 
-		    if (comparePaths((String)cookie.get(PATH), path) && isNotExpired((String)cookie.get(EXPIRES))) 
+		    if (comparePaths(cookie.path, path) && isNotExpired(cookie.expires) )
 		    {
 				cookieStringBuffer.append(cookieName);
 				cookieStringBuffer.append("=");
-				cookieStringBuffer.append((String)cookie.get(cookieName));
+				cookieStringBuffer.append(cookie.value);
 				if (cookieNames.hasNext()) cookieStringBuffer.append(SET_COOKIE_SEPARATOR);
 		    }
 		}
@@ -265,7 +255,7 @@ public class SFCookieManager
 		} 
 		catch (java.text.ParseException pe) 
 		{
-			SLog.e("Exception",pe);
+			SLog.e(TAG,pe);
 			return false;
 		}
     }

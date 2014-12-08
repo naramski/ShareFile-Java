@@ -10,8 +10,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.models.private;
-package com.sharefile.api.models;
+package com.sharefile.api.models.internal;
 
 import java.io.InputStream;
 import java.util.ArrayList;

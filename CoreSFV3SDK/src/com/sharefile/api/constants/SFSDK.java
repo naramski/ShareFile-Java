@@ -4,8 +4,12 @@ public class SFSDK
 {
 	public static final String VERSION_FOR_QUERY_URL = "v3";
 	public static final String VERSION= "V3.1.0";
-	
-	public static final String API_SERVER_TEST = "sf-apitest.com";
+
+    public static final String GLOBAL_SUBDOMAIN = "g";
+    public static final String DEFAULT_HOST = ".sharefile.com";
+    public static final String DEFAULT_HOST_EU = ".sharefile.eu";
+
+	public static final String API_SERVER_TEST = "sharefiletest.com";
 	public static final String API_SERVER_DEV = "sf-apidev.com";
 	public static final String API_SERVER_PRODUCTION = "sf-api.com";
 	public static final String API_SERVER_PRODUCTION_EU = "sf-api.eu";
@@ -44,4 +48,5 @@ public class SFSDK
 	
 	public static final int INTERNAL_HTTP_ERROR = 599; //last http error code i s 505. Lets start our internal errors by leaving some difference.
 	public static final int HTTP_ERROR_CANCELED = 600;
+    public static final int INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM = 601;
 }

@@ -1,18 +1,8 @@
 package com.sharefile.api;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
-import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -31,8 +21,18 @@ import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.utils.SFDumpLog;
+import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  *  This class provides the bare-minimum functions to make the V3 API server calls and read + parse their responses.
@@ -65,7 +65,6 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			
 	private final ISFQuery<T> mQuery; 
 	private final SFApiResponseListener<T> mResponseListener;
-	private SFOAuth2Token mOauthToken;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
 	private final SFOAuthTokenRenewer mAccessTokenRenewer;
@@ -86,16 +85,15 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	
 	private Response mResponse = null;
 						
-	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFOAuth2Token token, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{			
 		mSFApiClient = apiClient;				
 		mQuery = query;
 		mResponseListener = responseListener;
-		mOauthToken = token;		
 		mCookieManager = cookieManager;
 		mAppSpecificConfig = config;
 		mAccessTokenRenewer = tokenRenewer;
-		mReauthHandler = reauthHandler; 
+		mReauthHandler = reauthHandler;
 	}
 		
 	private void handleHttPost(URLConnection conn) throws IOException
@@ -125,147 +123,187 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 		callResponseListeners(mResponse.returnObject, mResponse.errorObject);
 	}
-		
+
+    /**
+        This call has to be synchronized to protect from the OAuthToken renewal problems otherwise
+        it nmay happen that two parellel threads invoke this function, receive 401 for ShareFile
+        and one of them renews the OAuthToken leaving the other one with a stale copy.
+     */
 	@Override
-	public SFODataObject executeBlockingQuery() throws SFV3ErrorException 
-	{			
-		mResponse = new Response();
-		
-		int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
-		String responseString = null;
-		URLConnection connection = null;		
-		
-		try
-		{						
-			String server = mOauthToken.getApiServer();		
-			String urlstr = mQuery.buildQueryUrlString(server);
-								
-			URL url = new URL(urlstr);
-			connection = SFHttpsCaller.getURLConnection(url);		
-			SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
-			mAppSpecificConfig.setAddtionalHeaders(connection);
-			
-			SFHttpsCaller.addAuthenticationHeader(connection,mOauthToken,mQuery.getUserName(),mQuery.getPassword(),mCookieManager);
-			
-			handleHttPost(connection);
-			
-			SLog.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
-			
-			connection.connect();
-			
-			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);			
-						
-			SFHttpsCaller.getAndStoreCookies(connection, url,mCookieManager);
-			
-			switch(httpErrorCode)
-			{
-				case HttpsURLConnection.HTTP_OK:
-				{															
-					responseString = SFHttpsCaller.readResponse(connection);
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
-					
-					SFODataObject ret = callSuccessResponseParser(responseString);
-					
-					if(ret!=null)
-					{
-						mResponse.setResponse(ret, null);
-					}
-					else
-					{
-						if(mResponse.errorObject == null)
-						{
-							mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,null,null));
-						}
-					}
-				}
-				break;
-				
-				case HttpsURLConnection.HTTP_NO_CONTENT:
-				{
-					mResponse.setResponse(new SFNoContent(), null);
-				}
-				break;
-				
-				case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				{
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = ", "AUTH ERROR");
-					
-					if(!mQuery.canReNewTokenInternally() || mAccessTokenRenewer==null)
-					{
-						SFV3Error sfV3error = new SFV3Error(httpErrorCode,null,null);
-						mResponse.setResponse(null, sfV3error);
-					}
-					else
-					{												
-						SFODataObject ret = executeQueryAfterTokenRenew();
-						
-						if(ret!=null)
-						{
-							mResponse.setResponse(ret, null);
-						}
-						else
-						{
-							if(mResponse.errorObject == null)
-							{
-								mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,null,null));
-							}
-						}
-					}
-				}
-				break;
-				
-				default:
-				{
-					responseString = SFHttpsCaller.readErrorResponse(connection);
-					SFDumpLog.dumpLog(TAG, "RAW RESPONSE = " , responseString);
-					SFV3Error sfV3error = new SFV3Error(httpErrorCode,responseString,null);
-					mResponse.setResponse(null, sfV3error);
-				}
-			}		    							    															
-		}
-		catch(Exception ex)
-		{		
-			SLog.e(TAG,ex);
-			SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
-			mResponse.setResponse(null, sfV3error);
-		}		
-		catch (OutOfMemoryError e) 
-		{
-			SLog.e(TAG,e.getLocalizedMessage());
-			SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(e.getStackTrace().toString()));
-			mResponse.setResponse(null, sfV3error);
-		}
-		finally
-		{
-			SFHttpsCaller.disconnect(connection);
-		}
-								
+	public SFODataObject executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException
+    {
+
+
+        synchronized (mSFApiClient)
+        {
+
+            mSFApiClient.validateClientState();
+
+            //SLog.d(TAG, "executeBlockingQuery init with: [" + mSFApiClient.getOAuthToken().getAccessToken() + "]:[" + mSFApiClient.getOAuthToken().getRefreshToken() + "]");
+
+            mResponse = new Response();
+
+            int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+            String responseString = null;
+            URLConnection connection = null;
+
+            try {
+                String server = mSFApiClient.getOAuthToken().getApiServer();
+                String urlstr = mQuery.buildQueryUrlString(server);
+
+                setCurrentUri(urlstr);
+
+                URL url = new URL(urlstr);
+                connection = SFHttpsCaller.getURLConnection(url);
+                SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
+                mAppSpecificConfig.setAddtionalHeaders(connection);
+
+                SFHttpsCaller.addAuthenticationHeader(connection, mSFApiClient.getOAuthToken(), mQuery.getUserName(), mQuery.getPassword(), mCookieManager);
+
+                handleHttPost(connection);
+
+                SLog.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
+
+                connection.connect();
+
+                httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);
+
+                SFHttpsCaller.getAndStoreCookies(connection, url, mCookieManager);
+
+                switch (httpErrorCode) {
+                    case HttpsURLConnection.HTTP_OK: {
+                        responseString = SFHttpsCaller.readResponse(connection);
+                        SLog.v(TAG, responseString);
+
+                        SFODataObject ret = callSuccessResponseParser(responseString);
+
+                        if (ret != null) {
+                            mResponse.setResponse(ret, null);
+                        } else {
+                            if (mResponse.errorObject == null) {
+                                mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, null));
+                            }
+                        }
+                    }
+                    break;
+
+                    case HttpsURLConnection.HTTP_NO_CONTENT: {
+                        mResponse.setResponse(new SFNoContent(), null);
+                    }
+                    break;
+
+                    case HttpsURLConnection.HTTP_UNAUTHORIZED: {
+                        SLog.d(TAG, "RESPONSE = AUTH ERROR");
+
+                        if (!mQuery.canReNewTokenInternally() || mAccessTokenRenewer == null) {
+                            SFV3Error sfV3error = new SFV3Error(httpErrorCode, null, null);
+                            mResponse.setResponse(null, sfV3error);
+                        } else {
+                            SFODataObject ret = executeQueryAfterTokenRenew();
+
+                            if (ret != null) {
+                                mResponse.setResponse(ret, null);
+                            } else {
+                                if (mResponse.errorObject == null) {
+                                    mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, null));
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                    default: {
+                        responseString = SFHttpsCaller.readErrorResponse(connection);
+                        SLog.v(TAG, responseString);
+                        SFV3Error sfV3error = new SFV3Error(httpErrorCode, responseString, null);
+                        mResponse.setResponse(null, sfV3error);
+                    }
+                }
+            }
+            catch (ConnectException ex)
+            {
+                SLog.e(TAG, ex);
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
+                mResponse.setResponse(null, sfV3error);
+            }
+            catch (Exception ex)
+            {
+                SLog.e(TAG, ex);
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
+                mResponse.setResponse(null, sfV3error);
+            }
+            catch (OutOfMemoryError e)
+            {
+                SLog.e(TAG, e.getLocalizedMessage());
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(e.getStackTrace().toString()));
+                mResponse.setResponse(null, sfV3error);
+            }
+            finally
+            {
+                SFHttpsCaller.disconnect(connection);
+            }
+
+            callSaveCredentialsCallback(mResponse.returnObject, mResponse.errorObject);
+        }
+
 		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
 	}		
-	
+
+    private void callSaveCredentialsCallback(SFODataObject sfobject,SFV3Error v3error)
+    {
+        if(mReauthHandler == null)
+        {
+            return;
+        }
+
+        //the auth was success. if the query had credentials, callback the caller to store those creds
+        if(sfobject!=null)
+        {
+            if(!Utils.isEmpty(mQuery.getPassword()))
+            {
+                try
+                {
+                    mReauthHandler.storeCredentials(mQuery.getUserName(),mQuery.getPassword(),mQuery.getLink().toString());
+                }
+                catch (Exception e)
+                {
+                    SLog.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
+                }
+            }
+        }
+
+    }
+
 	private boolean renewToken() throws SFV3ErrorException
 	{
+        SLog.d(TAG, "!!!Trying to renew token");
+
 		if(mAccessTokenRenewer==null)
 		{
+            SLog.d(TAG, "!!!no token renewer");
 			return false;
 		}
-		
-		mOauthToken = mAccessTokenRenewer.getNewAccessToken();
-		mAccessTokenRenewer.callResponseListeners();		
-		SFV3Error error = mAccessTokenRenewer.getError();				
-		
-		if(mOauthToken != null)
+
+        boolean ret = false;
+
+		if(mAccessTokenRenewer.getNewAccessToken() != null)
 		{
-			mResponse.setResponse(null, error);
-			
-			return true;
+            SLog.d(TAG, "!!!renewed token successfuly");
+            ret = true;
 		}
-						
-		return false;
+        else
+        {
+            SLog.e(TAG, "!!!token renew failed due to: " + mAccessTokenRenewer.getError().errorDisplayString("unknown"));
+            mResponse.setResponse(null, mAccessTokenRenewer.getError());
+        }
+
+        mAccessTokenRenewer.callResponseListeners();
+
+        return ret;
 	}
 	
-	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException 
-	{
+	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException, SFInvalidStateException
+    {
 		if(!renewToken())
 		{
 			return null;
@@ -274,42 +312,96 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		return executeBlockingQuery();
 	}
 
-	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) 
-	{
+	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) throws SFInvalidStateException, SFV3ErrorException
+    {
 		SFODataObject odataObject = null;
-		
-		try 
-		{						
-			URI redirectLink = redirection.getUri();
-			
-			SLog.d(TAG,"REDIRECT TO: " + redirectLink);
-			
-			mQuery.setLinkAndAppendPreviousParameters(redirectLink);
-			
-			odataObject = executeBlockingQuery();
-		} 
-		catch (Exception e) 
-		{			
-			SLog.e(TAG,e);
-		}
+
+        try
+        {
+            URI redirectLink = redirection.getUri();
+            SLog.d(TAG,"REDIRECT TO: " + redirectLink);
+            mQuery.setLinkAndAppendPreviousParameters(redirectLink);
+        }
+        catch (NullPointerException e)
+        {
+            SLog.e(TAG,e);
+            throw new RuntimeException("Server Bug: Redirection object or Uri is null");
+        }
+        catch (URISyntaxException e)
+        {
+            SLog.e(TAG,e);
+            throw new RuntimeException("Server Bug: Redirection object syntax error");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            SLog.e(TAG,e);
+            throw new RuntimeException("Server Bug: Redirection object unsupported encoding");
+        }
+
+        odataObject = executeBlockingQuery();
 		
 		return odataObject;
 	}
-		
-	/**
-	 *   If the returned object is a Symbolic Link or has a Redirection feild we need to read ahead to get the actual contents.
-	 * @throws URISyntaxException 
-	 * @throws SFV3ErrorException 
-	 *   
-	 */
-	
-	private boolean mAlreadRedirecting = false;
+
+    private URI mCurrentUri = null;
+
+    /**
+        Use this to keep track of the current Uri on which the executor made an https call
+        that way we can avoid making extra redirection calls.
+     */
+    private void setCurrentUri(String str)
+    {
+        try
+        {
+            mCurrentUri = new URI(str);
+            //Want to control max number of redirects here?
+        }
+        catch(Exception e)
+        {
+            SLog.e(TAG,e);
+        }
+    }
+
+    private boolean isNewRedirectionUri(SFRedirection redirection)
+    {
+        if(redirection == null)
+        {
+            return false;
+        }
+
+        if(mCurrentUri ==null || redirection.getUri()==null)
+        {
+            return false;
+        }
+
+        try
+        {
+            String currentHost = mCurrentUri.getHost();
+            String currentPath = mCurrentUri.getPath();
+
+            String targetHost = redirection.getUri().getHost();
+            String targetPath = redirection.getUri().getPath();
+
+            if (currentHost.equalsIgnoreCase(targetHost) && currentPath.equalsIgnoreCase(targetPath))
+            {
+                SLog.v(TAG, "Don't Redirect. Already fetched response from link " + redirection.getUri());
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            SLog.e(TAG, "ZK folder might not show up correctly.",e);
+            return false;
+        }
+
+        return true;
+    }
 	
 	private SFRedirectionType redirectionRequired(SFODataObject object)
 	{
 		SFRedirectionType ret = SFRedirectionType.NONE;
 		
-		if(!mQuery.readAheadAllowed())
+		if(!mQuery.reDirectionAllowed())
 		{
 			return ret;
 		}
@@ -327,12 +419,12 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		{
 			SFFolder folder = (SFFolder) object;
 			
-			Boolean hadRemoteChildren = folder.getHasRemoteChildren();
+			Boolean hasRemoteChildren = folder.getHasRemoteChildren();
 			
-			if(folder.getRedirection()!=null && hadRemoteChildren!=null && hadRemoteChildren == true && !mAlreadRedirecting)
+			if(hasRemoteChildren!=null && hasRemoteChildren == true &&
+                    isNewRedirectionUri(folder.getRedirection()))
 			{					
 				ret = SFRedirectionType.FOLDER_ENUM;
-				mAlreadRedirecting = true;
 			}
 		}
 		else if(object instanceof SFRedirection)
@@ -343,8 +435,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		return ret;
 	}
 	
-	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException
-	{
+	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException, SFInvalidStateException
+    {
 		mQuery.setLinkAndAppendPreviousParameters(link.getLink());		
 		return executeBlockingQuery();
 	}
@@ -370,6 +462,11 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	@SuppressWarnings("unchecked")
 	protected void callResponseListeners(SFODataObject sfobject,SFV3Error v3error)
 	{
+        if(v3error!=null && handleIfAuthError(v3error, mQuery))
+        {
+            return;
+        }
+
 		if(mResponseListener == null)
 		{
 			return;
@@ -379,10 +476,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		{
 			if(v3error !=null)
 			{
-				if(!handleIfAuthError(v3error, mQuery))
-				{
-					mResponseListener.sfApiError(v3error, mQuery);
-				}
+                mResponseListener.sfApiError(v3error, mQuery);
 			}
 			else
 			{
@@ -418,8 +512,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	 * @throws SFV3ErrorException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException, UnsupportedEncodingException
-	{
+	protected SFODataObject callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException, UnsupportedEncodingException, SFInvalidStateException
+    {
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
 		SFODataObject sfobject = SFGsonHelper.customParse(jsonElement);

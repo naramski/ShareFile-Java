@@ -11,6 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.sharefile.api.SFTokenRenewError;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
@@ -104,6 +105,8 @@ public class SFOAuthTokenRenewer
 	 */
 	public SFOAuth2Token getNewAccessToken() throws SFV3ErrorException
 	{
+        SLog.d(TAG,"Renew Token from with: [" + mOldAccessToken.getAccessToken() + "]:["+mOldAccessToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
+
 		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString = null;
 		
@@ -144,14 +147,15 @@ public class SFOAuthTokenRenewer
 				
 				default:
 					responseString = SFHttpsCaller.readErrorResponse(conn);
-					mSFV3Error = new SFV3Error(httpErrorCode,responseString,null);
+                    SLog.d(TAG, "!!! Server err repsonse for token renew = " + responseString);
+					mSFV3Error = new SFTokenRenewError(httpErrorCode,responseString,null);
 				break;	
 			}							    			
 						
 		}		
 		catch (Exception e) 
 		{
-			mSFV3Error = new SFV3Error(httpErrorCode,null,e);
+			mSFV3Error = new SFTokenRenewError(httpErrorCode,null,e);
 		} 		
 										
 		

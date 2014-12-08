@@ -4,15 +4,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFSDKDefaultAccessScope;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.java.log.SLog;
@@ -24,10 +25,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -62,7 +65,7 @@ public class SFUploadRunnable extends TransferRunnable
 	
 	private final String mDetails;
 	
-	private final String mParentId;
+//	private final String mParentId;
 	private final String mV3Url;
 	private final boolean mOverwrite;
 
@@ -71,7 +74,7 @@ public class SFUploadRunnable extends TransferRunnable
 	private AtomicBoolean cancelRequested = new AtomicBoolean(false);
 	
 	public SFUploadRunnable(
-		String parentId, String v3Url, boolean overwrite,  
+		String v3Url, boolean overwrite,
 		int resumeFromByteIndex, long tolalBytes, String destinationName,
 		InputStream inputStream, SFApiClient client, IProgress progressListener,
 		SFCookieManager cookieManager,String connUserName,String connPassword, String details
@@ -87,7 +90,7 @@ public class SFUploadRunnable extends TransferRunnable
 		mPassword = connPassword;
 		mDetails = details;
 		
-		mParentId = parentId;
+		// mParentId = parentId;
 		mV3Url = v3Url;
 		mOverwrite = overwrite;
 	}
@@ -108,7 +111,7 @@ public class SFUploadRunnable extends TransferRunnable
 	}
 	
 	
-	public Result runInThisThread() {
+	private Result runInThisThread() {
 		try {
 			// get spec
 			mUploadSpecification = getSpecification();
@@ -133,35 +136,53 @@ public class SFUploadRunnable extends TransferRunnable
 			
 		} catch(Exception e) {		
 			SLog.e(TAG, e);
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage(),null);
+			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage());
 			Result ret = new Result();
 			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
 			return ret;
 			
 		}
 	}
-	
-	//TODO: V3TOFIX
+
 	private SFUploadSpecification getSpecification() throws SFInvalidStateException, SFV3ErrorException 
 	{
-		/*
-		SFApiQuery<SFUploadSpecification> uploadQuery = SFItemsEntity.upload(
-				mParentId, SFUploadMethod.Streamed, true, 
-				mDestinationFileName, mTotalBytes, null, false, true, false, false, "sfsdk", 
-				mOverwrite, mDestinationFileName, mDetails, false, null, null, 1, "json", false, 365
-			);
-			
 		try 
 		{
-			uploadQuery.setLink(mV3Url);
-			
+            Date now = new Date();
+
+            ISFQuery<SFUploadSpecification> uploadQuery = SFQueryBuilder.ITEMS.upload(new URI(mV3Url)
+                            ,new SFSafeEnum<SFUploadMethod>(SFUploadMethod.Streamed),
+                            true,
+                            mDestinationFileName,
+                            mTotalBytes,
+                            null,
+                            false,
+                            true,
+                            false,
+                            false,
+                            "sfsdk",
+                            mOverwrite,
+                            mDestinationFileName,
+                            mDetails,
+                            false,
+                            null,
+                            null,
+                            1,
+                            "json",
+                            false, now,now, 5*365);
+
+			// uploadQuery.setLink(mV3Url);
+
+
+            uploadQuery.setCredentials(mUsername,mPassword);
+
+            return mApiClient.executeQuery(uploadQuery);
 		}  
 		catch (URISyntaxException e)  
 		{				
 			SLog.e(TAG, e);
 		}
-		
-		return mApiClient.executeWithReAuth(uploadQuery);*/
+
 		
 		return null;
 	}
@@ -389,7 +410,7 @@ public class SFUploadRunnable extends TransferRunnable
 		return ret;
 	}
 	
-	public Result upload() {		
+	private Result upload() {
 		String responseString = null;
 //		long bytesRead = mResumeFromByteIndex;
 		int chunkSize = 1024*1024;		
@@ -430,7 +451,7 @@ public class SFUploadRunnable extends TransferRunnable
 				if(mChunkUploadResponse.mWasError) {
 					SLog.d(TAG, "Error uploading chunk - break");
                     uploadResponse = new Result();
-                    SFV3Error v3Error = new SFV3Error(mChunkUploadResponse.mErrorCode, mChunkUploadResponse.mErrorMessage, null);
+                    SFV3Error v3Error = new SFV3Error(mChunkUploadResponse.mErrorCode, mChunkUploadResponse.mErrorMessage);
                     uploadResponse.setFields(mChunkUploadResponse.mErrorCode, v3Error, previousChunkTotalBytes);
 					return uploadResponse;
 				}					

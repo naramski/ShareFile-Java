@@ -31,4 +31,16 @@ public class SFV3ErrorException extends SFAbstractException
 		
 		return result;
 	}
+
+    @Override
+    public String getMessage()
+    {
+        return mV3Error.errorDisplayString("");
+    }
+
+    @Override
+    public String getLocalizedMessage()
+    {
+        return getMessage();
+    }
 }

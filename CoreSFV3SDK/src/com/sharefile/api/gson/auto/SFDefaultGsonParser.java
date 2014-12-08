@@ -12,6 +12,8 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.models.SFItem;
@@ -19,6 +21,7 @@ import com.sharefile.api.models.SFItemInfo;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFPrincipal;
+import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFStorageCenter;
 import com.sharefile.api.utils.SFDateFormat;
 import com.sharefile.api.utils.SafeEnumHelpers;
@@ -29,13 +32,12 @@ import com.sharefile.api.utils.SafeEnumHelpers;
  */
 public class SFDefaultGsonParser 
 {	
-	private final GsonBuilder mGsonBuilder;
+	private static final GsonBuilder mGsonBuilder = new GsonBuilder();
 	private final Gson mGson;
 	private static SFDefaultGsonParser mInstance = null; 
 	
 	SFDefaultGsonParser()
-	{		
-		mGsonBuilder = new GsonBuilder();				
+	{
 		registerSFSpecificGsonAdapters();
 		mGson = mGsonBuilder.setDateFormat("yyyy-MM-dd").create();
 	}
@@ -55,10 +57,10 @@ public class SFDefaultGsonParser
 		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
 	}	
 			
-	/*public static SFV3Error parse(JsonElement jsonElement)	
+	public static SFV3Error parse(JsonElement jsonElement)
 	{		
 		return getInstance().mGson.fromJson(jsonElement, SFV3Error.class);		
-	}*/
+	}
 	
 	public static String serialize(Type clazz,Object src)	
 	{		
@@ -81,39 +83,31 @@ public class SFDefaultGsonParser
 	 */
 	
 	private final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
-			
-	private void registerV3EnumAdapters()
-	{
-		mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new JsonDeserializer<SFSafeEnum>() 
-		{
-			@Override
-			public SFSafeEnum deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
-			{					
-				SFSafeEnum safeEnum = new SFSafeEnum();
-				
-				Class enumClass = SafeEnumHelpers.getEnumClass(arg1.toString());
-				
-				String value = arg0.getAsString();
-				
-				Enum enuM = SafeEnumHelpers.getEnumFromString(enumClass, value);
-				
-				safeEnum.setValue(value, enuM);
-				
-				return safeEnum;
-			}
-		});
-	}
-		
+
+    public static void registerTypeAdapter(Class clazz)
+    {
+        mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());
+    }
 
 	private void registerSFSpecificGsonAdapters()
-	{		
+	{
+        //separate the new SFGsonRouter() into two different interfaces for serialize, deserialize
+        //and resgister individually.
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
-		mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFStorageCenter.class, new SFGsonRouter());
-		
-		registerV3EnumAdapters();		
+        mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new SFCustomSafeEnumParser());
+
+        mGsonBuilder.registerTypeAdapter(SFShare.class, new JsonSerializer<SFShare>()
+        {
+            @Override
+            public JsonElement serialize(SFShare sfShare, Type type,
+                                         JsonSerializationContext jsonSerializationContext)
+            {
+                return SFCustomSerializer.serialize(sfShare);
+            }
+        });
 		
 		mGsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() 
 		{

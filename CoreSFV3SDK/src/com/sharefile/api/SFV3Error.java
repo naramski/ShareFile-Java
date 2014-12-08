@@ -1,7 +1,5 @@
 package com.sharefile.api;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,6 +7,8 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.gson.SFGsonHelper;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /*
  *   
@@ -45,10 +45,10 @@ public class SFV3Error
 	private static final String ERR_NOTREACHABLE = "Server Not reachable (503)";
 	private static final String ERR_BADMETHOD = "Method not allowed (405)";
 					
-	private Exception mInternalException = null;				
-	private ServerResponse mServerResponse = new ServerResponse();
+	@SFSDKDefaultAccessScope Exception mInternalException = null;
+	@SFSDKDefaultAccessScope ServerResponse mServerResponse = new ServerResponse();
 				
-	private String getErrorMessageFromErroCode(int httpResponseCode)
+	@SFSDKDefaultAccessScope String getErrorMessageFromErroCode(int httpResponseCode)
 	{
 		switch(httpResponseCode)
 		{
@@ -94,6 +94,18 @@ public class SFV3Error
 			mInternalException = exception;			
 		}
 	}
+
+    public SFV3Error(int errorCode, String message) {
+        mServerResponse.httpResponseCode = 200; // ???
+        mServerResponse.code = String.valueOf(errorCode);
+        mServerResponse.value = message;
+    }
+
+    protected SFV3Error(int serverHttpCode ,Exception exception)
+    {
+        mServerResponse.httpResponseCode = serverHttpCode;
+        mInternalException = exception ;
+    }
 				
 	public boolean isAuthError()
 	{
@@ -104,13 +116,31 @@ public class SFV3Error
 		
 		return false;
 	}
-		
+
+    public boolean isCancelled()
+    {
+        return (mServerResponse.httpResponseCode == SFSDK.HTTP_ERROR_CANCELED);
+    }
+
+    public boolean isConnectionError()
+    {
+        if(mServerResponse.httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
+        {
+            return true;
+        }
+
+        return false;
+    }
 	/**
 	 *  Allows the clients to show a localized message if it is sent from the server or optional string if its an internal error
 	 */
 	public String errorDisplayString(String optionalLocalized)
 	{
-		if(mServerResponse.httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && mServerResponse.value!=null)
+        if(mServerResponse.httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
+        {
+            return "Cannot connect to network";
+        }
+		else if(mServerResponse.httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && mServerResponse.value!=null)
 		{
 			return mServerResponse.value;
 		}

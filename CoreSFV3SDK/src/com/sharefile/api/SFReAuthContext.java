@@ -9,6 +9,7 @@ import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.ISFReExcecuteQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.utils.Utils;
 
 /**
  *   This class should receive all the information to re-execute the original query that caused the auth exception.
@@ -62,4 +63,9 @@ public final class SFReAuthContext<T extends SFODataObject>
 	{
 		return mQuery.getLink();
 	}
+
+    public void callErrorListener(SFV3Error sfv3Error)
+    {
+        Utils.safeCallErrorListener(mOriginalListener,sfv3Error,mQuery);
+    }
 }

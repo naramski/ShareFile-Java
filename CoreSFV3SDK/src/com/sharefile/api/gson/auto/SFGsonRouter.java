@@ -12,6 +12,7 @@ import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.models.SFGroup;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFUser;
 
 /**

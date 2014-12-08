@@ -1,5 +1,7 @@
 package com.sharefile.api.utils;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import com.sharefile.api.SFV3Error;
@@ -48,7 +50,17 @@ public class Utils
 		   
 		   return ret;
 	}
-	
+
+    public static String parseV3IDFromURL(URI url)
+    {
+        if(url == null)
+        {
+             return null;
+        }
+
+        return parseV3IDFromURL(url.toString());
+    }
+
 	public static boolean isEmpty(String str)
 	{
 		boolean ret = false;
@@ -60,4 +72,21 @@ public class Utils
 		
 		return ret;
 	}
+
+    public static boolean isEmpty(ArrayList arrayList)
+    {
+        boolean ret = false;
+
+        if(arrayList == null || arrayList.size() ==0 )
+        {
+            ret = true;
+        }
+
+        return ret;
+    }
+
+    public static boolean isConnectorGroup(String id)
+    {
+        return id.indexOf("c-")==0;
+    }
 }

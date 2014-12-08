@@ -1,15 +1,5 @@
 package com.sharefile.api.https;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
@@ -19,6 +9,16 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.java.log.SLog;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class SFDownloadRunnable extends TransferRunnable {
 	private static final String TAG = SFKeywords.TAG + "-FileDownloadRunnable";
@@ -78,7 +78,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 	 * execute download in this thread
 	 * @return
 	 */
-	public Result runInThisThread() {
+	private Result runInThisThread() {
 		try {
 			download();
 		
@@ -88,7 +88,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 		}
 		
 		if ( isCanceled() ) {
-			// create "cancel error" regardless of result			
+			// create "cancel error" regardless of result
 			return createCancelResult(bytesRead);
 		}
 		
@@ -96,8 +96,8 @@ public class SFDownloadRunnable extends TransferRunnable {
 
 		return mResponse;
 	}
-	
-	/**
+
+    /**
 	 * request the current download to cancel
 	 */
 	public void cancel() {
@@ -158,10 +158,6 @@ public class SFDownloadRunnable extends TransferRunnable {
 			}
 				    									
 		}
-		catch(Exception e)
-		{
-			SLog.e(TAG,e);
-		}
 		finally {
 			closeStream(fis);
 			closeStream(mOutputStream);
@@ -219,13 +215,10 @@ public class SFDownloadRunnable extends TransferRunnable {
 	{													
 		try 
 		{
-			//TODO: V3TOFIX
-			/*
 			JsonParser jsonParser = new JsonParser();
 			JsonElement jsonElement =jsonParser.parse(responseString);				
-			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);							
+			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
 			mResponse.setFields(httpCode, v3Error,downloadedBytes);
-			*/
 		} 
 		catch (Exception e)  
 		{					
@@ -257,7 +250,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 	 */
 	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesDownloaded)
 	{
-		SFV3Error v3Error = new SFV3Error(httpCode,null,null);//V3TOFIX
+		SFV3Error v3Error = new SFV3Error(httpCode,null,null);
 		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 

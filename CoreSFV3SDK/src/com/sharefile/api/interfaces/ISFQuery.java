@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.models.SFODataObject;
 
-public interface ISFQuery<T> 
+public interface ISFQuery<T> extends ISFTypeFilter
 {
-
 	void setFrom(String string);
 
 	void setHttpMethod(String string);
@@ -24,7 +24,7 @@ public interface ISFQuery<T>
 
 	void setBody(SFODataObject sfoDataObject);
 	
-	<T extends SFODataObject > void  setBody(ArrayList<T> sfoDataObjectsFeed);
+	void  setBody(ArrayList<?> sfoDataObjectsFeed);
 
 	void addQueryString(String string, String type);
 
@@ -76,9 +76,9 @@ public interface ISFQuery<T>
 	/**
 	 *  For certain calls like create symbolic link we want to disable readahead done by the SDK. This function allows to set the flag to explicity false if required..
 	 */
-	void setReadAhead(boolean value);
+	void setRedirection(boolean value);
 
-	boolean readAheadAllowed();
+	boolean reDirectionAllowed();
 	
 	/**
 	 * This will append the query paremeters from previuos query to the new link. use this only when re-executing the query for a redirected object.
@@ -95,4 +95,9 @@ public interface ISFQuery<T>
 	 * @throws UnsupportedEncodingException 
 	 */
 	void setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException;;
+
+    /**
+     * simplifies the adding of expansion parameters to the query.
+    */
+    ISFQuery<T> expand(String expansionParameter);
 }
