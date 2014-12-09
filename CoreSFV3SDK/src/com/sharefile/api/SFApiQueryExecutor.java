@@ -301,14 +301,32 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 
         return ret;
 	}
-	
+
+    //https://crashlytics.com/citrix2/android/apps/com.sharefile.mobile.tablet/issues/5486913f65f8dfea154945c8/sessions/54834f7502e400013d029118062ebeab
+    private boolean alreadyRenewedToken = false;
+    private void logMultipleTokenRenewals()
+    {
+          if(!alreadyRenewedToken)
+          {
+              alreadyRenewedToken = true;
+              return;
+          }
+
+          //Token already renewed once before in this query. dump logs
+          SLog.e(TAG, "!!Multiple token renewals in same query. Might lead to stack overflow " +
+                  "\n mCurrentUri =  " + mCurrentUri
+                  + "\nmLink = " + mQuery.getLink());
+    }
+
 	private SFODataObject executeQueryAfterTokenRenew() throws SFV3ErrorException, SFInvalidStateException
     {
 		if(!renewToken())
 		{
 			return null;
 		}
-		
+
+        logMultipleTokenRenewals();
+
 		return executeBlockingQuery();
 	}
 
