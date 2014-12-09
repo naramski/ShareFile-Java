@@ -18,7 +18,7 @@ public class SFTokenRenewError extends SFV3Error
 
         if(serverRespSring == null)
         {
-            mServerResponse.value = super.getErrorMessageFromErroCode(serverHttpCode);
+            value = super.getErrorMessageFromErroCode(serverHttpCode);
             return;
         }
 
@@ -28,8 +28,8 @@ public class SFTokenRenewError extends SFV3Error
             JsonElement jsonElement = jsonParser.parse(serverRespSring);
             JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-            mServerResponse.code = SFGsonHelper.getString(jsonObject, "error", "");
-            mServerResponse.value = SFGsonHelper.getString(jsonObject, "error_description", "");
+            code = SFGsonHelper.getString(jsonObject, "error", "");
+            value = SFGsonHelper.getString(jsonObject, "error_description", "");
         }
         catch (Exception e)
         {

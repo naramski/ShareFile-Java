@@ -1,8 +1,8 @@
 package com.sharefile.api.exceptions;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.sharefile.api.SFV3Error;
+
+import javax.net.ssl.HttpsURLConnection;
 
 @SuppressWarnings("serial")
 public class SFV3ErrorException extends SFAbstractException
@@ -24,7 +24,7 @@ public class SFV3ErrorException extends SFAbstractException
 	{
 		boolean result = false;
 		
-		if(mV3Error!=null && mV3Error.getServerResponse().httpResponseCode ==  HttpsURLConnection.HTTP_UNAUTHORIZED)
+		if(mV3Error!=null && mV3Error.getHttpResponseCode() ==  HttpsURLConnection.HTTP_UNAUTHORIZED)
 		{
 			result = true;
 		}

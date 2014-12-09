@@ -74,12 +74,12 @@ public class SFApiClient
 		public void errorGetAccessToken(SFV3Error v3error) 
 		{			
 			SLog.e(TAG,v3error.errorDisplayString("!!!error getting access token"));
-            if(v3error.getServerResponse().httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR)
+            if(v3error.getHttpResponseCode() != SFSDK.INTERNAL_HTTP_ERROR)
             {
                 reset();
             }
 
-            if(mAuthTokenChangeListener!=null)
+            if(mAuthTokenChangeListener!=null) 
             {
                 mAuthTokenChangeListener.tokenRenewFailed(v3error);
             }
