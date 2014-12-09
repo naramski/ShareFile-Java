@@ -32,23 +32,18 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class SFV3Error 
 {
-	public static class ServerResponse
-	{
-		public int httpResponseCode = SFSDK.INTERNAL_HTTP_ERROR;
-		public String code = "";
-		public String lang = null;
-		public String value = null;
-	}
-	
 	private static final String ERR_FORBIDDEN =   "Forbidden (403)";
 	private static final String ERR_UNAUTHORIZD = "Unauthorized (401)";
 	private static final String ERR_NOTREACHABLE = "Server Not reachable (503)";
 	private static final String ERR_BADMETHOD = "Method not allowed (405)";
 					
-	@SFSDKDefaultAccessScope Exception mInternalException = null;
-	@SFSDKDefaultAccessScope ServerResponse mServerResponse = new ServerResponse();
-				
-	@SFSDKDefaultAccessScope String getErrorMessageFromErroCode(int httpResponseCode)
+	protected Exception mInternalException = null;
+    protected int httpResponseCode = SFSDK.INTERNAL_HTTP_ERROR;
+    protected String code = "";
+    protected String lang = null;
+    protected String value = null;
+    
+	protected String getErrorMessageFromErroCode(int httpResponseCode)
 	{
 		switch(httpResponseCode)
 		{
@@ -68,13 +63,13 @@ public class SFV3Error
 	 *   <p>mExtraInfo = original response string which we tried to parse
 	 */
 	public SFV3Error(int serverHttpCode , String serverRespSring, Exception exception)
-	{				
-		mServerResponse.httpResponseCode = serverHttpCode;		
+	{
+        httpResponseCode = serverHttpCode;
 		mInternalException = exception ;
 		
 		if(serverRespSring == null)
 		{
-			mServerResponse.value = getErrorMessageFromErroCode(serverHttpCode);
+			value = getErrorMessageFromErroCode(serverHttpCode);
 			return;
 		}
 										
@@ -84,10 +79,10 @@ public class SFV3Error
 			JsonElement jsonElement = jsonParser.parse(serverRespSring);
 			JsonObject jsonObject = jsonElement.getAsJsonObject();
 			
-			mServerResponse.code = SFGsonHelper.getString(jsonObject, SFKeywords.CODE, "");
+			code = SFGsonHelper.getString(jsonObject, SFKeywords.CODE, "");
 			
 			JsonObject messageObject = jsonObject.getAsJsonObject(SFKeywords.MESSAGE);
-			mServerResponse.value = SFGsonHelper.getString(messageObject, SFKeywords.VALUE, "");			
+			value = SFGsonHelper.getString(messageObject, SFKeywords.VALUE, "");			
 		} 
 		catch (Exception e) 
 		{										
@@ -96,53 +91,43 @@ public class SFV3Error
 	}
 
     public SFV3Error(int errorCode, String message) {
-        mServerResponse.httpResponseCode = 200; // ???
-        mServerResponse.code = String.valueOf(errorCode);
-        mServerResponse.value = message;
+        httpResponseCode = 200; // ???
+        code = String.valueOf(errorCode);
+        value = message;
     }
 
     protected SFV3Error(int serverHttpCode ,Exception exception)
     {
-        mServerResponse.httpResponseCode = serverHttpCode;
+        httpResponseCode = serverHttpCode;
         mInternalException = exception ;
     }
 				
 	public boolean isAuthError()
 	{
-		if(mServerResponse.httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED)
-		{
-			return true;
-		}
-		
-		return false;
+		return httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED;
 	}
 
     public boolean isCancelled()
     {
-        return (mServerResponse.httpResponseCode == SFSDK.HTTP_ERROR_CANCELED);
+        return httpResponseCode == SFSDK.HTTP_ERROR_CANCELED;
     }
 
     public boolean isConnectionError()
     {
-        if(mServerResponse.httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
-        {
-            return true;
-        }
-
-        return false;
+        return httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM;
     }
 	/**
 	 *  Allows the clients to show a localized message if it is sent from the server or optional string if its an internal error
 	 */
 	public String errorDisplayString(String optionalLocalized)
 	{
-        if(mServerResponse.httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
+        if(httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
         {
             return "Cannot connect to network";
         }
-		else if(mServerResponse.httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && mServerResponse.value!=null)
+		else if(httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && value!=null)
 		{
-			return mServerResponse.value;
+			return value;
 		}
 		else if(mInternalException!=null && mInternalException.getLocalizedMessage()!=null)
 		{
@@ -157,11 +142,11 @@ public class SFV3Error
 		return optionalLocalized;
 	}
 	
-	public ServerResponse getServerResponse()
-	{
-		return mServerResponse;
-	}
-	
+    public int getHttpResponseCode()
+    {
+        return httpResponseCode;
+    }
+
 	public Exception getException()
 	{
 		return mInternalException;
