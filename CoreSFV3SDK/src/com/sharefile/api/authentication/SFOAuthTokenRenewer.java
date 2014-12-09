@@ -50,10 +50,7 @@ public class SFOAuthTokenRenewer
 		final String str = "https://"+subdomain+strDot+controlplane+"/oauth/token";
 		return str;
 	}
-	
-	/**     
-    grant_type=authorization_code&code=CvJ4LMgMDHuZGLXgJgJdDYR17Hd3b5&client_id=3fTJB2mjJ7KaNflPWJ8MylHos&client_secret=Y8LzHuYvxjxc8FE7s1HNe96s0xGVM4
-	 */
+
 	private String getBodyForWebLogin(List<NameValuePair> params) throws UnsupportedEncodingException
 	{
 	    StringBuilder result = new StringBuilder();
