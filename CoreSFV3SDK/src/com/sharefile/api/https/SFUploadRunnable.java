@@ -54,15 +54,8 @@ public class SFUploadRunnable extends TransferRunnable
 	private final long mResumeFromByteIndex;
 	private final long mTotalBytes;
 	private final InputStream mFileInputStream;
-	private final SFApiClient mApiClient;
-	private final IProgress mProgressListener;
-	private final String mDestinationFileName;	
-	private final SFCookieManager mCookieManager;
-	
-	//credentials for connectors
-	private final String mUsername;
-	private final String mPassword;
-	
+	private final String mDestinationFileName;
+
 	private final String mDetails;
 	
 //	private final String mParentId;
@@ -71,23 +64,18 @@ public class SFUploadRunnable extends TransferRunnable
 
 	private SFUploadSpecification mUploadSpecification;
 	private SFChunkUploadResponse mChunkUploadResponse=null;
-	private AtomicBoolean cancelRequested = new AtomicBoolean(false);
-	
+
 	public SFUploadRunnable(
 		String v3Url, boolean overwrite,
 		int resumeFromByteIndex, long tolalBytes, String destinationName,
 		InputStream inputStream, SFApiClient client, IProgress progressListener,
 		SFCookieManager cookieManager,String connUserName,String connPassword, String details
-	) {		
+	) {
+        super(client,progressListener,cookieManager,connUserName,connPassword);
 		mResumeFromByteIndex = resumeFromByteIndex;
 		mDestinationFileName = destinationName;
 		mTotalBytes = tolalBytes;
 		mFileInputStream = inputStream;
-		mApiClient = client;
-		mProgressListener = progressListener;
-		mCookieManager = cookieManager;
-		mUsername = connUserName;
-		mPassword = connPassword;
 		mDetails = details;
 		
 		// mParentId = parentId;
@@ -95,23 +83,7 @@ public class SFUploadRunnable extends TransferRunnable
 		mOverwrite = overwrite;
 	}
 
-	@Override
-	public void run() {
-		runInThisThread();
-	}
-	
-	/**
-	 * execute download in this thread overriding the cancel signal
-	 * @param cancel
-	 * @return
-	 */
-	public Result runInThisThread(AtomicBoolean cancel) {
-		cancelRequested = cancel;
-		return runInThisThread();
-	}
-	
-	
-	private Result runInThisThread() {
+	protected Result runInThisThread() {
 		try {
 			// get spec
 			mUploadSpecification = getSpecification();
