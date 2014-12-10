@@ -31,6 +31,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -506,7 +507,51 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			SLog.e(TAG,ex);
 		}
 	}
-	
+
+    //We want the related exceptions to be grouped on Crashlytics so throw them from different lines
+    //Crashlytics groups Exceptions by [Filename , LineNumber]
+    private void throwExceptionOnSeparateLines(SFV3Error error) throws SFV3ErrorException
+    {
+        SFV3ErrorException exception = new SFV3ErrorException(error);
+
+        Exception containedException = error.getException();
+
+        if(containedException == null)
+        {
+            throw exception;
+        }
+
+        //This is dumb but required.
+        if(containedException instanceof ConnectException )
+        {
+            throw exception;
+        }
+        else if(containedException instanceof SFOutOfMemoryException)
+        {
+            throw exception;
+        }
+        else if(containedException instanceof UnsupportedEncodingException)
+        {
+            throw exception;
+        }
+        else if(containedException instanceof URISyntaxException)
+        {
+            throw exception;
+        }
+        else if(containedException instanceof UnknownHostException)
+        {
+            throw exception;
+        }
+        else if(containedException instanceof IOException )
+        {
+            throw exception;
+        }
+        else
+        {
+            throw exception;
+        }
+    }
+
 	private SFODataObject returnResultOrThrow(SFODataObject sfobject,SFV3Error v3error) throws SFV3ErrorException
 	{
 		if(sfobject!=null)
@@ -516,7 +561,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 		
 		if(mResponseListener == null)
 		{		
-			throw new SFV3ErrorException(v3error);
+			throwExceptionOnSeparateLines(v3error);
 		}
 		
 		return null;
