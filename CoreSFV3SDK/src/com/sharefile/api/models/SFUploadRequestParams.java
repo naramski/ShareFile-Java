@@ -49,6 +49,8 @@ public class SFUploadRequestParams extends SFODataObject {
 	private String Opid;
 	@SerializedName("Title")
 	private String Title;
+	@SerializedName("Tool")
+	private String Tool;
 	@SerializedName("Details")
 	private String Details;
 	@SerializedName("IsSend")
@@ -147,6 +149,13 @@ public class SFUploadRequestParams extends SFODataObject {
 
 	public void setTitle(String title) {
 		this.Title = title;
+	}
+	public String getTool() {
+		return this.Tool;
+	}
+
+	public void setTool(String tool) {
+		this.Tool = tool;
 	}
 	public String getDetails() {
 		return this.Details;
