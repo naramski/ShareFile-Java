@@ -191,7 +191,8 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
 		sfApiQuery.addActionIds(itemid);
-		sfApiQuery.addSubAction("ProtocolLinks", platform);
+		//sfApiQuery.addSubAction("ProtocolLinks", platform);
+		sfApiQuery.addSubAction("ProtocolLinks"); //CHECK THIS!!!!!
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
