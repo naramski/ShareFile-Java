@@ -40,4 +40,9 @@ public class SFSafeEnum<T extends Enum>
 	{		
 		return originalString;
 	}
+
+    boolean equals(Enum target)
+    {
+        return mEnum == target;
+    }
 }
