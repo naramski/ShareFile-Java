@@ -28,7 +28,7 @@ public class SFQueryBuilder
 	public static final SFSessionsEntity SESSIONS = new SFSessionsEntity();
 	public static final SFSharesEntity SHARES = new SFSharesEntity();
 	public static final SFUsersEntity USERS = new SFUsersEntity();
-	public static final SFStorageCentersEntityInternal STORAGE_CENTER = new SFStorageCentersEntityInternal();
+	public static final SFStorageCentersEntity STORAGE_CENTER = new SFStorageCentersEntity();
 	public static final SFZonesEntityInternal ZONES = new SFZonesEntityInternal();
     public static final SFDevicesEntity DEVICES = new SFDevicesEntity();
 		
