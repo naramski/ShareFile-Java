@@ -40,9 +40,11 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	 */
 	private String mFromEntity = null;
 	private String mAction = null;
+	private String mSubAction = null;
 	private String mHttpMethod = null;
 	private SFProvider mProvider = SFProvider.PROVIDER_TYPE_SF;
 	private String mId = null;
+	private String mActionId = null;
 	private Map<String,String> mQueryMap = new HashMap<String, String>();
 	private Map<String,String> mIdMap = new HashMap<String, String>();	
 	private String mBody = null;
@@ -204,12 +206,17 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		
 	public final void addActionIds(String actionid)
 	{
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
+		mActionId = actionid;
+	}
+	
+	public final void addActionIds(SFSafeEnum actionId)
+	{
+		mActionId = actionId.getOriginalString();
 	}
 	
 	public final void addSubAction(String subaction)
 	{
-		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);
+		mSubAction = subaction;
 	}
 	
 	public final void setBody(SFODataObject body)
@@ -322,6 +329,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		mQueryMap.put(key, ""+fileSize);		
 	}
 
+	@Deprecated
 	public void addQueryString(String key, SFApiQuery<SFSearchResults> query) 
 	{
 		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);		
@@ -405,10 +413,25 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		
 		sb.append(buildServerURLWithProviderAndPath(server));
 		//Add the Actions part
-		if(mAction!=null && mAction.length()>0)
+		if(!Utils.isEmpty(mAction))
 		{
 			sb.append(SFKeywords.FWD_SLASH);
 			sb.append(mAction);
+			
+			//Add action id
+			if(!Utils.isEmpty(mActionId))
+			{
+				sb.append(SFKeywords.OPEN_BRACKET);
+				sb.append(mActionId);
+				sb.append(SFKeywords.CLOSE_BRACKET);
+			}
+			
+			//Add sub action			
+			if(!Utils.isEmpty(mSubAction))
+			{
+				sb.append(SFKeywords.FWD_SLASH);
+				sb.append(mSubAction);
+			}
 		}
 		
 		String queryParams = buildQueryParameters();
@@ -516,7 +539,8 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	}
 
 	@Override
-	public void addIds(URI url) {		
+	public void addIds(URI url) 
+	{		
 		mLink = url;		
 	}
 
