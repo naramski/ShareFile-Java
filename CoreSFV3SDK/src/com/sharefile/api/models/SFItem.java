@@ -73,6 +73,8 @@ public class SFItem extends SFODataObject {
 	private Long FileSizeBytes;
 	@SerializedName("PreviewStatus")
 	private SFSafeEnum<SFPreviewStatus> PreviewStatus;
+	@SerializedName("PreviewPlatformsSupported")
+	private ArrayList<SFPreviewPlatformInfo> PreviewPlatformsSupported;
 	@SerializedName("MaxPreviewSize")
 	private Integer MaxPreviewSize;
 	@SerializedName("HasPendingDeletion")
@@ -441,6 +443,19 @@ public class SFItem extends SFODataObject {
 		*/
 	public void setPreviewStatus(SFSafeEnum<SFPreviewStatus> previewstatus) {
 		this.PreviewStatus = previewstatus;
+	}
+		/**
+		* Indicates a list of PreviewPlatforms supported for this item.
+		*/
+	public ArrayList<SFPreviewPlatformInfo> getPreviewPlatformsSupported() {
+		return this.PreviewPlatformsSupported;
+	}
+
+		/**
+		* Indicates a list of PreviewPlatforms supported for this item.
+		*/
+	public void setPreviewPlatformsSupported(ArrayList<SFPreviewPlatformInfo> previewplatformssupported) {
+		this.PreviewPlatformsSupported = previewplatformssupported;
 	}
 	public Integer getMaxPreviewSize() {
 		return this.MaxPreviewSize;

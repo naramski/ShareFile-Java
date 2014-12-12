@@ -71,6 +71,8 @@ public class SFUserPreferences extends SFODataObject {
 	private String LongTimeFormat;
 	@SerializedName("DateFormat")
 	private String DateFormat;
+	@SerializedName("EnableShareConnect")
+	private Boolean EnableShareConnect;
 
 	public Boolean getEnableFlashUpload() {
 		return this.EnableFlashUpload;
@@ -232,6 +234,13 @@ public class SFUserPreferences extends SFODataObject {
 
 	public void setDateFormat(String dateformat) {
 		this.DateFormat = dateformat;
+	}
+	public Boolean getEnableShareConnect() {
+		return this.EnableShareConnect;
+	}
+
+	public void setEnableShareConnect(Boolean enableshareconnect) {
+		this.EnableShareConnect = enableshareconnect;
 	}
 
 }

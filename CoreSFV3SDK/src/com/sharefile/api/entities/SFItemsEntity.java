@@ -416,7 +416,9 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * "Zone": { "Id": "zoneid" }
     * }
-	* Updates an Item object
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
 	* @param url 	
 	* @param item 	
 	* @param forceSync 	
@@ -533,7 +535,9 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Delete Multiple Items
     * ["id1","id2",...]
 	* All items in bulk delete must be children of the same parent, identified in the URI
-	* @param forceSync
+	* @param id 	
+	* @param body 	
+	* @param forceSync 	
 	* @param deletePermanently 	
     */
 	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently)
@@ -613,11 +617,22 @@ public class SFItemsEntity extends SFODataEntityBase
 
     /**
 	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
 	* populated based on the upload method, provider, and resume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
@@ -706,6 +721,18 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays)
+	{
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload2");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setBody(uploadParams);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
     /**
 	* Unlock File
 	* Unlock a locked file.
@@ -724,12 +751,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Lock File
-	* Locks a file.
-	* This operation is only implemented in Sharepoint providers (/sp)
-	* @param url 	
-    */
 	public ISFQuery checkOut(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
@@ -740,12 +761,6 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Discard CheckOut
-	* Discards the existing lock on the file
-	* This operation is only implemented in Sharepoint providers (/sp)
-	* @param url 	
-    */
 	public ISFQuery discardCheckOut(URI url)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
@@ -871,35 +886,18 @@ public class SFItemsEntity extends SFODataEntityBase
 	}
 
     /**
-	* Get all Item Protocol Link
-	* This method returns all alternate protocol links supported by ShareFile (such
-	* as WOPI, FTP, WebDAV).
-	* @param parentUrl 	
-	* @return A Feed containing all protocols links supported by the given item
+	* Get List of Item Protocol Links
+	* @param url 	
+	* @param platform 	
+	* @return A list of protocol links depending on the input parameter 'platform', 404 (Not Found) if not supported by the item
     */
-	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI parentUrl)
+	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI url, SFSafeEnum<SFPreviewPlatform> platform)
 	{
 		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
-		sfApiQuery.addIds(parentUrl);
-		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
-    /**
-	* Get an Item Protocol Link
-	* @param url 	
-	* @param protocol 	
-	* @return A single protocol link if supported, 404 (Not Found) if not supported by the item
-    */
-	public ISFQuery<SFItemProtocolLink> getProtocolLinks(URI url, String protocol)
-	{
-		SFApiQuery<SFItemProtocolLink> sfApiQuery = new SFApiQuery<SFItemProtocolLink>();
-		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("ProtocolLinks");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addActionIds(protocol);
+		sfApiQuery.addActionIds(platform);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

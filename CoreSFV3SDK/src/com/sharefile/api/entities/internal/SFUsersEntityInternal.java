@@ -30,19 +30,26 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 public class SFUsersEntityInternal extends SFUsersEntity
 {
     /**
-	* Get User Security
-	* Retrieve the user security record - current state of the user regarding
-	* security and password settings.
-	* @param url 	
-	* @return the user security status
+	* This method adds a list of account users to the account
+    * [
+    * {"FirstName": "FirstName1", "LastName": "LastName1", "Email": "FirstName1.LastName1@TestCompany.com", "IsAdministrator": true},
+    * {"FirstName": "FirstName2", "LastName": "LastName2", "Email": "FirstName2.LastName2@TestCompany.com"},
+    * {"FirstName": "FirstName3", "LastName": "LastName3", "Email": "FirstName3.LastName3@TestCompany.com", "IsAdministrator": true},
+    * {"FirstName": "FirstName4", "LastName": "LastName4", "Email": "FirstName4.LastName4@TestCompany.com"},
+    * {"FirstName": "FirstName5", "LastName": "LastName5", "Email": "FirstName5.LastName5@TestCompany.com", "IsAdministrator": true}
+    * ]
+	* @param accountUsers 	
+	* @param accountId 	
+	* @return The list of users that are added to the account
     */
-	public ISFQuery<SFUserSecurity> getSecurity(URI url)
+	public ISFQuery<SFODataFeed<SFAccountUser>> createAccountUsers(ArrayList<SFAccountUser> accountUsers, String accountId)
 	{
-		SFApiQuery<SFUserSecurity> sfApiQuery = new SFApiQuery<SFUserSecurity>();
+		SFApiQuery<SFODataFeed<SFAccountUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccountUser>>();
 		sfApiQuery.setFrom("Users");
-		sfApiQuery.setAction("Security");
-		sfApiQuery.addIds(url);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setAction("AccountUsers");
+		sfApiQuery.addQueryString("accountId", accountId);
+		sfApiQuery.setBody(accountUsers);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

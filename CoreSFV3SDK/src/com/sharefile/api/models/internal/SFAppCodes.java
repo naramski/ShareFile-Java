@@ -10,7 +10,8 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.models.internal;
+package com.sharefile.api.models.private;
+package com.sharefile.api.models;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -54,5 +55,9 @@ public enum SFAppCodes {
 	SFAndroid_MDM,
 	ThirdParty,
 	SF_FTP,
-	SF_SFTP
+	SF_SFTP,
+	SFWebApp,
+	SFMarketing,
+	ShareConnect,
+	ShareConnectWeb
 }

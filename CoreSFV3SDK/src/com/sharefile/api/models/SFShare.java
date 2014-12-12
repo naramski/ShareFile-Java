@@ -89,6 +89,8 @@ public class SFShare extends SFODataObject {
 	private Boolean HasRemoteChildren;
 	@SerializedName("Redirection")
 	private SFRedirection Redirection;
+	@SerializedName("ShareSubType")
+	private SFSafeEnum<SFShareSubType> ShareSubType;
 
 		/**
 		* When a Share is sent to multiple users, with RequireLogin or RequireUserInfo set, then a different
@@ -465,6 +467,13 @@ public class SFShare extends SFODataObject {
 		*/
 	public void setRedirection(SFRedirection redirection) {
 		this.Redirection = redirection;
+	}
+	public SFSafeEnum<SFShareSubType> getShareSubType() {
+		return this.ShareSubType;
+	}
+
+	public void setShareSubType(SFSafeEnum<SFShareSubType> sharesubtype) {
+		this.ShareSubType = sharesubtype;
 	}
 
 }

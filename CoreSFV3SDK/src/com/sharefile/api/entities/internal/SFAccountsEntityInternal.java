@@ -30,6 +30,21 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 public class SFAccountsEntityInternal extends SFAccountsEntity
 {
     /**
+	* Creates a new account
+	* @param account 	
+	* @return The new account created by the api
+    */
+	public ISFQuery<SFFreeTrialAccount> createFreeTrialAccount(SFFreeTrialAccount account)
+	{
+		SFApiQuery<SFFreeTrialAccount> sfApiQuery = new SFApiQuery<SFFreeTrialAccount>();
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("CreateFreeTrialAccount");
+		sfApiQuery.setBody(account);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
 	* Get Outlook Information
 	* @return OutlookInformation
     */
@@ -52,30 +67,6 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetEnsSubscriberConfiguration");
 		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
-    /**
-	* Enable ENS for the Account
-    */
-	public ISFQuery enableEns()
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("EnableEns");
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
-	* Disable ENS for account
-    */
-	public ISFQuery disableEns()
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("DisableEns");
-		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
@@ -126,7 +117,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequestPlanChanges");
 		sfApiQuery.setBody(account);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
@@ -142,7 +133,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("UpgradeToPaid");
 		sfApiQuery.setBody(account);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

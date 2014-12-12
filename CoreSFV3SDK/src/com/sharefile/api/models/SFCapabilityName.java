@@ -30,15 +30,14 @@ public enum SFCapabilityName {
 	LastProgenyUpdateDate,
 	DirectDownload,
 	DirectUpload,
-	FileLocking,
+	CheckIn,
+	CheckOut,
 	FileVersioning,
 	RecycleBin,
 	FolderTemplates,
 	VirusScan,
 	ItemLink,
 	ItemNote,
-	CheckIn,
-	CheckOut,
 	ItemDescription,
 	VersionMax,
 	VersionMin,
@@ -50,5 +49,6 @@ public enum SFCapabilityName {
 	StreamedUploadForms,
 	ThreadedUploadRaw,
 	ThreadedUploadForms,
-	RightSignature
+	RightSignature,
+	UploadWithRequestParams
 }
