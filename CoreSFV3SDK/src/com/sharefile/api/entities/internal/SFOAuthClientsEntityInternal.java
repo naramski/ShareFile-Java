@@ -18,7 +18,7 @@ import com.sharefile.api.models.internal.*;
 import com.sharefile.api.models.internal.SFOAuthClient;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
-
+import com.sharefile.api.models.SFAppCodes;
 
 
 import java.io.InputStream;
@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
  
+
+
+
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -126,6 +129,21 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* get an OAuth code to be used to exchange for a OAuth token
+	* @param appCode 	
+	* @return OAuth code
+    */
+	public ISFQuery<SFOAuthCode> getOAuthCode(SFSafeEnum<SFAppCodes> appCode)
+	{
+		SFApiQuery<SFOAuthCode> sfApiQuery = new SFApiQuery<SFOAuthCode>();
+		sfApiQuery.setFrom("OAuthClients");
+		sfApiQuery.setAction("GetOAuthCode");
+		sfApiQuery.addQueryString("appCode", appCode);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

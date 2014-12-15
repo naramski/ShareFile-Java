@@ -1,13 +1,25 @@
 package com.sharefile.api;
 
+import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.entities.SFAccessControlsEntity;
+import com.sharefile.api.entities.SFAccountsEntity;
+import com.sharefile.api.entities.SFAsyncOperationsEntity;
+import com.sharefile.api.entities.SFCapabilitiesEntity;
+import com.sharefile.api.entities.SFConfigsEntity;
+import com.sharefile.api.entities.SFDevicesEntity;
+import com.sharefile.api.entities.SFFavoriteFoldersEntity;
+import com.sharefile.api.entities.SFGroupsEntity;
+import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.entities.SFMetadataEntity;
+import com.sharefile.api.entities.SFSessionsEntity;
+import com.sharefile.api.entities.SFSharesEntity;
+import com.sharefile.api.entities.SFStorageCentersEntity;
+import com.sharefile.api.entities.SFUsersEntity;
+import com.sharefile.api.entities.SFZonesEntity;
+import com.sharefile.api.enumerations.SFProvider;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.entities.*;
-import com.sharefile.api.entities.internal.SFStorageCentersEntityInternal;
-import com.sharefile.api.entities.internal.SFZonesEntityInternal;
-import com.sharefile.api.enumerations.SFProvider;
 
 /** 
  * The entities have non-static get* functions to build the queries. The auto-generated SDK does not want to change this. 
@@ -28,8 +40,8 @@ public class SFQueryBuilder
 	public static final SFSessionsEntity SESSIONS = new SFSessionsEntity();
 	public static final SFSharesEntity SHARES = new SFSharesEntity();
 	public static final SFUsersEntity USERS = new SFUsersEntity();
-	public static final SFStorageCentersEntityInternal STORAGE_CENTER = new SFStorageCentersEntityInternal();
-	public static final SFZonesEntityInternal ZONES = new SFZonesEntityInternal();
+	public static final SFStorageCentersEntity STORAGE_CENTER = new SFStorageCentersEntity();
+	public static final SFZonesEntity ZONES = new SFZonesEntity();
     public static final SFDevicesEntity DEVICES = new SFDevicesEntity();
 		
 	private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Items(%s)";

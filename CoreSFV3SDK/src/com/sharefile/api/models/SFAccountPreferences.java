@@ -197,6 +197,20 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDocPreviews;
 	@SerializedName("EnableDesktopEditorForAccount")
 	private Boolean EnableDesktopEditorForAccount;
+	@SerializedName("UseStrictEmployeeDefinition")
+	private Boolean UseStrictEmployeeDefinition;
+	@SerializedName("EmployeeEmailDomains")
+	private String EmployeeEmailDomains;
+	@SerializedName("IsPremier")
+	private Boolean IsPremier;
+	@SerializedName("DisableShareConnectForAccount")
+	private Boolean DisableShareConnectForAccount;
+	@SerializedName("EnableWebAppConnectorBrowsing")
+	private Boolean EnableWebAppConnectorBrowsing;
+	@SerializedName("EnableStrictCrossdomainPolicy")
+	private Boolean EnableStrictCrossdomainPolicy;
+	@SerializedName("DisableScanSnap")
+	private Boolean DisableScanSnap;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -799,6 +813,55 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableDesktopEditorForAccount(Boolean enabledesktopeditorforaccount) {
 		this.EnableDesktopEditorForAccount = enabledesktopeditorforaccount;
+	}
+	public Boolean getUseStrictEmployeeDefinition() {
+		return this.UseStrictEmployeeDefinition;
+	}
+
+	public void setUseStrictEmployeeDefinition(Boolean usestrictemployeedefinition) {
+		this.UseStrictEmployeeDefinition = usestrictemployeedefinition;
+	}
+	public String getEmployeeEmailDomains() {
+		return this.EmployeeEmailDomains;
+	}
+
+	public void setEmployeeEmailDomains(String employeeemaildomains) {
+		this.EmployeeEmailDomains = employeeemaildomains;
+	}
+	public Boolean getIsPremier() {
+		return this.IsPremier;
+	}
+
+	public void setIsPremier(Boolean ispremier) {
+		this.IsPremier = ispremier;
+	}
+	public Boolean getDisableShareConnectForAccount() {
+		return this.DisableShareConnectForAccount;
+	}
+
+	public void setDisableShareConnectForAccount(Boolean disableshareconnectforaccount) {
+		this.DisableShareConnectForAccount = disableshareconnectforaccount;
+	}
+	public Boolean getEnableWebAppConnectorBrowsing() {
+		return this.EnableWebAppConnectorBrowsing;
+	}
+
+	public void setEnableWebAppConnectorBrowsing(Boolean enablewebappconnectorbrowsing) {
+		this.EnableWebAppConnectorBrowsing = enablewebappconnectorbrowsing;
+	}
+	public Boolean getEnableStrictCrossdomainPolicy() {
+		return this.EnableStrictCrossdomainPolicy;
+	}
+
+	public void setEnableStrictCrossdomainPolicy(Boolean enablestrictcrossdomainpolicy) {
+		this.EnableStrictCrossdomainPolicy = enablestrictcrossdomainpolicy;
+	}
+	public Boolean getDisableScanSnap() {
+		return this.DisableScanSnap;
+	}
+
+	public void setDisableScanSnap(Boolean disablescansnap) {
+		this.DisableScanSnap = disablescansnap;
 	}
 
 }

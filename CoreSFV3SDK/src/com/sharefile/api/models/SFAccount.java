@@ -75,8 +75,12 @@ public class SFAccount extends SFODataObject {
 	private Double AdditionalUserRate;
 	@SerializedName("UserMax")
 	private Integer UserMax;
+	@SerializedName("UserUsage")
+	private SFUserUsage UserUsage;
 	@SerializedName("DiskSpaceMax")
 	private Integer DiskSpaceMax;
+	@SerializedName("DiskSpace")
+	private SFDiskSpace DiskSpace;
 	@SerializedName("BandwidthMax")
 	private Integer BandwidthMax;
 	@SerializedName("HasPowerTools")
@@ -419,6 +423,13 @@ public class SFAccount extends SFODataObject {
 	public void setUserMax(Integer usermax) {
 		this.UserMax = usermax;
 	}
+	public SFUserUsage getUserUsage() {
+		return this.UserUsage;
+	}
+
+	public void setUserUsage(SFUserUsage userusage) {
+		this.UserUsage = userusage;
+	}
 		/**
 		* Maximum disk space for the account in megabtyes
 		*/
@@ -431,6 +442,13 @@ public class SFAccount extends SFODataObject {
 		*/
 	public void setDiskSpaceMax(Integer diskspacemax) {
 		this.DiskSpaceMax = diskspacemax;
+	}
+	public SFDiskSpace getDiskSpace() {
+		return this.DiskSpace;
+	}
+
+	public void setDiskSpace(SFDiskSpace diskspace) {
+		this.DiskSpace = diskspace;
 	}
 		/**
 		* Maximum bandwidth for the account in megabtyes

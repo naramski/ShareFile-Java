@@ -122,7 +122,7 @@ public class SFSharesEntity extends SFODataEntityBase
 
     /**
 	* Get Items of a Share
-	* Retrieve the list of Items (files and folders) in the Share.
+	* Retrieve the list of Items (files and folders) in the Send Share.
 	* @param url 	
 	* @return A feed of Items of the Share
     */
@@ -137,8 +137,8 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
     /**
-	* Get Items of a Share
-	* Retrieve a single Item in the Share
+	* Get Items of a Send Share
+	* Retrieve a single Item in the Send Share
 	* @param shareUrl 	
 	* @param itemid 	
 	* @return An item in the Share
@@ -150,6 +150,49 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
 		sfApiQuery.addActionIds(itemid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get Thumbnail of a Share Item
+	* Retrieve a thumbnail link for the specified Item in the Share.
+	* @param shareUrl 	
+	* @param itemid 	
+	* @param size 	
+	* @param redirect 	
+	* @return A 302 redirection to the Thumbnail link
+    */
+	public ISFQuery<InputStream> thumbnail(URI shareUrl, String itemid, Integer size, Boolean redirect)
+	{
+		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Items");
+		sfApiQuery.addIds(shareUrl);
+		sfApiQuery.addActionIds(itemid);
+		sfApiQuery.addSubAction("Thumbnail");
+		sfApiQuery.addQueryString("size", size);
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get List of Protocol Links of a Share item
+	* @param shareUrl 	
+	* @param itemid 	
+	* @param platform 	
+	* @return A list of protocol links depending on the input parameter 'platform', 404 (Not Found) if not supported by the item
+    */
+	public ISFQuery<SFODataFeed<SFItemProtocolLink>> protocolLinks(URI shareUrl, String itemid)
+	{
+		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Items");
+		sfApiQuery.addIds(shareUrl);
+		sfApiQuery.addActionIds(itemid);
+		//sfApiQuery.addSubAction("ProtocolLinks", platform);
+		sfApiQuery.addSubAction("ProtocolLinks"); //CHECK THIS!!!!!
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -310,7 +353,7 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(share);
-		sfApiQuery.setHttpMethod("POST");
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
@@ -400,6 +443,13 @@ public class SFSharesEntity extends SFODataEntityBase
 
     /**
 	* Upload File to Request Share
+    * POST https://account.sf-api.com/sf/v3/Shares(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
 	* populated based on the upload method, provider, and resume parameters passed to the
@@ -487,6 +537,18 @@ public class SFSharesEntity extends SFODataEntityBase
 		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
 		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
 		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays)
+	{
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Upload2");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.setBody(uploadParams);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}

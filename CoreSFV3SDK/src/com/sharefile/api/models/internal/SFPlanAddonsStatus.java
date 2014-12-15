@@ -11,7 +11,6 @@
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.models.internal;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
