@@ -95,23 +95,12 @@ public class SFSharesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Create Recipient for a Share
-	* To create a Recipient for Shares that require user informaion ( Email, First Name, Last Name and Company), make sure
-	* pass those parameters
-	* @param parentUrl 	
-	* @param Email 	
-	* @param FirstName 	
-	* @param LastName 	
-	* @param Company 	
-	* @return A Share Alias representing a single recipient of the Share
-    */
-	public ISFQuery<SFShareAlias> createRecipients(URI parentUrl, String Email, String FirstName, String LastName, String Company)
+	public ISFQuery<SFShareAlias> createRecipients(URI url, String Email, String FirstName, String LastName, String Company)
 	{
 		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>();
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
-		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.addQueryString("FirstName", FirstName);
 		sfApiQuery.addQueryString("LastName", LastName);
