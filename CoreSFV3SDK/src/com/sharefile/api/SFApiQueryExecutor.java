@@ -509,46 +509,45 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 	}
 
     //We want the related exceptions to be grouped on Crashlytics so throw them from different lines
-    //Crashlytics groups Exceptions by [Filename , LineNumber]
+    //Crashlytics groups Exceptions by [Filename , LineNumber], new Exeception captures the
+    //stack trace of the given location.
     private void throwExceptionOnSeparateLines(SFV3Error error) throws SFV3ErrorException
     {
-        SFV3ErrorException exception = new SFV3ErrorException(error);
-
         Exception containedException = error.getException();
 
         if(containedException == null)
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
 
         //This is dumb but required.
         if(containedException instanceof ConnectException )
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
         else if(containedException instanceof SFOutOfMemoryException)
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
         else if(containedException instanceof UnsupportedEncodingException)
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
         else if(containedException instanceof URISyntaxException)
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
         else if(containedException instanceof UnknownHostException)
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
         else if(containedException instanceof IOException )
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
         else
         {
-            throw exception;
+            throw new SFV3ErrorException(error);
         }
     }
 
