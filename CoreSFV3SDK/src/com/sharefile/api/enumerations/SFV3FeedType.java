@@ -97,7 +97,7 @@ public enum SFV3FeedType
 	Item("$metadata#Item",SFItem.class),
     Items("$metadata#Items",SFItem.class),
 	ItemInfo("$metadata#ItemInfo",SFItemInfo.class),
-	ItemProtocolLink("$metadata#ItemProtocolLink",SFItemProtocolLink.class),
+	ItemProtocolLink("$metadata#ItemProtocolLinks",SFItemProtocolLink.class),
 	Link("$metadata#Link",SFLink.class),
 	Metadata("$metadata#Metadata",SFMetadata.class),
 	MobileSecuritySettings("$metadata#MobileSecuritySettings",SFMobileSecuritySettings.class),
