@@ -846,8 +846,8 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Paging":{
     * "PageNumber":1, (deprecated)
     * "PageSize":10, (deprecated)
-    * "Count":50,
-    * "Skip":0
+    * "Count":50, (default value)
+    * "Skip":0, (default value)
     * },
     * "Sort":{
     * "SortBy":"",
@@ -863,7 +863,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	{
 		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setAction("AdvancedSearch");
 		sfApiQuery.setBody(searchQuery);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
