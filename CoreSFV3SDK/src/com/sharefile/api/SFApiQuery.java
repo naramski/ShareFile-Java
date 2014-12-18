@@ -718,7 +718,6 @@ public class SFApiQuery<T> implements ISFQuery<T>
         mProvider = SFProvider.getProviderType(uri);
 
         String host = uri.getHost();
-        String path = uri.getPath();
         String protocol = uri.getScheme();
 
         mLink = new URI(protocol + "://" + host);
