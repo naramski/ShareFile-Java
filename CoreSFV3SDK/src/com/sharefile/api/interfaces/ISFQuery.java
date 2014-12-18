@@ -100,4 +100,14 @@ public interface ISFQuery<T> extends ISFTypeFilter
      * simplifies the adding of expansion parameters to the query.
     */
     ISFQuery<T> expand(String expansionParameter);
+
+
+    /**
+     This function takes any uri and stores only its base part along with the provider
+
+     example if you pass: https://szqatest2.sharefiletest.com/cifs/v3/Capabilities
+
+     this function will store baseLink as : https://szqatest2.sharefiletest.com/cifs/v3/
+     */
+    void setBaseLink(URI uri) throws URISyntaxException;
 }

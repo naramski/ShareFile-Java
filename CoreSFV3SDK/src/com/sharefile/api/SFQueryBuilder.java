@@ -17,6 +17,7 @@ import com.sharefile.api.entities.SFStorageCentersEntity;
 import com.sharefile.api.entities.SFUsersEntity;
 import com.sharefile.api.entities.SFZonesEntity;
 import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.extensions.SFCapabilitiesEntityEx;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,7 +32,7 @@ public class SFQueryBuilder
 	public static final SFAccessControlsEntity ACCESS_CONTROL = new SFAccessControlsEntity();
 	public static final SFAccountsEntity ACCOUNTS = new SFAccountsEntity();
 	public static final SFAsyncOperationsEntity ASYNC_OPERATION = new SFAsyncOperationsEntity();
-	public static final SFCapabilitiesEntity CAPABILITIES = new SFCapabilitiesEntity();
+	public static final SFCapabilitiesEntityEx CAPABILITIES = new SFCapabilitiesEntityEx();
 	public static final SFConfigsEntity CONFIG = new SFConfigsEntity();
 	public static final SFFavoriteFoldersEntity FAVORITE_FOLDERS = new SFFavoriteFoldersEntity();
 	public static final SFGroupsEntity GROUPS = new SFGroupsEntity();

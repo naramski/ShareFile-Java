@@ -334,8 +334,26 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	{
 		throw new SFToDoReminderException(SFKeywords.EXCEPTION_MSG_NOT_IMPLEMENTED);		
 	}
-	
-	private final String buildServerURLWithProviderAndPath(String server)
+
+    private boolean isBaseLink(URI uri)
+    {
+        String path = uri.getPath();
+
+        if(path !=null && path.replaceAll("/","").length()>0)
+        {
+           return false;
+        }
+
+        return true;
+    };
+
+    /**
+       This functions builds the query url part with :
+
+       https://subdomain.domain.com/provider/FromEntity(ids,..)
+
+     */
+	private final String buildServerURLWithProviderAndEntity(String server)
 	{
 		StringBuilder sb = new StringBuilder();
 		
@@ -344,12 +362,17 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		 */						
 		if(mLink != null)
 		{
-			SFProvider provider = SFProvider.getProviderType(mLink.getPath());
-						
-			mProvider = provider;
-			return mLink.toString();			
+            if(!isBaseLink(mLink))
+            {
+                SFProvider provider = SFProvider.getProviderType(mLink.getPath());
+
+                mProvider = provider;
+                return mLink.toString();
+            }
+
+            server = mLink.toString();
 		}
-		
+
 		if(!server.startsWith(SFKeywords.PREFIX_HTTPS) && !server.startsWith(SFKeywords.PREFIX_HTTP))
 		{
 			sb.append(SFKeywords.PREFIX_HTTPS);
@@ -411,7 +434,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(buildServerURLWithProviderAndPath(server));
+		sb.append(buildServerURLWithProviderAndEntity(server));
 		//Add the Actions part
 		if(!Utils.isEmpty(mAction))
 		{
@@ -680,5 +703,24 @@ public class SFApiQuery<T> implements ISFQuery<T>
         {
             mExpansionParameters.add(str);
         }
+    }
+
+    /**
+     This function takes any uri and stores only its base part along with the provider
+
+     example if you pass: https://szqatest2.sharefiletest.com/cifs/v3/Capabilities
+
+     This function will store baseLink as : https://szqatest2.sharefiletest.com
+     */
+    @Override
+    public void setBaseLink(URI uri) throws URISyntaxException
+    {
+        mProvider = SFProvider.getProviderType(uri);
+
+        String host = uri.getHost();
+        String path = uri.getPath();
+        String protocol = uri.getScheme();
+
+        mLink = new URI(protocol + "://" + host);
     }
 }
