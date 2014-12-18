@@ -142,7 +142,14 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	{
 		mFromEntity = setFrom;								
 	}
-	
+
+    /**
+        This function takes any uri and store it entirely.
+        example if you pass: https://szqatest2.sharefiletest.com/cifs/v3/Items(randdomid)
+        This function will store it as: https://szqatest2.sharefiletest.com/cifs/v3/Items(randdomid)
+        if the query needs additional params, the call to buildQueryUrlString() will add those to this
+        one. In case you want to avoid that, call setFullyParametrizedLink() instead.
+    */
 	public final void setLink(String link) throws URISyntaxException
 	{
 		if(link!=null)
