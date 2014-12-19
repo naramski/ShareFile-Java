@@ -15,6 +15,7 @@ import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
+import com.sharefile.api.interfaces.SFApiStreamResponse;
 import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFODataObject;
@@ -168,7 +169,12 @@ public class SFApiClient
 	{
 		return new SFApiQueryExecutor<T>(this,query, listener, mCookieManager, mSFAppConfig,mOauthTokenRenewer, reauthHandler);
 	}
-						
+
+    public synchronized ISFApiExecuteQuery getExecutor(ISFQuery<InputStream> query , SFApiStreamResponse listener) throws SFInvalidStateException
+    {
+        return new SFApiQueryExecutorForStreams(this,query, listener, mCookieManager, mSFAppConfig);
+    }
+
 	/**
 	 *   Make this a more stronger check than a simple null check on OAuth. 
 	 */
@@ -245,11 +251,15 @@ public class SFApiClient
 		return mSFAppConfig;
 	}
 
-	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws SFV3ErrorException, SFInvalidStateException 
+	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws SFV3ErrorException, SFInvalidStateException
 	{
 		return getExecutor(query, null, null).executeBlockingQuery();		
 	}
 
+    public InputStream executeQueryForStreams(ISFQuery<InputStream> query) throws SFV3ErrorException, SFInvalidStateException
+    {
+        return getExecutor(query,null).executeBlockingQuery();
+    }
 
     //TODO_ADD_V3: This should be in SFDownloadRunnable
     /**
