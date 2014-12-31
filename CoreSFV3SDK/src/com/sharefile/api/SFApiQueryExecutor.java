@@ -34,6 +34,7 @@ import java.net.URLConnection;
 import java.net.UnknownHostException;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLException;
 
 /**
  *  This class provides the bare-minimum functions to make the V3 API server calls and read + parse their responses.
@@ -222,6 +223,12 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
                 }
             }
             catch (ConnectException ex)
+            {
+                SLog.e(TAG, ex);
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
+                mResponse.setResponse(null, sfV3error);
+            }
+            catch(SSLException ex)
             {
                 SLog.e(TAG, ex);
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
