@@ -60,7 +60,7 @@ public class SFUserPreferences extends SFODataObject {
 	@SerializedName("NotificationInterval")
 	private Integer NotificationInterval;
 	@SerializedName("ShowTutorial")
-	private Integer ShowTutorial;
+	private SFSafeEnum<SFTypeOfTour> ShowTutorial;
 	@SerializedName("EnableToolOverride")
 	private Integer EnableToolOverride;
 	@SerializedName("IsResetSecurityQuestionRequired")
@@ -193,11 +193,11 @@ public class SFUserPreferences extends SFODataObject {
 	public void setNotificationInterval(Integer notificationinterval) {
 		this.NotificationInterval = notificationinterval;
 	}
-	public Integer getShowTutorial() {
+	public SFSafeEnum<SFTypeOfTour> getShowTutorial() {
 		return this.ShowTutorial;
 	}
 
-	public void setShowTutorial(Integer showtutorial) {
+	public void setShowTutorial(SFSafeEnum<SFTypeOfTour> showtutorial) {
 		this.ShowTutorial = showtutorial;
 	}
 	public Integer getEnableToolOverride() {
