@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import com.sharefile.java.log.SLog;
 
@@ -26,7 +27,9 @@ public class SFDateFormat
 	
 	private final SimpleDateFormat mFormat;
 	private final String mZoneReplace;
-	
+
+    public static final SimpleDateFormat v1SimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
+
 	public SFDateFormat(SimpleDateFormat sf,String zonereplace) 
 	{
 		mFormat = sf;
