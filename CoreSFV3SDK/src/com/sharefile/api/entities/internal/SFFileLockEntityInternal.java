@@ -101,5 +101,23 @@ public class SFFileLockEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Discard checkout on a File
+	* Discard a checkout on a file
+	* @param url 	
+	* @param lockid 	
+    */
+	public ISFQuery discard(URI url, String lockid)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("FileLock");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addActionIds(lockid);
+		sfApiQuery.addSubAction("Discard");
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 

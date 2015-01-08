@@ -50,5 +50,7 @@ public enum SFCapabilityName {
 	ThreadedUploadRaw,
 	ThreadedUploadForms,
 	RightSignature,
-	UploadWithRequestParams
+	UploadWithRequestParams,
+	SoftLock,
+	HardLock
 }
