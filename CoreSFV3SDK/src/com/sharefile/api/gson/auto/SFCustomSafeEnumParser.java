@@ -5,6 +5,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.sharefile.api.enumerations.SFSafeEnum;
@@ -17,7 +18,7 @@ import java.lang.reflect.Type;
  *   This class read the odata.metadata from the JsonElement to find out the real type of object contained inside the object 
  *   and the routes the parsing back to the correct default gson parser.
  */
-public class SFCustomSafeEnumParser implements JsonDeserializer<SFSafeEnum>
+public class SFCustomSafeEnumParser implements JsonDeserializer<SFSafeEnum>, JsonSerializer<SFSafeEnum>
 {		
 	private static final String TAG = "SFCustomSafeEnumParser";
 	
@@ -36,4 +37,12 @@ public class SFCustomSafeEnumParser implements JsonDeserializer<SFSafeEnum>
 
         return safeEnum;
 	}
+
+    @Override
+    public JsonElement serialize(SFSafeEnum sfSafeEnum, Type type, JsonSerializationContext jsonSerializationContext)
+    {
+        JsonPrimitive object = new JsonPrimitive(sfSafeEnum.getOriginalString());
+
+        return object;
+    }
 }
