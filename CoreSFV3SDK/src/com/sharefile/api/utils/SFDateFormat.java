@@ -17,11 +17,13 @@ public class SFDateFormat
 	//Add more ShareFile date formats if newer formats get added
 	private static final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
 	private static final  SimpleDateFormat v3SimpleDateFormat2 = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss");
+    private static final  SimpleDateFormat v3SimpleDateFormat3 = new SimpleDateFormat("EEEE, dd MMM yyyy HH:mm:ss z");
 	
 	private static final SFDateFormat[] mSFDateFormats = new SFDateFormat[]
 	{
 		new SFDateFormat(v3SimpleDateFormat, "+0000"),
-		new SFDateFormat(v3SimpleDateFormat2, "")
+		new SFDateFormat(v3SimpleDateFormat2, ""),
+        new SFDateFormat(v3SimpleDateFormat3, "")
 	};	
 	
 	
