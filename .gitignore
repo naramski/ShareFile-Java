@@ -1,2 +1,4 @@
 bin
 /CoreSFV3SDK/build
+build
+*.iml
