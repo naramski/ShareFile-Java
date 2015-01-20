@@ -73,5 +73,6 @@ public enum SFRepRole {
 	SalesEngineer,
 	Release,
 	TechnicalServiceEngineer,
-	IT
+	IT,
+	Database
 }
