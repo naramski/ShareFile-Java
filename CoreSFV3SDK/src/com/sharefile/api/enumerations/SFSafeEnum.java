@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class SFSafeEnum<T extends Enum> 
 {
-	private Enum mEnum;	
+	private T mEnum;
 	
 	@SerializedName("value")
 	private String originalString;
 	
-	public void setValue(String v, Enum e)
+	public void setValue(String v, T e)
 	{
 		originalString = v;
 		mEnum = e;
 	}
 	
-	public SFSafeEnum(Enum e)
+	public SFSafeEnum(T e)
 	{
 		setValue(e.toString(), e);
 	}
@@ -30,7 +30,7 @@ public class SFSafeEnum<T extends Enum>
 		return originalString;
 	}	
 	
-	public Enum get()
+	public T get()
 	{
 		return mEnum;
 	}
@@ -41,7 +41,7 @@ public class SFSafeEnum<T extends Enum>
 		return originalString;
 	}
 
-    public boolean equals(Enum target)
+    public boolean equals(T target)
     {
         return mEnum == target;
     }
