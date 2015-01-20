@@ -211,6 +211,16 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableStrictCrossdomainPolicy;
 	@SerializedName("DisableScanSnap")
 	private Boolean DisableScanSnap;
+	@SerializedName("EnableFileCount")
+	private Boolean EnableFileCount;
+	@SerializedName("EnableAntiVirus")
+	private Boolean EnableAntiVirus;
+	@SerializedName("EnableFileLocking")
+	private Boolean EnableFileLocking;
+	@SerializedName("EnableIntegrations")
+	private Boolean EnableIntegrations;
+	@SerializedName("IntegrationProviders")
+	private ArrayList<SFSafeEnum<SFIntegrationProvider>> IntegrationProviders;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -862,6 +872,41 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setDisableScanSnap(Boolean disablescansnap) {
 		this.DisableScanSnap = disablescansnap;
+	}
+	public Boolean getEnableFileCount() {
+		return this.EnableFileCount;
+	}
+
+	public void setEnableFileCount(Boolean enablefilecount) {
+		this.EnableFileCount = enablefilecount;
+	}
+	public Boolean getEnableAntiVirus() {
+		return this.EnableAntiVirus;
+	}
+
+	public void setEnableAntiVirus(Boolean enableantivirus) {
+		this.EnableAntiVirus = enableantivirus;
+	}
+	public Boolean getEnableFileLocking() {
+		return this.EnableFileLocking;
+	}
+
+	public void setEnableFileLocking(Boolean enablefilelocking) {
+		this.EnableFileLocking = enablefilelocking;
+	}
+	public Boolean getEnableIntegrations() {
+		return this.EnableIntegrations;
+	}
+
+	public void setEnableIntegrations(Boolean enableintegrations) {
+		this.EnableIntegrations = enableintegrations;
+	}
+	public ArrayList<SFSafeEnum<SFIntegrationProvider>> getIntegrationProviders() {
+		return this.IntegrationProviders;
+	}
+
+	public void setIntegrationProviders(ArrayList<SFSafeEnum<SFIntegrationProvider>> integrationproviders) {
+		this.IntegrationProviders = integrationproviders;
 	}
 
 }

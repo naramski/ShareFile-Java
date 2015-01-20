@@ -303,15 +303,30 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
     /**
-	* Get User's FileBox folder
+	* Get User's FileBox children
 	* @param url 	
-	* @return User's FileBox
+	* @return User's FileBox children
     */
 	public ISFQuery<SFODataFeed<SFItem>> box(URI url)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Box");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get User's FileBox folder
+	* @param url 	
+	* @return User's FileBox
+    */
+	public ISFQuery<SFItem> fileBox(URI url)
+	{
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("FileBox");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
