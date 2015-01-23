@@ -1,15 +1,5 @@
 package com.sharefile.api;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -21,12 +11,17 @@ import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
-import com.sharefile.api.models.SFTreeMode;
-import com.sharefile.api.models.SFUploadMethod;
-import com.sharefile.api.models.SFVRootType;
-import com.sharefile.api.models.SFZoneService;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class SFApiQuery<T> implements ISFQuery<T>
 {
