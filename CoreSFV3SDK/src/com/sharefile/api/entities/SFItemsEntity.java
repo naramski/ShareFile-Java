@@ -921,5 +921,63 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Get a collection of recoverable/deleted items in a folder
+	* @param url 	
+    */
+	public ISFQuery<SFODataFeed<SFItem>> getDeletedChildren(URI url, String id)
+	{
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("DeletedChildren");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get a collection of recoverable/deleted items for a user
+	* @param userid 	
+    */
+	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems(String userid)
+	{
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("UserDeletedItems");
+		sfApiQuery.addQueryString("userid", userid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Restore expired items to their original locations
+	* @param ids 	
+    */
+	public ISFQuery bulkRestore(ArrayList<String> ids)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkRestore");
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Permanently delete multiple items
+	* @param itemIds 	
+	* @param ids 	
+    */
+	public ISFQuery bulkDeletePermanently(ArrayList<String> ids)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkDeletePermanently");
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 
