@@ -238,19 +238,12 @@ public class SFApiQuery<T> implements ISFQuery<T>
 
 	public final void addQueryString(String key,Object object)
 	{
-        if(object == null)
+        if(object == null || key == null)
         {
             SLog.d(TAG,"Cannot add NULL parameter to queryString");
             return;
         }
-
-        //put expansion parameters in expansion map instead
-        if(SFQueryParams.EXPAND.equals(key))
-        {
-            expand(object.toString());
-            return;
-        }
-
+        
 		mQueryMap.put(key, object.toString());
 	}
 
