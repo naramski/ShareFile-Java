@@ -243,7 +243,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
             SLog.d(TAG,"Cannot add NULL parameter to queryString");
             return;
         }
-        
+
 		mQueryMap.put(key, object.toString());
 	}
 
