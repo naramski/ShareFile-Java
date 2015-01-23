@@ -119,6 +119,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(connection);
+                SLog.d(TAG,"Error " + responseString);
 			}
 				    									
 		}

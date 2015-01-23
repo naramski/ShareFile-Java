@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFV3ElementType;
@@ -20,25 +21,15 @@ public interface ISFQuery<T> extends ISFTypeFilter
 
 	void setAction(String string);
 
-	void addQueryString(String string, Boolean recursive);
-
 	void setBody(SFODataObject sfoDataObject);
 	
 	void  setBody(ArrayList<?> sfoDataObjectsFeed);
 
-	void addQueryString(String string, String type);
+    void addQueryString(String string, Object type);
 
 	void addActionIds(String id);
 
-	void addQueryString(String string, SFSafeEnum value);
-
-	void addQueryString(String string, Long value);
-
 	void addQueryString(String string, ArrayList<String> ids);
-
-	void addQueryString(String string, Integer size);
-
-	void addQueryString(String string, Date date);
 
 	void addSubAction(String string);
 

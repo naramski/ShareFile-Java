@@ -241,42 +241,23 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		return mBody;
 	}
 
-	public final void addQueryString(String key,SFZoneService services)
+	public final void addQueryString(String key,Object object)
 	{
-		mQueryMap.put(key, services.toString());
-	}
-	
-	public final void addQueryString(String key,Boolean value)
-	{
-		mQueryMap.put(key, value.toString());
-	}
-			
-	public void addQueryString(String key, SFTreeMode treeMode) 
-	{
-		mQueryMap.put(key, treeMode.toString());
-	}
-
-	public void addQueryString(String key, SFVRootType rootType) 
-	{
-		mQueryMap.put(key, rootType.toString());		
-	}
-
-    public final void addQueryString(String key, String value)
-    {
-        if(Utils.isEmpty(key))
+        if(object == null)
         {
+            SLog.d(TAG,"Cannot add NULL parameter to queryString");
             return;
         }
 
         //put expansion parameters in expansion map instead
         if(SFQueryParams.EXPAND.equals(key))
         {
-            expand(value);
+            expand(object.toString());
             return;
         }
 
-        mQueryMap.put(key, value);
-    }
+		mQueryMap.put(key, object.toString());
+	}
 
 	public void addQueryString(String key, ArrayList<String> ids) 
 	{
@@ -320,21 +301,6 @@ public class SFApiQuery<T> implements ISFQuery<T>
             mQueryMap.put(key, sb.toString());
         }
     }
-
-	public void addQueryString(String key, Integer size) 
-	{		
-		mQueryMap.put(key, ""+size);
-	}
-
-	public void addQueryString(String key, SFUploadMethod method) 
-	{		
-		mQueryMap.put(key, method.toString());
-	}
-
-	public void addQueryString(String key, Long fileSize) 
-	{
-		mQueryMap.put(key, ""+fileSize);		
-	}
 
 	@Deprecated
 	public void addQueryString(String key, SFApiQuery<SFSearchResults> query) 
@@ -572,18 +538,6 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	public void addIds(URI url) 
 	{		
 		mLink = url;		
-	}
-
-	@Override
-	public void addQueryString(String key, SFSafeEnum value) 
-	{
-		mQueryMap.put(key, value.toString());
-	}
-
-	@Override
-	public void addQueryString(String key, Date date) 
-	{		
-		mQueryMap.put(key, date.toString());
 	}
 
 	@Override
