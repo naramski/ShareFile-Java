@@ -333,6 +333,10 @@ public class SFApiClient
         return SFQueryBuilder.getDefaultURL(mOAuthToken.get().getSubdomain(),mOAuthToken.get().getApiCP(), folderID);
     }
 
+    public URI getTopUrl() {
+        return mDefaultTopUrl;
+    }
+
     public URI getDeviceUrl(String deviceId) throws URISyntaxException
     {
         return SFQueryBuilder.getDeviceURL(getOAuthToken().getSubdomain(),
