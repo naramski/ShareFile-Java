@@ -448,7 +448,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 			
 			Boolean hasRemoteChildren = folder.getHasRemoteChildren();
 			
-			if(hasRemoteChildren!=null && hasRemoteChildren == true &&
+			if(hasRemoteChildren!=null && hasRemoteChildren &&
                     isNewRedirectionUri(folder.getRedirection()))
 			{					
 				ret = SFRedirectionType.FOLDER_ENUM;

@@ -270,15 +270,9 @@ public class SFCookieManager
 		else if (cookiePath.equals("/")) 
 		{
 			return true;
-		} 
-		else if (targetPath.regionMatches(0, cookiePath, 0, cookiePath.length())) 
-		{
-			return true;
 		}
-		else 
-		{
-			return false;
-		}	
+
+        return targetPath.regionMatches(0, cookiePath, 0, cookiePath.length());
     }
     
     /**

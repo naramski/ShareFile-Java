@@ -354,7 +354,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 			sb.append(SFKeywords.OPEN_BRACKET);
 			
 			Set<String> keyset = mIdMap.keySet();			
-			boolean appendComma = keyset.size()>1?true:false;
+			boolean appendComma = keyset.size() > 1;
 			
 			for(String key:keyset)
 			{
@@ -517,7 +517,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		
 		if(mLink!=null)
 		{
-			ret = (SFProvider.PROVIDER_TYPE_SF == SFProvider.getProviderType(mLink)?true:false);
+			ret = (SFProvider.PROVIDER_TYPE_SF == SFProvider.getProviderType(mLink));
 		}
 		
 		return ret;

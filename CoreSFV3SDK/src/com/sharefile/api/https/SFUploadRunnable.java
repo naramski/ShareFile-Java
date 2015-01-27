@@ -306,7 +306,7 @@ public class SFUploadRunnable extends TransferRunnable
 			md.update(fileChunk, 0, chunkLength);
 			
 			//you need the RAW param or you'll have to do HTTP multi-part post...
-			String append = getAppendParams(mDestinationFileName, mTotalBytes,isLast?1:0, isLast?true:false, md5ToString(md));
+			String append = getAppendParams(mDestinationFileName, mTotalBytes,isLast?1:0, isLast, md5ToString(md));
 			final String finalURL = mUploadSpecification.getChunkUri() + append;
 
 			conn = (HttpsURLConnection)(new URL(finalURL)).openConnection();					
@@ -403,7 +403,7 @@ public class SFUploadRunnable extends TransferRunnable
 					break;
 				}
 									
-				boolean isLast = (mFileInputStream.available() ==0) ? true : false;
+				boolean isLast = (mFileInputStream.available() == 0);
 				if(isLast) {
 					SLog.d(TAG,"isLast = true");
 					done = true;
