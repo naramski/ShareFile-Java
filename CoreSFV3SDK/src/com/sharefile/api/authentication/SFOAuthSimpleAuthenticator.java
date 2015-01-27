@@ -52,7 +52,7 @@ public class SFOAuthSimpleAuthenticator
 		
 		for (Map.Entry<String, String> entry : params.entrySet()) 
 		{
-			queryString.append(String.format("%s=%s&", entry.getKey(),URLEncoder.encode(entry.getValue().toString(),SFKeywords.UTF_8)));
+			queryString.append(String.format("%s=%s&", entry.getKey(),URLEncoder.encode(entry.getValue(),SFKeywords.UTF_8)));
 		}
 		
 		queryString.deleteCharAt(queryString.length() - 1);

@@ -90,10 +90,9 @@ public class SafeEnumHelpers
         new EnumClassNames("SFUXMode",SFUXMode.class)
 	};
 		
-	public static Class getEnumClass(String str)
+	public static Class getEnumClass(String className)
 	{
 		Class clazz = null;
-		String className = str.toString();		
 		
 		if(className!=null && className.length()>BEGIN_INDEX)
 		{

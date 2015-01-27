@@ -307,11 +307,8 @@ public class SFUploadRunnable extends TransferRunnable
 			
 			//you need the RAW param or you'll have to do HTTP multi-part post...
 			String append = getAppendParams(mDestinationFileName, mTotalBytes,isLast?1:0, isLast?true:false, md5ToString(md));
-			StringBuilder url = new StringBuilder();
-			url.append(mUploadSpecification.getChunkUri() + append);																
-														
-			final String finalURL = url.toString();
-				
+			final String finalURL = mUploadSpecification.getChunkUri() + append;
+
 			conn = (HttpsURLConnection)(new URL(finalURL)).openConnection();					
 			SFHttpsCaller.addAuthenticationHeader(conn, mApiClient.getOAuthToken(), mUsername,mPassword,mCookieManager);										
 			conn.setUseCaches(false);

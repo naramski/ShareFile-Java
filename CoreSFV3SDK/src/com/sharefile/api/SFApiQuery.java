@@ -360,7 +360,13 @@ public class SFApiQuery<T> implements ISFQuery<T>
 			for(String key:keyset)
 			{
 				String value = mIdMap.get(key);				
-				sb.append(key + SFKeywords.EQUALS + value + (appendComma?SFKeywords.COMMA:SFKeywords.EMPTY));
+				sb.append(key);
+                sb.append(SFKeywords.EQUALS);
+                sb.append(value);
+                if(appendComma)
+                {
+                    sb.append(SFKeywords.COMMA);
+                }
 			}
 			
 			sb.append(SFKeywords.CLOSE_BRACKET);
@@ -488,7 +494,9 @@ public class SFApiQuery<T> implements ISFQuery<T>
 
 					String urlencoded = URLEncoder.encode(value, SFKeywords.UTF_8).replace("+", "%20");
 
-					sb.append(key + SFKeywords.EQUALS + urlencoded);
+					sb.append(key);
+                    sb.append(SFKeywords.EQUALS);
+                    sb.append(urlencoded);
 				}
 			}						
 		}
