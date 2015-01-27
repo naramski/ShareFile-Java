@@ -49,8 +49,8 @@ public class SafeEnumHelpers
 			mClassName = clazz;
 		}
 		
-		public String mStrName;
-		public Class mClassName;
+		public final String mStrName;
+		public final Class mClassName;
 	};
 	
 	private static final EnumClassNames[] mEnumClassNames = new EnumClassNames[]

@@ -34,7 +34,7 @@ public class SFCookieManager
 	 *   mStore is the map of all domains and their corresponding cookie stores.
 	 *   so if we have cookies from hosts like:	 citrix.sharefile.com   or  domian.host.com
 	 */
-    private Map<String,Map<String,Cookie>> mStore;
+    private final Map<String,Map<String,Cookie>> mStore;
 
     private static final String SET_COOKIE = "Set-Cookie";
     private static final String COOKIE_VALUE_DELIMITER = ";";
@@ -47,7 +47,7 @@ public class SFCookieManager
     private static final char NAME_VALUE_SEPARATOR = '=';
     private static final char DOT = '.';
     
-    private DateFormat dateFormat;
+    private final DateFormat dateFormat;
 
     public SFCookieManager() 
     {

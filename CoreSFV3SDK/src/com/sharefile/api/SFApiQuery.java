@@ -40,8 +40,8 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	private SFProvider mProvider = SFProvider.PROVIDER_TYPE_SF;
 	private String mId = null;
 	private String mActionId = null;
-	private Map<String,String> mQueryMap = new HashMap<String, String>();
-	private Map<String,String> mIdMap = new HashMap<String, String>();	
+	private final Map<String,String> mQueryMap = new HashMap<String, String>();
+	private final Map<String,String> mIdMap = new HashMap<String, String>();
 	private String mBody = null;
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
 	private boolean mLinkIsParametrized = false;
