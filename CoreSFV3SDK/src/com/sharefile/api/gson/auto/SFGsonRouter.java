@@ -32,7 +32,7 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 	@Override
 	public JsonElement serialize(SFODataObject sfODataObject, Type typeOfObject,JsonSerializationContext serContext) 
 	{	
-		JsonElement ret = null;		
+		JsonElement ret;
 						
 		if(sfODataObject instanceof SFItem) 
 		{

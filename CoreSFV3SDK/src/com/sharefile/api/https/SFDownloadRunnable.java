@@ -102,7 +102,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 				
 				byte[] buffer = new byte[1024 * 1024];
 				
-				int length = 0;
+				int length;
 				
 				while ((length = fis.read(buffer)) > 0) 
 				{
@@ -113,10 +113,11 @@ public class SFDownloadRunnable extends TransferRunnable {
 					updateProgress(bytesRead);
 				}				
 			}
+            /*
 			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
 			{
 				
-			}
+			}*/
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(connection);

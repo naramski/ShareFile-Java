@@ -149,10 +149,12 @@ public class SFCookieManager
                 cookie.expires = value;
             } else if ( PATH.equals(name) ) {
                 cookie.path = value;
-            } else {
+            }
+            /*else
+            {
                 // don't have any use for this part of the cookie
                 // ...
-            }
+            }*/
         }
     }
 
@@ -172,7 +174,7 @@ public class SFCookieManager
     	Map<String,Cookie> domainStore = getDomainStoreFromHost(conn.getURL().getHost());
 		
 		// OK, now we are ready to get the cookies out of the URLConnection	
-		String headerName=null;
+		String headerName;
 		for (int i=1; (headerName = conn.getHeaderFieldKey(i)) != null; i++) 
 		{
 		    if (headerName.equalsIgnoreCase(SET_COOKIE)) 

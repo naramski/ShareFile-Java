@@ -135,9 +135,8 @@ class SFApiQueryExecutorForStreams implements ISFApiExecuteQuery
 
         mResponse = new Response();
 
-        int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-        String responseString = null;
-        URLConnection connection = null;
+        int httpErrorCode;
+        URLConnection connection;
 
         try
         {

@@ -297,7 +297,7 @@ public class SFUploadRunnable extends TransferRunnable
 		long bytesUploaded = 0;
 		HttpsURLConnection conn = null;	
 		String responseString = null;
-		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+		int httpErrorCode;
 		
 		Result ret = new Result();
 		
@@ -322,7 +322,7 @@ public class SFUploadRunnable extends TransferRunnable
 			//small buffer between the chunk and the stream so we can interrupt and kill task quickly
 			final byte[] buffer = new byte[1024];
 			final ByteArrayInputStream in = new ByteArrayInputStream(fileChunk,0,chunkLength);
-			int currentBytesRead = 0;					
+			int currentBytesRead;
 			OutputStream poster = new DataOutputStream(conn.getOutputStream());					
 						
 			int count = 0; 
@@ -381,7 +381,7 @@ public class SFUploadRunnable extends TransferRunnable
 	}
 	
 	private Result upload() {
-		String responseString = null;
+		String responseString;
 //		long bytesRead = mResumeFromByteIndex;
 		int chunkSize = 1024*1024;		
 		long previousChunkTotalBytes = mResumeFromByteIndex;
@@ -391,7 +391,7 @@ public class SFUploadRunnable extends TransferRunnable
 			SLog.d(TAG, "POST " + mUploadSpecification.getChunkUri());
 			
 			seekInputStream();			
-			int chunkLength = 0;
+			int chunkLength;
 			final MessageDigest md = MessageDigest.getInstance("MD5");						
 			byte[] fileChunk = new byte[chunkSize];			
 			boolean done = false;

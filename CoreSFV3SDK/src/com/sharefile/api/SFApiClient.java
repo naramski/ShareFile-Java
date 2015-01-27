@@ -279,10 +279,10 @@ public class SFApiClient
         validateClientState();
 
         // calculate download URL
-        String url = null;
+        String url;
         try  {
             ISFQuery<InputStream> downloadQuery = SFQueryBuilder.ITEMS.download(new URI(v3Url), true);//SFItemsEntity.download();
-            if ( v3Url!=null ) downloadQuery.setLink(v3Url);
+            downloadQuery.setLink(v3Url);
             String server = mOAuthToken.get().getApiServer();
             url = downloadQuery.buildQueryUrlString(server);
 

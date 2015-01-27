@@ -55,7 +55,7 @@ public class SFQueryBuilder
 	 */
 	public static final URI getDefaultURL(final String subdomain,String hostname,final String folderID) throws URISyntaxException
     {
-          URI uri = null;
+          URI uri;
           
           String urlSpec = String.format(FORMAT_GET_TOP_FOLDER, subdomain,SFSDK.getApiServer(hostname),folderID);
           

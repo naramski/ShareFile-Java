@@ -105,7 +105,7 @@ public class SFOAuthTokenRenewer
         SLog.d(TAG,"Renew Token from with: [" + mOldAccessToken.getAccessToken() + "]:["+mOldAccessToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 
 		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-		String responseString = null;
+		String responseString;
 		
 		try 
 		{									

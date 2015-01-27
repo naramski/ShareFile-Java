@@ -146,8 +146,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 
             mResponse = new Response();
 
-            int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-            String responseString = null;
+            int httpErrorCode;
+            String responseString;
             URLConnection connection = null;
 
             try {
@@ -341,7 +341,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 
 	private SFODataObject executeQueryOnRedirectedObject(SFRedirection redirection) throws SFInvalidStateException, SFV3ErrorException
     {
-		SFODataObject odataObject = null;
+		SFODataObject odataObject;
 
         try
         {

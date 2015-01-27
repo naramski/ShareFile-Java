@@ -53,7 +53,7 @@ public class SFFilterParam
                     first = false;
                 }
 
-                String type = null;
+                String type;
 
                 if(str instanceof SFV3ElementType)
                 {

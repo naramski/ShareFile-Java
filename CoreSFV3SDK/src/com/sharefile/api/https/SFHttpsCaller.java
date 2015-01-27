@@ -198,7 +198,7 @@ public class SFHttpsCaller
 	 */
 	public static synchronized int safeGetResponseCode(URLConnection conn) throws IOException
 	{
-		int httpErrorCode = HttpsURLConnection.HTTP_INTERNAL_ERROR;
+		int httpErrorCode;
 		
 		try
 		{			
@@ -220,48 +220,9 @@ public class SFHttpsCaller
 		
 		return httpErrorCode;		
 	}
-	
-	
-	/**
-	 *  if responsecode != HTTP_OK 
-	 *  
-	 *  <p> handle it appropriately by trying to read the error stream and constructing the 
-	 *  <p> error message. Auth errors may require reading the credentials and retrying.
-	 *  
-	 *  if responsecode == HTTP_OK then read the cookies.
-	 *  
-	 *  <p>This function always returns a valid V3Error in any non-success case or NULL if HTTP_OK
-	 * @throws IOException 
-	 */
-	public static SFV3Error handleErrorAndCookies(URLConnection conn, int httpErrorCode,URL url,SFCookieManager cookieManager) throws IOException
-	{
-		SFV3Error v3Error = null;
-						
-		try
-		{
-			if(httpErrorCode == HttpsURLConnection.HTTP_OK || httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
-			{
-				getAndStoreCookies(conn,url,cookieManager);
-				return v3Error;
-			}
-			
-			String inputLine = readErrorResponse(conn);
-			
-			SLog.d(TAG,  "ERR PAGE: " + inputLine);
-			
-			v3Error = new SFV3Error(httpErrorCode,inputLine,null);
-		}
-		catch (Exception e) 
-		{						
-			v3Error = new SFV3Error(httpErrorCode,null, e);
-		}
-		
-		return v3Error;
-		
-	}
-	
-		
-	public static synchronized void getAndStoreCookies(URLConnection conn, URL url,SFCookieManager cookieManager) throws IOException
+
+
+    public static synchronized void getAndStoreCookies(URLConnection conn, URL url,SFCookieManager cookieManager) throws IOException
 	{
 		if(cookieManager!=null)
 		{						
