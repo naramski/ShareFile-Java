@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -55,7 +56,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 		
 		} catch(Exception ex) {		
 			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " +ex.getStackTrace().toString();												
+			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " + Arrays.toString(ex.getStackTrace());
 		}
 		
 		if ( isCanceled() ) {
@@ -191,7 +192,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			 * Note how we fill the httpErrorcode to httpCode. Thats coz the server originally returned it, 
 			 * just the error object was malformed or caused some other exception while parsing.			 
 			 */						
-			callInternalErrorResponseFiller(httpCode,e.getStackTrace().toString(), responseString,downloadedBytes);
+			callInternalErrorResponseFiller(httpCode, Arrays.toString(e.getStackTrace()), responseString,downloadedBytes);
 		}
 	}
 	

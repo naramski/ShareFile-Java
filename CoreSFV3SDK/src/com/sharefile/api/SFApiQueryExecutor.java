@@ -32,6 +32,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLException;
@@ -243,7 +244,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
             catch (OutOfMemoryError e)
             {
                 SLog.e(TAG, e.getLocalizedMessage());
-                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(e.getStackTrace().toString()));
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(Arrays.toString(e.getStackTrace())));
                 mResponse.setResponse(null, sfV3error);
             }
             finally

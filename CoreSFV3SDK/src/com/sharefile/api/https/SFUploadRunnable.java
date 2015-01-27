@@ -30,6 +30,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -433,7 +434,7 @@ public class SFUploadRunnable extends TransferRunnable
 			}
 			
 		} catch(Exception ex) {					
-			responseString = "\nExceptionStack = " +ex.getStackTrace().toString();	
+			responseString = "\nExceptionStack = " + Arrays.toString(ex.getStackTrace());
 			uploadResponse = new Result();
 			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,responseString,ex);
 			uploadResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, previousChunkTotalBytes);
