@@ -35,6 +35,7 @@ import com.sharefile.api.models.SFUserRole;
 import com.sharefile.api.models.SFVRootType;
 import com.sharefile.api.models.SFZoneService;
 import com.sharefile.api.models.SFZoneType;
+import com.sharefile.java.log.SLog;
 
 public class SafeEnumHelpers 
 {
@@ -121,6 +122,7 @@ public class SafeEnumHelpers
 	        }
 	        catch(IllegalArgumentException ex)
 	        {
+                SLog.e("SafeEnumHelper",ex);
 	        }
 	    }	    
 	    return null;
