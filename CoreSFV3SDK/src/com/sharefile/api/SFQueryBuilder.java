@@ -66,7 +66,7 @@ public class SFQueryBuilder
 	
 	public static final URI getDeviceURL(final String subdomain, String hostname, final String deviceID) throws URISyntaxException
 	{
-		URI uri = null;
+		URI uri;
         
         String urlSpec = String.format(FORMAT_GET_DEVICES, subdomain,SFSDK.getApiServer(hostname),deviceID);
         

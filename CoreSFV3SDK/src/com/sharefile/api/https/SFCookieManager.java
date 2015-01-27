@@ -205,7 +205,7 @@ public class SFCookieManager
 		
 		Map<String, Cookie> domainStore = mStore.get(domain);
 		if (domainStore == null) return;
-		StringBuffer cookieStringBuffer = new StringBuffer();
+		StringBuilder cookieStringBuffer = new StringBuilder();
 		
 		Iterator<?> cookieNames = domainStore.keySet().iterator();
 		while(cookieNames.hasNext()) 

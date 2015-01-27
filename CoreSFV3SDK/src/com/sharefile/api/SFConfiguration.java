@@ -76,14 +76,10 @@ public class SFConfiguration
 		{
 			return;
 		}
-		
-		Iterator<Entry<String, String>> it = mAdditionalHttpHeaders.entrySet().iterator();
-		
-	    while (it.hasNext()) 
-	    {
-	        Map.Entry<String,String> pair = (Map.Entry<String,String>)it.next();
-	        conn.setRequestProperty(pair.getKey(),pair.getValue());
-	    }
+
+        for (Entry<String, String> pair : mAdditionalHttpHeaders.entrySet()) {
+            conn.setRequestProperty(pair.getKey(), pair.getValue());
+        }
 	}
 	
 }

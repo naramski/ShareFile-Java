@@ -266,7 +266,7 @@ public class SFHttpsCaller
 	{
 		StringBuilder sb = new StringBuilder();
 		
-		BufferedReader urlstream = null;
+		BufferedReader urlstream;
 		
 		//type cast correctly.
 		if(conn instanceof HttpsURLConnection)

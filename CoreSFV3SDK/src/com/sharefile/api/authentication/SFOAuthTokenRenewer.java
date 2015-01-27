@@ -129,9 +129,8 @@ public class SFOAuthTokenRenewer
 			SFHttpsCaller.postBody(conn, body);
 			
 			httpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
-			responseString = null;			
-															
-			switch(httpErrorCode)
+
+            switch(httpErrorCode)
 			{
 				case HttpsURLConnection.HTTP_OK:
 					responseString = SFHttpsCaller.readResponse(conn);

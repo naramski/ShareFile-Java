@@ -207,7 +207,7 @@ public class SFUploadRunnable extends TransferRunnable
 	
 	public static String md5ToString(MessageDigest md) 
 	{
-		StringBuffer hash = new StringBuffer();
+		StringBuilder hash = new StringBuilder();
 		byte digest[] = md.digest();
 		String hex;
 		for(byte part : digest) {
@@ -315,7 +315,7 @@ public class SFUploadRunnable extends TransferRunnable
 			conn.setUseCaches(false);
 			conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_OCTET_STREAM);															
 			conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+chunkLength);
-			((HttpsURLConnection) conn).setFixedLengthStreamingMode(chunkLength);					
+			conn.setFixedLengthStreamingMode(chunkLength);
 			SFHttpsCaller.setPostMethod(conn);
 			conn.connect();
 			
