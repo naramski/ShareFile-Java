@@ -14,8 +14,7 @@ public class Utils
 	public static String getAcceptLanguageString()
 	{
 		Locale currentLocale = Locale.getDefault();
-	    String acceptLanguageString = currentLocale.toString().replace('_', '-') + ";q=0.8,en;q=0.6";
-	    return acceptLanguageString;
+	    return currentLocale.toString().replace('_', '-') + ";q=0.8,en;q=0.6";
 	}
 		
 	public static <T extends SFODataObject> void safeCallErrorListener(SFApiResponseListener<T> mListener, SFV3Error error, ISFQuery<T> sfapiApiqueri)

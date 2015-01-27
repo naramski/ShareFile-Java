@@ -229,9 +229,8 @@ public class SFCookieManager
 		}
 		catch (java.lang.IllegalStateException ise) 
 		{
-		    IOException ioe = new IOException("Illegal State! Cookies cannot be set on a URLConnection that is already connected. " 
+		    throw new IOException("Illegal State! Cookies cannot be set on a URLConnection that is already connected. "
 		    + "Only call setCookies(java.net.URLConnection) AFTER calling java.net.URLConnection.connect().");
-		    throw ioe;
 		}
     }
 

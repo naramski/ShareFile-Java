@@ -325,9 +325,8 @@ public class SFApiQuery<T> implements ISFQuery<T>
 		{
             if(!isBaseLink(mLink))
             {
-                SFProvider provider = SFProvider.getProviderType(mLink.getPath());
+                mProvider = SFProvider.getProviderType(mLink.getPath());
 
-                mProvider = provider;
                 return mLink.toString();
             }
 

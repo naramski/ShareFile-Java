@@ -47,8 +47,7 @@ public class SFOAuthTokenRenewer
 	{
 		String strDot = controlplane.startsWith(".")?"":".";
 		
-		final String str = "https://"+subdomain+strDot+controlplane+"/oauth/token";
-		return str;
+		return  "https://"+subdomain+strDot+controlplane+"/oauth/token";
 	}
 
 	private String getBodyForWebLogin(List<NameValuePair> params) throws UnsupportedEncodingException

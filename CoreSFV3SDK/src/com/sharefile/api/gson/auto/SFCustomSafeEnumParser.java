@@ -41,8 +41,6 @@ public class SFCustomSafeEnumParser implements JsonDeserializer<SFSafeEnum>, Jso
     @Override
     public JsonElement serialize(SFSafeEnum sfSafeEnum, Type type, JsonSerializationContext jsonSerializationContext)
     {
-        JsonPrimitive object = new JsonPrimitive(sfSafeEnum.getOriginalString());
-
-        return object;
+        return new JsonPrimitive(sfSafeEnum.getOriginalString());
     }
 }

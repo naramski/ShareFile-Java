@@ -201,8 +201,7 @@ public class SFUploadRunnable extends TransferRunnable
                 }
           }
          
-          String appendParam =  sb.toString();
-          return appendParam;                      
+          return sb.toString();
     }
 	
 	public static String md5ToString(MessageDigest md) 
