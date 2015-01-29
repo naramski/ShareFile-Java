@@ -83,6 +83,10 @@ public class SFItemInfo extends SFODataObject {
 	private Boolean TreeModeOperationAllowed;
 	@SerializedName("TreeModeSourceId")
 	private String TreeModeSourceId;
+	@SerializedName("ForcedSortField")
+	private String ForcedSortField;
+	@SerializedName("ForcedSortOrder")
+	private String ForcedSortOrder;
 
 	public SFAccessControl getCurrentAccessControl() {
 		return this.CurrentAccessControl;
@@ -286,6 +290,20 @@ public class SFItemInfo extends SFODataObject {
 
 	public void setTreeModeSourceId(String treemodesourceid) {
 		this.TreeModeSourceId = treemodesourceid;
+	}
+	public String getForcedSortField() {
+		return this.ForcedSortField;
+	}
+
+	public void setForcedSortField(String forcedsortfield) {
+		this.ForcedSortField = forcedsortfield;
+	}
+	public String getForcedSortOrder() {
+		return this.ForcedSortOrder;
+	}
+
+	public void setForcedSortOrder(String forcedsortorder) {
+		this.ForcedSortOrder = forcedsortorder;
 	}
 
 }
