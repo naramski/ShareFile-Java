@@ -198,6 +198,8 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
                     case HttpsURLConnection.HTTP_UNAUTHORIZED: {
                         SLog.d(TAG, "RESPONSE = AUTH ERROR");
 
+                        callWipeCredentialsCallback();
+
                         if (!mQuery.canReNewTokenInternally() || mAccessTokenRenewer == null) {
                             SFV3Error sfV3error = new SFV3Error(httpErrorCode, null, null);
                             mResponse.setResponse(null, sfV3error);
@@ -272,7 +274,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
             {
                 try
                 {
-                    mReauthHandler.storeCredentials(mQuery.getUserName(),mQuery.getPassword(),mQuery.getLink().toString());
+                    mReauthHandler.storeCredentials(mQuery.getUserName(),mQuery.getPassword(),mQuery.getLink().toString(),mSFApiClient.getUserId());
                 }
                 catch (Exception e)
                 {
@@ -281,6 +283,29 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
             }
         }
 
+    }
+
+    private void callWipeCredentialsCallback()
+    {
+        if(mReauthHandler == null)
+        {
+            return;
+        }
+
+        //the auth was failure. if the query had credentials, callback the caller to wipe those creds.
+        if(!Utils.isEmpty(mQuery.getPassword()))
+        {
+            try
+            {
+                SLog.d(TAG, "The stored credentials don't work anymore! Wipe them!");
+                mReauthHandler.wipeCredentials(mQuery.getLink().toString(),mSFApiClient.getUserId());
+                mQuery.setCredentials(null,null);
+            }
+            catch (Exception e)
+            {
+                SLog.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
+            }
+        }
     }
 
 	private boolean renewToken() throws SFV3ErrorException
