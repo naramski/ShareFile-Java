@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 import com.sharefile.api.models.*;
 
 public class SFZone extends SFPrincipal {
@@ -38,7 +39,7 @@ public class SFZone extends SFPrincipal {
 	@SerializedName("Version")
 	private String Version;
 	@SerializedName("ZoneServices")
-	private SFSafeEnum<SFZoneService> ZoneServices;
+	private SFSafeEnumFlags<SFZoneService> ZoneServices;
 	@SerializedName("IsHIPAAZone")
 	private Boolean IsHIPAAZone;
 	@SerializedName("StorageCenters")
@@ -88,11 +89,11 @@ public class SFZone extends SFPrincipal {
 	public void setVersion(String version) {
 		this.Version = version;
 	}
-	public SFSafeEnum<SFZoneService> getZoneServices() {
+	public SFSafeEnumFlags<SFZoneService> getZoneServices() {
 		return this.ZoneServices;
 	}
 
-	public void setZoneServices(SFSafeEnum<SFZoneService> zoneservices) {
+	public void setZoneServices(SFSafeEnumFlags<SFZoneService> zoneservices) {
 		this.ZoneServices = zoneservices;
 	}
 	public Boolean getIsHIPAAZone() {
