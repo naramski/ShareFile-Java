@@ -38,8 +38,8 @@ import com.sharefile.java.log.SLog;
 
 public class SafeEnumHelpers 
 {
-	public static final int BEGIN_INDEX_SAFE_ENUM = "com.sharefile.api.enumerations.SFSafeEnum<com.sharefile.api.models.".length();
-    public static final int BEGIN_INDEX_SAFE_ENUM_FLAGS = "com.sharefile.api.enumerations.SFSafeEnumFlags<com.sharefile.api.models.".length();
+	private static final int BEGIN_INDEX_SAFE_ENUM = "com.sharefile.api.enumerations.SFSafeEnum<com.sharefile.api.models.".length();
+    private static final int BEGIN_INDEX_SAFE_ENUM_FLAGS = "com.sharefile.api.enumerations.SFSafeEnumFlags<com.sharefile.api.models.".length();
 	
 	private static class EnumClassNames
 	{		
@@ -91,10 +91,12 @@ public class SafeEnumHelpers
         new EnumClassNames("SFUXMode",SFUXMode.class)
 	};
 		
-	public static Class getEnumClass(String className, int beginIndex)
+	public static Class getEnumClass(String className, boolean useEnumWithFlags)
 	{
 		Class clazz = null;
-		
+
+        int beginIndex = useEnumWithFlags?BEGIN_INDEX_SAFE_ENUM_FLAGS:BEGIN_INDEX_SAFE_ENUM;
+
 		if(className!=null && className.length()> beginIndex)
 		{
 			String containedClassName = className.substring(beginIndex, className.length()-1);

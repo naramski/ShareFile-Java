@@ -27,8 +27,7 @@ public class SFCustomSafeEnumParser implements JsonDeserializer<SFSafeEnum>, Jso
 	{
         SFSafeEnum safeEnum = new SFSafeEnum();
 
-        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString(),
-                SafeEnumHelpers.BEGIN_INDEX_SAFE_ENUM);
+        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString(),false);
 
         String value = jsonElement.getAsString();
 

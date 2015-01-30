@@ -24,15 +24,11 @@ public class SFCustomSafeEnumFlagsParser implements JsonDeserializer<SFSafeEnumF
 	@Override
 	public SFSafeEnumFlags deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException
 	{
-        SFSafeEnumFlags safeEnum = new SFSafeEnumFlags();
-
-        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString(),
-                SafeEnumHelpers.BEGIN_INDEX_SAFE_ENUM_FLAGS);
+        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString(),true);
 
         String value = jsonElement.getAsString();
 
-        //Enum enuM = SafeEnumHelpers.getEnumFromString(enumClass, value);
-        //safeEnum.setValue(value, enuM);
+        SFSafeEnumFlags safeEnum = new SFSafeEnumFlags();
         safeEnum.add(enumClass,value);
 
         return safeEnum;

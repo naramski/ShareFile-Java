@@ -85,7 +85,11 @@ public class SFSafeEnumFlags<T extends Enum>
         for(String str: parts)
         {
             Enum enuM = SafeEnumHelpers.getEnumFromString(enumClass, str.trim());
-            newSet.add((T)enuM);
+
+            if(enuM !=null)
+            {
+                newSet.add((T) enuM);
+            }
         }
 
         return newSet;
