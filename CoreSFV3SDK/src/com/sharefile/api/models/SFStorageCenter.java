@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 import com.sharefile.api.models.*;
 
 public class SFStorageCenter extends SFODataObject {
@@ -38,7 +39,7 @@ public class SFStorageCenter extends SFODataObject {
 	@SerializedName("HostName")
 	private String HostName;
 	@SerializedName("Services")
-	private SFSafeEnum<SFZoneService> Services;
+	private SFSafeEnumFlags<SFZoneService> Services;
 	@SerializedName("Version")
 	private String Version;
 	@SerializedName("Enabled")
@@ -96,11 +97,11 @@ public class SFStorageCenter extends SFODataObject {
 	public void setHostName(String hostname) {
 		this.HostName = hostname;
 	}
-	public SFSafeEnum<SFZoneService> getServices() {
+	public SFSafeEnumFlags<SFZoneService> getServices() {
 		return this.Services;
 	}
 
-	public void setServices(SFSafeEnum<SFZoneService> services) {
+	public void setServices(SFSafeEnumFlags<SFZoneService> services) {
 		this.Services = services;
 	}
 	public String getVersion() {

@@ -5,7 +5,6 @@ import com.sharefile.api.models.SFAppCodes;
 import com.sharefile.api.models.SFAppStore;
 import com.sharefile.api.models.SFAsyncOperationState;
 import com.sharefile.api.models.SFAsyncOperationType;
-import com.sharefile.api.models.SFBillingCycleMonths;
 import com.sharefile.api.models.SFCapabilityName;
 import com.sharefile.api.models.SFConnectorGroupKind;
 import com.sharefile.api.models.SFDeviceActionInitiatorRole;
@@ -39,7 +38,8 @@ import com.sharefile.java.log.SLog;
 
 public class SafeEnumHelpers 
 {
-	private static final int BEGIN_INDEX = "com.sharefile.api.enumerations.SFSafeEnum<com.sharefile.api.models.".length();
+	private static final int BEGIN_INDEX_SAFE_ENUM = "com.sharefile.api.enumerations.SFSafeEnum<com.sharefile.api.models.".length();
+    private static final int BEGIN_INDEX_SAFE_ENUM_FLAGS = "com.sharefile.api.enumerations.SFSafeEnumFlags<com.sharefile.api.models.".length();
 	
 	private static class EnumClassNames
 	{		
@@ -91,13 +91,15 @@ public class SafeEnumHelpers
         new EnumClassNames("SFUXMode",SFUXMode.class)
 	};
 		
-	public static Class getEnumClass(String className)
+	public static Class getEnumClass(String className, boolean useEnumWithFlags)
 	{
 		Class clazz = null;
-		
-		if(className!=null && className.length()>BEGIN_INDEX)
+
+        int beginIndex = useEnumWithFlags?BEGIN_INDEX_SAFE_ENUM_FLAGS:BEGIN_INDEX_SAFE_ENUM;
+
+		if(className!=null && className.length()> beginIndex)
 		{
-			String containedClassName = className.substring(BEGIN_INDEX, className.length()-1);					
+			String containedClassName = className.substring(beginIndex, className.length()-1);
 			
 			for(EnumClassNames e:mEnumClassNames)
 			{

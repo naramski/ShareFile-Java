@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 import com.sharefile.api.models.*;
 
 public class SFEnsSubscriptionRequest extends SFODataObject {
@@ -32,7 +33,7 @@ public class SFEnsSubscriptionRequest extends SFODataObject {
 	@SerializedName("Entity")
 	private SFODataObject Entity;
 	@SerializedName("EventTypes")
-	private SFSafeEnum<SFEnsEventType> EventTypes;
+	private SFSafeEnumFlags<SFEnsEventType> EventTypes;
 	@SerializedName("IncludeProgeny")
 	private Boolean IncludeProgeny;
 
@@ -57,11 +58,11 @@ public class SFEnsSubscriptionRequest extends SFODataObject {
 	public void setEntity(SFODataObject entity) {
 		this.Entity = entity;
 	}
-	public SFSafeEnum<SFEnsEventType> getEventTypes() {
+	public SFSafeEnumFlags<SFEnsEventType> getEventTypes() {
 		return this.EventTypes;
 	}
 
-	public void setEventTypes(SFSafeEnum<SFEnsEventType> eventtypes) {
+	public void setEventTypes(SFSafeEnumFlags<SFEnsEventType> eventtypes) {
 		this.EventTypes = eventtypes;
 	}
 	public Boolean getIncludeProgeny() {
