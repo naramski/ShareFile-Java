@@ -10,7 +10,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
-package com.sharefile.api.models.private;
+package com.sharefile.api.models.internal;
 package com.sharefile.api.models;
 
 import java.io.InputStream;
@@ -20,6 +20,7 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFOAuthState {
 	Inactive,

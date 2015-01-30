@@ -26,6 +26,7 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFZonesEntity extends SFODataEntityBase
 {
@@ -38,7 +39,7 @@ public class SFZonesEntity extends SFODataEntityBase
 	* @param includeDisabled 	
 	* @return The list of public and private zones accessible to this user
     */
-	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnum<SFZoneService> services, Boolean includeDisabled)
+	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnumFlags<SFZoneService> services, Boolean includeDisabled)
 	{
 		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>();
 		sfApiQuery.setFrom("Zones");

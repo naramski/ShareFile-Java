@@ -19,6 +19,7 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFLockType {
 	SoftLock

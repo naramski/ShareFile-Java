@@ -30,7 +30,7 @@ public class SFEnsSubscriptionToken extends SFODataObject {
 	@SerializedName("EntityId")
 	private String EntityId;
 	@SerializedName("EventTypes")
-	private SFSafeEnum<SFEnsEventType> EventTypes;
+	private SFSafeEnumFlags<SFEnsEventType> EventTypes;
 	@SerializedName("IncludeProgeny")
 	private Boolean IncludeProgeny;
 	@SerializedName("LastEventCount")
@@ -50,11 +50,11 @@ public class SFEnsSubscriptionToken extends SFODataObject {
 	public void setEntityId(String entityid) {
 		this.EntityId = entityid;
 	}
-	public SFSafeEnum<SFEnsEventType> getEventTypes() {
+	public SFSafeEnumFlags<SFEnsEventType> getEventTypes() {
 		return this.EventTypes;
 	}
 
-	public void setEventTypes(SFSafeEnum<SFEnsEventType> eventtypes) {
+	public void setEventTypes(SFSafeEnumFlags<SFEnsEventType> eventtypes) {
 		this.EventTypes = eventtypes;
 	}
 	public Boolean getIncludeProgeny() {
