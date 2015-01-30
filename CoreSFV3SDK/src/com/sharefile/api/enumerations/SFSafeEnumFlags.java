@@ -15,6 +15,15 @@ public class SFSafeEnumFlags<T extends Enum>
 	@SerializedName("value")
 	private String originalString = "";
 
+    /**
+        Removes all enum flags.
+     */
+    public void clear()
+    {
+        originalString = "";
+        mEnum.clear();
+    }
+
     private void appendToOriginal(String v)
     {
         if(v == null)
