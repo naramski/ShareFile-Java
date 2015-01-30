@@ -16,6 +16,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFItemInfo;
 import com.sharefile.api.models.SFODataFeed;
@@ -98,6 +99,7 @@ public class SFDefaultGsonParser
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFStorageCenter.class, new SFGsonRouter());
         mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new SFCustomSafeEnumParser());
+        mGsonBuilder.registerTypeAdapter(SFSafeEnumFlags.class, new SFCustomSafeEnumFlagsParser());
 
         mGsonBuilder.registerTypeAdapter(SFShare.class, new JsonSerializer<SFShare>()
         {
