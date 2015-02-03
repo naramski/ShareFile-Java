@@ -37,6 +37,14 @@ public class SFMobileSecuritySettings extends SFODataObject {
 	private Boolean RestrictModifiedDevices;
 	@SerializedName("PinLockType")
 	private SFSafeEnum<SFPinLockType> PinLockType;
+	@SerializedName("PinLockMaxAttempts")
+	private Integer PinLockMaxAttempts;
+	@SerializedName("PinLockLockoutIntervalSeconds")
+	private Integer PinLockLockoutIntervalSeconds;
+	@SerializedName("PinLockExternalActionGraceIntervalSeconds")
+	private Integer PinLockExternalActionGraceIntervalSeconds;
+	@SerializedName("PinLockInternalActionGraceIntervalSeconds")
+	private Integer PinLockInternalActionGraceIntervalSeconds;
 
 	public Integer getPoisonPillInterval() {
 		return this.PoisonPillInterval;
@@ -79,6 +87,34 @@ public class SFMobileSecuritySettings extends SFODataObject {
 
 	public void setPinLockType(SFSafeEnum<SFPinLockType> pinlocktype) {
 		this.PinLockType = pinlocktype;
+	}
+	public Integer getPinLockMaxAttempts() {
+		return this.PinLockMaxAttempts;
+	}
+
+	public void setPinLockMaxAttempts(Integer pinlockmaxattempts) {
+		this.PinLockMaxAttempts = pinlockmaxattempts;
+	}
+	public Integer getPinLockLockoutIntervalSeconds() {
+		return this.PinLockLockoutIntervalSeconds;
+	}
+
+	public void setPinLockLockoutIntervalSeconds(Integer pinlocklockoutintervalseconds) {
+		this.PinLockLockoutIntervalSeconds = pinlocklockoutintervalseconds;
+	}
+	public Integer getPinLockExternalActionGraceIntervalSeconds() {
+		return this.PinLockExternalActionGraceIntervalSeconds;
+	}
+
+	public void setPinLockExternalActionGraceIntervalSeconds(Integer pinlockexternalactiongraceintervalseconds) {
+		this.PinLockExternalActionGraceIntervalSeconds = pinlockexternalactiongraceintervalseconds;
+	}
+	public Integer getPinLockInternalActionGraceIntervalSeconds() {
+		return this.PinLockInternalActionGraceIntervalSeconds;
+	}
+
+	public void setPinLockInternalActionGraceIntervalSeconds(Integer pinlockinternalactiongraceintervalseconds) {
+		this.PinLockInternalActionGraceIntervalSeconds = pinlockinternalactiongraceintervalseconds;
 	}
 
 }
