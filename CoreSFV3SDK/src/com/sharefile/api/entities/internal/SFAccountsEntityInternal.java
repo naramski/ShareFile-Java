@@ -46,19 +46,6 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 	}
 
     /**
-	* Get Outlook Information
-	* @return OutlookInformation
-    */
-	public ISFQuery<SFOutlookInformation> getOutlookInformation()
-	{
-		SFApiQuery<SFOutlookInformation> sfApiQuery = new SFApiQuery<SFOutlookInformation>();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("OutlookInformation");
-		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
-    /**
 	* Get EnsSubscriber Configuration
 	* @return EnsSubscriber Configuration
     */
