@@ -60,5 +60,6 @@ public enum SFAppCodes {
 	SFWebApp,
 	SFMarketing,
 	ShareConnect,
-	ShareConnectWeb
+	ShareConnectWeb,
+	SFWindowsDesktop
 }
