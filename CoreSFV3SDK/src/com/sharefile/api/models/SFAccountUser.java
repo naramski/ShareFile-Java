@@ -43,6 +43,8 @@ public class SFAccountUser extends SFUser {
 	private Integer StorageQuotaLimitGB;
 	@SerializedName("StorageQuotaPercent")
 	private Integer StorageQuotaPercent;
+	@SerializedName("EnableHardLimit")
+	private Boolean EnableHardLimit;
 
 	public Boolean getIsAdministrator() {
 		return this.IsAdministrator;
@@ -106,6 +108,13 @@ public class SFAccountUser extends SFUser {
 
 	public void setStorageQuotaPercent(Integer storagequotapercent) {
 		this.StorageQuotaPercent = storagequotapercent;
+	}
+	public Boolean getEnableHardLimit() {
+		return this.EnableHardLimit;
+	}
+
+	public void setEnableHardLimit(Boolean enablehardlimit) {
+		this.EnableHardLimit = enablehardlimit;
 	}
 
 }
