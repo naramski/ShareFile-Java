@@ -937,16 +937,13 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Get a collection of recoverable/deleted items for a user
-	* @param userid 	
-    */
-	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems(String userid)
+	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems(String userid, String zone)
 	{
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("UserDeletedItems");
 		sfApiQuery.addQueryString("userid", userid);
+		sfApiQuery.addQueryString("zone", zone);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
