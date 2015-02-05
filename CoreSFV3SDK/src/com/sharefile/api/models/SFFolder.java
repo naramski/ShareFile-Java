@@ -37,6 +37,8 @@ public class SFFolder extends SFItem {
 	private SFRedirection Redirection;
 	@SerializedName("FavoriteFolder")
 	private SFFavoriteFolder FavoriteFolder;
+	@SerializedName("ZoneService")
+	private SFSafeEnumFlags<SFZoneService> ZoneService;
 
 		/**
 		* Number of Items defined under this Folder, including sub-folder counts.
@@ -115,6 +117,13 @@ public class SFFolder extends SFItem {
 		*/
 	public void setFavoriteFolder(SFFavoriteFolder favoritefolder) {
 		this.FavoriteFolder = favoritefolder;
+	}
+	public SFSafeEnumFlags<SFZoneService> getZoneService() {
+		return this.ZoneService;
+	}
+
+	public void setZoneService(SFSafeEnumFlags<SFZoneService> zoneservice) {
+		this.ZoneService = zoneservice;
 	}
 
 }
