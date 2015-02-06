@@ -221,6 +221,16 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableIntegrations;
 	@SerializedName("IntegrationProviders")
 	private ArrayList<SFSafeEnum<SFIntegrationProvider>> IntegrationProviders;
+	@SerializedName("ShowDownloadLinkInUploadNotification")
+	private Boolean ShowDownloadLinkInUploadNotification;
+	@SerializedName("EnableUserInvitations")
+	private Boolean EnableUserInvitations;
+	@SerializedName("EnableClickTrails")
+	private Boolean EnableClickTrails;
+	@SerializedName("CanStoreItemsInShareFile")
+	private Boolean CanStoreItemsInShareFile;
+	@SerializedName("EnableHomeFolders")
+	private Boolean EnableHomeFolders;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -907,6 +917,41 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setIntegrationProviders(ArrayList<SFSafeEnum<SFIntegrationProvider>> integrationproviders) {
 		this.IntegrationProviders = integrationproviders;
+	}
+	public Boolean getShowDownloadLinkInUploadNotification() {
+		return this.ShowDownloadLinkInUploadNotification;
+	}
+
+	public void setShowDownloadLinkInUploadNotification(Boolean showdownloadlinkinuploadnotification) {
+		this.ShowDownloadLinkInUploadNotification = showdownloadlinkinuploadnotification;
+	}
+	public Boolean getEnableUserInvitations() {
+		return this.EnableUserInvitations;
+	}
+
+	public void setEnableUserInvitations(Boolean enableuserinvitations) {
+		this.EnableUserInvitations = enableuserinvitations;
+	}
+	public Boolean getEnableClickTrails() {
+		return this.EnableClickTrails;
+	}
+
+	public void setEnableClickTrails(Boolean enableclicktrails) {
+		this.EnableClickTrails = enableclicktrails;
+	}
+	public Boolean getCanStoreItemsInShareFile() {
+		return this.CanStoreItemsInShareFile;
+	}
+
+	public void setCanStoreItemsInShareFile(Boolean canstoreitemsinsharefile) {
+		this.CanStoreItemsInShareFile = canstoreitemsinsharefile;
+	}
+	public Boolean getEnableHomeFolders() {
+		return this.EnableHomeFolders;
+	}
+
+	public void setEnableHomeFolders(Boolean enablehomefolders) {
+		this.EnableHomeFolders = enablehomefolders;
 	}
 
 }
