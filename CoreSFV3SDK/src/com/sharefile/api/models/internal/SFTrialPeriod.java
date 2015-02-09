@@ -31,6 +31,8 @@ public class SFTrialPeriod extends SFODataObject {
 	private String AppStore;
 	@SerializedName("DurationInDays")
 	private Integer DurationInDays;
+	@SerializedName("NumberOfLicenses")
+	private Integer NumberOfLicenses;
 
 	public String getProductID() {
 		return this.ProductID;
@@ -52,6 +54,13 @@ public class SFTrialPeriod extends SFODataObject {
 
 	public void setDurationInDays(Integer durationindays) {
 		this.DurationInDays = durationindays;
+	}
+	public Integer getNumberOfLicenses() {
+		return this.NumberOfLicenses;
+	}
+
+	public void setNumberOfLicenses(Integer numberoflicenses) {
+		this.NumberOfLicenses = numberoflicenses;
 	}
 
 }
