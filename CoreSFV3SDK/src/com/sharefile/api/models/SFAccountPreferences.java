@@ -191,6 +191,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer ENSMaxNotificationSyncWaitCount;
 	@SerializedName("TrustedDomains")
 	private String TrustedDomains;
+	@SerializedName("EnableReportingV3")
+	private Boolean EnableReportingV3;
 	@SerializedName("EnableEncryptedEmailForOutlookPlugin")
 	private Boolean EnableEncryptedEmailForOutlookPlugin;
 	@SerializedName("EnableDocPreviews")
@@ -812,6 +814,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setTrustedDomains(String trusteddomains) {
 		this.TrustedDomains = trusteddomains;
+	}
+	public Boolean getEnableReportingV3() {
+		return this.EnableReportingV3;
+	}
+
+	public void setEnableReportingV3(Boolean enablereportingv3) {
+		this.EnableReportingV3 = enablereportingv3;
 	}
 	public Boolean getEnableEncryptedEmailForOutlookPlugin() {
 		return this.EnableEncryptedEmailForOutlookPlugin;

@@ -57,6 +57,8 @@ public class SFReport extends SFODataObject {
 	private String SaveFormat;
 	@SerializedName("SaveFolderId")
 	private String SaveFolderId;
+	@SerializedName("SaveFolder")
+	private SFItem SaveFolder;
 	@SerializedName("CreatorId")
 	private String CreatorId;
 	@SerializedName("Records")
@@ -197,6 +199,13 @@ public class SFReport extends SFODataObject {
 
 	public void setSaveFolderId(String savefolderid) {
 		this.SaveFolderId = savefolderid;
+	}
+	public SFItem getSaveFolder() {
+		return this.SaveFolder;
+	}
+
+	public void setSaveFolder(SFItem savefolder) {
+		this.SaveFolder = savefolder;
 	}
 	public String getCreatorId() {
 		return this.CreatorId;
