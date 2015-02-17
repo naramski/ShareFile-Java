@@ -182,21 +182,6 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 	}
 
     /**
-	* Schedule Report
-	* Schedule a report and get the run id.
-	* @return ReportRecord
-    */
-	public ISFQuery<SFReportRecord> createSchedule(URI url)
-	{
-		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>();
-		sfApiQuery.setFrom("Reports");
-		sfApiQuery.setAction("Schedule");
-		sfApiQuery.addIds(url);
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
 	* Run Report
 	* Run a report and get the run id.
 	* @return ReportRecord
