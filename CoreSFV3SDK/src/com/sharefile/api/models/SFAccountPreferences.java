@@ -197,6 +197,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableEncryptedEmailForOutlookPlugin;
 	@SerializedName("EnableDocPreviews")
 	private Boolean EnableDocPreviews;
+	@SerializedName("DisablePasswordAutocompleteInWebApp")
+	private Boolean DisablePasswordAutocompleteInWebApp;
 	@SerializedName("EnableDesktopEditorForAccount")
 	private Boolean EnableDesktopEditorForAccount;
 	@SerializedName("UseStrictEmployeeDefinition")
@@ -835,6 +837,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableDocPreviews(Boolean enabledocpreviews) {
 		this.EnableDocPreviews = enabledocpreviews;
+	}
+	public Boolean getDisablePasswordAutocompleteInWebApp() {
+		return this.DisablePasswordAutocompleteInWebApp;
+	}
+
+	public void setDisablePasswordAutocompleteInWebApp(Boolean disablepasswordautocompleteinwebapp) {
+		this.DisablePasswordAutocompleteInWebApp = disablepasswordautocompleteinwebapp;
 	}
 	public Boolean getEnableDesktopEditorForAccount() {
 		return this.EnableDesktopEditorForAccount;
