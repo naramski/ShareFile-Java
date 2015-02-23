@@ -53,6 +53,8 @@ public class SFAsyncOperation extends SFODataObject {
 	private Double BatchProgress;
 	@SerializedName("BatchState")
 	private SFSafeEnum<SFAsyncOperationState> BatchState;
+	@SerializedName("BatchTotal")
+	private Integer BatchTotal;
 
 		/**
 		* Operation type
@@ -245,6 +247,13 @@ public class SFAsyncOperation extends SFODataObject {
 		*/
 	public void setBatchState(SFSafeEnum<SFAsyncOperationState> batchstate) {
 		this.BatchState = batchstate;
+	}
+	public Integer getBatchTotal() {
+		return this.BatchTotal;
+	}
+
+	public void setBatchTotal(Integer batchtotal) {
+		this.BatchTotal = batchtotal;
 	}
 
 }
