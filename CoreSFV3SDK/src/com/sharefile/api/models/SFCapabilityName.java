@@ -53,5 +53,6 @@ public enum SFCapabilityName {
 	RightSignature,
 	UploadWithRequestParams,
 	SoftLock,
-	HardLock
+	HardLock,
+	DownloadByStream
 }
