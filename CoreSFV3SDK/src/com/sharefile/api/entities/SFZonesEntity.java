@@ -109,18 +109,13 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Delete Zone
-	* Removes an existing zone
-	* @param url 	
-	* @param force 	
-    */
-	public ISFQuery delete(URI url, Boolean force)
+	public ISFQuery delete(URI url, Boolean force, String newDefaultZoneId)
 	{
 		SFApiQuery sfApiQuery = new SFApiQuery();
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
+		sfApiQuery.addQueryString("newDefaultZoneId", newDefaultZoneId);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
