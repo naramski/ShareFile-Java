@@ -33,13 +33,15 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
     /**
 	* Creates a new account
 	* @param account 	
+	* @param sendActivationLink 	
 	* @return The new account created by the api
     */
-	public ISFQuery<SFFreeTrialAccount> createFreeTrialAccount(SFFreeTrialAccount account)
+	public ISFQuery<SFFreeTrialAccount> createFreeTrialAccount(SFFreeTrialAccount account, Boolean sendActivationLink)
 	{
 		SFApiQuery<SFFreeTrialAccount> sfApiQuery = new SFApiQuery<SFFreeTrialAccount>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("CreateFreeTrialAccount");
+		account.addProperty("sendActivationLink", sendActivationLink);
 		sfApiQuery.setBody(account);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
