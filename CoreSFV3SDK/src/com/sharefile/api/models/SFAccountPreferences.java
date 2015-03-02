@@ -225,6 +225,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableIntegrations;
 	@SerializedName("IntegrationProviders")
 	private ArrayList<SFSafeEnum<SFIntegrationProvider>> IntegrationProviders;
+	@SerializedName("EnableBouncedEmailNotifications")
+	private Boolean EnableBouncedEmailNotifications;
 	@SerializedName("ShowDownloadLinkInUploadNotification")
 	private Boolean ShowDownloadLinkInUploadNotification;
 	@SerializedName("EnableUserInvitations")
@@ -935,6 +937,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setIntegrationProviders(ArrayList<SFSafeEnum<SFIntegrationProvider>> integrationproviders) {
 		this.IntegrationProviders = integrationproviders;
+	}
+	public Boolean getEnableBouncedEmailNotifications() {
+		return this.EnableBouncedEmailNotifications;
+	}
+
+	public void setEnableBouncedEmailNotifications(Boolean enablebouncedemailnotifications) {
+		this.EnableBouncedEmailNotifications = enablebouncedemailnotifications;
 	}
 	public Boolean getShowDownloadLinkInUploadNotification() {
 		return this.ShowDownloadLinkInUploadNotification;

@@ -73,6 +73,8 @@ public class SFUserPreferences extends SFODataObject {
 	private String DateFormat;
 	@SerializedName("EnableShareConnect")
 	private Boolean EnableShareConnect;
+	@SerializedName("ReceiveBouncedEmailNotifications")
+	private Boolean ReceiveBouncedEmailNotifications;
 
 	public Boolean getEnableFlashUpload() {
 		return this.EnableFlashUpload;
@@ -241,6 +243,13 @@ public class SFUserPreferences extends SFODataObject {
 
 	public void setEnableShareConnect(Boolean enableshareconnect) {
 		this.EnableShareConnect = enableshareconnect;
+	}
+	public Boolean getReceiveBouncedEmailNotifications() {
+		return this.ReceiveBouncedEmailNotifications;
+	}
+
+	public void setReceiveBouncedEmailNotifications(Boolean receivebouncedemailnotifications) {
+		this.ReceiveBouncedEmailNotifications = receivebouncedemailnotifications;
 	}
 
 }
