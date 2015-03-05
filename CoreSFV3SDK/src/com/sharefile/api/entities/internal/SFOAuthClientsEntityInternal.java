@@ -109,7 +109,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setBody(oauthClient);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
@@ -123,7 +123,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
