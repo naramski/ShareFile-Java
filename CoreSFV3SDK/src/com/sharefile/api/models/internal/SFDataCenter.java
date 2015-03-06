@@ -33,5 +33,7 @@ public enum SFDataCenter {
 	Amazon_US_OR,
 	Amazon_SA_BR,
 	Amazon_AU_SYD,
-	Azure_US_East
+	Azure_US_East,
+	Amazon_HIPAA_East,
+	Amazon_HIPAA_West
 }
