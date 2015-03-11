@@ -22,5 +22,6 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFLockType {
-	SoftLock
+	SoftLock,
+	HardLock
 }
