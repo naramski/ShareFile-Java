@@ -51,6 +51,12 @@ public class SFOutlookInformation extends SFODataObject {
 	private SFOutlookInformationOptionInt ConvertAbove;
 	@SerializedName("AttachPaperclip")
 	private SFOutlookInformationOptionBool AttachPaperclip;
+	@SerializedName("EncryptedEmailRecipientVerification")
+	private SFOutlookInformationOptionString EncryptedEmailRecipientVerification;
+	@SerializedName("EncryptedEmailExpiration")
+	private SFOutlookInformationOptionString EncryptedEmailExpiration;
+	@SerializedName("EncryptedEmailNotifyOnRead")
+	private SFOutlookInformationOptionBool EncryptedEmailNotifyOnRead;
 
 	public SFOutlookInformationOptionString getDownloadInfoLevel() {
 		return this.DownloadInfoLevel;
@@ -142,6 +148,27 @@ public class SFOutlookInformation extends SFODataObject {
 
 	public void setAttachPaperclip(SFOutlookInformationOptionBool attachpaperclip) {
 		this.AttachPaperclip = attachpaperclip;
+	}
+	public SFOutlookInformationOptionString getEncryptedEmailRecipientVerification() {
+		return this.EncryptedEmailRecipientVerification;
+	}
+
+	public void setEncryptedEmailRecipientVerification(SFOutlookInformationOptionString encryptedemailrecipientverification) {
+		this.EncryptedEmailRecipientVerification = encryptedemailrecipientverification;
+	}
+	public SFOutlookInformationOptionString getEncryptedEmailExpiration() {
+		return this.EncryptedEmailExpiration;
+	}
+
+	public void setEncryptedEmailExpiration(SFOutlookInformationOptionString encryptedemailexpiration) {
+		this.EncryptedEmailExpiration = encryptedemailexpiration;
+	}
+	public SFOutlookInformationOptionBool getEncryptedEmailNotifyOnRead() {
+		return this.EncryptedEmailNotifyOnRead;
+	}
+
+	public void setEncryptedEmailNotifyOnRead(SFOutlookInformationOptionBool encryptedemailnotifyonread) {
+		this.EncryptedEmailNotifyOnRead = encryptedemailnotifyonread;
 	}
 
 }
