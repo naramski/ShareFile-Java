@@ -565,7 +565,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
     /**
-	* delete the email address from user
+	* Delete the email address from user
 	* @param email 	
 	* @return User
     */
@@ -580,7 +580,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
     /**
-	* set email address as the primary email address for CURRENT user
+	* Set email address as the primary email address for CURRENT user
 	* @param email 	
 	* @return User
     */
@@ -595,7 +595,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
     /**
-	* send notification email address to this email address for verification
+	* Send notification email address to this email address for verification
 	* @param email 	
 	* @return User
     */
@@ -605,6 +605,19 @@ public class SFUsersEntity extends SFODataEntityBase
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("SendConfirmationEmail");
 		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Create a one-time use login Uri for the Web App.
+	* @return Redirection populated with link in Uri field
+    */
+	public ISFQuery<SFRedirection> webAppLink()
+	{
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("WebAppLink");
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}

@@ -977,5 +977,20 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+    /**
+	* Create a one-time use login Uri for the Web App.
+	* @param url 	
+	* @return Redirection populated with link in Uri field
+    */
+	public ISFQuery<SFRedirection> webAppLink(URI url)
+	{
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("WebAppLink");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 
