@@ -12,9 +12,9 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
@@ -30,29 +30,36 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFFolderTemplatesEntity extends SFODataEntityBase
 {
-    /**
+	public SFFolderTemplatesEntity(ISFApiClient client) {
+		super(client);
+	}
+
+	/**
 	* Get Folder Templates for Current Account
 	* Returns all folder templates for the current account.
 	* @return Folder templates for current account
-    */
-	public ISFQuery<SFODataFeed<SFFolderTemplate>> get()
-	{
-		SFApiQuery<SFODataFeed<SFFolderTemplate>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFolderTemplate>>();
+	*/
+	public ISFQuery<SFODataFeed<SFFolderTemplate>> get()	{
+
+		SFApiQuery<SFODataFeed<SFFolderTemplate>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFolderTemplate>>(this.client);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFFolderTemplate> get(URI url)
-	{
-		SFApiQuery<SFFolderTemplate> sfApiQuery = new SFApiQuery<SFFolderTemplate>();
+	public ISFQuery<SFFolderTemplate> get(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFFolderTemplate> sfApiQuery = new SFApiQuery<SFFolderTemplate>(this.client);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create Folder Template
     * {
     * "Name": "Client Folder",
@@ -72,17 +79,20 @@ public class SFFolderTemplatesEntity extends SFODataEntityBase
     * ]
 	* Creates a new folder template.
 	* @return The created folder template
-    */
-	public ISFQuery<SFFolderTemplate> create(SFFolderTemplate template)
-	{
-		SFApiQuery<SFFolderTemplate> sfApiQuery = new SFApiQuery<SFFolderTemplate>();
+	*/
+	public ISFQuery<SFFolderTemplate> create(SFFolderTemplate template) throws InvalidOrMissingParameterException 	{
+		if (template == null) {
+			throw new InvalidOrMissingParameterException("template");
+		}
+
+		SFApiQuery<SFFolderTemplate> sfApiQuery = new SFApiQuery<SFFolderTemplate>(this.client);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.setBody(template);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update Folder Template
     * {
     * "Name": "Client Folder",
@@ -105,24 +115,30 @@ public class SFFolderTemplatesEntity extends SFODataEntityBase
     * }
 	* Updates an existing folder template
 	* @return The updated folder template
-    */
-	public ISFQuery<SFFolderTemplate> update(SFFolderTemplate template)
-	{
-		SFApiQuery<SFFolderTemplate> sfApiQuery = new SFApiQuery<SFFolderTemplate>();
+	*/
+	public ISFQuery<SFFolderTemplate> update(SFFolderTemplate template) throws InvalidOrMissingParameterException 	{
+		if (template == null) {
+			throw new InvalidOrMissingParameterException("template");
+		}
+
+		SFApiQuery<SFFolderTemplate> sfApiQuery = new SFApiQuery<SFFolderTemplate>(this.client);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.setBody(template);
 		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete Folder Template
 	* Removes a folder template
-	* @param url 	
-    */
-	public ISFQuery delete(URI url)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param url 	 	
+	*/
+	public ISFQuery delete(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");

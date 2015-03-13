@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFUserConfirmationSettings extends SFODataObject {

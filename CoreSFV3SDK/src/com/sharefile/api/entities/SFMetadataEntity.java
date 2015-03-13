@@ -12,9 +12,9 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
@@ -30,7 +30,11 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFMetadataEntity extends SFODataEntityBase
 {
-    /**
+	public SFMetadataEntity(ISFApiClient client) {
+		super(client);
+	}
+
+	/**
 	* Get Metadata by ID
 	* Retrieves a single Metadata entry that has a given Name for a given Item.
 	* Note:
@@ -38,25 +42,31 @@ public class SFMetadataEntity extends SFODataEntityBase
 	* Current routing doesn't support the URI to retrieve a single Metadata enntry since it is aliased with the GetByItem feed.
 	* So for now we support only the same syntax as for AccessControls, i.e. .../Metadata(name=name,itemid=itemid)
 	* @return A single Metadata object matching the query
-    */
-	public ISFQuery<SFMetadata> get(URI url)
-	{
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+	*/
+	public ISFQuery<SFMetadata> get(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Metadata List By Item
 	* Retrieves the Metadata List for a given Item.
-	* @param url 	
+	* @param url 	 	
 	* @return The Metadata list of the given object ID.
-    */
-	public ISFQuery<SFODataFeed<SFMetadata>> getByItem(URI url)
-	{
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+	*/
+	public ISFQuery<SFODataFeed<SFMetadata>> getByItem(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -64,19 +74,25 @@ public class SFMetadataEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create Metadata
     * {
     * "Name":"metadata name",
     * "Value":"metadata value"
     * }
 	* Creates a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name already exists for this Item.
-	* @param url 	
+	* @param url 	 	
 	* @return The created Metadata object
-    */
-	public ISFQuery<SFMetadata> createByItem(URI url, SFMetadata metadata)
-	{
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+	*/
+	public ISFQuery<SFMetadata> createByItem(URI url, SFMetadata metadata) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (metadata == null) {
+			throw new InvalidOrMissingParameterException("metadata");
+		}
+
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -85,19 +101,27 @@ public class SFMetadataEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update Metadata
     * {
     * "Value":"metadata value"
     * }
 	* Updates a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
-	* @param url 	
-	* @param metadataId 	
+	* @param url 	 	
 	* @return The updated Metadata object
-    */
-	public ISFQuery<SFMetadata> updateByItem(URI url, String metadataId, SFMetadata metadata)
-	{
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+	*/
+	public ISFQuery<SFMetadata> updateByItem(URI url, String metadataId, SFMetadata metadata) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (metadataId == null) {
+			throw new InvalidOrMissingParameterException("metadataId");
+		}
+		if (metadata == null) {
+			throw new InvalidOrMissingParameterException("metadata");
+		}
+
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -107,17 +131,23 @@ public class SFMetadataEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update Metadata
     * {
     * "Value":"metadata value"
     * }
 	* Updates a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
 	* @return The updated Metadata object
-    */
-	public ISFQuery<SFMetadata> update(URI url, SFMetadata metadata)
-	{
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>();
+	*/
+	public ISFQuery<SFMetadata> update(URI url, SFMetadata metadata) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (metadata == null) {
+			throw new InvalidOrMissingParameterException("metadata");
+		}
+
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(metadata);
@@ -125,16 +155,21 @@ public class SFMetadataEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete Metadata
 	* Deletes a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
-	* @param url 	
-	* @param metadataId 	
+	* @param url 	 	
 	* @return (no data)
-    */
-	public ISFQuery deleteByItem(URI url, String metadataId)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	*/
+	public ISFQuery deleteByItem(URI url, String metadataId) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (metadataId == null) {
+			throw new InvalidOrMissingParameterException("metadataId");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -143,14 +178,17 @@ public class SFMetadataEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete Metadata
 	* Deletes a single Metadata entry that has a specified Name for a given Item. Fails if an entry with the given name doesn't exist for this Item.
 	* @return (no data)
-    */
-	public ISFQuery delete(URI url)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	*/
+	public ISFQuery delete(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
