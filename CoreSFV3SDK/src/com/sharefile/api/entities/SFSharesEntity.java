@@ -879,7 +879,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	}
 
 	/**
-	* Modify Share
+	* Update Share
     * {
     * "Title": "New Title",
     * "ExpirationDate": "2013-07-23",
