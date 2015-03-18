@@ -55,7 +55,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	/**
 	* Get List of AsyncOperations by Operation Batch ID
 	* Retrieves all AsyncOperations on the specified batch
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return A Feed of AsyncOperation objects, containing all items in the specified batch
 	*/
 	public ISFQuery<SFODataFeed<SFAsyncOperation>> getByBatch(String id) throws InvalidOrMissingParameterException 	{
@@ -74,7 +74,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	/**
 	* Get List of AsyncOperations by Folder
 	* Retrieves all AsyncOperations associated with the calling user and the Item ID
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return A Feed of AsyncOperation objects, containing all pending operations in the specific folder, for the authenticated SDK user
 	*/
 	public ISFQuery<SFODataFeed<SFAsyncOperation>> getByFolder(String id) throws InvalidOrMissingParameterException 	{
@@ -130,7 +130,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	* Cancel an Operation Batch
 	* Cancel an Async Operation batch - all unfinished Async Operation records in that batch
 	* will be moved to Cancelled state.
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return A list of the modified Async Operations in the batch
 	*/
 	public ISFQuery<SFODataFeed<SFAsyncOperation>> cancelBatch(String id) throws InvalidOrMissingParameterException 	{

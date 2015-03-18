@@ -758,7 +758,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* The following parameters can be modified through this call: FirstName, LastName, Company,
 	* Email, IsEmployee, IsDisabled, DefaultZone Id, StorageQuotaLimitGB.During a promotion (the user id points to Customer), the following parameters can be
 	* modified: CanCreateFolders, CanUseFileBox, CanManageUsers. StorageQuotaLimitGB equal to -1 sets the user quota to the account default storage quota value.
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @param user 	 	
 	* @return a modified user record
 	*/

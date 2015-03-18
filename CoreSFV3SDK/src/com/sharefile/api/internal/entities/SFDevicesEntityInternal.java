@@ -102,7 +102,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 	/**
 	* Delete specific Device for given User
 	* @param parentUrl 	 	
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return No content
 	*/
 	public ISFQuery deleteByUser(URI parentUrl, String id) throws InvalidOrMissingParameterException 	{

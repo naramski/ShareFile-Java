@@ -80,7 +80,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 	/**
 	* Get the Connector Group by Service ID
 	* Retrieves a Connector Group
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return A single ConnectorGroup object matching the query
 	*/
 	public ISFQuery<SFConnectorGroupZone> getZones(URI url, String id) throws InvalidOrMissingParameterException 	{
@@ -104,7 +104,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 	* Get an Access Control element
 	* Retrieves a Connector Group Access Control of a given user
 	* @param parentUrl 	 	
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return A single ConnectorGroup ACL object matching the query
 	*/
 	public ISFQuery<SFConnectorGroupAccessControl> getAccessControls(URI parentUrl, String id) throws InvalidOrMissingParameterException 	{

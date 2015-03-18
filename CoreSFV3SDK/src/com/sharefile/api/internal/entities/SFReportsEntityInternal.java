@@ -97,7 +97,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 	/**
 	* Get Report Record by ID
 	* Returns a single record.
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return Single Record
 	*/
 	public ISFQuery<SFReportRecord> getRecord(String id) throws InvalidOrMissingParameterException 	{

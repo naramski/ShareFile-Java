@@ -75,7 +75,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 	/**
 	* Get restricted end-point credentials on Topic
 	* @param parentUrl 	 	
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return Associate end-point credentials for specified policy
 	*/
 	public ISFQuery<SFAzureSBTopicsEndPointInfo> getTopicEndPoint(URI parentUrl, String id) throws InvalidOrMissingParameterException 	{

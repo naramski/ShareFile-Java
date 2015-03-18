@@ -92,7 +92,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Get Recipient of a Share
 	* Retrieve a single Share Recipient identified by the alias id.
 	* @param parentUrl 	 	
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @return A Share Alias representing a single recipient of the Share
 	*/
 	public ISFQuery<SFShareAlias> getRecipients(URI parentUrl, String id) throws InvalidOrMissingParameterException 	{

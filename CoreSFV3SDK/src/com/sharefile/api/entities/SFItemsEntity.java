@@ -1115,7 +1115,7 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Link object
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @param link 	 	
 	* @param notify  (default: false)	 	
 	* @return A modified Link object
@@ -1150,7 +1150,7 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Link object
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @param link 	 	
 	* @return A modified Link object
 	*/
@@ -1179,7 +1179,7 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Note object
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @param note 	 	
 	* @param notify  (default: false)	 	
 	* @return The modified Note object
@@ -1213,7 +1213,7 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Note object
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @param note 	 	
 	* @return The modified Note object
 	*/
@@ -1242,7 +1242,7 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Link": "https://server/path"
     * }
 	* Updates a Symbolic Link object
-	* @param id  (default: )	 	
+	* @param id 	 	
 	* @param symlink 	 	
 	* @return The modified SymbolicLink object
 	*/
