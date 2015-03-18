@@ -3781,37 +3781,5 @@ public class SFSharesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	/**
-	* Get Inbox Metadata
-	* Returns metadata of the inbox.User identifier
-	* @return Inbox metadata
-	*/
-	public ISFQuery<SFInboxMetadata> getInboxMetadata(String id) throws InvalidOrMissingParameterException 	{
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
-		}
-
-		SFApiQuery<SFInboxMetadata> sfApiQuery = new SFApiQuery<SFInboxMetadata>(this.client);
-		sfApiQuery.setFrom("Shares");
-		sfApiQuery.setAction("InboxMetadata");
-		sfApiQuery.addQueryString("id", id);
-		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
-	/**
-	* Get Inbox Metadata
-	* Returns metadata of the inbox.User identifier
-	* @return Inbox metadata
-	*/
-	public ISFQuery<SFInboxMetadata> getInboxMetadata()	{
-
-		SFApiQuery<SFInboxMetadata> sfApiQuery = new SFApiQuery<SFInboxMetadata>(this.client);
-		sfApiQuery.setFrom("Shares");
-		sfApiQuery.setAction("InboxMetadata");
-		sfApiQuery.setHttpMethod("GET");
-		return sfApiQuery;
-	}
-
 }
 

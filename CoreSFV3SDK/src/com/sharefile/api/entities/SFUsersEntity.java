@@ -1257,5 +1257,23 @@ public class SFUsersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Get Inbox Metadata
+	* Returns metadata of the inbox.User identifier
+	* @return Inbox metadata
+	*/
+	public ISFQuery<SFInboxMetadata> inboxMetadata(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFInboxMetadata> sfApiQuery = new SFApiQuery<SFInboxMetadata>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("InboxMetadata");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
 }
 
