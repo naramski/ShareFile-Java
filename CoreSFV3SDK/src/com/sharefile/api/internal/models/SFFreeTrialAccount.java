@@ -102,8 +102,8 @@ public class SFFreeTrialAccount extends SFAccount {
 	private Boolean IsCMSZ;
 	@SerializedName("ProvisionedById")
 	private String ProvisionedById;
-	@SerializedName("TrialLength")
-	private Integer TrialLength;
+	@SerializedName("TrialLengthInDays")
+	private Integer TrialLengthInDays;
 	@SerializedName("EnterpriseOrders")
 	private ArrayList<SFEnterpriseOrder> EnterpriseOrders;
 
@@ -373,12 +373,12 @@ public class SFFreeTrialAccount extends SFAccount {
 	public void setProvisionedById(String provisionedbyid) {
 		this.ProvisionedById = provisionedbyid;
 	}
-	public Integer getTrialLength() {
-		return this.TrialLength;
+	public Integer getTrialLengthInDays() {
+		return this.TrialLengthInDays;
 	}
 
-	public void setTrialLength(Integer triallength) {
-		this.TrialLength = triallength;
+	public void setTrialLengthInDays(Integer triallengthindays) {
+		this.TrialLengthInDays = triallengthindays;
 	}
 	public ArrayList<SFEnterpriseOrder> getEnterpriseOrders() {
 		return this.EnterpriseOrders;
