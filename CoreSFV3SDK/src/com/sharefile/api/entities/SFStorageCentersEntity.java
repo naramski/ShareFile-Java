@@ -6,15 +6,15 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
@@ -26,36 +26,50 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFStorageCentersEntity extends SFODataEntityBase
 {
-    /**
+	public SFStorageCentersEntity(ISFApiClient client) {
+		super(client);
+	}
+
+	/**
 	* Get Storage Center
-	* @param url 	
+	* @param url 	 	
 	* @return A single Storage Center
-    */
-	public ISFQuery<SFStorageCenter> get(URI url)
-	{
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
+	*/
+	public ISFQuery<SFStorageCenter> get(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Patch Storage Center
     * {
     * "ExternalAddress":"https://server/",
     * "Version":"4.12.20",
     * "HostName":"hostname" }
-	* @param url 	
-	* @param sc 	
+	* @param url 	 	
+	* @param sc 	 	
 	* @return Modified Storage Center
-    */
-	public ISFQuery<SFStorageCenter> update(URI url, SFStorageCenter sc)
-	{
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
+	*/
+	public ISFQuery<SFStorageCenter> update(URI url, SFStorageCenter sc) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (sc == null) {
+			throw new InvalidOrMissingParameterException("sc");
+		}
+
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(sc);
@@ -63,28 +77,34 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete Storage Center
-	* @param url 	
-    */
-	public ISFQuery delete(URI url)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param url 	 	
+	*/
+	public ISFQuery delete(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get List of StorageCenters from Zone
 	* Lists Storage Centers of a given Zone
-	* @param url 	
+	* @param url 	 	
 	* @return A list of Storage Centers associated with the provided zone
-    */
-	public ISFQuery<SFODataFeed<SFStorageCenter>> getByZone(URI url)
-	{
-		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>();
+	*/
+	public ISFQuery<SFODataFeed<SFStorageCenter>> getByZone(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(url);
@@ -92,7 +112,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create StorageCenter
     * {
     * "ExternalAddress":"https://server/",
@@ -100,13 +120,19 @@ public class SFStorageCentersEntity extends SFODataEntityBase
     * "HostName":"hostname"
     * }
 	* Creates a new Storage Center associated with a specific zone
-	* @param url 	
-	* @param storageCenter 	
+	* @param url 	 	
+	* @param storageCenter 	 	
 	* @return The new storage center
-    */
-	public ISFQuery<SFStorageCenter> createByZone(URI url, SFStorageCenter storageCenter)
-	{
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
+	*/
+	public ISFQuery<SFStorageCenter> createByZone(URI url, SFStorageCenter storageCenter) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (storageCenter == null) {
+			throw new InvalidOrMissingParameterException("storageCenter");
+		}
+
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(url);
@@ -115,7 +141,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update StorageCenter
     * {
     * "ExternalAddress":"https://server/",
@@ -123,14 +149,22 @@ public class SFStorageCentersEntity extends SFODataEntityBase
     * "HostName":"hostname"
     * }
 	* Updates an existing Storage Center
-	* @param zUrl 	
-	* @param scid 	
-	* @param storageCenter 	
+	* @param zUrl 	 	
+	* @param storageCenter 	 	
 	* @return the modified storage center
-    */
-	public ISFQuery<SFStorageCenter> updateByZone(URI zUrl, String scid, SFStorageCenter storageCenter)
-	{
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>();
+	*/
+	public ISFQuery<SFStorageCenter> updateByZone(URI zUrl, String scid, SFStorageCenter storageCenter) throws InvalidOrMissingParameterException 	{
+		if (zUrl == null) {
+			throw new InvalidOrMissingParameterException("zUrl");
+		}
+		if (scid == null) {
+			throw new InvalidOrMissingParameterException("scid");
+		}
+		if (storageCenter == null) {
+			throw new InvalidOrMissingParameterException("storageCenter");
+		}
+
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -140,15 +174,20 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete StorageCenter
 	* Removes an existing storage center
-	* @param zUrl 	
-	* @param scid 	
-    */
-	public ISFQuery deleteByZone(URI zUrl, String scid)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param zUrl 	 	
+	*/
+	public ISFQuery deleteByZone(URI zUrl, String scid) throws InvalidOrMissingParameterException 	{
+		if (zUrl == null) {
+			throw new InvalidOrMissingParameterException("zUrl");
+		}
+		if (scid == null) {
+			throw new InvalidOrMissingParameterException("scid");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -157,16 +196,21 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get StorageCenter Metadata
 	* Gets metadata associated with the specified storage center
-	* @param zUrl 	
-	* @param scid 	
+	* @param zUrl 	 	
 	* @return the storage center metadata feed
-    */
-	public ISFQuery<SFODataFeed<SFMetadata>> getMetadata(URI zUrl, String scid)
-	{
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+	*/
+	public ISFQuery<SFODataFeed<SFMetadata>> getMetadata(URI zUrl, String scid) throws InvalidOrMissingParameterException 	{
+		if (zUrl == null) {
+			throw new InvalidOrMissingParameterException("zUrl");
+		}
+		if (scid == null) {
+			throw new InvalidOrMissingParameterException("scid");
+		}
+
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -176,7 +220,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create or update StorageCenter Metadata
     * [
     * {"Name":"metadataName1", "Value":"metadataValue1", "IsPublic":"true"},
@@ -184,14 +228,22 @@ public class SFStorageCentersEntity extends SFODataEntityBase
     * ...
     * ]
 	* Creates or updates Metadata entries associated with the specified storage center
-	* @param zUrl 	
-	* @param scid 	
-	* @param metadata 	
+	* @param zUrl 	 	
+	* @param metadata 	 	
 	* @return the storage center metadata feed
-    */
-	public ISFQuery<SFODataFeed<SFMetadata>> createMetadata(URI zUrl, String scid, ArrayList<SFMetadata> metadata)
-	{
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+	*/
+	public ISFQuery<SFODataFeed<SFMetadata>> createMetadata(URI zUrl, String scid, ArrayList<SFMetadata> metadata) throws InvalidOrMissingParameterException 	{
+		if (zUrl == null) {
+			throw new InvalidOrMissingParameterException("zUrl");
+		}
+		if (scid == null) {
+			throw new InvalidOrMissingParameterException("scid");
+		}
+		if (metadata == null) {
+			throw new InvalidOrMissingParameterException("metadata");
+		}
+
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -202,17 +254,25 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete StorageCenter Metadata
 	* Delete the Metadata entry associated with the specified storage center
-	* @param zUrl 	
-	* @param scid 	
-	* @param name 	
+	* @param zUrl 	 	
+	* @param name 	 	
 	* @return no data on success
-    */
-	public ISFQuery deleteMetadata(URI zUrl, String scid, String name)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	*/
+	public ISFQuery deleteMetadata(URI zUrl, String scid, String name) throws InvalidOrMissingParameterException 	{
+		if (zUrl == null) {
+			throw new InvalidOrMissingParameterException("zUrl");
+		}
+		if (scid == null) {
+			throw new InvalidOrMissingParameterException("scid");
+		}
+		if (name == null) {
+			throw new InvalidOrMissingParameterException("name");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);

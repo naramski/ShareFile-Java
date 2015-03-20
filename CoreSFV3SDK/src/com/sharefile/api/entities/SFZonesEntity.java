@@ -6,15 +6,15 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
@@ -30,18 +30,28 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFZonesEntity extends SFODataEntityBase
 {
-    /**
+	public SFZonesEntity(ISFApiClient client) {
+		super(client);
+	}
+
+	/**
 	* Get List of Zones
 	* Retrieve the list of Zones accessible to the authenticated user
 	* This method will concatenate the list of private zones in the user's account and the
 	* list of public zones accessible to this account. Any user can see the list of zones.
-	* @param services 	
-	* @param includeDisabled 	
+	* @param services  (default: StorageZone)	 	
+	* @param includeDisabled  (default: false)	 	
 	* @return The list of public and private zones accessible to this user
-    */
-	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnumFlags<SFZoneService> services, Boolean includeDisabled)
-	{
-		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>();
+	*/
+	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnumFlags<SFZoneService> services, Boolean includeDisabled) throws InvalidOrMissingParameterException 	{
+		if (services == null) {
+			throw new InvalidOrMissingParameterException("services");
+		}
+		if (includeDisabled == null) {
+			throw new InvalidOrMissingParameterException("includeDisabled");
+		}
+
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addQueryString("services", services);
 		sfApiQuery.addQueryString("includeDisabled", includeDisabled);
@@ -49,18 +59,57 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get List of Zones
 	* Retrieve the list of Zones accessible to the authenticated user
 	* This method will concatenate the list of private zones in the user's account and the
 	* list of public zones accessible to this account. Any user can see the list of zones.
-	* @param services 	
-	* @param includeDisabled 	
+	* @param services  (default: StorageZone)	 	
 	* @return The list of public and private zones accessible to this user
-    */
-	public ISFQuery<SFZone> get(URI url, Boolean secret)
-	{
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+	*/
+	public ISFQuery<SFODataFeed<SFZone>> get(SFSafeEnumFlags<SFZoneService> services) throws InvalidOrMissingParameterException 	{
+		if (services == null) {
+			throw new InvalidOrMissingParameterException("services");
+		}
+
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addQueryString("services", services);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get List of Zones
+	* Retrieve the list of Zones accessible to the authenticated user
+	* This method will concatenate the list of private zones in the user's account and the
+	* list of public zones accessible to this account. Any user can see the list of zones.
+	* @return The list of public and private zones accessible to this user
+	*/
+	public ISFQuery<SFODataFeed<SFZone>> get()	{
+
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get List of Zones
+	* Retrieve the list of Zones accessible to the authenticated user
+	* This method will concatenate the list of private zones in the user's account and the
+	* list of public zones accessible to this account. Any user can see the list of zones.
+	* @return The list of public and private zones accessible to this user
+	*/
+	public ISFQuery<SFZone> get(URI url, Boolean secret) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (secret == null) {
+			throw new InvalidOrMissingParameterException("secret");
+		}
+
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("secret", secret);
@@ -68,7 +117,26 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get List of Zones
+	* Retrieve the list of Zones accessible to the authenticated user
+	* This method will concatenate the list of private zones in the user's account and the
+	* list of public zones accessible to this account. Any user can see the list of zones.
+	* @return The list of public and private zones accessible to this user
+	*/
+	public ISFQuery<SFZone> get(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Create Zone
     * {
     * "Name":"Name",
@@ -77,17 +145,20 @@ public class SFZonesEntity extends SFODataEntityBase
     * }
 	* Creates a new Zone.
 	* @return the created zone
-    */
-	public ISFQuery<SFZone> create(SFZone zone)
-	{
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+	*/
+	public ISFQuery<SFZone> create(SFZone zone) throws InvalidOrMissingParameterException 	{
+		if (zone == null) {
+			throw new InvalidOrMissingParameterException("zone");
+		}
+
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setBody(zone);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update Zone
     * {
     * "Name":"Name",
@@ -95,13 +166,19 @@ public class SFZonesEntity extends SFODataEntityBase
     * "ZoneServices":"StorageZone, SharepointConnector, NetworkShareConnector"
     * }
 	* Updates an existing zone
-	* @param url 	
-	* @param zone 	
+	* @param url 	 	
+	* @param zone 	 	
 	* @return The modified zone
-    */
-	public ISFQuery<SFZone> update(URI url, SFZone zone)
-	{
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+	*/
+	public ISFQuery<SFZone> update(URI url, SFZone zone) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (zone == null) {
+			throw new InvalidOrMissingParameterException("zone");
+		}
+
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(zone);
@@ -109,15 +186,35 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
-	* Delete Zone
-	* Removes an existing zone
-	* @param url 	
-	* @param force 	
-    */
-	public ISFQuery delete(URI url, Boolean force)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	public ISFQuery delete(URI url, Boolean force, String newDefaultZoneId) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (force == null) {
+			throw new InvalidOrMissingParameterException("force");
+		}
+		if (newDefaultZoneId == null) {
+			throw new InvalidOrMissingParameterException("newDefaultZoneId");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("force", force);
+		sfApiQuery.addQueryString("newDefaultZoneId", newDefaultZoneId);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	public ISFQuery delete(URI url, Boolean force) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (force == null) {
+			throw new InvalidOrMissingParameterException("force");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
@@ -125,18 +222,33 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	public ISFQuery delete(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
 	* Reset Zone Secret
 	* Resets the current Zone Secret to a new Random value
 	* Caution! This Call will invalidate all Storage Center communications until the Storage Center Zone secret
 	* is also updated.
 	* User must be a Zone admin to perform this action
-	* @param url 	
+	* @param url 	 	
 	* @return The modified Zone object
-    */
-	public ISFQuery<SFZone> resetSecret(URI url)
-	{
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>();
+	*/
+	public ISFQuery<SFZone> resetSecret(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("ResetSecret");
 		sfApiQuery.addIds(url);
@@ -144,15 +256,18 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Zone Metadata
 	* Gets metadata associated with the specified zone
-	* @param url 	
+	* @param url 	 	
 	* @return the zone metadata feed
-    */
-	public ISFQuery<SFODataFeed<SFMetadata>> getMetadata(URI url)
-	{
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+	*/
+	public ISFQuery<SFODataFeed<SFMetadata>> getMetadata(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -160,7 +275,7 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create or update Zone Metadata
     * [
     * {"Name":"metadataName1", "Value":"metadataValue1", "IsPublic":"true"},
@@ -168,13 +283,19 @@ public class SFZonesEntity extends SFODataEntityBase
     * ...
     * ]
 	* Creates or updates Metadata entries associated with the specified zone
-	* @param url 	
-	* @param metadata 	
+	* @param url 	 	
+	* @param metadata 	 	
 	* @return the zone metadata feed
-    */
-	public ISFQuery<SFODataFeed<SFMetadata>> createMetadata(URI url, ArrayList<SFMetadata> metadata)
-	{
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>();
+	*/
+	public ISFQuery<SFODataFeed<SFMetadata>> createMetadata(URI url, ArrayList<SFMetadata> metadata) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (metadata == null) {
+			throw new InvalidOrMissingParameterException("metadata");
+		}
+
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -183,16 +304,22 @@ public class SFZonesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete Zone Metadata
 	* Delete the Metadata entry associated with the specified zone
-	* @param url 	
-	* @param name 	
+	* @param url 	 	
+	* @param name 	 	
 	* @return no data on success
-    */
-	public ISFQuery deleteMetadata(URI url, String name)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	*/
+	public ISFQuery deleteMetadata(URI url, String name) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (name == null) {
+			throw new InvalidOrMissingParameterException("name");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);

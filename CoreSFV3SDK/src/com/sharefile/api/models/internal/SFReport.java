@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -57,6 +57,8 @@ public class SFReport extends SFODataObject {
 	private String SaveFormat;
 	@SerializedName("SaveFolderId")
 	private String SaveFolderId;
+	@SerializedName("SaveFolder")
+	private SFItem SaveFolder;
 	@SerializedName("CreatorId")
 	private String CreatorId;
 	@SerializedName("Records")
@@ -197,6 +199,13 @@ public class SFReport extends SFODataObject {
 
 	public void setSaveFolderId(String savefolderid) {
 		this.SaveFolderId = savefolderid;
+	}
+	public SFItem getSaveFolder() {
+		return this.SaveFolder;
+	}
+
+	public void setSaveFolder(SFItem savefolder) {
+		this.SaveFolder = savefolder;
 	}
 	public String getCreatorId() {
 		return this.CreatorId;

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -29,34 +29,24 @@ import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFAccountsEntityInternal extends SFAccountsEntity
 {
     /**
 	* Creates a new account
 	* @param account 	
+	* @param sendActivationLink 	
 	* @return The new account created by the api
     */
-	public ISFQuery<SFFreeTrialAccount> createFreeTrialAccount(SFFreeTrialAccount account)
+	public ISFQuery<SFFreeTrialAccount> createFreeTrialAccount(SFFreeTrialAccount account, Boolean sendActivationLink)
 	{
 		SFApiQuery<SFFreeTrialAccount> sfApiQuery = new SFApiQuery<SFFreeTrialAccount>();
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("CreateFreeTrialAccount");
+		account.addProperty("sendActivationLink", sendActivationLink);
 		sfApiQuery.setBody(account);
 		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-    /**
-	* Get Outlook Information
-	* @return OutlookInformation
-    */
-	public ISFQuery<SFOutlookInformation> getOutlookInformation()
-	{
-		SFApiQuery<SFOutlookInformation> sfApiQuery = new SFApiQuery<SFOutlookInformation>();
-		sfApiQuery.setFrom("Accounts");
-		sfApiQuery.setAction("OutlookInformation");
-		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 

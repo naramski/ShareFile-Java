@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFItemInfo extends SFODataObject {
@@ -83,6 +84,10 @@ public class SFItemInfo extends SFODataObject {
 	private Boolean TreeModeOperationAllowed;
 	@SerializedName("TreeModeSourceId")
 	private String TreeModeSourceId;
+	@SerializedName("ForcedSortField")
+	private String ForcedSortField;
+	@SerializedName("ForcedSortOrder")
+	private String ForcedSortOrder;
 
 	public SFAccessControl getCurrentAccessControl() {
 		return this.CurrentAccessControl;
@@ -286,6 +291,20 @@ public class SFItemInfo extends SFODataObject {
 
 	public void setTreeModeSourceId(String treemodesourceid) {
 		this.TreeModeSourceId = treemodesourceid;
+	}
+	public String getForcedSortField() {
+		return this.ForcedSortField;
+	}
+
+	public void setForcedSortField(String forcedsortfield) {
+		this.ForcedSortField = forcedsortfield;
+	}
+	public String getForcedSortOrder() {
+		return this.ForcedSortOrder;
+	}
+
+	public void setForcedSortOrder(String forcedsortorder) {
+		this.ForcedSortOrder = forcedsortorder;
 	}
 
 }

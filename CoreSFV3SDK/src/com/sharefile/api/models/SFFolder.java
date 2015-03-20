@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFFolder extends SFItem {
@@ -37,6 +38,8 @@ public class SFFolder extends SFItem {
 	private SFRedirection Redirection;
 	@SerializedName("FavoriteFolder")
 	private SFFavoriteFolder FavoriteFolder;
+	@SerializedName("ZoneService")
+	private SFSafeEnumFlags<SFZoneService> ZoneService;
 
 		/**
 		* Number of Items defined under this Folder, including sub-folder counts.
@@ -115,6 +118,13 @@ public class SFFolder extends SFItem {
 		*/
 	public void setFavoriteFolder(SFFavoriteFolder favoritefolder) {
 		this.FavoriteFolder = favoritefolder;
+	}
+	public SFSafeEnumFlags<SFZoneService> getZoneService() {
+		return this.ZoneService;
+	}
+
+	public void setZoneService(SFSafeEnumFlags<SFZoneService> zoneservice) {
+		this.ZoneService = zoneservice;
 	}
 
 }

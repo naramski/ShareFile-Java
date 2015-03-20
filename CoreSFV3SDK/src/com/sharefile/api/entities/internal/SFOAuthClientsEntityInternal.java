@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -32,6 +32,7 @@ import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 {
@@ -114,7 +115,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setBody(oauthClient);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
@@ -128,7 +129,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
-		sfApiQuery.setHttpMethod("GET");
+		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -26,6 +26,7 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFReportsEntityInternal extends SFODataEntityBase
 {
@@ -53,6 +54,34 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>();
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get recent reports
+	* Returns the last 10 reports run
+	* @return List of reports
+    */
+	public ISFQuery<SFODataFeed<SFReport>> getRecent()
+	{
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>();
+		sfApiQuery.setFrom("Reports");
+		sfApiQuery.setAction("Recent");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Get recurring reports
+	* Returns all recurring reports
+	* @return List of reports
+    */
+	public ISFQuery<SFODataFeed<SFReport>> getRecurring()
+	{
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>();
+		sfApiQuery.setFrom("Reports");
+		sfApiQuery.setAction("Recurring");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -92,11 +121,13 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     /**
 	* Create Report
     * {
+    * "Id": "rs24f83e-b147-437e-9f28-e7d03634af42"
     * "Title": "Usage Report",
     * "ReportType": "Activity",
     * "ObjectType": "Account",
-    * "ObjectId": "a024f83e-b147-437e-9f28-e7d03634af42",
-    * "DateOption": "Last30Days"
+    * "ObjectId": "a024f83e-b147-437e-9f28-e7d0ef634af42",
+    * "DateOption": "Last30Days",
+    * "SaveFormat": "Excel"
     * }
 	* Creates a new report.
 	* @param report 	
@@ -110,6 +141,29 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 		sfApiQuery.addQueryString("runOnCreate", runOnCreate);
 		sfApiQuery.setBody(report);
 		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+    /**
+	* Update Report
+    * {
+    * "Title": "Usage Report",
+    * "ReportType": "Activity",
+    * "ObjectType": "Account",
+    * "ObjectId": "a024f83e-b147-437e-9f28-e7d03634af42",
+    * "DateOption": "Last30Days",
+    * "Frequency": "Once"
+    * }
+	* Updates an existing report
+	* @param report 	
+	* @return the updated report
+    */
+	public ISFQuery<SFReport> update(SFReport report)
+	{
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>();
+		sfApiQuery.setFrom("Reports");
+		sfApiQuery.setBody(report);
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
@@ -156,6 +210,22 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 		sfApiQuery.addActionIds(id);
 		sfApiQuery.addSubAction("JsonData");
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+    /**
+	* Save a folder to a folder location
+	* @param reportUrl 	
+	* @param folderId 	
+    */
+	public ISFQuery move(URI reportUrl, String folderId)
+	{
+		SFApiQuery sfApiQuery = new SFApiQuery();
+		sfApiQuery.setFrom("Reports");
+		sfApiQuery.setAction("Move");
+		sfApiQuery.addIds(reportUrl);
+		sfApiQuery.addQueryString("folderId", folderId);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
