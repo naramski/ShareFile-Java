@@ -11,6 +11,10 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.interfaces.ISFApiClient;
+
+import java.lang.reflect.InvocationTargetException;
+
 public interface ISFEntities {
     public static abstract class Implementation extends SFODataEntityBase implements ISFEntities
     {
@@ -25,7 +29,14 @@ public interface ISFEntities {
         {
             try
             {
-                return (SFODataEntityBase) className.newInstance();
+                if(this instanceof ISFApiClient)
+                {
+                    return (SFODataEntityBase) className.getDeclaredConstructor(this.getClass()).newInstance(this);
+                }
+                else
+                {
+                    return (SFODataEntityBase) className.newInstance();
+                }
             }
             catch (InstantiationException e)
             {
@@ -35,10 +46,19 @@ public interface ISFEntities {
             {
                 throw new RuntimeException(e);
             }
+            catch (NoSuchMethodException e)
+            {
+                throw new RuntimeException(e);
+            }
+            catch (InvocationTargetException e)
+            {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
-        public SFConnectorGroupsEntity connectorGroups() {
+        public SFConnectorGroupsEntity connectorGroups()
+        {
             return (SFConnectorGroupsEntity) getEntity(SFConnectorGroupsEntity.class);
         }
         @Override

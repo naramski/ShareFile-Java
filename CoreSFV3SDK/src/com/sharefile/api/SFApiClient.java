@@ -5,6 +5,21 @@ import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.constants.SFFolderID;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.entities.ISFEntities;
+import com.sharefile.api.entities.SFAccessControlsEntity;
+import com.sharefile.api.entities.SFAccountsEntity;
+import com.sharefile.api.entities.SFAsyncOperationsEntity;
+import com.sharefile.api.entities.SFConnectorGroupsEntity;
+import com.sharefile.api.entities.SFFavoriteFoldersEntity;
+import com.sharefile.api.entities.SFGroupsEntity;
+import com.sharefile.api.entities.SFItemsEntity;
+import com.sharefile.api.entities.SFMetadataEntity;
+import com.sharefile.api.entities.SFODataEntityBase;
+import com.sharefile.api.entities.SFSessionsEntity;
+import com.sharefile.api.entities.SFSharesEntity;
+import com.sharefile.api.entities.SFStorageCentersEntity;
+import com.sharefile.api.entities.SFUsersEntity;
+import com.sharefile.api.entities.SFZonesEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFCookieManager;
@@ -32,7 +47,7 @@ import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SFApiClient implements ISFApiClient
+public class SFApiClient extends ISFEntities.Implementation implements ISFApiClient
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiClient";
 	
