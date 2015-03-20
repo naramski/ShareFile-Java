@@ -12,22 +12,20 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
+import com.sharefile.api.internal.models.SFAppCodes;
+import com.sharefile.api.internal.models.SFOAuthClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
+
 import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 {
@@ -41,7 +39,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFOAuthClient>> get()	{
 
-		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>(this.client);
+		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -52,12 +50,12 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 	* @param url 	 	
 	* @return a single OAuthClient
 	*/
-	public ISFQuery<SFOAuthClient> get(URI url) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFOAuthClient> get(URI url) throws InvalidOrMissingParameterException {
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.client);
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -74,7 +72,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accountId");
 		}
 
-		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>(this.client);
+		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.setAction("ByAccount");
 		sfApiQuery.addQueryString("accountId", accountId);
@@ -100,7 +98,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.client);
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setBody(oauthClient);
@@ -123,7 +121,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("oauthClient");
 		}
 
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.client);
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.setBody(oauthClient);
 		sfApiQuery.setHttpMethod("POST");
@@ -152,7 +150,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.client);
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
@@ -180,7 +178,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("oauthClient");
 		}
 
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.client);
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(oauthClient);
@@ -200,7 +198,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
@@ -217,7 +215,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -234,7 +232,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("appCode");
 		}
 
-		SFApiQuery<SFOAuthCode> sfApiQuery = new SFApiQuery<SFOAuthCode>(this.client);
+		SFApiQuery<SFOAuthCode> sfApiQuery = new SFApiQuery<SFOAuthCode>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.setAction("GetOAuthCode");
 		sfApiQuery.addQueryString("appCode", appCode);

@@ -12,22 +12,15 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFFolderTemplatesEntityInternal extends SFFolderTemplatesEntity
 {
@@ -46,7 +39,7 @@ public class SFFolderTemplatesEntityInternal extends SFFolderTemplatesEntity
 			throw new InvalidOrMissingParameterException("batchSize");
 		}
 
-		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.client);
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.apiClient);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.setAction("BulkApply");
 		sfApiQuery.addIds(url);
@@ -64,7 +57,7 @@ public class SFFolderTemplatesEntityInternal extends SFFolderTemplatesEntity
 			throw new InvalidOrMissingParameterException("folderId");
 		}
 
-		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.client);
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.apiClient);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.setAction("BulkApply");
 		sfApiQuery.addIds(url);

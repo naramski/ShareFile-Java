@@ -12,21 +12,14 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFAccessControlsEntity extends SFODataEntityBase
 {
@@ -44,7 +37,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -62,7 +55,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>(this.client);
+		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -108,7 +101,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("message");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -154,7 +147,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sendDefaultNotification");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -195,7 +188,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("recursive");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -231,7 +224,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControl");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -269,7 +262,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("recursive");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -304,7 +297,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControl");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -323,7 +316,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");

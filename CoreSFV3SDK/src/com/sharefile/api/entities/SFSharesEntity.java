@@ -12,8 +12,9 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.SFQueryStream;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
@@ -23,10 +24,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
+
 import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFSharesEntity extends SFODataEntityBase
 {
@@ -41,7 +40,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFShare>> get()	{
 
-		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -54,12 +53,12 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param url 	 	
 	* @return A single Share
 	*/
-	public ISFQuery<SFShare> get(URI url) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFShare> get(URI url) throws InvalidOrMissingParameterException {
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -80,7 +79,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFShareAlias>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShareAlias>>(this.client);
+		SFApiQuery<SFODataFeed<SFShareAlias>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShareAlias>>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(url);
@@ -103,7 +102,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(parentUrl);
@@ -129,7 +128,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("Company");
 		}
 
-		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(url);
@@ -155,7 +154,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("LastName");
 		}
 
-		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(url);
@@ -177,7 +176,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("FirstName");
 		}
 
-		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(url);
@@ -195,7 +194,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("Email");
 		}
 
-		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(url);
@@ -209,7 +208,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
+		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(url);
@@ -228,7 +227,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(url);
@@ -250,7 +249,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemid");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
@@ -281,7 +280,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
@@ -311,7 +310,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("size");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
@@ -336,7 +335,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemid");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
@@ -362,7 +361,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("platform");
 		}
 
-		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>(this.client);
+		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Items");
 		sfApiQuery.addIds(shareUrl);
@@ -410,7 +409,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
@@ -456,7 +455,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("Company");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
@@ -497,7 +496,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("Email");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
@@ -533,7 +532,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("Name");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
@@ -564,7 +563,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemId");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
@@ -591,7 +590,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("shareUrl");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(shareUrl);
@@ -629,7 +628,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
@@ -667,7 +666,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemId");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
@@ -701,7 +700,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("aliasid");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
@@ -737,7 +736,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
@@ -771,7 +770,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("ids");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
@@ -825,7 +824,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addQueryString("notify", notify);
 		sfApiQuery.setBody(share);
@@ -872,7 +871,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("share");
 		}
 
-		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setBody(share);
 		sfApiQuery.setHttpMethod("POST");
@@ -900,7 +899,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("share");
 		}
 
-		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(share);
@@ -918,7 +917,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -947,7 +946,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Alias");
 		sfApiQuery.addIds(url);
@@ -975,7 +974,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Alias");
 		sfApiQuery.addIds(url);
@@ -995,7 +994,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parameters");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Send");
 		sfApiQuery.setBody(parameters);
@@ -1014,7 +1013,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parameters");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Request");
 		sfApiQuery.setBody(parameters);
@@ -1032,7 +1031,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parameters");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Resend");
 		sfApiQuery.setBody(parameters);
@@ -1058,7 +1057,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -1066,7 +1065,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -1079,7 +1078,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -1179,7 +1178,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("expirationDays");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1227,7 +1226,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -1235,7 +1234,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -1248,7 +1247,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -1345,7 +1344,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("clientModifiedDateUTC");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1392,7 +1391,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -1400,7 +1399,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -1413,7 +1412,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -1507,7 +1506,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("clientCreatedDateUTC");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1553,7 +1552,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -1561,7 +1560,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -1574,7 +1573,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -1665,7 +1664,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1710,7 +1709,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -1718,7 +1717,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -1731,7 +1730,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -1818,7 +1817,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("responseFormat");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1862,7 +1861,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -1870,7 +1869,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -1883,7 +1882,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -1966,7 +1965,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("threadCount");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2009,7 +2008,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2017,7 +2016,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2030,7 +2029,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2109,7 +2108,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("opid");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2151,7 +2150,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2159,7 +2158,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2172,7 +2171,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2247,7 +2246,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sendGuid");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2288,7 +2287,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2296,7 +2295,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2309,7 +2308,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2380,7 +2379,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("isSend");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2420,7 +2419,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2428,7 +2427,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2441,7 +2440,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2508,7 +2507,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("details");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2547,7 +2546,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2555,7 +2554,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2568,7 +2567,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2631,7 +2630,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("title");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2669,7 +2668,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2677,7 +2676,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2690,7 +2689,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2749,7 +2748,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("overwrite");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2786,7 +2785,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2794,7 +2793,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2807,7 +2806,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2862,7 +2861,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("tool");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2898,7 +2897,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -2906,7 +2905,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -2919,7 +2918,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -2970,7 +2969,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("unzip");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3005,7 +3004,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3013,7 +3012,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3026,7 +3025,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3073,7 +3072,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("startOver");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3107,7 +3106,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3115,7 +3114,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3128,7 +3127,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3171,7 +3170,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("canResume");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3204,7 +3203,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3212,7 +3211,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3225,7 +3224,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3264,7 +3263,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchLast");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3296,7 +3295,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3304,7 +3303,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3317,7 +3316,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3352,7 +3351,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchId");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3383,7 +3382,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3391,7 +3390,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3404,7 +3403,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3435,7 +3434,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileSize");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3465,7 +3464,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3473,7 +3472,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3486,7 +3485,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3513,7 +3512,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileName");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3542,7 +3541,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3550,7 +3549,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3563,7 +3562,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3586,7 +3585,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("raw");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3614,7 +3613,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3622,7 +3621,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3635,7 +3634,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3654,7 +3653,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("method");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3681,7 +3680,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -3689,7 +3688,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
@@ -3702,7 +3701,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
@@ -3717,7 +3716,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3736,7 +3735,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("expirationDays");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);
@@ -3754,7 +3753,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("uploadParams");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);
@@ -3774,7 +3773,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Redirection");
 		sfApiQuery.addIds(url);

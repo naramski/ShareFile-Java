@@ -14,101 +14,97 @@ package com.sharefile.api.internal.entities;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.entities.ISFEntities;
-import com.sharefile.api.exceptions.SFSDKException;
 
 public interface ISFInternalEntities extends ISFEntities {
-    public static abstract class Implementation extends SFApiClient implements ISFInternalEntities {
-        protected Implementation(SFOAuth2Token oauthToken) throws SFSDKException {
-            super(oauthToken);
-        }
-
+    public static abstract class Implementation extends ISFEntities.Implementation implements ISFInternalEntities
+    {
         @Override
         public SFBillingEntityInternal billing() {
-            return getEntity(SFBillingEntityInternal.class);
+            return (SFBillingEntityInternal) getEntity(SFBillingEntityInternal.class);
         }
         
 
         @Override
         public SFEncryptedEmailsEntityInternal encryptedEmails() {
-            return getEntity(SFEncryptedEmailsEntityInternal.class);
+            return (SFEncryptedEmailsEntityInternal) getEntity(SFEncryptedEmailsEntityInternal.class);
         }
         
 
         @Override
         public SFFileLockEntityInternal fileLock() {
-            return getEntity(SFFileLockEntityInternal.class);
+            return (SFFileLockEntityInternal) getEntity(SFFileLockEntityInternal.class);
         }
         
 
         @Override
         public SFNotificationsEntityInternal notifications() {
-            return getEntity(SFNotificationsEntityInternal.class);
+            return (SFNotificationsEntityInternal) getEntity(SFNotificationsEntityInternal.class);
         }
         
 
         @Override
         public SFOAuthClientsEntityInternal oAuthClients() {
-            return getEntity(SFOAuthClientsEntityInternal.class);
+            return (SFOAuthClientsEntityInternal) getEntity(SFOAuthClientsEntityInternal.class);
         }
         
 
         @Override
         public SFPlanAddonsEntityInternal planAddons() {
-            return getEntity(SFPlanAddonsEntityInternal.class);
+            return (SFPlanAddonsEntityInternal) getEntity(SFPlanAddonsEntityInternal.class);
         }
         
 
         @Override
         public SFReportsEntityInternal reports() {
-            return getEntity(SFReportsEntityInternal.class);
+            return (SFReportsEntityInternal) getEntity(SFReportsEntityInternal.class);
         }
         
 
         @Override
         public SFUsagePlansEntityInternal usagePlans() {
-            return getEntity(SFUsagePlansEntityInternal.class);
+            return (SFUsagePlansEntityInternal) getEntity(SFUsagePlansEntityInternal.class);
         }
         
 
         @Override
         public SFFolderTemplatesEntityInternal folderTemplatesInternal() {
-            return getEntity(SFFolderTemplatesEntityInternal.class);
+            return (SFFolderTemplatesEntityInternal) getEntity(SFFolderTemplatesEntityInternal.class);
         }
         
 
         @Override
         public SFAccountsEntityInternal accountsInternal() {
-            return getEntity(SFAccountsEntityInternal.class);
+            return (SFAccountsEntityInternal) getEntity(SFAccountsEntityInternal.class);
         }
         
 
         @Override
         public SFAzureSBTopicsEntityInternal azureSBTopics() {
-            return getEntity(SFAzureSBTopicsEntityInternal.class);
+            return (SFAzureSBTopicsEntityInternal) getEntity(SFAzureSBTopicsEntityInternal.class);
         }
         
 
         @Override
         public SFConfigsEntityInternal configs() {
-            return getEntity(SFConfigsEntityInternal.class);
+            return (SFConfigsEntityInternal) getEntity(SFConfigsEntityInternal.class);
         }
         
 
         @Override
         public SFDevicesEntityInternal devices() {
-            return getEntity(SFDevicesEntityInternal.class);
+            return (SFDevicesEntityInternal) getEntity(SFDevicesEntityInternal.class);
         }
         
 
         @Override
         public SFItemsEntityInternal itemsInternal() {
-            return getEntity(SFItemsEntityInternal.class);
+            return (SFItemsEntityInternal) getEntity(SFItemsEntityInternal.class);
         }
         
 
         @Override
         public SFUsersEntityInternal usersInternal() {
-            return getEntity(SFUsersEntityInternal.class);
+            return (SFUsersEntityInternal) getEntity(SFUsersEntityInternal.class);
         }
         
 

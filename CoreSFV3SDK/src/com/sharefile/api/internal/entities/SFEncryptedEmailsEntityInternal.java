@@ -12,8 +12,10 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
+import com.sharefile.api.SFQueryStream;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
@@ -21,13 +23,10 @@ import com.sharefile.api.interfaces.ISFQuery;
 
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
+
 import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 {
@@ -52,7 +51,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("company");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("firstName", firstName);
@@ -77,7 +76,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("firstName", firstName);
@@ -98,7 +97,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("lastName");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("firstName", firstName);
@@ -115,7 +114,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("firstName");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("firstName", firstName);
@@ -128,7 +127,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -152,7 +151,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("company");
 		}
 
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.client);
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Thread");
 		sfApiQuery.addIds(url);
@@ -178,7 +177,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.client);
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Thread");
 		sfApiQuery.addIds(url);
@@ -200,7 +199,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("lastName");
 		}
 
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.client);
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Thread");
 		sfApiQuery.addIds(url);
@@ -218,7 +217,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("firstName");
 		}
 
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.client);
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Thread");
 		sfApiQuery.addIds(url);
@@ -232,7 +231,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.client);
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Thread");
 		sfApiQuery.addIds(url);
@@ -242,7 +241,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFEncryptedEmail>> received()	{
 
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.client);
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Received");
 		sfApiQuery.setHttpMethod("GET");
@@ -257,7 +256,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("encryptedEmailParams");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Reply");
 		sfApiQuery.addIds(url);
@@ -274,7 +273,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("encryptedEmailParams");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("ReplyAll");
 		sfApiQuery.addIds(url);
@@ -288,7 +287,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("encryptedEmailParams");
 		}
 
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setBody(encryptedEmailParams);
 		sfApiQuery.setHttpMethod("POST");
@@ -303,7 +302,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("encryptedEmailSendParams");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Send");
 		sfApiQuery.addIds(url);
@@ -320,7 +319,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("encryptedEmailSendParams");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Complete");
 		sfApiQuery.addIds(url);
@@ -340,7 +339,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Message");
 		sfApiQuery.addIds(url);
@@ -358,7 +357,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("aliasId");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Message");
 		sfApiQuery.addIds(url);
@@ -372,7 +371,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Message");
 		sfApiQuery.addIds(url);
@@ -385,7 +384,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -463,7 +462,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("expirationDays");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -561,7 +560,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("clientModifiedDateUTC");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -655,7 +654,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("clientCreatedDateUTC");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -745,7 +744,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -831,7 +830,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("responseFormat");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -913,7 +912,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("threadCount");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -991,7 +990,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("opid");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1065,7 +1064,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sendGuid");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1135,7 +1134,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("isSend");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1201,7 +1200,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("details");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1263,7 +1262,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("title");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1321,7 +1320,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("overwrite");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1375,7 +1374,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("tool");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1425,7 +1424,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("unzip");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1471,7 +1470,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("startOver");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1513,7 +1512,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("canResume");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1551,7 +1550,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchLast");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1585,7 +1584,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchId");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1615,7 +1614,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileSize");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1641,7 +1640,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileName");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1663,7 +1662,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("raw");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1681,7 +1680,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("method");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1695,7 +1694,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1714,7 +1713,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("expirationDays");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);
@@ -1732,7 +1731,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("uploadParams");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);

@@ -12,22 +12,15 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFItemsEntityInternal extends SFItemsEntity
 {
@@ -48,7 +41,7 @@ public class SFItemsEntityInternal extends SFItemsEntity
     * }
 	* @param url 	 	
 	* @param subreq 	 	
-	* @return an ENS subscription token, which the client can use to register for Event notifications
+	* @return an ENS subscription token, which the apiClient can use to register for Event notifications
 	*/
 	public ISFQuery<SFEnsSubscriptionToken> subscribe(URI url, SFEnsSubscriptionRequest subreq) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
@@ -58,7 +51,7 @@ public class SFItemsEntityInternal extends SFItemsEntity
 			throw new InvalidOrMissingParameterException("subreq");
 		}
 
-		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>(this.client);
+		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Subscribe");
 		sfApiQuery.addIds(url);

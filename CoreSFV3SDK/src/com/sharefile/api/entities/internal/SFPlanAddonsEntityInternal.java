@@ -13,6 +13,7 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.models.internal.SFInAppPurchase;
@@ -42,6 +43,11 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 {
+    public SFPlanAddonsEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get Plan add-ons
 	* @param productCode 	
@@ -49,7 +55,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFPlanAddon> get(String productCode)
 	{
-		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>();
+		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.addQueryString("productCode", productCode);
 		sfApiQuery.setHttpMethod("GET");
@@ -66,7 +72,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFPlanAddon> createInAppPurchase(SFInAppPurchase inAppPurchase)
 	{
-		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>();
+		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.setAction("InAppPurchase");
 		sfApiQuery.setBody(inAppPurchase);
@@ -84,7 +90,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFPlanAddon> createTrialPeriod(SFTrialPeriod trialPeriod)
 	{
-		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>();
+		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.setAction("TrialPeriod");
 		sfApiQuery.setBody(trialPeriod);
@@ -99,7 +105,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFPlanAddonUser> getUserInfo(String productCode)
 	{
-		SFApiQuery<SFPlanAddonUser> sfApiQuery = new SFApiQuery<SFPlanAddonUser>();
+		SFApiQuery<SFPlanAddonUser> sfApiQuery = new SFApiQuery<SFPlanAddonUser>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.setAction("UserInfo");
 		sfApiQuery.addQueryString("productCode", productCode);

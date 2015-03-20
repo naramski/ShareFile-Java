@@ -12,22 +12,16 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFReportsEntityInternal extends SFODataEntityBase
 {
@@ -42,7 +36,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFReport>> get()	{
 
-		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.client);
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -59,7 +53,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.client);
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -73,7 +67,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFReport>> getRecent()	{
 
-		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.client);
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Recent");
 		sfApiQuery.setHttpMethod("GET");
@@ -87,7 +81,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFReport>> getRecurring()	{
 
-		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.client);
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Recurring");
 		sfApiQuery.setHttpMethod("GET");
@@ -100,12 +94,12 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 	* @param id 	 	
 	* @return Single Record
 	*/
-	public ISFQuery<SFReportRecord> getRecord(String id) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFReportRecord> getRecord(String id) throws InvalidOrMissingParameterException {
 		if (id == null) {
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>(this.client);
+		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Record");
 		sfApiQuery.addActionIds(id);
@@ -124,7 +118,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFReportRecord>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReportRecord>>(this.client);
+		SFApiQuery<SFODataFeed<SFReportRecord>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReportRecord>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Records");
 		sfApiQuery.addIds(url);
@@ -156,7 +150,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("runOnCreate");
 		}
 
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.client);
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addQueryString("runOnCreate", runOnCreate);
 		sfApiQuery.setBody(report);
@@ -184,7 +178,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("report");
 		}
 
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.client);
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setBody(report);
 		sfApiQuery.setHttpMethod("POST");
@@ -210,7 +204,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("report");
 		}
 
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.client);
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setBody(report);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -227,7 +221,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -244,7 +238,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>(this.client);
+		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Run");
 		sfApiQuery.addIds(url);
@@ -262,7 +256,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Records");
 		sfApiQuery.addActionIds(id);
@@ -284,7 +278,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("folderId");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Move");
 		sfApiQuery.addIds(reportUrl);
@@ -303,7 +297,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Records");
 		sfApiQuery.addActionIds(id);

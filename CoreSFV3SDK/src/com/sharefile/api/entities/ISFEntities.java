@@ -11,82 +11,100 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-
 public interface ISFEntities {
-    public static abstract class Implementation extends SFEntitiesBase implements ISFEntities {
-        protected Implementation() {
+    public static abstract class Implementation extends SFODataEntityBase implements ISFEntities
+    {
+        private static final String TAG = "ISFEntities";
+
+        protected Implementation()
+        {
     
+        }
+
+        public SFODataEntityBase getEntity(Class className)
+        {
+            try
+            {
+                return (SFODataEntityBase) className.newInstance();
+            }
+            catch (InstantiationException e)
+            {
+                throw new RuntimeException(e);
+            }
+            catch (IllegalAccessException e)
+            {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
         public SFConnectorGroupsEntity connectorGroups() {
-            return getEntity(SFConnectorGroupsEntity.class);
+            return (SFConnectorGroupsEntity) getEntity(SFConnectorGroupsEntity.class);
         }
         @Override
         public SFFolderTemplatesEntity folderTemplates() {
-            return getEntity(SFFolderTemplatesEntity.class);
+            return (SFFolderTemplatesEntity) getEntity(SFFolderTemplatesEntity.class);
         }
         @Override
         public SFAccessControlsEntity accessControls() {
-            return getEntity(SFAccessControlsEntity.class);
+            return (SFAccessControlsEntity) getEntity(SFAccessControlsEntity.class);
         }
         @Override
         public SFAccountsEntity accounts() {
-            return getEntity(SFAccountsEntity.class);
+            return (SFAccountsEntity) getEntity(SFAccountsEntity.class);
         }
         @Override
         public SFAsyncOperationsEntity asyncOperations() {
-            return getEntity(SFAsyncOperationsEntity.class);
+            return (SFAsyncOperationsEntity) getEntity(SFAsyncOperationsEntity.class);
         }
         @Override
         public SFCapabilitiesEntity capabilities() {
-            return getEntity(SFCapabilitiesEntity.class);
+            return (SFCapabilitiesEntity) getEntity(SFCapabilitiesEntity.class);
         }
         @Override
         public SFFavoriteFoldersEntity favoriteFolders() {
-            return getEntity(SFFavoriteFoldersEntity.class);
+            return (SFFavoriteFoldersEntity) getEntity(SFFavoriteFoldersEntity.class);
         }
         @Override
         public SFGroupsEntity groups() {
-            return getEntity(SFGroupsEntity.class);
+            return (SFGroupsEntity) getEntity(SFGroupsEntity.class);
         }
         @Override
         public SFItemsEntity items() {
-            return getEntity(SFItemsEntity.class);
+            return (SFItemsEntity) getEntity(SFItemsEntity.class);
         }
         @Override
         public SFMetadataEntity metadata() {
-            return getEntity(SFMetadataEntity.class);
+            return (SFMetadataEntity) getEntity(SFMetadataEntity.class);
         }
         @Override
         public SFSessionsEntity sessions() {
-            return getEntity(SFSessionsEntity.class);
+            return (SFSessionsEntity) getEntity(SFSessionsEntity.class);
         }
         @Override
         public SFSharesEntity shares() {
-            return getEntity(SFSharesEntity.class);
+            return (SFSharesEntity) getEntity(SFSharesEntity.class);
         }
         @Override
         public SFStorageCentersEntity storageCenters() {
-            return getEntity(SFStorageCentersEntity.class);
+            return (SFStorageCentersEntity) getEntity(SFStorageCentersEntity.class);
         }
         @Override
         public SFUsersEntity users() {
-            return getEntity(SFUsersEntity.class);
+            return (SFUsersEntity) getEntity(SFUsersEntity.class);
         }
         @Override
         public SFZonesEntity zones() {
-            return getEntity(SFZonesEntity.class);
+            return (SFZonesEntity) getEntity(SFZonesEntity.class);
         }
     }
 
     SFConnectorGroupsEntity connectorGroups();
-    SFFolderTemplatesEntity folderTemplates();
+    SFODataEntityBase folderTemplates();
     SFAccessControlsEntity accessControls();
     SFAccountsEntity accounts();
     SFAsyncOperationsEntity asyncOperations();
-    SFCapabilitiesEntity capabilities();
+    SFODataEntityBase capabilities();
     SFFavoriteFoldersEntity favoriteFolders();
     SFGroupsEntity groups();
     SFItemsEntity items();

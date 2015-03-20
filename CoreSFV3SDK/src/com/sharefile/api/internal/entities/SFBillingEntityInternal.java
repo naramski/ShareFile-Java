@@ -12,22 +12,17 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
+import com.sharefile.api.internal.models.SFBilling;
 import com.sharefile.api.models.*;
 import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFBillingEntityInternal extends SFODataEntityBase
 {
@@ -41,7 +36,7 @@ public class SFBillingEntityInternal extends SFODataEntityBase
 	*/
 	public ISFQuery<SFBilling> get()	{
 
-		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>(this.client);
+		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>(this.apiClient);
 		sfApiQuery.setFrom("Billing");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -118,7 +113,7 @@ public class SFBillingEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accountId");
 		}
 
-		SFApiQuery<SFODataFeed<SFCustomBillingEntry>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCustomBillingEntry>>(this.client);
+		SFApiQuery<SFODataFeed<SFCustomBillingEntry>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCustomBillingEntry>>(this.apiClient);
 		sfApiQuery.setFrom("Billing");
 		sfApiQuery.setAction("CustomBillingEntry");
 		sfApiQuery.addQueryString("accountId", accountId);

@@ -12,22 +12,15 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
-import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFQuery;
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.sharefile.api.internal.models.SFInAppPurchase;
+import com.sharefile.api.internal.models.SFPlanAddon;
+import com.sharefile.api.internal.models.SFPlanAddonUser;
+import com.sharefile.api.internal.models.SFTrialPeriod;
 
 public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 {
@@ -45,7 +38,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("productCode");
 		}
 
-		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.client);
+		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.addQueryString("productCode", productCode);
 		sfApiQuery.setHttpMethod("GET");
@@ -65,7 +58,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("inAppPurchase");
 		}
 
-		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.client);
+		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.setAction("InAppPurchase");
 		sfApiQuery.setBody(inAppPurchase);
@@ -86,7 +79,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("trialPeriod");
 		}
 
-		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.client);
+		SFApiQuery<SFPlanAddon> sfApiQuery = new SFApiQuery<SFPlanAddon>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.setAction("TrialPeriod");
 		sfApiQuery.setBody(trialPeriod);
@@ -104,7 +97,7 @@ public class SFPlanAddonsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("productCode");
 		}
 
-		SFApiQuery<SFPlanAddonUser> sfApiQuery = new SFApiQuery<SFPlanAddonUser>(this.client);
+		SFApiQuery<SFPlanAddonUser> sfApiQuery = new SFApiQuery<SFPlanAddonUser>(this.apiClient);
 		sfApiQuery.setFrom("PlanAddons");
 		sfApiQuery.setAction("UserInfo");
 		sfApiQuery.addQueryString("productCode", productCode);

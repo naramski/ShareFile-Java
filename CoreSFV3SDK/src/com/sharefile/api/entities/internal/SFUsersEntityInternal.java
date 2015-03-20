@@ -13,6 +13,7 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -30,6 +31,11 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFUsersEntityInternal extends SFUsersEntity
 {
+    public SFUsersEntityInternal(ISFApiClient client)
+    {
+        super(client);
+    }
+
     /**
 	* This method adds a list of account users to the account
     * [
@@ -45,7 +51,7 @@ public class SFUsersEntityInternal extends SFUsersEntity
     */
 	public ISFQuery<SFODataFeed<SFAccountUser>> createAccountUsers(ArrayList<SFAccountUser> accountUsers, String accountId)
 	{
-		SFApiQuery<SFODataFeed<SFAccountUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccountUser>>();
+		SFApiQuery<SFODataFeed<SFAccountUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccountUser>>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUsers");
 		sfApiQuery.addQueryString("accountId", accountId);

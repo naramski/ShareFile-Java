@@ -114,7 +114,7 @@ public class SFItem extends SFODataObject {
 	}
 		/**
 		* Item File Name. ShareFile allows Items to have different Display and File names: display
-		* names are shown during client navigation, while file names are used when the item is
+		* names are shown during apiClient navigation, while file names are used when the item is
 		* downloaded.
 		*/
 	public String getFileName() {
@@ -123,7 +123,7 @@ public class SFItem extends SFODataObject {
 
 		/**
 		* Item File Name. ShareFile allows Items to have different Display and File names: display
-		* names are shown during client navigation, while file names are used when the item is
+		* names are shown during apiClient navigation, while file names are used when the item is
 		* downloaded.
 		*/
 	public void setFileName(String filename) {

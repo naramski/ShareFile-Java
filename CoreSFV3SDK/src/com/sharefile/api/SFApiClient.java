@@ -11,6 +11,7 @@ import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
 import com.sharefile.api.https.SFUploadRunnable;
 import com.sharefile.api.https.TransferRunnable;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
@@ -31,7 +32,7 @@ import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SFApiClient
+public class SFApiClient implements ISFApiClient
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiClient";
 	
@@ -87,9 +88,11 @@ public class SFApiClient
 
 		}		
 	};
-	
-		
-	public boolean isClientInitialised()
+
+
+
+
+    public boolean isClientInitialised()
 	{
 		return mClientInitializedSuccessFully.get();
 	}
@@ -159,7 +162,7 @@ public class SFApiClient
 			}
 			catch(Exception e)
 			{
-				SLog.d(TAG, "Exception in init client", e);
+				SLog.d(TAG, "Exception in init apiClient", e);
 			}
 		}
 	}

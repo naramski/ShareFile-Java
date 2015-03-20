@@ -12,20 +12,16 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+
 import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFZonesEntity extends SFODataEntityBase
@@ -51,7 +47,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("includeDisabled");
 		}
 
-		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addQueryString("services", services);
 		sfApiQuery.addQueryString("includeDisabled", includeDisabled);
@@ -72,7 +68,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("services");
 		}
 
-		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addQueryString("services", services);
 		sfApiQuery.setHttpMethod("GET");
@@ -88,7 +84,7 @@ public class SFZonesEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFZone>> get()	{
 
-		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -109,7 +105,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("secret");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("secret", secret);
@@ -129,7 +125,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -151,7 +147,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zone");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setBody(zone);
 		sfApiQuery.setHttpMethod("POST");
@@ -178,7 +174,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zone");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(zone);
@@ -197,7 +193,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("newDefaultZoneId");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
@@ -214,7 +210,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("force");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
@@ -227,7 +223,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -248,7 +244,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("ResetSecret");
 		sfApiQuery.addIds(url);
@@ -267,7 +263,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -295,7 +291,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("metadata");
 		}
 
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -319,7 +315,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("name");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);

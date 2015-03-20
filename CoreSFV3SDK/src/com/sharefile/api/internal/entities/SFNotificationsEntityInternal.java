@@ -12,22 +12,11 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
-import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFQuery;
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFNotificationsEntityInternal extends SFODataEntityBase
 {
@@ -35,7 +24,7 @@ public class SFNotificationsEntityInternal extends SFODataEntityBase
 		super(client);
 	}
 
-	public ISFQuery failedShare(String id, String email, String eventType) throws InvalidOrMissingParameterException 	{
+	public ISFQuery failedShare(String id, String email, String eventType) throws InvalidOrMissingParameterException {
 		if (id == null) {
 			throw new InvalidOrMissingParameterException("id");
 		}
@@ -46,7 +35,7 @@ public class SFNotificationsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("eventType");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Notifications");
 		sfApiQuery.setAction("FailedShare");
 		sfApiQuery.addActionIds(id);
@@ -67,7 +56,7 @@ public class SFNotificationsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("eventType");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Notifications");
 		sfApiQuery.setAction("FailedWelcome");
 		sfApiQuery.addActionIds(id);

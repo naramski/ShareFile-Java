@@ -12,21 +12,15 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFStorageCentersEntity extends SFODataEntityBase
 {
@@ -44,7 +38,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.apiClient);
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -69,7 +63,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sc");
 		}
 
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.apiClient);
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(sc);
@@ -86,7 +80,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("StorageCenters");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -104,7 +98,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>(this.client);
+		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(url);
@@ -132,7 +126,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("storageCenter");
 		}
 
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(url);
@@ -164,7 +158,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("storageCenter");
 		}
 
-		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.client);
+		SFApiQuery<SFStorageCenter> sfApiQuery = new SFApiQuery<SFStorageCenter>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -187,7 +181,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("scid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -210,7 +204,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("scid");
 		}
 
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -243,7 +237,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("metadata");
 		}
 
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);
@@ -272,7 +266,7 @@ public class SFStorageCentersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("name");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("StorageCenters");
 		sfApiQuery.addIds(zUrl);

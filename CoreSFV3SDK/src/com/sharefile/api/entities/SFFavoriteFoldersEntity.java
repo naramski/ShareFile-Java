@@ -12,21 +12,14 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFFavoriteFoldersEntity extends SFODataEntityBase
 {
@@ -45,7 +38,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>(this.client);
+		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -67,7 +60,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("userid");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(itemUrl);
@@ -87,7 +80,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FavoriteFolder");
 		sfApiQuery.addIds(parentUrl);
@@ -105,7 +98,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
 		sfApiQuery.setFrom("FavoriteFolders");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -131,7 +124,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("folder");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -153,7 +146,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -170,7 +163,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemId");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);

@@ -12,21 +12,14 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFMetadataEntity extends SFODataEntityBase
 {
@@ -48,7 +41,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.apiClient);
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -66,7 +59,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -92,7 +85,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("metadata");
 		}
 
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -121,7 +114,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("metadata");
 		}
 
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -147,7 +140,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("metadata");
 		}
 
-		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.client);
+		SFApiQuery<SFMetadata> sfApiQuery = new SFApiQuery<SFMetadata>(this.apiClient);
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(metadata);
@@ -169,7 +162,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("metadataId");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -188,7 +181,7 @@ public class SFMetadataEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Metadata");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");

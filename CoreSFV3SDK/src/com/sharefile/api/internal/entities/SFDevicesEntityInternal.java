@@ -12,22 +12,15 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFDevicesEntityInternal extends SFODataEntityBase
 {
@@ -41,7 +34,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFDeviceUser>> get()	{
 
-		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>(this.client);
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -52,12 +45,12 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 	* @param url 	 	
 	* @return Device
 	*/
-	public ISFQuery<SFDevice> get(URI url) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFDevice> get(URI url) throws InvalidOrMissingParameterException {
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFDevice> sfApiQuery = new SFApiQuery<SFDevice>(this.client);
+		SFApiQuery<SFDevice> sfApiQuery = new SFApiQuery<SFDevice>(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -74,7 +67,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>(this.client);
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(parentUrl);
@@ -92,7 +85,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -113,7 +106,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(parentUrl);
@@ -141,7 +134,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("du");
 		}
 
-		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>(this.client);
+		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(parentUrl);
@@ -164,7 +157,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("userid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Wipe");
 		sfApiQuery.addIds(deviceUrl);
@@ -183,7 +176,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("deviceUrl");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Wipe");
 		sfApiQuery.addIds(deviceUrl);
@@ -230,7 +223,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("WipeDone");
 		sfApiQuery.addIds(deviceUrl);
@@ -275,7 +268,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("deviceWipeReport");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("WipeDone");
 		sfApiQuery.addIds(deviceUrl);
@@ -298,7 +291,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>(this.client);
+		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Status");
 		sfApiQuery.addIds(deviceUrl);
@@ -317,7 +310,7 @@ public class SFDevicesEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("deviceUrl");
 		}
 
-		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>(this.client);
+		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Status");
 		sfApiQuery.addIds(deviceUrl);

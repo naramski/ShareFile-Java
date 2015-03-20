@@ -13,6 +13,7 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -30,9 +31,14 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFNotificationsEntityInternal extends SFODataEntityBase
 {
+    public SFNotificationsEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
 	public ISFQuery failedShare(String id, String email, String eventType)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Notifications");
 		sfApiQuery.setAction("FailedShare");
 		sfApiQuery.addActionIds(id);
@@ -44,7 +50,7 @@ public class SFNotificationsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery failedWelcome(String id, String email, String eventType)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Notifications");
 		sfApiQuery.setAction("FailedWelcome");
 		sfApiQuery.addActionIds(id);

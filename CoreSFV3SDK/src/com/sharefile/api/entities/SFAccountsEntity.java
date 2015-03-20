@@ -12,21 +12,11 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFAccountsEntity extends SFODataEntityBase
 {
@@ -41,7 +31,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFAccount> get()	{
 
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.client);
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -55,7 +45,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFAccount> getBranding()	{
 
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.client);
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Branding");
 		sfApiQuery.setHttpMethod("GET");
@@ -73,7 +63,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("account");
 		}
 
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.client);
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Branding");
 		sfApiQuery.setBody(account);
@@ -89,7 +79,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFContact>> getEmployees()	{
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Employees");
 		sfApiQuery.setHttpMethod("GET");
@@ -105,7 +95,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFContact>> getClients()	{
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Clients");
 		sfApiQuery.setHttpMethod("GET");
@@ -129,7 +119,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("searchTerm");
 		}
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("AddressBook");
 		sfApiQuery.addQueryString("type", type);
@@ -151,7 +141,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("type");
 		}
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("AddressBook");
 		sfApiQuery.addQueryString("type", type);
@@ -168,7 +158,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFContact>> getAddressBook()	{
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("AddressBook");
 		sfApiQuery.setHttpMethod("GET");
@@ -182,7 +172,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFMobileSecuritySettings> getMobileSecuritySettings()	{
 
-		SFApiQuery<SFMobileSecuritySettings> sfApiQuery = new SFApiQuery<SFMobileSecuritySettings>(this.client);
+		SFApiQuery<SFMobileSecuritySettings> sfApiQuery = new SFApiQuery<SFMobileSecuritySettings>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("MobileSecuritySettings");
 		sfApiQuery.setHttpMethod("GET");
@@ -195,7 +185,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFProductDefaults> getProductDefaults()	{
 
-		SFApiQuery<SFProductDefaults> sfApiQuery = new SFApiQuery<SFProductDefaults>(this.client);
+		SFApiQuery<SFProductDefaults> sfApiQuery = new SFApiQuery<SFProductDefaults>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("ProductDefaults");
 		sfApiQuery.setHttpMethod("GET");
@@ -208,7 +198,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFAccountPreferences> getPreferences()	{
 
-		SFApiQuery<SFAccountPreferences> sfApiQuery = new SFApiQuery<SFAccountPreferences>(this.client);
+		SFApiQuery<SFAccountPreferences> sfApiQuery = new SFApiQuery<SFAccountPreferences>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Preferences");
 		sfApiQuery.setHttpMethod("GET");
@@ -225,7 +215,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("provider");
 		}
 
-		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.client);
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.addQueryString("provider", provider);
@@ -239,7 +229,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFSSOAccountProvider> getSSO()	{
 
-		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.client);
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.setHttpMethod("GET");
@@ -270,7 +260,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("provider");
 		}
 
-		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.client);
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.addQueryString("provider", provider);
@@ -299,7 +289,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sso");
 		}
 
-		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.client);
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.setBody(sso);
@@ -339,7 +329,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singleplane");
 		}
 
-		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.client);
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
 		parameters.addProperty("username", username);
@@ -379,7 +369,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("requirehomefolders");
 		}
 
-		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.client);
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
 		parameters.addProperty("username", username);
@@ -414,7 +404,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("employeesonly");
 		}
 
-		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.client);
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
 		parameters.addProperty("username", username);
@@ -444,7 +434,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("username");
 		}
 
-		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.client);
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
 		parameters.addProperty("username", username);
@@ -464,7 +454,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SendToEmail");
 		sfApiQuery.addQueryString("email", email);
@@ -482,7 +472,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFAccessControlDomains> getLoginAccessControlDomains()	{
 
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.client);
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setHttpMethod("GET");
@@ -501,7 +491,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFAccessControlDomains> getFolderAccessControlDomains()	{
 
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.client);
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setHttpMethod("GET");
@@ -521,7 +511,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControlDomains");
 		}
 
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.client);
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -542,7 +532,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControlDomains");
 		}
 
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.client);
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -564,7 +554,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControlDomains");
 		}
 
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.client);
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -587,7 +577,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControlDomains");
 		}
 
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.client);
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -609,7 +599,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControlDomains");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -631,7 +621,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControlDomains");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -657,7 +647,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.client);
+		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireWebPop");
 		sfApiQuery.addQueryString("subdomain", subdomain);
@@ -681,7 +671,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("username");
 		}
 
-		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.client);
+		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireWebPop");
 		sfApiQuery.addQueryString("subdomain", subdomain);
@@ -700,7 +690,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("subdomain");
 		}
 
-		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.client);
+		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireWebPop");
 		sfApiQuery.addQueryString("subdomain", subdomain);
@@ -722,7 +712,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>(this.client);
+		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireSubdomain");
 		sfApiQuery.addQueryString("username", username);
@@ -741,7 +731,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("username");
 		}
 
-		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>(this.client);
+		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireSubdomain");
 		sfApiQuery.addQueryString("username", username);
@@ -769,7 +759,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singlePlane");
 		}
 
-		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>(this.client);
+		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FindSubdomain");
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
@@ -794,7 +784,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("findSubdomainParams");
 		}
 
-		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>(this.client);
+		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FindSubdomain");
 		sfApiQuery.setBody(findSubdomainParams);
@@ -808,7 +798,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFOutlookInformation> getOutlookInformation()	{
 
-		SFApiQuery<SFOutlookInformation> sfApiQuery = new SFApiQuery<SFOutlookInformation>(this.client);
+		SFApiQuery<SFOutlookInformation> sfApiQuery = new SFApiQuery<SFOutlookInformation>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("OutlookInformation");
 		sfApiQuery.setHttpMethod("GET");
@@ -825,7 +815,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("subdomain");
 		}
 
-		SFApiQuery<SFSSOInfo> sfApiQuery = new SFApiQuery<SFSSOInfo>(this.client);
+		SFApiQuery<SFSSOInfo> sfApiQuery = new SFApiQuery<SFSSOInfo>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSOInfo");
 		sfApiQuery.addQueryString("subdomain", subdomain);

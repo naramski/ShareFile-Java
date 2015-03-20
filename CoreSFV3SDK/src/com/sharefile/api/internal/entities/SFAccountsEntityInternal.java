@@ -12,22 +12,12 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFAccountsEntityInternal extends SFAccountsEntity
 {
@@ -49,7 +39,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 			throw new InvalidOrMissingParameterException("sendActivationLink");
 		}
 
-		SFApiQuery<SFFreeTrialAccount> sfApiQuery = new SFApiQuery<SFFreeTrialAccount>(this.client);
+		SFApiQuery<SFFreeTrialAccount> sfApiQuery = new SFApiQuery<SFFreeTrialAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("CreateFreeTrialAccount");
 		account.addProperty("sendActivationLink", sendActivationLink);
@@ -68,7 +58,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 			throw new InvalidOrMissingParameterException("account");
 		}
 
-		SFApiQuery<SFFreeTrialAccount> sfApiQuery = new SFApiQuery<SFFreeTrialAccount>(this.client);
+		SFApiQuery<SFFreeTrialAccount> sfApiQuery = new SFApiQuery<SFFreeTrialAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("CreateFreeTrialAccount");
 		sfApiQuery.setBody(account);
@@ -82,7 +72,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 	*/
 	public ISFQuery<SFEnsSubscriberConfiguration> getEnsSubscriberConfiguration()	{
 
-		SFApiQuery<SFEnsSubscriberConfiguration> sfApiQuery = new SFApiQuery<SFEnsSubscriberConfiguration>(this.client);
+		SFApiQuery<SFEnsSubscriberConfiguration> sfApiQuery = new SFApiQuery<SFEnsSubscriberConfiguration>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetEnsSubscriberConfiguration");
 		sfApiQuery.setHttpMethod("GET");
@@ -103,7 +93,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 			throw new InvalidOrMissingParameterException("account");
 		}
 
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.client);
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setBody(account);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -122,7 +112,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 			throw new InvalidOrMissingParameterException("subdomain");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("AssignSubdomain");
 		sfApiQuery.addQueryString("subdomain", subdomain);
@@ -141,7 +131,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 			throw new InvalidOrMissingParameterException("account");
 		}
 
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.client);
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequestPlanChanges");
 		sfApiQuery.setBody(account);
@@ -160,7 +150,7 @@ public class SFAccountsEntityInternal extends SFAccountsEntity
 			throw new InvalidOrMissingParameterException("account");
 		}
 
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.client);
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("UpgradeToPaid");
 		sfApiQuery.setBody(account);

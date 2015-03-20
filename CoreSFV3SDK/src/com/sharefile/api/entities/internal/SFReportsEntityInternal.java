@@ -13,6 +13,7 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -30,6 +31,11 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFReportsEntityInternal extends SFODataEntityBase
 {
+    public SFReportsEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get Reports for Current Account
 	* Returns all reports for the current account.
@@ -37,7 +43,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFReport>> get()
 	{
-		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>();
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -51,7 +57,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFReport> get(URI url)
 	{
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>();
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -65,7 +71,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFReport>> getRecent()
 	{
-		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>();
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Recent");
 		sfApiQuery.setHttpMethod("GET");
@@ -79,7 +85,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFReport>> getRecurring()
 	{
-		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>();
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Recurring");
 		sfApiQuery.setHttpMethod("GET");
@@ -94,7 +100,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFReportRecord> getRecord(String id)
 	{
-		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>();
+		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Record");
 		sfApiQuery.addActionIds(id);
@@ -110,7 +116,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFReportRecord>> getRecords(URI url)
 	{
-		SFApiQuery<SFODataFeed<SFReportRecord>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReportRecord>>();
+		SFApiQuery<SFODataFeed<SFReportRecord>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReportRecord>>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Records");
 		sfApiQuery.addIds(url);
@@ -136,7 +142,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFReport> create(SFReport report, Boolean runOnCreate)
 	{
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>();
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addQueryString("runOnCreate", runOnCreate);
 		sfApiQuery.setBody(report);
@@ -160,7 +166,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFReport> update(SFReport report)
 	{
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>();
+		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setBody(report);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -174,7 +180,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -188,7 +194,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFReportRecord> getRun(URI url)
 	{
-		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>();
+		SFApiQuery<SFReportRecord> sfApiQuery = new SFApiQuery<SFReportRecord>(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Run");
 		sfApiQuery.addIds(url);
@@ -204,7 +210,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery getJsonData(String id)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Records");
 		sfApiQuery.addActionIds(id);
@@ -220,7 +226,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery move(URI reportUrl, String folderId)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Move");
 		sfApiQuery.addIds(reportUrl);
@@ -237,7 +243,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery getExcelData(String id)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Records");
 		sfApiQuery.addActionIds(id);

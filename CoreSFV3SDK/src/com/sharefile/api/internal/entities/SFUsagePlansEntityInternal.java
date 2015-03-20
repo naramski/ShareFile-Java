@@ -12,22 +12,13 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFUsagePlansEntityInternal extends SFODataEntityBase
 {
@@ -37,7 +28,7 @@ public class SFUsagePlansEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFUsagePlan> get()	{
 
-		SFApiQuery<SFUsagePlan> sfApiQuery = new SFApiQuery<SFUsagePlan>(this.client);
+		SFApiQuery<SFUsagePlan> sfApiQuery = new SFApiQuery<SFUsagePlan>(this.apiClient);
 		sfApiQuery.setFrom("UsagePlans");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -48,7 +39,7 @@ public class SFUsagePlansEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("planTrack");
 		}
 
-		SFApiQuery<SFODataFeed<SFUsagePlan>> sfApiQuery = new SFApiQuery<SFODataFeed<SFUsagePlan>>(this.client);
+		SFApiQuery<SFODataFeed<SFUsagePlan>> sfApiQuery = new SFApiQuery<SFODataFeed<SFUsagePlan>>(this.apiClient);
 		sfApiQuery.setFrom("UsagePlans");
 		sfApiQuery.setAction("PlanNamesByPlanTrack");
 		sfApiQuery.addQueryString("planTrack", planTrack);
@@ -61,7 +52,7 @@ public class SFUsagePlansEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("plan");
 		}
 
-		SFApiQuery<SFUsagePlan> sfApiQuery = new SFApiQuery<SFUsagePlan>(this.client);
+		SFApiQuery<SFUsagePlan> sfApiQuery = new SFApiQuery<SFUsagePlan>(this.apiClient);
 		sfApiQuery.setFrom("UsagePlans");
 		sfApiQuery.setBody(plan);
 		sfApiQuery.setHttpMethod("PATCH");
@@ -73,7 +64,7 @@ public class SFUsagePlansEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("plan");
 		}
 
-		SFApiQuery<SFUsagePlan> sfApiQuery = new SFApiQuery<SFUsagePlan>(this.client);
+		SFApiQuery<SFUsagePlan> sfApiQuery = new SFApiQuery<SFUsagePlan>(this.apiClient);
 		sfApiQuery.setFrom("UsagePlans");
 		sfApiQuery.setAction("CalculateUsagePlanValues");
 		sfApiQuery.setBody(plan);

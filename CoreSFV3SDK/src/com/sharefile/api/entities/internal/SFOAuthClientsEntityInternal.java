@@ -13,6 +13,7 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.models.internal.SFOAuthClient;
@@ -36,13 +37,18 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFOAuthClientsEntityInternal extends SFODataEntityBase
 {
+    public SFOAuthClientsEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get List of OAuthClients for the Current Account
 	* @return List of OAuthClients
     */
 	public ISFQuery<SFODataFeed<SFOAuthClient>> get()
 	{
-		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>();
+		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -55,7 +61,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFOAuthClient> get(URI url)
 	{
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>();
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -69,7 +75,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFOAuthClient>> byAccount(String accountId)
 	{
-		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>();
+		SFApiQuery<SFODataFeed<SFOAuthClient>> sfApiQuery = new SFApiQuery<SFODataFeed<SFOAuthClient>>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.setAction("ByAccount");
 		sfApiQuery.addQueryString("accountId", accountId);
@@ -89,7 +95,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFOAuthClient> create(SFOAuthClient oauthClient, Boolean singlePlane)
 	{
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>();
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
 		sfApiQuery.setBody(oauthClient);
@@ -110,7 +116,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFOAuthClient> update(URI url, SFOAuthClient oauthClient, Boolean singlePlane)
 	{
-		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>();
+		SFApiQuery<SFOAuthClient> sfApiQuery = new SFApiQuery<SFOAuthClient>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
@@ -125,7 +131,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url, Boolean singlePlane)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
@@ -140,7 +146,7 @@ public class SFOAuthClientsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFOAuthCode> getOAuthCode(SFSafeEnum<SFAppCodes> appCode)
 	{
-		SFApiQuery<SFOAuthCode> sfApiQuery = new SFApiQuery<SFOAuthCode>();
+		SFApiQuery<SFOAuthCode> sfApiQuery = new SFApiQuery<SFOAuthCode>(this.apiClient);
 		sfApiQuery.setFrom("OAuthClients");
 		sfApiQuery.setAction("GetOAuthCode");
 		sfApiQuery.addQueryString("appCode", appCode);

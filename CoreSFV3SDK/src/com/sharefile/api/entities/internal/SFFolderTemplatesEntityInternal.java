@@ -13,6 +13,7 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -30,9 +31,13 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFFolderTemplatesEntityInternal extends SFFolderTemplatesEntity
 {
-	public ISFQuery<SFAsyncOperation> bulkApply(URI url, String folderId, Integer batchSize)
+    public SFFolderTemplatesEntityInternal(ISFApiClient client) {
+        super(client);
+    }
+
+    public ISFQuery<SFAsyncOperation> bulkApply(URI url, String folderId, Integer batchSize)
 	{
-		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>();
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.apiClient);
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.setAction("BulkApply");
 		sfApiQuery.addIds(url);

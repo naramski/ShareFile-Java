@@ -12,22 +12,16 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
-import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFQuery;
+import com.sharefile.api.internal.models.SFAzureSBTopicsEndPointInfo;
+import com.sharefile.api.internal.models.SFAzureSBTopicsResponse;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 {
@@ -39,12 +33,12 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 	* Check if Topic exists in namespace
 	* @param parentUrl 	 	
 	*/
-	public ISFQuery<SFAzureSBTopicsResponse> checkIfTopicExists(URI parentUrl) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFAzureSBTopicsResponse> checkIfTopicExists(URI parentUrl) throws InvalidOrMissingParameterException {
 		if (parentUrl == null) {
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery<SFAzureSBTopicsResponse> sfApiQuery = new SFApiQuery<SFAzureSBTopicsResponse>(this.client);
+		SFApiQuery<SFAzureSBTopicsResponse> sfApiQuery = new SFApiQuery<SFAzureSBTopicsResponse>(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("CheckIfTopicExists");
 		sfApiQuery.addIds(parentUrl);
@@ -64,7 +58,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("CreateTopic");
 		sfApiQuery.addIds(parentUrl);
@@ -86,7 +80,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery<SFAzureSBTopicsEndPointInfo> sfApiQuery = new SFApiQuery<SFAzureSBTopicsEndPointInfo>(this.client);
+		SFApiQuery<SFAzureSBTopicsEndPointInfo> sfApiQuery = new SFApiQuery<SFAzureSBTopicsEndPointInfo>(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("GetTopicEndPoint");
 		sfApiQuery.addIds(parentUrl);
@@ -105,7 +99,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("RegenerateTopicCredentials");
 		sfApiQuery.addIds(parentUrl);
@@ -122,7 +116,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("DeleteTopic");
 		sfApiQuery.addIds(parentUrl);

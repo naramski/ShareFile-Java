@@ -12,21 +12,14 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFConnectorGroupsEntity extends SFODataEntityBase
 {
@@ -36,7 +29,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFConnectorGroup>> get()	{
 
-		SFApiQuery<SFODataFeed<SFConnectorGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFConnectorGroup>>(this.client);
+		SFApiQuery<SFODataFeed<SFConnectorGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFConnectorGroup>>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -52,7 +45,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFConnectorGroup> sfApiQuery = new SFApiQuery<SFConnectorGroup>(this.client);
+		SFApiQuery<SFConnectorGroup> sfApiQuery = new SFApiQuery<SFConnectorGroup>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -64,12 +57,12 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 	* @param provider 	 	
 	* @return A single ConnectorGroup matching the query
 	*/
-	public ISFQuery<SFConnectorGroup> byProvider(String provider) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFConnectorGroup> byProvider(String provider) throws InvalidOrMissingParameterException {
 		if (provider == null) {
 			throw new InvalidOrMissingParameterException("provider");
 		}
 
-		SFApiQuery<SFConnectorGroup> sfApiQuery = new SFApiQuery<SFConnectorGroup>(this.client);
+		SFApiQuery<SFConnectorGroup> sfApiQuery = new SFApiQuery<SFConnectorGroup>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("ByProvider");
 		sfApiQuery.addQueryString("provider", provider);
@@ -91,7 +84,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery<SFConnectorGroupZone> sfApiQuery = new SFApiQuery<SFConnectorGroupZone>(this.client);
+		SFApiQuery<SFConnectorGroupZone> sfApiQuery = new SFApiQuery<SFConnectorGroupZone>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Zones");
 		sfApiQuery.addIds(url);
@@ -115,7 +108,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery<SFConnectorGroupAccessControl> sfApiQuery = new SFApiQuery<SFConnectorGroupAccessControl>(this.client);
+		SFApiQuery<SFConnectorGroupAccessControl> sfApiQuery = new SFApiQuery<SFConnectorGroupAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(parentUrl);
@@ -134,7 +127,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zoneid");
 		}
 
-		SFApiQuery<SFODataFeed<SFConnectorGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFConnectorGroup>>(this.client);
+		SFApiQuery<SFODataFeed<SFConnectorGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFConnectorGroup>>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("GetByZone");
 		sfApiQuery.addActionIds(zoneid);
@@ -168,7 +161,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("connectorGroup");
 		}
 
-		SFApiQuery<SFConnectorGroup> sfApiQuery = new SFApiQuery<SFConnectorGroup>(this.client);
+		SFApiQuery<SFConnectorGroup> sfApiQuery = new SFApiQuery<SFConnectorGroup>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setBody(connectorGroup);
 		sfApiQuery.setHttpMethod("POST");
@@ -198,7 +191,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("connectorGroupZone");
 		}
 
-		SFApiQuery<SFConnectorGroupZone> sfApiQuery = new SFApiQuery<SFConnectorGroupZone>(this.client);
+		SFApiQuery<SFConnectorGroupZone> sfApiQuery = new SFApiQuery<SFConnectorGroupZone>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Zones");
 		sfApiQuery.addIds(url);
@@ -226,7 +219,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("connectorGroupAcl");
 		}
 
-		SFApiQuery<SFConnectorGroupAccessControl> sfApiQuery = new SFApiQuery<SFConnectorGroupAccessControl>(this.client);
+		SFApiQuery<SFConnectorGroupAccessControl> sfApiQuery = new SFApiQuery<SFConnectorGroupAccessControl>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -259,7 +252,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("connectorGroupZone");
 		}
 
-		SFApiQuery<SFConnectorGroupZone> sfApiQuery = new SFApiQuery<SFConnectorGroupZone>(this.client);
+		SFApiQuery<SFConnectorGroupZone> sfApiQuery = new SFApiQuery<SFConnectorGroupZone>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Zones");
 		sfApiQuery.addIds(url);
@@ -279,7 +272,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -300,7 +293,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zoneid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Zones");
 		sfApiQuery.addIds(serviceUrl);
@@ -323,7 +316,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zoneid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(serviceUrl);
@@ -346,7 +339,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zoneid");
 		}
 
-		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>(this.client);
+		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Zones");
 		sfApiQuery.addIds(url);
@@ -377,7 +370,7 @@ public class SFConnectorGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("storageCenter");
 		}
 
-		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>(this.client);
+		SFApiQuery<SFODataFeed<SFStorageCenter>> sfApiQuery = new SFApiQuery<SFODataFeed<SFStorageCenter>>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Zones");
 		sfApiQuery.addIds(url);

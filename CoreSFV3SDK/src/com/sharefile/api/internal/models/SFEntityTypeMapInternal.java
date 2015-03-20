@@ -8,13 +8,13 @@
 //	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-package com.sharefile.api.internal.models
+package com.sharefile.api.internal.models;
 
 import com.sharefile.api.models.*;
 
-public class EntityTypeMapInternal
+public class SFEntityTypeMapInternal
 {
-    private static bool registered = false;
+    private static boolean registered = false;
     private static Object mapLock = new Object();
 
     public static void registerInternalModels() {
@@ -23,60 +23,60 @@ public class EntityTypeMapInternal
                 return;
             }
 
-            EntityTypeMap.addEntity("AppliedPlanAddOns", SFAppliedPlanAddOns.class);
-            EntityTypeMap.addEntity("AppliedPlanAddOnss", SFAppliedPlanAddOns.class);
-            EntityTypeMap.addEntity("Billing", SFBilling.class);
-            EntityTypeMap.addEntity("Billings", SFBilling.class);
-            EntityTypeMap.addEntity("ReportRecord", SFReportRecord.class);
-            EntityTypeMap.addEntity("ReportRecords", SFReportRecord.class);
-            EntityTypeMap.addEntity("BillingAddOn", SFBillingAddOn.class);
-            EntityTypeMap.addEntity("BillingAddOns", SFBillingAddOn.class);
-            EntityTypeMap.addEntity("CustomBillingEntry", SFCustomBillingEntry.class);
-            EntityTypeMap.addEntity("CustomBillingEntrys", SFCustomBillingEntry.class);
-            EntityTypeMap.addEntity("EncryptedEmailParams", SFEncryptedEmailParams.class);
-            EntityTypeMap.addEntity("EncryptedEmailParamss", SFEncryptedEmailParams.class);
-            EntityTypeMap.addEntity("EncryptedEmailReplyParams", SFEncryptedEmailReplyParams.class);
-            EntityTypeMap.addEntity("EncryptedEmailReplyParamss", SFEncryptedEmailReplyParams.class);
-            EntityTypeMap.addEntity("EncryptedEmailCreateParams", SFEncryptedEmailCreateParams.class);
-            EntityTypeMap.addEntity("EncryptedEmailCreateParamss", SFEncryptedEmailCreateParams.class);
-            EntityTypeMap.addEntity("EnterpriseOrder", SFEnterpriseOrder.class);
-            EntityTypeMap.addEntity("EnterpriseOrders", SFEnterpriseOrder.class);
-            EntityTypeMap.addEntity("EnterpriseReseller", SFEnterpriseReseller.class);
-            EntityTypeMap.addEntity("EnterpriseResellers", SFEnterpriseReseller.class);
-            EntityTypeMap.addEntity("EncryptedEmail", SFEncryptedEmail.class);
-            EntityTypeMap.addEntity("EncryptedEmails", SFEncryptedEmail.class);
-            EntityTypeMap.addEntity("EncryptedEmailSendParams", SFEncryptedEmailSendParams.class);
-            EntityTypeMap.addEntity("EncryptedEmailSendParamss", SFEncryptedEmailSendParams.class);
-            EntityTypeMap.addEntity("EncryptedEmailRecipient", SFEncryptedEmailRecipient.class);
-            EntityTypeMap.addEntity("EncryptedEmailRecipients", SFEncryptedEmailRecipient.class);
-            EntityTypeMap.addEntity("OAuthCode", SFOAuthCode.class);
-            EntityTypeMap.addEntity("OAuthCodes", SFOAuthCode.class);
-            EntityTypeMap.addEntity("PlanAddon", SFPlanAddon.class);
-            EntityTypeMap.addEntity("PlanAddons", SFPlanAddon.class);
-            EntityTypeMap.addEntity("InAppPurchase", SFInAppPurchase.class);
-            EntityTypeMap.addEntity("InAppPurchases", SFInAppPurchase.class);
-            EntityTypeMap.addEntity("TrialPeriod", SFTrialPeriod.class);
-            EntityTypeMap.addEntity("TrialPeriods", SFTrialPeriod.class);
-            EntityTypeMap.addEntity("PlanAddonUser", SFPlanAddonUser.class);
-            EntityTypeMap.addEntity("PlanAddonUsers", SFPlanAddonUser.class);
-            EntityTypeMap.addEntity("OAuthClient", SFOAuthClient.class);
-            EntityTypeMap.addEntity("OAuthClients", SFOAuthClient.class);
-            EntityTypeMap.addEntity("Report", SFReport.class);
-            EntityTypeMap.addEntity("Reports", SFReport.class);
-            EntityTypeMap.addEntity("Reseller", SFReseller.class);
-            EntityTypeMap.addEntity("Resellers", SFReseller.class);
-            EntityTypeMap.addEntity("ShareFileRepresentative", SFShareFileRepresentative.class);
-            EntityTypeMap.addEntity("ShareFileRepresentatives", SFShareFileRepresentative.class);
-            EntityTypeMap.addEntity("FreeTrialAccount", SFFreeTrialAccount.class);
-            EntityTypeMap.addEntity("FreeTrialAccounts", SFFreeTrialAccount.class);
-            EntityTypeMap.addEntity("AzureSBTopicsEndPointInfo", SFAzureSBTopicsEndPointInfo.class);
-            EntityTypeMap.addEntity("AzureSBTopicsEndPointInfos", SFAzureSBTopicsEndPointInfo.class);
-            EntityTypeMap.addEntity("AzureSBTopicsResponse", SFAzureSBTopicsResponse.class);
-            EntityTypeMap.addEntity("AzureSBTopicsResponses", SFAzureSBTopicsResponse.class);
-            EntityTypeMap.addEntity("UsagePlan", SFUsagePlan.class);
-            EntityTypeMap.addEntity("UsagePlans", SFUsagePlan.class);
-            EntityTypeMap.addEntity("UsagePlanAddOn", SFUsagePlanAddOn.class);
-            EntityTypeMap.addEntity("UsagePlanAddOns", SFUsagePlanAddOn.class);
+            SFEntityTypeMap.addEntity("AppliedPlanAddOns", SFAppliedPlanAddOns.class);
+            SFEntityTypeMap.addEntity("AppliedPlanAddOnss", SFAppliedPlanAddOns.class);
+            SFEntityTypeMap.addEntity("Billing", SFBilling.class);
+            SFEntityTypeMap.addEntity("Billings", SFBilling.class);
+            SFEntityTypeMap.addEntity("ReportRecord", SFReportRecord.class);
+            SFEntityTypeMap.addEntity("ReportRecords", SFReportRecord.class);
+            SFEntityTypeMap.addEntity("BillingAddOn", SFBillingAddOn.class);
+            SFEntityTypeMap.addEntity("BillingAddOns", SFBillingAddOn.class);
+            SFEntityTypeMap.addEntity("CustomBillingEntry", SFCustomBillingEntry.class);
+            SFEntityTypeMap.addEntity("CustomBillingEntrys", SFCustomBillingEntry.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailParams", SFEncryptedEmailParams.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailParamss", SFEncryptedEmailParams.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailReplyParams", SFEncryptedEmailReplyParams.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailReplyParamss", SFEncryptedEmailReplyParams.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailCreateParams", SFEncryptedEmailCreateParams.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailCreateParamss", SFEncryptedEmailCreateParams.class);
+            SFEntityTypeMap.addEntity("EnterpriseOrder", SFEnterpriseOrder.class);
+            SFEntityTypeMap.addEntity("EnterpriseOrders", SFEnterpriseOrder.class);
+            SFEntityTypeMap.addEntity("EnterpriseReseller", SFEnterpriseReseller.class);
+            SFEntityTypeMap.addEntity("EnterpriseResellers", SFEnterpriseReseller.class);
+            SFEntityTypeMap.addEntity("EncryptedEmail", SFEncryptedEmail.class);
+            SFEntityTypeMap.addEntity("EncryptedEmails", SFEncryptedEmail.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailSendParams", SFEncryptedEmailSendParams.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailSendParamss", SFEncryptedEmailSendParams.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailRecipient", SFEncryptedEmailRecipient.class);
+            SFEntityTypeMap.addEntity("EncryptedEmailRecipients", SFEncryptedEmailRecipient.class);
+            SFEntityTypeMap.addEntity("OAuthCode", SFOAuthCode.class);
+            SFEntityTypeMap.addEntity("OAuthCodes", SFOAuthCode.class);
+            SFEntityTypeMap.addEntity("PlanAddon", SFPlanAddon.class);
+            SFEntityTypeMap.addEntity("PlanAddons", SFPlanAddon.class);
+            SFEntityTypeMap.addEntity("InAppPurchase", SFInAppPurchase.class);
+            SFEntityTypeMap.addEntity("InAppPurchases", SFInAppPurchase.class);
+            SFEntityTypeMap.addEntity("TrialPeriod", SFTrialPeriod.class);
+            SFEntityTypeMap.addEntity("TrialPeriods", SFTrialPeriod.class);
+            SFEntityTypeMap.addEntity("PlanAddonUser", SFPlanAddonUser.class);
+            SFEntityTypeMap.addEntity("PlanAddonUsers", SFPlanAddonUser.class);
+            SFEntityTypeMap.addEntity("OAuthClient", SFOAuthClient.class);
+            SFEntityTypeMap.addEntity("OAuthClients", SFOAuthClient.class);
+            SFEntityTypeMap.addEntity("Report", SFReport.class);
+            SFEntityTypeMap.addEntity("Reports", SFReport.class);
+            SFEntityTypeMap.addEntity("Reseller", SFReseller.class);
+            SFEntityTypeMap.addEntity("Resellers", SFReseller.class);
+            SFEntityTypeMap.addEntity("ShareFileRepresentative", SFShareFileRepresentative.class);
+            SFEntityTypeMap.addEntity("ShareFileRepresentatives", SFShareFileRepresentative.class);
+            SFEntityTypeMap.addEntity("FreeTrialAccount", SFFreeTrialAccount.class);
+            SFEntityTypeMap.addEntity("FreeTrialAccounts", SFFreeTrialAccount.class);
+            SFEntityTypeMap.addEntity("AzureSBTopicsEndPointInfo", SFAzureSBTopicsEndPointInfo.class);
+            SFEntityTypeMap.addEntity("AzureSBTopicsEndPointInfos", SFAzureSBTopicsEndPointInfo.class);
+            SFEntityTypeMap.addEntity("AzureSBTopicsResponse", SFAzureSBTopicsResponse.class);
+            SFEntityTypeMap.addEntity("AzureSBTopicsResponses", SFAzureSBTopicsResponse.class);
+            SFEntityTypeMap.addEntity("UsagePlan", SFUsagePlan.class);
+            SFEntityTypeMap.addEntity("UsagePlans", SFUsagePlan.class);
+            SFEntityTypeMap.addEntity("UsagePlanAddOn", SFUsagePlanAddOn.class);
+            SFEntityTypeMap.addEntity("UsagePlanAddOns", SFUsagePlanAddOn.class);
 
             registered = true;
         }

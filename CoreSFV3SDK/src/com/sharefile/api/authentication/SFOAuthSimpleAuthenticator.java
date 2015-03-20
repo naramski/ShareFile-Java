@@ -26,9 +26,9 @@ public class SFOAuthSimpleAuthenticator
 	 * @param hostname
 	 *            - hostname like "myaccount.sharefile.com"
 	 * @param clientId
-	 *            - your client id
+	 *            - your apiClient id
 	 * @param clientSecret
-	 *            - your client secret
+	 *            - your apiClient secret
 	 * @param username
 	 *            - my@user.name
 	 * @param password

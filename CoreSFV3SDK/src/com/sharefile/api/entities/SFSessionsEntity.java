@@ -12,21 +12,11 @@
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.*;
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
-
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFSessionsEntity extends SFODataEntityBase
 {
@@ -36,14 +26,14 @@ public class SFSessionsEntity extends SFODataEntityBase
 
 	/**
 	* Get Session
-	* Retrieve the current authentication session object. If the client is not authenticated,
+	* Retrieve the current authentication session object. If the apiClient is not authenticated,
 	* this operation will challenge for ShareFile authentication using a 401 response. This method will
 	* not trigger the SAML authentication flow - use /Sessions/Login instead.
 	* @return The current authentication Context, based on the request SF_APIAuthId Cookie
 	*/
 	public ISFQuery<SFSession> get()	{
 
-		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.client);
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.apiClient);
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -55,7 +45,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery delete()	{
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
@@ -64,15 +54,15 @@ public class SFSessionsEntity extends SFODataEntityBase
 	/**
 	* Login
 	* API clients can provide ShareFile Authentication directly to any API operation using OAuth (Bearer).
-	* However, the client must know that the provided authentication type is supported on the API endpoint; and that SAML is not configured.
+	* However, the apiClient must know that the provided authentication type is supported on the API endpoint; and that SAML is not configured.
 	* 
 	* This API provides a generic authentication routine for clients. It will challenge for ShareFile credentials
 	* passing all supported authentication methods; redirect to the SAML IDP if configured to do so; and handle
 	* certain HTTP headers, like device registration.
 	* 
-	* If the client is already authenticated, the Session object is returned. If the client is not authenticated, and
+	* If the apiClient is already authenticated, the Session object is returned. If the apiClient is not authenticated, and
 	* the account is not configured for SAML, then the API will challenge for a local authentication. If the account
-	* is configured for SAML, then the client will be redirected to the SAML IDP using the SAML passive flow - authentication
+	* is configured for SAML, then the apiClient will be redirected to the SAML IDP using the SAML passive flow - authentication
 	* will be performed at the IDP domain instead. The IDP callback will be on the API Acs, which will return a Session
 	* object if authentication is accepted.
 	* 
@@ -92,7 +82,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("authcomparison");
 		}
 
-		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.client);
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.apiClient);
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setAction("Login");
 		sfApiQuery.addQueryString("authmethod", authmethod);
@@ -104,15 +94,15 @@ public class SFSessionsEntity extends SFODataEntityBase
 	/**
 	* Login
 	* API clients can provide ShareFile Authentication directly to any API operation using OAuth (Bearer).
-	* However, the client must know that the provided authentication type is supported on the API endpoint; and that SAML is not configured.
+	* However, the apiClient must know that the provided authentication type is supported on the API endpoint; and that SAML is not configured.
 	* 
 	* This API provides a generic authentication routine for clients. It will challenge for ShareFile credentials
 	* passing all supported authentication methods; redirect to the SAML IDP if configured to do so; and handle
 	* certain HTTP headers, like device registration.
 	* 
-	* If the client is already authenticated, the Session object is returned. If the client is not authenticated, and
+	* If the apiClient is already authenticated, the Session object is returned. If the apiClient is not authenticated, and
 	* the account is not configured for SAML, then the API will challenge for a local authentication. If the account
-	* is configured for SAML, then the client will be redirected to the SAML IDP using the SAML passive flow - authentication
+	* is configured for SAML, then the apiClient will be redirected to the SAML IDP using the SAML passive flow - authentication
 	* will be performed at the IDP domain instead. The IDP callback will be on the API Acs, which will return a Session
 	* object if authentication is accepted.
 	* 
@@ -128,7 +118,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("authmethod");
 		}
 
-		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.client);
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.apiClient);
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setAction("Login");
 		sfApiQuery.addQueryString("authmethod", authmethod);
@@ -139,15 +129,15 @@ public class SFSessionsEntity extends SFODataEntityBase
 	/**
 	* Login
 	* API clients can provide ShareFile Authentication directly to any API operation using OAuth (Bearer).
-	* However, the client must know that the provided authentication type is supported on the API endpoint; and that SAML is not configured.
+	* However, the apiClient must know that the provided authentication type is supported on the API endpoint; and that SAML is not configured.
 	* 
 	* This API provides a generic authentication routine for clients. It will challenge for ShareFile credentials
 	* passing all supported authentication methods; redirect to the SAML IDP if configured to do so; and handle
 	* certain HTTP headers, like device registration.
 	* 
-	* If the client is already authenticated, the Session object is returned. If the client is not authenticated, and
+	* If the apiClient is already authenticated, the Session object is returned. If the apiClient is not authenticated, and
 	* the account is not configured for SAML, then the API will challenge for a local authentication. If the account
-	* is configured for SAML, then the client will be redirected to the SAML IDP using the SAML passive flow - authentication
+	* is configured for SAML, then the apiClient will be redirected to the SAML IDP using the SAML passive flow - authentication
 	* will be performed at the IDP domain instead. The IDP callback will be on the API Acs, which will return a Session
 	* object if authentication is accepted.
 	* 
@@ -159,7 +149,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFSession> login()	{
 
-		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.client);
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.apiClient);
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setAction("Login");
 		sfApiQuery.setHttpMethod("GET");
@@ -171,7 +161,7 @@ public class SFSessionsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFSession> acs()	{
 
-		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.client);
+		SFApiQuery<SFSession> sfApiQuery = new SFApiQuery<SFSession>(this.apiClient);
 		sfApiQuery.setFrom("Sessions");
 		sfApiQuery.setAction("Acs");
 		sfApiQuery.setHttpMethod("GET");

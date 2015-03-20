@@ -13,6 +13,7 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.models.internal.SFBilling;
@@ -33,13 +34,18 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFBillingEntityInternal extends SFODataEntityBase
 {
+    public SFBillingEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get Billing
 	* @return Billing
     */
 	public ISFQuery<SFBilling> get()
 	{
-		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>();
+		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>(this.apiClient);
 		sfApiQuery.setFrom("Billing");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -110,7 +116,7 @@ public class SFBillingEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFCustomBillingEntry>> createCustomBillingEntry(ArrayList<SFCustomBillingEntry> discounts, String accountId)
 	{
-		SFApiQuery<SFODataFeed<SFCustomBillingEntry>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCustomBillingEntry>>();
+		SFApiQuery<SFODataFeed<SFCustomBillingEntry>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCustomBillingEntry>>(this.apiClient);
 		sfApiQuery.setFrom("Billing");
 		sfApiQuery.setAction("CustomBillingEntry");
 		sfApiQuery.addQueryString("accountId", accountId);

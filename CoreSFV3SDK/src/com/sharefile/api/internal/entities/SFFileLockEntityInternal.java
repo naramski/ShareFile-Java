@@ -12,22 +12,15 @@
 
 package com.sharefile.api.internal.entities;
 
-import com.sharefile.api.*;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.internal.models.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFFileLockEntityInternal extends SFODataEntityBase
 {
@@ -41,12 +34,12 @@ public class SFFileLockEntityInternal extends SFODataEntityBase
 	* @param url 	 	
 	* @return Lock info
 	*/
-	public ISFQuery<SFFileLock> getByItem(URI url) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFFileLock> getByItem(URI url) throws InvalidOrMissingParameterException {
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.client);
+		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
@@ -68,7 +61,7 @@ public class SFFileLockEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileLock");
 		}
 
-		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.client);
+		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
@@ -96,7 +89,7 @@ public class SFFileLockEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileLock");
 		}
 
-		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.client);
+		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
@@ -118,7 +111,7 @@ public class SFFileLockEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("lockid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
@@ -140,7 +133,7 @@ public class SFFileLockEntityInternal extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("lockid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
