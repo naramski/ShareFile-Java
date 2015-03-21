@@ -18,5 +18,6 @@ import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFShareType {
 	Request,
-	Send
+	Send,
+	Both
 }
