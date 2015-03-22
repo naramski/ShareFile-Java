@@ -6,7 +6,9 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFV3ElementType;
+import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFToDoReminderException;
+import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFQuery;
@@ -24,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class SFApiQuery<T> implements ISFQuery<T>
+public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 {
 	private static final String TAG = "SFApiQuery";
     private ISFApiClient apiClient;
@@ -689,11 +691,11 @@ public class SFApiQuery<T> implements ISFQuery<T>
     }
 
     @Override
-    public T execute()
+    public T execute() throws SFInvalidStateException, SFV3ErrorException
     {
         if(apiClient!=null);
         {
-            return apiClient.getE
+            return (T)apiClient.executeQuery(this);
         }
     }
 }

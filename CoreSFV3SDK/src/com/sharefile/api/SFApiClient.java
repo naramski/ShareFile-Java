@@ -6,20 +6,6 @@ import com.sharefile.api.constants.SFFolderID;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.ISFEntities;
-import com.sharefile.api.entities.SFAccessControlsEntity;
-import com.sharefile.api.entities.SFAccountsEntity;
-import com.sharefile.api.entities.SFAsyncOperationsEntity;
-import com.sharefile.api.entities.SFConnectorGroupsEntity;
-import com.sharefile.api.entities.SFFavoriteFoldersEntity;
-import com.sharefile.api.entities.SFGroupsEntity;
-import com.sharefile.api.entities.SFItemsEntity;
-import com.sharefile.api.entities.SFMetadataEntity;
-import com.sharefile.api.entities.SFODataEntityBase;
-import com.sharefile.api.entities.SFSessionsEntity;
-import com.sharefile.api.entities.SFSharesEntity;
-import com.sharefile.api.entities.SFStorageCentersEntity;
-import com.sharefile.api.entities.SFUsersEntity;
-import com.sharefile.api.entities.SFZonesEntity;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFCookieManager;
@@ -269,14 +255,17 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		return mSFAppConfig;
 	}
 
-	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws SFV3ErrorException, SFInvalidStateException
+	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query)
+            throws SFV3ErrorException, SFInvalidStateException
 	{
 		return getExecutor(query, null, null).executeBlockingQuery();		
 	}
 
-    public InputStream executeQueryForStreams(ISFQuery<InputStream> query) throws SFV3ErrorException, SFInvalidStateException
+    @Override
+    public InputStream executeQuery(SFQueryStream query)
+            throws SFV3ErrorException, SFInvalidStateException
     {
-        return getExecutor(query,null).executeBlockingQuery();
+        return getExecutor(query, null, null).executeBlockingQuery();
     }
 
     //TODO_ADD_V3: This should be in SFDownloadRunnable

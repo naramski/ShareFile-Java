@@ -12,6 +12,7 @@
 
 package com.sharefile.api.entities.internal;
 
+import com.sharefile.api.SFQueryStream;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
@@ -127,7 +128,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<InputStream> message(URI url, String aliasId, Boolean redirect)
 	{
-		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Message");
 		sfApiQuery.addIds(url);
