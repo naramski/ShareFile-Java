@@ -31,7 +31,7 @@ public interface ISFEntities {
             {
                 if(this instanceof ISFApiClient)
                 {
-                    return (SFODataEntityBase) className.getDeclaredConstructor(this.getClass()).newInstance(this);
+                    return (SFODataEntityBase) className.getConstructor(ISFApiClient.class).newInstance(this);
                 }
                 else
                 {
