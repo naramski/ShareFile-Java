@@ -6,15 +6,16 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.entities.*;
+import com.sharefile.api.SFQueryStream;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
@@ -23,27 +24,30 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
+
 import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFItemsEntity extends SFODataEntityBase
 {
-    /**
+	public SFItemsEntity(ISFApiClient client) {
+		super(client);
+	}
+
+	/**
 	* Get HomeFolder for Current User
 	* Returns home folder for current user.
-	* Note that home folders are not available for client users, or if the account doesn't have the "My Files & Folders" feature enabled.
+	* Note that home folders are not available for apiClient users, or if the account doesn't have the "My Files & Folders" feature enabled.
 	* @return home folder for current user
-    */
-	public ISFQuery<SFItem> get()
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> get()	{
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Item by ID
 	* Returns a single Item.
 	* Special Id's:home, favorites, allshared, connectors, box, top. home - Return home folder.
@@ -51,13 +55,19 @@ public class SFItemsEntity extends SFODataEntityBase
 	* allshared - Return parent Shared Folders item; use .../Items(allshared)/Children to get the shared folders.
 	* connectors - Return parent Connectors item; use .../Items(connectors)/Children to get indiviual connectors.
 	* box - Return the FileBox folder. top - Returns the Top item; use .../Items(top)/Children to get the home, favorites, and shared folders as well as the connectors
-	* @param url 	
-	* @param includeDeleted 	
+	* @param url 	 	
+	* @param includeDeleted  (default: false)	 	
 	* @return a single Item
-    */
-	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted)
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted) throws InvalidOrMissingParameterException {
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (includeDeleted == null) {
+			throw new InvalidOrMissingParameterException("includeDeleted");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
@@ -65,7 +75,30 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get Item by ID
+	* Returns a single Item.
+	* Special Id's:home, favorites, allshared, connectors, box, top. home - Return home folder.
+	* favorites - Return parent favorite item; use .../Items(favorites)/Children to get the favorite folders.
+	* allshared - Return parent Shared Folders item; use .../Items(allshared)/Children to get the shared folders.
+	* connectors - Return parent Connectors item; use .../Items(connectors)/Children to get indiviual connectors.
+	* box - Return the FileBox folder. top - Returns the Top item; use .../Items(top)/Children to get the home, favorites, and shared folders as well as the connectors
+	* @param url 	 	
+	* @return a single Item
+	*/
+	public ISFQuery<SFItem> get(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get TreeView
 	* Retrieves a folder list structure tailored for TreeView navigation - used by clients
 	* to create folder trees for specific operations.
@@ -73,16 +106,31 @@ public class SFItemsEntity extends SFODataEntityBase
 	* additional $expand, for example Children, which is not added by default. The $select
 	* operator will apply to the expanded objects as well. You can also specify additional
 	* $select elements.
-	* @param url 	
-	* @param treeMode 	
-	* @param sourceId 	
-	* @param canCreateRootFolder 	
-	* @param fileBox 	
+	* @param url 	 	
+	* @param treeMode 	 	
+	* @param sourceId 	 	
+	* @param canCreateRootFolder  (default: false)	 	
+	* @param fileBox  (default: false)	 	
 	* @return A tree root element.
-    */
-	public ISFQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder, Boolean fileBox)
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder, Boolean fileBox) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (treeMode == null) {
+			throw new InvalidOrMissingParameterException("treeMode");
+		}
+		if (sourceId == null) {
+			throw new InvalidOrMissingParameterException("sourceId");
+		}
+		if (canCreateRootFolder == null) {
+			throw new InvalidOrMissingParameterException("canCreateRootFolder");
+		}
+		if (fileBox == null) {
+			throw new InvalidOrMissingParameterException("fileBox");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("treeMode", treeMode);
@@ -93,18 +141,92 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get TreeView
+	* Retrieves a folder list structure tailored for TreeView navigation - used by clients
+	* to create folder trees for specific operations.
+	* This operation will enforce a specific $select and $expand operators. You can provide
+	* additional $expand, for example Children, which is not added by default. The $select
+	* operator will apply to the expanded objects as well. You can also specify additional
+	* $select elements.
+	* @param url 	 	
+	* @param treeMode 	 	
+	* @param sourceId 	 	
+	* @param canCreateRootFolder  (default: false)	 	
+	* @return A tree root element.
+	*/
+	public ISFQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId, Boolean canCreateRootFolder) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (treeMode == null) {
+			throw new InvalidOrMissingParameterException("treeMode");
+		}
+		if (sourceId == null) {
+			throw new InvalidOrMissingParameterException("sourceId");
+		}
+		if (canCreateRootFolder == null) {
+			throw new InvalidOrMissingParameterException("canCreateRootFolder");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("treeMode", treeMode);
+		sfApiQuery.addQueryString("sourceId", sourceId);
+		sfApiQuery.addQueryString("canCreateRootFolder", canCreateRootFolder);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get TreeView
+	* Retrieves a folder list structure tailored for TreeView navigation - used by clients
+	* to create folder trees for specific operations.
+	* This operation will enforce a specific $select and $expand operators. You can provide
+	* additional $expand, for example Children, which is not added by default. The $select
+	* operator will apply to the expanded objects as well. You can also specify additional
+	* $select elements.
+	* @param url 	 	
+	* @param treeMode 	 	
+	* @param sourceId 	 	
+	* @return A tree root element.
+	*/
+	public ISFQuery<SFItem> get(URI url, SFSafeEnum<SFTreeMode> treeMode, String sourceId) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (treeMode == null) {
+			throw new InvalidOrMissingParameterException("treeMode");
+		}
+		if (sourceId == null) {
+			throw new InvalidOrMissingParameterException("sourceId");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("treeMode", treeMode);
+		sfApiQuery.addQueryString("sourceId", sourceId);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get Symbolic Links of a Connector Group
 	* Retrieves the Symbolic Links of the provided Connector Group type. Connector Groups define
 	* classes of external data connectors - such as SharePoint, Network Shares. Symbolic Links
 	* represent a single Connector point to such classes - for example, a single SharePoint site,
 	* or a network share drive.
-	* @param parentUrl 	
+	* @param parentUrl 	 	
 	* @return The list of Symbolic Links associated with the given connector group.
-    */
-	public ISFQuery<SFODataFeed<SFItem>> getChildrenByConnectorGroup(URI parentUrl)
-	{
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getChildrenByConnectorGroup(URI parentUrl) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(parentUrl);
@@ -112,7 +234,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Stream
 	* Retrieves the versions of a given Stream. The ID parameter must be a StreamID, otherwise an empty list is returned.
 	* StreamID is a property of all Items, representing the "Stream", ie., the collection of all versions of a file. In
@@ -120,12 +242,18 @@ public class SFItemsEntity extends SFODataEntityBase
 	* For example, when users upload or modify an existing file, a new Item
 	* is created with the same StreamID. All default Item enumerations return only the latest version of a given stream.
 	* Use this method to retrieve previous versions of a given stream.
-	* @param url 	
-	* @param includeDeleted 	
-    */
-	public ISFQuery<SFODataFeed<SFItem>> stream(URI url, Boolean includeDeleted)
-	{
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+	* @param url 	 	
+	* @param includeDeleted  (default: false)	 	
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> stream(URI url, Boolean includeDeleted) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (includeDeleted == null) {
+			throw new InvalidOrMissingParameterException("includeDeleted");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Stream");
 		sfApiQuery.addIds(url);
@@ -134,17 +262,43 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get Stream
+	* Retrieves the versions of a given Stream. The ID parameter must be a StreamID, otherwise an empty list is returned.
+	* StreamID is a property of all Items, representing the "Stream", ie., the collection of all versions of a file. In
+	* contrast, an Item ID represents a single version of a file.
+	* For example, when users upload or modify an existing file, a new Item
+	* is created with the same StreamID. All default Item enumerations return only the latest version of a given stream.
+	* Use this method to retrieve previous versions of a given stream.
+	* @param url 	 	
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> stream(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Stream");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get Item by Path
 	* Retrieves an item from its path. The path is of format /foldername/foldername/filename
-	* This call may redirect the client to another API provider, if the path
+	* This call may redirect the apiClient to another API provider, if the path
 	* contains a symbolic link.
-	* @param path 	
+	* @param path 	 	
 	* @return An item identified by a path
-    */
-	public ISFQuery<SFItem> byPath(String path)
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> byPath(String path) throws InvalidOrMissingParameterException 	{
+		if (path == null) {
+			throw new InvalidOrMissingParameterException("path");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ByPath");
 		sfApiQuery.addQueryString("path", path);
@@ -152,19 +306,25 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Item by relative Path from ID
 	* Retrieves an item from its path, relative to the provided ID.
 	* The path is of format /foldername/foldername/filename
-	* This call may redirect the client to another API provider, if the path
+	* This call may redirect the apiClient to another API provider, if the path
 	* contains a symbolic link.
-	* @param url 	
-	* @param path 	
+	* @param url 	 	
+	* @param path 	 	
 	* @return An item identified by a path
-    */
-	public ISFQuery<SFItem> byPath(URI url, String path)
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> byPath(URI url, String path) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (path == null) {
+			throw new InvalidOrMissingParameterException("path");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ByPath");
 		sfApiQuery.addIds(url);
@@ -173,15 +333,18 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Parent Item
 	* Retrieves the Parent navigation property of a single Item.
-	* @param url 	
+	* @param url 	 	
 	* @return the Parent Item of the give object ID.
-    */
-	public ISFQuery<SFItem> getParent(URI url)
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> getParent(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Parent");
 		sfApiQuery.addIds(url);
@@ -189,18 +352,24 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Children
 	* Handler for the Children navigation property of a given Item.
 	* A 302 redirection is returned if the folder is a SymbolicLink. The redirection
 	* will enumerate the children of the remote connector
-	* @param url 	
-	* @param includeDeleted 	
+	* @param url 	 	
+	* @param includeDeleted  (default: false)	 	
 	* @return the list of children under the given object ID
-    */
-	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url, Boolean includeDeleted)
-	{
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url, Boolean includeDeleted) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (includeDeleted == null) {
+			throw new InvalidOrMissingParameterException("includeDeleted");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
@@ -209,16 +378,40 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get Children
+	* Handler for the Children navigation property of a given Item.
+	* A 302 redirection is returned if the folder is a SymbolicLink. The redirection
+	* will enumerate the children of the remote connector
+	* @param url 	 	
+	* @return the list of children under the given object ID
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Children");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get Folder Access Info
 	* Returns the effective Access Controls for the current authenticated user for the
 	* selected folder - i.e., the resulting set of Access Controls for the Item/User context.This operation applies to Folders only, will return an error for other Item types.
-	* @param url 	
+	* @param url 	 	
 	* @return The Folder Access Control Information
-    */
-	public ISFQuery<SFItemInfo> getInfo(URI url)
-	{
-		SFApiQuery<SFItemInfo> sfApiQuery = new SFApiQuery<SFItemInfo>();
+	*/
+	public ISFQuery<SFItemInfo> getInfo(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFItemInfo> sfApiQuery = new SFApiQuery<SFItemInfo>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Info");
 		sfApiQuery.addIds(url);
@@ -226,18 +419,24 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Download Item Content
 	* Initiate the download operation for an item. It will return 302 redirection to the
 	* actual download link. For Folders, the download link will retrieve a ZIP archive
 	* with the contents of the Folder.
-	* @param url 	
-	* @param redirect 	
+	* @param url 	 	
+	* @param redirect  (default: true)	 	
 	* @return the download link for the provided item content.
-    */
-	public ISFQuery<InputStream> download(URI url, Boolean redirect)
-	{
-		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+	*/
+	public ISFQuery<InputStream> download(URI url, Boolean redirect) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (redirect == null) {
+			throw new InvalidOrMissingParameterException("redirect");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(url);
@@ -246,19 +445,49 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Download Item Content
+	* Initiate the download operation for an item. It will return 302 redirection to the
+	* actual download link. For Folders, the download link will retrieve a ZIP archive
+	* with the contents of the Folder.
+	* @param url 	 	
+	* @return the download link for the provided item content.
+	*/
+	public ISFQuery<InputStream> download(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Download");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Download Multiple Items
     * ["id1","id2",...]
 	* Initiate the download operation for items. It will return 302 redirection to the
 	* actual download link.
-	* @param parentUrl 	
-	* @param ids 	
-	* @param redirect 	
+	* @param parentUrl 	 	
+	* @param ids 	 	
+	* @param redirect  (default: true)	 	
 	* @return the download link for the provided item content.
-    */
-	public ISFQuery<InputStream> bulkDownload(URI parentUrl, ArrayList<String> ids, Boolean redirect)
-	{
-		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+	*/
+	public ISFQuery<InputStream> bulkDownload(URI parentUrl, ArrayList<String> ids, Boolean redirect) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (ids == null) {
+			throw new InvalidOrMissingParameterException("ids");
+		}
+		if (redirect == null) {
+			throw new InvalidOrMissingParameterException("redirect");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDownload");
 		sfApiQuery.addIds(parentUrl);
@@ -268,7 +497,33 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Download Multiple Items
+    * ["id1","id2",...]
+	* Initiate the download operation for items. It will return 302 redirection to the
+	* actual download link.
+	* @param parentUrl 	 	
+	* @param ids 	 	
+	* @return the download link for the provided item content.
+	*/
+	public ISFQuery<InputStream> bulkDownload(URI parentUrl, ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (ids == null) {
+			throw new InvalidOrMissingParameterException("ids");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkDownload");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Create Folder
     * {
     * "Name":"Folder Name",
@@ -280,15 +535,27 @@ public class SFItemsEntity extends SFODataEntityBase
 	* For top-level folders, use Items/Folder.
 	* The Zone object may only be provided for top-level folders. The Zone object must
 	* contain a zone ID.
-	* @param parentUrl 	
-	* @param folder 	
-	* @param overwrite 	
-	* @param passthrough 	
+	* @param parentUrl 	 	
+	* @param folder 	 	
+	* @param overwrite  (default: false)	 	
+	* @param passthrough  (default: false)	 	
 	* @return the new Folder
-    */
-	public ISFQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder, Boolean overwrite, Boolean passthrough)
-	{
-		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>();
+	*/
+	public ISFQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder, Boolean overwrite, Boolean passthrough) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (folder == null) {
+			throw new InvalidOrMissingParameterException("folder");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (passthrough == null) {
+			throw new InvalidOrMissingParameterException("passthrough");
+		}
+
+		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Folder");
 		sfApiQuery.addIds(parentUrl);
@@ -299,20 +566,97 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Create Folder
+    * {
+    * "Name":"Folder Name",
+    * "Description":"Description",
+    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" }
+    * }
+	* Creates a new Folder.
+	* The POST body must contain the serialized object.
+	* For top-level folders, use Items/Folder.
+	* The Zone object may only be provided for top-level folders. The Zone object must
+	* contain a zone ID.
+	* @param parentUrl 	 	
+	* @param folder 	 	
+	* @param overwrite  (default: false)	 	
+	* @return the new Folder
+	*/
+	public ISFQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder, Boolean overwrite) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (folder == null) {
+			throw new InvalidOrMissingParameterException("folder");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+
+		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Folder");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.setBody(folder);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create Folder
+    * {
+    * "Name":"Folder Name",
+    * "Description":"Description",
+    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" }
+    * }
+	* Creates a new Folder.
+	* The POST body must contain the serialized object.
+	* For top-level folders, use Items/Folder.
+	* The Zone object may only be provided for top-level folders. The Zone object must
+	* contain a zone ID.
+	* @param parentUrl 	 	
+	* @param folder 	 	
+	* @return the new Folder
+	*/
+	public ISFQuery<SFFolder> createFolder(URI parentUrl, SFFolder folder) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (folder == null) {
+			throw new InvalidOrMissingParameterException("folder");
+		}
+
+		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Folder");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.setBody(folder);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Create Note
     * {
     * "Name":"Note Name",
     * "Description":"Description"
     * }
 	* Creates a new Note.
-	* @param parentUrl 	
-	* @param note 	
+	* @param parentUrl 	 	
+	* @param note 	 	
 	* @return the new Note
-    */
-	public ISFQuery<SFNote> createNote(URI parentUrl, SFNote note)
-	{
-		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>();
+	*/
+	public ISFQuery<SFNote> createNote(URI parentUrl, SFNote note) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (note == null) {
+			throw new InvalidOrMissingParameterException("note");
+		}
+
+		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
 		sfApiQuery.addIds(parentUrl);
@@ -321,7 +665,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create Link
     * {
     * "Name":"Link Name",
@@ -329,13 +673,19 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Uri":"https://server/path"
     * }
 	* Creates a new Link
-	* @param parentUrl 	
-	* @param link 	
+	* @param parentUrl 	 	
+	* @param link 	 	
 	* @return the new Link
-    */
-	public ISFQuery<SFLink> createLink(URI parentUrl, SFLink link)
-	{
-		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>();
+	*/
+	public ISFQuery<SFLink> createLink(URI parentUrl, SFLink link) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (link == null) {
+			throw new InvalidOrMissingParameterException("link");
+		}
+
+		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
 		sfApiQuery.addIds(parentUrl);
@@ -344,7 +694,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create SymbolicLink
     * {
     * "Name":"RemoteFileName",
@@ -363,14 +713,23 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Network Shares connectors, the SymbolicLink will point to the StorageZone Controller
 	* that will serve the file browsing requests.The ConnectorGroup parameter indicates the kind of symbolic link - e.g., Network
 	* Share, or SharePoint.
-	* @param parentUrl 	
-	* @param symlink 	
-	* @param overwrite 	
+	* @param parentUrl 	 	
+	* @param symlink 	 	
+	* @param overwrite  (default: false)	 	
 	* @return the new SymbolicLink
-    */
-	public ISFQuery<SFSymbolicLink> createSymbolicLink(URI parentUrl, SFSymbolicLink symlink, Boolean overwrite)
-	{
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
+	*/
+	public ISFQuery<SFSymbolicLink> createSymbolicLink(URI parentUrl, SFSymbolicLink symlink, Boolean overwrite) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (symlink == null) {
+			throw new InvalidOrMissingParameterException("symlink");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addIds(parentUrl);
@@ -380,7 +739,47 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Create SymbolicLink
+    * {
+    * "Name":"RemoteFileName",
+    * "Description":"Description",
+    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" },
+    * "ConnectorGroup": { "Id":"1" }
+    * }
+	* Creates a Symbolic Link
+	* The body must contain either a "Link" parameter with a fully qualified URI; or use
+	* FileName + Zone to have sharefile.com attempt to convert the Connector path to an
+	* URI using a call to the Zone - using ShareFile Hash authentication mode. For active
+	* clients, it's recommended to make the convertion call to the Zone directly, using
+	* Items/ByPath=name, retriving the resulting URL, and calling this method with the
+	* Link parameter.SymbolicLinks must be created as top-level folders - i.e., this call requires
+	* the parent to be the Item(accountid) element.Zone defines the location of the SymbolicLink target - for example, for
+	* Network Shares connectors, the SymbolicLink will point to the StorageZone Controller
+	* that will serve the file browsing requests.The ConnectorGroup parameter indicates the kind of symbolic link - e.g., Network
+	* Share, or SharePoint.
+	* @param parentUrl 	 	
+	* @param symlink 	 	
+	* @return the new SymbolicLink
+	*/
+	public ISFQuery<SFSymbolicLink> createSymbolicLink(URI parentUrl, SFSymbolicLink symlink) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (symlink == null) {
+			throw new InvalidOrMissingParameterException("symlink");
+		}
+
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("SymbolicLink");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.setBody(symlink);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Creates SymbolicLink
     * {
     * "Name":"RemoteFileName",
@@ -389,14 +788,23 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" },
     * "ConnectorGroup": { "Id":"1" }
     * }
-	* @param url 	
-	* @param symlink 	
-	* @param overwrite 	
+	* @param url 	 	
+	* @param symlink 	 	
+	* @param overwrite  (default: false)	 	
 	* @return the new SymbolicLink
-    */
-	public ISFQuery<SFSymbolicLink> createChildrenByConnectorGroup(URI url, SFSymbolicLink symlink, Boolean overwrite)
-	{
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
+	*/
+	public ISFQuery<SFSymbolicLink> createChildrenByConnectorGroup(URI url, SFSymbolicLink symlink, Boolean overwrite) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (symlink == null) {
+			throw new InvalidOrMissingParameterException("symlink");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
@@ -406,7 +814,37 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Creates SymbolicLink
+    * {
+    * "Name":"RemoteFileName",
+    * "Description":"Description",
+    * "Link":"https://server/provider/version/Items(id)",
+    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" },
+    * "ConnectorGroup": { "Id":"1" }
+    * }
+	* @param url 	 	
+	* @param symlink 	 	
+	* @return the new SymbolicLink
+	*/
+	public ISFQuery<SFSymbolicLink> createChildrenByConnectorGroup(URI url, SFSymbolicLink symlink) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (symlink == null) {
+			throw new InvalidOrMissingParameterException("symlink");
+		}
+
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
+		sfApiQuery.setFrom("ConnectorGroups");
+		sfApiQuery.setAction("Children");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setBody(symlink);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Update Item
     * {
     * "Name":"Name",
@@ -419,14 +857,35 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
 	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
 	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
-	* @param url 	
-	* @param item 	
-	* @param forceSync 	
+	* @param url 	 	
+	* @param item 	 	
+	* @param forceSync  (default: false)	 	
 	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
-    */
-	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync, Boolean resolveFolderNameConflict)
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync, Boolean resolveFolderNameConflict) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (item == null) {
+			throw new InvalidOrMissingParameterException("item");
+		}
+		if (batchid == null) {
+			throw new InvalidOrMissingParameterException("batchid");
+		}
+		if (batchSizeInBytes == null) {
+			throw new InvalidOrMissingParameterException("batchSizeInBytes");
+		}
+		if (forceSync == null) {
+			throw new InvalidOrMissingParameterException("forceSync");
+		}
+		if (scheduleAsync == null) {
+			throw new InvalidOrMissingParameterException("scheduleAsync");
+		}
+		if (resolveFolderNameConflict == null) {
+			throw new InvalidOrMissingParameterException("resolveFolderNameConflict");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
@@ -439,7 +898,214 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Update Item
+    * {
+    * "Name":"Name",
+    * "FileName":"FileName",
+    * "Description":"Description",
+    * "ExpirationDate": "date",
+    * "Parent": { "Id": "parentid" },
+    * "Zone": { "Id": "zoneid" }
+    * }
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
+	* @param url 	 	
+	* @param item 	 	
+	* @param forceSync  (default: false)	 	
+	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
+	*/
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (item == null) {
+			throw new InvalidOrMissingParameterException("item");
+		}
+		if (batchid == null) {
+			throw new InvalidOrMissingParameterException("batchid");
+		}
+		if (batchSizeInBytes == null) {
+			throw new InvalidOrMissingParameterException("batchSizeInBytes");
+		}
+		if (forceSync == null) {
+			throw new InvalidOrMissingParameterException("forceSync");
+		}
+		if (scheduleAsync == null) {
+			throw new InvalidOrMissingParameterException("scheduleAsync");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("batchid", batchid);
+		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
+		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.addQueryString("scheduleAsync", scheduleAsync);
+		sfApiQuery.setBody(item);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update Item
+    * {
+    * "Name":"Name",
+    * "FileName":"FileName",
+    * "Description":"Description",
+    * "ExpirationDate": "date",
+    * "Parent": { "Id": "parentid" },
+    * "Zone": { "Id": "zoneid" }
+    * }
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
+	* @param url 	 	
+	* @param item 	 	
+	* @param forceSync  (default: false)	 	
+	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
+	*/
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (item == null) {
+			throw new InvalidOrMissingParameterException("item");
+		}
+		if (batchid == null) {
+			throw new InvalidOrMissingParameterException("batchid");
+		}
+		if (batchSizeInBytes == null) {
+			throw new InvalidOrMissingParameterException("batchSizeInBytes");
+		}
+		if (forceSync == null) {
+			throw new InvalidOrMissingParameterException("forceSync");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("batchid", batchid);
+		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
+		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.setBody(item);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update Item
+    * {
+    * "Name":"Name",
+    * "FileName":"FileName",
+    * "Description":"Description",
+    * "ExpirationDate": "date",
+    * "Parent": { "Id": "parentid" },
+    * "Zone": { "Id": "zoneid" }
+    * }
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
+	* @param url 	 	
+	* @param item 	 	
+	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
+	*/
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (item == null) {
+			throw new InvalidOrMissingParameterException("item");
+		}
+		if (batchid == null) {
+			throw new InvalidOrMissingParameterException("batchid");
+		}
+		if (batchSizeInBytes == null) {
+			throw new InvalidOrMissingParameterException("batchSizeInBytes");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("batchid", batchid);
+		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
+		sfApiQuery.setBody(item);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update Item
+    * {
+    * "Name":"Name",
+    * "FileName":"FileName",
+    * "Description":"Description",
+    * "ExpirationDate": "date",
+    * "Parent": { "Id": "parentid" },
+    * "Zone": { "Id": "zoneid" }
+    * }
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
+	* @param url 	 	
+	* @param item 	 	
+	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
+	*/
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (item == null) {
+			throw new InvalidOrMissingParameterException("item");
+		}
+		if (batchid == null) {
+			throw new InvalidOrMissingParameterException("batchid");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("batchid", batchid);
+		sfApiQuery.setBody(item);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update Item
+    * {
+    * "Name":"Name",
+    * "FileName":"FileName",
+    * "Description":"Description",
+    * "ExpirationDate": "date",
+    * "Parent": { "Id": "parentid" },
+    * "Zone": { "Id": "zoneid" }
+    * }
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
+	* @param url 	 	
+	* @param item 	 	
+	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
+	*/
+	public ISFQuery<SFItem> update(URI url, SFItem item) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (item == null) {
+			throw new InvalidOrMissingParameterException("item");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setBody(item);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
 	* Update Link
     * {
     * "Name":"Name",
@@ -448,14 +1114,23 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Link object
-	* @param id 	
-	* @param link 	
-	* @param notify 	
+	* @param id 	 	
+	* @param link 	 	
+	* @param notify  (default: false)	 	
 	* @return A modified Link object
-    */
-	public ISFQuery<SFLink> updateLink(String id, SFLink link, Boolean notify)
-	{
-		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>();
+	*/
+	public ISFQuery<SFLink> updateLink(String id, SFLink link, Boolean notify) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (link == null) {
+			throw new InvalidOrMissingParameterException("link");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+
+		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
 		sfApiQuery.addActionIds(id);
@@ -465,7 +1140,37 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Update Link
+    * {
+    * "Name":"Name",
+    * "Uri":"https://server/path",
+    * "Description":"Description",
+    * "Parent": { "Id": "parentid" },
+    * }
+	* Updates a Link object
+	* @param id 	 	
+	* @param link 	 	
+	* @return A modified Link object
+	*/
+	public ISFQuery<SFLink> updateLink(String id, SFLink link) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (link == null) {
+			throw new InvalidOrMissingParameterException("link");
+		}
+
+		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Link");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setBody(link);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
 	* Update Note
     * {
     * "Name":"Name",
@@ -473,14 +1178,23 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Parent": { "Id": "parentid" },
     * }
 	* Updates a Note object
-	* @param id 	
-	* @param note 	
-	* @param notify 	
+	* @param id 	 	
+	* @param note 	 	
+	* @param notify  (default: false)	 	
 	* @return The modified Note object
-    */
-	public ISFQuery<SFNote> updateNote(String id, SFNote note, Boolean notify)
-	{
-		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>();
+	*/
+	public ISFQuery<SFNote> updateNote(String id, SFNote note, Boolean notify) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (note == null) {
+			throw new InvalidOrMissingParameterException("note");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+
+		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
 		sfApiQuery.addActionIds(id);
@@ -490,7 +1204,36 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Update Note
+    * {
+    * "Name":"Name",
+    * "Description":"Description",
+    * "Parent": { "Id": "parentid" },
+    * }
+	* Updates a Note object
+	* @param id 	 	
+	* @param note 	 	
+	* @return The modified Note object
+	*/
+	public ISFQuery<SFNote> updateNote(String id, SFNote note) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (note == null) {
+			throw new InvalidOrMissingParameterException("note");
+		}
+
+		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Note");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setBody(note);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
 	* Update SymbolicLink
     * {
     * "Name":"Name",
@@ -498,13 +1241,19 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Link": "https://server/path"
     * }
 	* Updates a Symbolic Link object
-	* @param id 	
-	* @param symlink 	
+	* @param id 	 	
+	* @param symlink 	 	
 	* @return The modified SymbolicLink object
-    */
-	public ISFQuery<SFSymbolicLink> updateSymbolicLink(String id, SFSymbolicLink symlink)
-	{
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>();
+	*/
+	public ISFQuery<SFSymbolicLink> updateSymbolicLink(String id, SFSymbolicLink symlink) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (symlink == null) {
+			throw new InvalidOrMissingParameterException("symlink");
+		}
+
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addActionIds(id);
@@ -513,16 +1262,25 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete Item
 	* Removes an item
-	* @param url 	
-	* @param singleversion 	
-	* @param forceSync 	
-    */
-	public ISFQuery delete(URI url, Boolean singleversion, Boolean forceSync)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param url 	 	
+	* @param singleversion  (default: false)	 	
+	* @param forceSync  (default: false)	 	
+	*/
+	public ISFQuery delete(URI url, Boolean singleversion, Boolean forceSync) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (singleversion == null) {
+			throw new InvalidOrMissingParameterException("singleversion");
+		}
+		if (forceSync == null) {
+			throw new InvalidOrMissingParameterException("forceSync");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singleversion", singleversion);
@@ -531,18 +1289,67 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Delete Item
+	* Removes an item
+	* @param url 	 	
+	* @param singleversion  (default: false)	 	
+	*/
+	public ISFQuery delete(URI url, Boolean singleversion) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (singleversion == null) {
+			throw new InvalidOrMissingParameterException("singleversion");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("singleversion", singleversion);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete Item
+	* Removes an item
+	* @param url 	 	
+	*/
+	public ISFQuery delete(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
 	* Delete Multiple Items
     * ["id1","id2",...]
 	* All items in bulk delete must be children of the same parent, identified in the URI
-	* @param id 	
-	* @param body 	
-	* @param forceSync 	
-	* @param deletePermanently 	
-    */
-	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param forceSync  (default: false)	 	
+	* @param deletePermanently  (default: false)	 	
+	*/
+	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (ids == null) {
+			throw new InvalidOrMissingParameterException("ids");
+		}
+		if (forceSync == null) {
+			throw new InvalidOrMissingParameterException("forceSync");
+		}
+		if (deletePermanently == null) {
+			throw new InvalidOrMissingParameterException("deletePermanently");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDelete");
 		sfApiQuery.addIds(url);
@@ -553,17 +1360,75 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Delete Multiple Items
+    * ["id1","id2",...]
+	* All items in bulk delete must be children of the same parent, identified in the URI
+	* @param forceSync  (default: false)	 	
+	*/
+	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (ids == null) {
+			throw new InvalidOrMissingParameterException("ids");
+		}
+		if (forceSync == null) {
+			throw new InvalidOrMissingParameterException("forceSync");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkDelete");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete Multiple Items
+    * ["id1","id2",...]
+	* All items in bulk delete must be children of the same parent, identified in the URI
+	*/
+	public ISFQuery bulkDelete(URI url, ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (ids == null) {
+			throw new InvalidOrMissingParameterException("ids");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkDelete");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get Thumbnail
 	* Retrieve a thumbnail link from the specified Item.
-	* @param url 	
-	* @param size 	
-	* @param redirect 	
+	* @param url 	 	
+	* @param size  (default: 75)	 	
+	* @param redirect  (default: false)	 	
 	* @return A 302 redirection to the Thumbnail link
-    */
-	public ISFQuery<InputStream> getThumbnail(URI url, Integer size, Boolean redirect)
-	{
-		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+	*/
+	public ISFQuery<InputStream> getThumbnail(URI url, Integer size, Boolean redirect) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (size == null) {
+			throw new InvalidOrMissingParameterException("size");
+		}
+		if (redirect == null) {
+			throw new InvalidOrMissingParameterException("redirect");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Thumbnail");
 		sfApiQuery.addIds(url);
@@ -573,18 +1438,67 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get Thumbnail
+	* Retrieve a thumbnail link from the specified Item.
+	* @param url 	 	
+	* @param size  (default: 75)	 	
+	* @return A 302 redirection to the Thumbnail link
+	*/
+	public ISFQuery<InputStream> getThumbnail(URI url, Integer size) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (size == null) {
+			throw new InvalidOrMissingParameterException("size");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Thumbnail");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("size", size);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Thumbnail
+	* Retrieve a thumbnail link from the specified Item.
+	* @param url 	 	
+	* @return A 302 redirection to the Thumbnail link
+	*/
+	public ISFQuery<InputStream> getThumbnail(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Thumbnail");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get Breadcrumbs
 	* Retrieves the path from an item from the root. The return list is a Feed of Items, with the top-level
 	* folder at the first position. If this item is in a Connection path, the breadcrumbs may contain URL
 	* reference back to the parent account - and the Item in the feed will contain just the URL reference.
-	* @param url 	
-	* @param path 	
+	* @param url 	 	
+	* @param path  (default: null)	 	
 	* @return A feed containing the path of folders from the specified root to the item, in order
-    */
-	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path)
-	{
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>();
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (path == null) {
+			throw new InvalidOrMissingParameterException("path");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Breadcrumbs");
 		sfApiQuery.addIds(url);
@@ -593,19 +1507,49 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get Breadcrumbs
+	* Retrieves the path from an item from the root. The return list is a Feed of Items, with the top-level
+	* folder at the first position. If this item is in a Connection path, the breadcrumbs may contain URL
+	* reference back to the parent account - and the Item in the feed will contain just the URL reference.
+	* @param url 	 	
+	* @return A feed containing the path of folders from the specified root to the item, in order
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Breadcrumbs");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Copy Item
 	* Copies an item to a new target Folder. If the target folder is in another zone, the operation will
 	* return an AsyncOperation record instead. Clients may query the /AsyncOperation Entity to determine
 	* operation progress and result.
-	* @param url 	
-	* @param targetid 	
-	* @param overwrite 	
+	* @param url 	 	
+	* @param targetid 	 	
+	* @param overwrite  (default: false)	 	
 	* @return the modified source object
-    */
-	public ISFQuery<SFItem> copy(URI url, String targetid, Boolean overwrite)
-	{
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>();
+	*/
+	public ISFQuery<SFItem> copy(URI url, String targetid, Boolean overwrite) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (targetid == null) {
+			throw new InvalidOrMissingParameterException("targetid");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Copy");
 		sfApiQuery.addIds(url);
@@ -615,7 +1559,33 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Copy Item
+	* Copies an item to a new target Folder. If the target folder is in another zone, the operation will
+	* return an AsyncOperation record instead. Clients may query the /AsyncOperation Entity to determine
+	* operation progress and result.
+	* @param url 	 	
+	* @param targetid 	 	
+	* @return the modified source object
+	*/
+	public ISFQuery<SFItem> copy(URI url, String targetid) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (targetid == null) {
+			throw new InvalidOrMissingParameterException("targetid");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Copy");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("targetid", targetid);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Upload File
     * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
     * {
@@ -637,7 +1607,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The client must
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
 	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
 	* is a sequential number representing the data block (zero-based); Offset represents the
 	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
@@ -645,8 +1615,11 @@ public class SFItemsEntity extends SFODataEntityBase
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
 	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the client
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
 	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
 	* 
 	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
 	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
@@ -658,40 +1631,109 @@ public class SFItemsEntity extends SFODataEntityBase
 	* it indicates that the server has identified a partial upload with that specification, and is
 	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
 	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the client decides to restart, it should simply ignore the resume
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
 	* parameters and send the blocks from Index 0.
 	* 
 	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
 	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
 	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
 	* response with no Body, or with Body of format 'OK'.
-	* @param url 	
-	* @param method 	
-	* @param raw 	
-	* @param fileName 	
-	* @param fileSize 	
-	* @param batchId 	
-	* @param batchLast 	
-	* @param canResume 	
-	* @param startOver 	
-	* @param unzip 	
-	* @param tool 	
-	* @param overwrite 	
-	* @param title 	
-	* @param details 	
-	* @param isSend 	
-	* @param sendGuid 	
-	* @param opid 	
-	* @param threadCount 	
-	* @param responseFormat 	
-	* @param notify 	
-	* @param clientCreatedDateUTC 	
-	* @param clientModifiedDateUTC 	
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @param threadCount  (default: 4)	 	
+	* @param responseFormat  (default: "json")	 	
+	* @param notify  (default: false)	 	
+	* @param clientCreatedDateUTC  (default: null)	 	
+	* @param clientModifiedDateUTC  (default: null)	 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
-    */
-	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify, Date clientCreatedDateUTC, Date clientModifiedDateUTC, Integer expirationDays)
-	{
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify, Date clientCreatedDateUTC, Date clientModifiedDateUTC, Integer expirationDays) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+		if (threadCount == null) {
+			throw new InvalidOrMissingParameterException("threadCount");
+		}
+		if (responseFormat == null) {
+			throw new InvalidOrMissingParameterException("responseFormat");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+		if (clientCreatedDateUTC == null) {
+			throw new InvalidOrMissingParameterException("clientCreatedDateUTC");
+		}
+		if (clientModifiedDateUTC == null) {
+			throw new InvalidOrMissingParameterException("clientModifiedDateUTC");
+		}
+		if (expirationDays == null) {
+			throw new InvalidOrMissingParameterException("expirationDays");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -721,9 +1763,2691 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays)
-	{
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @param threadCount  (default: 4)	 	
+	* @param responseFormat  (default: "json")	 	
+	* @param notify  (default: false)	 	
+	* @param clientCreatedDateUTC  (default: null)	 	
+	* @param clientModifiedDateUTC  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify, Date clientCreatedDateUTC, Date clientModifiedDateUTC) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+		if (threadCount == null) {
+			throw new InvalidOrMissingParameterException("threadCount");
+		}
+		if (responseFormat == null) {
+			throw new InvalidOrMissingParameterException("responseFormat");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+		if (clientCreatedDateUTC == null) {
+			throw new InvalidOrMissingParameterException("clientCreatedDateUTC");
+		}
+		if (clientModifiedDateUTC == null) {
+			throw new InvalidOrMissingParameterException("clientModifiedDateUTC");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.addQueryString("responseFormat", responseFormat);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
+		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @param threadCount  (default: 4)	 	
+	* @param responseFormat  (default: "json")	 	
+	* @param notify  (default: false)	 	
+	* @param clientCreatedDateUTC  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify, Date clientCreatedDateUTC) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+		if (threadCount == null) {
+			throw new InvalidOrMissingParameterException("threadCount");
+		}
+		if (responseFormat == null) {
+			throw new InvalidOrMissingParameterException("responseFormat");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+		if (clientCreatedDateUTC == null) {
+			throw new InvalidOrMissingParameterException("clientCreatedDateUTC");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.addQueryString("responseFormat", responseFormat);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @param threadCount  (default: 4)	 	
+	* @param responseFormat  (default: "json")	 	
+	* @param notify  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+		if (threadCount == null) {
+			throw new InvalidOrMissingParameterException("threadCount");
+		}
+		if (responseFormat == null) {
+			throw new InvalidOrMissingParameterException("responseFormat");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.addQueryString("responseFormat", responseFormat);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @param threadCount  (default: 4)	 	
+	* @param responseFormat  (default: "json")	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+		if (threadCount == null) {
+			throw new InvalidOrMissingParameterException("threadCount");
+		}
+		if (responseFormat == null) {
+			throw new InvalidOrMissingParameterException("responseFormat");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.addQueryString("responseFormat", responseFormat);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @param threadCount  (default: 4)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+		if (threadCount == null) {
+			throw new InvalidOrMissingParameterException("threadCount");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and resume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
+	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
+	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
+	* is a sequential number representing the data block (zero-based); Offset represents the
+	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
+	* POST must also contain finish=true parameter.
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing blocks in parallel. Clients must append index, offset and hash to
+	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
+	* must call the FinishUri provided in this spec.
+	* 
+	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
+	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
+	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
+	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
+	* form encoding has to pass the File as a Form parameter named "File1".
+	* 
+	* For streamed and threaded, if Resume options were provided to the Upload call, then the
+	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
+	* it indicates that the server has identified a partial upload with that specification, and is
+	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
+	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
+	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
+	* parameters and send the blocks from Index 0.
+	* 
+	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
+	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
+	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
+	* response with no Body, or with Body of format 'OK'.
+	* @param url 	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (uploadParams == null) {
+			throw new InvalidOrMissingParameterException("uploadParams");
+		}
+		if (expirationDays == null) {
+			throw new InvalidOrMissingParameterException("expirationDays");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);
@@ -733,16 +4457,39 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (uploadParams == null) {
+			throw new InvalidOrMissingParameterException("uploadParams");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload2");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setBody(uploadParams);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Unlock File
 	* Unlock a locked file.
 	* This operation is only implemented in Sharepoint providers (/sp)
-	* @param url 	
-	* @param message 	
-    */
-	public ISFQuery checkIn(URI url, String message)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param url 	 	
+	* @param message  (default: null)	 	
+	*/
+	public ISFQuery checkIn(URI url, String message) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (message == null) {
+			throw new InvalidOrMissingParameterException("message");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckIn");
 		sfApiQuery.addIds(url);
@@ -751,9 +4498,31 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery checkOut(URI url)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	/**
+	* Unlock File
+	* Unlock a locked file.
+	* This operation is only implemented in Sharepoint providers (/sp)
+	* @param url 	 	
+	*/
+	public ISFQuery checkIn(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("CheckIn");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	public ISFQuery checkOut(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckOut");
 		sfApiQuery.addIds(url);
@@ -761,9 +4530,12 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery discardCheckOut(URI url)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	public ISFQuery discardCheckOut(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("DiscardCheckOut");
 		sfApiQuery.addIds(url);
@@ -771,18 +4543,30 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Search
 	* Search for Items matching the criteria of the query parameter
-	* @param query 	
-	* @param maxResults 	
-	* @param skip 	
-	* @param homeFolderOnly 	
+	* @param query 	 	
+	* @param maxResults  (default: 50)	 	
+	* @param skip  (default: 0)	 	
+	* @param homeFolderOnly  (default: false)	 	
 	* @return SearchResults
-    */
-	public ISFQuery<SFSearchResults> search(String query, Integer maxResults, Integer skip, Boolean homeFolderOnly)
-	{
-		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>();
+	*/
+	public ISFQuery<SFSearchResults> search(String query, Integer maxResults, Integer skip, Boolean homeFolderOnly) throws InvalidOrMissingParameterException 	{
+		if (query == null) {
+			throw new InvalidOrMissingParameterException("query");
+		}
+		if (maxResults == null) {
+			throw new InvalidOrMissingParameterException("maxResults");
+		}
+		if (skip == null) {
+			throw new InvalidOrMissingParameterException("skip");
+		}
+		if (homeFolderOnly == null) {
+			throw new InvalidOrMissingParameterException("homeFolderOnly");
+		}
+
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
@@ -793,7 +4577,79 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Search
+	* Search for Items matching the criteria of the query parameter
+	* @param query 	 	
+	* @param maxResults  (default: 50)	 	
+	* @param skip  (default: 0)	 	
+	* @return SearchResults
+	*/
+	public ISFQuery<SFSearchResults> search(String query, Integer maxResults, Integer skip) throws InvalidOrMissingParameterException 	{
+		if (query == null) {
+			throw new InvalidOrMissingParameterException("query");
+		}
+		if (maxResults == null) {
+			throw new InvalidOrMissingParameterException("maxResults");
+		}
+		if (skip == null) {
+			throw new InvalidOrMissingParameterException("skip");
+		}
+
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Search");
+		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.addQueryString("maxResults", maxResults);
+		sfApiQuery.addQueryString("skip", skip);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Search
+	* Search for Items matching the criteria of the query parameter
+	* @param query 	 	
+	* @param maxResults  (default: 50)	 	
+	* @return SearchResults
+	*/
+	public ISFQuery<SFSearchResults> search(String query, Integer maxResults) throws InvalidOrMissingParameterException 	{
+		if (query == null) {
+			throw new InvalidOrMissingParameterException("query");
+		}
+		if (maxResults == null) {
+			throw new InvalidOrMissingParameterException("maxResults");
+		}
+
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Search");
+		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.addQueryString("maxResults", maxResults);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Search
+	* Search for Items matching the criteria of the query parameter
+	* @param query 	 	
+	* @return SearchResults
+	*/
+	public ISFQuery<SFSearchResults> search(String query) throws InvalidOrMissingParameterException 	{
+		if (query == null) {
+			throw new InvalidOrMissingParameterException("query");
+		}
+
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Search");
+		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Advanced Simple Search
     * {
     * "Query":{
@@ -818,12 +4674,15 @@ public class SFItemsEntity extends SFODataEntityBase
     * "TimeoutInSeconds":10
     * }
 	* Search for Items matching the criteria of the query parameter
-	* @param simpleSearchQuery 	
+	* @param simpleSearchQuery 	 	
 	* @return AdvancedSearchResults
-    */
-	public ISFQuery<SFAdvancedSearchResults> advancedSimpleSearch(SFSimpleSearchQuery simpleSearchQuery)
-	{
-		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+	*/
+	public ISFQuery<SFAdvancedSearchResults> advancedSimpleSearch(SFSimpleSearchQuery simpleSearchQuery) throws InvalidOrMissingParameterException 	{
+		if (simpleSearchQuery == null) {
+			throw new InvalidOrMissingParameterException("simpleSearchQuery");
+		}
+
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AdvancedSimpleSearch");
 		sfApiQuery.setBody(simpleSearchQuery);
@@ -831,7 +4690,7 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Advanced Search
     * {
     * "Query":{
@@ -846,8 +4705,8 @@ public class SFItemsEntity extends SFODataEntityBase
     * "Paging":{
     * "PageNumber":1, (deprecated)
     * "PageSize":10, (deprecated)
-    * "Count":50,
-    * "Skip":0
+    * "Count":50, (default value)
+    * "Skip":0, (default value)
     * },
     * "Sort":{
     * "SortBy":"",
@@ -856,28 +4715,34 @@ public class SFItemsEntity extends SFODataEntityBase
     * "TimeoutInSeconds":10
     * }
 	* Search for Items matching the criteria of the query parameter
-	* @param searchQuery 	
+	* @param searchQuery 	 	
 	* @return AdvancedSearchResults
-    */
-	public ISFQuery<SFAdvancedSearchResults> advancedSearch(SFSearchQuery searchQuery)
-	{
-		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>();
+	*/
+	public ISFQuery<SFAdvancedSearchResults> advancedSearch(SFSearchQuery searchQuery) throws InvalidOrMissingParameterException 	{
+		if (searchQuery == null) {
+			throw new InvalidOrMissingParameterException("searchQuery");
+		}
+
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>(this.apiClient);
 		sfApiQuery.setFrom("Items");
-		sfApiQuery.setAction("AdvancedSimpleSearch");
+		sfApiQuery.setAction("AdvancedSearch");
 		sfApiQuery.setBody(searchQuery);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Web Preview Link
 	* Redirects the caller to the Web Edit application for the selected item.
-	* @param url 	
+	* @param url 	 	
 	* @return A redirection message to the Web Edit app for this item. It returns 404 (Not Found) if the Web Preview app doesn't support the file type.
-    */
-	public ISFQuery<SFRedirection> webView(URI url)
-	{
-		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
+	*/
+	public ISFQuery<SFRedirection> webView(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("WebView");
 		sfApiQuery.addIds(url);
@@ -885,15 +4750,20 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get List of Item Protocol Links
-	* @param url 	
-	* @param platform 	
+	* @param url 	 	
 	* @return A list of protocol links depending on the input parameter 'platform', 404 (Not Found) if not supported by the item
-    */
-	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI url, SFSafeEnum<SFPreviewPlatform> platform)
-	{
-		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>();
+	*/
+	public ISFQuery<SFODataFeed<SFItemProtocolLink>> getProtocolLinks(URI url, SFSafeEnum<SFPreviewPlatform> platform) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (platform == null) {
+			throw new InvalidOrMissingParameterException("platform");
+		}
+
+		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
 		sfApiQuery.addIds(url);
@@ -902,19 +4772,134 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Redirection endpoint Information
 	* Returns the redirection endpoint for this Item.This operation applies to Folders and SymbolicLinks only, will return an error for other Item types.
-	* @param url 	
+	* @param url 	 	
 	* @return The Redirection endpoint Information
-    */
-	public ISFQuery<SFRedirection> getRedirection(URI url)
-	{
-		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>();
+	*/
+	public ISFQuery<SFRedirection> getRedirection(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Redirection");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get a collection of recoverable/deleted items in a folder
+	* @param url 	 	
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getDeletedChildren(URI url, String id) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("DeletedChildren");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems(String userid, String zone) throws InvalidOrMissingParameterException 	{
+		if (userid == null) {
+			throw new InvalidOrMissingParameterException("userid");
+		}
+		if (zone == null) {
+			throw new InvalidOrMissingParameterException("zone");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("UserDeletedItems");
+		sfApiQuery.addQueryString("userid", userid);
+		sfApiQuery.addQueryString("zone", zone);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems(String userid) throws InvalidOrMissingParameterException 	{
+		if (userid == null) {
+			throw new InvalidOrMissingParameterException("userid");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("UserDeletedItems");
+		sfApiQuery.addQueryString("userid", userid);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems()	{
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("UserDeletedItems");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Restore expired items to their original locations
+	* @param ids 	 	
+	*/
+	public ISFQuery bulkRestore(ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
+		if (ids == null) {
+			throw new InvalidOrMissingParameterException("ids");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkRestore");
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Permanently delete multiple items
+	* @param ids 	 	
+	*/
+	public ISFQuery bulkDeletePermanently(ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
+		if (ids == null) {
+			throw new InvalidOrMissingParameterException("ids");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("BulkDeletePermanently");
+		sfApiQuery.setBody(ids);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create a one-time use login Uri for the Web App.
+	* @param url 	 	
+	* @return Redirection populated with link in Uri field
+	*/
+	public ISFQuery<SFRedirection> webAppLink(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("WebAppLink");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

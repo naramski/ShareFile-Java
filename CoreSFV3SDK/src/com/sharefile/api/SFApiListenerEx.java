@@ -43,8 +43,8 @@ public abstract class SFApiListenerEx<T extends SFODataObject> implements SFApiR
 	}
 	
 	/*
-	public synchronized final Thread executeQuery(SFApiClient client , SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public synchronized final Thread executeQuery(SFApiClient apiClient , SFApiQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
-		return client.executeQuery(query, listener, reauthHandler);
+		return apiClient.executeQuery(query, listener, reauthHandler);
 	}*/
 }

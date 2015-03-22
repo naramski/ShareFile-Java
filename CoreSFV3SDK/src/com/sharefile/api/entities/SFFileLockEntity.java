@@ -12,6 +12,7 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.SFApiClient;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
@@ -29,6 +30,11 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFFileLockEntity extends SFODataEntityBase
 {
+    public SFFileLockEntity(SFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get Item Lock info
 	* Retrieves the lock info for a given Item.
@@ -37,7 +43,7 @@ public class SFFileLockEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFFileLock> getByItem(URI url)
 	{
-		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>();
+		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
@@ -53,7 +59,7 @@ public class SFFileLockEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFFileLock> createByItem(URI url, SFFileLock fileLock)
 	{
-		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>();
+		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
@@ -75,7 +81,7 @@ public class SFFileLockEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFFileLock> updateByItem(URI url, SFFileLock fileLock)
 	{
-		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>();
+		SFApiQuery<SFFileLock> sfApiQuery = new SFApiQuery<SFFileLock>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);
@@ -92,7 +98,7 @@ public class SFFileLockEntity extends SFODataEntityBase
     */
 	public ISFQuery deleteByItem(URI url, String lockid)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FileLock");
 		sfApiQuery.addIds(url);

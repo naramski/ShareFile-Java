@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFItem extends SFODataObject {
@@ -114,7 +114,7 @@ public class SFItem extends SFODataObject {
 	}
 		/**
 		* Item File Name. ShareFile allows Items to have different Display and File names: display
-		* names are shown during client navigation, while file names are used when the item is
+		* names are shown during apiClient navigation, while file names are used when the item is
 		* downloaded.
 		*/
 	public String getFileName() {
@@ -123,7 +123,7 @@ public class SFItem extends SFODataObject {
 
 		/**
 		* Item File Name. ShareFile allows Items to have different Display and File names: display
-		* names are shown during client navigation, while file names are used when the item is
+		* names are shown during apiClient navigation, while file names are used when the item is
 		* downloaded.
 		*/
 	public void setFileName(String filename) {

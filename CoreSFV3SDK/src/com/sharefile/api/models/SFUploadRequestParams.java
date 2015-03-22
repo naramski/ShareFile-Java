@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFUploadRequestParams extends SFODataObject {
@@ -49,6 +50,8 @@ public class SFUploadRequestParams extends SFODataObject {
 	private String Opid;
 	@SerializedName("Title")
 	private String Title;
+	@SerializedName("Tool")
+	private String Tool;
 	@SerializedName("Details")
 	private String Details;
 	@SerializedName("IsSend")
@@ -147,6 +150,13 @@ public class SFUploadRequestParams extends SFODataObject {
 
 	public void setTitle(String title) {
 		this.Title = title;
+	}
+	public String getTool() {
+		return this.Tool;
+	}
+
+	public void setTool(String tool) {
+		this.Tool = tool;
 	}
 	public String getDetails() {
 		return this.Details;

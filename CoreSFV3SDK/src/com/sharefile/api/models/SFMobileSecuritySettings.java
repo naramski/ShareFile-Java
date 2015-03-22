@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFMobileSecuritySettings extends SFODataObject {
@@ -37,6 +38,14 @@ public class SFMobileSecuritySettings extends SFODataObject {
 	private Boolean RestrictModifiedDevices;
 	@SerializedName("PinLockType")
 	private SFSafeEnum<SFPinLockType> PinLockType;
+	@SerializedName("PinLockMaxAttempts")
+	private Integer PinLockMaxAttempts;
+	@SerializedName("PinLockLockoutIntervalSeconds")
+	private Integer PinLockLockoutIntervalSeconds;
+	@SerializedName("PinLockExternalActionGraceIntervalSeconds")
+	private Integer PinLockExternalActionGraceIntervalSeconds;
+	@SerializedName("PinLockInternalActionGraceIntervalSeconds")
+	private Integer PinLockInternalActionGraceIntervalSeconds;
 
 	public Integer getPoisonPillInterval() {
 		return this.PoisonPillInterval;
@@ -79,6 +88,34 @@ public class SFMobileSecuritySettings extends SFODataObject {
 
 	public void setPinLockType(SFSafeEnum<SFPinLockType> pinlocktype) {
 		this.PinLockType = pinlocktype;
+	}
+	public Integer getPinLockMaxAttempts() {
+		return this.PinLockMaxAttempts;
+	}
+
+	public void setPinLockMaxAttempts(Integer pinlockmaxattempts) {
+		this.PinLockMaxAttempts = pinlockmaxattempts;
+	}
+	public Integer getPinLockLockoutIntervalSeconds() {
+		return this.PinLockLockoutIntervalSeconds;
+	}
+
+	public void setPinLockLockoutIntervalSeconds(Integer pinlocklockoutintervalseconds) {
+		this.PinLockLockoutIntervalSeconds = pinlocklockoutintervalseconds;
+	}
+	public Integer getPinLockExternalActionGraceIntervalSeconds() {
+		return this.PinLockExternalActionGraceIntervalSeconds;
+	}
+
+	public void setPinLockExternalActionGraceIntervalSeconds(Integer pinlockexternalactiongraceintervalseconds) {
+		this.PinLockExternalActionGraceIntervalSeconds = pinlockexternalactiongraceintervalseconds;
+	}
+	public Integer getPinLockInternalActionGraceIntervalSeconds() {
+		return this.PinLockInternalActionGraceIntervalSeconds;
+	}
+
+	public void setPinLockInternalActionGraceIntervalSeconds(Integer pinlockinternalactiongraceintervalseconds) {
+		this.PinLockInternalActionGraceIntervalSeconds = pinlockinternalactiongraceintervalseconds;
 	}
 
 }

@@ -12,6 +12,7 @@
 
 package com.sharefile.api.entities;
 
+import com.sharefile.api.SFApiClient;
 import com.sharefile.api.entities.*;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
@@ -29,13 +30,18 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFDevicesEntity extends SFODataEntityBase
 {
+    public SFDevicesEntity(SFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get Device Users for Current User
 	* @return A feed of DeviceUser objects
     */
 	public ISFQuery<SFODataFeed<SFDeviceUser>> get()
 	{
-		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -48,7 +54,7 @@ public class SFDevicesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFDevice> get(URI url)
 	{
-		SFApiQuery<SFDevice> sfApiQuery = new SFApiQuery<SFDevice>();
+		SFApiQuery<SFDevice> sfApiQuery = new SFApiQuery<SFDevice>(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -57,7 +63,7 @@ public class SFDevicesEntity extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFDeviceUser>> getByUser(URI url)
 	{
-		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>();
+		SFApiQuery<SFODataFeed<SFDeviceUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFDeviceUser>>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
@@ -72,7 +78,7 @@ public class SFDevicesEntity extends SFODataEntityBase
     */
 	public ISFQuery delete(URI url)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -81,7 +87,7 @@ public class SFDevicesEntity extends SFODataEntityBase
 
 	public ISFQuery deleteByUser(URI url, String deviceId)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
@@ -92,7 +98,7 @@ public class SFDevicesEntity extends SFODataEntityBase
 
 	public ISFQuery<SFDeviceUser> createByUser(URI url, SFDeviceUser du)
 	{
-		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>();
+		SFApiQuery<SFDeviceUser> sfApiQuery = new SFApiQuery<SFDeviceUser>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Devices");
 		sfApiQuery.addIds(url);
@@ -109,7 +115,7 @@ public class SFDevicesEntity extends SFODataEntityBase
     */
 	public ISFQuery wipe(URI deviceUrl, String userid)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Wipe");
 		sfApiQuery.addIds(deviceUrl);
@@ -148,7 +154,7 @@ public class SFDevicesEntity extends SFODataEntityBase
     */
 	public ISFQuery wipeDone(URI deviceUrl, SFDeviceWipeReport deviceWipeReport, Boolean singlePlane)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("WipeDone");
 		sfApiQuery.addIds(deviceUrl);
@@ -166,7 +172,7 @@ public class SFDevicesEntity extends SFODataEntityBase
     */
 	public ISFQuery<SFDeviceStatus> status(URI deviceUrl, Boolean singlePlane)
 	{
-		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>();
+		SFApiQuery<SFDeviceStatus> sfApiQuery = new SFApiQuery<SFDeviceStatus>(this.apiClient);
 		sfApiQuery.setFrom("Devices");
 		sfApiQuery.setAction("Status");
 		sfApiQuery.addIds(deviceUrl);

@@ -6,66 +6,64 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
-
 public class SFAccountsEntity extends SFODataEntityBase
 {
-    /**
+	public SFAccountsEntity(ISFApiClient client) {
+		super(client);
+	}
+
+	/**
 	* Get current Account
 	* Retrieves information about the Account defined in the call subdomain
 	* @return The subdomain account information
-    */
-	public ISFQuery<SFAccount> get()
-	{
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+	*/
+	public ISFQuery<SFAccount> get()	{
+
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get current Account branding
 	* Retrievs Branding information about the subdomain account.
 	* This operation does not require authentication.
 	* @return Branding information for a given sharefile account
-    */
-	public ISFQuery<SFAccount> getBranding()
-	{
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+	*/
+	public ISFQuery<SFAccount> getBranding()	{
+
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Branding");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Modify the Branding for this account
 	* Modifies Branding information about the subdomain account.
 	* This operation requires authentication.
 	* @return Branding information for a given sharefile account
-    */
-	public ISFQuery<SFAccount> updateBranding(SFAccount account)
-	{
-		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>();
+	*/
+	public ISFQuery<SFAccount> updateBranding(SFAccount account) throws InvalidOrMissingParameterException 	{
+		if (account == null) {
+			throw new InvalidOrMissingParameterException("account");
+		}
+
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Branding");
 		sfApiQuery.setBody(account);
@@ -73,49 +71,55 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get List of current Account Employees
 	* Retrives the list of Employees in the Account
 	* Employees are named users in the Account.
 	* @return A Feed containing all Employees Contacts in the account
-    */
-	public ISFQuery<SFODataFeed<SFContact>> getEmployees()
-	{
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> getEmployees()	{
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Employees");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get List of current Account Clients
 	* Retrieves the list of Clients in the Account.
 	* Clients are restricted users of an Account, that can receive and send files
 	* to Employees, but have no other permissions besides basic sharing with Employees.
 	* @return A Feed containing all Clients in the account
-    */
-	public ISFQuery<SFODataFeed<SFContact>> getClients()
-	{
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> getClients()	{
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Clients");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Account AddressBooks
 	* Retrieves an address book from the account.
 	* Address Books are the contacts of Eployees and Clients, maintained on a personal or
 	* account-wide basis (shared).
-	* @param type 	
-	* @param searchTerm 	
+	* @param type  (default: "personal")	 	
+	* @param searchTerm  (default: "")	 	
 	* @return A Feed of Contact objects representing the Address Book retrieved
-    */
-	public ISFQuery<SFODataFeed<SFContact>> getAddressBook(String type, String searchTerm)
-	{
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> getAddressBook(String type, String searchTerm) throws InvalidOrMissingParameterException 	{
+		if (type == null) {
+			throw new InvalidOrMissingParameterException("type");
+		}
+		if (searchTerm == null) {
+			throw new InvalidOrMissingParameterException("searchTerm");
+		}
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("AddressBook");
 		sfApiQuery.addQueryString("type", type);
@@ -124,54 +128,94 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get Account AddressBooks
+	* Retrieves an address book from the account.
+	* Address Books are the contacts of Eployees and Clients, maintained on a personal or
+	* account-wide basis (shared).
+	* @param type  (default: "personal")	 	
+	* @return A Feed of Contact objects representing the Address Book retrieved
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> getAddressBook(String type) throws InvalidOrMissingParameterException 	{
+		if (type == null) {
+			throw new InvalidOrMissingParameterException("type");
+		}
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("AddressBook");
+		sfApiQuery.addQueryString("type", type);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Account AddressBooks
+	* Retrieves an address book from the account.
+	* Address Books are the contacts of Eployees and Clients, maintained on a personal or
+	* account-wide basis (shared).
+	* @return A Feed of Contact objects representing the Address Book retrieved
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> getAddressBook()	{
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("AddressBook");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get Account Mobile Security Settings
 	* Returns the Mobile device configuration settings for this account
 	* @return The current mobile security configuration for this account
-    */
-	public ISFQuery<SFMobileSecuritySettings> getMobileSecuritySettings()
-	{
-		SFApiQuery<SFMobileSecuritySettings> sfApiQuery = new SFApiQuery<SFMobileSecuritySettings>();
+	*/
+	public ISFQuery<SFMobileSecuritySettings> getMobileSecuritySettings()	{
+
+		SFApiQuery<SFMobileSecuritySettings> sfApiQuery = new SFApiQuery<SFMobileSecuritySettings>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("MobileSecuritySettings");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Account Product Defaults
 	* @return Account defaults
-    */
-	public ISFQuery<SFProductDefaults> getProductDefaults()
-	{
-		SFApiQuery<SFProductDefaults> sfApiQuery = new SFApiQuery<SFProductDefaults>();
+	*/
+	public ISFQuery<SFProductDefaults> getProductDefaults()	{
+
+		SFApiQuery<SFProductDefaults> sfApiQuery = new SFApiQuery<SFProductDefaults>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("ProductDefaults");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Account Preferences
 	* @return Account preferences
-    */
-	public ISFQuery<SFAccountPreferences> getPreferences()
-	{
-		SFApiQuery<SFAccountPreferences> sfApiQuery = new SFApiQuery<SFAccountPreferences>();
+	*/
+	public ISFQuery<SFAccountPreferences> getPreferences()	{
+
+		SFApiQuery<SFAccountPreferences> sfApiQuery = new SFApiQuery<SFAccountPreferences>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("Preferences");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Account Single Sign-On Configuration
 	* Retrieve the Single Sign-on configuration for the Account
-	* @param provider 	
-    */
-	public ISFQuery<SFSSOAccountProvider> getSSO(String provider)
-	{
-		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>();
+	* @param provider  (default: "saml")	 	
+	*/
+	public ISFQuery<SFSSOAccountProvider> getSSO(String provider) throws InvalidOrMissingParameterException 	{
+		if (provider == null) {
+			throw new InvalidOrMissingParameterException("provider");
+		}
+
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.addQueryString("provider", provider);
@@ -179,7 +223,20 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get Account Single Sign-On Configuration
+	* Retrieve the Single Sign-on configuration for the Account
+	*/
+	public ISFQuery<SFSSOAccountProvider> getSSO()	{
+
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("SSO");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Update Account Single Sign-On Configuration
     * {
     * "LogoutUrl":"",
@@ -192,12 +249,18 @@ public class SFAccountsEntity extends SFODataEntityBase
     * "SPInitatedAuthMethod":"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
     * }
 	* Modifies the Single Sign-on Configuration for this account.
-	* @param sso 	
-	* @param provider 	
-    */
-	public ISFQuery<SFSSOAccountProvider> updateSSO(SFSSOAccountProvider sso, String provider)
-	{
-		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>();
+	* @param sso 	 	
+	* @param provider  (default: "saml")	 	
+	*/
+	public ISFQuery<SFSSOAccountProvider> updateSSO(SFSSOAccountProvider sso, String provider) throws InvalidOrMissingParameterException 	{
+		if (sso == null) {
+			throw new InvalidOrMissingParameterException("sso");
+		}
+		if (provider == null) {
+			throw new InvalidOrMissingParameterException("provider");
+		}
+
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.addQueryString("provider", provider);
@@ -206,7 +269,35 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Update Account Single Sign-On Configuration
+    * {
+    * "LogoutUrl":"",
+    * "LoginUrl":"https://idp.com/signin",
+    * "IPRestrictions":"+all",
+    * "ForceSSO":true,
+    * "EntityID":"http://account.sf-api.com/saml/info",
+    * "SFEntityID":"http://idp.com/saml/info",
+    * "SPInitatedAuthContext":"exact",
+    * "SPInitatedAuthMethod":"urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
+    * }
+	* Modifies the Single Sign-on Configuration for this account.
+	* @param sso 	 	
+	*/
+	public ISFQuery<SFSSOAccountProvider> updateSSO(SFSSOAccountProvider sso) throws InvalidOrMissingParameterException 	{
+		if (sso == null) {
+			throw new InvalidOrMissingParameterException("sso");
+		}
+
+		SFApiQuery<SFSSOAccountProvider> sfApiQuery = new SFApiQuery<SFSSOAccountProvider>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("SSO");
+		sfApiQuery.setBody(sso);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get List of Accounts for User
     * {
     * "password":"password"
@@ -215,16 +306,30 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* All parameters to this call may be passed in the Post body as root JSON parameters, or in the URI -
 	* with the exception of password that must be provided in the POST body.
 	* This operation does not require authentication
-	* @param username 	
-	* @param password 	
-	* @param employeesonly 	
-	* @param requirehomefolders 	
-	* @param singleplane 	
+	* @param username 	 	
+	* @param employeesonly  (default: false)	 	
+	* @param requirehomefolders  (default: false)	 	
+	* @param singleplane  (default: false)	 	
 	* @return The list of Accounts associated with this username/password.
-    */
-	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly, Boolean requirehomefolders, Boolean singleplane)
-	{
-		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>();
+	*/
+	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly, Boolean requirehomefolders, Boolean singleplane) throws InvalidOrMissingParameterException 	{
+		if (parameters == null) {
+			throw new InvalidOrMissingParameterException("parameters");
+		}
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+		if (employeesonly == null) {
+			throw new InvalidOrMissingParameterException("employeesonly");
+		}
+		if (requirehomefolders == null) {
+			throw new InvalidOrMissingParameterException("requirehomefolders");
+		}
+		if (singleplane == null) {
+			throw new InvalidOrMissingParameterException("singleplane");
+		}
+
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("GetByUser");
 		parameters.addProperty("username", username);
@@ -236,15 +341,120 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Get List of Accounts for User
+    * {
+    * "password":"password"
+    * }
+	* Retrieve the list of Accounts associated with a given user
+	* All parameters to this call may be passed in the Post body as root JSON parameters, or in the URI -
+	* with the exception of password that must be provided in the POST body.
+	* This operation does not require authentication
+	* @param username 	 	
+	* @param employeesonly  (default: false)	 	
+	* @param requirehomefolders  (default: false)	 	
+	* @return The list of Accounts associated with this username/password.
+	*/
+	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly, Boolean requirehomefolders) throws InvalidOrMissingParameterException 	{
+		if (parameters == null) {
+			throw new InvalidOrMissingParameterException("parameters");
+		}
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+		if (employeesonly == null) {
+			throw new InvalidOrMissingParameterException("employeesonly");
+		}
+		if (requirehomefolders == null) {
+			throw new InvalidOrMissingParameterException("requirehomefolders");
+		}
+
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("GetByUser");
+		parameters.addProperty("username", username);
+		parameters.addProperty("employeesonly", employeesonly);
+		parameters.addProperty("requirehomefolders", requirehomefolders);
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get List of Accounts for User
+    * {
+    * "password":"password"
+    * }
+	* Retrieve the list of Accounts associated with a given user
+	* All parameters to this call may be passed in the Post body as root JSON parameters, or in the URI -
+	* with the exception of password that must be provided in the POST body.
+	* This operation does not require authentication
+	* @param username 	 	
+	* @param employeesonly  (default: false)	 	
+	* @return The list of Accounts associated with this username/password.
+	*/
+	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly) throws InvalidOrMissingParameterException 	{
+		if (parameters == null) {
+			throw new InvalidOrMissingParameterException("parameters");
+		}
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+		if (employeesonly == null) {
+			throw new InvalidOrMissingParameterException("employeesonly");
+		}
+
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("GetByUser");
+		parameters.addProperty("username", username);
+		parameters.addProperty("employeesonly", employeesonly);
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get List of Accounts for User
+    * {
+    * "password":"password"
+    * }
+	* Retrieve the list of Accounts associated with a given user
+	* All parameters to this call may be passed in the Post body as root JSON parameters, or in the URI -
+	* with the exception of password that must be provided in the POST body.
+	* This operation does not require authentication
+	* @param username 	 	
+	* @return The list of Accounts associated with this username/password.
+	*/
+	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username) throws InvalidOrMissingParameterException 	{
+		if (parameters == null) {
+			throw new InvalidOrMissingParameterException("parameters");
+		}
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("GetByUser");
+		parameters.addProperty("username", username);
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Email List of Accounts to User
 	* Sends the list of accounts to the specified email address
 	* This operation does not require authentication
-	* @param email 	
-    */
-	public ISFQuery sendToEmail(String email)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param email 	 	
+	*/
+	public ISFQuery sendToEmail(String email) throws InvalidOrMissingParameterException 	{
+		if (email == null) {
+			throw new InvalidOrMissingParameterException("email");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SendToEmail");
 		sfApiQuery.addQueryString("email", email);
@@ -252,24 +462,24 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get the Login Access Control List of domains
 	* Retrieve the list of domains that are allowed or disallowed to login.
 	* Whether the list is an allow or disallow list
 	* is configured by the AccessControlType property. The domain names are checked against the domains of all the
 	* email addresses of the user that attempts to log in to the Account.
 	* @return The Login Access Control List of domains for the Account.
-    */
-	public ISFQuery<SFAccessControlDomains> getLoginAccessControlDomains()
-	{
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
+	*/
+	public ISFQuery<SFAccessControlDomains> getLoginAccessControlDomains()	{
+
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get the Folder Access Control List of domains
 	* Retrieve the list of domains that are allowed or disallowed to have access to folders. Whether the list is an allow or disallow list
 	* is configured by the AccessControlType property.
@@ -278,29 +488,30 @@ public class SFAccountsEntity extends SFODataEntityBase
 	* The domain names are checked against the domains of all the email addresses of the user.
 	* This is an account-wide setting.
 	* @return The Folder Access Control List of domains for the Account, e.g.  { "AccessControlType" : "AllowedDomains", "Domains": ["domainA", "domainB", ...] }
-    */
-	public ISFQuery<SFAccessControlDomains> getFolderAccessControlDomains()
-	{
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
+	*/
+	public ISFQuery<SFAccessControlDomains> getFolderAccessControlDomains()	{
+
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create or replace the Login Access Control List of domains
     * {
     * "AccessControlType" : "AllowedDomains",
     * "Domains": ["domainA", "domainB", ...]
     * }
-	* @param AccessControlType 	
-	* @param Domains 	
 	* @return The new Login Access Control List of domains for the Account
-    */
-	public ISFQuery<SFAccessControlDomains> createLoginAccessControlDomains(SFAccessControlDomains accessControlDomains)
-	{
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
+	*/
+	public ISFQuery<SFAccessControlDomains> createLoginAccessControlDomains(SFAccessControlDomains accessControlDomains) throws InvalidOrMissingParameterException 	{
+		if (accessControlDomains == null) {
+			throw new InvalidOrMissingParameterException("accessControlDomains");
+		}
+
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -308,19 +519,20 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create or replace the Folder Access Control List of domains
     * {
     * "AccessControlType" : "AllowedDomains",
     * "Domains": ["domainA", "domainB", ...]
     * }
-	* @param AccessControlType 	
-	* @param Domains 	
 	* @return The new Folder Access Control List of domains for the Account
-    */
-	public ISFQuery<SFAccessControlDomains> createFolderAccessControlDomains(SFAccessControlDomains accessControlDomains)
-	{
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
+	*/
+	public ISFQuery<SFAccessControlDomains> createFolderAccessControlDomains(SFAccessControlDomains accessControlDomains) throws InvalidOrMissingParameterException 	{
+		if (accessControlDomains == null) {
+			throw new InvalidOrMissingParameterException("accessControlDomains");
+		}
+
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -328,20 +540,21 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update the Login Access Control List of domains
     * {
     * "AccessControlType" : "AllowedDomains",
     * "Domains": ["domainA", "domainB", ...]
     * }
 	* Merges the specified domains with existing domains in the list, and/or updates the AccessControlType. One of the parameters needs to be specified.
-	* @param AccessControlType 	
-	* @param Domains 	
 	* @return The updated Login Access Control List of domains for the Account
-    */
-	public ISFQuery<SFAccessControlDomains> updateLoginAccessControlDomains(SFAccessControlDomains accessControlDomains)
-	{
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
+	*/
+	public ISFQuery<SFAccessControlDomains> updateLoginAccessControlDomains(SFAccessControlDomains accessControlDomains) throws InvalidOrMissingParameterException 	{
+		if (accessControlDomains == null) {
+			throw new InvalidOrMissingParameterException("accessControlDomains");
+		}
+
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -349,7 +562,7 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update the Folder Access Control List of domains
     * {
     * "AccessControlType" : "AllowedDomains",
@@ -357,13 +570,14 @@ public class SFAccountsEntity extends SFODataEntityBase
     * }
 	* Merges the specified domains with existing domains in the list, and/or updates the AccessControlType. One of the parameters needs to be specified. It
 	* allows to add new domains to the list.
-	* @param AccessControlType 	
-	* @param Domains 	
 	* @return The updated Folder Access Control List of domains for the Account
-    */
-	public ISFQuery<SFAccessControlDomains> updateFolderAccessControlDomains(SFAccessControlDomains accessControlDomains)
-	{
-		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>();
+	*/
+	public ISFQuery<SFAccessControlDomains> updateFolderAccessControlDomains(SFAccessControlDomains accessControlDomains) throws InvalidOrMissingParameterException 	{
+		if (accessControlDomains == null) {
+			throw new InvalidOrMissingParameterException("accessControlDomains");
+		}
+
+		SFApiQuery<SFAccessControlDomains> sfApiQuery = new SFApiQuery<SFAccessControlDomains>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -371,20 +585,21 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete domains from the Logins Access Control List of domains
     * {
     * "AccessControlType" : "AllowedDomains",
     * "Domains": ["domainA", "domainB", ...]
     * }
 	* Deletes the specified domains from the list.
-	* @param AccessControlType 	
-	* @param Domains 	
 	* @return No content
-    */
-	public ISFQuery deleteLoginAccessControlDomains(SFAccessControlDomains accessControlDomains)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	*/
+	public ISFQuery deleteLoginAccessControlDomains(SFAccessControlDomains accessControlDomains) throws InvalidOrMissingParameterException 	{
+		if (accessControlDomains == null) {
+			throw new InvalidOrMissingParameterException("accessControlDomains");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("LoginAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -392,20 +607,21 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete domains from the Folder Access Control List of domains
     * {
     * "AccessControlType" : "AllowedDomains",
     * "Domains": ["domainA", "domainB", ...]
     * }
 	* Deletes the specified domains from the list.
-	* @param AccessControlType 	
-	* @param Domains 	
 	* @return No content
-    */
-	public ISFQuery deleteFolderAccessControlDomains(SFAccessControlDomains accessControlDomains)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	*/
+	public ISFQuery deleteFolderAccessControlDomains(SFAccessControlDomains accessControlDomains) throws InvalidOrMissingParameterException 	{
+		if (accessControlDomains == null) {
+			throw new InvalidOrMissingParameterException("accessControlDomains");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FolderAccessControlDomains");
 		sfApiQuery.setBody(accessControlDomains);
@@ -413,16 +629,25 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Check if WebPop is required
-	* @param subdomain 	
-	* @param username 	
-	* @param singlePlane 	
+	* @param subdomain 	 	
+	* @param username  (default: null)	 	
+	* @param singlePlane  (default: false)	 	
 	* @return RequireWebPopResult
-    */
-	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain, String username, Boolean singlePlane)
-	{
-		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>();
+	*/
+	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain, String username, Boolean singlePlane) throws InvalidOrMissingParameterException 	{
+		if (subdomain == null) {
+			throw new InvalidOrMissingParameterException("subdomain");
+		}
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+		if (singlePlane == null) {
+			throw new InvalidOrMissingParameterException("singlePlane");
+		}
+
+		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireWebPop");
 		sfApiQuery.addQueryString("subdomain", subdomain);
@@ -432,15 +657,62 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Check if WebPop is required
+	* @param subdomain 	 	
+	* @param username  (default: null)	 	
+	* @return RequireWebPopResult
+	*/
+	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain, String username) throws InvalidOrMissingParameterException 	{
+		if (subdomain == null) {
+			throw new InvalidOrMissingParameterException("subdomain");
+		}
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+
+		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("RequireWebPop");
+		sfApiQuery.addQueryString("subdomain", subdomain);
+		sfApiQuery.addQueryString("username", username);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Check if WebPop is required
+	* @param subdomain 	 	
+	* @return RequireWebPopResult
+	*/
+	public ISFQuery<SFRequireWebPopResult> requireWebPop(String subdomain) throws InvalidOrMissingParameterException 	{
+		if (subdomain == null) {
+			throw new InvalidOrMissingParameterException("subdomain");
+		}
+
+		SFApiQuery<SFRequireWebPopResult> sfApiQuery = new SFApiQuery<SFRequireWebPopResult>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("RequireWebPop");
+		sfApiQuery.addQueryString("subdomain", subdomain);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Check if subdomain is required
-	* @param username 	
-	* @param singlePlane 	
+	* @param username 	 	
+	* @param singlePlane  (default: false)	 	
 	* @return RequireSubdomainResult
-    */
-	public ISFQuery<SFRequireSubdomainResult> requireSubdomain(String username, Boolean singlePlane)
-	{
-		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>();
+	*/
+	public ISFQuery<SFRequireSubdomainResult> requireSubdomain(String username, Boolean singlePlane) throws InvalidOrMissingParameterException 	{
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+		if (singlePlane == null) {
+			throw new InvalidOrMissingParameterException("singlePlane");
+		}
+
+		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("RequireSubdomain");
 		sfApiQuery.addQueryString("username", username);
@@ -449,7 +721,25 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Check if subdomain is required
+	* @param username 	 	
+	* @return RequireSubdomainResult
+	*/
+	public ISFQuery<SFRequireSubdomainResult> requireSubdomain(String username) throws InvalidOrMissingParameterException 	{
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+
+		SFApiQuery<SFRequireSubdomainResult> sfApiQuery = new SFApiQuery<SFRequireSubdomainResult>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("RequireSubdomain");
+		sfApiQuery.addQueryString("username", username);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Find Subdomain
     * {
     * "UsernameShort":"usernameShort",
@@ -457,13 +747,19 @@ public class SFAccountsEntity extends SFODataEntityBase
     * "EmployeeOnly":false
     * }
 	* Find the user account information based on the short username
-	* @param findSubdomainParams 	
-	* @param singlePlane 	
+	* @param findSubdomainParams 	 	
+	* @param singlePlane  (default: false)	 	
 	* @return FindSubdomainResult
-    */
-	public ISFQuery<SFFindSubdomainResult> findSubdomain(SFFindSubdomainParams findSubdomainParams, Boolean singlePlane)
-	{
-		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>();
+	*/
+	public ISFQuery<SFFindSubdomainResult> findSubdomain(SFFindSubdomainParams findSubdomainParams, Boolean singlePlane) throws InvalidOrMissingParameterException 	{
+		if (findSubdomainParams == null) {
+			throw new InvalidOrMissingParameterException("findSubdomainParams");
+		}
+		if (singlePlane == null) {
+			throw new InvalidOrMissingParameterException("singlePlane");
+		}
+
+		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("FindSubdomain");
 		sfApiQuery.addQueryString("singlePlane", singlePlane);
@@ -472,14 +768,54 @@ public class SFAccountsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
+	* Find Subdomain
+    * {
+    * "UsernameShort":"usernameShort",
+    * "Password":"pass",
+    * "EmployeeOnly":false
+    * }
+	* Find the user account information based on the short username
+	* @param findSubdomainParams 	 	
+	* @return FindSubdomainResult
+	*/
+	public ISFQuery<SFFindSubdomainResult> findSubdomain(SFFindSubdomainParams findSubdomainParams) throws InvalidOrMissingParameterException 	{
+		if (findSubdomainParams == null) {
+			throw new InvalidOrMissingParameterException("findSubdomainParams");
+		}
+
+		SFApiQuery<SFFindSubdomainResult> sfApiQuery = new SFApiQuery<SFFindSubdomainResult>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("FindSubdomain");
+		sfApiQuery.setBody(findSubdomainParams);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Outlook Information
+	* @return OutlookInformation
+	*/
+	public ISFQuery<SFOutlookInformation> getOutlookInformation()	{
+
+		SFApiQuery<SFOutlookInformation> sfApiQuery = new SFApiQuery<SFOutlookInformation>(this.apiClient);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("OutlookInformation");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get SSO Info
-	* @param subdomain 	
+	* @param subdomain 	 	
 	* @return SSOInfo
-    */
-	public ISFQuery<SFSSOInfo> getSSOInfo(String subdomain)
-	{
-		SFApiQuery<SFSSOInfo> sfApiQuery = new SFApiQuery<SFSSOInfo>();
+	*/
+	public ISFQuery<SFSSOInfo> getSSOInfo(String subdomain) throws InvalidOrMissingParameterException 	{
+		if (subdomain == null) {
+			throw new InvalidOrMissingParameterException("subdomain");
+		}
+
+		SFApiQuery<SFSSOInfo> sfApiQuery = new SFApiQuery<SFSSOInfo>(this.apiClient);
 		sfApiQuery.setFrom("Accounts");
 		sfApiQuery.setAction("SSOInfo");
 		sfApiQuery.addQueryString("subdomain", subdomain);

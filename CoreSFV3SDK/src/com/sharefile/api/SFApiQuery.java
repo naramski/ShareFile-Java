@@ -8,6 +8,7 @@ import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
@@ -26,6 +27,7 @@ import java.util.Set;
 public class SFApiQuery<T> implements ISFQuery<T>
 {
 	private static final String TAG = "SFApiQuery";
+    private ISFApiClient apiClient;
 	
 	/**
 	 * https://server/provider/version/entity(id)
@@ -47,7 +49,7 @@ public class SFApiQuery<T> implements ISFQuery<T>
 	private boolean mLinkIsParametrized = false;
 
     /**
-     The client has an option to add query any parameters as follows:
+     The apiClient has an option to add query any parameters as follows:
 
      ArrayList<String> expand = new ArrayList<String>(){};
      expand.add(SFKeywords.INFO);
@@ -58,12 +60,19 @@ public class SFApiQuery<T> implements ISFQuery<T>
      addQueryString(SFQueryParams.EXPAND, expand);
 
      Expansion parameters are most frequently used so provide a simpler way
-     for the client to add them. so that the client can call query.expand("somevalue1").expand("somevalue2")....expand("somevaluen") etc
+     for the apiClient to add them. so that the apiClient can call query.expand("somevalue1").expand("somevalue2")....expand("somevaluen") etc
      */
     private final ArrayList<String> mExpansionParameters = new ArrayList<String>(){};
     private final SFFilterParam mFilter = new SFFilterParam();
 
-	/** 
+    public SFApiQuery(ISFApiClient client)
+    {
+        this.apiClient = client;
+    }
+
+
+
+    /**
 	 * Currently the server is not returning a DownloadSpecification for download requests, 
 	 * its directly returning the download link. For the sake of completeness, implement the local
 	 * response filler for such requests.	 
