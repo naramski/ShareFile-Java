@@ -687,4 +687,13 @@ public class SFApiQuery<T> implements ISFQuery<T>
 
         mLink = new URI(protocol + "://" + host);
     }
+
+    @Override
+    public T execute()
+    {
+        if(apiClient!=null);
+        {
+            return apiClient.getE
+        }
+    }
 }

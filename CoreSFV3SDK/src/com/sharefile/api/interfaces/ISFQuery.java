@@ -101,4 +101,6 @@ public interface ISFQuery<T> extends ISFTypeFilter
      this function will store baseLink as : https://szqatest2.sharefiletest.com/cifs/v3/
      */
     void setBaseLink(URI uri) throws URISyntaxException;
+
+    T execute();
 }
