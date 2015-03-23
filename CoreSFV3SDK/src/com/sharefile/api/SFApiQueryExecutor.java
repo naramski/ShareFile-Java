@@ -18,9 +18,7 @@ import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
-import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFRedirection;
-import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
@@ -247,19 +245,28 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                         callWipeCredentialsCallback();
 
-                        if (!mQuery.canReNewTokenInternally() || mAccessTokenRenewer == null) {
-                            SFV3Error sfV3error = new SFV3Error(httpErrorCode, null, null);
-                            mResponse.setResponse(null, sfV3error);
-                        } else {
+                        if (mQuery.canReNewTokenInternally())
+                        {
                             T ret = executeQueryAfterTokenRenew();
 
-                            if (ret != null) {
+                            if (ret != null)
+                            {
                                 mResponse.setResponse(ret, null);
-                            } else {
-                                if (mResponse.errorObject == null) {
+                            }
+                            else
+                            {
+                                //We explicitly check this to avoid overwriting the error object
+                                //created by executeQueryAfterTokenRenew();ß
+                                if (mResponse.errorObject == null)
+                                {
                                     mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, null));
                                 }
                             }
+                        }
+                        else
+                        {
+                            SFV3Error sfV3error = new SFV3Error(httpErrorCode, null, null);
+                            mResponse.setResponse(null, sfV3error);
                         }
                     }
                     break;
@@ -301,13 +308,13 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 SFHttpsCaller.disconnect(connection);
             }
 
-            callSaveCredentialsCallback(mResponse.returnObject, mResponse.errorObject);
+            callSaveCredentialsCallback(mResponse.returnObject);
         }
 
 		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
 	}		
 
-    private void callSaveCredentialsCallback(T sfobject,SFV3Error v3error)
+    private void callSaveCredentialsCallback(T sfobject)
     {
         if(mReauthHandler == null)
         {
@@ -321,7 +328,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             {
                 try
                 {
-                    mReauthHandler.storeCredentials(mQuery.getUserName(),mQuery.getPassword(),mQuery.getLink().toString(),mSFApiClient.getUserId());
+                    mReauthHandler.storeCredentials(new SFCredential(mQuery.getUserName(),
+                            mQuery.getPassword()),mQuery.getLink().toString(),mSFApiClient);
                 }
                 catch (Exception e)
                 {
@@ -345,7 +353,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             try
             {
                 SLog.d(TAG, "The stored credentials don't work anymore! Wipe them!");
-                mReauthHandler.wipeCredentials(mQuery.getLink().toString(),mSFApiClient.getUserId());
+                mReauthHandler.wipeCredentials(mQuery.getLink().toString(),mSFApiClient);
                 mQuery.setCredentials(null,null);
             }
             catch (Exception e)
@@ -544,7 +552,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	}
 	*/
 	
-	
+	/*
 	private boolean handleIfAuthError(final SFV3Error error, final ISFQuery<T> sfapiApiqueri)
 	{
 		boolean ret = false;				
@@ -561,15 +569,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		
 		return ret;
 	}
+	*/
 	
 	@SuppressWarnings("unchecked")
 	protected void callResponseListeners(T sfobject,SFV3Error v3error)
 	{
-        if(v3error!=null && handleIfAuthError(v3error, mQuery))
-        {
-            return;
-        }
-
 		if(mResponseListener == null)
 		{
 			return;

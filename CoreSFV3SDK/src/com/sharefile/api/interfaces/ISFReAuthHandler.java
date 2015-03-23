@@ -1,11 +1,12 @@
 package com.sharefile.api.interfaces;
 
-import com.sharefile.api.SFReAuthContext;
-import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.SFCredential;
+
+import java.net.URL;
 
 public interface ISFReAuthHandler 
 {
-	public <T> void getCredentials(final SFReAuthContext<T> reauthContext);
-	public void storeCredentials(final String userName, final String password, final String url, final String userid);
-    public void wipeCredentials(final String url, final String userid);
+	public SFCredential getCredentials(String url, ISFApiClient apiClient);
+	public void storeCredentials(SFCredential credential, String url, ISFApiClient apiClient);
+    public void wipeCredentials(String url, ISFApiClient apiClient);
 }
