@@ -523,68 +523,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		return ret;
 	}
 
-    //We want the related exceptions to be grouped on Crashlytics so throw them from different lines
-    //Crashlytics groups Exceptions by [Filename , LineNumber], new Exeception captures the
-    //stack trace of the given location.
-    private void throwExceptionOnSeparateLines(SFV3Error error) throws SFV3ErrorException
-    {
-        Exception containedException = error.getException();
 
-        if(containedException == null)
-        {
-            throw new SFV3ErrorException(error);
-        }
-
-        //This is dumb but required.
-        if(containedException instanceof ConnectException )
-        {
-            throw new SFV3ErrorException(error);
-        }
-        else if(containedException instanceof SFOutOfMemoryException)
-        {
-            throw new SFV3ErrorException(error);
-        }
-        else if(containedException instanceof UnsupportedEncodingException)
-        {
-            throw new SFV3ErrorException(error);
-        }
-        else if(containedException instanceof URISyntaxException)
-        {
-            throw new SFV3ErrorException(error);
-        }
-        else if(containedException instanceof UnknownHostException)
-        {
-            throw new SFV3ErrorException(error);
-        }
-        else if(containedException instanceof IOException )
-        {
-            throw new SFV3ErrorException(error);
-        }
-        else
-        {
-            throw new SFV3ErrorException(error);
-        }
-    }
-
-	private T returnResultOrThrow(T sfobject,SFV3Error v3error) throws SFV3ErrorException
-	{
-		if(sfobject!=null)
-		{		
-			return sfobject;
-		}
-
-		/*if(mResponseListener == null)
-		{
-		    throwExceptionOnSeparateLines(v3error);
-		}
-		*/
-        throwExceptionOnSeparateLines(v3error);
-
-		return null;
-	}
-				
-				
-	/**
+    /**
 	 *  If an error happens during parsing the success response, 
 	 *  we return the exception description + the original server response in V3Error Object
 	 * @throws URISyntaxException 
