@@ -14,7 +14,7 @@ import com.sharefile.api.utils.Utils;
 /**
  *   This class should receive all the information to re-execute the original query that caused the auth exception.
  */
-public final class SFReAuthContext<T extends SFODataObject> 
+public final class SFReAuthContext<T>
 {	
 	private final ISFQuery<T> mQuery;
 	private final SFApiResponseListener<T> mOriginalListener;	

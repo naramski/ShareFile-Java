@@ -113,7 +113,6 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		validateStateBeforeInit(oauthToken);
 		
 		mOAuthToken.set(oauthToken);
-		SLog.d(TAG,"SFApiClient init with: [" + oauthToken.getAccessToken() + "]:["+oauthToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 		mClientInitializedSuccessFully.set(true);
 	}
 
@@ -174,12 +173,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		return new SFApiQueryExecutor<T>(this,query, listener, mCookieManager, mSFAppConfig,mOauthTokenRenewer, reauthHandler);
 	}
 
-    public synchronized ISFApiExecuteQuery getExecutor(ISFQuery<InputStream> query , SFApiStreamResponse listener) throws SFInvalidStateException
-    {
-        return new SFApiQueryExecutorForStreams(this,query, listener, mCookieManager, mSFAppConfig);
-    }
-
-	/**
+    /**
 	 *   Make this a more stronger check than a simple null check on OAuth. 
 	 */
 	@SFSDKDefaultAccessScope void validateStateBeforeInit(SFOAuth2Token token) throws SFInvalidStateException

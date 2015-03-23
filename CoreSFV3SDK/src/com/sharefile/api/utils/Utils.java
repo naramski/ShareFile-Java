@@ -17,7 +17,7 @@ public class Utils
 	    return currentLocale.toString().replace('_', '-') + ";q=0.8,en;q=0.6";
 	}
 		
-	public static <T extends SFODataObject> void safeCallErrorListener(SFApiResponseListener<T> mListener, SFV3Error error, ISFQuery<T> sfapiApiqueri)
+	public static <T> void safeCallErrorListener(SFApiResponseListener<T> mListener, SFV3Error error, ISFQuery<T> sfapiApiqueri)
 	{
 		if(mListener!=null)
 		{
@@ -25,7 +25,7 @@ public class Utils
 		}	
 	}
 		
-	public static <T extends SFODataObject> void safeCallSuccess(SFApiResponseListener<T> listener, T object)
+	public static <T> void safeCallSuccess(SFApiResponseListener<T> listener, T object)
 	{
 		if(listener!=null)
 		{
