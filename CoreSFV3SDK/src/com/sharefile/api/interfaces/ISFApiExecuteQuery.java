@@ -1,6 +1,7 @@
 package com.sharefile.api.interfaces;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.models.SFODataObject;
 
@@ -30,5 +31,5 @@ import com.sharefile.api.models.SFODataObject;
  */
 public interface ISFApiExecuteQuery 
 {
-	public <T> T executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException;
+	public <T> T executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException;
 }

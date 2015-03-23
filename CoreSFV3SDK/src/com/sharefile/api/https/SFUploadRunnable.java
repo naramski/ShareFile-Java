@@ -11,6 +11,7 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.interfaces.ISFQuery;
@@ -117,8 +118,7 @@ public class SFUploadRunnable extends TransferRunnable
 		}
 	}
 
-	private SFUploadSpecification getSpecification() throws SFInvalidStateException, SFV3ErrorException 
-	{
+	private SFUploadSpecification getSpecification() throws SFInvalidStateException, SFV3ErrorException, SFNotAuthorizedException {
 		try 
 		{
             Date now = new Date();
@@ -156,7 +156,7 @@ public class SFUploadRunnable extends TransferRunnable
 			SLog.e(TAG, e);
 		}
 
-		
+
 		return null;
 	}
 	

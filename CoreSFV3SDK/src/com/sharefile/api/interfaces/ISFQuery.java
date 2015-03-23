@@ -10,6 +10,7 @@ import java.util.Objects;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.models.SFODataObject;
 
@@ -104,5 +105,5 @@ public interface ISFQuery<T> extends ISFTypeFilter
      */
     void setBaseLink(URI uri) throws URISyntaxException;
 
-    public T execute() throws SFInvalidStateException, SFV3ErrorException;
+    public T execute() throws SFInvalidStateException, SFV3ErrorException, SFNotAuthorizedException;
 }

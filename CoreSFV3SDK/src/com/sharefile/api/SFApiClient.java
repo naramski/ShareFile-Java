@@ -7,6 +7,7 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.ISFEntities;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
@@ -210,6 +211,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		mClientInitializedSuccessFully.set(false);		
 	}
 
+    @Override
 	public String getUserId() 
 	{		
 		return mSfUserId;
@@ -250,15 +252,13 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	}
 
 	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query)
-            throws SFV3ErrorException, SFInvalidStateException
-	{
+            throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException {
 		return getExecutor(query, null, null).executeBlockingQuery();		
 	}
 
     @Override
     public InputStream executeQuery(SFQueryStream query)
-            throws SFV3ErrorException, SFInvalidStateException
-    {
+            throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException {
         return getExecutor(query, null, null).executeBlockingQuery();
     }
 
