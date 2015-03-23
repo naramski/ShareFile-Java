@@ -19,7 +19,6 @@ import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
-import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
@@ -33,7 +32,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -278,6 +276,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             }
             catch (Exception ex)
             {
+                if(ex instanceof SFV3ErrorException)
+                {
+                    throw (SFV3ErrorException)ex;
+                }
+
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
                 throwException(new SFV3ErrorException(sfV3error));
             }
