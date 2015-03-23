@@ -19,7 +19,9 @@ import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFRedirection;
+import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.java.log.SLog;
 
@@ -391,6 +393,12 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		return executeBlockingQuery();
 	}
 
+    private T executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException, SFInvalidStateException
+    {
+        mQuery.setLinkAndAppendPreviousParameters(link.getLink());
+        return executeBlockingQuery();
+    }
+
 	private T executeQueryOnRedirectedObject(SFRedirection redirection) throws SFInvalidStateException, SFV3ErrorException
     {
 		T odataObject;
@@ -490,12 +498,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 			return ret;
 		}
 
-        /*
+
 		if(object instanceof SFSymbolicLink)
 		{
 			ret = SFRedirectionType.SYMBOLIC_LINK;
 		}
-		*/
 		else if(object instanceof SFFolder)
 		{
 			SFFolder folder = (SFFolder) object;
@@ -592,11 +599,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 				
 		switch (redirectionRequired(sfobject)) 
 		{
-            /*
+
 			case SYMBOLIC_LINK:
 				sfobject = executeQueryOnSymbolicLink((SFSymbolicLink)sfobject);
 			break;
-			*/
+
 
 			case FOLDER_ENUM:	
 				sfobject = executeQueryOnRedirectedObject(((SFFolder)sfobject).getRedirection());

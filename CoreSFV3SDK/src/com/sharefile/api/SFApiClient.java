@@ -58,6 +58,8 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
     private final URI mDefaultTopUrl;
 
+    private final ISFReAuthHandler mReAuthHandler;
+
 	private final SFGetNewAccessTokenListener mGetNewAccessTokenListener = new SFGetNewAccessTokenListener()
 	{
 		@Override
@@ -117,7 +119,8 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		mClientInitializedSuccessFully.set(true);
 	}
 
-	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
+	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret,
+                       SFAuthTokenChangeListener listener, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);		
 		mAuthTokenChangeListener = listener;
@@ -139,6 +142,8 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         }
 
         mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
+
+        mReAuthHandler = reAuthHandler;
 	}
 	
 	/**
@@ -253,13 +258,13 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
 	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query)
             throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException {
-		return getExecutor(query, null, null).executeBlockingQuery();		
+		return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
 	}
 
     @Override
     public InputStream executeQuery(SFQueryStream query)
             throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException {
-        return getExecutor(query, null, null).executeBlockingQuery();
+        return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
     }
 
     //TODO_ADD_V3: This should be in SFDownloadRunnable
