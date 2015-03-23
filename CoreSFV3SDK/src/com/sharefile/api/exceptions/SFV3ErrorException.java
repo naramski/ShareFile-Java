@@ -5,7 +5,7 @@ import com.sharefile.api.SFV3Error;
 import javax.net.ssl.HttpsURLConnection;
 
 @SuppressWarnings("serial")
-public class SFV3ErrorException extends SFAbstractException
+public class SFV3ErrorException extends SFSDKException
 {
 	private final SFV3Error mV3Error;
 	

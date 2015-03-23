@@ -8,6 +8,7 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
@@ -72,21 +73,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	private final SFOAuthTokenRenewer mAccessTokenRenewer;
 	private final ISFReAuthHandler mReauthHandler;
 	private final SFApiClient mSFApiClient;	
-				
-	private final class Response
-	{
-		T returnObject;
-		SFV3Error errorObject;
-		
-		public void setResponse(T ret,SFV3Error err)
-		{
-			returnObject = ret;
-			errorObject = err;
-		}
-	}
-	
-	private Response mResponse = null;
-						
+
 	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{			
 		mSFApiClient = apiClient;				
@@ -114,17 +101,6 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 			}
 		}
 	}			
-	
-	@Override
-	public void callResponseListeners() throws SFInvalidStateException 
-	{
-		if(mResponse == null)
-		{
-			throw new SFInvalidStateException("The Application needs to call executeBlockingQuery() before calling responselistener.");
-		}
-		
-		callResponseListeners(mResponse.returnObject, mResponse.errorObject);
-	}
 
     private boolean shouldGetInputStream()
     {
@@ -167,6 +143,39 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         return null;
     }
 
+    private T executeQueryWithReAuthentication() throws SFV3ErrorException, SFNotAuthorizedException, SFInvalidStateException
+    {
+        if (mQuery.canReNewTokenInternally())
+        {
+            if(mAccessTokenRenewer == null)
+            {
+                throw new SFNotAuthorizedException("Not Authorized (401)");
+            }
+
+            return executeQueryAfterTokenRenew();
+        }
+        else
+        {
+            if(mReauthHandler != null)
+            {
+                SFCredential creds = mReauthHandler.getCredentials(mQuery.getLink().toString(),mSFApiClient);
+                if(creds!=null && creds.getUserName()!=null && creds.getPassword()!=null)
+                {
+                    mQuery.setCredentials(creds.getUserName(),creds.getPassword());
+                    return executeBlockingQuery();
+                }
+            }
+
+            throw new SFNotAuthorizedException("Not Authorized (401)");
+        }
+    }
+
+    private void throwException(SFV3ErrorException ex) throws SFV3ErrorException
+    {
+        SLog.e(TAG,ex);
+        throw ex;
+    }
+
     /**
         This call has to be synchronized to protect from the OAuthToken renewal problems otherwise
         it nmay happen that two parellel threads invoke this function, receive 401 for ShareFile
@@ -175,16 +184,10 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	@Override
 	public T executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException
     {
-
-
         synchronized (mSFApiClient)
         {
 
             mSFApiClient.validateClientState();
-
-            //SLog.d(TAG, "executeBlockingQuery init with: [" + mSFApiClient.getOAuthToken().getAccessToken() + "]:[" + mSFApiClient.getOAuthToken().getRefreshToken() + "]");
-
-            mResponse = new Response();
 
             int httpErrorCode;
             String responseString;
@@ -218,126 +221,95 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     return (T)getInputStream(connection,httpErrorCode);
                 }
 
-                switch (httpErrorCode) {
-                    case HttpsURLConnection.HTTP_OK: {
+                switch (httpErrorCode)
+                {
+                    case HttpsURLConnection.HTTP_OK:
+                    {
                         responseString = SFHttpsCaller.readResponse(connection);
                         SLog.v(TAG, responseString);
 
                         T ret = callSuccessResponseParser(responseString);
-
-                        if (ret != null) {
-                            mResponse.setResponse(ret, null);
-                        } else {
-                            if (mResponse.errorObject == null) {
-                                mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, null));
-                            }
-                        }
+                        callSaveCredentialsCallback(ret);
+                        return ret;
                     }
-                    break;
+                    //break;
 
-                    case HttpsURLConnection.HTTP_NO_CONTENT: {
-                        mResponse.setResponse(null, null);
+                    case HttpsURLConnection.HTTP_NO_CONTENT:
+                    {
+                        return null;
                     }
-                    break;
+                    //break;
 
-                    case HttpsURLConnection.HTTP_UNAUTHORIZED: {
+                    case HttpsURLConnection.HTTP_UNAUTHORIZED:
+                    {
                         SLog.d(TAG, "RESPONSE = AUTH ERROR");
 
                         callWipeCredentialsCallback();
 
-                        if (mQuery.canReNewTokenInternally())
-                        {
-                            T ret = executeQueryAfterTokenRenew();
-
-                            if (ret != null)
-                            {
-                                mResponse.setResponse(ret, null);
-                            }
-                            else
-                            {
-                                //We explicitly check this to avoid overwriting the error object
-                                //created by executeQueryAfterTokenRenew();ß
-                                if (mResponse.errorObject == null)
-                                {
-                                    mResponse.setResponse(null, new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, null));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            SFV3Error sfV3error = new SFV3Error(httpErrorCode, null, null);
-                            mResponse.setResponse(null, sfV3error);
-                        }
+                        return executeQueryWithReAuthentication();
                     }
-                    break;
+                    //break;
 
-                    default: {
+                    default:
+                    {
                         responseString = SFHttpsCaller.readErrorResponse(connection);
                         SLog.v(TAG, responseString);
                         SFV3Error sfV3error = new SFV3Error(httpErrorCode, responseString, null);
-                        mResponse.setResponse(null, sfV3error);
+                        throwException(new SFV3ErrorException(sfV3error));
                     }
                 }
             }
             catch (ConnectException ex)
             {
-                SLog.e(TAG, ex);
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
-                mResponse.setResponse(null, sfV3error);
+                throwException(new SFV3ErrorException(sfV3error));
             }
             catch(SSLException ex)
             {
-                SLog.e(TAG, ex);
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
-                mResponse.setResponse(null, sfV3error);
-            }
-            catch (Exception ex)
-            {
-                SLog.e(TAG, ex);
-                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
-                mResponse.setResponse(null, sfV3error);
+                throwException(new SFV3ErrorException(sfV3error));
             }
             catch (OutOfMemoryError e)
             {
-                SLog.e(TAG, e.getLocalizedMessage());
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(Arrays.toString(e.getStackTrace())));
-                mResponse.setResponse(null, sfV3error);
+                throwException(new SFV3ErrorException(sfV3error));
+            }
+            catch (Exception ex)
+            {
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
+                throwException(new SFV3ErrorException(sfV3error));
             }
             finally
             {
                 SFHttpsCaller.disconnect(connection);
             }
-
-            callSaveCredentialsCallback(mResponse.returnObject);
         }
 
-		return returnResultOrThrow(mResponse.returnObject,mResponse.errorObject);
+        //This should never happen
+        SLog.e(TAG,"This should never happen as a result of SDK executeBlockingQuery");
+        return null;
 	}		
 
     private void callSaveCredentialsCallback(T sfobject)
     {
-        if(mReauthHandler == null)
+        if(mReauthHandler == null || sfobject==null)
         {
             return;
         }
 
         //the auth was success. if the query had credentials, callback the caller to store those creds
-        if(sfobject!=null)
+        if(!Utils.isEmpty(mQuery.getPassword()))
         {
-            if(!Utils.isEmpty(mQuery.getPassword()))
+            try
             {
-                try
-                {
-                    mReauthHandler.storeCredentials(new SFCredential(mQuery.getUserName(),
-                            mQuery.getPassword()),mQuery.getLink().toString(),mSFApiClient);
-                }
-                catch (Exception e)
-                {
-                    SLog.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
-                }
+                mReauthHandler.storeCredentials(new SFCredential(mQuery.getUserName(),
+                        mQuery.getPassword()),mQuery.getLink().toString(),mSFApiClient);
+            }
+            catch (Exception e)
+            {
+                SLog.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
             }
         }
-
     }
 
     private void callWipeCredentialsCallback()
@@ -383,7 +355,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         else
         {
             SLog.e(TAG, "!!!token renew failed due to: " + mAccessTokenRenewer.getError().errorDisplayString("unknown"));
-            mResponse.setResponse(null, mAccessTokenRenewer.getError());
+            throw new SFV3ErrorException(mAccessTokenRenewer.getError());
         }
 
         mAccessTokenRenewer.callResponseListeners();
@@ -544,58 +516,6 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		return ret;
 	}
 
-    /*
-	private SFODataObject executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException, SFInvalidStateException
-    {
-		mQuery.setLinkAndAppendPreviousParameters(link.getLink());		
-		return executeBlockingQuery();
-	}
-	*/
-	
-	/*
-	private boolean handleIfAuthError(final SFV3Error error, final ISFQuery<T> sfapiApiqueri)
-	{
-		boolean ret = false;				
-		if(error!=null && error.isAuthError()) 
-		{
-			//We explicitly check !sfapiApiqueri.canReNewTokenInternally() since we should never call the getCredentials for SFProvider.
-			if( (mReauthHandler !=null && !sfapiApiqueri.canReNewTokenInternally()) )
-			{								
-				SFReAuthContext<T> reauthContext = new SFReAuthContext<T>(sfapiApiqueri, mResponseListener,mReauthHandler, mSFApiClient); 
-				mReauthHandler.getCredentials(reauthContext);
-				ret = true;
-			}			
-		}
-		
-		return ret;
-	}
-	*/
-	
-	@SuppressWarnings("unchecked")
-	protected void callResponseListeners(T sfobject,SFV3Error v3error)
-	{
-		if(mResponseListener == null)
-		{
-			return;
-		}
-				
-		try
-		{
-			if(v3error !=null)
-			{
-                mResponseListener.sfApiError(v3error, mQuery);
-			}
-			else
-			{
-				mResponseListener.sfApiSuccess(sfobject);
-			}						
-		}
-		catch(Exception ex)
-		{
-			SLog.e(TAG,ex);
-		}
-	}
-
     //We want the related exceptions to be grouped on Crashlytics so throw them from different lines
     //Crashlytics groups Exceptions by [Filename , LineNumber], new Exeception captures the
     //stack trace of the given location.
@@ -645,12 +565,14 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		{		
 			return sfobject;
 		}
-		
-		if(mResponseListener == null)
-		{		
-			throwExceptionOnSeparateLines(v3error);
+
+		/*if(mResponseListener == null)
+		{
+		    throwExceptionOnSeparateLines(v3error);
 		}
-		
+		*/
+        throwExceptionOnSeparateLines(v3error);
+
 		return null;
 	}
 				

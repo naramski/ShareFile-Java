@@ -73,18 +73,8 @@ public class SFOAuthTokenRenewer
 
 	    return result.toString();
 	}
-		
-	/**
-	 *  This will call in sequence:
-	 *  <br>getNewAccessToken();
-		<br>callResponseListeners();
-	 */
-	public void getNewAccessTokenEx() throws SFV3ErrorException
-	{
-		getNewAccessToken();
-		callResponseListeners();
-	}
-	/**
+
+    /**
 	 *  This function offers fine grained control so that the app call getTheAccessToken and call response listeners separately.
 	 *  
 	 *  For Example: Android apps which can use an AsycnTask for this can call

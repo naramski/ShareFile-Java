@@ -1,7 +1,7 @@
 package com.sharefile.api.exceptions;
 
 @SuppressWarnings("serial")
-public class SFJsonException extends SFAbstractException
+public class SFJsonException extends SFSDKException
 {
 	public SFJsonException(Exception ex) 
 	{
