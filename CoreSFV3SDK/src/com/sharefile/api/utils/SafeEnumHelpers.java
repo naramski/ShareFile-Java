@@ -124,7 +124,7 @@ public class SafeEnumHelpers
 	        }
 	        catch(IllegalArgumentException ex)
 	        {
-                SLog.e("SafeEnumHelper",ex);
+                //SLog.d("SafeEnumHelper",ex.getLocalizedMessage());
 	        }
 	    }	    
 	    return null;
