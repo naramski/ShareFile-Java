@@ -16,7 +16,7 @@ import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -252,7 +252,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	{
         if(object == null || key == null)
         {
-            SLog.d(TAG,"Cannot add NULL parameter to queryString");
+            Logger.d(TAG,"Cannot add NULL parameter to queryString");
             return;
         }
 
@@ -406,7 +406,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	{
 		if(mLinkIsParametrized && mLink!=null)
 		{
-			SLog.d(TAG,"Link is fully parametrized");
+			Logger.d(TAG,"Link is fully parametrized");
 			return mLink.toString();
 		}
 		
@@ -445,7 +445,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 				
 		String queryUrlString = sb.toString();
 		
-		SLog.d(SFKeywords.TAG,"QUERY URL String = " + queryUrlString);
+		Logger.d(SFKeywords.TAG,"QUERY URL String = " + queryUrlString);
 		
 		return queryUrlString;
 	}
@@ -550,7 +550,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	@Override
 	public void setBody( ArrayList<?> sfoDataObjectsFeed) 
 	{
-        SLog.e(TAG,"This is not implemented");
+        Logger.e(TAG,"This is not implemented");
 	}
 
 	@Override
@@ -602,7 +602,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		
 		String strNewUrl = sb.toString();
 		
-		SLog.d(TAG,"Setting new URL by appending old query parameter to: " + strNewUrl);
+		Logger.d(TAG,"Setting new URL by appending old query parameter to: " + strNewUrl);
 		
 		setFullyParametrizedLink(new URI(strNewUrl));		
 	}

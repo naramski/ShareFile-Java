@@ -1,7 +1,7 @@
 package com.sharefile.api.https;
 
 import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.io.IOException;
 import java.net.URI;
@@ -87,7 +87,7 @@ public class SFCookieManager
 		} 
 		catch (URISyntaxException e) 
 		{			
-			SLog.e(TAG,e);
+			Logger.e(TAG,e);
 		}    	    	
     }
             
@@ -129,10 +129,10 @@ public class SFCookieManager
             if ( index<0 || index>= token.length() ) {
                 if ( cookie==null ) {
                     // e
-                    SLog.e(TAG, "Invalid cookie string: " + cookieString);
+                    Logger.e(TAG, "Invalid cookie string: " + cookieString);
                     return;
                 }
-                SLog.v(TAG, "Not a value/pair, ignore for now as we don't use it: " + token);
+                Logger.v(TAG, "Not a value/pair, ignore for now as we don't use it: " + token);
                 continue;
             }
 
@@ -256,7 +256,7 @@ public class SFCookieManager
 		} 
 		catch (java.text.ParseException pe) 
 		{
-			SLog.e(TAG,pe);
+			Logger.e(TAG,pe);
 			return false;
 		}
     }
@@ -309,7 +309,7 @@ public class SFCookieManager
 		} 
 		catch (URISyntaxException e) 
 		{			
-			SLog.e(TAG,e);
+			Logger.e(TAG,e);
 		}    	    	
     }
 }

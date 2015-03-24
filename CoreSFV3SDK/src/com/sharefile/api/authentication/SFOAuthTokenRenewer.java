@@ -18,7 +18,7 @@ import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFHttpsCaller;
 import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 /**
  *   This provides the bare minimum functionality to renew the access token. Client app is free to use its own threading mechanism
@@ -91,7 +91,7 @@ public class SFOAuthTokenRenewer
 	 */
 	public SFOAuth2Token getNewAccessToken() throws SFV3ErrorException
 	{
-        SLog.d(TAG,"Renew Token from with: [" + mOldAccessToken.getAccessToken() + "]:["+mOldAccessToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
+        Logger.d(TAG,"Renew Token from with: [" + mOldAccessToken.getAccessToken() + "]:["+mOldAccessToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 
 		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
 		String responseString;
@@ -132,7 +132,7 @@ public class SFOAuthTokenRenewer
 				
 				default:
 					responseString = SFHttpsCaller.readErrorResponse(conn);
-                    SLog.d(TAG, "!!! Server err repsonse for token renew = " + responseString);
+                    Logger.d(TAG, "!!! Server err repsonse for token renew = " + responseString);
 					mSFV3Error = new SFTokenRenewError(httpErrorCode,responseString,null);
 				break;	
 			}							    			
@@ -191,7 +191,7 @@ public class SFOAuthTokenRenewer
 		}
 		catch(Exception ex)
 		{
-			SLog.e(TAG, "!!Exception calling the responseListener " , ex);
+			Logger.e(TAG, "!!Exception calling the responseListener " , ex);
 		}
 	}
 }

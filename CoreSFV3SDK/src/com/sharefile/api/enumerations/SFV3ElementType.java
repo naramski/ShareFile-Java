@@ -69,7 +69,7 @@ import com.sharefile.api.models.internal.SFOutlookInformation;
 import com.sharefile.api.models.internal.SFOutlookInformationOptionBool;
 import com.sharefile.api.models.internal.SFOutlookInformationOptionInt;
 import com.sharefile.api.models.internal.SFOutlookInformationOptionString;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 public enum SFV3ElementType
 {							
@@ -213,12 +213,12 @@ public enum SFV3ElementType
 		{
 			String msg = newClass.toString() + " does not extend " + elementType.mOriginalClass.toString();
 			
-			SLog.d(TAG, msg);
+			Logger.d(TAG, msg);
 			
 			throw new SFInvalidTypeException(msg);
 		}
 		
-		SLog.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
+		Logger.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
 		
 		elementType.mOverrideClass = newClass;
 
@@ -308,7 +308,7 @@ public enum SFV3ElementType
 	{
 		SFV3ElementType ret = null;
 		
-		//SLog.d(TAG, "FIND Element Type for metadata = " + metadata );
+		//Logger.d(TAG, "FIND Element Type for metadata = " + metadata );
 						
 		//if(metadata!=null && metadata.contains("Models.") && metadata.contains("@Element"))
 		//metadata.contains("@Element") is not correct for ItemsInfo
@@ -326,7 +326,7 @@ public enum SFV3ElementType
 			
 			if(ret == null)
 			{
-				SLog.d(TAG, " NOT in model factory: " + metadata );
+				Logger.d(TAG, " NOT in model factory: " + metadata );
 			}			
 		}
 		

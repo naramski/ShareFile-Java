@@ -17,7 +17,7 @@ import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
@@ -103,13 +103,13 @@ public class SFUploadRunnable extends TransferRunnable
 			return result;
 			
 		} catch (SFV3ErrorException e) {
-			SLog.e(TAG, e);
+			Logger.e(TAG, e);
 			Result ret = new Result();
 			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, e.getV3Error(), 0);
 			return ret;
 			
 		} catch(Exception e) {		
-			SLog.e(TAG, e);
+			Logger.e(TAG, e);
 			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage());
 			Result ret = new Result();
 			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
@@ -153,7 +153,7 @@ public class SFUploadRunnable extends TransferRunnable
 		}  
 		catch (URISyntaxException e)  
 		{				
-			SLog.e(TAG, e);
+			Logger.e(TAG, e);
 		}
 
 
@@ -171,7 +171,7 @@ public class SFUploadRunnable extends TransferRunnable
 		}
 		catch(Exception e)
 		{
-			SLog.d(TAG, "Seek exception" , e);
+			Logger.d(TAG, "Seek exception" , e);
 		}
 	}
 	
@@ -197,7 +197,7 @@ public class SFUploadRunnable extends TransferRunnable
                 }
                 catch (UnsupportedEncodingException e)
                 {                      
-                      SLog.e(TAG,e);
+                      Logger.e(TAG,e);
                 }
           }
          
@@ -243,12 +243,12 @@ public class SFUploadRunnable extends TransferRunnable
 				{
 					mErrorMessage = errorObject.optString("errorMessage");			
 					mErrorCode = errorObject.optInt("errorCode");
-					SLog.d(TAG, "Parsed Chunk response: " + mErrorMessage);
+					Logger.d(TAG, "Parsed Chunk response: " + mErrorMessage);
 				}
 				else
 				{
 					String value = errorObject.optString("value");
-					SLog.d(TAG, "Parsed Chunk response: value = " + value);
+					Logger.d(TAG, "Parsed Chunk response: value = " + value);
 				}*/
 				
 				JsonParser jsonParser = new JsonParser();
@@ -261,18 +261,18 @@ public class SFUploadRunnable extends TransferRunnable
 				{
 					mErrorMessage = SFGsonHelper.getString(jsonObject, "errorMessage", "");			
 					mErrorCode = SFGsonHelper.getInt(jsonObject, "errorCode", 0);
-					SLog.d(TAG, "Parsed Chunk response: " + mErrorMessage);
+					Logger.d(TAG, "Parsed Chunk response: " + mErrorMessage);
 				}
 				else
 				{
 					String value = SFGsonHelper.getString(jsonObject, "value", "");
-					SLog.d(TAG, "Parsed Chunk response: value = " + value);
+					Logger.d(TAG, "Parsed Chunk response: value = " + value);
 				}
 				
 			} 
 			catch (Exception e) 
 			{				
-				SLog.e(TAG,"exception parsing upload response",e);
+				Logger.e(TAG,"exception parsing upload response",e);
 				mWasError = true;
 				mErrorMessage = "exception parsing upload response";
 				mErrorCode = SFSDK.INTERNAL_HTTP_ERROR;				
@@ -349,7 +349,7 @@ public class SFUploadRunnable extends TransferRunnable
 			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
 			{														
 				responseString = SFHttpsCaller.readResponse(conn);		
-				SLog.d(TAG, "Upload Response: " + responseString);
+				Logger.d(TAG, "Upload Response: " + responseString);
 				
 				mChunkUploadResponse = new SFChunkUploadResponse(responseString);
 				if(!mChunkUploadResponse.mWasError)
@@ -361,13 +361,13 @@ public class SFUploadRunnable extends TransferRunnable
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(conn);		
-				SLog.d(TAG, "Upload Response: " + responseString);
+				Logger.d(TAG, "Upload Response: " + responseString);
 				mChunkUploadResponse = new SFChunkUploadResponse(responseString,httpErrorCode);
 				ret.setFields(httpErrorCode, null, bytesUploaded);
 			}
 			
 		} catch(Exception ex) {
-			SLog.e(TAG,"chunk", ex);
+			Logger.e(TAG,"chunk", ex);
 			mChunkUploadResponse = new SFChunkUploadResponse(ex.getLocalizedMessage(),SFSDK.INTERNAL_HTTP_ERROR);
 			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,responseString,ex);
 			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, bytesUploaded);
@@ -387,7 +387,7 @@ public class SFUploadRunnable extends TransferRunnable
 		Result uploadResponse = null;
 		
 		try {										
-			SLog.d(TAG, "POST " + mUploadSpecification.getChunkUri());
+			Logger.d(TAG, "POST " + mUploadSpecification.getChunkUri());
 			
 			seekInputStream();			
 			int chunkLength;
@@ -398,14 +398,14 @@ public class SFUploadRunnable extends TransferRunnable
 				//fill chunk
 				chunkLength = mFileInputStream.read(fileChunk, 0, fileChunk.length);
 				if (chunkLength<0) {
-					SLog.d(TAG,"Chunk < 0: " + chunkLength);
+					Logger.d(TAG,"Chunk < 0: " + chunkLength);
 					done = true;
 					break;
 				}
 									
 				boolean isLast = (mFileInputStream.available() == 0);
 				if(isLast) {
-					SLog.d(TAG,"isLast = true");
+					Logger.d(TAG,"isLast = true");
 					done = true;
 				}
 				
@@ -418,7 +418,7 @@ public class SFUploadRunnable extends TransferRunnable
 
 				//Note here we can rely on the 	uploadResponse.mChunkUploadResponse.mWasError to decide the succuess or failure.			
 				if(mChunkUploadResponse.mWasError) {
-					SLog.d(TAG, "Error uploading chunk - break");
+					Logger.d(TAG, "Error uploading chunk - break");
                     uploadResponse = new Result();
                     SFV3Error v3Error = new SFV3Error(mChunkUploadResponse.mErrorCode, mChunkUploadResponse.mErrorMessage);
                     uploadResponse.setFields(mChunkUploadResponse.mErrorCode, v3Error, previousChunkTotalBytes);
@@ -452,7 +452,7 @@ public class SFUploadRunnable extends TransferRunnable
 			fis.close();
 			
 		} catch (IOException e)  {				
-			SLog.e(TAG,e);
+			Logger.e(TAG,e);
 		}
 	}
 					
@@ -468,7 +468,7 @@ public class SFUploadRunnable extends TransferRunnable
 		}
 		catch(Exception e)
 		{
-			SLog.d(TAG, "exception update progress", e);
+			Logger.d(TAG, "exception update progress", e);
 		}		
 	}			
 }

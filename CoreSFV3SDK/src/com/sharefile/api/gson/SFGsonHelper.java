@@ -16,7 +16,7 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFStorageCenter;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 /**
  *   This class contains helper get*() functions to get primitives out of gson objects 
@@ -134,7 +134,7 @@ public class SFGsonHelper
 				} 
     			catch (URISyntaxException e) 
     			{					
-					SLog.e(TAG,e);
+					Logger.e(TAG,e);
 				}
     		}    				
     	}
@@ -156,7 +156,7 @@ public class SFGsonHelper
 			} 
     		catch (Exception e) 
     		{				
-    			SLog.e(TAG,e);
+    			Logger.e(TAG,e);
 			}     		    		    		    				
     	}    	
     	
@@ -180,11 +180,11 @@ public class SFGsonHelper
 		//None of these exceptions should ideally happen since we have done all the checks in registerSubClass()			
 		catch (InstantiationException e) 
 		{	
-			SLog.e(TAG,e);
+			Logger.e(TAG,e);
 		} 
 		catch (IllegalAccessException e) 
 		{				
-			SLog.e(TAG,e);
+			Logger.e(TAG,e);
 		}		 
 		 				
 		return item;
@@ -208,11 +208,11 @@ public class SFGsonHelper
    		//None of these exceptions should ideally happen since we have done all the checks in registerSubClass()			
    		catch (InstantiationException e) 
    		{	
-   			SLog.e(TAG,e);
+   			Logger.e(TAG,e);
    		} 
    		catch (IllegalAccessException e) 
    		{				
-   			SLog.e(TAG,e);
+   			Logger.e(TAG,e);
    		}		 
    		 				
    		return sc;
@@ -252,7 +252,7 @@ public class SFGsonHelper
 			if(jsonElement!=null)
 			{
 				
-//				SLog.d(TAG,"Custom parse: " +  jsonElement.toString());//enabling this log creates too much noise
+//				Logger.d(TAG,"Custom parse: " +  jsonElement.toString());//enabling this log creates too much noise
 				
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
 				
@@ -264,7 +264,7 @@ public class SFGsonHelper
 																														
 					if(elementType!=null)
 					{
-						//SLog.d(TAG, "GSON For : " + metadata);
+						//Logger.d(TAG, "GSON For : " + metadata);
 						
 						switch (elementType) 
 						{
@@ -290,29 +290,29 @@ public class SFGsonHelper
 						
 						if(feedType!=null)
 						{
-							//SLog.d(TAG, "GSON For : " + metadata);
+							//Logger.d(TAG, "GSON For : " + metadata);
 							ret = SFGsonHelper.parseFeed(feedType.getV3Class(), jsonObject);
 						}
 					}										
 				}
 				else
 				{
-					SLog.d(TAG,"JSON Object NULL");
+					Logger.d(TAG,"JSON Object NULL");
 				}
 			}
 			else
 			{
-				SLog.d(TAG,"JSON Element NULL");
+				Logger.d(TAG,"JSON Element NULL");
 			}
 		}
 		catch(Exception e)
 		{									
-			SLog.e(TAG, e);
+			Logger.e(TAG, e);
 		}
 		
 		if(ret ==null)
 		{
-			SLog.d(TAG,"Returning null  ");
+			Logger.d(TAG,"Returning null  ");
 		}		
 		
 		return ret;

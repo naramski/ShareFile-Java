@@ -8,7 +8,7 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -77,7 +77,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 		
 		try
 		{										
-			SLog.d(TAG, "GET " + mUrl);
+			Logger.d(TAG, "GET " + mUrl);
 			
 			URL url = new URL(mUrl);
 			connection = SFHttpsCaller.getURLConnection(url);		
@@ -121,7 +121,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			else
 			{
 				responseString = SFHttpsCaller.readErrorResponse(connection);
-                SLog.d(TAG,"Error " + responseString);
+                Logger.d(TAG,"Error " + responseString);
 			}
 				    									
 		}
@@ -142,7 +142,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			}
 			catch (IOException e) 
 			{				
-				SLog.e(TAG,e);
+				Logger.e(TAG,e);
 			}
 		}
 	}
@@ -207,7 +207,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			mProgressListener.bytesTransfered(downloadedBytes);
 			
 		} catch(Exception e) {
-			SLog.d(TAG, "exception in updateProgress" , e);
+			Logger.d(TAG, "exception in updateProgress" , e);
 		}		
 	}
 	

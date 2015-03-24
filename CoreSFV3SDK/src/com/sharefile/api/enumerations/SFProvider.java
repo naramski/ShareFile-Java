@@ -2,7 +2,7 @@ package com.sharefile.api.enumerations;
 
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.net.URI;
 
@@ -85,11 +85,11 @@ public enum SFProvider
 			}
 			catch(Exception ex)
 			{
-				SLog.d(TAG, "!!!Exception getting provider type from: " + str, ex);
+				Logger.d(TAG, "!!!Exception getting provider type from: " + str, ex);
 			}
 		}
 				
-		SLog.d(TAG, "Returning provider type = %s" + provider.toString());
+		Logger.d(TAG, "Returning provider type = %s" + provider.toString());
 		
 		return provider;
 	}

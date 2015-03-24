@@ -22,7 +22,7 @@ import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -124,7 +124,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     newUrl = connection.getHeaderField("location");
                 }
 
-                SLog.d(TAG, "Redirect to: "+ newUrl);
+                Logger.d(TAG, "Redirect to: "+ newUrl);
 
                 connection = SFHttpsCaller.getURLConnection(new URL(newUrl));
 
@@ -172,7 +172,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
     private void throwException(SFV3ErrorException ex) throws SFV3ErrorException
     {
-        SLog.e(TAG,ex);
+        Logger.e(TAG,ex);
         throw ex;
     }
 
@@ -208,7 +208,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                 handleHttPost(connection);
 
-                SLog.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
+                Logger.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
 
                 connection.connect();
 
@@ -226,7 +226,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     case HttpsURLConnection.HTTP_OK:
                     {
                         responseString = SFHttpsCaller.readResponse(connection);
-                        SLog.v(TAG, responseString);
+                        Logger.v(TAG, responseString);
 
                         T ret = callSuccessResponseParser(responseString);
                         callSaveCredentialsCallback(ret);
@@ -242,7 +242,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                     case HttpsURLConnection.HTTP_UNAUTHORIZED:
                     {
-                        SLog.d(TAG, "RESPONSE = AUTH ERROR");
+                        Logger.d(TAG, "RESPONSE = AUTH ERROR");
 
                         callWipeCredentialsCallback();
 
@@ -253,7 +253,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     default:
                     {
                         responseString = SFHttpsCaller.readErrorResponse(connection);
-                        SLog.v(TAG, responseString);
+                        Logger.v(TAG, responseString);
                         SFV3Error sfV3error = new SFV3Error(httpErrorCode, responseString, null);
                         throwException(new SFV3ErrorException(sfV3error));
                     }
@@ -291,7 +291,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         }
 
         //This should never happen
-        SLog.e(TAG,"This should never happen as a result of SDK executeBlockingQuery");
+        Logger.e(TAG,"This should never happen as a result of SDK executeBlockingQuery");
         return null;
 	}		
 
@@ -312,7 +312,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             }
             catch (Exception e)
             {
-                SLog.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
+                Logger.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
             }
         }
     }
@@ -329,24 +329,24 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         {
             try
             {
-                SLog.d(TAG, "The stored credentials don't work anymore! Wipe them!");
+                Logger.d(TAG, "The stored credentials don't work anymore! Wipe them!");
                 mReauthHandler.wipeCredentials(mQuery.getLink().toString(),mSFApiClient);
                 mQuery.setCredentials(null,null);
             }
             catch (Exception e)
             {
-                SLog.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
+                Logger.e(TAG, "This can be dangerous if the caller cant store the credentials he might get prompted when cookies expire",e);
             }
         }
     }
 
 	private boolean renewToken() throws SFV3ErrorException
 	{
-        SLog.d(TAG, "!!!Trying to renew token");
+        Logger.d(TAG, "!!!Trying to renew token");
 
 		if(mAccessTokenRenewer==null)
 		{
-            SLog.d(TAG, "!!!no token renewer");
+            Logger.d(TAG, "!!!no token renewer");
 			return false;
 		}
 
@@ -354,12 +354,12 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
 		if(mAccessTokenRenewer.getNewAccessToken() != null)
 		{
-            SLog.d(TAG, "!!!renewed token successfuly");
+            Logger.d(TAG, "!!!renewed token successfuly");
             ret = true;
 		}
         else
         {
-            SLog.e(TAG, "!!!token renew failed due to: " + mAccessTokenRenewer.getError().errorDisplayString("unknown"));
+            Logger.e(TAG, "!!!token renew failed due to: " + mAccessTokenRenewer.getError().errorDisplayString("unknown"));
             throw new SFV3ErrorException(mAccessTokenRenewer.getError());
         }
 
@@ -379,7 +379,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
           }
 
           //Token already renewed once before in this query. dump logs
-          SLog.e(TAG, "!!Multiple token renewals in same query. Might lead to stack overflow " +
+          Logger.e(TAG, "!!Multiple token renewals in same query. Might lead to stack overflow " +
                   "\n mCurrentUri =  " + mCurrentUri
                   + "\nmLink = " + mQuery.getLink());
     }
@@ -409,22 +409,22 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         try
         {
             URI redirectLink = redirection.getUri();
-            SLog.d(TAG,"REDIRECT TO: " + redirectLink);
+            Logger.d(TAG,"REDIRECT TO: " + redirectLink);
             mQuery.setLinkAndAppendPreviousParameters(redirectLink);
         }
         catch (NullPointerException e)
         {
-            SLog.e(TAG,e);
+            Logger.e(TAG,e);
             throw new RuntimeException("Server Bug: Redirection object or Uri is null");
         }
         catch (URISyntaxException e)
         {
-            SLog.e(TAG,e);
+            Logger.e(TAG,e);
             throw new RuntimeException("Server Bug: Redirection object syntax error");
         }
         catch (UnsupportedEncodingException e)
         {
-            SLog.e(TAG,e);
+            Logger.e(TAG,e);
             throw new RuntimeException("Server Bug: Redirection object unsupported encoding");
         }
 
@@ -448,7 +448,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         }
         catch(Exception e)
         {
-            SLog.e(TAG,e);
+            Logger.e(TAG,e);
         }
     }
 
@@ -474,13 +474,13 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
             if (currentHost.equalsIgnoreCase(targetHost) && currentPath.equalsIgnoreCase(targetPath))
             {
-                SLog.v(TAG, "Don't Redirect. Already fetched response from link " + redirection.getUri());
+                Logger.v(TAG, "Don't Redirect. Already fetched response from link " + redirection.getUri());
                 return false;
             }
         }
         catch (Exception e)
         {
-            SLog.e(TAG, "ZK folder might not show up correctly.",e);
+            Logger.e(TAG, "ZK folder might not show up correctly.",e);
             return false;
         }
 

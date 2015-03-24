@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFJsonException;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 public class SFOAuthSimpleAuthenticator 
 {
@@ -56,7 +56,7 @@ public class SFOAuthSimpleAuthenticator
 		}
 		
 		queryString.deleteCharAt(queryString.length() - 1);
-		//SLog.d(TAG,"%s", queryString);
+		//Logger.d(TAG,"%s", queryString);
 
 		HttpsURLConnection connection = (HttpsURLConnection) grantUrl
 				.openConnection();

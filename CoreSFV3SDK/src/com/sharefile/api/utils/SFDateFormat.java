@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 
 public class SFDateFormat
@@ -52,7 +52,7 @@ public class SFDateFormat
 		}
 		catch (Exception e) 
 		{
-			SLog.e(TAG,e);
+			Logger.e(TAG,e);
 		}
 		
 		return ret;
@@ -79,7 +79,7 @@ public class SFDateFormat
 		
 		if(ret == null)
 		{
-			SLog.e(TAG, "cannot parse date: " + str);
+			Logger.e(TAG, "cannot parse date: " + str);
 		}
 		
 		return ret;

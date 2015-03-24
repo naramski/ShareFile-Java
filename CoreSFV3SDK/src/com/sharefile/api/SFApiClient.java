@@ -24,7 +24,7 @@ import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -68,18 +68,18 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 			try 
 			{
 				reinitClientState(oAuthToken);
-                SLog.d(TAG, "!!!Re-init SFClient with new token");
+                Logger.d(TAG, "!!!Re-init SFClient with new token");
 			} 
 			catch (SFInvalidStateException e) 
 			{				
-				SLog.e(TAG,e);
+				Logger.e(TAG,e);
 			}						
 		}
 
 		@Override
 		public void errorGetAccessToken(SFV3Error v3error) 
 		{			
-			SLog.e(TAG,v3error.errorDisplayString("!!!error getting access token"));
+			Logger.e(TAG,v3error.errorDisplayString("!!!error getting access token"));
             if(v3error.getHttpResponseCode() != SFSDK.INTERNAL_HTTP_ERROR)
             {
                 reset();
@@ -168,7 +168,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 			}
 			catch(Exception e)
 			{
-				SLog.d(TAG, "Exception in init apiClient", e);
+				Logger.d(TAG, "Exception in init apiClient", e);
 			}
 		}
 	}
@@ -293,11 +293,11 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
             url = downloadQuery.buildQueryUrlString(server);
 
         } catch (URISyntaxException e)  {
-            SLog.e(TAG, e);
+            Logger.e(TAG, e);
             return null;
 
         } catch (UnsupportedEncodingException e) {
-            SLog.e(TAG, e);
+            Logger.e(TAG, e);
             return null;
         }
 

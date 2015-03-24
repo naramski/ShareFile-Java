@@ -17,7 +17,7 @@ import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFShare;
 import com.sharefile.api.models.SFUser;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 /**
  *  Class to group the customized serialization of SFObjects to json.
