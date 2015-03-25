@@ -1741,5 +1741,18 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+	public ISFQuery<SFEncryptedEmail> getEncryptedEmailByShare(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.client);
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("EncryptedEmail");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
 }
 
