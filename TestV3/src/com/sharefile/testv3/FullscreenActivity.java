@@ -8,31 +8,21 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFV3Error;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.entities.SFAccessControlsEntity;
-import com.sharefile.api.entities.SFAccountsEntity;
-import com.sharefile.api.entities.SFCapabilitiesEntity;
-import com.sharefile.api.entities.SFFavoriteFoldersEntity;
-import com.sharefile.api.entities.SFSharesEntity;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.exceptions.SFJsonException;
+import com.sharefile.api.interfaces.IOAuthTokenChangeListener;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
-import com.sharefile.api.models.SFAccessControl;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
-import com.sharefile.api.models.SFFavoriteFolder;
-import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFShare;
-import com.sharefile.api.models.SFZone;
 import com.sharefile.java.log.SLog;
 import com.sharefile.mobile.shared.dataobjects.v3.SFOAuthAccessToken;
 
@@ -53,14 +43,14 @@ import android.widget.Toast;
  * 
  * @see SystemUiHider
  */
-public class FullscreenActivity extends Activity implements SFAuthTokenChangeListener
+public class FullscreenActivity extends Activity implements IOAuthTokenChangeListener
 {
 	public static SFOAuth2Token mOAuthToken = null;
 	public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "qhRBpcI7yj931hV2wzGlmsi6b";
 	public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "Nu8JDCC9EK598e4PmA2NBbF09oYBS8";	 	 
 	public static SFApiClient mSFApiClient;
 	public static SFOAuthAccessToken gToken = null;
-	private final SFAuthTokenChangeListener mTokenChangeListener;
+	private final IOAuthTokenChangeListener mTokenChangeListener;
 	
 	public FullscreenActivity()
 	{
