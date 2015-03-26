@@ -4,7 +4,6 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.constants.SFFolderID;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.entities.ISFEntities;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
@@ -18,13 +17,11 @@ import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.interfaces.SFApiStreamResponse;
-import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
-import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
+import com.sharefile.api.interfaces.IOAuthTokenChangeListener;
+import com.sharefile.api.log.Logger;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.api.log.Logger;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -45,7 +42,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
 	private final String mClientID;
 	private final String mClientSecret;
-	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
+	private final IOAuthTokenChangeListener mAuthTokenChangeListener;
 	private String mSfUserId;
 	
 	private static final String DEFAULT_ACCEPTED_LANGUAGE = Utils.getAcceptLanguageString();
@@ -59,42 +56,6 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
     private final URI mDefaultTopUrl;
 
     private final ISFReAuthHandler mReAuthHandler;
-
-	private final SFGetNewAccessTokenListener mGetNewAccessTokenListener = new SFGetNewAccessTokenListener()
-	{
-		@Override
-		public void successGetAccessToken(SFOAuth2Token oAuthToken) 
-		{
-			try 
-			{
-				reinitClientState(oAuthToken);
-                Logger.d(TAG, "!!!Re-init SFClient with new token");
-			} 
-			catch (SFInvalidStateException e) 
-			{				
-				Logger.e(TAG,e);
-			}						
-		}
-
-		@Override
-		public void errorGetAccessToken(SFV3Error v3error) 
-		{			
-			Logger.e(TAG,v3error.errorDisplayString("!!!error getting access token"));
-            if(v3error.getHttpResponseCode() != SFSDK.INTERNAL_HTTP_ERROR)
-            {
-                reset();
-            }
-
-            if(mAuthTokenChangeListener!=null) 
-            {
-                mAuthTokenChangeListener.tokenRenewFailed(v3error);
-            }
-
-		}		
-	};
-
-
-
 
     public boolean isClientInitialised()
 	{
@@ -120,7 +81,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	}
 
 	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret,
-                       SFAuthTokenChangeListener listener, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
+                       IOAuthTokenChangeListener listener, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);		
 		mAuthTokenChangeListener = listener;
@@ -141,7 +102,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
             throw new SFInvalidStateException(e.getLocalizedMessage());
         }
 
-        mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
+        mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
 
         mReAuthHandler = reAuthHandler;
 	}
@@ -152,18 +113,19 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	 *   to store the new token to Persistant storage.
 	 */
 	@SFSDKDefaultAccessScope
-	void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
+	void reInitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
 	{
 		mClientInitializedSuccessFully.set(false);
 		
 		copyOAuthToken(oauthtoken);		
 		
-		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
+		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
 		
 		if(mAuthTokenChangeListener!=null)
 		{
 			try
 			{
+                //give the app which created this SFClient object a chance to store the new token.
 				mAuthTokenChangeListener.storeNewToken(oauthtoken);
 			}
 			catch(Exception e)
@@ -348,5 +310,19 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         return SFQueryBuilder.getDeviceURL(getOAuthToken().getSubdomain(),
                 getOAuthToken().getApiCP(),
                 deviceId);
+    }
+
+    @Override
+    public void storeNewToken(SFOAuth2Token newAccessToken)
+    {
+        try
+        {
+            reInitClientState(newAccessToken);
+            Logger.d(TAG, "!!!Re-init SFClient with new token");
+        }
+        catch (SFInvalidStateException e)
+        {
+            Logger.e(TAG,e);
+        }
     }
 }

@@ -3,11 +3,6 @@ package com.sharefile.api;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
-
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class SFTokenLessApiClient extends SFApiClient
 {

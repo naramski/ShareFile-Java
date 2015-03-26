@@ -8,7 +8,7 @@ import com.sharefile.api.models.SFODataObject;
 
 import java.io.InputStream;
 
-public interface ISFApiClient
+public interface ISFApiClient extends IOAuthTokenChangeListener
 {
     public <T extends SFODataObject> T executeQuery(ISFQuery<T> query)
             throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException;
