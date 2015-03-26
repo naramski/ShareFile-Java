@@ -19,7 +19,7 @@ import com.sharefile.api.models.SFUser;
  *   This class read the odata.metadata from the JsonElement to find out the real type of object contained inside the object 
  *   and the routes the parsing back to the correct default gson parser.
  */
-public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerializer<SFODataObject>
+public class SFGsonRouter implements JsonDeserializer<SFODataObject>
 {		
 	private static final String TAG = "SFGsonRouter";
 	
@@ -28,29 +28,4 @@ public class SFGsonRouter implements JsonDeserializer<SFODataObject>, JsonSerial
 	{		
 		return SFGsonHelper.customParse(jsonElement);
 	}
-
-	@Override
-	public JsonElement serialize(SFODataObject sfODataObject, Type typeOfObject,JsonSerializationContext serContext) 
-	{	
-		JsonElement ret;
-						
-		if(sfODataObject instanceof SFItem) 
-		{
-			ret = SFCustomSerializer.serialize((SFItem)sfODataObject);
-		}
-		else if(sfODataObject instanceof SFUser) 
-		{			
-			ret = SFCustomSerializer.serialize((SFUser)sfODataObject);
-		}
-		else if(sfODataObject instanceof SFGroup) 
-		{			
-			ret = SFCustomSerializer.serialize((SFGroup)sfODataObject);
-		}
-		else 
-		{
-			ret = SFCustomSerializer.serialize(sfODataObject, typeOfObject);
-		}
-									
-		return ret;
-	}					
 }

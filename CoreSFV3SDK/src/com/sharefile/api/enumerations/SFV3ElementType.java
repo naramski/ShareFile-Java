@@ -221,12 +221,6 @@ public enum SFV3ElementType
 		Logger.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + elementType.mOriginalClass.toString());
 		
 		elementType.mOverrideClass = newClass;
-
-        /*
-            This is required so that we call our custom Gson parser which knows about instantiating
-            the user supplied class instead of the base type.
-         */
-        SFDefaultGsonParser.registerTypeAdapter(elementType.mOriginalClass);
 	}
 	
 	public static boolean isFolderType(SFODataObject object)

@@ -85,32 +85,14 @@ public class SFDefaultGsonParser
 	
 	private final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
 
-    public static void registerTypeAdapter(Class clazz)
-    {
-        mGsonBuilder.registerTypeAdapter(SFItemInfo.class, new SFGsonRouter());
-    }
-
 	private void registerSFSpecificGsonAdapters()
 	{
-        //separate the new SFGsonRouter() into two different interfaces for serialize, deserialize
-        //and resgister individually.
 		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
 		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
-		mGsonBuilder.registerTypeAdapter(SFStorageCenter.class, new SFGsonRouter());
         mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new SFCustomSafeEnumParser());
         mGsonBuilder.registerTypeAdapter(SFSafeEnumFlags.class, new SFCustomSafeEnumFlagsParser());
 
-        mGsonBuilder.registerTypeAdapter(SFShare.class, new JsonSerializer<SFShare>()
-        {
-            @Override
-            public JsonElement serialize(SFShare sfShare, Type type,
-                                         JsonSerializationContext jsonSerializationContext)
-            {
-                return SFCustomSerializer.serialize(sfShare);
-            }
-        });
-		
 		mGsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() 
 		{
 			@Override
