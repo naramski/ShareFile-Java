@@ -12,11 +12,11 @@ import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
 import com.sharefile.api.https.SFUploadRunnable;
 import com.sharefile.api.https.TransferRunnable;
+import com.sharefile.api.interfaces.ISFApiCallback;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.IOAuthTokenChangeListener;
 import com.sharefile.api.log.Logger;
 import com.sharefile.api.models.SFODataObject;
@@ -136,7 +136,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	}
 						
 	
-	public synchronized <T extends SFODataObject> ISFApiExecuteQuery getExecutor(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public synchronized <T extends SFODataObject> ISFApiExecuteQuery getExecutor(ISFQuery<T> query , ISFApiCallback<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
 		return new SFApiQueryExecutor<T>(this,query, listener, mCookieManager, mSFAppConfig,mOauthTokenRenewer, reauthHandler);
 	}

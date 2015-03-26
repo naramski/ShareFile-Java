@@ -17,8 +17,8 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.interfaces.IOAuthTokenChangeListener;
+import com.sharefile.api.interfaces.ISFApiCallback;
 import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFODataFeed;
@@ -167,18 +167,18 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeLis
 								
 			try 
 			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFAccessControl>() 
+				mSFApiClient.executeQuery(query, new ISFApiCallback<SFAccessControl>()
 				{														
 
 					@Override
-					public void sfApiSuccess(SFAccessControl object) 
+					public void onSuccess(SFAccessControl object)
 					{
 						SLog.d("SFSDK","getItem success: ");
 						showToast("success");						
 					}
 
 					@Override
-					public void sfApiError(SFV3Error v3error,ISFQuery<SFAccessControl> asApiqueri) 
+					public void onError(SFV3Error v3error,ISFQuery<SFAccessControl> asApiqueri)
 					{
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");						
@@ -202,7 +202,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeLis
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFODataFeed<SFCapability>>() 
+				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFCapability>>()
 				{														
 
 					@Override
@@ -237,7 +237,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeLis
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFODataFeed<SFShare>>() 
+				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFShare>>()
 				{														
 
 					@Override
@@ -275,18 +275,18 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeLis
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFODataFeed<SFFavoriteFolder>>() 
+				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFFavoriteFolder>>()
 				{														
 
 					@Override
-					public void sfApiSuccess(SFODataFeed<SFFavoriteFolder> object) 
+					public void onSuccess(SFODataFeed<SFFavoriteFolder> object)
 					{
 						SLog.d("SFSDK","getItem success: ");
 						showToast("success");
 					}
 
 					@Override
-					public void sfApiError(SFV3Error v3error, ISFQuery<SFODataFeed<SFFavoriteFolder>> asApiqueri) 
+					public void onError(SFV3Error v3error, ISFQuery<SFODataFeed<SFFavoriteFolder>> asApiqueri)
 					{						
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -310,7 +310,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeLis
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFAccount>() 
+				mSFApiClient.executeQuery(query, new ISFApiCallback<SFAccount>()
 				{														
 
 					@Override
@@ -346,18 +346,18 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeLis
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new SFApiResponseListener<SFODataFeed<SFZone>>() 
+				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFZone>>()
 				{														
 
 					@Override
-					public void sfApiSuccess(SFODataFeed<SFZone> object) 
+					public void onSuccess(SFODataFeed<SFZone> object)
 					{
 						SLog.d("SFSDK","getItem success: ");
 						showToast("success");
 					}
 
 					@Override
-					public void sfApiError(SFV3Error v3error, ISFQuery<SFODataFeed<SFZone>> asApiqueri) 
+					public void onError(SFV3Error v3error, ISFQuery<SFODataFeed<SFZone>> asApiqueri)
 					{						
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");

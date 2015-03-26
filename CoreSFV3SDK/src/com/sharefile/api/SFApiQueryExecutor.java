@@ -14,10 +14,10 @@ import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFHttpsCaller;
+import com.sharefile.api.interfaces.ISFApiCallback;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
@@ -67,14 +67,14 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
 			
 	private final ISFQuery<T> mQuery; 
-	private final SFApiResponseListener<T> mResponseListener;
+	private final ISFApiCallback<T> mResponseListener;
 	private final SFCookieManager mCookieManager;
 	private final SFConfiguration mAppSpecificConfig;
 	private final SFOAuthTokenRenewer mAccessTokenRenewer;
 	private final ISFReAuthHandler mReauthHandler;
 	private final SFApiClient mSFApiClient;	
 
-	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, SFApiResponseListener<T> responseListener, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, ISFApiCallback<T> responseListener, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{			
 		mSFApiClient = apiClient;				
 		mQuery = query;
@@ -564,7 +564,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		return sfobject;
 	}
 			
-	protected SFApiResponseListener<T> getResponseListener()
+	protected ISFApiCallback<T> getResponseListener()
 	{
 		return mResponseListener;
 	}			

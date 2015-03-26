@@ -7,8 +7,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.ISFReExcecuteQuery;
-import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.interfaces.ISFApiCallback;
 import com.sharefile.api.utils.Utils;
 
 /**
@@ -17,13 +16,13 @@ import com.sharefile.api.utils.Utils;
 public final class SFReAuthContext<T>
 {	
 	private final ISFQuery<T> mQuery;
-	private final SFApiResponseListener<T> mOriginalListener;	
+	private final ISFApiCallback<T> mOriginalListener;
 	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
 	private final SFApiClient mSFApiClient;
 	private final ISFReAuthHandler mReauthHandler;
 		
 	@SFSDKDefaultAccessScope
-	SFReAuthContext(ISFQuery<T> sfapiApiqueri,SFApiResponseListener<T> originalListener, ISFReAuthHandler reauthHandler,SFApiClient sfApiClient)	
+	SFReAuthContext(ISFQuery<T> sfapiApiqueri,ISFApiCallback<T> originalListener, ISFReAuthHandler reauthHandler,SFApiClient sfApiClient)
 	{
 		mQuery = sfapiApiqueri;
 		mOriginalListener = originalListener;
