@@ -14,7 +14,13 @@ public class SFV3ErrorException extends SFSDKException
 		super(new RuntimeException());
 		mV3Error = v3error;
 	}
-	
+
+    public SFV3ErrorException(Throwable e)
+    {
+        super(e);
+        mV3Error = null;
+    }
+
 	public SFV3Error getV3Error()
 	{
 		return mV3Error;

@@ -7,17 +7,18 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.entities.ISFEntities;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
 import com.sharefile.api.https.SFUploadRunnable;
 import com.sharefile.api.https.TransferRunnable;
+import com.sharefile.api.interfaces.IOAuthTokenChangeHandler;
 import com.sharefile.api.interfaces.ISFApiCallback;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.IOAuthTokenChangeListener;
 import com.sharefile.api.log.Logger;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
@@ -42,7 +43,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
 	private final String mClientID;
 	private final String mClientSecret;
-	private final IOAuthTokenChangeListener mAuthTokenChangeListener;
+	private final IOAuthTokenChangeHandler mAuthTokenChangeCallback;
 	private String mSfUserId;
 	
 	private static final String DEFAULT_ACCEPTED_LANGUAGE = Utils.getAcceptLanguageString();
@@ -81,10 +82,10 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	}
 
 	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret,
-                       IOAuthTokenChangeListener listener, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
+                       IOAuthTokenChangeHandler listener, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);		
-		mAuthTokenChangeListener = listener;
+		mAuthTokenChangeCallback = listener;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
 		mSfUserId = sfUserId;
@@ -121,12 +122,12 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		
 		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
 		
-		if(mAuthTokenChangeListener!=null)
+		if(mAuthTokenChangeCallback !=null)
 		{
 			try
 			{
                 //give the app which created this SFClient object a chance to store the new token.
-				mAuthTokenChangeListener.storeNewToken(oauthtoken);
+				mAuthTokenChangeCallback.storeNewToken(this,oauthtoken);
 			}
 			catch(Exception e)
 			{
@@ -218,14 +219,15 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		return mSFAppConfig;
 	}
 
-	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query)
-            throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException {
+	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws
+            SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException, SFOAuthTokenRenewException
+    {
 		return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
 	}
 
     @Override
-    public InputStream executeQuery(SFQueryStream query)
-            throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException {
+    public InputStream executeQuery(SFQueryStream query) throws
+            SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException, SFOAuthTokenRenewException {
         return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
     }
 
@@ -313,7 +315,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
     }
 
     @Override
-    public void storeNewToken(SFOAuth2Token newAccessToken)
+    public void storeNewToken(ISFApiClient apiClient,SFOAuth2Token newAccessToken)
     {
         try
         {

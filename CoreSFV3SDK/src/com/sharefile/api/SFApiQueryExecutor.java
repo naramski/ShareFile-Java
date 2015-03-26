@@ -2,6 +2,7 @@ package com.sharefile.api;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
@@ -9,6 +10,7 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.SFGsonHelper;
@@ -143,7 +145,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         return null;
     }
 
-    private T executeQueryWithReAuthentication() throws SFV3ErrorException, SFNotAuthorizedException, SFInvalidStateException
+    private T executeQueryWithReAuthentication() throws SFV3ErrorException,
+            SFNotAuthorizedException, SFInvalidStateException, SFOAuthTokenRenewException
     {
         if (mQuery.canReNewTokenInternally())
         {
@@ -182,7 +185,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         and one of them renews the OAuthToken leaving the other one with a stale copy.
      */
 	@Override
-	public T executeBlockingQuery() throws SFV3ErrorException, SFInvalidStateException
+	public T executeBlockingQuery() throws SFV3ErrorException,
+            SFInvalidStateException, SFOAuthTokenRenewException
     {
         synchronized (mSFApiClient)
         {
@@ -204,7 +208,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
                 mAppSpecificConfig.setAddtionalHeaders(connection);
 
-                SFHttpsCaller.addAuthenticationHeader(connection, mSFApiClient.getOAuthToken(), mQuery.getUserName(), mQuery.getPassword(), mCookieManager);
+                SFHttpsCaller.addAuthenticationHeader(connection, mSFApiClient.getOAuthToken(),
+                        mQuery.getUserName(), mQuery.getPassword(), mCookieManager);
 
                 handleHttPost(connection);
 
@@ -271,7 +276,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             }
             catch (OutOfMemoryError e)
             {
-                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, new SFOutOfMemoryException(Arrays.toString(e.getStackTrace())));
+                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null,
+                        new SFOutOfMemoryException(Arrays.toString(e.getStackTrace())));
                 throwException(new SFV3ErrorException(sfV3error));
             }
             catch (Exception ex)
@@ -279,6 +285,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 if(ex instanceof SFV3ErrorException)
                 {
                     throw (SFV3ErrorException)ex;
+                }
+
+                if(ex instanceof SFOAuthTokenRenewException)
+                {
+                    throw (SFOAuthTokenRenewException)ex;
                 }
 
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
@@ -340,32 +351,18 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         }
     }
 
-	private boolean renewToken() throws SFV3ErrorException
+	private void renewToken() throws SFOAuthTokenRenewException
 	{
         Logger.d(TAG, "!!!Trying to renew token");
 
 		if(mAccessTokenRenewer==null)
 		{
             Logger.d(TAG, "!!!no token renewer");
-			return false;
+			throw new SFOAuthTokenRenewException("No token Re-newer");
 		}
 
-        boolean ret = false;
-
-		if(mAccessTokenRenewer.getNewAccessToken() != null)
-		{
-            Logger.d(TAG, "!!!renewed token successfuly");
-            ret = true;
-		}
-        else
-        {
-            Logger.e(TAG, "!!!token renew failed due to: " + mAccessTokenRenewer.getError().errorDisplayString("unknown"));
-            throw new SFV3ErrorException(mAccessTokenRenewer.getError());
-        }
-
-        mAccessTokenRenewer.callResponseListeners();
-
-        return ret;
+        SFOAuth2Token newToken = mAccessTokenRenewer.getNewAccessToken();
+        mSFApiClient.storeNewToken(mSFApiClient,newToken);//this might seem redundant but we dont want to create a separate interface
 	}
 
     //https://crashlytics.com/citrix2/android/apps/com.sharefile.mobile.tablet/issues/5486913f65f8dfea154945c8/sessions/54834f7502e400013d029118062ebeab
@@ -384,25 +381,25 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                   + "\nmLink = " + mQuery.getLink());
     }
 
-	private T executeQueryAfterTokenRenew() throws SFV3ErrorException, SFInvalidStateException
+	private T executeQueryAfterTokenRenew() throws SFV3ErrorException, SFInvalidStateException, SFOAuthTokenRenewException
     {
-		if(!renewToken())
-		{
-			return null;
-		}
+		renewToken();
 
         logMultipleTokenRenewals();
 
 		return executeBlockingQuery();
 	}
 
-    private T executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException, SFV3ErrorException, UnsupportedEncodingException, SFInvalidStateException
+    private T executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException,
+            SFV3ErrorException, UnsupportedEncodingException,
+            SFInvalidStateException, SFOAuthTokenRenewException
     {
         mQuery.setLinkAndAppendPreviousParameters(link.getLink());
         return executeBlockingQuery();
     }
 
-	private T executeQueryOnRedirectedObject(SFRedirection redirection) throws SFInvalidStateException, SFV3ErrorException
+	private T executeQueryOnRedirectedObject(SFRedirection redirection) throws
+            SFInvalidStateException, SFV3ErrorException, SFOAuthTokenRenewException
     {
 		T odataObject;
 
@@ -534,7 +531,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	 * @throws SFV3ErrorException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	protected T callSuccessResponseParser(String responseString) throws SFV3ErrorException, URISyntaxException, UnsupportedEncodingException, SFInvalidStateException
+	protected T callSuccessResponseParser(String responseString) throws SFV3ErrorException,
+            SFInvalidStateException, SFOAuthTokenRenewException
     {
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
@@ -544,8 +542,15 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		{
 
 			case SYMBOLIC_LINK:
-				sfobject = executeQueryOnSymbolicLink((SFSymbolicLink)sfobject);
-			break;
+                try
+                {
+                    sfobject = executeQueryOnSymbolicLink((SFSymbolicLink)sfobject);
+                }
+                catch (URISyntaxException | UnsupportedEncodingException e)
+                {
+                    throw new SFV3ErrorException(e);
+                }
+                break;
 
 
 			case FOLDER_ENUM:	

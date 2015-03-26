@@ -16,7 +16,7 @@ import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.exceptions.SFJsonException;
-import com.sharefile.api.interfaces.IOAuthTokenChangeListener;
+import com.sharefile.api.interfaces.IOAuthTokenChangeHandler;
 import com.sharefile.api.interfaces.ISFApiCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFAccount;
@@ -43,14 +43,14 @@ import android.widget.Toast;
  * 
  * @see SystemUiHider
  */
-public class FullscreenActivity extends Activity implements IOAuthTokenChangeListener
+public class FullscreenActivity extends Activity implements IOAuthTokenChangeHandler
 {
 	public static SFOAuth2Token mOAuthToken = null;
 	public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "qhRBpcI7yj931hV2wzGlmsi6b";
 	public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "Nu8JDCC9EK598e4PmA2NBbF09oYBS8";	 	 
 	public static SFApiClient mSFApiClient;
 	public static SFOAuthAccessToken gToken = null;
-	private final IOAuthTokenChangeListener mTokenChangeListener;
+	private final IOAuthTokenChangeHandler mTokenChangeListener;
 	
 	public FullscreenActivity()
 	{
