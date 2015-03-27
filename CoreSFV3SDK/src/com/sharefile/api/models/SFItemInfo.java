@@ -88,6 +88,10 @@ public class SFItemInfo extends SFODataObject {
 	private String ForcedSortField;
 	@SerializedName("ForcedSortOrder")
 	private String ForcedSortOrder;
+	@SerializedName("SortField")
+	private SFSafeEnum<SFSortField> SortField;
+	@SerializedName("SortDirection")
+	private SFSafeEnum<SFSortDirection> SortDirection;
 
 	public SFAccessControl getCurrentAccessControl() {
 		return this.CurrentAccessControl;
@@ -305,6 +309,20 @@ public class SFItemInfo extends SFODataObject {
 
 	public void setForcedSortOrder(String forcedsortorder) {
 		this.ForcedSortOrder = forcedsortorder;
+	}
+	public SFSafeEnum<SFSortField> getSortField() {
+		return this.SortField;
+	}
+
+	public void setSortField(SFSafeEnum<SFSortField> sortfield) {
+		this.SortField = sortfield;
+	}
+	public SFSafeEnum<SFSortDirection> getSortDirection() {
+		return this.SortDirection;
+	}
+
+	public void setSortDirection(SFSafeEnum<SFSortDirection> sortdirection) {
+		this.SortDirection = sortdirection;
 	}
 
 }
