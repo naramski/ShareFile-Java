@@ -1258,6 +1258,24 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
 	/**
+	* Get Inbox Metadata
+	* Returns metadata of the inbox.User identifier
+	* @return Inbox metadata
+	*/
+	public ISFQuery<SFInboxMetadata> inboxMetadata(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFInboxMetadata> sfApiQuery = new SFApiQuery<SFInboxMetadata>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("InboxMetadata");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get Inbox for Recipient
 	* Retrieve all outstanding Shares in the inbox.User identifier
 	* @return List of Shares created by the authenticated user
@@ -1324,18 +1342,18 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
 	/**
-	* Get Inbox Metadata
-	* Returns metadata of the inbox.User identifier
-	* @return Inbox metadata
+	* Get Sent Messages
+	* Returns sent messages for the given user.User identifier
+	* @return Feed of Shares
 	*/
-	public ISFQuery<SFInboxMetadata> inboxMetadata(URI url) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFODataFeed<SFShare>> sentMessages(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFInboxMetadata> sfApiQuery = new SFApiQuery<SFInboxMetadata>(this.client);
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
 		sfApiQuery.setFrom("Users");
-		sfApiQuery.setAction("InboxMetadata");
+		sfApiQuery.setAction("SentMessages");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
