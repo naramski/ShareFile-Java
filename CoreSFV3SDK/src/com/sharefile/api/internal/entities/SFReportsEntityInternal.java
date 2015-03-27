@@ -145,7 +145,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
     * }
 	* Creates a new report.
 	* @param report 	 	
-	* @param runOnCreate  (default: false)	 	
+	* @param runOnCreate 	 	
 	* @return the created report
 	*/
 	public ISFQuery<SFReport> create(SFReport report, Boolean runOnCreate) throws InvalidOrMissingParameterException 	{
@@ -159,33 +159,6 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.client);
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.addQueryString("runOnCreate", runOnCreate);
-		sfApiQuery.setBody(report);
-		sfApiQuery.setHttpMethod("POST");
-		return sfApiQuery;
-	}
-
-	/**
-	* Create Report
-    * {
-    * "Id": "rs24f83e-b147-437e-9f28-e7d03634af42"
-    * "Title": "Usage Report",
-    * "ReportType": "Activity",
-    * "ObjectType": "Account",
-    * "ObjectId": "a024f83e-b147-437e-9f28-e7d0ef634af42",
-    * "DateOption": "Last30Days",
-    * "SaveFormat": "Excel"
-    * }
-	* Creates a new report.
-	* @param report 	 	
-	* @return the created report
-	*/
-	public ISFQuery<SFReport> create(SFReport report) throws InvalidOrMissingParameterException 	{
-		if (report == null) {
-			throw new InvalidOrMissingParameterException("report");
-		}
-
-		SFApiQuery<SFReport> sfApiQuery = new SFApiQuery<SFReport>(this.client);
-		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setBody(report);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -294,11 +267,11 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 	}
 
 	/**
-	* Get Excel Data
-	* Get the Excel data for a report
+	* Get spreadsheet data
+	* Get the spreadsheet data for a report
 	* @return Excel Formatted Report Results
 	*/
-	public ISFQuery getExcelData(String id) throws InvalidOrMissingParameterException 	{
+	public ISFQuery downloadData(String id) throws InvalidOrMissingParameterException 	{
 		if (id == null) {
 			throw new InvalidOrMissingParameterException("id");
 		}
@@ -307,7 +280,7 @@ public class SFReportsEntityInternal extends SFODataEntityBase
 		sfApiQuery.setFrom("Reports");
 		sfApiQuery.setAction("Records");
 		sfApiQuery.addActionIds(id);
-		sfApiQuery.addSubAction("ExcelData");
+		sfApiQuery.addSubAction("DownloadData");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
