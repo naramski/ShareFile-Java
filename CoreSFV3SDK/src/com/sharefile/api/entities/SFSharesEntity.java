@@ -3861,5 +3861,23 @@ public class SFSharesEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Get Sent Message Content by Share
+	* Returns sent message content.Share identifier
+	* @return Sent Message Content
+	*/
+	public ISFQuery<InputStream> message(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Message");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
 }
 
