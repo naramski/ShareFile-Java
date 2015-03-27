@@ -3786,6 +3786,32 @@ public class SFSharesEntity extends SFODataEntityBase
 	* Retrieve all outstanding Shares in the inbox.User identifier
 	* @return List of Shares created by the authenticated user
 	*/
+	public ISFQuery<SFODataFeed<SFShare>> getInbox(String id, SFSafeEnum<SFShareType> type, Boolean archived) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (type == null) {
+			throw new InvalidOrMissingParameterException("type");
+		}
+		if (archived == null) {
+			throw new InvalidOrMissingParameterException("archived");
+		}
+
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.setAction("Inbox");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.addQueryString("type", type);
+		sfApiQuery.addQueryString("archived", archived);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Inbox for Recipient
+	* Retrieve all outstanding Shares in the inbox.User identifier
+	* @return List of Shares created by the authenticated user
+	*/
 	public ISFQuery<SFODataFeed<SFShare>> getInbox(String id, SFSafeEnum<SFShareType> type) throws InvalidOrMissingParameterException 	{
 		if (id == null) {
 			throw new InvalidOrMissingParameterException("id");
