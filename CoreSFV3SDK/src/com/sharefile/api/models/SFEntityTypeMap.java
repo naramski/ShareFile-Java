@@ -27,6 +27,8 @@ public class EntityTypeMap {
             _entityTypeMap.Add("AccessControlsBulkParamss", SFAccessControlsBulkParams.class);
             _entityTypeMap.Add("AccessControlParam", SFAccessControlParam.class);
             _entityTypeMap.Add("AccessControlParams", SFAccessControlParam.class);
+            _entityTypeMap.Add("ShareItemHistory", SFShareItemHistory.class);
+            _entityTypeMap.Add("ShareItemHistorys", SFShareItemHistory.class);
             _entityTypeMap.Add("InboxMetadata", SFInboxMetadata.class);
             _entityTypeMap.Add("InboxMetadatas", SFInboxMetadata.class);
             _entityTypeMap.Add("FolderTemplate", SFFolderTemplate.class);

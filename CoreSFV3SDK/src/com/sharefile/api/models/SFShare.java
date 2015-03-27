@@ -92,6 +92,8 @@ public class SFShare extends SFODataObject {
 	private SFRedirection Redirection;
 	@SerializedName("ShareSubType")
 	private SFSafeEnum<SFShareSubType> ShareSubType;
+	@SerializedName("ShareItemHistory")
+	private ArrayList<SFShareItemHistory> ShareItemHistory;
 
 		/**
 		* When a Share is sent to multiple users, with RequireLogin or RequireUserInfo set, then a different
@@ -475,6 +477,19 @@ public class SFShare extends SFODataObject {
 
 	public void setShareSubType(SFSafeEnum<SFShareSubType> sharesubtype) {
 		this.ShareSubType = sharesubtype;
+	}
+		/**
+		* Shared item history.
+		*/
+	public ArrayList<SFShareItemHistory> getShareItemHistory() {
+		return this.ShareItemHistory;
+	}
+
+		/**
+		* Shared item history.
+		*/
+	public void setShareItemHistory(ArrayList<SFShareItemHistory> shareitemhistory) {
+		this.ShareItemHistory = shareitemhistory;
 	}
 
 }
