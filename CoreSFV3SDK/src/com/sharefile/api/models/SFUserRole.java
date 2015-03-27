@@ -59,5 +59,6 @@ public enum SFUserRole {
 	AdminZones,
 	AdminCreateSharedGroups,
 	AdminArchivedSearch,
-	AdminConnectors
+	AdminConnectors,
+	AdminEmailArchiver
 }

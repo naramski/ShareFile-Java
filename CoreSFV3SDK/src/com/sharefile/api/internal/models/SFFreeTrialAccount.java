@@ -42,6 +42,8 @@ public class SFFreeTrialAccount extends SFAccount {
 	private String CancellationReason;
 	@SerializedName("SignupProcess")
 	private String SignupProcess;
+	@SerializedName("ConversionIndex")
+	private Double ConversionIndex;
 	@SerializedName("ConversionIndexDay7")
 	private Double ConversionIndexDay7;
 	@SerializedName("ConversionIndexDay14")
@@ -162,6 +164,13 @@ public class SFFreeTrialAccount extends SFAccount {
 
 	public void setSignupProcess(String signupprocess) {
 		this.SignupProcess = signupprocess;
+	}
+	public Double getConversionIndex() {
+		return this.ConversionIndex;
+	}
+
+	public void setConversionIndex(Double conversionindex) {
+		this.ConversionIndex = conversionindex;
 	}
 	public Double getConversionIndexDay7() {
 		return this.ConversionIndexDay7;

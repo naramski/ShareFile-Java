@@ -234,6 +234,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableUserInvitations;
 	@SerializedName("EnableClickTrails")
 	private Boolean EnableClickTrails;
+	@SerializedName("EnableExternalEmailArchiving")
+	private Boolean EnableExternalEmailArchiving;
 	@SerializedName("CanStoreItemsInShareFile")
 	private Boolean CanStoreItemsInShareFile;
 	@SerializedName("EnableHomeFolders")
@@ -966,6 +968,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableClickTrails(Boolean enableclicktrails) {
 		this.EnableClickTrails = enableclicktrails;
+	}
+	public Boolean getEnableExternalEmailArchiving() {
+		return this.EnableExternalEmailArchiving;
+	}
+
+	public void setEnableExternalEmailArchiving(Boolean enableexternalemailarchiving) {
+		this.EnableExternalEmailArchiving = enableexternalemailarchiving;
 	}
 	public Boolean getCanStoreItemsInShareFile() {
 		return this.CanStoreItemsInShareFile;
