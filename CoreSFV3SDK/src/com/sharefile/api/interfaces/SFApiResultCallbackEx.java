@@ -9,16 +9,16 @@ import com.sharefile.api.utils.Utils;
  * @param <T>
  * @param <T>
  */
-public abstract class ISFApiResultListenerEx<T extends SFODataObject> implements ISFApiResultCallback<T>
+public abstract class SFApiResultCallbackEx<T> implements ISFApiResultCallback<T>
 {
 	private ISFApiResultCallback<T> mListener;
 	
-	public ISFApiResultListenerEx(ISFApiResultCallback<T> listener)
+	public SFApiResultCallbackEx(ISFApiResultCallback<T> listener)
 	{
 		mListener = listener;
 	}
 	
-	public ISFApiResultListenerEx()
+	public SFApiResultCallbackEx()
 	{		
 	}
 	
@@ -38,10 +38,5 @@ public abstract class ISFApiResultListenerEx<T extends SFODataObject> implements
 	{		
 	  Utils.safeCallSuccess(mListener, object);	
 	}
-	
-	/*
-	public synchronized final Thread executeQuery(SFApiClient apiClient , SFApiQuery<T> query , ISFApiResultCallback<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
-	{
-		return apiClient.executeQuery(query, listener, reauthHandler);
-	}*/
+
 }
