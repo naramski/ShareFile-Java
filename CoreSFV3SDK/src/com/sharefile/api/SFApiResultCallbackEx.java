@@ -1,6 +1,8 @@
-package com.sharefile.api.interfaces;
+package com.sharefile.api;
 
 import com.sharefile.api.SFV3Error;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
+import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.Utils;
 
