@@ -94,6 +94,8 @@ public class SFShare extends SFODataObject {
 	private SFSafeEnum<SFShareSubType> ShareSubType;
 	@SerializedName("ShareItemHistory")
 	private ArrayList<SFShareItemHistory> ShareItemHistory;
+	@SerializedName("Settings")
+	private SFShareSettings Settings;
 
 		/**
 		* When a Share is sent to multiple users, with RequireLogin or RequireUserInfo set, then a different
@@ -459,14 +461,14 @@ public class SFShare extends SFODataObject {
 		this.HasRemoteChildren = hasremotechildren;
 	}
 		/**
-		* Redirection endpoint for this Item.
+		* Redirection endpoint for this Share.
 		*/
 	public SFRedirection getRedirection() {
 		return this.Redirection;
 	}
 
 		/**
-		* Redirection endpoint for this Item.
+		* Redirection endpoint for this Share.
 		*/
 	public void setRedirection(SFRedirection redirection) {
 		this.Redirection = redirection;
@@ -490,6 +492,19 @@ public class SFShare extends SFODataObject {
 		*/
 	public void setShareItemHistory(ArrayList<SFShareItemHistory> shareitemhistory) {
 		this.ShareItemHistory = shareitemhistory;
+	}
+		/**
+		* Current Settings for the Share
+		*/
+	public SFShareSettings getSettings() {
+		return this.Settings;
+	}
+
+		/**
+		* Current Settings for the Share
+		*/
+	public void setSettings(SFShareSettings settings) {
+		this.Settings = settings;
 	}
 
 }

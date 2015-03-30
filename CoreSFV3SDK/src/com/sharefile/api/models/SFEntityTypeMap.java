@@ -35,6 +35,8 @@ public class EntityTypeMap {
             _entityTypeMap.Add("FolderTemplates", SFFolderTemplate.class);
             _entityTypeMap.Add("FolderTemplateItem", SFFolderTemplateItem.class);
             _entityTypeMap.Add("FolderTemplateItems", SFFolderTemplateItem.class);
+            _entityTypeMap.Add("ShareSettings", SFShareSettings.class);
+            _entityTypeMap.Add("ShareSettingss", SFShareSettings.class);
             _entityTypeMap.Add("UserUsage", SFUserUsage.class);
             _entityTypeMap.Add("UserUsages", SFUserUsage.class);
             _entityTypeMap.Add("DiskSpace", SFDiskSpace.class);
