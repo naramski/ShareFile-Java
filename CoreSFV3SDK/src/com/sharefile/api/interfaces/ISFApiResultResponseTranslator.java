@@ -1,8 +1,6 @@
 package com.sharefile.api.interfaces;
 
 import com.sharefile.api.SFV3Error;
-import com.sharefile.api.interfaces.ISFApiCallback;
-import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.Utils;
 
@@ -11,21 +9,21 @@ import com.sharefile.api.utils.Utils;
  * @param <T>
  * @param <T>
  */
-public abstract class ISFApiResponseTranslator<T extends SFODataObject, T2 extends SFODataObject> implements ISFApiCallback<T>
+public abstract class ISFApiResultResponseTranslator<T extends SFODataObject, T2 extends SFODataObject> implements ISFApiResultCallback<T>
 {
-	private ISFApiCallback<T2> mListener;
+	private ISFApiResultCallback<T2> mListener;
 
-	public ISFApiResponseTranslator(ISFApiCallback<T2> listener)
+	public ISFApiResultResponseTranslator(ISFApiResultCallback<T2> listener)
 	{
 		mListener = listener;
 	}
 
-    public ISFApiResponseTranslator()
+    public ISFApiResultResponseTranslator()
     {
 
     }
 
-	public void setListener(ISFApiCallback<T2> listener)
+	public void setListener(ISFApiResultCallback<T2> listener)
 	{
 		mListener = listener;
 	}

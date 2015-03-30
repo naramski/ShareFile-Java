@@ -18,7 +18,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.https.SFApiFileUploadRunnable.SFAPiUploadResponse;
 import com.sharefile.api.https.SFApiRunnable;
-import com.sharefile.api.interfaces.ISFApiCallback;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
@@ -128,7 +128,7 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(createFolder, new ISFApiCallback<SFFolder>()
+			FullscreenActivity.mSFApiClient.executeQuery(createFolder, new ISFApiResultCallback<SFFolder>()
 			{
 
 				@Override
@@ -177,7 +177,7 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFAccessControl>>()
+			FullscreenActivity.mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFODataFeed<SFAccessControl>>()
 			{														
 
 				@Override
@@ -234,7 +234,7 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(query, new ISFApiCallback<SFUploadSpecification>()
+			FullscreenActivity.mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFUploadSpecification>()
 			{														
 
 				@Override
@@ -515,7 +515,7 @@ public class FoldersActivity extends Activity
 		}
 	}
 		
-	ISFApiCallback<SFItem> getContentsListener = new ISFApiCallback<SFItem>()
+	ISFApiResultCallback<SFItem> getContentsListener = new ISFApiResultCallback<SFItem>()
 	{										
 		@Override
 		public void sfApiSuccess(final SFItem object) 
@@ -702,7 +702,7 @@ public class FoldersActivity extends Activity
 		ISFQuery<SFDownloadSpecification> downloadQuery = SFItemsEntity.download(itemid, true);
 		
 		try {
-				FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new ISFApiCallback<SFDownloadSpecification>()
+				FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new ISFApiResultCallback<SFDownloadSpecification>()
 					{
 
 						@Override

@@ -1,8 +1,6 @@
 package com.sharefile.api.interfaces;
 
 import com.sharefile.api.SFV3Error;
-import com.sharefile.api.interfaces.ISFApiCallback;
-import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.Utils;
 
@@ -11,20 +9,20 @@ import com.sharefile.api.utils.Utils;
  * @param <T>
  * @param <T>
  */
-public abstract class ISFApiListenerEx<T extends SFODataObject> implements ISFApiCallback<T>
+public abstract class ISFApiResultListenerEx<T extends SFODataObject> implements ISFApiResultCallback<T>
 {
-	private ISFApiCallback<T> mListener;
+	private ISFApiResultCallback<T> mListener;
 	
-	public ISFApiListenerEx(ISFApiCallback<T> listener)
+	public ISFApiResultListenerEx(ISFApiResultCallback<T> listener)
 	{
 		mListener = listener;
 	}
 	
-	public ISFApiListenerEx()
+	public ISFApiResultListenerEx()
 	{		
 	}
 	
-	public void setListener(ISFApiCallback<T> listener)
+	public void setListener(ISFApiResultCallback<T> listener)
 	{
 		mListener = listener;
 	}
@@ -42,7 +40,7 @@ public abstract class ISFApiListenerEx<T extends SFODataObject> implements ISFAp
 	}
 	
 	/*
-	public synchronized final Thread executeQuery(SFApiClient apiClient , SFApiQuery<T> query , ISFApiCallback<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+	public synchronized final Thread executeQuery(SFApiClient apiClient , SFApiQuery<T> query , ISFApiResultCallback<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
 		return apiClient.executeQuery(query, listener, reauthHandler);
 	}*/

@@ -17,7 +17,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFInvalidTypeException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.interfaces.IOAuthTokenChangeHandler;
-import com.sharefile.api.interfaces.ISFApiCallback;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFAccount;
 import com.sharefile.api.models.SFCapability;
@@ -167,7 +167,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 								
 			try 
 			{
-				mSFApiClient.executeQuery(query, new ISFApiCallback<SFAccessControl>()
+				mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFAccessControl>()
 				{														
 
 					@Override
@@ -202,7 +202,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFCapability>>()
+				mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFODataFeed<SFCapability>>()
 				{														
 
 					@Override
@@ -237,7 +237,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFShare>>()
+				mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFODataFeed<SFShare>>()
 				{														
 
 					@Override
@@ -275,7 +275,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFFavoriteFolder>>()
+				mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFODataFeed<SFFavoriteFolder>>()
 				{														
 
 					@Override
@@ -310,7 +310,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new ISFApiCallback<SFAccount>()
+				mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFAccount>()
 				{														
 
 					@Override
@@ -346,7 +346,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 			
 			try 
 			{
-				mSFApiClient.executeQuery(query, new ISFApiCallback<SFODataFeed<SFZone>>()
+				mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFODataFeed<SFZone>>()
 				{														
 
 					@Override

@@ -4,10 +4,10 @@ import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.ISFReExcecuteQuery;
-import com.sharefile.api.interfaces.ISFApiCallback;
 import com.sharefile.api.utils.Utils;
 
 /**
@@ -16,13 +16,13 @@ import com.sharefile.api.utils.Utils;
 public final class SFReAuthContext<T>
 {	
 	private final ISFQuery<T> mQuery;
-	private final ISFApiCallback<T> mOriginalListener;
+	private final ISFApiResultCallback<T> mOriginalListener;
 	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
 	private final SFApiClient mSFApiClient;
 	private final ISFReAuthHandler mReauthHandler;
 		
 	@SFSDKDefaultAccessScope
-	SFReAuthContext(ISFQuery<T> sfapiApiqueri,ISFApiCallback<T> originalListener, ISFReAuthHandler reauthHandler,SFApiClient sfApiClient)
+	SFReAuthContext(ISFQuery<T> sfapiApiqueri,ISFApiResultCallback<T> originalListener, ISFReAuthHandler reauthHandler,SFApiClient sfApiClient)
 	{
 		mQuery = sfapiApiqueri;
 		mOriginalListener = originalListener;
