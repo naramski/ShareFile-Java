@@ -18,4 +18,9 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler
             throws SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException, SFOAuthTokenRenewException;
 
     public String getUserId();
+
+    public <T> ISFApiExecuteQuery getExecutor(ISFQuery<T> query,
+                                   ISFApiResultCallback<T> apiResultCallback,
+                                   ISFReAuthHandler reAuthHandler)
+            throws SFInvalidStateException;
 }

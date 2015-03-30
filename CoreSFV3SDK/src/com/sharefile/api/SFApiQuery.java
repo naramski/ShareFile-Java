@@ -1,5 +1,6 @@
 package com.sharefile.api;
 
+import com.sharefile.api.async.SFAsyncTaskFactory;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.enumerations.SFHttpMethod;
@@ -13,6 +14,8 @@ import com.sharefile.api.exceptions.SFToDoReminderException;
 import com.sharefile.api.exceptions.SFV3ErrorException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.ISFApiClient;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
+import com.sharefile.api.interfaces.ISFAsyncTask;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSearchResults;
@@ -694,10 +697,38 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 
     @Override
     public T execute() throws SFInvalidStateException, SFV3ErrorException,
-            SFNotAuthorizedException, SFOAuthTokenRenewException {
-        if(apiClient!=null);
+            SFNotAuthorizedException, SFOAuthTokenRenewException
+    {
+
+        if(apiClient==null)
         {
-            return (T)apiClient.executeQuery(this);
+            throw new SFInvalidStateException("No valid client object set for query");
         }
+
+        return (T)apiClient.executeQuery(this);
+    }
+
+    @Override
+    public void executeAsync(ISFApiResultCallback<T> callback) throws
+            SFInvalidStateException
+    {
+        if(apiClient==null)
+        {
+            throw new SFInvalidStateException("No valid client object set for query");
+        }
+
+        if(callback == null)
+        {
+            throw new SFInvalidStateException("Need to set listener to gather Async Result");
+        }
+
+        ISFAsyncTask asyncTask = SFAsyncTaskFactory.create(apiClient, this, callback);
+
+        if(asyncTask == null)
+        {
+            throw new SFInvalidStateException("Need to set AsyncFactory as per your system");
+        }
+
+        asyncTask.execute();
     }
 }

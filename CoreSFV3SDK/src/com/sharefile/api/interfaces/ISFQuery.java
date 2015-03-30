@@ -4,11 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
 
-import com.sharefile.api.enumerations.SFSafeEnum;
-import com.sharefile.api.enumerations.SFV3ElementType;
+import com.sharefile.api.SFApiResultCallbackEx;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
@@ -107,4 +104,6 @@ public interface ISFQuery<T> extends ISFTypeFilter
     void setBaseLink(URI uri) throws URISyntaxException;
 
     public T execute() throws SFInvalidStateException, SFV3ErrorException, SFNotAuthorizedException, SFOAuthTokenRenewException;
+
+    void executeAsync(ISFApiResultCallback<T> callback) throws SFInvalidStateException;
 }
