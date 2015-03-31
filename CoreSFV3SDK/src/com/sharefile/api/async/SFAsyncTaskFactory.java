@@ -14,7 +14,7 @@ public abstract class SFAsyncTaskFactory
         protected <T extends SFODataObject> ISFAsyncTask
         createNewTask(ISFApiClient apiClient, ISFQuery<T> query, ISFApiResultCallback<T> callback)
         {
-            return new SFAsyncTask(apiClient,query,callback);
+            return new SFDefaultAsyncTask(apiClient,query,callback);
         }
     };
 

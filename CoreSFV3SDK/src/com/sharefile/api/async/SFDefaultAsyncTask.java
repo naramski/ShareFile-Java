@@ -8,11 +8,11 @@ import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
 
 @SFSDKDefaultAccessScope
-class SFAsyncTask implements ISFAsyncTask, Runnable
+class SFDefaultAsyncTask implements ISFAsyncTask, Runnable
 {
     private final SFAsyncHelper mAsyncHelper;
 
-    public <T extends SFODataObject> SFAsyncTask(ISFApiClient apiClient, ISFQuery<T> query, ISFApiResultCallback<T> callback)
+    public <T extends SFODataObject> SFDefaultAsyncTask(ISFApiClient apiClient, ISFQuery<T> query, ISFApiResultCallback<T> callback)
     {
         mAsyncHelper = new SFAsyncHelper(apiClient,query,callback);
     }
