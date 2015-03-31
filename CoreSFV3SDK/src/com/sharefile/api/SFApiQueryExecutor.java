@@ -200,7 +200,7 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
 
                         callWipeCredentialsCallback();
 
-                        if (!mQuery.canReNewTokenInternally() || mAccessTokenRenewer == null) {
+                        if (!mQuery.canReNewTokenInternally() || mAccessTokenRenewer == null || alreadyRenewedToken) {
                             SFV3Error sfV3error = new SFV3Error(httpErrorCode, null, null);
                             mResponse.setResponse(null, sfV3error);
                         } else {
