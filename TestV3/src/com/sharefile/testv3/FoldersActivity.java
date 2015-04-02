@@ -20,10 +20,8 @@ import com.sharefile.api.https.SFApiFileUploadRunnable.SFAPiUploadResponse;
 import com.sharefile.api.https.SFApiRunnable;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.models.SFAccessControl;
-import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
@@ -674,27 +672,6 @@ public class FoldersActivity extends Activity
          }); 	
 	}
 	
-	
-	SFApiDownloadProgressListener mDownloadloadProgressListener = new SFApiDownloadProgressListener() 
-	{		
-		@Override
-		public void downloadSuccess(long byteCount,SFDownloadSpecification downloaSpec, SFApiClient client) 
-		{												
-			SLog.d("download", "Download Sucess: "+ byteCount);
-		}
-		
-		@Override
-		public void downloadFailure(SFSDKException v3error, long byteCount, SFDownloadSpecification downloaSpec, SFApiClient client)
-		{	
-			SLog.d("download", "Download failuer: "+ v3error.message);
-		}
-		
-		@Override
-		public void bytesDownloaded(long byteCount,SFDownloadSpecification downloaSpec, SFApiClient client) 
-		{	
-			SLog.d("download", "Download progress: "+ byteCount);
-		}
-	};
 	
 	private void callDownloadApi(String itemid )
 	{
