@@ -240,6 +240,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean CanStoreItemsInShareFile;
 	@SerializedName("EnableHomeFolders")
 	private Boolean EnableHomeFolders;
+	@SerializedName("EnableCustomBrandingUsesS3")
+	private Boolean EnableCustomBrandingUsesS3;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -989,6 +991,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableHomeFolders(Boolean enablehomefolders) {
 		this.EnableHomeFolders = enablehomefolders;
+	}
+	public Boolean getEnableCustomBrandingUsesS3() {
+		return this.EnableCustomBrandingUsesS3;
+	}
+
+	public void setEnableCustomBrandingUsesS3(Boolean enablecustombrandingusess3) {
+		this.EnableCustomBrandingUsesS3 = enablecustombrandingusess3;
 	}
 
 }
