@@ -138,7 +138,7 @@ public class FoldersActivity extends Activity
 				}
 
 				@Override
-				public void sfApiError(SFV3Error error,ISFQuery<SFFolder> sfapiApiqueri) 
+				public void sfApiError(SFSDKException error,ISFQuery<SFFolder> sfapiApiqueri)
 				{					
 					
 				}								
@@ -188,7 +188,7 @@ public class FoldersActivity extends Activity
 				}
 
 				@Override
-				public void sfApiError(SFV3Error v3error,ISFQuery<SFODataFeed<SFAccessControl>> asApiqueri) 
+				public void sfApiError(SFSDKException v3error,ISFQuery<SFODataFeed<SFAccessControl>> asApiqueri)
 				{
 					SLog.d("SFSDK","get Item failed: ");
 					showToast("Failed");						
@@ -256,7 +256,7 @@ public class FoldersActivity extends Activity
 				}
 
 				@Override
-				public void onError(SFV3Error v3error,ISFQuery<SFUploadSpecification> asApiqueri)
+				public void onError(SFSDKException v3error,ISFQuery<SFUploadSpecification> asApiqueri)
 				{
 					SLog.d("SFSDK","get Item failed: ");
 					showToast("Failed");						
@@ -545,7 +545,7 @@ public class FoldersActivity extends Activity
 		}
 
 		@Override
-		public void sfApiError(final SFV3Error v3error,final ISFQuery<SFItem> asApiqueri) 
+		public void sfApiError(final SFSDKException v3error,final ISFQuery<SFItem> asApiqueri)
 		{									
 			SLog.d("SFSDK","get Item failed: " + v3error.message.value);
 			showToast("Failed Get Item: " + v3error.message.value);
@@ -684,7 +684,7 @@ public class FoldersActivity extends Activity
 		}
 		
 		@Override
-		public void downloadFailure(SFV3Error v3error, long byteCount, SFDownloadSpecification downloaSpec, SFApiClient client) 
+		public void downloadFailure(SFSDKException v3error, long byteCount, SFDownloadSpecification downloaSpec, SFApiClient client)
 		{	
 			SLog.d("download", "Download failuer: "+ v3error.message);
 		}
@@ -725,7 +725,7 @@ public class FoldersActivity extends Activity
 						}
 
 						@Override
-						public void onError(SFV3Error error,ISFQuery<SFDownloadSpecification> asApiqueri)
+						public void onError(SFSDKException error,ISFQuery<SFDownloadSpecification> asApiqueri)
 						{	
 							SLog.d("download","error = %s" , error.message.value);
 						}
