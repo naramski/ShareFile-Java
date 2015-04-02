@@ -273,7 +273,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                         responseString = SFHttpsCaller.readErrorResponse(connection);
                         Logger.v(TAG, responseString);
                         SFV3ErrorParser sfV3error = new SFV3ErrorParser(httpErrorCode, responseString, null);
-                        throw new SFServerException(sfV3error.errorDisplayString());
+                        throw new SFServerException(httpErrorCode,sfV3error.errorDisplayString());
                     }
                 }
             }

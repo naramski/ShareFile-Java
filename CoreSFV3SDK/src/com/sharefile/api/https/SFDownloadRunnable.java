@@ -185,7 +185,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 		try 
 		{
             SFV3ErrorParser parser = new SFV3ErrorParser(httpCode,responseString,null);
-			SFServerException v3Error = new SFServerException(parser.errorDisplayString());
+			SFServerException v3Error = new SFServerException(httpCode, parser.errorDisplayString());
 			mResponse.setFields(httpCode, v3Error,downloadedBytes);
 		} 
 		catch (Exception e)  

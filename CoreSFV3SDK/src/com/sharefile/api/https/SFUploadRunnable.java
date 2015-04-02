@@ -426,7 +426,7 @@ public class SFUploadRunnable extends TransferRunnable
 				if(mChunkUploadResponse.mWasError) {
 					Logger.d(TAG, "Error uploading chunk - break");
                     uploadResponse = new Result();
-                    SFServerException v3Error = new SFServerException(mChunkUploadResponse.mErrorMessage);
+                    SFServerException v3Error = new SFServerException(0,mChunkUploadResponse.mErrorMessage);
                     uploadResponse.setFields(mChunkUploadResponse.mErrorCode, v3Error, previousChunkTotalBytes);
 					return uploadResponse;
 				}					
