@@ -1,6 +1,6 @@
 package com.sharefile.api.exceptions;
 
-import com.sharefile.api.SFV3Error;
+
 
 import javax.net.ssl.HttpsURLConnection;
 

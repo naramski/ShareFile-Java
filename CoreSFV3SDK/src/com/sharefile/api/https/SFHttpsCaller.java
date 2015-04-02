@@ -1,6 +1,6 @@
 package com.sharefile.api.https;
 
-import com.sharefile.api.SFV3Error;
+
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;

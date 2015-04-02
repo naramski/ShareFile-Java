@@ -11,7 +11,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFQueryBuilder;
-import com.sharefile.api.SFV3Error;
+
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;

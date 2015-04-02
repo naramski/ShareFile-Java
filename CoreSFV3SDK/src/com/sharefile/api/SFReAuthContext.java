@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
@@ -63,8 +64,8 @@ public final class SFReAuthContext<T>
 		return mQuery.getLink();
 	}
 
-    public void callErrorListener(SFV3Error sfv3Error)
+    public void callErrorListener(SFSDKException exception)
     {
-        Utils.safeCallErrorListener(mOriginalListener,sfv3Error,mQuery);
+        Utils.safeCallErrorListener(mOriginalListener,exception,mQuery);
     }
 }

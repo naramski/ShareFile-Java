@@ -3,10 +3,15 @@ package com.sharefile.api.https;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFV3Error;
+
+import com.sharefile.api.SFV3ErrorParser;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFSDKException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.log.Logger;
 
@@ -51,20 +56,21 @@ public class SFDownloadRunnable extends TransferRunnable {
 	 * @return
 	 */
 	protected Result runInThisThread() {
-		try {
+		try
+        {
 			download();
-		
-		} catch(Exception ex) {		
-			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " + Arrays.toString(ex.getStackTrace());
+            parseResponse(httpErrorCode, responseString, bytesRead);
+		}
+        catch(Exception ex)
+        {
+		    callInternalErrorResponseFiller(ex,bytesRead);
 		}
 		
-		if ( isCanceled() ) {
+		if ( isCanceled() )
+        {
 			// create "cancel error" regardless of result
 			return createCancelResult(bytesRead);
 		}
-		
-		parseResponse(httpErrorCode, responseString, bytesRead);
 
 		return mResponse;
 	}
@@ -164,12 +170,8 @@ public class SFDownloadRunnable extends TransferRunnable {
 				break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				SFV3Error v3Error = new SFV3Error(httpCode,null,null);
+				SFNotAuthorizedException v3Error = new SFNotAuthorizedException("Unauthorized (401)");
 				mResponse.setFields(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
-				break;
-			
-			case SFSDK.INTERNAL_HTTP_ERROR:
-				callInternalErrorResponseFiller(httpCode, responseString,null,downloadedBytes);
 				break;
 			
 			default:
@@ -182,18 +184,13 @@ public class SFDownloadRunnable extends TransferRunnable {
 	{													
 		try 
 		{
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonElement =jsonParser.parse(responseString);				
-			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
+            SFV3ErrorParser parser = new SFV3ErrorParser(httpCode,responseString,null);
+			SFServerException v3Error = new SFServerException(parser.errorDisplayString());
 			mResponse.setFields(httpCode, v3Error,downloadedBytes);
 		} 
 		catch (Exception e)  
-		{					
-			/* 
-			 * Note how we fill the httpErrorcode to httpCode. Thats coz the server originally returned it, 
-			 * just the error object was malformed or caused some other exception while parsing.			 
-			 */						
-			callInternalErrorResponseFiller(httpCode, Arrays.toString(e.getStackTrace()), responseString,downloadedBytes);
+		{
+			callInternalErrorResponseFiller(e,downloadedBytes);
 		}
 	}
 	
@@ -215,9 +212,9 @@ public class SFDownloadRunnable extends TransferRunnable {
 	/**
 	 *   This is a filler only. wont do any parsing.
 	 */
-	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesDownloaded)
+	private void callInternalErrorResponseFiller(Exception e,long bytesDownloaded)
 	{
-		SFV3Error v3Error = new SFV3Error(httpCode,null,null);
+		SFOtherException v3Error = new SFOtherException(e);
 		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 

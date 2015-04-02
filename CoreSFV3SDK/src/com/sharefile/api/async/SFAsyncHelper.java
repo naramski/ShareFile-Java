@@ -1,11 +1,7 @@
 package com.sharefile.api.async;
 
-import com.sharefile.api.SFV3Error;
-import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.exceptions.SFNotAuthorizedException;
-import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
+
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
@@ -18,7 +14,7 @@ public class SFAsyncHelper<T>
     private final ISFApiResultCallback<T> mApiResultCallback;
     private ISFApiExecuteQuery mApiExecutor;
     private T mResult;
-    private Exception mException;
+    private SFSDKException mException;
 
     public SFAsyncHelper(ISFApiClient apiClient, ISFQuery query, ISFApiResultCallback apiResultCallback)
     {
@@ -34,7 +30,7 @@ public class SFAsyncHelper<T>
             mApiExecutor = mApiClient.getExecutor(mQuery, mApiResultCallback, null);
             mResult = mApiExecutor.executeBlockingQuery();
         }
-        catch (Exception e)
+        catch (SFSDKException e)
         {
             mException = e;
         }
@@ -46,15 +42,7 @@ public class SFAsyncHelper<T>
     {
         if(mException !=null)
         {
-            if(mException instanceof SFV3ErrorException)
-            {
-                mApiResultCallback.onError(((SFV3ErrorException) mException).getV3Error(),mQuery);
-                return;
-            }
-
-            SFV3Error sfv3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, mException.getLocalizedMessage());
-            mApiResultCallback.onError(sfv3Error,mQuery);
-
+            mApiResultCallback.onError(mException,mQuery);
             return;
         }
 

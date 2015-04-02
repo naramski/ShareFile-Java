@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import com.sharefile.api.SFV3Error;
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 
@@ -16,7 +16,7 @@ public class Utils
 	    return currentLocale.toString().replace('_', '-') + ";q=0.8,en;q=0.6";
 	}
 		
-	public static <T> void safeCallErrorListener(ISFApiResultCallback<T> mListener, SFV3Error error, ISFQuery<T> sfapiApiqueri)
+	public static <T> void safeCallErrorListener(ISFApiResultCallback<T> mListener, SFSDKException error, ISFQuery<T> sfapiApiqueri)
 	{
 		if(mListener!=null)
 		{

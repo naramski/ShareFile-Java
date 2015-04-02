@@ -10,8 +10,9 @@ import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
+import com.sharefile.api.exceptions.SFOtherException;
 import com.sharefile.api.exceptions.SFToDoReminderException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
@@ -696,8 +697,8 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
     }
 
     @Override
-    public T execute() throws SFInvalidStateException, SFV3ErrorException,
-            SFNotAuthorizedException, SFOAuthTokenRenewException
+    public T execute() throws SFInvalidStateException, SFServerException,
+            SFNotAuthorizedException, SFOAuthTokenRenewException, SFOtherException
     {
 
         if(apiClient==null)

@@ -1,6 +1,7 @@
 package com.sharefile.api;
 
-import com.sharefile.api.SFV3Error;
+
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
@@ -30,7 +31,7 @@ public abstract class SFApiResultCallbackEx<T> implements ISFApiResultCallback<T
 	}
 	
 	@Override
-	public void onError(SFV3Error error, ISFQuery<T> sfapiApiqueri)
+	public void onError(SFSDKException error, ISFQuery<T> sfapiApiqueri)
 	{		
 		Utils.safeCallErrorListener(mListener, error, sfapiApiqueri);
 	}

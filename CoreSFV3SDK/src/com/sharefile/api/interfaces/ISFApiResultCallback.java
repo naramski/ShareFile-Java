@@ -1,10 +1,9 @@
 package com.sharefile.api.interfaces;
 
-import com.sharefile.api.SFV3Error;
-import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.exceptions.SFSDKException;
 
 public interface ISFApiResultCallback<T>
 {
 	public void onSuccess(T object);
-	public void onError(SFV3Error error, ISFQuery<T> mQuery);
+	public void onError(SFSDKException exception, ISFQuery<T> mQuery);
 }

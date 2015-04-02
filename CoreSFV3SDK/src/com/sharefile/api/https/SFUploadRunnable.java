@@ -6,14 +6,15 @@ import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.api.SFV3Error;
+
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFUploadMethod;
@@ -34,7 +35,6 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -103,15 +103,15 @@ public class SFUploadRunnable extends TransferRunnable
 			}
 			return result;
 			
-		} catch (SFV3ErrorException e) {
+		} catch (SFServerException e) {
 			Logger.e(TAG, e);
 			Result ret = new Result();
-			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, e.getV3Error(), 0);
+			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, e, 0);
 			return ret;
 			
 		} catch(Exception e) {		
 			Logger.e(TAG, e);
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage());
+			SFOtherException v3Error = new SFOtherException(e);
 			Result ret = new Result();
 			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
 			return ret;
@@ -120,9 +120,11 @@ public class SFUploadRunnable extends TransferRunnable
 	}
 
 	private SFUploadSpecification getSpecification() throws SFInvalidStateException,
-            SFV3ErrorException,
+            SFServerException,
             SFNotAuthorizedException,
-            SFOAuthTokenRenewException {
+            SFOAuthTokenRenewException,
+            SFOtherException
+    {
 		try 
 		{
             Date now = new Date();
@@ -373,7 +375,7 @@ public class SFUploadRunnable extends TransferRunnable
 		} catch(Exception ex) {
 			Logger.e(TAG,"chunk", ex);
 			mChunkUploadResponse = new SFChunkUploadResponse(ex.getLocalizedMessage(),SFSDK.INTERNAL_HTTP_ERROR);
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,responseString,ex);
+			SFOtherException v3Error = new SFOtherException(ex);
 			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, bytesUploaded);
 			
 		} finally {
@@ -424,7 +426,7 @@ public class SFUploadRunnable extends TransferRunnable
 				if(mChunkUploadResponse.mWasError) {
 					Logger.d(TAG, "Error uploading chunk - break");
                     uploadResponse = new Result();
-                    SFV3Error v3Error = new SFV3Error(mChunkUploadResponse.mErrorCode, mChunkUploadResponse.mErrorMessage);
+                    SFServerException v3Error = new SFServerException(mChunkUploadResponse.mErrorMessage);
                     uploadResponse.setFields(mChunkUploadResponse.mErrorCode, v3Error, previousChunkTotalBytes);
 					return uploadResponse;
 				}					
@@ -436,10 +438,9 @@ public class SFUploadRunnable extends TransferRunnable
 				Thread.yield();
 			}
 			
-		} catch(Exception ex) {					
-			responseString = "\nExceptionStack = " + Arrays.toString(ex.getStackTrace());
+		} catch(Exception ex) {
 			uploadResponse = new Result();
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,responseString,ex);
+			SFOtherException v3Error = new SFOtherException(ex);
 			uploadResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, previousChunkTotalBytes);
 			
 		} finally {			

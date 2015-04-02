@@ -8,7 +8,8 @@ import com.sharefile.api.entities.ISFEntities;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
 import com.sharefile.api.https.SFUploadRunnable;
@@ -220,14 +221,17 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	}
 
 	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws
-            SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException, SFOAuthTokenRenewException
+            SFServerException, SFInvalidStateException,
+            SFNotAuthorizedException, SFOAuthTokenRenewException, SFOtherException
     {
 		return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
 	}
 
     @Override
     public InputStream executeQuery(SFQueryStream query) throws
-            SFV3ErrorException, SFInvalidStateException, SFNotAuthorizedException, SFOAuthTokenRenewException {
+            SFServerException, SFInvalidStateException,
+            SFNotAuthorizedException, SFOAuthTokenRenewException ,SFOtherException
+    {
         return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
     }
 
@@ -285,9 +289,9 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
      * @param connPassword
      * @return
      * @throws SFInvalidStateException
-     * @throws SFV3ErrorException
+     * @throws com.sharefile.api.exceptions.SFServerException
      */
-    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFV3ErrorException {
+    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFServerException {
         validateClientState();
 
         return new SFUploadRunnable(v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);

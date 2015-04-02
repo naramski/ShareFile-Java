@@ -11,8 +11,9 @@ import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
-import com.sharefile.api.exceptions.SFOutOfMemoryException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFSDKException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFHttpsCaller;
@@ -21,6 +22,7 @@ import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.models.SFFolder;
+import com.sharefile.api.models.SFLockType;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
@@ -145,8 +147,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         return null;
     }
 
-    private T executeQueryWithReAuthentication() throws SFV3ErrorException,
-            SFNotAuthorizedException, SFInvalidStateException, SFOAuthTokenRenewException
+    private T executeQueryWithReAuthentication() throws SFServerException,
+            SFNotAuthorizedException, SFInvalidStateException, SFOAuthTokenRenewException, SFOtherException
     {
         if (mQuery.canReNewTokenInternally())
         {
@@ -173,20 +175,14 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         }
     }
 
-    private void throwException(SFV3ErrorException ex) throws SFV3ErrorException
-    {
-        Logger.e(TAG,ex);
-        throw ex;
-    }
-
     /**
         This call has to be synchronized to protect from the OAuthToken renewal problems otherwise
         it nmay happen that two parellel threads invoke this function, receive 401 for ShareFile
         and one of them renews the OAuthToken leaving the other one with a stale copy.
      */
 	@Override
-	public T executeBlockingQuery() throws SFV3ErrorException,
-            SFInvalidStateException, SFOAuthTokenRenewException
+	public T executeBlockingQuery() throws SFServerException,
+            SFInvalidStateException, SFOAuthTokenRenewException, SFNotAuthorizedException, SFOtherException
     {
         synchronized (mSFApiClient)
         {
@@ -259,51 +255,21 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     {
                         responseString = SFHttpsCaller.readErrorResponse(connection);
                         Logger.v(TAG, responseString);
-                        SFV3Error sfV3error = new SFV3Error(httpErrorCode, responseString, null);
-                        throwException(new SFV3ErrorException(sfV3error));
+                        SFV3ErrorParser sfV3error = new SFV3ErrorParser(httpErrorCode, responseString, null);
+                        throw new SFServerException(sfV3error.errorDisplayString());
                     }
                 }
             }
-            catch (ConnectException ex)
+            catch (Throwable ex)
             {
-                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
-                throwException(new SFV3ErrorException(sfV3error));
-            }
-            catch(SSLException ex)
-            {
-                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
-                throwException(new SFV3ErrorException(sfV3error));
-            }
-            catch (OutOfMemoryError e)
-            {
-                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null,
-                        new SFOutOfMemoryException(Arrays.toString(e.getStackTrace())));
-                throwException(new SFV3ErrorException(sfV3error));
-            }
-            catch (Exception ex)
-            {
-                if(ex instanceof SFV3ErrorException)
-                {
-                    throw (SFV3ErrorException)ex;
-                }
-
-                if(ex instanceof SFOAuthTokenRenewException)
-                {
-                    throw (SFOAuthTokenRenewException)ex;
-                }
-
-                SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR, null, ex);
-                throwException(new SFV3ErrorException(sfV3error));
+                Logger.e(TAG,ex);
+                throw new SFOtherException(ex);
             }
             finally
             {
                 SFHttpsCaller.disconnect(connection);
             }
         }
-
-        //This should never happen
-        Logger.e(TAG,"This should never happen as a result of SDK executeBlockingQuery");
-        return null;
 	}		
 
     private void callSaveCredentialsCallback(T sfobject)
@@ -381,27 +347,34 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                   + "\nmLink = " + mQuery.getLink());
     }
 
-	private T executeQueryAfterTokenRenew() throws SFV3ErrorException, SFInvalidStateException, SFOAuthTokenRenewException
+	private T executeQueryAfterTokenRenew() throws
+            SFServerException,
+            SFInvalidStateException,
+            SFOAuthTokenRenewException,
+            SFNotAuthorizedException,
+            SFOtherException
     {
 		renewToken();
 
         logMultipleTokenRenewals();
 
-		return executeBlockingQuery();
-	}
+        return executeBlockingQuery();
+    }
 
-    private T executeQueryOnSymbolicLink(SFSymbolicLink link) throws URISyntaxException,
-            SFV3ErrorException, UnsupportedEncodingException,
-            SFInvalidStateException, SFOAuthTokenRenewException
+    private T executeQueryOnSymbolicLink(SFSymbolicLink link) throws
+            URISyntaxException,UnsupportedEncodingException,
+            SFServerException, SFInvalidStateException,
+            SFOAuthTokenRenewException, SFNotAuthorizedException, SFOtherException
     {
         mQuery.setLinkAndAppendPreviousParameters(link.getLink());
+
         return executeBlockingQuery();
     }
 
 	private T executeQueryOnRedirectedObject(SFRedirection redirection) throws
-            SFInvalidStateException, SFV3ErrorException, SFOAuthTokenRenewException
+            SFInvalidStateException, SFServerException, SFOAuthTokenRenewException, SFOtherException
     {
-		T odataObject;
+		T odataObject = null;
 
         try
         {
@@ -425,9 +398,16 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             throw new RuntimeException("Server Bug: Redirection object unsupported encoding");
         }
 
-        odataObject = executeBlockingQuery();
-		
-		return odataObject;
+        try
+        {
+            odataObject = executeBlockingQuery();
+        }
+        catch (SFNotAuthorizedException e)
+        {
+            e.printStackTrace();
+        }
+
+        return odataObject;
 	}
 
     private URI mCurrentUri = null;
@@ -528,11 +508,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	 *  If an error happens during parsing the success response, 
 	 *  we return the exception description + the original server response in V3Error Object
 	 * @throws URISyntaxException 
-	 * @throws SFV3ErrorException 
+	 * @throws com.sharefile.api.exceptions.SFServerException
 	 * @throws UnsupportedEncodingException 
 	 */
-	protected T callSuccessResponseParser(String responseString) throws SFV3ErrorException,
-            SFInvalidStateException, SFOAuthTokenRenewException
+	protected T callSuccessResponseParser(String responseString) throws SFServerException,
+            SFInvalidStateException, SFOAuthTokenRenewException, SFNotAuthorizedException, SFOtherException
     {
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
@@ -548,7 +528,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 }
                 catch (URISyntaxException | UnsupportedEncodingException e)
                 {
-                    throw new SFV3ErrorException(e);
+                    throw new SFOtherException(e);
                 }
                 break;
 

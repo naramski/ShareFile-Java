@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
-import com.sharefile.api.exceptions.SFOutOfMemoryException;
 import com.sharefile.api.gson.SFGsonHelper;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -30,7 +29,8 @@ import javax.net.ssl.HttpsURLConnection;
   }
 }
  */
-public class SFV3Error 
+
+public class SFV3ErrorParser
 {
 	private static final String ERR_FORBIDDEN =   "Forbidden (403)";
 	private static final String ERR_UNAUTHORIZD = "Unauthorized (401)";
@@ -51,10 +51,10 @@ public class SFV3Error
 			case HttpsURLConnection.HTTP_UNAUTHORIZED: return ERR_UNAUTHORIZD;
 			case HttpsURLConnection.HTTP_UNAVAILABLE:return ERR_NOTREACHABLE;
 			case HttpsURLConnection.HTTP_BAD_METHOD:return ERR_BADMETHOD;
-			default: return "Unkown Error.("+ httpResponseCode+")";
+			default: return SFKeywords.UNKNOWN_ERROR + " : "+ httpResponseCode;
 		}
 	}
-			
+
 	/**
 	 *   V3Error are JSON objects. It might happen that the server returns a Non-Json object responsestring/or something we got from an http exception causing 
 	 *   a JSONException in this constructor. In such case, the constructor simply returns the following:
@@ -62,7 +62,7 @@ public class SFV3Error
 	 *   <p>message.value = Exception stack
 	 *   <p>mExtraInfo = original response string which we tried to parse
 	 */
-	public SFV3Error(int serverHttpCode , String serverRespSring, Exception exception)
+	public SFV3ErrorParser(int serverHttpCode, String serverRespSring, Exception exception)
 	{
         httpResponseCode = serverHttpCode;
 		mInternalException = exception ;
@@ -84,70 +84,33 @@ public class SFV3Error
 			JsonObject messageObject = jsonObject.getAsJsonObject(SFKeywords.MESSAGE);
 			value = SFGsonHelper.getString(messageObject, SFKeywords.VALUE, "");			
 		} 
-		catch (Exception e) 
+		catch (Throwable e)
 		{										
 			mInternalException = exception;			
 		}
 	}
 
-    public SFV3Error(int errorCode, String message) {
-        httpResponseCode = 200; // ???
-        code = String.valueOf(errorCode);
-        value = message;
-    }
-
-    protected SFV3Error(int serverHttpCode ,Exception exception)
-    {
-        httpResponseCode = serverHttpCode;
-        mInternalException = exception ;
-    }
-				
-	public boolean isAuthError()
+	public String errorDisplayString()
 	{
-		return httpResponseCode == HttpsURLConnection.HTTP_UNAUTHORIZED;
-	}
+        if(httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && value!=null)
+        {
+            return value;
+        }
 
-    public boolean isCancelled()
-    {
-        return httpResponseCode == SFSDK.HTTP_ERROR_CANCELED;
-    }
-
-    public boolean isConnectionError()
-    {
-        return httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM;
-    }
-	/**
-	 *  Allows the clients to show a localized message if it is sent from the server or optional string if its an internal error
-	 */
-	public String errorDisplayString(String optionalLocalized)
-	{
         if(httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
         {
             return "Cannot connect to network";
         }
-		else if(httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && value!=null)
+
+        if(mInternalException!=null && mInternalException.getLocalizedMessage()!=null)
 		{
-			return value;
-		}
-		else if(mInternalException!=null && mInternalException.getLocalizedMessage()!=null)
-		{
-			if(mInternalException instanceof SFOutOfMemoryException)
-			{
-				return "Out of Memory";
-			}
-			
 			return mInternalException.getLocalizedMessage();
 		}
 		
-		return optionalLocalized;
+		return SFKeywords.UNKNOWN_ERROR;
 	}
-	
-    public int getHttpResponseCode()
-    {
-        return httpResponseCode;
-    }
 
-	public Exception getException()
+    public Exception getException()
 	{
 		return mInternalException;
 	}

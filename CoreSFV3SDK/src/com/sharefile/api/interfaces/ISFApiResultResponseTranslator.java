@@ -1,6 +1,7 @@
 package com.sharefile.api.interfaces;
 
-import com.sharefile.api.SFV3Error;
+
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.utils.Utils;
 
@@ -37,8 +38,8 @@ public abstract class ISFApiResultResponseTranslator<T extends SFODataObject, T2
     }
 
     @Override
-    public void onError(SFV3Error error, ISFQuery query)
+    public void onError(SFSDKException exception, ISFQuery query)
     {
-        Utils.safeCallErrorListener(mListener,error,query);
+        Utils.safeCallErrorListener(mListener,exception,query);
     }
 }
