@@ -178,7 +178,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 					}
 
 					@Override
-					public void onError(SFV3Error v3error,ISFQuery<SFAccessControl> asApiqueri)
+					public void onError(SFSDKException v3error,ISFQuery<SFAccessControl> asApiqueri)
 					{
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");						
@@ -213,7 +213,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 					}
 
 					@Override
-					public void sfApiError(SFV3Error v3error, ISFQuery<SFODataFeed<SFCapability>> asApiqueri) 
+					public void sfApiESFSDKExceptionError v3error, ISFQuery<SFODataFeed<SFCapability>> asApiqueri)
 					{						
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -248,7 +248,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 					}
 
 					@Override
-					public void sfApiError(SFV3Error v3error, ISFQuery<SFODataFeed<SFShare>> asApiqueri) 
+					public void sSFSDKException(SFV3Error v3error, ISFQuery<SFODataFeed<SFShare>> asApiqueri)
 					{						
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -286,7 +286,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 					}
 
 					@Override
-					public void onError(SFV3Error v3error, ISFQuery<SFODataFeed<SFFavoriteFolder>> asApiqueri)
+					publiSFSDKExceptionError(SFV3Error v3error, ISFQuery<SFODataFeed<SFFavoriteFolder>> asApiqueri)
 					{						
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -321,7 +321,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 					}
 
 					@Override
-					public void sfApiError(SFV3Error v3error, ISFQuery<SFAccount> asApiqueri) 
+					pubSFSDKExceptionsfApiError(SFV3Error v3error, ISFQuery<SFAccount> asApiqueri)
 					{						
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");
@@ -357,7 +357,7 @@ public class FullscreenActivity extends Activity implements IOAuthTokenChangeHan
 					}
 
 					@Override
-					public void onError(SFV3Error v3error, ISFQuery<SFODataFeed<SFZone>> asApiqueri)
+SFSDKExceptionic void onError(SFV3Error v3error, ISFQuery<SFODataFeed<SFZone>> asApiqueri)
 					{						
 						SLog.d("SFSDK","get Item failed: ");
 						showToast("Failed");

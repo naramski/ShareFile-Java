@@ -8,6 +8,7 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFRedirectionType;
+import com.sharefile.api.exceptions.SFConnectionException;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFNotFoundException;
@@ -275,6 +276,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                         throw new SFServerException(sfV3error.errorDisplayString());
                     }
                 }
+            }
+            catch (ConnectException ex)
+            {
+                Logger.e(TAG,ex);
+                throw new SFConnectionException(ex);
             }
             catch (Throwable ex)
             {
