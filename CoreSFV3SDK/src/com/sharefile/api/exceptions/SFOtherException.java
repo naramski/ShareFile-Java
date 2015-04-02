@@ -6,4 +6,9 @@ public class SFOtherException extends SFSDKException
     {
         super(ex);
     }
+
+    public SFOtherException(String detailedMessage)
+    {
+        super(detailedMessage);
+    }
 }

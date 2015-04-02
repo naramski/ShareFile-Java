@@ -10,6 +10,7 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFNotFoundException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFOtherException;
 import com.sharefile.api.exceptions.SFSDKException;
@@ -251,6 +252,21 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     }
                     //break;
 
+                    /*
+                       The ShareFile server doesn't treat 404 correctly. Eg: Try creating a
+                       duplicate folder on ShareFile. The resulting http code
+                       is ShareFile(404) vs Connectors(409).
+                       So attempt to parse the server response String for accurate error message.
+                    */
+                    case HttpsURLConnection.HTTP_NOT_FOUND:
+                    {
+                        responseString = SFHttpsCaller.readErrorResponse(connection);
+                        Logger.v(TAG, responseString);
+                        SFV3ErrorParser sfV3error = new SFV3ErrorParser(httpErrorCode, responseString, null);
+                        throw new SFNotFoundException(sfV3error.errorDisplayString());
+                    }
+                    //break;
+
                     default:
                     {
                         responseString = SFHttpsCaller.readErrorResponse(connection);
@@ -270,7 +286,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 SFHttpsCaller.disconnect(connection);
             }
         }
-	}		
+	}
 
     private void callSaveCredentialsCallback(T sfobject)
     {
