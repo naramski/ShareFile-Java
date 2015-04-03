@@ -82,11 +82,21 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		mClientInitializedSuccessFully.set(true);
 	}
 
+    public SFApiClient(SFOAuth2Token oAuthToken) throws SFInvalidStateException
+    {
+        this(oAuthToken,
+             null,
+             SFSdk.getClientId(),
+             SFSdk.getClientSecret(),
+             SFSdk.getOAuthTokenChangeHandler(),
+             SFSdk.getReAuthHandler());
+    }
+
 	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret,
-                       IOAuthTokenChangeHandler listener, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
+                       IOAuthTokenChangeHandler tokenChangeHandler, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);		
-		mAuthTokenChangeCallback = listener;
+		mAuthTokenChangeCallback = tokenChangeHandler;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
 		mSfUserId = sfUserId;
@@ -104,7 +114,11 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
             throw new SFInvalidStateException(e.getLocalizedMessage());
         }
 
-        mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
+        if(mAuthTokenChangeCallback !=null)
+        {
+            //Don't auto-renew the token if the client does not have handler to receive the changed token.
+            mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
+        }
 
         mReAuthHandler = reAuthHandler;
 	}
@@ -119,12 +133,13 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	{
 		mClientInitializedSuccessFully.set(false);
 		
-		copyOAuthToken(oauthtoken);		
-		
-		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
-		
+		copyOAuthToken(oauthtoken);
+
 		if(mAuthTokenChangeCallback !=null)
 		{
+            //Don't auto-renew the token if the client does not have handler to receive the changed token.
+            mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
+
 			try
 			{
                 //give the app which created this SFClient object a chance to store the new token.

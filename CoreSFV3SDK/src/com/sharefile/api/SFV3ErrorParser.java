@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.gson.SFGsonHelper;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -38,7 +38,7 @@ public class SFV3ErrorParser
 	private static final String ERR_BADMETHOD = "Method not allowed (405)";
 					
 	protected Exception mInternalException = null;
-    protected int httpResponseCode = SFSDK.INTERNAL_HTTP_ERROR;
+    protected int httpResponseCode = SFSdkGlobals.INTERNAL_HTTP_ERROR;
     protected String code = "";
     protected String lang = null;
     protected String value = null;
@@ -92,12 +92,12 @@ public class SFV3ErrorParser
 
 	public String errorDisplayString()
 	{
-        if(httpResponseCode != SFSDK.INTERNAL_HTTP_ERROR && value!=null)
+        if(httpResponseCode != SFSdkGlobals.INTERNAL_HTTP_ERROR && value!=null)
         {
             return value;
         }
 
-        if(httpResponseCode == SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
+        if(httpResponseCode == SFSdkGlobals.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)
         {
             return "Cannot connect to network";
         }

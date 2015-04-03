@@ -3,11 +3,9 @@ package com.sharefile.api.https;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFSDKDefaultAccessScope;
 
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.exceptions.SFCanceledException;
-import com.sharefile.api.exceptions.SFOtherException;
 import com.sharefile.api.exceptions.SFSDKException;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -71,7 +69,7 @@ public abstract class TransferRunnable implements Runnable {
     {
 		Result ret = new Result();
 		SFCanceledException v3Error = new SFCanceledException("Canceled");
-		ret.setFields(SFSDK.HTTP_ERROR_CANCELED, v3Error, bytesTransfered);
+		ret.setFields(SFSdkGlobals.HTTP_ERROR_CANCELED, v3Error, bytesTransfered);
 		return ret;
 	}
 

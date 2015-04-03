@@ -1,6 +1,6 @@
 package com.sharefile.api.constants;
 
-public class SFSDK 
+public class SFSdkGlobals
 {
 	public static final String VERSION_FOR_QUERY_URL = "v3";
 	public static final String VERSION= "V3.1.0";
@@ -9,12 +9,12 @@ public class SFSDK
     public static final String DEFAULT_HOST = ".sharefile.com";
     public static final String DEFAULT_HOST_EU = ".sharefile.eu";
 
-	public static final String API_SERVER_TEST = "sharefiletest.com";
-	public static final String API_SERVER_DEV = "sf-apidev.com";
-	public static final String API_SERVER_PRODUCTION = "sf-api.com";
-	public static final String API_SERVER_PRODUCTION_EU = "sf-api.eu";
+	private static final String API_SERVER_TEST = "sharefiletest.com";
+	private static final String API_SERVER_DEV = "sf-apidev.com";
+	private static final String API_SERVER_PRODUCTION = "sf-api.com";
+	private static final String API_SERVER_PRODUCTION_EU = "sf-api.eu";
 		
-	public static final String[] mApiServer = {API_SERVER_PRODUCTION, API_SERVER_DEV,API_SERVER_TEST,API_SERVER_PRODUCTION_EU};
+	private static final String[] mApiServer = {API_SERVER_PRODUCTION, API_SERVER_DEV,API_SERVER_TEST,API_SERVER_PRODUCTION_EU};
 		
 	private static final int HOST_INDEX_PRODUCTION = 0;
 	private static final int HOST_INDEX_DEV 		  = 1;

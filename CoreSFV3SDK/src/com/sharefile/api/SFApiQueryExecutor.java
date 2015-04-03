@@ -5,7 +5,6 @@ import com.google.gson.JsonParser;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFConnectionException;
@@ -14,7 +13,6 @@ import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFNotFoundException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFOtherException;
-import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.https.SFCookieManager;
@@ -24,7 +22,6 @@ import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.models.SFFolder;
-import com.sharefile.api.models.SFLockType;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
@@ -38,10 +35,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLException;
 
 /**
  *  This class provides the bare-minimum functions to make the V3 API server calls and read + parse their responses.

@@ -1,10 +1,9 @@
 package com.sharefile.api;
 
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.entities.SFAccessControlsEntity;
 import com.sharefile.api.entities.SFAccountsEntity;
 import com.sharefile.api.entities.SFAsyncOperationsEntity;
-import com.sharefile.api.entities.SFCapabilitiesEntity;
 import com.sharefile.api.entities.SFConfigsEntity;
 import com.sharefile.api.entities.SFDevicesEntity;
 import com.sharefile.api.entities.SFFavoriteFoldersEntity;
@@ -57,7 +56,7 @@ public class SFQueryBuilder
     {
           URI uri;
           
-          String urlSpec = String.format(FORMAT_GET_TOP_FOLDER, subdomain,SFSDK.getApiServer(hostname),folderID);
+          String urlSpec = String.format(FORMAT_GET_TOP_FOLDER, subdomain, SFSdkGlobals.getApiServer(hostname),folderID);
           
           uri = new URI(urlSpec);
                       
@@ -68,7 +67,7 @@ public class SFQueryBuilder
 	{
 		URI uri;
         
-        String urlSpec = String.format(FORMAT_GET_DEVICES, subdomain,SFSDK.getApiServer(hostname),deviceID);
+        String urlSpec = String.format(FORMAT_GET_DEVICES, subdomain, SFSdkGlobals.getApiServer(hostname),deviceID);
         
         uri = new URI(urlSpec);
                     

@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.https.SFHttpsCaller;
@@ -102,7 +102,7 @@ public class SFOAuthTokenRenewer
 	 */
 	public SFOAuth2Token getNewAccessToken() throws SFOAuthTokenRenewException
 	{
-		int httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
+		int httpErrorCode = SFSdkGlobals.INTERNAL_HTTP_ERROR;
 		String responseString;
 		
 		try 

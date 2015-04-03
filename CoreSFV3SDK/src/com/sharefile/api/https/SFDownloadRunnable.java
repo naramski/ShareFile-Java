@@ -1,18 +1,14 @@
 package com.sharefile.api.https;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
 
 import com.sharefile.api.SFV3ErrorParser;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOtherException;
-import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.exceptions.SFServerException;
-import com.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.sharefile.api.log.Logger;
 
 import java.io.Closeable;
@@ -21,8 +17,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -35,7 +29,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 	private final Result mResponse = new Result();
 
 	// current transfer
-	private int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
+	private int httpErrorCode =  SFSdkGlobals.INTERNAL_HTTP_ERROR;
 	private String responseString = null;
 	private long bytesRead = 0;
 
@@ -215,7 +209,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 	private void callInternalErrorResponseFiller(Exception e,long bytesDownloaded)
 	{
 		SFOtherException v3Error = new SFOtherException(e);
-		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
+		mResponse.setFields(SFSdkGlobals.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
 	}
 
 	public Result getResponse() {

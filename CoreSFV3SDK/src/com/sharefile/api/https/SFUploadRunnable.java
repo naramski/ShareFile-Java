@@ -8,7 +8,7 @@ import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFSDKDefaultAccessScope;
 
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
@@ -33,7 +33,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.util.Arrays;
 import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -106,14 +105,14 @@ public class SFUploadRunnable extends TransferRunnable
 		} catch (SFServerException e) {
 			Logger.e(TAG, e);
 			Result ret = new Result();
-			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, e, 0);
+			ret.setFields(SFSdkGlobals.INTERNAL_HTTP_ERROR, e, 0);
 			return ret;
 			
 		} catch(Exception e) {		
 			Logger.e(TAG, e);
 			SFOtherException v3Error = new SFOtherException(e);
 			Result ret = new Result();
-			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
+			ret.setFields(SFSdkGlobals.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
 			return ret;
 			
 		}
@@ -281,7 +280,7 @@ public class SFUploadRunnable extends TransferRunnable
 				Logger.e(TAG,"exception parsing upload response",e);
 				mWasError = true;
 				mErrorMessage = "exception parsing upload response";
-				mErrorCode = SFSDK.INTERNAL_HTTP_ERROR;				
+				mErrorCode = SFSdkGlobals.INTERNAL_HTTP_ERROR;
 			}						
 		}
 												
@@ -374,9 +373,9 @@ public class SFUploadRunnable extends TransferRunnable
 			
 		} catch(Exception ex) {
 			Logger.e(TAG,"chunk", ex);
-			mChunkUploadResponse = new SFChunkUploadResponse(ex.getLocalizedMessage(),SFSDK.INTERNAL_HTTP_ERROR);
+			mChunkUploadResponse = new SFChunkUploadResponse(ex.getLocalizedMessage(), SFSdkGlobals.INTERNAL_HTTP_ERROR);
 			SFOtherException v3Error = new SFOtherException(ex);
-			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, bytesUploaded);
+			ret.setFields(SFSdkGlobals.INTERNAL_HTTP_ERROR, v3Error, bytesUploaded);
 			
 		} finally {
 			SFHttpsCaller.disconnect(conn);
@@ -441,7 +440,7 @@ public class SFUploadRunnable extends TransferRunnable
 		} catch(Exception ex) {
 			uploadResponse = new Result();
 			SFOtherException v3Error = new SFOtherException(ex);
-			uploadResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, previousChunkTotalBytes);
+			uploadResponse.setFields(SFSdkGlobals.INTERNAL_HTTP_ERROR, v3Error, previousChunkTotalBytes);
 			
 		} finally {			
 			closeStream(mFileInputStream);			

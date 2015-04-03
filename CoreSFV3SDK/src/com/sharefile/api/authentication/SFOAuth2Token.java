@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.gson.SFGsonHelper;
 
@@ -77,7 +77,7 @@ public final class SFOAuth2Token
 	 */
 	public String getApiServer()
 	{
-		return mSubdomain +"." + SFSDK.getApiServer(mApicp);
+		return mSubdomain +"." + SFSdkGlobals.getApiServer(mApicp);
 	}
 			
 	public SFOAuth2Token(JsonObject json) 
