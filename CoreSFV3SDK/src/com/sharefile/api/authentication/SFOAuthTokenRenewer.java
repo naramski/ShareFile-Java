@@ -3,6 +3,7 @@ package com.sharefile.api.authentication;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sharefile.api.SFSdk;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
@@ -31,6 +32,11 @@ public class SFOAuthTokenRenewer
 	private final SFOAuth2Token mOldAccessToken;
 	private final String mWebLoginClientID;
 	private final String mWebLoginClientSecret;
+
+    public SFOAuthTokenRenewer(SFOAuth2Token oldtoken)
+    {
+        this(oldtoken, SFSdk.getClientId(),SFSdk.getClientSecret());
+    }
 
 	public SFOAuthTokenRenewer(SFOAuth2Token oldtoken,String clientID,String clientSecret)
 	{

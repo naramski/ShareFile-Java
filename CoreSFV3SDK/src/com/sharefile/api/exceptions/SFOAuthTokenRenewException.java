@@ -9,7 +9,7 @@ public class SFOAuthTokenRenewException extends SFSDKException
 {
 	public SFOAuthTokenRenewException(String reason)
 	{
-		super(new RuntimeException(reason));
+		super(reason);
 	}
 
     public SFOAuthTokenRenewException(Throwable e)
