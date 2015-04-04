@@ -1658,7 +1658,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param opid  (default: null)	 	
 	* @param threadCount  (default: 4)	 	
 	* @param responseFormat  (default: "json")	 	
-	* @param notify  (default: false)	 	
+	* @param notify  (default: true)	 	
 	* @param clientCreatedDateUTC  (default: null)	 	
 	* @param clientModifiedDateUTC  (default: null)	 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
@@ -1836,7 +1836,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param opid  (default: null)	 	
 	* @param threadCount  (default: 4)	 	
 	* @param responseFormat  (default: "json")	 	
-	* @param notify  (default: false)	 	
+	* @param notify  (default: true)	 	
 	* @param clientCreatedDateUTC  (default: null)	 	
 	* @param clientModifiedDateUTC  (default: null)	 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
@@ -2010,7 +2010,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param opid  (default: null)	 	
 	* @param threadCount  (default: 4)	 	
 	* @param responseFormat  (default: "json")	 	
-	* @param notify  (default: false)	 	
+	* @param notify  (default: true)	 	
 	* @param clientCreatedDateUTC  (default: null)	 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
 	*/
@@ -2179,7 +2179,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param opid  (default: null)	 	
 	* @param threadCount  (default: 4)	 	
 	* @param responseFormat  (default: "json")	 	
-	* @param notify  (default: false)	 	
+	* @param notify  (default: true)	 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
 	*/
 	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify) throws InvalidOrMissingParameterException 	{
