@@ -26,6 +26,7 @@ import java.net.URISyntaxException;
  * lets simplify building the queries with the query builder class which holds static entity references so that the app does 
  * not haver to  create a new entity object every time it needs to build a query.
  */
+@Deprecated
 public class SFQueryBuilder
 {
 	public static final SFAccessControlsEntity ACCESS_CONTROL = new SFAccessControlsEntity(null);
@@ -43,34 +44,4 @@ public class SFQueryBuilder
 	public static final SFStorageCentersEntity STORAGE_CENTER = new SFStorageCentersEntity(null);
 	public static final SFZonesEntity ZONES = new SFZonesEntity(null);
     public static final SFDevicesEntity DEVICES = new SFDevicesEntity(null);
-		
-	private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
-	private static final String FORMAT_GET_DEVICES = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Devices(%s)";
-	
-	
-	/**
-	 *   We need to manually construct the v3 url for the TOP folder. This function provides the helper for the apps
-	 *   to build that url.
-	 */
-	public static final URI getDefaultURL(final String subdomain,String hostname,final String folderID) throws URISyntaxException
-    {
-          URI uri;
-          
-          String urlSpec = String.format(FORMAT_GET_TOP_FOLDER, subdomain, SFSdkGlobals.getApiServer(hostname),folderID);
-          
-          uri = new URI(urlSpec);
-                      
-          return uri;
-    }
-	
-	public static final URI getDeviceURL(final String subdomain, String hostname, final String deviceID) throws URISyntaxException
-	{
-		URI uri;
-        
-        String urlSpec = String.format(FORMAT_GET_DEVICES, subdomain, SFSdkGlobals.getApiServer(hostname),deviceID);
-        
-        uri = new URI(urlSpec);
-                    
-        return uri;
-	}
 }

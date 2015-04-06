@@ -107,7 +107,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
         try
         {
-            mDefaultTopUrl = SFQueryBuilder.getDefaultURL(oauthToken.getSubdomain(),oauthToken.getApiCP(), SFFolderID.TOP);
+            mDefaultTopUrl = Utils.getDefaultURL(oauthToken.getSubdomain(),oauthToken.getApiCP(), SFFolderID.TOP);
         }
         catch (URISyntaxException e)
         {
@@ -319,7 +319,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
             return mDefaultTopUrl;
         }
 
-        return SFQueryBuilder.getDefaultURL(mOAuthToken.get().getSubdomain(),mOAuthToken.get().getApiCP(), folderID);
+        return Utils.getDefaultURL(mOAuthToken.get().getSubdomain(),mOAuthToken.get().getApiCP(), folderID);
     }
 
     public URI getTopUrl() {
@@ -328,7 +328,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
     public URI getDeviceUrl(String deviceId) throws URISyntaxException
     {
-        return SFQueryBuilder.getDeviceURL(getOAuthToken().getSubdomain(),
+        return Utils.getDeviceURL(getOAuthToken().getSubdomain(),
                 getOAuthToken().getApiCP(),
                 deviceId);
     }
