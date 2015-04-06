@@ -15,7 +15,7 @@ import com.sharefile.api.enumerations.SFHttpMethod;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.log.Logger;
 
-public class SFOAuthSimpleAuthenticator 
+public class SFOAuthService
 {
 	
 	private static final String TAG = SFKeywords.TAG + "-simpleauth";
