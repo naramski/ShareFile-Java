@@ -14,7 +14,7 @@ import com.sharefile.api.models.SFODataObject;
 
 public interface ISFQuery<T> extends ISFTypeFilter
 {
-    void setApiClient(ISFApiClient apiClient);
+    ISFQuery<T>  setApiClient(ISFApiClient apiClient);
 
 	void setFrom(String string);
 

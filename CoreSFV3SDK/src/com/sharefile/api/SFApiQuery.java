@@ -57,9 +57,10 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	private boolean mLinkIsParametrized = false;
 
     @Override
-    public void setApiClient(ISFApiClient apiClient)
+    public ISFQuery<T> setApiClient(ISFApiClient apiClient)
     {
         this.apiClient = apiClient;
+        return this;
     }
 
     /**
