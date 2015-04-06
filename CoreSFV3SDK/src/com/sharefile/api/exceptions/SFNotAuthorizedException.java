@@ -7,4 +7,9 @@ public class SFNotAuthorizedException extends SFSDKException
     {
         super(detailedMessage);
     }
+
+    public SFNotAuthorizedException(Exception e)
+    {
+        super(e);
+    }
 }
