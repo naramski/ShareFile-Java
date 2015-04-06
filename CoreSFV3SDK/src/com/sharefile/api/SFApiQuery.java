@@ -56,6 +56,12 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	private URI mLink = null; //The URL link obtained for V3connectors from their symbolic link or 302 redirect.
 	private boolean mLinkIsParametrized = false;
 
+    @Override
+    public void setApiClient(ISFApiClient apiClient)
+    {
+        this.apiClient = apiClient;
+    }
+
     /**
      The apiClient has an option to add query any parameters as follows:
 
