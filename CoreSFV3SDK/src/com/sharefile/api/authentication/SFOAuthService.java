@@ -11,19 +11,13 @@ import com.sharefile.api.log.Logger;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -56,30 +50,24 @@ public class SFOAuthService
         {
             URL grantUrl = new URL(String.format("https://%s/oauth/token", hostname));
 
-            HashMap<String, String> params = new HashMap<String, String>();
-            StringBuilder queryString = new StringBuilder();
 
-            params.put(SFKeywords.GRANT_TYPE, SFKeywords.PASSWORD);
-            params.put(SFKeywords.CLIENT_ID, clientId);
-            params.put(SFKeywords.CLIENT_SECRET, clientSecret);
-            params.put(SFKeywords.USERNAME, username);
-            params.put(SFKeywords.PASSWORD, password);
-
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                queryString.append(String.format("%s=%s&", entry.getKey(), URLEncoder.encode(entry.getValue(), SFKeywords.UTF_8)));
-            }
-
-            queryString.deleteCharAt(queryString.length() - 1);
-            //Logger.d(TAG,"%s", queryString);
+            List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
+            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, clientId));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, clientSecret));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.GRANT_TYPE, SFKeywords.PASSWORD));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.USERNAME,username));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.PASSWORD,password));
+            String body = SFHttpsCaller.getBodyForWebLogin(nvPairs);
 
             connection = (HttpsURLConnection) grantUrl.openConnection();
             connection.setRequestMethod(SFHttpMethod.POST.toString());
+            connection.setRequestProperty(SFKeywords.CONTENT_LENGTH, "" + body.length());
             connection.addRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_FORM_URLENCODED);
 
             connection.setDoOutput(true);
             connection.connect();
 
-            connection.getOutputStream().write(queryString.toString().getBytes());
+            SFHttpsCaller.postBody(connection,body);
 
             switch (SFHttpsCaller.safeGetResponseCode(connection))
             {
@@ -94,7 +82,6 @@ public class SFOAuthService
                     String errResponse = SFHttpsCaller.readErrorResponse(connection);
                     throw new SFNotAuthorizedException(errResponse);
             }
-
         }
         catch (IOException e)
         {
