@@ -7,7 +7,9 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.https.SFHttpsCaller;
+import com.sharefile.api.interfaces.IOAuthTokenCallback;
 import com.sharefile.api.interfaces.ISFOAuthService;
 import com.sharefile.api.log.Logger;
 
@@ -25,7 +27,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class SFOAuthService implements ISFOAuthService
 {
-	
+
 	private static final String TAG = SFKeywords.TAG + "-simpleauth";
 
 	/**
@@ -190,7 +192,7 @@ public class SFOAuthService implements ISFOAuthService
     }
 
     protected SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken, String clientId,String clientSecret)
-            throws IOException, SFOAuthTokenRenewException
+            throws SFOAuthTokenRenewException
     {
         SFOAuthTokenRenewer tokenRenewer = new SFOAuthTokenRenewer(oldToken,clientId,clientSecret);
         return tokenRenewer.getNewAccessToken();
@@ -223,11 +225,87 @@ public class SFOAuthService implements ISFOAuthService
 
     @Override
     public SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken)
-            throws IOException, SFOAuthTokenRenewException, SFInvalidStateException
+            throws SFOAuthTokenRenewException, SFInvalidStateException
     {
         SFSdk.validateInit();
 
         refreshOAuthToken(oldToken,SFSdk.getClientId(),SFSdk.getClientSecret());
         return null;
+    }
+
+    @Override
+    public void authenticateAsync(final String subDomain,
+                                   final String apiControlPlane,
+                                   final String username,
+                                   final String password, final IOAuthTokenCallback callback)
+    {
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    SFOAuth2Token token = authenticate(subDomain,apiControlPlane,username,password);
+                    callback.onSuccess(token);
+                }
+                catch (SFSDKException e)
+                {
+                    callback.onError(e);
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+    @Override
+    public void authenticateAsync(final String subDomain,
+                                  final String apiControlPlane,
+                                  final String samlAssertion,
+                                  final IOAuthTokenCallback callback)
+    {
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    SFOAuth2Token token = authenticate(subDomain,apiControlPlane,samlAssertion);
+                    callback.onSuccess(token);
+                }
+                catch (SFSDKException e)
+                {
+                    callback.onError(e);
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+    @Override
+    public void refreshOAuthTokenAsync(final SFOAuth2Token oldToken,
+                                       final IOAuthTokenCallback callback)
+    {
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    SFOAuth2Token token = refreshOAuthToken(oldToken);
+                    callback.onSuccess(token);
+                }
+                catch (SFSDKException e)
+                {
+                    callback.onError(e);
+                }
+            }
+        });
+
+        thread.start();
     }
 }
