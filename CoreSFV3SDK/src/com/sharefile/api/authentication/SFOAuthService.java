@@ -3,10 +3,12 @@ package com.sharefile.api.authentication;
 import com.sharefile.api.SFSdk;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
+import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.https.SFHttpsCaller;
+import com.sharefile.api.interfaces.ISFOAuthService;
 import com.sharefile.api.log.Logger;
 
 import org.apache.http.NameValuePair;
@@ -21,7 +23,7 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class SFOAuthService
+public class SFOAuthService implements ISFOAuthService
 {
 	
 	private static final String TAG = SFKeywords.TAG + "-simpleauth";
@@ -29,9 +31,11 @@ public class SFOAuthService
 	/**
 	 * Authenticate via username/password
 	 *
-	 * @param hostname
-	 *            - hostname like "myaccount.sharefile.com"
-	 * @param clientId
+	 * @param subDomain
+	 *            - hostname like "yourcompanyname"
+     * @param apiControlPlane
+     *            - hostname like "sharefile.com"
+     * @param clientId
 	 *            - your apiClient id
 	 * @param clientSecret
 	 *            - your apiClient secret
@@ -42,14 +46,13 @@ public class SFOAuthService
 	 * @return an OAuth2Token instance
 	 * @throws SFJsonException
 	 */
-	public static SFOAuth2Token authenticate(String hostname, String clientId,String clientSecret, String username, String password)
+	protected SFOAuth2Token authenticate(String subDomain, String apiControlPlane, String clientId,String clientSecret, String username, String password)
 			throws SFNotAuthorizedException, SFJsonException
 	{
         HttpsURLConnection connection = null;
         try
         {
-            URL grantUrl = new URL(String.format("https://%s/oauth/token", hostname));
-
+            URL grantUrl = new URL(oAuthTokenUrl(subDomain,apiControlPlane));
 
             List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
             nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, clientId));
@@ -97,7 +100,19 @@ public class SFOAuthService
         }
 	}
 
-    public static SFOAuth2Token authenticate(String subdomain,String topLeveDomain,String samlAssertion)
+    /**
+     * Authenticate via samlAssertion
+     *
+     * @param subDomain
+     *            - hostname like "yourcompanyname"
+     * @param apiControlPlane
+     *            - hostname like "sharefile.com"
+     * @param samlAssertion
+     *            - Base64 URL encoded SAML assertion.
+     * @return an OAuth2Token instance
+     * @throws SFJsonException
+     */
+    protected SFOAuth2Token authenticate(String subDomain,String apiControlPlane, String clientId, String clientSecret,String samlAssertion)
             throws SFNotAuthorizedException, SFJsonException
     {
         HttpsURLConnection conn = null;
@@ -106,7 +121,7 @@ public class SFOAuthService
         URL url = null;
         try
         {
-            url = new URL(samlToOAuthTokenUrl(subdomain, topLeveDomain));
+            url = new URL(oAuthTokenUrl(subDomain, apiControlPlane));
 
             Logger.v(TAG, "Get AccessToken from: " + url);
             conn = (HttpsURLConnection) url.openConnection();
@@ -114,8 +129,8 @@ public class SFOAuthService
             SFHttpsCaller.setMethod(conn, "POST");
 
             List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
-            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, SFSdk.getClientId()));
-            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, SFSdk.getClientSecret()));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, clientId));
+            nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, clientSecret));
             nvPairs.add(new BasicNameValuePair(SFKeywords.GRANT_TYPE, URLEncoder.encode("urn:ietf:params:oauth:grant-type:saml2-bearer", "UTF-8")));
             nvPairs.add(new BasicNameValuePair("samlresponse", URLEncoder.encode(samlAssertion, "UTF-8")));
             String body = SFHttpsCaller.getBodyForWebLogin(nvPairs);
@@ -160,17 +175,59 @@ public class SFOAuthService
         }
     }
 
-    private static String samlToOAuthTokenUrl(String subdomain,String topleveldomain)
+    private static String oAuthTokenUrl(String subDomain, String apiControlPlane)
     {
-        String url = "https://" + subdomain + topleveldomain + SFKeywords.SF_OAUTH_TOKEN_PATH;
+        String strDot = "";
+
+        if(apiControlPlane.charAt(0)!='.')
+        {
+            strDot = ".";
+        }
+
+        String url = "https://" + subDomain + strDot + apiControlPlane + SFKeywords.SF_OAUTH_TOKEN_PATH;
 
         return url;
     }
 
-    public static SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken, String clientId,String clientSecret)
+    protected SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken, String clientId,String clientSecret)
             throws IOException, SFOAuthTokenRenewException
     {
         SFOAuthTokenRenewer tokenRenewer = new SFOAuthTokenRenewer(oldToken,clientId,clientSecret);
         return tokenRenewer.getNewAccessToken();
+    }
+
+    @Override
+    public SFOAuth2Token authenticate(String subDomain,
+                                      String apiControlPlane,
+                                      String username,
+                                      String password)
+            throws SFNotAuthorizedException, SFJsonException, SFInvalidStateException
+    {
+
+        SFSdk.validateInit();
+
+        return authenticate(subDomain,apiControlPlane,
+                SFSdk.getClientId(),
+                SFSdk.getClientSecret(),username,password);
+    }
+
+    @Override
+    public SFOAuth2Token authenticate(String subDomain,
+                                      String apiControlPlane,
+                                      String samlAssertion)
+            throws SFNotAuthorizedException,SFJsonException, SFInvalidStateException
+    {
+        SFSdk.validateInit();
+        return authenticate(subDomain,apiControlPlane,SFSdk.getClientId(),SFSdk.getClientSecret());
+    }
+
+    @Override
+    public SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken)
+            throws IOException, SFOAuthTokenRenewException, SFInvalidStateException
+    {
+        SFSdk.validateInit();
+
+        refreshOAuthToken(oldToken,SFSdk.getClientId(),SFSdk.getClientSecret());
+        return null;
     }
 }

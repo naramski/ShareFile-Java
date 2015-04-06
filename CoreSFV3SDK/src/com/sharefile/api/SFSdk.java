@@ -1,7 +1,9 @@
 package com.sharefile.api;
 
+import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.IOAuthTokenChangeHandler;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
+import com.sharefile.api.utils.Utils;
 
 public class SFSdk
 {
@@ -10,6 +12,24 @@ public class SFSdk
     private static String mRedirectUrl;
     private static ISFReAuthHandler mReAuthHandler;
     private static IOAuthTokenChangeHandler mOAuthTokenChangeHandler;
+
+    public static boolean isInitialized()
+    {
+        if(Utils.isEmpty(mClientId) || Utils.isEmpty(mClientSecret) || Utils.isEmpty(mRedirectUrl))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void validateInit() throws SFInvalidStateException
+    {
+        if(!SFSdk.isInitialized())
+        {
+            throw new SFInvalidStateException("SDK not initilized.Call SFSdk.init()");
+        }
+    }
 
     public static void init(String clientId, String clientSecret, String redirectUrl)
     {
