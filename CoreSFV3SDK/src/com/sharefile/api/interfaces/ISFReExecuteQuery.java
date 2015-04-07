@@ -4,5 +4,5 @@ import com.sharefile.api.SFApiClient;
 
 public interface ISFReExecuteQuery<T>
 {
-	public void execute(SFApiClient sfApiClient , ISFQuery<T> query , ISFApiResultCallback<T> listener, ISFReAuthHandler reauthHandler);
+	public void execute(ISFApiClient sfApiClient , ISFQuery<T> query , ISFApiResultCallback<T> listener, ISFReAuthHandler reauthHandler);
 }

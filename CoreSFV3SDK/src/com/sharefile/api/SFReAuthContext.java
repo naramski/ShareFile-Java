@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFSDKException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
@@ -19,11 +20,31 @@ public final class SFReAuthContext<T>
 	private final ISFQuery<T> mQuery;
 	private final ISFApiResultCallback<T> mOriginalListener;
 	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
-	private final SFApiClient mSFApiClient;
+	private final ISFApiClient mSFApiClient;
 	private final ISFReAuthHandler mReauthHandler;
+
+    public ISFQuery<T> getQuery()
+    {
+        return mQuery;
+    }
+
+    public ISFApiClient getApiClient()
+    {
+        return mSFApiClient;
+    }
+
+    public ISFApiResultCallback getCallback()
+    {
+        return mOriginalListener;
+    }
+
+    public ISFReAuthHandler getReAuthHandler()
+    {
+        return mReauthHandler;
+    }
 		
 	@SFSDKDefaultAccessScope
-	SFReAuthContext(ISFQuery<T> sfapiApiqueri,ISFApiResultCallback<T> originalListener, ISFReAuthHandler reauthHandler,SFApiClient sfApiClient)
+	SFReAuthContext(ISFQuery<T> sfapiApiqueri,ISFApiResultCallback<T> originalListener, ISFReAuthHandler reauthHandler,ISFApiClient sfApiClient)
 	{
 		mQuery = sfapiApiqueri;
 		mOriginalListener = originalListener;

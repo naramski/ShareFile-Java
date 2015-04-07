@@ -91,7 +91,8 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	 * Currently the server is not returning a DownloadSpecification for download requests, 
 	 * its directly returning the download link. For the sake of completeness, implement the local
 	 * response filler for such requests.	 
-	 */			
+	 */
+    @Override
 	public boolean constructDownloadSpec()
 	{
 		boolean ret = false;
@@ -140,26 +141,32 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		mUserName = sourceQuery.mUserName;
 		mPassword = sourceQuery.mPassword;
 	}
-				
-	public void setCredentials(final String userName,final String password)
+
+    @Override
+	public ISFQuery<T> setCredentials(final String userName,final String password)
 	{
 		mUserName = userName;
 		mPassword = password;
+        return this;
 	}
-	
+
+    @Override
 	public final String getUserName()
 	{
 		return mUserName;		
 	}
-	
+
+    @Override
 	public final String getPassword()
 	{
 		return mPassword;		
 	}
-	
-	public final void setFrom(String setFrom)
+
+    @Override
+	public final ISFQuery<T>  setFrom(String setFrom)
 	{
-		mFromEntity = setFrom;								
+		mFromEntity = setFrom;
+        return this;
 	}
 
     /**
@@ -169,14 +176,17 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
         if the query needs additional params, the call to buildQueryUrlString() will add those to this
         one. In case you want to avoid that, call setFullyParametrizedLink() instead.
     */
-	public final void setLink(String link) throws URISyntaxException
+    @Override
+	public final ISFQuery<T>  setLink(String link) throws URISyntaxException
 	{
 		if(link!=null)
 		{
 			mLink = new URI(link);
 		}
+        return this;
 	}
-	
+
+    @Override
 	public final URI getLink()
 	{
 		return mLink;
@@ -186,10 +196,12 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	{
 		mProvider = provider;
 	}
-		
-	public final void setAction(String action)
+
+    @Override
+	public final ISFQuery<T>  setAction(String action)
 	{
-		mAction = action;				
+		mAction = action;
+        return this;
 	}
 	
 	public final void setHttpMethod(SFHttpMethod httpMethod)
@@ -229,63 +241,76 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 			throw new RuntimeException(SFKeywords.EXCEPTION_MSG_INVALID_PARAMETER_TO_QUERY);
 		}
 	}
-		
-	public final void addActionIds(String actionid)
+
+    @Override
+	public final ISFQuery<T>  addActionIds(String actionid)
 	{
 		mActionId = actionid;
+        return this;
 	}
 	
-	public final void addActionIds(SFSafeEnum actionId)
+	public final ISFQuery<T>  addActionIds(SFSafeEnum actionId)
 	{
 		mActionId = actionId.getOriginalString();
+        return this;
 	}
-	
-	public final void addSubAction(String subaction)
+
+    @Override
+	public final ISFQuery<T>  addSubAction(String subaction)
 	{
 		mSubAction = subaction;
+        return this;
 	}
-	
-	public final void setBody(SFODataObject body)
+
+    @Override
+	public final ISFQuery<T>  setBody(SFODataObject body)
 	{				
 		mBody = SFDefaultGsonParser.serialize(body.getClass(), body);
+        return this;
 	}
-	
-	public final void setBody(String str)
+
+	public final ISFQuery<T>  setBody(String str)
 	{		
 		mBody = str;
+        return this;
 	}
-	
+
+    @Override
 	public final String getBody()
 	{		
 		return mBody;
 	}
 
-	public final void addQueryString(String key,Object object)
+    @Override
+	public final ISFQuery<T>  addQueryString(String key,Object object)
 	{
         if(object == null || key == null)
         {
             Logger.d(TAG,"Cannot add NULL parameter to queryString");
-            return;
+            return this;
         }
 
 		mQueryMap.put(key, object.toString());
+        return this;
 	}
 
-	public void addQueryString(String key, ArrayList<String> ids) 
+    @Override
+	public ISFQuery<T>  addQueryString(String key, ArrayList<String> ids)
 	{
 		if(ids == null || key == null)
         {
-            return;
+            return this;
         }
 
         //put expansion parameters in expansion map instead
         if(SFQueryParams.EXPAND.equals(key))
         {
             expand(ids);
-            return;
+            return this;
         }
 
         addQueryStringInternal(key,ids);
+        return this;
 	}
 
     private void addQueryStringInternal(String key, ArrayList<String> ids)
@@ -414,6 +439,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
      * <p>https://account.sf-api.com/sf/v3/Items(parentid)/Folder?overwrite=false&passthrough=false 
 	 * @throws UnsupportedEncodingException 
 	 */
+    @Override
 	public final String buildQueryUrlString(String server) throws UnsupportedEncodingException
 	{
 		if(mLinkIsParametrized && mLink!=null)
@@ -526,7 +552,8 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		
 		return sb.toString();
 	}
-	
+
+    @Override
 	public final String getHttpMethod()
 	{
 		return mHttpMethod;
@@ -535,6 +562,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	/**
 	 * we can renew token for Sharefile providers. 
 	 */
+    @Override
 	public boolean canReNewTokenInternally()
 	{				
 		boolean ret = true;
@@ -548,57 +576,64 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	}
 
 	@Override
-	public void setHttpMethod(String string) 
+	public ISFQuery<T>  setHttpMethod(String string)
 	{
 		mHttpMethod = string;
+        return this;
 	}
 
 	@Override
-	public void addIds(URI url) 
+	public ISFQuery<T>  addIds(URI url)
 	{		
-		mLink = url;		
+		mLink = url;
+        return this;
 	}
 
 	@Override
-	public void setBody( ArrayList<?> sfoDataObjectsFeed) 
+	public ISFQuery<T>  setBody( ArrayList<?> sfoDataObjectsFeed)
 	{
         Logger.e(TAG,"This is not implemented");
+        return this;
 	}
 
 	@Override
-	public void setLink(URI uri) 
+	public ISFQuery<T>  setLink(URI uri)
 	{
 		mLinkIsParametrized = false;
 		mLink = uri;
+        return this;
 	}
 
 	@Override
-	public void setFullyParametrizedLink(URI uri) 
+	public ISFQuery<T>  setFullyParametrizedLink(URI uri)
 	{
 		mLinkIsParametrized = true;
 		mLink = uri;
+        return this;
 	}
 
 	@Override
-	public void setRedirection(boolean value)
+	public ISFQuery<T> setRedirection(boolean value)
 	{
         mEnableRedirection = value;
+        return this;
 	}
-	
+
+    @Override
 	public boolean reDirectionAllowed()
 	{
 		return mEnableRedirection;
 	}
 
 	@Override
-	public void setLinkAndAppendPreviousParameters(URI newuri) throws URISyntaxException, UnsupportedEncodingException 
+	public ISFQuery<T> setLinkAndAppendPreviousParameters(URI newuri) throws URISyntaxException, UnsupportedEncodingException
 	{	
 		String newQueryParams = newuri.getQuery(); 
 		
 		if(newQueryParams !=null)
 		{
 			setFullyParametrizedLink(newuri);
-			return;
+			return this;
 		}
 		
 		String oldQueryParms = buildQueryParameters();		
@@ -616,13 +651,16 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		
 		Logger.d(TAG,"Setting new URL by appending old query parameter to: " + strNewUrl);
 		
-		setFullyParametrizedLink(new URI(strNewUrl));		
+		setFullyParametrizedLink(new URI(strNewUrl));
+
+        return this;
 	}
 
 	@Override
-	public void setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException 
+	public ISFQuery<T>  setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException
 	{
-		setLinkAndAppendPreviousParameters(new URI(string));		
+		setLinkAndAppendPreviousParameters(new URI(string));
+        return this;
 	}
 
     @Override
@@ -693,7 +731,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
      This function will store baseLink as : https://szqatest2.sharefiletest.com
      */
     @Override
-    public void setBaseLink(URI uri) throws URISyntaxException
+    public ISFQuery<T>  setBaseLink(URI uri) throws URISyntaxException
     {
         mProvider = SFProvider.getProviderType(uri);
 
@@ -701,6 +739,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
         String protocol = uri.getScheme();
 
         mLink = new URI(protocol + "://" + host);
+        return this;
     }
 
     @Override

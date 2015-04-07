@@ -16,25 +16,25 @@ public interface ISFQuery<T> extends ISFTypeFilter
 {
     ISFQuery<T>  setApiClient(ISFApiClient apiClient);
 
-	void setFrom(String string);
+    ISFQuery<T>  setFrom(String string);
 
-	void setHttpMethod(String string);
+    ISFQuery<T>  setHttpMethod(String string);
 
-	void addIds(URI url);
+    ISFQuery<T>  addIds(URI url);
 
-	void setAction(String string);
+    ISFQuery<T>  setAction(String string);
 
-	void setBody(SFODataObject sfoDataObject);
-	
-	void  setBody(ArrayList<?> sfoDataObjectsFeed);
+    ISFQuery<T>  setBody(SFODataObject sfoDataObject);
 
-    void addQueryString(String string, Object type);
+    ISFQuery<T>   setBody(ArrayList<?> sfoDataObjectsFeed);
 
-	void addActionIds(String id);
+    ISFQuery<T>  addQueryString(String string, Object type);
 
-	void addQueryString(String string, ArrayList<String> ids);
+    ISFQuery<T>  addActionIds(String id);
 
-	void addSubAction(String string);
+    ISFQuery<T>  addQueryString(String string, ArrayList<String> ids);
+
+    ISFQuery<T>  addSubAction(String string);
 
 	URI getLink();
 
@@ -50,27 +50,27 @@ public interface ISFQuery<T> extends ISFTypeFilter
 
 	String buildQueryUrlString(String server) throws UnsupportedEncodingException;
 
-	void setLink(String string) throws URISyntaxException;
+    ISFQuery<T> setLink(String string) throws URISyntaxException;
 	
 	/**
 	 *  This implies that the query parameters need to be appended by the buildQuery function before executing the query.
 	 */
-	void setLink(URI uri);
+    ISFQuery<T> setLink(URI uri);
 	
 	/**
 	 * This implies that the query parameters are included in the URI and no more parameters more needs to be added before executing the query.
 	 * Generally we get such URI from Redirection object.
 	 */
-	void setFullyParametrizedLink(URI uri);
+    ISFQuery<T>  setFullyParametrizedLink(URI uri);
 
 	boolean canReNewTokenInternally();
 
-	void setCredentials(String userName, String password);
+	ISFQuery<T> setCredentials(String userName, String password);
 	
 	/**
 	 *  For certain calls like create symbolic link we want to disable readahead done by the SDK. This function allows to set the flag to explicity false if required..
 	 */
-	void setRedirection(boolean value);
+    ISFQuery<T>  setRedirection(boolean value);
 
 	boolean reDirectionAllowed();
 	
@@ -80,7 +80,7 @@ public interface ISFQuery<T> extends ISFTypeFilter
 	 * @throws URISyntaxException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	void setLinkAndAppendPreviousParameters(URI uri) throws URISyntaxException, UnsupportedEncodingException;
+    ISFQuery<T>  setLinkAndAppendPreviousParameters(URI uri) throws URISyntaxException, UnsupportedEncodingException;
 
 	/**
 	 * This will append the query paremeters from previuos query to the new link. use this only when re-executing the query for a redirected object.
@@ -88,7 +88,7 @@ public interface ISFQuery<T> extends ISFTypeFilter
 	 * @throws URISyntaxException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	void setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException;;
+    ISFQuery<T>  setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException;;
 
     /**
      * simplifies the adding of expansion parameters to the query.
@@ -103,7 +103,7 @@ public interface ISFQuery<T> extends ISFTypeFilter
 
      this function will store baseLink as : https://szqatest2.sharefiletest.com/cifs/v3/
      */
-    void setBaseLink(URI uri) throws URISyntaxException;
+    ISFQuery<T>  setBaseLink(URI uri) throws URISyntaxException;
 
     public T execute() throws SFInvalidStateException, SFServerException,
             SFNotAuthorizedException,SFOAuthTokenRenewException, SFOtherException;
