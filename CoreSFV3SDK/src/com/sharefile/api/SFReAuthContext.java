@@ -33,7 +33,7 @@ public final class SFReAuthContext<T>
         return mSFApiClient;
     }
 
-    public ISFApiResultCallback getCallback()
+    public ISFApiResultCallback<T> getCallback()
     {
         return mOriginalListener;
     }
