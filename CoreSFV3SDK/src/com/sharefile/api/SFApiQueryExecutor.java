@@ -17,15 +17,15 @@ import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFHttpsCaller;
-import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
+import com.sharefile.api.log.Logger;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFRedirection;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.api.log.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -276,6 +276,12 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             {
                 Logger.e(TAG,ex);
                 throw new SFConnectionException(ex);
+            }
+            catch (SFServerException| SFInvalidStateException |
+                    SFOAuthTokenRenewException | SFNotAuthorizedException e)
+            {
+                Logger.e(TAG,e);
+                throw e;
             }
             catch (Throwable ex)
             {
