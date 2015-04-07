@@ -154,7 +154,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         {
             if(mAccessTokenRenewer == null)
             {
-                throw new SFNotAuthorizedException("Not Authorized (401)", mReAuthContext);
+                throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED, mReAuthContext);
             }
 
             return executeQueryAfterTokenRenew();
@@ -171,7 +171,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 }
             }
 
-            throw new SFNotAuthorizedException("Not Authorized (401)", mReAuthContext);
+            throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED, mReAuthContext);
         }
     }
 

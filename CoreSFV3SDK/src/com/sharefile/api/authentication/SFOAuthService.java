@@ -81,7 +81,7 @@ public class SFOAuthService implements ISFOAuthService
                     return new SFOAuth2Token(response);
 
                 case HttpURLConnection.HTTP_UNAUTHORIZED:
-                    throw new SFNotAuthorizedException("401");
+                    throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED);
 
                 default:
                     String errResponse = SFHttpsCaller.readErrorResponse(connection);
@@ -153,8 +153,8 @@ public class SFOAuthService implements ISFOAuthService
                     return new SFOAuth2Token(response);
                 //break;
 
-                case 401:
-                    throw new SFNotAuthorizedException("401");
+                case HttpURLConnection.HTTP_UNAUTHORIZED:
+                    throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED);
                 //break;
 
                 default:

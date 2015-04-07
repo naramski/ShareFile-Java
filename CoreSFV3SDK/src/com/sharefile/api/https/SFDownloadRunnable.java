@@ -164,7 +164,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 				break;
 			
 			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				SFNotAuthorizedException v3Error = new SFNotAuthorizedException("Unauthorized (401)");
+				SFNotAuthorizedException v3Error = new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED);
 				mResponse.setFields(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
 				break;
 			

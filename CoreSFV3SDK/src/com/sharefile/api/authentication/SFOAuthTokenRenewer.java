@@ -142,7 +142,7 @@ public class SFOAuthTokenRenewer
 				//break;
 								
 				case HttpsURLConnection.HTTP_UNAUTHORIZED:
-					throw new SFOAuthTokenRenewException("UnAuthorized(401");
+					throw new SFOAuthTokenRenewException(SFKeywords.UN_AUTHORIZED);
 				//break;
 				
 				default:
