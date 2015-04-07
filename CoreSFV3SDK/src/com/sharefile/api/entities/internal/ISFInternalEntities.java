@@ -12,117 +12,103 @@
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.ISFEntities;
-import com.sharefile.api.internal.entities.SFAccountsEntityInternal;
-import com.sharefile.api.internal.entities.SFAzureSBTopicsEntityInternal;
-import com.sharefile.api.internal.entities.SFConfigsEntityInternal;
-import com.sharefile.api.internal.entities.SFDevicesEntityInternal;
-import com.sharefile.api.internal.entities.SFEncryptedEmailsEntityInternal;
-import com.sharefile.api.internal.entities.SFFileLockEntityInternal;
-import com.sharefile.api.internal.entities.SFFolderTemplatesEntityInternal;
-import com.sharefile.api.internal.entities.SFItemsEntityInternal;
-import com.sharefile.api.internal.entities.SFNotificationsEntityInternal;
-import com.sharefile.api.internal.entities.SFOAuthClientsEntityInternal;
-import com.sharefile.api.internal.entities.SFPlanAddonsEntityInternal;
-import com.sharefile.api.internal.entities.SFReportsEntityInternal;
-import com.sharefile.api.internal.entities.SFUsagePlansEntityInternal;
-import com.sharefile.api.internal.entities.SFUsersEntityInternal;
 
 public interface ISFInternalEntities extends ISFEntities {
     public static abstract class Implementation extends ISFEntities.Implementation implements ISFInternalEntities
     {
         @Override
-        public com.sharefile.api.internal.entities.SFBillingEntityInternal billing() {
-            return (com.sharefile.api.internal.entities.SFBillingEntityInternal) getEntity(com.sharefile.api.internal.entities.SFBillingEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFBillingEntityInternal billing() {
+            return (com.sharefile.api.entities.internal.SFBillingEntityInternal) getEntity(com.sharefile.api.entities.internal.SFBillingEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFEncryptedEmailsEntityInternal encryptedEmails() {
-            return (com.sharefile.api.internal.entities.SFEncryptedEmailsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFEncryptedEmailsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFEncryptedEmailsEntityInternal encryptedEmails() {
+            return (com.sharefile.api.entities.internal.SFEncryptedEmailsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFEncryptedEmailsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFFileLockEntityInternal fileLock() {
-            return (com.sharefile.api.internal.entities.SFFileLockEntityInternal) getEntity(com.sharefile.api.internal.entities.SFFileLockEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFFileLockEntityInternal fileLock() {
+            return (com.sharefile.api.entities.internal.SFFileLockEntityInternal) getEntity(com.sharefile.api.entities.internal.SFFileLockEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFNotificationsEntityInternal notifications() {
-            return (com.sharefile.api.internal.entities.SFNotificationsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFNotificationsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFNotificationsEntityInternal notifications() {
+            return (com.sharefile.api.entities.internal.SFNotificationsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFNotificationsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFOAuthClientsEntityInternal oAuthClients() {
-            return (com.sharefile.api.internal.entities.SFOAuthClientsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFOAuthClientsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFOAuthClientsEntityInternal oAuthClients() {
+            return (com.sharefile.api.entities.internal.SFOAuthClientsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFOAuthClientsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFPlanAddonsEntityInternal planAddons() {
-            return (com.sharefile.api.internal.entities.SFPlanAddonsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFPlanAddonsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFPlanAddonsEntityInternal planAddons() {
+            return (com.sharefile.api.entities.internal.SFPlanAddonsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFPlanAddonsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFReportsEntityInternal reports() {
-            return (com.sharefile.api.internal.entities.SFReportsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFReportsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFReportsEntityInternal reports() {
+            return (com.sharefile.api.entities.internal.SFReportsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFReportsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFUsagePlansEntityInternal usagePlans() {
-            return (com.sharefile.api.internal.entities.SFUsagePlansEntityInternal) getEntity(com.sharefile.api.internal.entities.SFUsagePlansEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFUsagePlansEntityInternal usagePlans() {
+            return (com.sharefile.api.entities.internal.SFUsagePlansEntityInternal) getEntity(com.sharefile.api.entities.internal.SFUsagePlansEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFFolderTemplatesEntityInternal folderTemplatesInternal() {
-            return (com.sharefile.api.internal.entities.SFFolderTemplatesEntityInternal) getEntity(com.sharefile.api.internal.entities.SFFolderTemplatesEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFFolderTemplatesEntityInternal folderTemplatesInternal() {
+            return (com.sharefile.api.entities.internal.SFFolderTemplatesEntityInternal) getEntity(com.sharefile.api.entities.internal.SFFolderTemplatesEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFAccountsEntityInternal accountsInternal() {
-            return (com.sharefile.api.internal.entities.SFAccountsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFAccountsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFAccountsEntityInternal accountsInternal() {
+            return (com.sharefile.api.entities.internal.SFAccountsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFAccountsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFAzureSBTopicsEntityInternal azureSBTopics() {
-            return (com.sharefile.api.internal.entities.SFAzureSBTopicsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFAzureSBTopicsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFAzureSBTopicsEntityInternal azureSBTopics() {
+            return (com.sharefile.api.entities.internal.SFAzureSBTopicsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFAzureSBTopicsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFConfigsEntityInternal configs() {
-            return (com.sharefile.api.internal.entities.SFConfigsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFConfigsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFConfigsEntityInternal configs() {
+            return (com.sharefile.api.entities.internal.SFConfigsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFConfigsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFDevicesEntityInternal devices() {
-            return (com.sharefile.api.internal.entities.SFDevicesEntityInternal) getEntity(com.sharefile.api.internal.entities.SFDevicesEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFDevicesEntityInternal devices() {
+            return (com.sharefile.api.entities.internal.SFDevicesEntityInternal) getEntity(com.sharefile.api.entities.internal.SFDevicesEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFItemsEntityInternal itemsInternal() {
-            return (com.sharefile.api.internal.entities.SFItemsEntityInternal) getEntity(com.sharefile.api.internal.entities.SFItemsEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFItemsEntityInternal itemsInternal() {
+            return (com.sharefile.api.entities.internal.SFItemsEntityInternal) getEntity(com.sharefile.api.entities.internal.SFItemsEntityInternal.class);
         }
         
 
         @Override
-        public com.sharefile.api.internal.entities.SFUsersEntityInternal usersInternal() {
-            return (com.sharefile.api.internal.entities.SFUsersEntityInternal) getEntity(com.sharefile.api.internal.entities.SFUsersEntityInternal.class);
+        public com.sharefile.api.entities.internal.SFUsersEntityInternal usersInternal() {
+            return (com.sharefile.api.entities.internal.SFUsersEntityInternal) getEntity(com.sharefile.api.entities.internal.SFUsersEntityInternal.class);
         }
         
 
     }
 
-    com.sharefile.api.internal.entities.SFBillingEntityInternal billing();
+    com.sharefile.api.entities.internal.SFBillingEntityInternal billing();
     SFEncryptedEmailsEntityInternal encryptedEmails();
     SFFileLockEntityInternal fileLock();
     SFNotificationsEntityInternal notifications();
