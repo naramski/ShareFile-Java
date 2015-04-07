@@ -8,7 +8,7 @@ import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.ISFReExcecuteQuery;
+import com.sharefile.api.interfaces.ISFReExecuteQuery;
 import com.sharefile.api.utils.Utils;
 
 /**
@@ -31,7 +31,7 @@ public final class SFReAuthContext<T>
 		mReauthHandler = reauthHandler;
 	}
 			
-	public void reExecuteQueryWithCredentials(String userName, String password, ISFReExcecuteQuery<T> reExecutor) throws SFInvalidStateException 
+	public void reExecuteQueryWithCredentials(String userName, String password, ISFReExecuteQuery<T> reExecutor) throws SFInvalidStateException
 	{		
 		if(mIsCancelled.get())
 		{

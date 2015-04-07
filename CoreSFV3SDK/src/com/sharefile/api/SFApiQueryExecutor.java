@@ -73,7 +73,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	private final SFConfiguration mAppSpecificConfig;
 	private final SFOAuthTokenRenewer mAccessTokenRenewer;
 	private final ISFReAuthHandler mReauthHandler;
-	private final SFApiClient mSFApiClient;	
+	private final SFApiClient mSFApiClient;
+    private final SFReAuthContext<T> mReAuthContext;
 
 	public SFApiQueryExecutor(SFApiClient apiClient, ISFQuery<T> query, ISFApiResultCallback<T> responseListener, SFCookieManager cookieManager, SFConfiguration config, SFOAuthTokenRenewer tokenRenewer, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{			
@@ -84,6 +85,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		mAppSpecificConfig = config;
 		mAccessTokenRenewer = tokenRenewer;
 		mReauthHandler = reauthHandler;
+
+        mReAuthContext = new SFReAuthContext<>(query,responseListener,reauthHandler,apiClient);
 	}
 		
 	private void handleHttPost(URLConnection conn) throws IOException
@@ -151,7 +154,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         {
             if(mAccessTokenRenewer == null)
             {
-                throw new SFNotAuthorizedException("Not Authorized (401)");
+                throw new SFNotAuthorizedException("Not Authorized (401)", mReAuthContext);
             }
 
             return executeQueryAfterTokenRenew();
@@ -168,7 +171,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 }
             }
 
-            throw new SFNotAuthorizedException("Not Authorized (401)");
+            throw new SFNotAuthorizedException("Not Authorized (401)", mReAuthContext);
         }
     }
 
