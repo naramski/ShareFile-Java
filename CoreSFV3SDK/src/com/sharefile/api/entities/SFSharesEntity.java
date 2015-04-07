@@ -722,7 +722,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param redirect  (default: true)	 	
 	* @return Redirects the caller (302) to the download address for the share contents.
 	*/
-	public ISFQuery bulkDownload(URI shareUrl, String aliasid, ArrayList<String> ids, Boolean redirect) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<InputStream> bulkDownload(URI shareUrl, String aliasid, ArrayList<String> ids, Boolean redirect) throws InvalidOrMissingParameterException 	{
 		if (shareUrl == null) {
 			throw new InvalidOrMissingParameterException("shareUrl");
 		}
@@ -736,7 +736,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
@@ -759,7 +759,7 @@ public class SFSharesEntity extends SFODataEntityBase
 	* @param ids 	 	
 	* @return Redirects the caller (302) to the download address for the share contents.
 	*/
-	public ISFQuery bulkDownload(URI shareUrl, String aliasid, ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<InputStream> bulkDownload(URI shareUrl, String aliasid, ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
 		if (shareUrl == null) {
 			throw new InvalidOrMissingParameterException("shareUrl");
 		}
@@ -770,7 +770,7 @@ public class SFSharesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("ids");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
 		sfApiQuery.addIds(shareUrl);
