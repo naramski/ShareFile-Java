@@ -69,6 +69,10 @@ public class EntityTypeMapInternal
             EntityTypeMap.addEntity("ShareFileRepresentatives", SFShareFileRepresentative.class);
             EntityTypeMap.addEntity("FreeTrialAccount", SFFreeTrialAccount.class);
             EntityTypeMap.addEntity("FreeTrialAccounts", SFFreeTrialAccount.class);
+            EntityTypeMap.addEntity("Queue", SFQueue.class);
+            EntityTypeMap.addEntity("Queues", SFQueue.class);
+            EntityTypeMap.addEntity("QueueEntry", SFQueueEntry.class);
+            EntityTypeMap.addEntity("QueueEntries", SFQueueEntry.class);
             EntityTypeMap.addEntity("AzureSBTopicsEndPointInfo", SFAzureSBTopicsEndPointInfo.class);
             EntityTypeMap.addEntity("AzureSBTopicsEndPointInfos", SFAzureSBTopicsEndPointInfo.class);
             EntityTypeMap.addEntity("AzureSBTopicsResponse", SFAzureSBTopicsResponse.class);

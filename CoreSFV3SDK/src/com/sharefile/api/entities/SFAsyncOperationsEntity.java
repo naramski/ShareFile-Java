@@ -72,6 +72,23 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	}
 
 	/**
+	* Get the progress of the AsyncOperations by Opertaion Batch ID
+	* @param id 	 	
+	*/
+	public ISFQuery<SFAsyncOperation> getBatch(String id) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.client);
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.setAction("GetBatch");
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Get List of AsyncOperations by Folder
 	* Retrieves all AsyncOperations associated with the calling user and the Item ID
 	* @param id 	 	
@@ -87,6 +104,18 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 		sfApiQuery.setAction("GetByFolder");
 		sfApiQuery.addActionIds(id);
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	public ISFQuery<SFAsyncOperation> create(SFAsyncOperation asyncOp) throws InvalidOrMissingParameterException 	{
+		if (asyncOp == null) {
+			throw new InvalidOrMissingParameterException("asyncOp");
+		}
+
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.client);
+		sfApiQuery.setFrom("AsyncOperations");
+		sfApiQuery.setBody(asyncOp);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
@@ -154,7 +183,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 	* @param newAsyncOp 	 	
 	* @return The modified Async Operation
 	*/
-	public ISFQuery<SFAsyncOperation> patch(URI url, SFAsyncOperation newAsyncOp) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFAsyncOperation> update(URI url, SFAsyncOperation newAsyncOp) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
@@ -166,7 +195,7 @@ public class SFAsyncOperationsEntity extends SFODataEntityBase
 		sfApiQuery.setFrom("AsyncOperations");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(newAsyncOp);
-		sfApiQuery.setHttpMethod("PUT");
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 

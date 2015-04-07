@@ -107,6 +107,12 @@ public interface ISFInternalEntities extends ISFEntities {
         
 
         @Override
+        public SFQueuesEntityInternal queues() {
+            return getEntity(SFQueuesEntityInternal.class);
+        }
+        
+
+        @Override
         public SFUsersEntityInternal usersInternal() {
             return getEntity(SFUsersEntityInternal.class);
         }
@@ -128,5 +134,6 @@ public interface ISFInternalEntities extends ISFEntities {
     SFConfigsEntityInternal configs();
     SFDevicesEntityInternal devices();
     SFItemsEntityInternal itemsInternal();
+    SFQueuesEntityInternal queues();
     SFUsersEntityInternal usersInternal();
 }
