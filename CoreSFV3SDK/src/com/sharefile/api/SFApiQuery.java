@@ -4,7 +4,6 @@ import com.sharefile.api.async.SFAsyncTaskFactory;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFQueryParams;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;

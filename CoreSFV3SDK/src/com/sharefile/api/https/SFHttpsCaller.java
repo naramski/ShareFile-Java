@@ -4,7 +4,7 @@ package com.sharefile.api.https;
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.SFProvider;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.api.log.Logger;
 

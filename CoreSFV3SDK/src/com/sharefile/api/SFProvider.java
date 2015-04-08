@@ -1,4 +1,4 @@
-package com.sharefile.api.enumerations;
+package com.sharefile.api;
 
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFSdkGlobals;

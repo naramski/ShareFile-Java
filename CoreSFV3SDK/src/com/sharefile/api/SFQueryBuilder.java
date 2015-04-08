@@ -15,7 +15,6 @@ import com.sharefile.api.entities.SFSharesEntity;
 import com.sharefile.api.entities.SFStorageCentersEntity;
 import com.sharefile.api.entities.SFUsersEntity;
 import com.sharefile.api.entities.SFZonesEntity;
-import com.sharefile.api.enumerations.SFProvider;
 import com.sharefile.api.extensions.SFCapabilitiesEntityEx;
 
 import java.net.URI;

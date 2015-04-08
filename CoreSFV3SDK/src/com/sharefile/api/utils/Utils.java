@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import com.sharefile.api.constants.SFSdkGlobals;
-import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.SFProvider;
 import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
