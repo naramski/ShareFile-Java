@@ -13,6 +13,7 @@ import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFNotFoundException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.https.SFCookieManager;
@@ -398,42 +399,32 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
     }
 
 	private T executeQueryOnRedirectedObject(SFRedirection redirection) throws
-            SFInvalidStateException, SFServerException, SFOAuthTokenRenewException, SFOtherException
+            SFInvalidStateException, SFServerException,
+            SFOAuthTokenRenewException, SFOtherException,
+            SFNotAuthorizedException
     {
-		T odataObject = null;
-
         try
         {
             URI redirectLink = redirection.getUri();
             Logger.d(TAG,"REDIRECT TO: " + redirectLink);
             mQuery.setLinkAndAppendPreviousParameters(redirectLink);
+            return executeBlockingQuery();
         }
         catch (NullPointerException e)
         {
             Logger.e(TAG,e);
-            throw new RuntimeException("Server Bug: Redirection object or Uri is null");
+            throw new SFOtherException("Server Bug: Redirection object or Uri is null");
         }
         catch (URISyntaxException e)
         {
             Logger.e(TAG,e);
-            throw new RuntimeException("Server Bug: Redirection object syntax error");
+            throw new SFOtherException("Server Bug: Redirection object syntax error");
         }
         catch (UnsupportedEncodingException e)
         {
             Logger.e(TAG,e);
-            throw new RuntimeException("Server Bug: Redirection object unsupported encoding");
+            throw new SFOtherException("Server Bug: Redirection object unsupported encoding");
         }
-
-        try
-        {
-            odataObject = executeBlockingQuery();
-        }
-        catch (SFNotAuthorizedException e)
-        {
-            e.printStackTrace();
-        }
-
-        return odataObject;
 	}
 
     private URI mCurrentUri = null;
