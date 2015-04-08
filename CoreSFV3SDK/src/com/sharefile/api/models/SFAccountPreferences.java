@@ -222,6 +222,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableAntiVirus;
 	@SerializedName("EnableFileLocking")
 	private Boolean EnableFileLocking;
+	@SerializedName("EnableCWC")
+	private Boolean EnableCWC;
 	@SerializedName("EnableIntegrations")
 	private Boolean EnableIntegrations;
 	@SerializedName("IntegrationProviders")
@@ -928,6 +930,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableFileLocking(Boolean enablefilelocking) {
 		this.EnableFileLocking = enablefilelocking;
+	}
+	public Boolean getEnableCWC() {
+		return this.EnableCWC;
+	}
+
+	public void setEnableCWC(Boolean enablecwc) {
+		this.EnableCWC = enablecwc;
 	}
 	public Boolean getEnableIntegrations() {
 		return this.EnableIntegrations;
