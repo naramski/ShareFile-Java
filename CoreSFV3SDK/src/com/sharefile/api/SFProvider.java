@@ -9,8 +9,8 @@ import java.net.URI;
 /**
  *  toString of this will return complete provider with API version alongwith slashes: "/cifs/v3/", "/sp/v3/", "/sf/v3/",... etc
  */
-public enum SFProvider 
-{		
+public enum SFProvider
+{
 	PROVIDER_TYPE_SF("/sf/"+ SFSdkGlobals.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
 	PROVIDER_TYPE_CIFS("/cifs/"+ SFSdkGlobals.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),
 	PROVIDER_TYPE_SHAREPOINT("/sp/"+ SFSdkGlobals.VERSION_FOR_QUERY_URL+ SFKeywords.FWD_SLASH),

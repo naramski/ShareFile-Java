@@ -7,6 +7,7 @@ import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 
+
 public class SFAsyncHelper<T>
 {
     private final ISFApiClient mApiClient;

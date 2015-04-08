@@ -1,5 +1,6 @@
 package com.sharefile.api;
 
+import com.sharefile.api.async.SFAsyncHelper;
 import com.sharefile.api.async.SFAsyncTaskFactory;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.constants.SFQueryParams;
@@ -768,13 +769,15 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
             throw new SFInvalidStateException("Need to set listener to gather Async Result");
         }
 
-        ISFAsyncTask asyncTask = SFAsyncTaskFactory.create(apiClient, this, callback);
+        SFAsyncHelper asyncHelper = new SFAsyncHelper(apiClient, this, callback);
+
+        ISFAsyncTask asyncTask = SFAsyncTaskFactory.create();
 
         if(asyncTask == null)
         {
             throw new SFInvalidStateException("Need to set AsyncFactory as per your system");
         }
 
-        asyncTask.execute();
+        asyncTask.start(asyncHelper);
     }
 }
