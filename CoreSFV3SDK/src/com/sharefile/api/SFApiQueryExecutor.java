@@ -550,29 +550,27 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 			case SYMBOLIC_LINK:
                 try
                 {
-                    sfobject = executeQueryOnSymbolicLink((SFSymbolicLink)sfobject);
+                    return executeQueryOnSymbolicLink((SFSymbolicLink)sfobject);
                 }
                 catch (URISyntaxException | UnsupportedEncodingException e)
                 {
                     throw new SFOtherException(e);
                 }
-                break;
+             //break;
 
 
 			case FOLDER_ENUM:	
-				sfobject = executeQueryOnRedirectedObject(((SFFolder)sfobject).getRedirection());
-			break;
+				return executeQueryOnRedirectedObject(((SFFolder)sfobject).getRedirection());
+			//break;
 				
 			case URI:
-				sfobject = executeQueryOnRedirectedObject((SFRedirection) sfobject);
-			break;
+				return executeQueryOnRedirectedObject((SFRedirection) sfobject);
+			//break;
 				
-			case NONE:
-				//do nothing
-			break;
+			default:
+                return sfobject;
+			//break;
 		}
-				
-		return sfobject;
 	}
 			
 	protected ISFApiResultCallback<T> getResponseListener()
