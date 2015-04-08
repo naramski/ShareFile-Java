@@ -4,5 +4,5 @@ import com.sharefile.api.async.SFAsyncHelper;
 
 public interface ISFAsyncTask
 {
-    void start(SFAsyncHelper asyncHelper);
+    void start(ISFAsyncHelper asyncHelper);
 }

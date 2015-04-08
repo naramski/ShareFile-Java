@@ -5,10 +5,11 @@ import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
+import com.sharefile.api.interfaces.ISFAsyncHelper;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-public class SFAsyncHelper<T>
+public class SFAsyncHelper<T> implements ISFAsyncHelper<T>
 {
     private final ISFApiClient mApiClient;
     private final ISFQuery<T> mQuery;
@@ -24,7 +25,8 @@ public class SFAsyncHelper<T>
         this.mApiResultCallback = apiResultCallback;
     }
 
-    public T doInBackground()
+    @Override
+    public T execute()
     {
         try
         {
@@ -39,6 +41,7 @@ public class SFAsyncHelper<T>
         return mResult;
     }
 
+    @Override
     public void onPostExecute()
     {
         if(mException !=null)
