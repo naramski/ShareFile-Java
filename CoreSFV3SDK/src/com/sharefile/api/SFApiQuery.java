@@ -47,7 +47,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	private String mAction = null;
 	private String mSubAction = null;
 	private String mHttpMethod = null;
-	private SFProvider mProvider = SFProvider.PROVIDER_TYPE_SF;
+	private String mProvider = SFProvider.PROVIDER_TYPE_SF;
 	private String mId = null;
 	private String mActionId = null;
 	private final Map<String,String> mQueryMap = new HashMap<String, String>();
@@ -192,7 +192,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		return mLink;
 	}
 	
-	public final void setProvider(SFProvider provider)
+	public final void setProvider(String provider)
 	{
 		mProvider = provider;
 	}
@@ -388,7 +388,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		}
 		
 		sb.append(server); 				
-		sb.append(mProvider.toString());
+		sb.append("/"+mProvider+"/v3/");
 		sb.append(mFromEntity);
 		
 		//Add the single Id or multiple comma separated key=value pairs after entity and enclose within ()

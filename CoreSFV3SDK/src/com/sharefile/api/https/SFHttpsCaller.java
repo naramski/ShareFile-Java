@@ -318,7 +318,6 @@ public class SFHttpsCaller
 	}		
 	
 	/**
-	 * TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
 	   We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
 	 * @throws IOException 
 	*/	
@@ -329,10 +328,9 @@ public class SFHttpsCaller
 			cookieManager.setCookies(connection);
 		}
 
-        String url = connection.getURL().toString();
-        switch(SFProvider.getProviderType(url))
+        switch(SFProvider.getProviderType(connection.getURL()))
 		{
-			case PROVIDER_TYPE_SF:
+			case SFProvider.PROVIDER_TYPE_SF:
 				SFHttpsCaller.addBearerAuthorizationHeader(connection, token);
 			    break;
 			
