@@ -803,7 +803,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param url 	 	
 	* @return User's Top Folders
 	*/
-	public ISFQuery<SFODataFeed<SFItem>> topFolders(URI url) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFODataFeed<SFItem>> getTopFolders(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
