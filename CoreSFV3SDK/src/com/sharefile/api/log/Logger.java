@@ -1,5 +1,7 @@
 package com.sharefile.api.log;
 
+import com.sharefile.api.interfaces.ILog;
+
 public class Logger {
     private static ILog logInstance = new SilentLog();
     public static void set(ILog log) {

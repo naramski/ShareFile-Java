@@ -1,5 +1,7 @@
 package com.sharefile.api.log;
 
+import com.sharefile.api.interfaces.ILog;
+
 public class SilentLog implements ILog {
     @Override
     public int v(String tag, String msg) {

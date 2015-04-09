@@ -1,4 +1,4 @@
-package com.sharefile.api.log;
+package com.sharefile.api.interfaces;
 
 public interface ILog {
     int v(String tag, String msg);
