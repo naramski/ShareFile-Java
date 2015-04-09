@@ -44,8 +44,8 @@ public class SFQueryBuilder
 	public static final SFZonesEntity ZONES = new SFZonesEntity(null);
     public static final SFDevicesEntity DEVICES = new SFDevicesEntity(null);
 
-    private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s"+ SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
-    private static final String FORMAT_GET_DEVICES = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Devices(%s)";
+    private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s/"+ SFProvider.PROVIDER_TYPE_SF+"/v3/Items(%s)";
+    private static final String FORMAT_GET_DEVICES = "https://%s.%s/"+SFProvider.PROVIDER_TYPE_SF+"/v3/Devices(%s)";
 
     /**
      *   We need to manually construct the v3 url for the TOP folder. This function provides the helper for the apps

@@ -47,7 +47,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	private String mAction = null;
 	private String mSubAction = null;
 	private String mHttpMethod = null;
-	private String mProvider = SFProvider.PROVIDER_TYPE_SF;
+	private String mProviderForUrlPath = "/"+SFProvider.PROVIDER_TYPE_SF+"/v3/";
 	private String mId = null;
 	private String mActionId = null;
 	private final Map<String,String> mQueryMap = new HashMap<String, String>();
@@ -132,7 +132,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		mFromEntity = sourceQuery.mFromEntity;
 		mAction = sourceQuery.mAction;
 		mHttpMethod = sourceQuery.mHttpMethod;
-		mProvider = sourceQuery.mProvider;
+		mProviderForUrlPath = sourceQuery.mProviderForUrlPath;
 		mId = sourceQuery.mId;
 		mQueryMap.putAll(sourceQuery.mQueryMap);
 		mIdMap.putAll(sourceQuery.mIdMap);
@@ -194,7 +194,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	
 	public final void setProvider(String provider)
 	{
-		mProvider = provider;
+		mProviderForUrlPath = provider;
 	}
 
     @Override
@@ -374,7 +374,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		{
             if(!isBaseLink(mLink))
             {
-                mProvider = SFProvider.getProviderType(mLink.getPath());
+                mProviderForUrlPath = "/"+SFProvider.getProviderType(mLink.getPath())+"/v3/";
 
                 return mLink.toString();
             }
@@ -388,7 +388,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		}
 		
 		sb.append(server); 				
-		sb.append("/"+mProvider+"/v3/");
+		sb.append(mProviderForUrlPath);
 		sb.append(mFromEntity);
 		
 		//Add the single Id or multiple comma separated key=value pairs after entity and enclose within ()
@@ -733,7 +733,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
     @Override
     public ISFQuery<T>  setBaseLink(URI uri) throws URISyntaxException
     {
-        mProvider = SFProvider.getProviderType(uri);
+        mProviderForUrlPath = "/"+SFProvider.getProviderType(uri)+"/v3/";
 
         String host = uri.getHost();
         String protocol = uri.getScheme();

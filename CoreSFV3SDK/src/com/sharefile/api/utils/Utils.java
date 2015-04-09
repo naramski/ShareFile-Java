@@ -13,8 +13,8 @@ import com.sharefile.api.interfaces.ISFQuery;
 
 public class Utils 
 {
-    private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s"+ SFProvider.PROVIDER_TYPE_SF+"Items(%s)";
-    private static final String FORMAT_GET_DEVICES = "https://%s.%s"+SFProvider.PROVIDER_TYPE_SF+"Devices(%s)";
+    private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s/"+ SFProvider.PROVIDER_TYPE_SF+"/v3/Items(%s)";
+    private static final String FORMAT_GET_DEVICES = "https://%s.%s/"+SFProvider.PROVIDER_TYPE_SF+"/v3/Devices(%s)";
 
 	public static String getAcceptLanguageString()
 	{
