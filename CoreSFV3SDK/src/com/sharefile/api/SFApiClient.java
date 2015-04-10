@@ -21,8 +21,11 @@ import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.log.Logger;
+import com.sharefile.api.models.SFFile;
+import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.utils.Utils;
 
 import java.io.InputStream;
@@ -264,6 +267,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
      * @return
      * @throws SFInvalidStateException
      */
+    @Deprecated
     public SFDownloadRunnable prepareDownload(String itemId, String v3Url, int resumeFromByteIndex, OutputStream outpuStream, TransferRunnable.IProgress progressListener, String connUserName, String connPassword) throws SFInvalidStateException {
         validateClientState();
 
@@ -288,6 +292,46 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         return new SFDownloadRunnable(url, resumeFromByteIndex, outpuStream , this, progressListener, mCookieManager, connUserName, connPassword);
     }
 
+    @Override
+    public SFDownloadRunnable getDownloader(SFFile file, OutputStream outputStream,
+                                            TransferRunnable.IProgress progressListener)
+            throws SFOtherException
+    {
+        // calculate download URL
+        String url;
+        try
+        {
+            ISFQuery<InputStream> downloadQuery = items().download(file.geturl(), true);
+            downloadQuery.setLink(file.geturl());
+            String server = mOAuthToken.get().getApiServer();
+            url = downloadQuery.buildQueryUrlString(server);
+            return new SFDownloadRunnable(url, 0, outputStream , this, progressListener, mCookieManager, null, null);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            Logger.e(TAG, e);
+            throw new SFOtherException(e);
+        }
+    }
+
+    public SFUploadRunnable getUploader(SFFolder parentFolder,String destinationName, String details,long fileSizeInBytes,
+                                        InputStream inputStream,
+                                        TransferRunnable.IProgress progressListener)
+    throws SFInvalidStateException, SFServerException
+    {
+        validateClientState();
+
+        return new SFUploadRunnable(parentFolder.geturl().toString(), true,
+                0,
+                fileSizeInBytes,
+                destinationName,
+                inputStream,
+                this,
+                progressListener,
+                mCookieManager,
+                null, null, details);
+    }
+
     /**
      * prepare runnable to be used to upload a file
      * TODO_ADD_V3: needs to be moved to SFUploadRunnable.
@@ -306,6 +350,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
      * @throws SFInvalidStateException
      * @throws com.sharefile.api.exceptions.SFServerException
      */
+    @Deprecated
     public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFServerException {
         validateClientState();
 

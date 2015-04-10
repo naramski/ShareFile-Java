@@ -10,7 +10,8 @@ import com.sharefile.api.exceptions.SFSDKException;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class TransferRunnable implements Runnable {
+public abstract class TransferRunnable extends Thread
+{
 
     protected AtomicBoolean cancelRequested = new AtomicBoolean(false);
     protected final SFApiClient mApiClient;

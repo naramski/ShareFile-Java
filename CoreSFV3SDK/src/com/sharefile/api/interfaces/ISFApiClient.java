@@ -6,9 +6,15 @@ import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFOtherException;
 import com.sharefile.api.exceptions.SFServerException;
+import com.sharefile.api.https.SFDownloadRunnable;
+import com.sharefile.api.https.SFUploadRunnable;
+import com.sharefile.api.https.TransferRunnable;
+import com.sharefile.api.models.SFFile;
+import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public interface ISFApiClient extends IOAuthTokenChangeHandler
 {
@@ -26,4 +32,15 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler
                                    ISFApiResultCallback<T> apiResultCallback,
                                    ISFReAuthHandler reAuthHandler)
             throws SFInvalidStateException;
+
+    public SFDownloadRunnable getDownloader(SFFile file, OutputStream outputStream,
+                                            TransferRunnable.IProgress progressListener)
+            throws SFOtherException;
+
+    public SFUploadRunnable getUploader(SFFolder parentFolder,
+                                        String destinationName,
+                                        String details,long fileSizeInBytes,
+                                        InputStream inputStream,
+                                        TransferRunnable.IProgress progressListener)
+            throws SFInvalidStateException, SFServerException;
 }
