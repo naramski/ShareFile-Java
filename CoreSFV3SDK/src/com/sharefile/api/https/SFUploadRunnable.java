@@ -129,34 +129,10 @@ public class SFUploadRunnable extends TransferRunnable
     {
 		try 
 		{
-            /*ISFQuery<SFUploadSpecification> uploadQuery = SFQueryBuilder.ITEMS.upload(new URI(mV3Url)
-                            ,new SFSafeEnum<SFUploadMethod>(SFUploadMethod.Streamed),
-                            true,
-                            mDestinationFileName,
-                            mTotalBytes,
-                            null,
-                            false,
-                            true,
-                            false,
-                            false,
-                            "sfsdk",
-                            mOverwrite,
-                            mDestinationFileName,
-                            mDetails,
-                            false,
-                            null,
-                            null,
-                            1,
-                            "json",
-                            false, now,now, 5*365);
-            */
 
             ISFQuery<SFUploadSpecification> uploadQuery =
                     SFQueryBuilder.ITEMS.upload2(new URI(mV3Url),buildUploadRequestParams(mDestinationFileName,
                                     mDetails,mTotalBytes));
-
-			// uploadQuery.setLink(mV3Url);
-
 
             uploadQuery.setCredentials(mUsername,mPassword);
 
