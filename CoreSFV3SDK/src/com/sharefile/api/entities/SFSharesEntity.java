@@ -3863,18 +3863,24 @@ public class SFSharesEntity extends SFODataEntityBase
 
 	/**
 	* Get Sent Message Content by Share
-	* Returns sent message content.Share identifier
+	* Returns sent message content.
+	* @param shareUrl 	 	
 	* @return Sent Message Content
 	*/
-	public ISFQuery<InputStream> message(URI url) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	public ISFQuery<InputStream> message(URI shareUrl, String aliasId) throws InvalidOrMissingParameterException 	{
+		if (shareUrl == null) {
+			throw new InvalidOrMissingParameterException("shareUrl");
+		}
+		if (aliasId == null) {
+			throw new InvalidOrMissingParameterException("aliasId");
 		}
 
 		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Shares");
-		sfApiQuery.setAction("Message");
-		sfApiQuery.addIds(url);
+		sfApiQuery.setAction("Recipients");
+		sfApiQuery.addIds(shareUrl);
+		sfApiQuery.addActionIds(aliasId);
+		sfApiQuery.addSubAction("Message");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
