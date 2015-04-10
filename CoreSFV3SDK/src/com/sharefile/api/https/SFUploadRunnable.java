@@ -20,6 +20,7 @@ import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFUploadMethod;
+import com.sharefile.api.models.SFUploadRequestParams;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.log.Logger;
 
@@ -128,9 +129,7 @@ public class SFUploadRunnable extends TransferRunnable
     {
 		try 
 		{
-            Date now = new Date();
-
-            ISFQuery<SFUploadSpecification> uploadQuery = SFQueryBuilder.ITEMS.upload(new URI(mV3Url)
+            /*ISFQuery<SFUploadSpecification> uploadQuery = SFQueryBuilder.ITEMS.upload(new URI(mV3Url)
                             ,new SFSafeEnum<SFUploadMethod>(SFUploadMethod.Streamed),
                             true,
                             mDestinationFileName,
@@ -150,6 +149,11 @@ public class SFUploadRunnable extends TransferRunnable
                             1,
                             "json",
                             false, now,now, 5*365);
+            */
+
+            ISFQuery<SFUploadSpecification> uploadQuery =
+                    SFQueryBuilder.ITEMS.upload2(new URI(mV3Url),buildUploadRequestParams(mDestinationFileName,
+                                    mDetails,mTotalBytes));
 
 			// uploadQuery.setLink(mV3Url);
 
@@ -163,9 +167,29 @@ public class SFUploadRunnable extends TransferRunnable
 			Logger.e(TAG, e);
 		}
 
-
 		return null;
 	}
+
+    private SFUploadRequestParams buildUploadRequestParams(String fileName,
+                                                           String details, long fileSize)
+    {
+        Date now = new Date();
+
+        SFUploadRequestParams uploadRequestParams = new SFUploadRequestParams();
+        uploadRequestParams.setFileName(fileName);
+        uploadRequestParams.setClientCreatedDate(now);
+        uploadRequestParams.setClientModifiedDate(now);
+        uploadRequestParams.setDetails(details);
+        uploadRequestParams.setFileSize(fileSize);
+        uploadRequestParams.setMethod(new SFSafeEnum<SFUploadMethod>(SFUploadMethod.Streamed));
+        uploadRequestParams.setOverwrite(true);
+        uploadRequestParams.setThreadCount(1);
+        uploadRequestParams.setTitle(fileName);
+        uploadRequestParams.setTool("SFV3JAVASDK");
+        uploadRequestParams.setRaw(true);
+
+        return uploadRequestParams;
+    }
 	
 	private void seekInputStream()
 	{
@@ -269,14 +293,8 @@ public class SFUploadRunnable extends TransferRunnable
 				mErrorCode = SFSdkGlobals.INTERNAL_HTTP_ERROR;
 			}						
 		}
-												
-		@SFSDKDefaultAccessScope SFChunkUploadResponse(String otherError,int httpErroCode)
-		{						
-			mWasError =  true;			
-			mErrorMessage = otherError;			
-			mErrorCode = httpErroCode;									
-		}
-	}
+
+    }
 	
 	/**
 	 *   This tries to upload a chunk. Returns a detialed object with the httpErrorCode and the ChunkResponse from the server.
