@@ -113,6 +113,7 @@ public class SFDownloadRunnable extends TransferRunnable {
                         mOutputStream.write(buffer, 0, length);
                         bytesRead+= length;
                         updateProgress(bytesRead);
+                        mTotalBytesTransferredForThisFile += length;
                     }
                 break;
 

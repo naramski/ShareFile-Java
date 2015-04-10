@@ -1,11 +1,7 @@
 package com.sharefile.api.https;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.sharefile.api.SFApiClient;
 
-import com.sharefile.api.constants.SFSdkGlobals;
-import com.sharefile.api.exceptions.SFCanceledException;
 import com.sharefile.api.exceptions.SFSDKException;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -16,7 +12,7 @@ public abstract class TransferRunnable extends Thread
     protected final SFApiClient mApiClient;
     protected final IProgress mProgressListener;
     protected final SFCookieManager mCookieManager;
-    protected long mBytesTransfered;
+    protected long mTotalBytesTransferredForThisFile;
 
     //credentials for connectors
     protected final String mUsername;
@@ -62,7 +58,7 @@ public abstract class TransferRunnable extends Thread
         {
             if(mProgressListener!=null)
             {
-                mProgressListener.onError(e, mBytesTransfered);
+                mProgressListener.onError(e, mTotalBytesTransferredForThisFile);
             }
         }
     }
