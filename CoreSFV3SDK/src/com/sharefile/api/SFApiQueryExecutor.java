@@ -237,6 +237,14 @@ class SFApiQueryExecutor<T extends SFODataObject> implements ISFApiExecuteQuery
                 SFV3Error sfV3error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM, null, ex);
                 mResponse.setResponse(null, sfV3error);
             }
+            catch (SFV3ErrorException ex)
+            {
+                // have to capture here to avoid the the next catch "hiding" the real problem behind the "internal http error"
+                // this was received from a call initiated by this method that is not using listeners
+                // for example the call to follow symbolic links
+                // I assume the same happens could happen if the query after renewing tokens fails.
+                throw ex;
+            }
             catch (Exception ex)
             {
                 SLog.e(TAG, ex);
