@@ -6,14 +6,12 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFRedirectionType;
 import com.sharefile.api.exceptions.SFConnectionException;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFNotFoundException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFOtherException;
-import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.https.SFCookieManager;
@@ -388,16 +386,6 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         return executeBlockingQuery();
     }
 
-    private T executeQueryOnSymbolicLink(SFSymbolicLink link) throws
-            URISyntaxException,UnsupportedEncodingException,
-            SFServerException, SFInvalidStateException,
-            SFOAuthTokenRenewException, SFNotAuthorizedException, SFOtherException
-    {
-        mQuery.setLinkAndAppendPreviousParameters(link.getLink());
-
-        return executeBlockingQuery();
-    }
-
 	private T executeQueryOnRedirectedObject(SFRedirection redirection) throws
             SFInvalidStateException, SFServerException,
             SFOAuthTokenRenewException, SFOtherException,
@@ -481,26 +469,19 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
         return true;
     }
 	
-	private SFRedirectionType redirectionRequired(T object)
+	private SFRedirection getRedirectionObject(T object)
 	{
-		SFRedirectionType ret = SFRedirectionType.NONE;
-		
+        if((object == null) )
+        {
+            return null;
+        }
+
 		if(!mQuery.reDirectionAllowed())
 		{
-			return ret;
-		}
-		
-		if((object == null) )
-		{
-			return ret;
+			return null;
 		}
 
-
-		if(object instanceof SFSymbolicLink)
-		{
-			ret = SFRedirectionType.SYMBOLIC_LINK;
-		}
-		else if(object instanceof SFFolder)
+		if(object instanceof SFFolder)
 		{
 			SFFolder folder = (SFFolder) object;
 			
@@ -509,15 +490,15 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 			if(hasRemoteChildren!=null && hasRemoteChildren &&
                     isNewRedirectionUri(folder.getRedirection()))
 			{					
-				ret = SFRedirectionType.FOLDER_ENUM;
+				return folder.getRedirection();
 			}
 		}
 		else if(object instanceof SFRedirection)
 		{
-			ret = SFRedirectionType.URI;				
+			return (SFRedirection)object;
 		}		
 		
-		return ret;
+		return null;
 	}
 
 
@@ -534,34 +515,16 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
 		T sfobject = (T)SFGsonHelper.customParse(jsonElement);
-				
-		switch (redirectionRequired(sfobject)) 
-		{
 
-			case SYMBOLIC_LINK:
-                try
-                {
-                    return executeQueryOnSymbolicLink((SFSymbolicLink)sfobject);
-                }
-                catch (URISyntaxException | UnsupportedEncodingException e)
-                {
-                    throw new SFOtherException(e);
-                }
-             //break;
+        SFRedirection redirection = getRedirectionObject(sfobject);
 
+        if(redirection == null)
+        {
+            return sfobject;
 
-			case FOLDER_ENUM:	
-				return executeQueryOnRedirectedObject(((SFFolder)sfobject).getRedirection());
-			//break;
-				
-			case URI:
-				return executeQueryOnRedirectedObject((SFRedirection) sfobject);
-			//break;
-				
-			default:
-                return sfobject;
-			//break;
-		}
+        }
+
+		return executeQueryOnRedirectedObject(redirection);
 	}
 			
 	protected ISFApiResultCallback<T> getResponseListener()
