@@ -23,7 +23,6 @@ import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.log.Logger;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFRedirection;
-import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.api.utils.Utils;
 
 import java.io.IOException;

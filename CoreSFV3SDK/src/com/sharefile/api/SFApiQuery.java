@@ -628,22 +628,29 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	@Override
 	public ISFQuery<T> setLinkAndAppendPreviousParameters(URI newuri) throws URISyntaxException, UnsupportedEncodingException
 	{	
-		String newQueryParams = newuri.getQuery(); 
+		String newQueryParams = newuri.getQuery();
+        String oldQueryParms = buildQueryParameters();
 		
-		if(newQueryParams !=null)
+		if(newQueryParams !=null && newQueryParams.contains(oldQueryParms))
 		{
 			setFullyParametrizedLink(newuri);
 			return this;
 		}
-		
-		String oldQueryParms = buildQueryParameters();		
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append(newuri.toString());
 		
 		if(!Utils.isEmpty(oldQueryParms))
 		{
-			sb.append(SFKeywords.CHAR_QUERY);
+            if(Utils.isEmpty(newQueryParams))
+            {
+                sb.append(SFKeywords.CHAR_QUERY);
+            }
+            else
+            {
+                sb.append(SFKeywords.CHAR_AMPERSAND);
+            }
+
 			sb.append(oldQueryParms);
 		}
 		
