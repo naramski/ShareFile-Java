@@ -22,5 +22,6 @@ public enum SFReportType {
 	Storage,
 	Messaging,
 	BandwidthDetail,
-	BandwidthSummary
+	BandwidthSummary,
+	EncryptedEmail
 }
