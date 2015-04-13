@@ -1,6 +1,7 @@
 package com.sharefile.api.async;
 
 
+import com.sharefile.api.SFSdk;
 import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
@@ -30,7 +31,7 @@ public class SFAsyncHelper<T> implements ISFAsyncHelper<T>
     {
         try
         {
-            mApiExecutor = mApiClient.getExecutor(mQuery, mApiResultCallback, null);
+            mApiExecutor = mApiClient.getExecutor(mQuery, mApiResultCallback, SFSdk.getReAuthHandler());
             mResult = mApiExecutor.executeBlockingQuery();
         }
         catch (SFSDKException e)
