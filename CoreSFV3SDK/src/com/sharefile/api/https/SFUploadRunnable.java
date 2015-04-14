@@ -409,6 +409,10 @@ public class SFUploadRunnable extends TransferRunnable
 
 				Thread.yield();
 			}
+            if(mProgressListener!=null)
+            {
+                mProgressListener.onComplete(mTotalBytesTransferredForThisFile);
+            }
 		}
         catch (SFSDKException ex)
         {

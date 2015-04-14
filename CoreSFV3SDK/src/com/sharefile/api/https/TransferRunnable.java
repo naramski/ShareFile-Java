@@ -31,6 +31,7 @@ public abstract class TransferRunnable extends Thread
 	public interface IProgress {
 		public void bytesTransfered(long byteCount);
         public void onError(SFSDKException exception, long bytesTransfered);
+        public void onComplete(long bytesTransfered);
 	};
 
 
