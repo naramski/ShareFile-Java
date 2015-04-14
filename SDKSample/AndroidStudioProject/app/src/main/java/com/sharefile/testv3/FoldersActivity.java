@@ -2,6 +2,9 @@ package com.sharefile.testv3;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,11 +40,14 @@ import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.testv3.Core.Core;
+import com.sharefile.testv3.upload.UploadInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,6 +59,7 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 {
     private static final SFLogger SLog = new SFLogger();
     private static final String TAG = "FolderActivity";
+    private static final int SFREQUEST_CODE_PHOTO_PICKER = 0x1234;
     private ListView mSFItemListView = null;
 	private Activity thisActivity = null;
 	private ProgressBar mThrobber = null;
@@ -165,7 +172,7 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 
 	}
 
-	private void callUploadApi() throws FileNotFoundException, SFInvalidStateException, SFServerException
+	private void callUploadApi(final UploadInfo uploadInfo) throws IOException, SFInvalidStateException, SFServerException
     {
 		String parentid = mFolderIdStack.peek();
         SFFolder currentFolder = mapFolderContents.get(parentid);
@@ -175,18 +182,18 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
             return;
         }
 
-		final File file = new File("/storage/emulated/legacy/s.png");
+        InputStream is = UploadInfo.getInputStreamFromPath(uploadInfo.getFullPathToFile(),getApplicationContext());
 
         SFUploadRunnable uploader = Core.getApiClient().getUploader(
                 currentFolder,
-                "s.png",
+                uploadInfo.getFilename(),
                 "",
-                file.length(),
-                new FileInputStream(file),new TransferRunnable.IProgress() {
+                is.available(),
+                is,new TransferRunnable.IProgress() {
                     @Override
                     public void bytesTransfered(long l)
                     {
-                        SLog.d(TAG,"uploaded: " + l);
+                        SLog.d(TAG,"uploaded: " + l + " bytes of " + uploadInfo.getFilename());
                     }
 
                     @Override
@@ -198,7 +205,8 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
                     @Override
                     public void onComplete(long l)
                     {
-                        showToast("Upload complete");
+                        SLog.d(TAG, "Upload complete" + uploadInfo.getFilename());
+                        showToast("Upload complete: " + uploadInfo.getFilename());
                     }
                 });
 
@@ -482,7 +490,25 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
             }
 		}
 	};
-		
+
+    private void startMediaPicker(String type, int requestCode)
+    {
+        Activity activity = this;
+
+        Intent intent = createMediaPickerIntent(activity, type);
+
+        startActivityForResult(intent,requestCode);
+    }
+
+    public static Intent createMediaPickerIntent(Context context, String type) // , int requestCode
+    {
+
+        final Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType(type);
+        photoPickerIntent.addCategory(Intent.CATEGORY_OPENABLE);//only content that we can open with [ContentResolver].openInputStream();
+
+        return Intent.createChooser(photoPickerIntent, context.getString(R.string.strUploadFrom));
+    }
 	
 	private void initUIControls()
 	{
@@ -524,14 +550,7 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 			@Override
 			public void onClick(View v) 
 			{
-                try
-                {
-                    callUploadApi();
-                }
-                catch (Exception e)
-                {
-                    showToast(e.getLocalizedMessage());
-                }
+                startMediaPicker("image/* , video/*", SFREQUEST_CODE_PHOTO_PICKER);
             }
 		});
 		
@@ -651,4 +670,24 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
             Log.e(TAG,"",e);
         }
 	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SFREQUEST_CODE_PHOTO_PICKER && data!=null)
+        {
+            try
+            {
+                final Uri mediaUri = data.getData();
+                UploadInfo uploadInfo = UploadInfo.getUploadInfoFromContentProvider(getApplicationContext(), mediaUri);
+                callUploadApi(uploadInfo);
+            }
+            catch (Exception e)
+            {
+                showToast(e.getLocalizedMessage());
+            }
+        }
+    }
 }
