@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>       
+        
+        <dimen name="dialog_width">480dp</dimen>
+        <dimen name="dialog_line_spacing_small">8dp</dimen>
+        <dimen name="dialog_line_spacing_medium">18dp</dimen>
+        <dimen name="dialog_line_spacing_large">30dp</dimen>
+        <dimen name="dialog_content_width">432dp</dimen>
+        <dimen name="dialog_side_padding">24dp</dimen>
+        <dimen name="dialog_button_padding">10dp</dimen>
+        <dimen name="dialog_side_padding_for_titlebar">14dp</dimen> <!-- Note that dialog_side_padding_for_titlebar = dialog_side_padding - dialog_button_padding -->
+        <dimen name="dialog_button_text_size">@dimen/button_text_size</dimen>
+        <dimen name="dialog_button_height">49dp</dimen>
+        <dimen name="dialog_sendto_height">36dp</dimen>
+        <dimen name="dialog_custom_message_height">120dp</dimen>
+        <dimen name="dialog_height">640dp</dimen>
+        
+        <dimen name="pin_button_text_size">40sp</dimen>
+        <dimen name="pin_cancel_button_text_size">24sp</dimen>
+        <dimen name="pin_textview_size">@dimen/textview_size</dimen>
+        <dimen name="pin_middle_seperator">0dp</dimen>
+        
+        
+        <dimen name="folder_buttonbar_height">50dp</dimen>
+        <dimen name="folder_cell_height">58dp</dimen>
+        <dimen name="folder_divider_height">1dp</dimen>
+        <dimen name="folder_icon_height">36dp</dimen>
+        
+        <dimen name="pinpass_keypad">16sp</dimen>
+        
+        <dimen name="account_select_item_height">80dp</dimen>
+        <dimen name="upload_selector_button_margin">0dp</dimen>
+        
+        <dimen name="listview_cell_height">60dp</dimen>
+        
+        <dimen name="margin_tiny">3dp</dimen>
+        <dimen name="margin_small">7dp</dimen>
+        <dimen name="margin_medium">18dp</dimen>
+        <dimen name="margin_large">30dp</dimen>
+        <dimen name="margin_xlarge">42dp</dimen>
+        <dimen name="titlebar_height">42dp</dimen>
+        <dimen name="titlebar_text">22sp</dimen>
+        
+        <dimen name="close_button">18dp</dimen>
+        
+        <dimen name="textview_size">18sp</dimen> <!-- 18sp is standard Android medium size for textview -->
+        <dimen name="edittext_height">36dp</dimen>
+        <dimen name="edittext_size">@dimen/textview_size</dimen>
+        <dimen name="edittext_padding">5dp</dimen>
+        <dimen name="button_text_size">@dimen/textview_size</dimen>
+    </resources>
