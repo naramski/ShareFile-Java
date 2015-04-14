@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Folder_mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/folder_bg" >
+
+    <!-- 
+    <RelativeLayout
+        android:id="@+id/Folder_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/folder_title_bg" >
+
+        <TextView
+            android:id="@+id/Folder_placeHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:visibility="invisible"/>
+
+        <ImageButton
+            android:id="@+id/Folder_buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_small"
+            android:src="@drawable/nav_back"
+            android:background="@null" />
+
+        <ImageView
+            android:id="@+id/Folder_shareFileIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/Folder_buttonBack"
+            android:src="@drawable/icon"
+             />
+
+        <TextView
+            android:id="@+id/Folder_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:singleLine="true"
+            android:text="@string/app_name"/>
+    </RelativeLayout>
+ -->
+ 
+    <RelativeLayout 
+        android:id="@+id/folder_searchBoxContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        android:layout_below="@+id/Folder_title_container"
+        android:background="@color/folder_search_bg">
+        <ImageView
+            android:id="@+id/folder_searchBoxIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:src="@drawable/search"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_small"/>
+        <EditText
+            android:id="@+id/Folder_searchBox"
+            style="@style/SFEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/folder_searchBoxIcon"
+            android:cursorVisible="true"
+            android:hint="@string/strSearchAllFilesWithDots"
+            android:imeOptions="actionSearch"
+            android:singleLine="true" 
+            android:visibility="invisible"/>
+    </RelativeLayout>
+    
+    
+    <!-- android:background="@android:drawable/editbox_background_normal" -->
+    
+    <RelativeLayout
+        android:id="@+id/Folder_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/folder_searchBoxContainer"
+        android:layout_above="@+id/folderAction" >
+
+        <TextView
+            android:id="@+id/Folder_sortHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" />
+
+
+        <ListView
+            android:id="@+id/Folder_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdgeLength="0dp"
+            android:overScrollMode="never"
+            android:divider="@color/folder_listview_divider"
+            android:paddingBottom="@dimen/folder_buttonbar_height" 
+            android:layout_below="@+id/Folder_sortHeader"/>
+
+        <ProgressBar
+            android:id="@+id/Folder_throbber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/folderActions"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/folder_buttonbar_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/folder_buttonbar_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/margin_small"
+        android:paddingRight="@dimen/margin_small" >
+
+        <Button
+            android:id="@+id/folderActions_buttonSend"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/strSendFolder"
+            android:scaleType="center"
+            android:background="@drawable/filetree_sendfolder"
+            android:enabled="false"
+            />
+
+        <Button
+            android:id="@+id/folderActions_buttonFolderSync"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/strSyncFolder"
+            android:scaleType="center"
+            android:background="@drawable/filetreefoldersync" />
+
+        <Button
+            android:id="@+id/folderActions_buttonUpload"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/strUpload"
+            android:scaleType="center"
+            android:background="@drawable/filetree_uploadfiles" />
+
+        <Button
+            android:id="@+id/folderActions_buttonCreateFolder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/strCreateFolder"
+            android:scaleType="center"
+            android:background="@drawable/button_create_folder" />
+
+        <Button
+            android:id="@+id/folderActions_buttonPreferences"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/strFolderPref"
+            android:scaleType="center"
+            android:background="@drawable/filetree_folderprefs" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/folderActions_offlinenotice"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/folder_buttonbar_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/folder_buttonbar_bg"
+        android:text="@string/strOfflineNotice"
+        android:singleLine="true"
+        android:gravity="center"
+        android:visibility="gone"
+	/>	
+
+</RelativeLayout>
