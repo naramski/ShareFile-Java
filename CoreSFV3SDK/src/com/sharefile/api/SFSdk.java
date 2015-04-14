@@ -1,8 +1,11 @@
 package com.sharefile.api;
 
+import com.sharefile.api.async.SFAsyncTaskFactory;
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.interfaces.ILog;
 import com.sharefile.api.interfaces.IOAuthTokenChangeHandler;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
+import com.sharefile.api.log.Logger;
 import com.sharefile.api.utils.Utils;
 
 public class SFSdk
@@ -72,5 +75,15 @@ public class SFSdk
     public static IOAuthTokenChangeHandler getOAuthTokenChangeHandler()
     {
         return mOAuthTokenChangeHandler;
+    }
+
+    public static void setLogger(ILog logger)
+    {
+        Logger.set(logger);
+    }
+
+    public static void setAsyncTaskFactory(SFAsyncTaskFactory asyncTaskFactory)
+    {
+       SFAsyncTaskFactory.setInstance(asyncTaskFactory);
     }
 }

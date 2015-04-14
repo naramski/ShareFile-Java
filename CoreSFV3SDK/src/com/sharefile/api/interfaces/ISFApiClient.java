@@ -1,6 +1,7 @@
 package com.sharefile.api.interfaces;
 
 import com.sharefile.api.SFQueryStream;
+import com.sharefile.api.entities.ISFEntities;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
@@ -15,8 +16,10 @@ import com.sharefile.api.models.SFODataObject;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-public interface ISFApiClient extends IOAuthTokenChangeHandler
+public interface ISFApiClient extends IOAuthTokenChangeHandler , ISFEntities
 {
     public <T extends SFODataObject> T executeQuery(ISFQuery<T> query)
             throws SFServerException, SFInvalidStateException,
@@ -43,4 +46,8 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler
                                         InputStream inputStream,
                                         TransferRunnable.IProgress progressListener)
             throws SFInvalidStateException, SFServerException;
+
+    public URI getDefaultUrl(String folderID) throws URISyntaxException;
+    public URI getTopUrl();
+    public URI getDeviceUrl(String deviceId) throws URISyntaxException;
 }
