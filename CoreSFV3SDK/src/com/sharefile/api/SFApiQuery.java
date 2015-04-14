@@ -712,20 +712,6 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
     }
 
     @Override
-    public ISFQuery and(SFV3ElementType type)
-    {
-        mFilter.and(type);
-        return this;
-    }
-
-    @Override
-    public ISFQuery or(SFV3ElementType type)
-    {
-        mFilter.or(type);
-        return this;
-    }
-
-    @Override
     public ISFQuery is(SFV3ElementType type)
     {
         mFilter.is(type);

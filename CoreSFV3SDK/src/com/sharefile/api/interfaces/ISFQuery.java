@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
@@ -12,7 +13,7 @@ import com.sharefile.api.exceptions.SFOtherException;
 import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.models.SFODataObject;
 
-public interface ISFQuery<T> extends ISFTypeFilter
+public interface ISFQuery<T>
 {
     ISFQuery<T>  setApiClient(ISFApiClient apiClient);
 
@@ -104,6 +105,9 @@ public interface ISFQuery<T> extends ISFTypeFilter
 
     ISFQuery<T> skip(int skipItems);
 
+    ISFQuery<T> filter(String filterValue);
+
+    ISFQuery is(SFV3ElementType type);
 
     /**
      This function takes any uri and stores only its base part along with the provider
