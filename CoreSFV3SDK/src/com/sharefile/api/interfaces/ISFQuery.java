@@ -100,6 +100,10 @@ public interface ISFQuery<T> extends ISFTypeFilter
     */
     ISFQuery<T> expand(String expansionParameter);
 
+    ISFQuery<T> top(int topItems);
+
+    ISFQuery<T> skip(int skipItems);
+
 
     /**
      This function takes any uri and stores only its base part along with the provider

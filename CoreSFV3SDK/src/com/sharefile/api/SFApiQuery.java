@@ -19,6 +19,7 @@ import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFAsyncTask;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFQuery;
 import com.sharefile.api.models.SFSearchResults;
 import com.sharefile.api.utils.Utils;
 import com.sharefile.api.log.Logger;
@@ -681,6 +682,20 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
        mExpansionParameters.add(expansionParameter);
 
        return this;
+    }
+
+    @Override
+    public ISFQuery<T> top(int topItems)
+    {
+        addQueryString(SFQueryParams.TOP,topItems);
+        return this;
+    }
+
+    @Override
+    public ISFQuery<T> skip(int skipItems)
+    {
+        addQueryString(SFQueryParams.SKIP,skipItems);
+        return this;
     }
 
     @Override
