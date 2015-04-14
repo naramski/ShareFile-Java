@@ -640,21 +640,15 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 		setContentView(R.layout.folder);
 		
 		initUIControls();
-	}
-			
-	@Override
-	protected void onStart() 
-	{		
-		super.onStart();			
 
-		try
+        try
         {
             mFolderIdStack.clear();
-			navigateForward(Core.getApiClient().getTopUrl().toString());
-		}
+            navigateForward(Core.getApiClient().getTopUrl().toString());
+        }
         catch (URISyntaxException e)
         {
-			Log.e(TAG,"",e);
-		}
+            Log.e(TAG,"",e);
+        }
 	}
 }
