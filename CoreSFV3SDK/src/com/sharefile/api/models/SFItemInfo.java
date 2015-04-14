@@ -80,14 +80,26 @@ public class SFItemInfo extends SFODataObject {
 	private Boolean ShowFolderPayBuyButton;
 	@SerializedName("TreeMode")
 	private SFSafeEnum<SFTreeMode> TreeMode;
+	@SerializedName("Versioning")
+	private SFSafeEnum<SFVersioning> Versioning;
 	@SerializedName("TreeModeOperationAllowed")
 	private Boolean TreeModeOperationAllowed;
 	@SerializedName("TreeModeSourceId")
 	private String TreeModeSourceId;
 	@SerializedName("ForcedSortField")
-	private String ForcedSortField;
+	private SFSafeEnum<SFSortField> ForcedSortField;
 	@SerializedName("ForcedSortOrder")
-	private String ForcedSortOrder;
+	private SFSafeEnum<SFSortDirection> ForcedSortOrder;
+	@SerializedName("MaxVersions")
+	private Integer MaxVersions;
+	@SerializedName("DocumentViewerPrinting")
+	private SFSafeEnum<SFDocumentViewerPrinting> DocumentViewerPrinting;
+	@SerializedName("WatermarkedDownloads")
+	private SFSafeEnum<SFWatermarkedDownloads> WatermarkedDownloads;
+	@SerializedName("OptionPropagation")
+	private ArrayList<SFSafeEnum<SFFolderOption>> OptionPropagation;
+	@SerializedName("ViewOnlyWatermarkText")
+	private String ViewOnlyWatermarkText;
 	@SerializedName("SortField")
 	private SFSafeEnum<SFSortField> SortField;
 	@SerializedName("SortDirection")
@@ -282,6 +294,13 @@ public class SFItemInfo extends SFODataObject {
 	public void setTreeMode(SFSafeEnum<SFTreeMode> treemode) {
 		this.TreeMode = treemode;
 	}
+	public SFSafeEnum<SFVersioning> getVersioning() {
+		return this.Versioning;
+	}
+
+	public void setVersioning(SFSafeEnum<SFVersioning> versioning) {
+		this.Versioning = versioning;
+	}
 	public Boolean getTreeModeOperationAllowed() {
 		return this.TreeModeOperationAllowed;
 	}
@@ -296,19 +315,54 @@ public class SFItemInfo extends SFODataObject {
 	public void setTreeModeSourceId(String treemodesourceid) {
 		this.TreeModeSourceId = treemodesourceid;
 	}
-	public String getForcedSortField() {
+	public SFSafeEnum<SFSortField> getForcedSortField() {
 		return this.ForcedSortField;
 	}
 
-	public void setForcedSortField(String forcedsortfield) {
+	public void setForcedSortField(SFSafeEnum<SFSortField> forcedsortfield) {
 		this.ForcedSortField = forcedsortfield;
 	}
-	public String getForcedSortOrder() {
+	public SFSafeEnum<SFSortDirection> getForcedSortOrder() {
 		return this.ForcedSortOrder;
 	}
 
-	public void setForcedSortOrder(String forcedsortorder) {
+	public void setForcedSortOrder(SFSafeEnum<SFSortDirection> forcedsortorder) {
 		this.ForcedSortOrder = forcedsortorder;
+	}
+	public Integer getMaxVersions() {
+		return this.MaxVersions;
+	}
+
+	public void setMaxVersions(Integer maxversions) {
+		this.MaxVersions = maxversions;
+	}
+	public SFSafeEnum<SFDocumentViewerPrinting> getDocumentViewerPrinting() {
+		return this.DocumentViewerPrinting;
+	}
+
+	public void setDocumentViewerPrinting(SFSafeEnum<SFDocumentViewerPrinting> documentviewerprinting) {
+		this.DocumentViewerPrinting = documentviewerprinting;
+	}
+	public SFSafeEnum<SFWatermarkedDownloads> getWatermarkedDownloads() {
+		return this.WatermarkedDownloads;
+	}
+
+	public void setWatermarkedDownloads(SFSafeEnum<SFWatermarkedDownloads> watermarkeddownloads) {
+		this.WatermarkedDownloads = watermarkeddownloads;
+	}
+	public ArrayList<SFSafeEnum<SFFolderOption>> getOptionPropagation() {
+		return this.OptionPropagation;
+	}
+
+	public void setOptionPropagation(ArrayList<SFSafeEnum<SFFolderOption>> optionpropagation) {
+		this.OptionPropagation = optionpropagation;
+	}
+	public String getViewOnlyWatermarkText() {
+		return this.ViewOnlyWatermarkText;
+	}
+
+	public void setViewOnlyWatermarkText(String viewonlywatermarktext) {
+		this.ViewOnlyWatermarkText = viewonlywatermarktext;
 	}
 	public SFSafeEnum<SFSortField> getSortField() {
 		return this.SortField;

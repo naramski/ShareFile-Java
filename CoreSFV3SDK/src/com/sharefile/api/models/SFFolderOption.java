@@ -16,13 +16,13 @@ import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
-public enum SFSortField {
-	UsersPreferences,
-	Name,
-	FileSizeBytes,
-	CreationDate,
-	CreatorName,
-	Path,
-	Type,
-	None
+public enum SFFolderOption {
+	ForcedSort,
+	ForcedThumbnails,
+	EnableDisplayInline,
+	EnableDocViewerPrinting,
+	ViewOnlyWatermarkText,
+	IsVersioned,
+	EnableWatermarkedDownloads,
+	MaxVersions
 }

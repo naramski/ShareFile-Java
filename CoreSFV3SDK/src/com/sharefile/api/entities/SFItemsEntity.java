@@ -4904,5 +4904,73 @@ public class SFItemsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Remove folder template association from folder
+	* @param url 	 	
+	*/
+	public ISFQuery removeTemplateAssociation(URI url, String id) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("RemoveTemplateAssociation");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Check if template is already part of an existing template structure
+	* @param url 	 	
+	*/
+	public ISFQuery checkTemplateOwned(URI url, String id) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("CheckTemplateOwned");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Check if a versioning change would result in file deletions
+	* @param url 	 	
+	* @param newMaxVersions 	 	
+	*/
+	public ISFQuery checkVersioningViolation(URI url, String id, Integer newMaxVersions) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (newMaxVersions == null) {
+			throw new InvalidOrMissingParameterException("newMaxVersions");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("CheckVersioningViolation");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.addQueryString("newMaxVersions", newMaxVersions);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 
