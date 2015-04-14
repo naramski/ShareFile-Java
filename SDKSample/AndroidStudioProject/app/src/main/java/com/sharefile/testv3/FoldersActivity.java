@@ -19,19 +19,30 @@ import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOtherException;
 import com.sharefile.api.exceptions.SFSDKException;
+import com.sharefile.api.exceptions.SFServerException;
+import com.sharefile.api.https.SFDownloadRunnable;
+import com.sharefile.api.https.SFUploadRunnable;
+import com.sharefile.api.https.TransferRunnable;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.interfaces.ISFReExecuteQuery;
 import com.sharefile.api.models.SFAccessControl;
+import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFSymbolicLink;
 import com.sharefile.testv3.Core.Core;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -154,51 +165,44 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 
 	}
 
-	private void callUploadApi()
-	{
-		/*
+	private void callUploadApi() throws FileNotFoundException, SFInvalidStateException, SFServerException
+    {
 		String parentid = mFolderIdStack.peek();
-		final File file = new File("/storage/sdcard0/sharefile/v3upload.bin");
-		ISFQuery<SFUploadSpecification> query = SFItemsEntity.upload(parentid, SFUploadMethod.Streamed, true, "v3upload.bin", (long) file.length(), null, false, true, false, false, "sfsdk", true, "hello.txt", "sfsdk upload", false, null, null, 1, "json", false, 365);		
-		
-		try 
-		{
-			FullscreenActivity.mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFUploadSpecification>()
-			{														
+        SFFolder currentFolder = mapFolderContents.get(parentid);
+        if(currentFolder==null)
+        {
+            showToast("Current Folder NULL");
+            return;
+        }
 
-				@Override
-				public void onSuccess(SFUploadSpecification object)
-				{
-					SLog.d("SFSDK","getItem success: ");
-					showToast("Actuall upload of file");				
-					
-					FileInputStream fis;
-					try 
-					{
-						fis = new FileInputStream(file);
-						FullscreenActivity.mSFApiClient.uploadFile(object, 0, file.length(), "v3upload.bin", fis, mUploadListener);
-					} 
-					catch (FileNotFoundException | SFInvalidStateException e) 
-					{						
-						SLog.d("SFSDK","!!Exception: "+ Log.getStackTraceString(e) );
-					}						
-				}
+		final File file = new File("/storage/emulated/legacy/s.png");
 
-				@Override
-				public void onError(SFSDKException v3error,ISFQuery<SFUploadSpecification> asApiqueri)
-				{
-					SLog.d("SFSDK","get Item failed: ");
-					showToast("Failed");						
-				}
+        SFUploadRunnable uploader = Core.getApiClient().getUploader(
+                currentFolder,
+                "s.png",
+                "",
+                file.length(),
+                new FileInputStream(file),new TransferRunnable.IProgress() {
+                    @Override
+                    public void bytesTransfered(long l)
+                    {
+                        SLog.d(TAG,"uploaded: " + l);
+                    }
 
-			},null);
-		} 
-		catch (SFInvalidStateException e) 
-		{							
-			e.printStackTrace();
-			showToast("Exception "+ e.getLocalizedMessage());							
-		}
-		*/
+                    @Override
+                    public void onError(SFSDKException e, long l)
+                    {
+                        showToast(e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onComplete(long l)
+                    {
+                        showToast("Upload complete");
+                    }
+                });
+
+        uploader.start();
 	}
 	
 	private void showCreateFolderDialog()
@@ -519,9 +523,16 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 		{			
 			@Override
 			public void onClick(View v) 
-			{				
-				callUploadApi();
-			}
+			{
+                try
+                {
+                    callUploadApi();
+                }
+                catch (Exception e)
+                {
+                    showToast(e.getLocalizedMessage());
+                }
+            }
 		});
 		
 		//////////////////  List View///////////////////////
@@ -566,54 +577,56 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 					else if(SFV3ElementType.isFileType(item))
 					{
 						showToast("Starting download for: " + item.getName());
-						
-						callDownloadApi(item.getId());
-					}
+
+                        try
+                        {
+                            callDownloadApi((SFFile)item);
+                        }
+                        catch (Exception e)
+                        {
+                            showToast(e.getLocalizedMessage());
+                        }
+                    }
 				}
 			}
          }); 	
 	}
-	
-	
-	private void callDownloadApi(String itemid )
-	{
-		/*
-		ISFQuery<SFDownloadSpecification> downloadQuery = SFItemsEntity.download(itemid, true);
-		
-		try {
-				FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new ISFApiResultCallback<SFDownloadSpecification>()
-					{
 
-						@Override
-						public void onSuccess(SFDownloadSpecification object)
-						{	
-							showToast("Start actual download...");
-							
-							SLog.d("download","dspec = %s", object.getDownloadUrl() );
-							
-							FileOutputStream fileOutpuStream;
-							try 
-							{
-								fileOutpuStream = new FileOutputStream("/storage/sdcard0/sharefile/v3download.bin");
-								FullscreenActivity.mSFApiClient.downloadFile(object, 0, fileOutpuStream, mDownloadloadProgressListener);
-							} 
-							catch (FileNotFoundException | SFInvalidStateException e) 
-							{								
-								SLog.d("download", "!!Exception: %s" , Log.getStackTraceString(e));
-							}																					
-						}
+    private File getOutputFile(SFFile file)
+    {
+        File fileonInternalStorage = new File(getFilesDir() , file.getFileName());
+        return fileonInternalStorage;
+    }
 
-						@Override
-						public void onError(SFSDKException error,ISFQuery<SFDownloadSpecification> asApiqueri)
-						{	
-							SLog.d("download","error = %s" , error.message.value);
-						}
-			});
-		}
-		catch (SFInvalidStateException e) 
-		{			
-			e.printStackTrace();
-		}*/		
+	private void callDownloadApi(SFFile item ) throws FileNotFoundException, SFOtherException
+    {
+        OutputStream os = new FileOutputStream(getOutputFile(item));
+
+		SFDownloadRunnable downloader = Core.getApiClient().
+                                        getDownloader(item, os,
+                                                new TransferRunnable.IProgress()
+                                                {
+                                                    @Override
+                                                    public void bytesTransfered(long l)
+                                                    {
+                                                        Log.d(TAG,"bytes transfered " + l);
+                                                    }
+
+                                                    @Override
+                                                    public void onError(SFSDKException e, long l)
+                                                    {
+                                                        showToast(e.getLocalizedMessage());
+                                                    }
+
+                                                    @Override
+                                                    public void onComplete(long l)
+                                                    {
+                                                        SLog.d(TAG,"Download completed with bytes: " + l);
+                                                        showToast("Download completed");
+                                                    }
+                                                });
+
+        downloader.start();
 	}
 	
 	
