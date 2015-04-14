@@ -119,7 +119,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	 */
 	private String mPassword;
 
-	private boolean mEnableRedirection = true;
+	private boolean allowRedirection = true;
 	
 	//{@link #getComponentAt(int, int) getComponentAt} method.
 	
@@ -613,16 +613,16 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	}
 
 	@Override
-	public ISFQuery<T> setRedirection(boolean value)
+	public ISFQuery<T> allowRedirection(boolean value)
 	{
-        mEnableRedirection = value;
+        allowRedirection = value;
         return this;
 	}
 
     @Override
 	public boolean reDirectionAllowed()
 	{
-		return mEnableRedirection;
+		return allowRedirection;
 	}
 
 	@Override
