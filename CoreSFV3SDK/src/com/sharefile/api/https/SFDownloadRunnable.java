@@ -115,6 +115,11 @@ public class SFDownloadRunnable extends TransferRunnable {
                         updateProgress(bytesRead);
                         mTotalBytesTransferredForThisFile += length;
                     }
+
+                    if(mProgressListener!=null)
+                    {
+                        mProgressListener.onComplete(mTotalBytesTransferredForThisFile);
+                    }
                 break;
 
                 case HttpsURLConnection.HTTP_UNAUTHORIZED:
