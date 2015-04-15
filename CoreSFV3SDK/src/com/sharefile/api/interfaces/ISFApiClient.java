@@ -13,6 +13,7 @@ import com.sharefile.api.https.TransferRunnable;
 import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.models.SFUploadRequestParams;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,6 +44,11 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler , ISFEntities
     public SFUploadRunnable getUploader(SFFolder parentFolder,
                                         String destinationName,
                                         String details,long fileSizeInBytes,
+                                        InputStream inputStream,
+                                        TransferRunnable.IProgress progressListener)
+            throws SFInvalidStateException, SFServerException;
+
+    public SFUploadRunnable getUploader(SFUploadRequestParams uploadRequestParams,
                                         InputStream inputStream,
                                         TransferRunnable.IProgress progressListener)
             throws SFInvalidStateException, SFServerException;

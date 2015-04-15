@@ -25,6 +25,7 @@ import com.sharefile.api.models.SFFile;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFUploadRequestParams;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.utils.Utils;
 
@@ -330,6 +331,24 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
                 progressListener,
                 mCookieManager,
                 null, null, details);
+    }
+
+    public SFUploadRunnable getUploader(SFUploadRequestParams uploadRequestParams,
+                                        InputStream inputStream,
+                                        TransferRunnable.IProgress progressListener)
+            throws SFInvalidStateException, SFServerException
+    {
+        validateClientState();
+
+        return new SFUploadRunnable(uploadRequestParams.geturl().toString(), true,
+                0,
+                uploadRequestParams.getFileSize(),
+                uploadRequestParams.getFileName(),
+                inputStream,
+                this,
+                progressListener,
+                mCookieManager,
+                null, null, uploadRequestParams.getDetails());
     }
 
     /**
