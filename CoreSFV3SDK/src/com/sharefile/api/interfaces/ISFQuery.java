@@ -109,6 +109,8 @@ public interface ISFQuery<T>
 
     ISFQuery is(SFV3ElementType type);
 
+    ISFQuery select(String name);
+
     /**
      This function takes any uri and stores only its base part along with the provider
 

@@ -718,6 +718,13 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
         return this;
     }
 
+    @Override
+    public ISFQuery select(String name)
+    {
+        addQueryString(SFQueryParams.SELECT,name);
+        return this;
+    }
+
     private void expand(ArrayList<String> expansionParameters)
     {
         if(Utils.isEmpty(expansionParameters))
