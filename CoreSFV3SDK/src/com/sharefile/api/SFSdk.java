@@ -4,6 +4,8 @@ import com.sharefile.api.async.SFAsyncTaskFactory;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.ILog;
 import com.sharefile.api.interfaces.IOAuthTokenChangeHandler;
+import com.sharefile.api.interfaces.ISFAsyncTask;
+import com.sharefile.api.interfaces.ISFAsyncTaskFactory;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
 import com.sharefile.api.log.Logger;
 import com.sharefile.api.utils.Utils;
@@ -15,6 +17,7 @@ public class SFSdk
     private static String mRedirectUrl;
     private static ISFReAuthHandler mReAuthHandler;
     private static IOAuthTokenChangeHandler mOAuthTokenChangeHandler;
+    private static ISFAsyncTaskFactory mAsyncTaskFactory = new SFAsyncTaskFactory();
 
     public static boolean isInitialized()
     {
@@ -82,8 +85,13 @@ public class SFSdk
         Logger.set(logger);
     }
 
-    public static void setAsyncTaskFactory(SFAsyncTaskFactory asyncTaskFactory)
+    public static void setAsyncTaskFactory(ISFAsyncTaskFactory asyncTaskFactory)
     {
-       SFAsyncTaskFactory.setInstance(asyncTaskFactory);
+       mAsyncTaskFactory = asyncTaskFactory;
+    }
+
+    public static ISFAsyncTask createAsyncTask()
+    {
+        return mAsyncTaskFactory.createNewTask();
     }
 }

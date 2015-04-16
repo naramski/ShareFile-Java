@@ -1,27 +1,13 @@
 package com.sharefile.api.async;
 
 import com.sharefile.api.interfaces.ISFAsyncTask;
-import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.interfaces.ISFAsyncTaskFactory;
 
-public abstract class SFAsyncTaskFactory
+public class SFAsyncTaskFactory implements ISFAsyncTaskFactory
 {
-    private static SFAsyncTaskFactory instance = new SFAsyncTaskFactory()
+    @Override
+    public ISFAsyncTask createNewTask()
     {
-        @Override
-        protected ISFAsyncTask createNewTask()
-        {
-            return new SFDefaultAsyncTask();
-        }
-    };
-
-    public static SFAsyncTaskFactory getInstance() { return instance; }
-
-    protected abstract ISFAsyncTask createNewTask();
-
-    public static final void setInstance(SFAsyncTaskFactory newInstance) { instance = newInstance; }
-
-    public static final <T extends SFODataObject> ISFAsyncTask create()
-    {
-       return getInstance().createNewTask();
+        return new SFDefaultAsyncTask();
     }
 }

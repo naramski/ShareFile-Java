@@ -786,7 +786,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 
         SFAsyncHelper asyncHelper = new SFAsyncHelper(apiClient, this, callback);
 
-        ISFAsyncTask asyncTask = SFAsyncTaskFactory.create();
+        ISFAsyncTask asyncTask = SFSdk.createAsyncTask();
 
         if(asyncTask == null)
         {
