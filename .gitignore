@@ -2,3 +2,6 @@ bin
 /CoreSFV3SDK/build
 build
 *.iml
+/SDKSample/AndroidStudioProject/.idea
+/SDKSample/AndroidStudioProject/*.iml
+/SDKSample/AndroidStudioProject/local.properties

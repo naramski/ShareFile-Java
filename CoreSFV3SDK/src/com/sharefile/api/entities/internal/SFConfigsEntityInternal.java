@@ -6,13 +6,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -26,16 +27,22 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFConfigsEntityInternal extends SFODataEntityBase
 {
+    SFConfigsEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get Configs
 	* @return List of GenericConfg
     */
 	public ISFQuery<SFODataFeed<SFGenericConfig>> get()
 	{
-		SFApiQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGenericConfig>>();
+		SFApiQuery<SFODataFeed<SFGenericConfig>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGenericConfig>>(this.apiClient);
 		sfApiQuery.setFrom("Configs");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

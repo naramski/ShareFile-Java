@@ -6,13 +6,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -26,9 +27,15 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFItemsEntityInternal extends SFItemsEntity
 {
+    public SFItemsEntityInternal(ISFApiClient client)
+    {
+        super(client);
+    }
+
     /**
 	* Subscribe to ENS event notifications for an Item
     * {
@@ -42,11 +49,11 @@ public class SFItemsEntityInternal extends SFItemsEntity
     * }
 	* @param url 	
 	* @param subreq 	
-	* @return an ENS subscription token, which the client can use to register for Event notifications
+	* @return an ENS subscription token, which the apiClient can use to register for Event notifications
     */
 	public ISFQuery<SFEnsSubscriptionToken> subscribe(URI url, SFEnsSubscriptionRequest subreq)
 	{
-		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>();
+		SFApiQuery<SFEnsSubscriptionToken> sfApiQuery = new SFApiQuery<SFEnsSubscriptionToken>(this.apiClient);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Subscribe");
 		sfApiQuery.addIds(url);

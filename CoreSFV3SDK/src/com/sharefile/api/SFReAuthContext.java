@@ -4,26 +4,47 @@ import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFSDKException;
+import com.sharefile.api.interfaces.ISFApiClient;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.ISFReExcecuteQuery;
-import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.models.SFODataObject;
+import com.sharefile.api.interfaces.ISFReExecuteQuery;
 import com.sharefile.api.utils.Utils;
 
 /**
  *   This class should receive all the information to re-execute the original query that caused the auth exception.
  */
-public final class SFReAuthContext<T extends SFODataObject> 
+public final class SFReAuthContext<T>
 {	
 	private final ISFQuery<T> mQuery;
-	private final SFApiResponseListener<T> mOriginalListener;	
+	private final ISFApiResultCallback<T> mOriginalListener;
 	private final AtomicBoolean mIsCancelled = new AtomicBoolean(false);
-	private final SFApiClient mSFApiClient;
+	private final ISFApiClient mSFApiClient;
 	private final ISFReAuthHandler mReauthHandler;
+
+    public ISFQuery<T> getQuery()
+    {
+        return mQuery;
+    }
+
+    public ISFApiClient getApiClient()
+    {
+        return mSFApiClient;
+    }
+
+    public ISFApiResultCallback<T> getCallback()
+    {
+        return mOriginalListener;
+    }
+
+    public ISFReAuthHandler getReAuthHandler()
+    {
+        return mReauthHandler;
+    }
 		
 	@SFSDKDefaultAccessScope
-	SFReAuthContext(ISFQuery<T> sfapiApiqueri,SFApiResponseListener<T> originalListener, ISFReAuthHandler reauthHandler,SFApiClient sfApiClient)	
+	SFReAuthContext(ISFQuery<T> sfapiApiqueri,ISFApiResultCallback<T> originalListener, ISFReAuthHandler reauthHandler,ISFApiClient sfApiClient)
 	{
 		mQuery = sfapiApiqueri;
 		mOriginalListener = originalListener;
@@ -31,7 +52,7 @@ public final class SFReAuthContext<T extends SFODataObject>
 		mReauthHandler = reauthHandler;
 	}
 			
-	public void reExecuteQueryWithCredentials(String userName, String password, ISFReExcecuteQuery<T> reExecutor) throws SFInvalidStateException 
+	public void reExecuteQueryWithCredentials(String userName, String password, ISFReExecuteQuery<T> reExecutor) throws SFInvalidStateException
 	{		
 		if(mIsCancelled.get())
 		{
@@ -64,8 +85,8 @@ public final class SFReAuthContext<T extends SFODataObject>
 		return mQuery.getLink();
 	}
 
-    public void callErrorListener(SFV3Error sfv3Error)
+    public void callErrorListener(SFSDKException exception)
     {
-        Utils.safeCallErrorListener(mOriginalListener,sfv3Error,mQuery);
+        Utils.safeCallErrorListener(mOriginalListener,exception,mQuery);
     }
 }

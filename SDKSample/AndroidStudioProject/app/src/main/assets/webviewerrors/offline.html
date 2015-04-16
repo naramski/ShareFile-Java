@@ -1,0 +1,42 @@
+<html>
+<style>
+html, body, #wrapper {
+   height:100%;
+   width: 100%;
+   margin: 0;
+   padding: 0;
+   border: 0;
+}
+#wrapper td {
+   vertical-align: middle;
+   padding: 25px;
+   text-align: center;
+}
+p {
+	color: #FFFFFF;
+}
+</style>
+<script type="text/javascript">
+        function queryString(name) {
+            var varString = window.location.search.substring(1);
+            var vars = varString.split("&");
+            for(i=0;i<vars.length;i++) {
+                var varPair = vars[i].split("=");
+                if(varPair[0] == name) return varPair[1];
+            }
+            return "";
+        }
+</script>
+<body bgcolor="#232323">
+<table id="wrapper">
+      <tr>
+         <td><p>
+         	<script type="text/javascript">
+         		var str = queryString("errorStr");
+         		document.write(decodeURIComponent(str));
+         	</script>
+         </p></td>
+      </tr>
+   </table>
+</body>
+</html>

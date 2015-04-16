@@ -1,6 +1,6 @@
 package com.sharefile.api.exceptions;
 
-public class SFInvalidTypeException extends SFAbstractException 
+public class SFInvalidTypeException extends SFSDKException
 {
 	public SFInvalidTypeException(Exception ex) 
 	{

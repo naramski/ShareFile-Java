@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="true" android:state_pressed="false"><layer-list>
+            <item><shape>
+                    <solid android:color="#0096C73E" />
+
+                    <padding android:bottom="@dimen/dialog_button_padding" android:left="@dimen/dialog_button_padding" android:right="@dimen/dialog_button_padding" android:top="@dimen/dialog_button_padding" />
+                </shape></item>
+            <item><bitmap android:gravity="center" android:src="@drawable/nav_back" />
+            </item>
+        </layer-list></item>
+    <item android:state_enabled="true" android:state_pressed="true"><layer-list>
+            <item><shape>
+                    <solid android:color="#FF96C73E" />
+
+                    <padding android:bottom="@dimen/dialog_button_padding" android:left="@dimen/dialog_button_padding" android:right="@dimen/dialog_button_padding" android:top="@dimen/dialog_button_padding" />
+                </shape></item>
+            <item><bitmap android:gravity="center" android:src="@drawable/nav_back" />
+            </item>
+        </layer-list></item>
+    <item android:state_enabled="false"><layer-list>
+            <item><shape>
+                    <solid android:color="#0096C73E" />
+
+                    <padding android:bottom="@dimen/dialog_button_padding" android:left="@dimen/dialog_button_padding" android:right="@dimen/dialog_button_padding" android:top="@dimen/dialog_button_padding" />
+                </shape></item>
+            <item><bitmap android:alpha="100" android:gravity="center" android:src="@drawable/nav_back" />
+            </item>
+        </layer-list></item>
+
+</selector>

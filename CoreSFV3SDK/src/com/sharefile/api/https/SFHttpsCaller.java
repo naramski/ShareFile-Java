@@ -1,12 +1,12 @@
 package com.sharefile.api.https;
 
-import com.sharefile.api.SFV3Error;
+
 import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.constants.SFKeywords;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.enumerations.SFProvider;
+import com.sharefile.api.SFProvider;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.NameValuePair;
@@ -182,7 +182,7 @@ public class SFHttpsCaller
 		{
 			if(errMessage.contains(OUT_OF_MEMORY))
 			{				
-				SLog.d(TAG, "Gracefull catching out of memmory");
+				Logger.d(TAG, "Gracefull catching out of memmory");
 				return 500;
 			}				
 		}		
@@ -216,7 +216,7 @@ public class SFHttpsCaller
 			httpErrorCode = catchIfAuthException(e);
 		}
 		
-		SLog.d(TAG,"ERR_CODE: " + httpErrorCode);
+		Logger.d(TAG,"ERR_CODE: " + httpErrorCode);
 		
 		return httpErrorCode;		
 	}
@@ -248,7 +248,7 @@ public class SFHttpsCaller
 		}
 		catch (OutOfMemoryError e) 
 		{
-			SLog.d(TAG, "Error: " , e);
+			Logger.d(TAG, "Error: " , e);
 			
 			throw new IOException("Out of memory");
 		}
@@ -257,7 +257,7 @@ public class SFHttpsCaller
 		
 		String response = sb.toString();
 				
-		SLog.d(TAG, "SUCCESS RESPONSE size: " + response.length());						
+		Logger.d(TAG, "SUCCESS RESPONSE size: " + response.length());
 			
 		return response;
 	}
@@ -289,7 +289,7 @@ public class SFHttpsCaller
 			sb.append(inputLine);
 		}
 		
-		SLog.d(TAG, "ERROR RESPONSE SIZE: " + sb.length());
+		Logger.d(TAG, "ERROR RESPONSE SIZE: " + sb.length());
 		
 		urlstream.close();
 				
@@ -318,7 +318,6 @@ public class SFHttpsCaller
 	}		
 	
 	/**
-	 * TODO: This needs a major revamp. We need User specific cookies to be set and CIFS/SharePoint specific authentication to be handled
 	   We need a separate auth manager here to handle the setting of correct auth header based on the provider type and well as the user.
 	 * @throws IOException 
 	*/	
@@ -329,10 +328,9 @@ public class SFHttpsCaller
 			cookieManager.setCookies(connection);
 		}
 
-        String url = connection.getURL().toString();
-        switch(SFProvider.getProviderType(url))
+        switch(SFProvider.getProviderType(connection.getURL()))
 		{
-			case PROVIDER_TYPE_SF:
+			case SFProvider.PROVIDER_TYPE_SF:
 				SFHttpsCaller.addBearerAuthorizationHeader(connection, token);
 			    break;
 			

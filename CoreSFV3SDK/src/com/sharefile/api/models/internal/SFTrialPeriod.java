@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -31,6 +31,8 @@ public class SFTrialPeriod extends SFODataObject {
 	private String AppStore;
 	@SerializedName("DurationInDays")
 	private Integer DurationInDays;
+	@SerializedName("NumberOfLicenses")
+	private Integer NumberOfLicenses;
 
 	public String getProductID() {
 		return this.ProductID;
@@ -52,6 +54,13 @@ public class SFTrialPeriod extends SFODataObject {
 
 	public void setDurationInDays(Integer durationindays) {
 		this.DurationInDays = durationindays;
+	}
+	public Integer getNumberOfLicenses() {
+		return this.NumberOfLicenses;
+	}
+
+	public void setNumberOfLicenses(Integer numberoflicenses) {
+		this.NumberOfLicenses = numberoflicenses;
 	}
 
 }

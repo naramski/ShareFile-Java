@@ -4,34 +4,38 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
 
-import com.sharefile.api.enumerations.SFSafeEnum;
 import com.sharefile.api.enumerations.SFV3ElementType;
+import com.sharefile.api.exceptions.SFInvalidStateException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.models.SFODataObject;
 
-public interface ISFQuery<T> extends ISFTypeFilter
+public interface ISFQuery<T>
 {
-	void setFrom(String string);
+    ISFQuery<T>  setApiClient(ISFApiClient apiClient);
 
-	void setHttpMethod(String string);
+    ISFQuery<T>  setFrom(String string);
 
-	void addIds(URI url);
+    ISFQuery<T>  setHttpMethod(String string);
 
-	void setAction(String string);
+    ISFQuery<T>  addIds(URI url);
 
-	void setBody(SFODataObject sfoDataObject);
-	
-	void  setBody(ArrayList<?> sfoDataObjectsFeed);
+    ISFQuery<T>  setAction(String string);
 
-    void addQueryString(String string, Object type);
+    ISFQuery<T>  setBody(SFODataObject sfoDataObject);
 
-	void addActionIds(String id);
+    ISFQuery<T>   setBody(ArrayList<?> sfoDataObjectsFeed);
 
-	void addQueryString(String string, ArrayList<String> ids);
+    ISFQuery<T>  addQueryString(String string, Object type);
 
-	void addSubAction(String string);
+    ISFQuery<T>  addActionIds(String id);
+
+    ISFQuery<T>  addQueryString(String string, ArrayList<String> ids);
+
+    ISFQuery<T>  addSubAction(String string);
 
 	URI getLink();
 
@@ -47,51 +51,65 @@ public interface ISFQuery<T> extends ISFTypeFilter
 
 	String buildQueryUrlString(String server) throws UnsupportedEncodingException;
 
-	void setLink(String string) throws URISyntaxException;
+    ISFQuery<T> setLink(String string) throws URISyntaxException;
 	
 	/**
-	 *  This implies that the query parameters need to be appended by the buildQuery function before executing the query.
+	 *  This implies that the query parameters need to be appended by the buildQuery
+     *  function before executing the query.
 	 */
-	void setLink(URI uri);
+    ISFQuery<T> setLink(URI uri);
 	
 	/**
-	 * This implies that the query parameters are included in the URI and no more parameters more needs to be added before executing the query.
+	 * This implies that the query parameters are included in the URI and no more parameters more
+     * needs to be added before executing the query.
 	 * Generally we get such URI from Redirection object.
 	 */
-	void setFullyParametrizedLink(URI uri);
+    ISFQuery<T>  setFullyParametrizedLink(URI uri);
 
 	boolean canReNewTokenInternally();
 
-	void setCredentials(String userName, String password);
+	ISFQuery<T> setCredentials(String userName, String password);
 	
 	/**
-	 *  For certain calls like create symbolic link we want to disable readahead done by the SDK. This function allows to set the flag to explicity false if required..
+	 *  For certain calls like create symbolic link we want to disable readahead done by the
+     *  SDK. This function allows to set the flag to explicity false if required..
 	 */
-	void setRedirection(boolean value);
+    ISFQuery<T> allowRedirection(boolean value);
 
 	boolean reDirectionAllowed();
 	
 	/**
-	 * This will append the query paremeters from previuos query to the new link. use this only when re-executing the query for a redirected object.
+	 * This will append the query paremeters from previuos query to the new link. use this only
+     * when re-executing the query for a redirected object.
 	 * Also , this will ignore the previous params if new query already has some params
 	 * @throws URISyntaxException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	void setLinkAndAppendPreviousParameters(URI uri) throws URISyntaxException, UnsupportedEncodingException;
+    ISFQuery<T>  setLinkAndAppendPreviousParameters(URI uri) throws URISyntaxException, UnsupportedEncodingException;
 
 	/**
-	 * This will append the query paremeters from previuos query to the new link. use this only when re-executing the query for a redirected object.
+	 * This will append the query paremeters from previuos query to the new link. use this only
+     * when re-executing the query for a redirected object.
 	 * Also , this will ignore the previous params if new query already has some params
 	 * @throws URISyntaxException 
 	 * @throws UnsupportedEncodingException 
 	 */
-	void setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException;;
+    ISFQuery<T>  setLinkAndAppendPreviousParameters(String string) throws URISyntaxException, UnsupportedEncodingException;;
 
     /**
      * simplifies the adding of expansion parameters to the query.
     */
     ISFQuery<T> expand(String expansionParameter);
 
+    ISFQuery<T> top(int topItems);
+
+    ISFQuery<T> skip(int skipItems);
+
+    ISFQuery<T> filter(String filterValue);
+
+    ISFQuery is(SFV3ElementType type);
+
+    ISFQuery select(String name);
 
     /**
      This function takes any uri and stores only its base part along with the provider
@@ -100,5 +118,10 @@ public interface ISFQuery<T> extends ISFTypeFilter
 
      this function will store baseLink as : https://szqatest2.sharefiletest.com/cifs/v3/
      */
-    void setBaseLink(URI uri) throws URISyntaxException;
+    ISFQuery<T>  setBaseLink(URI uri) throws URISyntaxException;
+
+    public T execute() throws SFInvalidStateException, SFServerException,
+            SFNotAuthorizedException,SFOAuthTokenRenewException, SFOtherException;
+
+    void executeAsync(ISFApiResultCallback<T> callback) throws SFInvalidStateException;
 }

@@ -6,13 +6,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -26,9 +27,15 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFUsersEntityInternal extends SFUsersEntity
 {
+    public SFUsersEntityInternal(ISFApiClient client)
+    {
+        super(client);
+    }
+
     /**
 	* This method adds a list of account users to the account
     * [
@@ -44,7 +51,7 @@ public class SFUsersEntityInternal extends SFUsersEntity
     */
 	public ISFQuery<SFODataFeed<SFAccountUser>> createAccountUsers(ArrayList<SFAccountUser> accountUsers, String accountId)
 	{
-		SFApiQuery<SFODataFeed<SFAccountUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccountUser>>();
+		SFApiQuery<SFODataFeed<SFAccountUser>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccountUser>>(this.apiClient);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUsers");
 		sfApiQuery.addQueryString("accountId", accountId);

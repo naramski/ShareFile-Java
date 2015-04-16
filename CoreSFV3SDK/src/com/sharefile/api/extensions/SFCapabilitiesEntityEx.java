@@ -1,6 +1,7 @@
 package com.sharefile.api.extensions;
 
 import com.sharefile.api.entities.SFCapabilitiesEntity;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFCapability;
 import com.sharefile.api.models.SFFolder;
@@ -14,6 +15,11 @@ import java.net.URISyntaxException;
 
 public class SFCapabilitiesEntityEx extends SFCapabilitiesEntity
 {
+    public SFCapabilitiesEntityEx(ISFApiClient client)
+    {
+        super(client);
+    }
+
     public ISFQuery<SFODataFeed<SFCapability>> get(SFItem item) throws URISyntaxException
     {
         if(item instanceof SFSymbolicLink)

@@ -6,13 +6,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.models.internal.SFAzureSBTopicsEndPointInfo;
@@ -32,16 +33,22 @@ import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
 {
+    SFAzureSBTopicsEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Check if Topic exists in namespace
 	* @param parentUrl 	
     */
 	public ISFQuery<SFAzureSBTopicsResponse> checkIfTopicExists(URI parentUrl)
 	{
-		SFApiQuery<SFAzureSBTopicsResponse> sfApiQuery = new SFApiQuery<SFAzureSBTopicsResponse>();
+		SFApiQuery<SFAzureSBTopicsResponse> sfApiQuery = new SFApiQuery<SFAzureSBTopicsResponse>(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("CheckIfTopicExists");
 		sfApiQuery.addIds(parentUrl);
@@ -58,7 +65,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery createTopic(URI parentUrl)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("CreateTopic");
 		sfApiQuery.addIds(parentUrl);
@@ -74,7 +81,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFAzureSBTopicsEndPointInfo> getTopicEndPoint(URI parentUrl, String id)
 	{
-		SFApiQuery<SFAzureSBTopicsEndPointInfo> sfApiQuery = new SFApiQuery<SFAzureSBTopicsEndPointInfo>();
+		SFApiQuery<SFAzureSBTopicsEndPointInfo> sfApiQuery = new SFApiQuery<SFAzureSBTopicsEndPointInfo>(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("GetTopicEndPoint");
 		sfApiQuery.addIds(parentUrl);
@@ -90,7 +97,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery regenerateTopicCredentials(URI parentUrl)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("RegenerateTopicCredentials");
 		sfApiQuery.addIds(parentUrl);
@@ -104,7 +111,7 @@ public class SFAzureSBTopicsEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery deleteTopic(URI parentUrl)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("AzureSBTopics");
 		sfApiQuery.setAction("DeleteTopic");
 		sfApiQuery.addIds(parentUrl);

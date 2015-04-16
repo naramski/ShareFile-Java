@@ -1,14 +1,15 @@
 package com.sharefile.api.https;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFV3Error;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.enumerations.SFHttpMethod;
-import com.sharefile.api.gson.auto.SFDefaultGsonParser;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.exceptions.SFCanceledException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFSDKException;
+import com.sharefile.api.exceptions.SFServerException;
+import com.sharefile.api.log.Logger;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -16,8 +17,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -27,10 +26,9 @@ public class SFDownloadRunnable extends TransferRunnable {
 	private String mUrl;
 	private final long mResumeFromByteIndex;
 	private final OutputStream mOutputStream;
-	private final Result mResponse = new Result();
 
 	// current transfer
-	private int httpErrorCode =  SFSDK.INTERNAL_HTTP_ERROR;
+	private int httpErrorCode =  SFSdkGlobals.INTERNAL_HTTP_ERROR;
 	private String responseString = null;
 	private long bytesRead = 0;
 
@@ -50,26 +48,25 @@ public class SFDownloadRunnable extends TransferRunnable {
 	 * execute download in this thread
 	 * @return
 	 */
-	protected Result runInThisThread() {
-		try {
+    @Override
+	protected void runInThisThread() throws SFSDKException
+    {
+		try
+        {
 			download();
-		
-		} catch(Exception ex) {		
-			httpErrorCode = SFSDK.INTERNAL_HTTP_ERROR;
-			responseString = "OrignalHttpCode = " + httpErrorCode + "\nExceptionStack = " + Arrays.toString(ex.getStackTrace());
 		}
-		
-		if ( isCanceled() ) {
-			// create "cancel error" regardless of result
-			return createCancelResult(bytesRead);
+        catch (SFSDKException e)
+        {
+            throw e;
+        }
+        catch(Exception e)
+        {
+		    throw new SFOtherException(e);
 		}
-		
-		parseResponse(httpErrorCode, responseString, bytesRead);
-
-		return mResponse;
 	}
 
-	private void download() throws IOException {
+	private void download() throws SFSDKException
+    {
 		bytesRead = mResumeFromByteIndex;
 		
 		URLConnection connection = null;
@@ -77,7 +74,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 		
 		try
 		{										
-			SLog.d(TAG, "GET " + mUrl);
+			Logger.d(TAG, "GET " + mUrl);
 			
 			URL url = new URL(mUrl);
 			connection = SFHttpsCaller.getURLConnection(url);		
@@ -96,36 +93,52 @@ public class SFDownloadRunnable extends TransferRunnable {
 						
 			SFHttpsCaller.getAndStoreCookies(connection, url,mCookieManager);
 		    
-			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
-			{														
-				fis = connection.getInputStream();
-				
-				byte[] buffer = new byte[1024 * 1024];
-				
-				int length;
-				
-				while ((length = fis.read(buffer)) > 0) 
-				{
-					if ( isCanceled() ) break;
-					
-					mOutputStream.write(buffer, 0, length);
-					bytesRead+= length;
-					updateProgress(bytesRead);
-				}				
-			}
-            /*
-			else if(httpErrorCode == HttpsURLConnection.HTTP_NO_CONTENT)
+			switch (httpErrorCode)
 			{
-				
-			}*/
-			else
-			{
-				responseString = SFHttpsCaller.readErrorResponse(connection);
-                SLog.d(TAG,"Error " + responseString);
+                case HttpsURLConnection.HTTP_OK:
+                    fis = connection.getInputStream();
+
+                    byte[] buffer = new byte[1024 * 1024];
+
+                    int length;
+
+                    while ((length = fis.read(buffer)) > 0)
+                    {
+                        if ( isCanceled() )
+                        {
+                            throw new SFCanceledException("Download Cancelled");
+                            //break;
+                        }
+
+                        mOutputStream.write(buffer, 0, length);
+                        bytesRead+= length;
+                        updateProgress(bytesRead);
+                        mTotalBytesTransferredForThisFile += length;
+                    }
+
+                    if(mProgressListener!=null)
+                    {
+                        mProgressListener.onComplete(mTotalBytesTransferredForThisFile);
+                    }
+                break;
+
+                case HttpsURLConnection.HTTP_UNAUTHORIZED:
+                    throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED);
+                //break;
+
+                default:
+                    responseString = SFHttpsCaller.readErrorResponse(connection);
+                    Logger.d(TAG,"Error " + responseString);
+                    throw new SFServerException(httpErrorCode,responseString);
+                //break;
 			}
-				    									
 		}
-		finally {
+        catch (IOException ex)
+        {
+            throw new SFOtherException(ex);
+        }
+        finally
+        {
 			closeStream(fis);
 			closeStream(mOutputStream);
 			SFHttpsCaller.disconnect(connection);
@@ -142,62 +155,12 @@ public class SFDownloadRunnable extends TransferRunnable {
 			}
 			catch (IOException e) 
 			{				
-				SLog.e(TAG,e);
+				Logger.e(TAG,e);
 			}
 		}
 	}
-	
-	/**
-	 *   Parse the response to the best of our ability. At the end of this function the FinalResponse object 
-	 *   has to be filled with an ErrorCode or HTTP_OK and the V3Error or SFOBject should be filled based on success or failure or 
-	 *   response parsing.	 
-	 */
-	private void parseResponse(int httpCode,String responseString,long downloadedBytes) {
-		switch(httpCode)
-		{
-			case HttpsURLConnection.HTTP_OK:
-				mResponse.setFields(HttpsURLConnection.HTTP_OK, null,downloadedBytes);
-				break;	
-			
-			case HttpsURLConnection.HTTP_NO_CONTENT:
-				mResponse.setFields(HttpsURLConnection.HTTP_NO_CONTENT, null,downloadedBytes);
-				break;
-			
-			case HttpsURLConnection.HTTP_UNAUTHORIZED:
-				SFV3Error v3Error = new SFV3Error(httpCode,null,null);
-				mResponse.setFields(HttpsURLConnection.HTTP_UNAUTHORIZED, v3Error,downloadedBytes);
-				break;
-			
-			case SFSDK.INTERNAL_HTTP_ERROR:
-				callInternalErrorResponseFiller(httpCode, responseString,null,downloadedBytes);
-				break;
-			
-			default:
-				callFailureResponseParser(httpCode, responseString,downloadedBytes);
-				break;				
-		}				
-	}
-	
-	private void callFailureResponseParser(int httpCode, String responseString,long downloadedBytes)
-	{													
-		try 
-		{
-			JsonParser jsonParser = new JsonParser();
-			JsonElement jsonElement =jsonParser.parse(responseString);				
-			SFV3Error v3Error = SFDefaultGsonParser.parse(jsonElement);
-			mResponse.setFields(httpCode, v3Error,downloadedBytes);
-		} 
-		catch (Exception e)  
-		{					
-			/* 
-			 * Note how we fill the httpErrorcode to httpCode. Thats coz the server originally returned it, 
-			 * just the error object was malformed or caused some other exception while parsing.			 
-			 */						
-			callInternalErrorResponseFiller(httpCode, Arrays.toString(e.getStackTrace()), responseString,downloadedBytes);
-		}
-	}
-	
-	private void updateProgress(long downloadedBytes)
+
+    private void updateProgress(long downloadedBytes)
 	{
 		if(mProgressListener == null) {
 			return;
@@ -207,22 +170,8 @@ public class SFDownloadRunnable extends TransferRunnable {
 			mProgressListener.bytesTransfered(downloadedBytes);
 			
 		} catch(Exception e) {
-			SLog.d(TAG, "exception in updateProgress" , e);
+			Logger.d(TAG, "exception in updateProgress" , e);
 		}		
-	}
-	
-	
-	/**
-	 *   This is a filler only. wont do any parsing.
-	 */
-	private void callInternalErrorResponseFiller(int httpCode,String errorDetails,String extraInfo,long bytesDownloaded)
-	{
-		SFV3Error v3Error = new SFV3Error(httpCode,null,null);
-		mResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error,bytesDownloaded);
-	}
-
-	public Result getResponse() {
-		return mResponse;
 	}
 
 	public String getUrl() {

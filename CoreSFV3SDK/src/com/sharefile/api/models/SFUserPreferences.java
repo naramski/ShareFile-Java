@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFUserPreferences extends SFODataObject {
@@ -60,7 +61,7 @@ public class SFUserPreferences extends SFODataObject {
 	@SerializedName("NotificationInterval")
 	private Integer NotificationInterval;
 	@SerializedName("ShowTutorial")
-	private Integer ShowTutorial;
+	private SFSafeEnum<SFTypeOfTour> ShowTutorial;
 	@SerializedName("EnableToolOverride")
 	private Integer EnableToolOverride;
 	@SerializedName("IsResetSecurityQuestionRequired")
@@ -73,6 +74,8 @@ public class SFUserPreferences extends SFODataObject {
 	private String DateFormat;
 	@SerializedName("EnableShareConnect")
 	private Boolean EnableShareConnect;
+	@SerializedName("ReceiveBouncedEmailNotifications")
+	private Boolean ReceiveBouncedEmailNotifications;
 
 	public Boolean getEnableFlashUpload() {
 		return this.EnableFlashUpload;
@@ -193,11 +196,11 @@ public class SFUserPreferences extends SFODataObject {
 	public void setNotificationInterval(Integer notificationinterval) {
 		this.NotificationInterval = notificationinterval;
 	}
-	public Integer getShowTutorial() {
+	public SFSafeEnum<SFTypeOfTour> getShowTutorial() {
 		return this.ShowTutorial;
 	}
 
-	public void setShowTutorial(Integer showtutorial) {
+	public void setShowTutorial(SFSafeEnum<SFTypeOfTour> showtutorial) {
 		this.ShowTutorial = showtutorial;
 	}
 	public Integer getEnableToolOverride() {
@@ -241,6 +244,13 @@ public class SFUserPreferences extends SFODataObject {
 
 	public void setEnableShareConnect(Boolean enableshareconnect) {
 		this.EnableShareConnect = enableshareconnect;
+	}
+	public Boolean getReceiveBouncedEmailNotifications() {
+		return this.ReceiveBouncedEmailNotifications;
+	}
+
+	public void setReceiveBouncedEmailNotifications(Boolean receivebouncedemailnotifications) {
+		this.ReceiveBouncedEmailNotifications = receivebouncedemailnotifications;
 	}
 
 }

@@ -6,72 +6,77 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities;
 
-import com.sharefile.api.entities.*;
+import com.sharefile.api.exceptions.InvalidOrMissingParameterException;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
-import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFGroupsEntity extends SFODataEntityBase
 {
-    /**
+	public SFGroupsEntity(ISFApiClient client) {
+		super(client);
+	}
+
+	/**
 	* Get Group List
 	* Retrieves all Distribution Groups this user has permissions to View in this account
 	* @return a list of Groups this user has access to
-    */
-	public ISFQuery<SFODataFeed<SFGroup>> get()
-	{
-		SFApiQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGroup>>();
+	*/
+	public ISFQuery<SFODataFeed<SFGroup>> get()	{
+
+		SFApiQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGroup>>(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Group By ID
 	* Retrives a single Group by id
-	* @param url 	
+	* @param url 	 	
 	* @return A single Group object
-    */
-	public ISFQuery<SFGroup> get(URI url)
-	{
-		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
+	*/
+	public ISFQuery<SFGroup> get(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Delete Group
 	* Removes a single Group by id
-	* @param url 	
-    */
-	public ISFQuery delete(URI url)
-	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+	* @param url 	 	
+	*/
+	public ISFQuery delete(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Create Group
     * {
     * "Name":"Name",
@@ -79,19 +84,22 @@ public class SFGroupsEntity extends SFODataEntityBase
     * "Contacts":[{"Email":"user.one@domain.com"},{"Email":"user.two@domain.com"}]
     * }
 	* Creates a new group. The Post body must include the specification of the group.
-	* @param group 	
+	* @param group 	 	
 	* @return the new group instance
-    */
-	public ISFQuery<SFGroup> create(SFGroup group)
-	{
-		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
+	*/
+	public ISFQuery<SFGroup> create(SFGroup group) throws InvalidOrMissingParameterException 	{
+		if (group == null) {
+			throw new InvalidOrMissingParameterException("group");
+		}
+
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setBody(group);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Update Group
     * {
     * "Name":"Name",
@@ -100,13 +108,19 @@ public class SFGroupsEntity extends SFODataEntityBase
 	* Updates an existing group.
 	* This operation will ignore the provided clients list. Use the \Contacts navigation link to
 	* add/remove elements from a group
-	* @param url 	
-	* @param group 	
+	* @param url 	 	
+	* @param group 	 	
 	* @return the modified group object
-    */
-	public ISFQuery<SFGroup> update(URI url, SFGroup group)
-	{
-		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>();
+	*/
+	public ISFQuery<SFGroup> update(URI url, SFGroup group) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (group == null) {
+			throw new InvalidOrMissingParameterException("group");
+		}
+
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(group);
@@ -114,15 +128,18 @@ public class SFGroupsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Get Group Contacts
 	* Retrieves the Contacts navigation property of a Group
-	* @param url 	
+	* @param url 	 	
 	* @return A feed of Contacts representing the members of the Group
-    */
-	public ISFQuery<SFODataFeed<SFContact>> getContacts(URI url)
-	{
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> getContacts(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);
@@ -130,18 +147,24 @@ public class SFGroupsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Add Contacts to Group
     * [{"Email":"user.one@domain.com"},{"Id":"abcd"}]
 	* Adds a list of contacts to a group
 	* The contact list may contain either contact ID (same as User ID) or Email.
-	* @param url 	
-	* @param contacts 	
+	* @param url 	 	
+	* @param contacts 	 	
 	* @return The updated list of contacts for this group
-    */
-	public ISFQuery<SFODataFeed<SFContact>> createContacts(URI url, ArrayList<SFContact> contacts)
-	{
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> createContacts(URI url, ArrayList<SFContact> contacts) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (contacts == null) {
+			throw new InvalidOrMissingParameterException("contacts");
+		}
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);
@@ -150,7 +173,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 		return sfApiQuery;
 	}
 
-    /**
+	/**
 	* Remove Contacts from Group
     * [{"Email":"user.one@domain.com"},{"Id":"abcd"}]
 	* Removes contacts from a group
@@ -159,13 +182,19 @@ public class SFGroupsEntity extends SFODataEntityBase
 	* list is not present in the group, it will be ignored.
 	* The method will not enforce that ID and Email match inside a single Contact instance: Id will be
 	* looked up first, then Email.
-	* @param url 	
-	* @param contacts 	
+	* @param url 	 	
+	* @param contacts 	 	
 	* @return The updated list of contacts for this group
-    */
-	public ISFQuery<SFODataFeed<SFContact>> deleteContacts(URI url, ArrayList<SFContact> contacts)
-	{
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>();
+	*/
+	public ISFQuery<SFODataFeed<SFContact>> deleteContacts(URI url, ArrayList<SFContact> contacts) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (contacts == null) {
+			throw new InvalidOrMissingParameterException("contacts");
+		}
+
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);

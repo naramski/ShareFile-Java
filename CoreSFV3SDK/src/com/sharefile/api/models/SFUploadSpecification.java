@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFUploadSpecification extends SFODataObject {
@@ -71,40 +72,40 @@ public class SFUploadSpecification extends SFODataObject {
 		this.PrepareUri = prepareuri;
 	}
 		/**
-		* Specifies the URI the client must send the file data to
+		* Specifies the URI the apiClient must send the file data to
 		*/
 	public URI getChunkUri() {
 		return this.ChunkUri;
 	}
 
 		/**
-		* Specifies the URI the client must send the file data to
+		* Specifies the URI the apiClient must send the file data to
 		*/
 	public void setChunkUri(URI chunkuri) {
 		this.ChunkUri = chunkuri;
 	}
 		/**
-		* If provided, specifies the final call the client must perform to finish the upload process
+		* If provided, specifies the final call the apiClient must perform to finish the upload process
 		*/
 	public URI getFinishUri() {
 		return this.FinishUri;
 	}
 
 		/**
-		* If provided, specifies the final call the client must perform to finish the upload process
+		* If provided, specifies the final call the apiClient must perform to finish the upload process
 		*/
 	public void setFinishUri(URI finishuri) {
 		this.FinishUri = finishuri;
 	}
 		/**
-		* Allows the client to check progress of standard uploads
+		* Allows the apiClient to check progress of standard uploads
 		*/
 	public String getProgressData() {
 		return this.ProgressData;
 	}
 
 		/**
-		* Allows the client to check progress of standard uploads
+		* Allows the apiClient to check progress of standard uploads
 		*/
 	public void setProgressData(String progressdata) {
 		this.ProgressData = progressdata;

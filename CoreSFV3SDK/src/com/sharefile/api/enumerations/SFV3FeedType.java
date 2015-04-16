@@ -67,7 +67,7 @@ import com.sharefile.api.models.internal.SFOutlookInformation;
 import com.sharefile.api.models.internal.SFOutlookInformationOptionBool;
 import com.sharefile.api.models.internal.SFOutlookInformationOptionInt;
 import com.sharefile.api.models.internal.SFOutlookInformationOptionString;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 public enum SFV3FeedType
 {		
@@ -166,7 +166,7 @@ public enum SFV3FeedType
 	{
 		SFV3FeedType ret = null;
 		
-		//SLog.d(TAG," FIND Element Type for metadata = " + metadata );
+		//Logger.d(TAG," FIND Element Type for metadata = " + metadata );
 						
 		if(metadata!=null && metadata.contains("$metadata#"))
 		{
@@ -182,7 +182,7 @@ public enum SFV3FeedType
 			
 			if(ret == null)
 			{
-				SLog.d(TAG," NOT in model factory: " + metadata );
+				Logger.d(TAG," NOT in model factory: " + metadata );
 			}			
 		}
 		
@@ -214,12 +214,12 @@ public enum SFV3FeedType
 		{
 			String msg = newClass.toString() + " does not extend " + feedType.mOriginalClass.toString();
 			
-			SLog.d(TAG, msg);
+			Logger.d(TAG, msg);
 			
 			throw new SFInvalidTypeException(msg);
 		}
 		
-		SLog.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + feedType.mOriginalClass.toString());
+		Logger.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + feedType.mOriginalClass.toString());
 		
 		feedType.mOverrideClass = newClass;
 	}

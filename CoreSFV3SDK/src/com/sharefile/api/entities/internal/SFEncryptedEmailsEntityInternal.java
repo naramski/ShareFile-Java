@@ -6,13 +6,15 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities.internal;
 
+import com.sharefile.api.SFQueryStream;
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.SFApiQuery;
@@ -26,12 +28,18 @@ import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 {
+    SFEncryptedEmailsEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
 	public ISFQuery<SFEncryptedEmail> get(URI url, String firstName, String lastName, String email, String company)
 	{
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>();
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("firstName", firstName);
@@ -44,7 +52,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFEncryptedEmail>> thread(URI url, String firstName, String lastName, String email, String company)
 	{
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>();
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Thread");
 		sfApiQuery.addIds(url);
@@ -58,7 +66,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFEncryptedEmail>> received()
 	{
-		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>();
+		SFApiQuery<SFODataFeed<SFEncryptedEmail>> sfApiQuery = new SFApiQuery<SFODataFeed<SFEncryptedEmail>>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Received");
 		sfApiQuery.setHttpMethod("GET");
@@ -67,7 +75,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFEncryptedEmail> reply(URI url, SFEncryptedEmailReplyParams encryptedEmailParams)
 	{
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>();
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Reply");
 		sfApiQuery.addIds(url);
@@ -78,7 +86,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFEncryptedEmail> replyAll(URI url, SFEncryptedEmailParams encryptedEmailParams)
 	{
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>();
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("ReplyAll");
 		sfApiQuery.addIds(url);
@@ -89,7 +97,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFEncryptedEmail> create(SFEncryptedEmailCreateParams encryptedEmailParams)
 	{
-		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>();
+		SFApiQuery<SFEncryptedEmail> sfApiQuery = new SFApiQuery<SFEncryptedEmail>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setBody(encryptedEmailParams);
 		sfApiQuery.setHttpMethod("POST");
@@ -98,7 +106,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery send(URI url, SFEncryptedEmailSendParams encryptedEmailSendParams)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Send");
 		sfApiQuery.addIds(url);
@@ -109,7 +117,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery complete(URI url, SFEncryptedEmailSendParams encryptedEmailSendParams)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Complete");
 		sfApiQuery.addIds(url);
@@ -120,7 +128,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<InputStream> message(URI url, String aliasId, Boolean redirect)
 	{
-		SFApiQuery<InputStream> sfApiQuery = new SFApiQuery<InputStream>();
+		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Message");
 		sfApiQuery.addIds(url);
@@ -132,7 +140,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery delete(URI url)
 	{
-		SFApiQuery sfApiQuery = new SFApiQuery();
+		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -141,7 +149,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify, Date clientCreatedDateUTC, Date clientModifiedDateUTC, Integer expirationDays)
 	{
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -173,7 +181,7 @@ public class SFEncryptedEmailsEntityInternal extends SFODataEntityBase
 
 	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, Integer expirationDays)
 	{
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>();
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
 		sfApiQuery.setFrom("EncryptedEmails");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);

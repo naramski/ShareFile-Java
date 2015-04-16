@@ -1474,7 +1474,7 @@ com.sharefile.api.enumerations.SFZoneService$2
 com.sharefile.api.enumerations.SFZoneService$3
 com.sharefile.api.enumerations.SFZoneService$4
 com.sharefile.api.enumerations.SFZoneType
-com.sharefile.api.exceptions.SFAbstractException
+com.sharefile.api.exceptions.SFSDKException
 com.sharefile.api.exceptions.SFInvalidStateException
 com.sharefile.api.exceptions.SFJsonException
 com.sharefile.api.exceptions.SFToDoReminderException
@@ -1483,7 +1483,7 @@ com.sharefile.api.gson.SFGsonHelper
 com.sharefile.api.gson.SFGsonParser
 com.sharefile.api.https.SFApiRunnable
 com.sharefile.api.https.SFHttpsCaller
-com.sharefile.api.interfaces.SFApiResponseListener
+com.sharefile.api.interfaces.ISFApiResultCallback
 com.sharefile.api.interfaces.SFJsonInterface
 com.sharefile.api.models.Private.SFOutlookInformation
 com.sharefile.api.models.Private.SFOutlookInformationOptionBool

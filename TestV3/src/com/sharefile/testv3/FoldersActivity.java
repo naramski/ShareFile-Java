@@ -1,8 +1,5 @@
 package com.sharefile.testv3;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,28 +10,22 @@ import java.util.Stack;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFApiQuery;
 import com.sharefile.api.SFQueryBuilder;
-import com.sharefile.api.SFV3Error;
+
 import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.entities.SFAccessControlsEntity;
-import com.sharefile.api.entities.SFItemsEntity;
 import com.sharefile.api.enumerations.SFV3ElementType;
 import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFJsonException;
 import com.sharefile.api.https.SFApiFileUploadRunnable.SFAPiUploadResponse;
 import com.sharefile.api.https.SFApiRunnable;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
 import com.sharefile.api.interfaces.ISFQuery;
-import com.sharefile.api.interfaces.SFApiDownloadProgressListener;
-import com.sharefile.api.interfaces.SFApiResponseListener;
 import com.sharefile.api.interfaces.SFApiUploadProgressListener;
 import com.sharefile.api.models.SFAccessControl;
-import com.sharefile.api.models.SFDownloadSpecification;
 import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFItem;
 import com.sharefile.api.models.SFODataFeed;
 import com.sharefile.api.models.SFSymbolicLink;
-import com.sharefile.api.models.SFUploadMethod;
 import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.java.log.SLog;
 
@@ -135,7 +126,7 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(createFolder, new SFApiResponseListener<SFFolder>()
+			FullscreenActivity.mSFApiClient.executeQuery(createFolder, new ISFApiResultCallback<SFFolder>()
 			{
 
 				@Override
@@ -145,7 +136,7 @@ public class FoldersActivity extends Activity
 				}
 
 				@Override
-				public void sfApiError(SFV3Error error,ISFQuery<SFFolder> sfapiApiqueri) 
+				public void sfApiError(SFSDKException error,ISFQuery<SFFolder> sfapiApiqueri)
 				{					
 					
 				}								
@@ -184,7 +175,7 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(query, new SFApiResponseListener<SFODataFeed<SFAccessControl>>() 
+			FullscreenActivity.mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFODataFeed<SFAccessControl>>()
 			{														
 
 				@Override
@@ -195,7 +186,7 @@ public class FoldersActivity extends Activity
 				}
 
 				@Override
-				public void sfApiError(SFV3Error v3error,ISFQuery<SFODataFeed<SFAccessControl>> asApiqueri) 
+				public void sfApiError(SFSDKException v3error,ISFQuery<SFODataFeed<SFAccessControl>> asApiqueri)
 				{
 					SLog.d("SFSDK","get Item failed: ");
 					showToast("Failed");						
@@ -241,11 +232,11 @@ public class FoldersActivity extends Activity
 		
 		try 
 		{
-			FullscreenActivity.mSFApiClient.executeQuery(query, new SFApiResponseListener<SFUploadSpecification>() 
+			FullscreenActivity.mSFApiClient.executeQuery(query, new ISFApiResultCallback<SFUploadSpecification>()
 			{														
 
 				@Override
-				public void sfApiSuccess(SFUploadSpecification object) 
+				public void onSuccess(SFUploadSpecification object)
 				{
 					SLog.d("SFSDK","getItem success: ");
 					showToast("Actuall upload of file");				
@@ -263,7 +254,7 @@ public class FoldersActivity extends Activity
 				}
 
 				@Override
-				public void sfApiError(SFV3Error v3error,ISFQuery<SFUploadSpecification> asApiqueri) 
+				public void onError(SFSDKException v3error,ISFQuery<SFUploadSpecification> asApiqueri)
 				{
 					SLog.d("SFSDK","get Item failed: ");
 					showToast("Failed");						
@@ -522,7 +513,7 @@ public class FoldersActivity extends Activity
 		}
 	}
 		
-	SFApiResponseListener<SFItem> getContentsListener = new SFApiResponseListener<SFItem>() 
+	ISFApiResultCallback<SFItem> getContentsListener = new ISFApiResultCallback<SFItem>()
 	{										
 		@Override
 		public void sfApiSuccess(final SFItem object) 
@@ -552,7 +543,7 @@ public class FoldersActivity extends Activity
 		}
 
 		@Override
-		public void sfApiError(final SFV3Error v3error,final ISFQuery<SFItem> asApiqueri) 
+		public void sfApiError(final SFSDKException v3error,final ISFQuery<SFItem> asApiqueri)
 		{									
 			SLog.d("SFSDK","get Item failed: " + v3error.message.value);
 			showToast("Failed Get Item: " + v3error.message.value);
@@ -682,38 +673,17 @@ public class FoldersActivity extends Activity
 	}
 	
 	
-	SFApiDownloadProgressListener mDownloadloadProgressListener = new SFApiDownloadProgressListener() 
-	{		
-		@Override
-		public void downloadSuccess(long byteCount,SFDownloadSpecification downloaSpec, SFApiClient client) 
-		{												
-			SLog.d("download", "Download Sucess: "+ byteCount);
-		}
-		
-		@Override
-		public void downloadFailure(SFV3Error v3error, long byteCount, SFDownloadSpecification downloaSpec, SFApiClient client) 
-		{	
-			SLog.d("download", "Download failuer: "+ v3error.message);
-		}
-		
-		@Override
-		public void bytesDownloaded(long byteCount,SFDownloadSpecification downloaSpec, SFApiClient client) 
-		{	
-			SLog.d("download", "Download progress: "+ byteCount);
-		}
-	};
-	
 	private void callDownloadApi(String itemid )
 	{
 		/*
 		ISFQuery<SFDownloadSpecification> downloadQuery = SFItemsEntity.download(itemid, true);
 		
 		try {
-				FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new SFApiResponseListener<SFDownloadSpecification>() 
+				FullscreenActivity.mSFApiClient.executeQuery(downloadQuery, new ISFApiResultCallback<SFDownloadSpecification>()
 					{
 
 						@Override
-						public void sfApiSuccess(SFDownloadSpecification object) 
+						public void onSuccess(SFDownloadSpecification object)
 						{	
 							showToast("Start actual download...");
 							
@@ -732,7 +702,7 @@ public class FoldersActivity extends Activity
 						}
 
 						@Override
-						public void sfApiError(SFV3Error error,ISFQuery<SFDownloadSpecification> asApiqueri) 
+						public void onError(SFSDKException error,ISFQuery<SFDownloadSpecification> asApiqueri)
 						{	
 							SLog.d("download","error = %s" , error.message.value);
 						}

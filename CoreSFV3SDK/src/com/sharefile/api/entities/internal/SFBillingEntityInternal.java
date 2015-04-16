@@ -6,13 +6,14 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.sharefile.api.entities.internal;
 
 import com.sharefile.api.entities.*;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.models.*;
 import com.sharefile.api.models.internal.*;
 import com.sharefile.api.models.internal.SFBilling;
@@ -29,16 +30,22 @@ import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public class SFBillingEntityInternal extends SFODataEntityBase
 {
+    public SFBillingEntityInternal(ISFApiClient apiClient)
+    {
+        super(apiClient);
+    }
+
     /**
 	* Get Billing
 	* @return Billing
     */
 	public ISFQuery<SFBilling> get()
 	{
-		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>();
+		SFApiQuery<SFBilling> sfApiQuery = new SFApiQuery<SFBilling>(this.apiClient);
 		sfApiQuery.setFrom("Billing");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -109,7 +116,7 @@ public class SFBillingEntityInternal extends SFODataEntityBase
     */
 	public ISFQuery<SFODataFeed<SFCustomBillingEntry>> createCustomBillingEntry(ArrayList<SFCustomBillingEntry> discounts, String accountId)
 	{
-		SFApiQuery<SFODataFeed<SFCustomBillingEntry>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCustomBillingEntry>>();
+		SFApiQuery<SFODataFeed<SFCustomBillingEntry>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCustomBillingEntry>>(this.apiClient);
 		sfApiQuery.setFrom("Billing");
 		sfApiQuery.setAction("CustomBillingEntry");
 		sfApiQuery.addQueryString("accountId", accountId);

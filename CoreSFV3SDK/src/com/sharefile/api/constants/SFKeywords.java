@@ -102,4 +102,8 @@ public final class SFKeywords
 	public static final String EXTERNAL_URL = "ExternalUrl";
 
 	public static final String HTTP_METHOD_OVERRIDE = "X-HTTP-Method-Override";
+
+    public static final String UNKNOWN_ERROR = "Unknown Error";
+    public static final String SF_OAUTH_TOKEN_PATH = "/oauth/token";
+    public static final String UN_AUTHORIZED = "UnAuthorized(401)";
 }

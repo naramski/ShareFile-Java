@@ -1,20 +1,18 @@
 package com.sharefile.api.https;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import com.sharefile.api.SFApiClient;
-import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.api.SFV3Error;
-import com.sharefile.api.constants.SFSDK;
+
+import com.sharefile.api.exceptions.SFSDKException;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public abstract class TransferRunnable implements Runnable {
-
+public abstract class TransferRunnable extends Thread
+{
     protected AtomicBoolean cancelRequested = new AtomicBoolean(false);
     protected final SFApiClient mApiClient;
     protected final IProgress mProgressListener;
     protected final SFCookieManager mCookieManager;
+    protected long mTotalBytesTransferredForThisFile;
 
     //credentials for connectors
     protected final String mUsername;
@@ -32,62 +30,38 @@ public abstract class TransferRunnable implements Runnable {
 
 	public interface IProgress {
 		public void bytesTransfered(long byteCount);
+        public void onError(SFSDKException exception, long bytesTransfered);
+        public void onComplete(long bytesTransfered);
 	};
-	
-	/**
-	 *   This object will get filled with an errorCoode and the V3Error or valid SFOBject after the response 
-	 */
-	public static class Result
-	{
-		private int mHttpErrorCode = 0; /* not sure why we need this...it probably always match the v3error.errorcode */
-		private SFV3Error mV3Error = null;			
-		private long bytesTransfered = 0;
-		
-		public void setFields(int errorCode, SFV3Error v3Error, long downloaded)
-		{
-			mHttpErrorCode = errorCode;
-			mV3Error = v3Error;			
-			bytesTransfered = downloaded;
-		}
 
-		public SFV3Error getError() {
-			return mV3Error;
-		}
 
-		public long getBytesTransfered() {
-			return bytesTransfered;
-		}
-
-		public boolean isSuccess() {
-			return mHttpErrorCode==HttpsURLConnection.HTTP_OK;
-		}
-
-	};
-	
-	protected Result createCancelResult(long bytesTransfered) {
-		Result ret = new Result();
-		SFV3Error v3Error = new SFV3Error(SFSDK.HTTP_ERROR_CANCELED, "Canceled");
-		ret.setFields(SFSDK.HTTP_ERROR_CANCELED, v3Error, bytesTransfered);
-		return ret;
-	}
-
-    protected abstract Result runInThisThread();
+    protected abstract void runInThisThread() throws SFSDKException;
 
     /**
      * execute Transfer in this thread overriding the cancel signal
      * @param cancel
      * @return
      */
-    public Result runInThisThread(AtomicBoolean cancel)
+    public void runInThisThread(AtomicBoolean cancel) throws SFSDKException
     {
         cancelRequested = cancel;
-        return runInThisThread();
+        runInThisThread();
     }
 
     @Override
     public void run()
     {
-        runInThisThread();
+        try
+        {
+            runInThisThread();
+        }
+        catch (SFSDKException e)
+        {
+            if(mProgressListener!=null)
+            {
+                mProgressListener.onError(e, mTotalBytesTransferredForThisFile);
+            }
+        }
     }
 
 

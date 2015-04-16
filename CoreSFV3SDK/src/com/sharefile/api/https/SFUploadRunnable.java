@@ -6,17 +6,23 @@ import com.google.gson.JsonParser;
 import com.sharefile.api.SFApiClient;
 import com.sharefile.api.SFQueryBuilder;
 import com.sharefile.api.SFSDKDefaultAccessScope;
-import com.sharefile.api.SFV3Error;
+
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.constants.SFSdkGlobals;
 import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.exceptions.SFCanceledException;
 import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFSDKException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.gson.SFGsonHelper;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.models.SFUploadMethod;
+import com.sharefile.api.models.SFUploadRequestParams;
 import com.sharefile.api.models.SFUploadSpecification;
-import com.sharefile.java.log.SLog;
+import com.sharefile.api.log.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
@@ -30,9 +36,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -84,68 +88,51 @@ public class SFUploadRunnable extends TransferRunnable
 		mOverwrite = overwrite;
 	}
 
-	protected Result runInThisThread() {
-		try {
-			// get spec
-			mUploadSpecification = getSpecification();
-			if ( cancelRequested.get() ) {
-				// create "cancel error" regardless of result
-				return createCancelResult(0);
-			}
-			
-			// upload
-			Result result = upload();
-			if ( cancelRequested.get() ) {
-				// create "cancel error" regardless of result
-				return createCancelResult(result.getBytesTransfered());
-			}
-			return result;
-			
-		} catch (SFV3ErrorException e) {
-			SLog.e(TAG, e);
-			Result ret = new Result();
-			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, e.getV3Error(), 0);
-			return ret;
-			
-		} catch(Exception e) {		
-			SLog.e(TAG, e);
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,e.getLocalizedMessage());
-			Result ret = new Result();
-			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, 0 /*?????*/);
-			return ret;
-			
+    private void abortIfCancelledRequested() throws SFCanceledException
+    {
+        if ( cancelRequested.get() )
+        {
+            throw new SFCanceledException("Upload Cancelled");
+        }
+    }
+
+	protected void runInThisThread() throws SFSDKException
+    {
+		try
+        {
+			mUploadSpecification = getSpecification();// get spec
+
+            abortIfCancelledRequested();
+
+			upload(); // upload
+
+			abortIfCancelledRequested();
+		}
+        catch (SFSDKException e)
+        {
+			Logger.e(TAG, e);
+			throw e;
+		}
+        catch(Exception e)
+        {
+			Logger.e(TAG, e);
+			SFOtherException other = new SFOtherException(e);
+			throw other;
 		}
 	}
 
-	private SFUploadSpecification getSpecification() throws SFInvalidStateException, SFV3ErrorException 
-	{
+	private SFUploadSpecification getSpecification() throws SFInvalidStateException,
+            SFServerException,
+            SFNotAuthorizedException,
+            SFOAuthTokenRenewException,
+            SFOtherException
+    {
 		try 
 		{
-            Date now = new Date();
 
-            ISFQuery<SFUploadSpecification> uploadQuery = SFQueryBuilder.ITEMS.upload(new URI(mV3Url)
-                            ,new SFSafeEnum<SFUploadMethod>(SFUploadMethod.Streamed),
-                            true,
-                            mDestinationFileName,
-                            mTotalBytes,
-                            null,
-                            false,
-                            true,
-                            false,
-                            false,
-                            "sfsdk",
-                            mOverwrite,
-                            mDestinationFileName,
-                            mDetails,
-                            false,
-                            null,
-                            null,
-                            1,
-                            "json",
-                            false, now,now, 5*365);
-
-			// uploadQuery.setLink(mV3Url);
-
+            ISFQuery<SFUploadSpecification> uploadQuery =
+                    SFQueryBuilder.ITEMS.upload2(new URI(mV3Url),buildUploadRequestParams(mDestinationFileName,
+                                    mDetails,mTotalBytes));
 
             uploadQuery.setCredentials(mUsername,mPassword);
 
@@ -153,12 +140,32 @@ public class SFUploadRunnable extends TransferRunnable
 		}  
 		catch (URISyntaxException e)  
 		{				
-			SLog.e(TAG, e);
+			Logger.e(TAG, e);
 		}
 
-		
 		return null;
 	}
+
+    private SFUploadRequestParams buildUploadRequestParams(String fileName,
+                                                           String details, long fileSize)
+    {
+        Date now = new Date();
+
+        SFUploadRequestParams uploadRequestParams = new SFUploadRequestParams();
+        uploadRequestParams.setFileName(fileName);
+        uploadRequestParams.setClientCreatedDate(now);
+        uploadRequestParams.setClientModifiedDate(now);
+        uploadRequestParams.setDetails(details);
+        uploadRequestParams.setFileSize(fileSize);
+        uploadRequestParams.setMethod(new SFSafeEnum<SFUploadMethod>(SFUploadMethod.Streamed));
+        uploadRequestParams.setOverwrite(true);
+        uploadRequestParams.setThreadCount(1);
+        uploadRequestParams.setTitle(fileName);
+        uploadRequestParams.setTool("SFV3JAVASDK");
+        uploadRequestParams.setRaw(true);
+
+        return uploadRequestParams;
+    }
 	
 	private void seekInputStream()
 	{
@@ -171,7 +178,7 @@ public class SFUploadRunnable extends TransferRunnable
 		}
 		catch(Exception e)
 		{
-			SLog.d(TAG, "Seek exception" , e);
+			Logger.d(TAG, "Seek exception" , e);
 		}
 	}
 	
@@ -197,7 +204,7 @@ public class SFUploadRunnable extends TransferRunnable
                 }
                 catch (UnsupportedEncodingException e)
                 {                      
-                      SLog.e(TAG,e);
+                      Logger.e(TAG,e);
                 }
           }
          
@@ -235,22 +242,6 @@ public class SFUploadRunnable extends TransferRunnable
 		{												
 			try 
 			{
-				/*
-				JSONObject errorObject;
-				errorObject = new JSONObject(jsonString);
-				mWasError =  errorObject.optBoolean("error");	
-				if(mWasError)
-				{
-					mErrorMessage = errorObject.optString("errorMessage");			
-					mErrorCode = errorObject.optInt("errorCode");
-					SLog.d(TAG, "Parsed Chunk response: " + mErrorMessage);
-				}
-				else
-				{
-					String value = errorObject.optString("value");
-					SLog.d(TAG, "Parsed Chunk response: value = " + value);
-				}*/
-				
 				JsonParser jsonParser = new JsonParser();
 				JsonElement jsonElement = jsonParser.parse(jsonString);
 				JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -261,45 +252,37 @@ public class SFUploadRunnable extends TransferRunnable
 				{
 					mErrorMessage = SFGsonHelper.getString(jsonObject, "errorMessage", "");			
 					mErrorCode = SFGsonHelper.getInt(jsonObject, "errorCode", 0);
-					SLog.d(TAG, "Parsed Chunk response: " + mErrorMessage);
+					Logger.d(TAG, "Parsed Chunk response: " + mErrorMessage);
 				}
 				else
 				{
 					String value = SFGsonHelper.getString(jsonObject, "value", "");
-					SLog.d(TAG, "Parsed Chunk response: value = " + value);
+					Logger.d(TAG, "Parsed Chunk response: value = " + value);
 				}
 				
 			} 
 			catch (Exception e) 
 			{				
-				SLog.e(TAG,"exception parsing upload response",e);
+				Logger.e(TAG,"exception parsing upload response",e);
 				mWasError = true;
 				mErrorMessage = "exception parsing upload response";
-				mErrorCode = SFSDK.INTERNAL_HTTP_ERROR;				
+				mErrorCode = SFSdkGlobals.INTERNAL_HTTP_ERROR;
 			}						
 		}
-												
-		@SFSDKDefaultAccessScope SFChunkUploadResponse(String otherError,int httpErroCode)
-		{						
-			mWasError =  true;			
-			mErrorMessage = otherError;			
-			mErrorCode = httpErroCode;									
-		}
-	}
+
+    }
 	
 	/**
 	 *   This tries to upload a chunk. Returns a detialed object with the httpErrorCode and the ChunkResponse from the server.
 	 *   ChunkResonse will never be null. In case of http errors or exceptions we fill the chunk response with https err response string.
 	 */
-	private Result uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws Exception
+	private long uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws SFSDKException
 	{
 		long bytesUploaded = 0;
 		HttpsURLConnection conn = null;	
 		String responseString = null;
 		int httpErrorCode;
-		
-		Result ret = new Result();
-		
+
 		try
 		{			
 			//md5 hash buffer
@@ -334,10 +317,7 @@ public class SFUploadRunnable extends TransferRunnable
 				// onlu send notifications every 50kb
 				if ( count++ % 50 == 0 ) updateProgress(bytesUploaded+previousChunkTotal);
 				
-				if (cancelRequested.get()) {
-					// cancel
-					return ret;
-				}
+				abortIfCancelledRequested();
 			}
 					
 			poster.close();
@@ -346,103 +326,107 @@ public class SFUploadRunnable extends TransferRunnable
 			
 			SFHttpsCaller.getAndStoreCookies(conn, new URL(finalURL),mCookieManager);
 		    
-			if(httpErrorCode == HttpsURLConnection.HTTP_OK)
-			{														
-				responseString = SFHttpsCaller.readResponse(conn);		
-				SLog.d(TAG, "Upload Response: " + responseString);
-				
-				mChunkUploadResponse = new SFChunkUploadResponse(responseString);
-				if(!mChunkUploadResponse.mWasError)
-				{
-					mChunkUploadResponse.mBytesTransferedInChunk = (int) bytesUploaded;
-				}
-				ret.setFields(httpErrorCode, null, bytesUploaded); 
-			}			
-			else
+			switch(httpErrorCode )
 			{
-				responseString = SFHttpsCaller.readErrorResponse(conn);		
-				SLog.d(TAG, "Upload Response: " + responseString);
-				mChunkUploadResponse = new SFChunkUploadResponse(responseString,httpErrorCode);
-				ret.setFields(httpErrorCode, null, bytesUploaded);
+                case HttpsURLConnection.HTTP_OK:
+                    responseString = SFHttpsCaller.readResponse(conn);
+                    Logger.d(TAG, "Upload Response: " + responseString);
+
+                    mChunkUploadResponse = new SFChunkUploadResponse(responseString);
+                    if(!mChunkUploadResponse.mWasError)
+                    {
+                        mChunkUploadResponse.mBytesTransferedInChunk = (int) bytesUploaded;
+                        mTotalBytesTransferredForThisFile +=bytesUploaded;
+                        return bytesUploaded;
+                    }
+                    else
+                    {
+                        throw new SFServerException(httpErrorCode,mChunkUploadResponse.mErrorMessage);
+                    }
+                //break;
+
+                case HttpsURLConnection.HTTP_UNAUTHORIZED:
+                    throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED);
+                //break;
+
+                default:
+                    responseString = SFHttpsCaller.readErrorResponse(conn);
+                    Logger.d(TAG, "Upload Err Response: " + responseString);
+                    throw new SFServerException(httpErrorCode,responseString);
+                //break
 			}
-			
-		} catch(Exception ex) {
-			SLog.e(TAG,"chunk", ex);
-			mChunkUploadResponse = new SFChunkUploadResponse(ex.getLocalizedMessage(),SFSDK.INTERNAL_HTTP_ERROR);
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,responseString,ex);
-			ret.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, bytesUploaded);
-			
-		} finally {
+		}
+        catch (SFSDKException e)
+        {
+            throw e;
+        }
+        catch(Exception ex)
+        {
+			Logger.e(TAG,ex);
+			SFOtherException other = new SFOtherException(ex);
+			throw other;
+		}
+        finally
+        {
 			SFHttpsCaller.disconnect(conn);
 		}
-				
-		return ret;
 	}
 	
-	private Result upload() {
-		String responseString;
-//		long bytesRead = mResumeFromByteIndex;
+	private void upload() throws SFSDKException
+    {
 		int chunkSize = 1024*1024;		
 		long previousChunkTotalBytes = mResumeFromByteIndex;
-		Result uploadResponse = null;
 		
-		try {										
-			SLog.d(TAG, "POST " + mUploadSpecification.getChunkUri());
+		try
+        {
+			Logger.d(TAG, "POST " + mUploadSpecification.getChunkUri());
 			
 			seekInputStream();			
 			int chunkLength;
 			final MessageDigest md = MessageDigest.getInstance("MD5");						
 			byte[] fileChunk = new byte[chunkSize];			
 			boolean done = false;
-			while(!done)  {													
-				//fill chunk
+			while(!done)
+            {
 				chunkLength = mFileInputStream.read(fileChunk, 0, fileChunk.length);
 				if (chunkLength<0) {
-					SLog.d(TAG,"Chunk < 0: " + chunkLength);
+					Logger.d(TAG,"Chunk < 0: " + chunkLength);
 					done = true;
 					break;
 				}
 									
 				boolean isLast = (mFileInputStream.available() == 0);
-				if(isLast) {
-					SLog.d(TAG,"isLast = true");
+
+				if(isLast)
+                {
+					Logger.d(TAG,"isLast = true");
 					done = true;
 				}
-				
-				uploadResponse  =  uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
 
-				if (cancelRequested.get()) {
-					// cancel
-					return uploadResponse;
-				}
+                previousChunkTotalBytes += uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
 
-				//Note here we can rely on the 	uploadResponse.mChunkUploadResponse.mWasError to decide the succuess or failure.			
-				if(mChunkUploadResponse.mWasError) {
-					SLog.d(TAG, "Error uploading chunk - break");
-                    uploadResponse = new Result();
-                    SFV3Error v3Error = new SFV3Error(mChunkUploadResponse.mErrorCode, mChunkUploadResponse.mErrorMessage);
-                    uploadResponse.setFields(mChunkUploadResponse.mErrorCode, v3Error, previousChunkTotalBytes);
-					return uploadResponse;
-				}					
+				abortIfCancelledRequested();
 
-				if(mChunkUploadResponse.mBytesTransferedInChunk > 0) {
-					previousChunkTotalBytes+= mChunkUploadResponse.mBytesTransferedInChunk;
-				}
-				
 				Thread.yield();
 			}
-			
-		} catch(Exception ex) {					
-			responseString = "\nExceptionStack = " + Arrays.toString(ex.getStackTrace());
-			uploadResponse = new Result();
-			SFV3Error v3Error = new SFV3Error(SFSDK.INTERNAL_HTTP_ERROR,responseString,ex);
-			uploadResponse.setFields(SFSDK.INTERNAL_HTTP_ERROR, v3Error, previousChunkTotalBytes);
-			
-		} finally {			
+            if(mProgressListener!=null)
+            {
+                mProgressListener.onComplete(mTotalBytesTransferredForThisFile);
+            }
+		}
+        catch (SFSDKException ex)
+        {
+            throw ex;
+        }
+        catch(Exception ex)
+        {
+			SFOtherException other = new SFOtherException(ex);
+            throw other;
+		}
+        finally
+        {
 			closeStream(mFileInputStream);			
 		}
-		
-		return uploadResponse;
 	}
 	
 	private void closeStream(Closeable fis) {
@@ -452,7 +436,7 @@ public class SFUploadRunnable extends TransferRunnable
 			fis.close();
 			
 		} catch (IOException e)  {				
-			SLog.e(TAG,e);
+			Logger.e(TAG,e);
 		}
 	}
 					
@@ -468,7 +452,7 @@ public class SFUploadRunnable extends TransferRunnable
 		}
 		catch(Exception e)
 		{
-			SLog.d(TAG, "exception update progress", e);
+			Logger.d(TAG, "exception update progress", e);
 		}		
 	}			
 }

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,7 +20,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.sharefile.api.enumerations.SFSafeEnum;
+import com.sharefile.api.*;
+import com.sharefile.api.enumerations.*;
 import com.sharefile.api.models.*;
 
 public class SFAccountPreferences extends SFODataObject {
@@ -191,10 +192,14 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer ENSMaxNotificationSyncWaitCount;
 	@SerializedName("TrustedDomains")
 	private String TrustedDomains;
+	@SerializedName("EnableReportingV3")
+	private Boolean EnableReportingV3;
 	@SerializedName("EnableEncryptedEmailForOutlookPlugin")
 	private Boolean EnableEncryptedEmailForOutlookPlugin;
 	@SerializedName("EnableDocPreviews")
 	private Boolean EnableDocPreviews;
+	@SerializedName("DisablePasswordAutocompleteInWebApp")
+	private Boolean DisablePasswordAutocompleteInWebApp;
 	@SerializedName("EnableDesktopEditorForAccount")
 	private Boolean EnableDesktopEditorForAccount;
 	@SerializedName("UseStrictEmployeeDefinition")
@@ -211,6 +216,28 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableStrictCrossdomainPolicy;
 	@SerializedName("DisableScanSnap")
 	private Boolean DisableScanSnap;
+	@SerializedName("EnableFileCount")
+	private Boolean EnableFileCount;
+	@SerializedName("EnableAntiVirus")
+	private Boolean EnableAntiVirus;
+	@SerializedName("EnableFileLocking")
+	private Boolean EnableFileLocking;
+	@SerializedName("EnableIntegrations")
+	private Boolean EnableIntegrations;
+	@SerializedName("IntegrationProviders")
+	private ArrayList<SFSafeEnum<SFIntegrationProvider>> IntegrationProviders;
+	@SerializedName("EnableBouncedEmailNotifications")
+	private Boolean EnableBouncedEmailNotifications;
+	@SerializedName("ShowDownloadLinkInUploadNotification")
+	private Boolean ShowDownloadLinkInUploadNotification;
+	@SerializedName("EnableUserInvitations")
+	private Boolean EnableUserInvitations;
+	@SerializedName("EnableClickTrails")
+	private Boolean EnableClickTrails;
+	@SerializedName("CanStoreItemsInShareFile")
+	private Boolean CanStoreItemsInShareFile;
+	@SerializedName("EnableHomeFolders")
+	private Boolean EnableHomeFolders;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -793,6 +820,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setTrustedDomains(String trusteddomains) {
 		this.TrustedDomains = trusteddomains;
 	}
+	public Boolean getEnableReportingV3() {
+		return this.EnableReportingV3;
+	}
+
+	public void setEnableReportingV3(Boolean enablereportingv3) {
+		this.EnableReportingV3 = enablereportingv3;
+	}
 	public Boolean getEnableEncryptedEmailForOutlookPlugin() {
 		return this.EnableEncryptedEmailForOutlookPlugin;
 	}
@@ -806,6 +840,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableDocPreviews(Boolean enabledocpreviews) {
 		this.EnableDocPreviews = enabledocpreviews;
+	}
+	public Boolean getDisablePasswordAutocompleteInWebApp() {
+		return this.DisablePasswordAutocompleteInWebApp;
+	}
+
+	public void setDisablePasswordAutocompleteInWebApp(Boolean disablepasswordautocompleteinwebapp) {
+		this.DisablePasswordAutocompleteInWebApp = disablepasswordautocompleteinwebapp;
 	}
 	public Boolean getEnableDesktopEditorForAccount() {
 		return this.EnableDesktopEditorForAccount;
@@ -862,6 +903,83 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setDisableScanSnap(Boolean disablescansnap) {
 		this.DisableScanSnap = disablescansnap;
+	}
+	public Boolean getEnableFileCount() {
+		return this.EnableFileCount;
+	}
+
+	public void setEnableFileCount(Boolean enablefilecount) {
+		this.EnableFileCount = enablefilecount;
+	}
+	public Boolean getEnableAntiVirus() {
+		return this.EnableAntiVirus;
+	}
+
+	public void setEnableAntiVirus(Boolean enableantivirus) {
+		this.EnableAntiVirus = enableantivirus;
+	}
+	public Boolean getEnableFileLocking() {
+		return this.EnableFileLocking;
+	}
+
+	public void setEnableFileLocking(Boolean enablefilelocking) {
+		this.EnableFileLocking = enablefilelocking;
+	}
+	public Boolean getEnableIntegrations() {
+		return this.EnableIntegrations;
+	}
+
+	public void setEnableIntegrations(Boolean enableintegrations) {
+		this.EnableIntegrations = enableintegrations;
+	}
+	public ArrayList<SFSafeEnum<SFIntegrationProvider>> getIntegrationProviders() {
+		return this.IntegrationProviders;
+	}
+
+	public void setIntegrationProviders(ArrayList<SFSafeEnum<SFIntegrationProvider>> integrationproviders) {
+		this.IntegrationProviders = integrationproviders;
+	}
+	public Boolean getEnableBouncedEmailNotifications() {
+		return this.EnableBouncedEmailNotifications;
+	}
+
+	public void setEnableBouncedEmailNotifications(Boolean enablebouncedemailnotifications) {
+		this.EnableBouncedEmailNotifications = enablebouncedemailnotifications;
+	}
+	public Boolean getShowDownloadLinkInUploadNotification() {
+		return this.ShowDownloadLinkInUploadNotification;
+	}
+
+	public void setShowDownloadLinkInUploadNotification(Boolean showdownloadlinkinuploadnotification) {
+		this.ShowDownloadLinkInUploadNotification = showdownloadlinkinuploadnotification;
+	}
+	public Boolean getEnableUserInvitations() {
+		return this.EnableUserInvitations;
+	}
+
+	public void setEnableUserInvitations(Boolean enableuserinvitations) {
+		this.EnableUserInvitations = enableuserinvitations;
+	}
+	public Boolean getEnableClickTrails() {
+		return this.EnableClickTrails;
+	}
+
+	public void setEnableClickTrails(Boolean enableclicktrails) {
+		this.EnableClickTrails = enableclicktrails;
+	}
+	public Boolean getCanStoreItemsInShareFile() {
+		return this.CanStoreItemsInShareFile;
+	}
+
+	public void setCanStoreItemsInShareFile(Boolean canstoreitemsinsharefile) {
+		this.CanStoreItemsInShareFile = canstoreitemsinsharefile;
+	}
+	public Boolean getEnableHomeFolders() {
+		return this.EnableHomeFolders;
+	}
+
+	public void setEnableHomeFolders(Boolean enablehomefolders) {
+		this.EnableHomeFolders = enablehomefolders;
 	}
 
 }

@@ -4,24 +4,30 @@ import com.sharefile.api.authentication.SFOAuth2Token;
 import com.sharefile.api.authentication.SFOAuthTokenRenewer;
 import com.sharefile.api.constants.SFFolderID;
 import com.sharefile.api.constants.SFKeywords;
-import com.sharefile.api.constants.SFSDK;
+import com.sharefile.api.entities.ISFEntities;
 import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.exceptions.SFV3ErrorException;
+import com.sharefile.api.exceptions.SFNotAuthorizedException;
+import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
+import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
 import com.sharefile.api.https.SFUploadRunnable;
 import com.sharefile.api.https.TransferRunnable;
+import com.sharefile.api.interfaces.IOAuthTokenChangeHandler;
+import com.sharefile.api.interfaces.ISFApiResultCallback;
+import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFApiExecuteQuery;
 import com.sharefile.api.interfaces.ISFQuery;
 import com.sharefile.api.interfaces.ISFReAuthHandler;
-import com.sharefile.api.interfaces.SFApiResponseListener;
-import com.sharefile.api.interfaces.SFApiStreamResponse;
-import com.sharefile.api.interfaces.SFAuthTokenChangeListener;
-import com.sharefile.api.interfaces.SFGetNewAccessTokenListener;
+import com.sharefile.api.log.Logger;
+import com.sharefile.api.models.SFFile;
+import com.sharefile.api.models.SFFolder;
 import com.sharefile.api.models.SFODataObject;
 import com.sharefile.api.models.SFSession;
+import com.sharefile.api.models.SFUploadRequestParams;
+import com.sharefile.api.models.SFUploadSpecification;
 import com.sharefile.api.utils.Utils;
-import com.sharefile.java.log.SLog;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,7 +37,7 @@ import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SFApiClient
+public class SFApiClient extends ISFEntities.Implementation implements ISFApiClient
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiClient";
 	
@@ -42,7 +48,7 @@ public class SFApiClient
 	private final SFCookieManager mCookieManager = new SFCookieManager(); 
 	private final String mClientID;
 	private final String mClientSecret;
-	private final SFAuthTokenChangeListener mAuthTokenChangeListener;
+	private final IOAuthTokenChangeHandler mAuthTokenChangeCallback;
 	private String mSfUserId;
 	
 	private static final String DEFAULT_ACCEPTED_LANGUAGE = Utils.getAcceptLanguageString();
@@ -55,41 +61,9 @@ public class SFApiClient
 
     private final URI mDefaultTopUrl;
 
-	private final SFGetNewAccessTokenListener mGetNewAccessTokenListener = new SFGetNewAccessTokenListener()
-	{
-		@Override
-		public void successGetAccessToken(SFOAuth2Token oAuthToken) 
-		{
-			try 
-			{
-				reinitClientState(oAuthToken);
-                SLog.d(TAG, "!!!Re-init SFClient with new token");
-			} 
-			catch (SFInvalidStateException e) 
-			{				
-				SLog.e(TAG,e);
-			}						
-		}
+    private final ISFReAuthHandler mReAuthHandler;
 
-		@Override
-		public void errorGetAccessToken(SFV3Error v3error) 
-		{			
-			SLog.e(TAG,v3error.errorDisplayString("!!!error getting access token"));
-            if(v3error.getHttpResponseCode() != SFSDK.INTERNAL_HTTP_ERROR)
-            {
-                reset();
-            }
-
-            if(mAuthTokenChangeListener!=null) 
-            {
-                mAuthTokenChangeListener.tokenRenewFailed(v3error);
-            }
-
-		}		
-	};
-	
-		
-	public boolean isClientInitialised()
+    public boolean isClientInitialised()
 	{
 		return mClientInitializedSuccessFully.get();
 	}
@@ -109,14 +83,24 @@ public class SFApiClient
 		validateStateBeforeInit(oauthToken);
 		
 		mOAuthToken.set(oauthToken);
-		SLog.d(TAG,"SFApiClient init with: [" + oauthToken.getAccessToken() + "]:["+oauthToken.getRefreshToken()+"]");//TODO-REMOVE-LOG
 		mClientInitializedSuccessFully.set(true);
 	}
 
-	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret, SFAuthTokenChangeListener listener) throws SFInvalidStateException
+    public SFApiClient(SFOAuth2Token oAuthToken) throws SFInvalidStateException
+    {
+        this(oAuthToken,
+             null,
+             SFSdk.getClientId(),
+             SFSdk.getClientSecret(),
+             SFSdk.getOAuthTokenChangeHandler(),
+             SFSdk.getReAuthHandler());
+    }
+
+	public SFApiClient(SFOAuth2Token oauthToken,String sfUserId,String clientID,String clientSecret,
+                       IOAuthTokenChangeHandler tokenChangeHandler, ISFReAuthHandler reAuthHandler) throws SFInvalidStateException
 	{	
 		mClientInitializedSuccessFully.set(false);		
-		mAuthTokenChangeListener = listener;
+		mAuthTokenChangeCallback = tokenChangeHandler;
 		mClientID = clientID;
 		mClientSecret = clientSecret;
 		mSfUserId = sfUserId;
@@ -127,14 +111,20 @@ public class SFApiClient
 
         try
         {
-            mDefaultTopUrl = SFQueryBuilder.getDefaultURL(oauthToken.getSubdomain(),oauthToken.getApiCP(), SFFolderID.TOP);
+            mDefaultTopUrl = Utils.getDefaultURL(oauthToken.getSubdomain(),oauthToken.getApiCP(), SFFolderID.TOP);
         }
         catch (URISyntaxException e)
         {
             throw new SFInvalidStateException(e.getLocalizedMessage());
         }
 
-        mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
+        if(mAuthTokenChangeCallback !=null)
+        {
+            //Don't auto-renew the token if the client does not have handler to receive the changed token.
+            mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
+        }
+
+        mReAuthHandler = reAuthHandler;
 	}
 	
 	/**
@@ -143,39 +133,36 @@ public class SFApiClient
 	 *   to store the new token to Persistant storage.
 	 */
 	@SFSDKDefaultAccessScope
-	void reinitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
+	void reInitClientState(SFOAuth2Token oauthtoken) throws SFInvalidStateException
 	{
 		mClientInitializedSuccessFully.set(false);
 		
-		copyOAuthToken(oauthtoken);		
-		
-		mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mGetNewAccessTokenListener, mClientID, mClientSecret);
-		
-		if(mAuthTokenChangeListener!=null)
+		copyOAuthToken(oauthtoken);
+
+		if(mAuthTokenChangeCallback !=null)
 		{
+            //Don't auto-renew the token if the client does not have handler to receive the changed token.
+            mOauthTokenRenewer = new SFOAuthTokenRenewer(mOAuthToken.get(), mClientID, mClientSecret);
+
 			try
 			{
-				mAuthTokenChangeListener.storeNewToken(oauthtoken);
+                //give the app which created this SFClient object a chance to store the new token.
+				mAuthTokenChangeCallback.storeNewToken(this,oauthtoken);
 			}
 			catch(Exception e)
 			{
-				SLog.d(TAG, "Exception in init client", e);
+				Logger.d(TAG, "Exception in init apiClient", e);
 			}
 		}
 	}
-						
-	
-	public synchronized <T extends SFODataObject> ISFApiExecuteQuery getExecutor(ISFQuery<T> query , SFApiResponseListener<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
+
+    @Override
+	public synchronized <T> ISFApiExecuteQuery getExecutor(ISFQuery<T> query , ISFApiResultCallback<T> listener, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
 	{
 		return new SFApiQueryExecutor<T>(this,query, listener, mCookieManager, mSFAppConfig,mOauthTokenRenewer, reauthHandler);
 	}
 
-    public synchronized ISFApiExecuteQuery getExecutor(ISFQuery<InputStream> query , SFApiStreamResponse listener) throws SFInvalidStateException
-    {
-        return new SFApiQueryExecutorForStreams(this,query, listener, mCookieManager, mSFAppConfig);
-    }
-
-	/**
+    /**
 	 *   Make this a more stronger check than a simple null check on OAuth. 
 	 */
 	@SFSDKDefaultAccessScope void validateStateBeforeInit(SFOAuth2Token token) throws SFInvalidStateException
@@ -212,6 +199,7 @@ public class SFApiClient
 		mClientInitializedSuccessFully.set(false);		
 	}
 
+    @Override
 	public String getUserId() 
 	{		
 		return mSfUserId;
@@ -251,14 +239,19 @@ public class SFApiClient
 		return mSFAppConfig;
 	}
 
-	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws SFV3ErrorException, SFInvalidStateException
-	{
-		return getExecutor(query, null, null).executeBlockingQuery();		
+	public <T extends SFODataObject> T executeQuery(ISFQuery<T> query) throws
+            SFServerException, SFInvalidStateException,
+            SFNotAuthorizedException, SFOAuthTokenRenewException, SFOtherException
+    {
+		return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
 	}
 
-    public InputStream executeQueryForStreams(ISFQuery<InputStream> query) throws SFV3ErrorException, SFInvalidStateException
+    @Override
+    public InputStream executeQuery(SFQueryStream query) throws
+            SFServerException, SFInvalidStateException,
+            SFNotAuthorizedException, SFOAuthTokenRenewException ,SFOtherException
     {
-        return getExecutor(query,null).executeBlockingQuery();
+        return getExecutor(query, null, mReAuthHandler).executeBlockingQuery();
     }
 
     //TODO_ADD_V3: This should be in SFDownloadRunnable
@@ -275,6 +268,7 @@ public class SFApiClient
      * @return
      * @throws SFInvalidStateException
      */
+    @Deprecated
     public SFDownloadRunnable prepareDownload(String itemId, String v3Url, int resumeFromByteIndex, OutputStream outpuStream, TransferRunnable.IProgress progressListener, String connUserName, String connPassword) throws SFInvalidStateException {
         validateClientState();
 
@@ -287,16 +281,74 @@ public class SFApiClient
             url = downloadQuery.buildQueryUrlString(server);
 
         } catch (URISyntaxException e)  {
-            SLog.e(TAG, e);
+            Logger.e(TAG, e);
             return null;
 
         } catch (UnsupportedEncodingException e) {
-            SLog.e(TAG, e);
+            Logger.e(TAG, e);
             return null;
         }
 
         // create runnable
         return new SFDownloadRunnable(url, resumeFromByteIndex, outpuStream , this, progressListener, mCookieManager, connUserName, connPassword);
+    }
+
+    @Override
+    public SFDownloadRunnable getDownloader(SFFile file, OutputStream outputStream,
+                                            TransferRunnable.IProgress progressListener)
+            throws SFOtherException
+    {
+        // calculate download URL
+        String url;
+        try
+        {
+            ISFQuery<InputStream> downloadQuery = items().download(file.geturl(), true);
+            downloadQuery.setLink(file.geturl());
+            String server = mOAuthToken.get().getApiServer();
+            url = downloadQuery.buildQueryUrlString(server);
+            return new SFDownloadRunnable(url, 0, outputStream , this, progressListener, mCookieManager, null, null);
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            Logger.e(TAG, e);
+            throw new SFOtherException(e);
+        }
+    }
+
+    public SFUploadRunnable getUploader(SFFolder parentFolder,String destinationName, String details,long fileSizeInBytes,
+                                        InputStream inputStream,
+                                        TransferRunnable.IProgress progressListener)
+    throws SFInvalidStateException, SFServerException
+    {
+        validateClientState();
+
+        return new SFUploadRunnable(parentFolder.geturl().toString(), true,
+                0,
+                fileSizeInBytes,
+                destinationName,
+                inputStream,
+                this,
+                progressListener,
+                mCookieManager,
+                null, null, details);
+    }
+
+    public SFUploadRunnable getUploader(SFUploadRequestParams uploadRequestParams,
+                                        InputStream inputStream,
+                                        TransferRunnable.IProgress progressListener)
+            throws SFInvalidStateException, SFServerException
+    {
+        validateClientState();
+
+        return new SFUploadRunnable(uploadRequestParams.geturl().toString(), true,
+                0,
+                uploadRequestParams.getFileSize(),
+                uploadRequestParams.getFileName(),
+                inputStream,
+                this,
+                progressListener,
+                mCookieManager,
+                null, null, uploadRequestParams.getDetails());
     }
 
     /**
@@ -315,9 +367,10 @@ public class SFApiClient
      * @param connPassword
      * @return
      * @throws SFInvalidStateException
-     * @throws SFV3ErrorException
+     * @throws com.sharefile.api.exceptions.SFServerException
      */
-    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFV3ErrorException {
+    @Deprecated
+    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFServerException {
         validateClientState();
 
         return new SFUploadRunnable(v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);
@@ -330,7 +383,7 @@ public class SFApiClient
             return mDefaultTopUrl;
         }
 
-        return SFQueryBuilder.getDefaultURL(mOAuthToken.get().getSubdomain(),mOAuthToken.get().getApiCP(), folderID);
+        return Utils.getDefaultURL(mOAuthToken.get().getSubdomain(),mOAuthToken.get().getApiCP(), folderID);
     }
 
     public URI getTopUrl() {
@@ -339,8 +392,22 @@ public class SFApiClient
 
     public URI getDeviceUrl(String deviceId) throws URISyntaxException
     {
-        return SFQueryBuilder.getDeviceURL(getOAuthToken().getSubdomain(),
+        return Utils.getDeviceURL(getOAuthToken().getSubdomain(),
                 getOAuthToken().getApiCP(),
                 deviceId);
+    }
+
+    @Override
+    public void storeNewToken(ISFApiClient apiClient,SFOAuth2Token newAccessToken)
+    {
+        try
+        {
+            reInitClientState(newAccessToken);
+            Logger.d(TAG, "!!!Re-init SFClient with new token");
+        }
+        catch (SFInvalidStateException e)
+        {
+            Logger.e(TAG,e);
+        }
     }
 }
