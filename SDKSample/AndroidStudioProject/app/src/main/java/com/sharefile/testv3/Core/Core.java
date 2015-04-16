@@ -12,6 +12,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.interfaces.IOAuthTokenCallback;
 import com.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.api.interfaces.ISFAsyncTask;
+import com.sharefile.api.interfaces.ISFAsyncTaskFactory;
 import com.sharefile.api.interfaces.ISFOAuthService;
 import com.sharefile.testv3.PersistantToken;
 import com.sharefile.testv3.SFLogger;
@@ -50,10 +51,10 @@ public class Core
         return apiClient;
     }
 
-    private static SFAsyncTaskFactory asyncTaskFactory = new SFAsyncTaskFactory()
+    private static ISFAsyncTaskFactory asyncTaskFactory = new ISFAsyncTaskFactory()
     {
         @Override
-        protected ISFAsyncTask createNewTask()
+        public ISFAsyncTask createNewTask()
         {
             return new SampleAsyncTask();
         }

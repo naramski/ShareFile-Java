@@ -24,5 +24,5 @@ android {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
-    compile(name:'sfsdk', ext:'aar')
+    compile('com.sharefile.api:sfsdk:3.0.0')
 }

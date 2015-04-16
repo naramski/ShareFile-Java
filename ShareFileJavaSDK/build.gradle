@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+// tag::repositories[]
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+// end::repositories[]
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.google.code.gson:gson:2.2.4'
+}
+
+
+// tag::jar[]
+jar {
+    baseName = 'sfsdk'
+    version =  '3.0.0'
+}
+// end::jar[]
+
+// tag::wrapper[]
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
+// end::wrapper[]
