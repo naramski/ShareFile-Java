@@ -5,3 +5,6 @@ build
 /SDKSample/AndroidStudioProject/.idea
 /SDKSample/AndroidStudioProject/*.iml
 /SDKSample/AndroidStudioProject/local.properties
+.idea
+/ShareFileJavaSDK/local.properties
+gradle
