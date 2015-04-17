@@ -138,6 +138,7 @@ public class SFQueuesEntityInternal extends SFODataEntityBase
 	* may pass additional completion parameters that trigger other metadata changes. For eSignature
 	* queue, the completion parameter SignedItemId indicates the new item containing the signed
 	* document.
+	* @param grandparentid 	 	
 	* @param url 	 	
 	* @param result 	 	
 	*/
@@ -209,6 +210,28 @@ public class SFQueuesEntityInternal extends SFODataEntityBase
 		sfApiQuery.addIds(qUrl);
 		sfApiQuery.addActionIds(eid);
 		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Fail the Queue Entry
+	* Indicates that the worker has failed to process the queue entry
+	* @param qUrl 	 	
+	*/
+	public ISFQuery error(URI qUrl, String eid) throws InvalidOrMissingParameterException 	{
+		if (qUrl == null) {
+			throw new InvalidOrMissingParameterException("qUrl");
+		}
+		if (eid == null) {
+			throw new InvalidOrMissingParameterException("eid");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Queues");
+		sfApiQuery.setAction("Error");
+		sfApiQuery.addIds(qUrl);
+		sfApiQuery.addActionIds(eid);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
