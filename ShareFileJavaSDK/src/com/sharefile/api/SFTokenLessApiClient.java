@@ -22,4 +22,9 @@ public class SFTokenLessApiClient extends SFApiClient
                 0)
                 , DUMMY_TOKEN_USER_ID, DUMMY_TOKEN_CLIENT_ID, DUMMY_TOKEN_CLIENT_SECRET, null, reauthHandler);
     }
+
+    public SFTokenLessApiClient(String subDomain,String apiControlPlane) throws SFInvalidStateException
+    {
+        this(subDomain,apiControlPlane,null);
+    }
 }
