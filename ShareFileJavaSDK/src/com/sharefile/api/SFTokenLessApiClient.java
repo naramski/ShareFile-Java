@@ -11,6 +11,10 @@ public class SFTokenLessApiClient extends SFApiClient
     private static final String DUMMY_TOKEN_CLIENT_ID = "TokenLessClientId";
     private static final String DUMMY_TOKEN_CLIENT_SECRET = "TokenLessClientSecret";
 
+    /*
+     * Note : a Token less ApiClient can be used for Standalone connectors so it may have a
+     * ReAuthHandler!
+     */
     public SFTokenLessApiClient(String subDomain,String apiControlPlane, ISFReAuthHandler reauthHandler) throws SFInvalidStateException
     {
         super(new SFOAuth2Token(DUMMY_TOKEN_VALUE,
