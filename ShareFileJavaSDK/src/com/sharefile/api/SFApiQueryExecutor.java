@@ -351,8 +351,16 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 			throw new SFOAuthTokenRenewException("No token Re-newer");
 		}
 
-        SFOAuth2Token newToken = mAccessTokenRenewer.getNewAccessToken();
-        mSFApiClient.storeNewToken(mSFApiClient,newToken);//this might seem redundant but we dont want to create a separate interface
+        try
+        {
+            SFOAuth2Token newToken = mAccessTokenRenewer.getNewAccessToken();
+            mSFApiClient.storeNewToken(mSFApiClient, newToken);//this might seem redundant but we don't want to create a separate interface
+        }
+        catch (SFOAuthTokenRenewException e)
+        {
+            mSFApiClient.tokenRenewFailed(mSFApiClient,e);
+            throw e;
+        }
 	}
 
     //https://crashlytics.com/citrix2/android/apps/com.sharefile.mobile.tablet/issues/5486913f65f8dfea154945c8/sessions/54834f7502e400013d029118062ebeab

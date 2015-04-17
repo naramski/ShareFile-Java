@@ -9,6 +9,7 @@ import com.sharefile.api.exceptions.SFInvalidStateException;
 import com.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.sharefile.api.exceptions.SFOtherException;
+import com.sharefile.api.exceptions.SFSDKException;
 import com.sharefile.api.exceptions.SFServerException;
 import com.sharefile.api.https.SFCookieManager;
 import com.sharefile.api.https.SFDownloadRunnable;
@@ -408,6 +409,15 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         catch (SFInvalidStateException e)
         {
             Logger.e(TAG,e);
+        }
+    }
+
+    @Override
+    public void tokenRenewFailed(ISFApiClient apiClient, SFSDKException exception)
+    {
+        if(mAuthTokenChangeCallback!=null)
+        {
+            mAuthTokenChangeCallback.tokenRenewFailed(apiClient,exception);
         }
     }
 }
