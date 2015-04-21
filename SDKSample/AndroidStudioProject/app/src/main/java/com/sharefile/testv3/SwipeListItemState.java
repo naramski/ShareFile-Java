@@ -1,6 +1,6 @@
 package com.sharefile.testv3;
 
-import com.sharefile.api.models.SFItem;
+import com.citrix.sharefile.api.models.SFItem;
 
 import android.widget.ImageView;
 import android.widget.TextView;

@@ -4,16 +4,16 @@ package com.sharefile.testv3.Core;
 import android.content.Context;
 import android.util.Log;
 
-import com.sharefile.api.SFSdk;
-import com.sharefile.api.async.SFAsyncTaskFactory;
-import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.authentication.SFOAuthService;
-import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.interfaces.IOAuthTokenCallback;
-import com.sharefile.api.interfaces.ISFApiClient;
-import com.sharefile.api.interfaces.ISFAsyncTask;
-import com.sharefile.api.interfaces.ISFAsyncTaskFactory;
-import com.sharefile.api.interfaces.ISFOAuthService;
+import com.citrix.sharefile.api.SFSdk;
+import com.citrix.sharefile.api.async.SFAsyncTaskFactory;
+import com.citrix.sharefile.api.authentication.SFOAuth2Token;
+import com.citrix.sharefile.api.authentication.SFOAuthService;
+import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
+import com.citrix.sharefile.api.interfaces.IOAuthTokenCallback;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.interfaces.ISFAsyncTask;
+import com.citrix.sharefile.api.interfaces.ISFAsyncTaskFactory;
+import com.citrix.sharefile.api.interfaces.ISFOAuthService;
 import com.sharefile.testv3.PersistantToken;
 import com.sharefile.testv3.SFLogger;
 

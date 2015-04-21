@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.exceptions.SFJsonException;
+import com.citrix.sharefile.api.authentication.SFOAuth2Token;
+import com.citrix.sharefile.api.exceptions.SFJsonException;
 
 import android.content.Context;
 

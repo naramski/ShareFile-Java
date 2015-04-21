@@ -3,7 +3,7 @@ package com.sharefile.testv3;
 
 import android.util.Log;
 
-import com.sharefile.api.interfaces.ILog;
+import com.citrix.sharefile.api.interfaces.ILog;
 
 public class SFLogger implements ILog
 {

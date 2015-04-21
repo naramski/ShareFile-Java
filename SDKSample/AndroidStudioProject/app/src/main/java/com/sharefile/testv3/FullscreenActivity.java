@@ -12,13 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.sharefile.api.SFApiClient;
-import com.sharefile.api.authentication.SFOAuth2Token;
-import com.sharefile.api.exceptions.SFInvalidStateException;
-import com.sharefile.api.exceptions.SFJsonException;
-import com.sharefile.api.exceptions.SFSDKException;
-import com.sharefile.api.interfaces.IOAuthTokenCallback;
-import com.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.SFApiClient;
+import com.citrix.sharefile.api.authentication.SFOAuth2Token;
+import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
+import com.citrix.sharefile.api.exceptions.SFJsonException;
+import com.citrix.sharefile.api.exceptions.SFSDKException;
+import com.citrix.sharefile.api.interfaces.IOAuthTokenCallback;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
 import com.sharefile.testv3.Core.Core;
 
 import java.io.IOException;

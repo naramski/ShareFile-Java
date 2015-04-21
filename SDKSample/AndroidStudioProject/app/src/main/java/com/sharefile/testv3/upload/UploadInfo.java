@@ -8,7 +8,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.sharefile.api.utils.Utils;
+import com.citrix.sharefile.api.utils.Utils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

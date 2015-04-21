@@ -2,8 +2,8 @@ package com.sharefile.testv3.Core;
 
 import android.os.AsyncTask;
 
-import com.sharefile.api.interfaces.ISFAsyncHelper;
-import com.sharefile.api.interfaces.ISFAsyncTask;
+import com.citrix.sharefile.api.interfaces.ISFAsyncHelper;
+import com.citrix.sharefile.api.interfaces.ISFAsyncTask;
 
 public class SampleAsyncTask extends AsyncTask implements ISFAsyncTask
 {

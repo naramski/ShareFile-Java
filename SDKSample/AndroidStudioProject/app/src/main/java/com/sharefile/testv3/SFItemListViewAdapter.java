@@ -2,11 +2,11 @@ package com.sharefile.testv3;
 
 import java.util.List;
 
-import com.sharefile.api.enumerations.SFV3ElementType;
-import com.sharefile.api.models.SFFile;
-import com.sharefile.api.models.SFItem;
-import com.sharefile.api.models.SFLink;
-import com.sharefile.api.models.SFNote;
+import com.citrix.sharefile.api.enumerations.SFV3ElementType;
+import com.citrix.sharefile.api.models.SFFile;
+import com.citrix.sharefile.api.models.SFItem;
+import com.citrix.sharefile.api.models.SFLink;
+import com.citrix.sharefile.api.models.SFNote;
 
 import android.app.Activity;
 import android.content.Context;
