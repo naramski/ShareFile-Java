@@ -13,20 +13,11 @@
 package com.citrix.sharefile.api.entities;
 
 import com.citrix.sharefile.api.SFApiClient;
-import com.citrix.sharefile.api.entities.*;
-import com.citrix.sharefile.api.models.*;
-import com.citrix.sharefile.api.models.internal.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
+import com.citrix.sharefile.api.models.SFFileLock;
 
-
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.net.URI;
-import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFFileLockEntity extends SFODataEntityBase
 {

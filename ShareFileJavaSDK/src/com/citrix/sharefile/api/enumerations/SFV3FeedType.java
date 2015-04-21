@@ -2,6 +2,7 @@ package com.citrix.sharefile.api.enumerations;
 
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.exceptions.SFInvalidTypeException;
+import com.citrix.sharefile.api.log.Logger;
 import com.citrix.sharefile.api.models.SFAccessControl;
 import com.citrix.sharefile.api.models.SFAccount;
 import com.citrix.sharefile.api.models.SFAccountPreferences;
@@ -33,6 +34,10 @@ import com.citrix.sharefile.api.models.SFMobileSecuritySettings;
 import com.citrix.sharefile.api.models.SFNote;
 import com.citrix.sharefile.api.models.SFNotification;
 import com.citrix.sharefile.api.models.SFODataObject;
+import com.citrix.sharefile.api.models.SFOutlookInformation;
+import com.citrix.sharefile.api.models.SFOutlookInformationOptionBool;
+import com.citrix.sharefile.api.models.SFOutlookInformationOptionInt;
+import com.citrix.sharefile.api.models.SFOutlookInformationOptionString;
 import com.citrix.sharefile.api.models.SFPlanFeatures;
 import com.citrix.sharefile.api.models.SFPrincipal;
 import com.citrix.sharefile.api.models.SFProductDefaults;
@@ -63,11 +68,6 @@ import com.citrix.sharefile.api.models.SFUserInfo;
 import com.citrix.sharefile.api.models.SFUserPreferences;
 import com.citrix.sharefile.api.models.SFUserSecurity;
 import com.citrix.sharefile.api.models.SFZone;
-import com.citrix.sharefile.api.models.internal.SFOutlookInformation;
-import com.citrix.sharefile.api.models.internal.SFOutlookInformationOptionBool;
-import com.citrix.sharefile.api.models.internal.SFOutlookInformationOptionInt;
-import com.citrix.sharefile.api.models.internal.SFOutlookInformationOptionString;
-import com.citrix.sharefile.api.log.Logger;
 
 public enum SFV3FeedType
 {		
