@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: sflogging">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/libs/sflogging.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
