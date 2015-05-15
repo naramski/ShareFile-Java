@@ -73,6 +73,7 @@ public enum SFV3FeedType
 {		
 	AccessControl("$metadata#AccessControls",SFAccessControl.class),	
 	Account("$metadata#Account",SFAccount.class),
+    Accounts("$metadata#Accounts",SFAccount.class),
 	AccountPreferences("$metadata#AccountPreferences",SFAccountPreferences.class),
 	AccountUser("$metadata#AccountUser",SFAccountUser.class),
 	AdvancedSearchResults("$metadata#AdvancedSearchResults",SFAdvancedSearchResults.class),
