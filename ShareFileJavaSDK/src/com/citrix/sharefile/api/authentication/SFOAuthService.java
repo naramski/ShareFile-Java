@@ -220,7 +220,8 @@ public class SFOAuthService implements ISFOAuthService
             throws SFNotAuthorizedException,SFJsonException, SFInvalidStateException
     {
         SFSdk.validateInit();
-        return authenticate(subDomain,apiControlPlane,SFSdk.getClientId(),SFSdk.getClientSecret());
+        return authenticate(subDomain,apiControlPlane,
+                SFSdk.getClientId(),SFSdk.getClientSecret(),samlAssertion);
     }
 
     @Override
@@ -229,8 +230,7 @@ public class SFOAuthService implements ISFOAuthService
     {
         SFSdk.validateInit();
 
-        refreshOAuthToken(oldToken,SFSdk.getClientId(),SFSdk.getClientSecret());
-        return null;
+        return refreshOAuthToken(oldToken,SFSdk.getClientId(),SFSdk.getClientSecret());
     }
 
     @Override
