@@ -117,6 +117,24 @@ public interface ISFEntities {
         public SFZonesEntity zones() {
             return (SFZonesEntity) getEntity(SFZonesEntity.class);
         }
+
+        @Override
+        public SFConfigsEntity configs()
+        {
+            return (SFConfigsEntity)getEntity(SFConfigsEntity.class);
+        }
+
+        @Override
+        public SFDevicesEntity devices()
+        {
+            return  (SFDevicesEntity)getEntity(SFDevicesEntity.class);
+        }
+
+        @Override
+        public SFFileLockEntity fileLock()
+        {
+            return (SFFileLockEntity)getEntity(SFFileLockEntity.class);
+        }
     }
 
     SFConnectorGroupsEntity connectorGroups();
@@ -124,7 +142,7 @@ public interface ISFEntities {
     SFAccessControlsEntity accessControls();
     SFAccountsEntity accounts();
     SFAsyncOperationsEntity asyncOperations();
-    SFODataEntityBase capabilities();
+    SFCapabilitiesEntity capabilities();
     SFFavoriteFoldersEntity favoriteFolders();
     SFGroupsEntity groups();
     SFItemsEntity items();
@@ -134,4 +152,7 @@ public interface ISFEntities {
     SFStorageCentersEntity storageCenters();
     SFUsersEntity users();
     SFZonesEntity zones();
+    SFConfigsEntity configs();
+    SFDevicesEntity devices();
+    SFFileLockEntity fileLock();
 }
