@@ -14,6 +14,7 @@ package com.citrix.sharefile.api.entities;
 
 import com.citrix.sharefile.api.SFApiClient;
 import com.citrix.sharefile.api.entities.*;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
@@ -29,7 +30,7 @@ import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 
 public class SFDevicesEntity extends SFODataEntityBase
 {
-    public SFDevicesEntity(SFApiClient apiClient)
+    public SFDevicesEntity(ISFApiClient apiClient)
     {
         super(apiClient);
     }

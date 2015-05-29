@@ -14,6 +14,7 @@ package com.citrix.sharefile.api.entities;
 
 import com.citrix.sharefile.api.SFApiClient;
 import com.citrix.sharefile.api.SFApiQuery;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 import com.citrix.sharefile.api.models.SFFileLock;
 
@@ -21,7 +22,7 @@ import java.net.URI;
 
 public class SFFileLockEntity extends SFODataEntityBase
 {
-    public SFFileLockEntity(SFApiClient apiClient)
+    public SFFileLockEntity(ISFApiClient apiClient)
     {
         super(apiClient);
     }
