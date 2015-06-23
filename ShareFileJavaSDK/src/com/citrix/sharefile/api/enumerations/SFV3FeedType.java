@@ -95,6 +95,7 @@ public enum SFV3FeedType
 	Folder("$metadata#Folder",SFFolder.class),
 	GenericConfig("$metadata#GenericConfig",SFGenericConfig.class),
 	Group("$metadata#Group",SFGroup.class),
+	Groups("$metadata#Groups",SFGroup.class),
 	Item("$metadata#Item",SFItem.class),
     Items("$metadata#Items",SFItem.class),
 	ItemInfo("$metadata#ItemInfo",SFItemInfo.class),
