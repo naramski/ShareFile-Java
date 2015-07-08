@@ -593,7 +593,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	@Override
 	public ISFQuery<T>  setBody( ArrayList<?> sfoDataObjectsFeed)
 	{
-		mBody = SFDefaultGsonParser.serialize(sfoDataObjectsFeed.getClass(), sfoDataObjectsFeed);
+        mBody = SFDefaultGsonParser.serialize(sfoDataObjectsFeed.getClass(), sfoDataObjectsFeed);
         return this;
 	}
 
