@@ -174,7 +174,7 @@ public enum SFV3FeedType
 		{
 			for(SFV3FeedType s:SFV3FeedType.values())
 			{
-				if(metadata.endsWith(s.toString()))
+				if(metadata.contains(s.toString()))
 				{
 					ret = s;
 					
