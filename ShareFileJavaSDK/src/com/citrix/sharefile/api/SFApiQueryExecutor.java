@@ -90,11 +90,12 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 	private void handleHttPost(URLConnection conn) throws IOException
 	{
 		if(mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.POST.toString()) || 
-		   mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.PATCH.toString()) )
+		   mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.PATCH.toString()) ||
+           mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.DELETE.toString())     )
 		{
 			String body = mQuery.getBody(); 
 			
-			if(body!=null)
+			if(body!=null && body.length()>0)
 			{
 				conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
 				conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
