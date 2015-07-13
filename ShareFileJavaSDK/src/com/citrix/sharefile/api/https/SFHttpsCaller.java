@@ -142,13 +142,7 @@ public class SFHttpsCaller
 		}
 		
 		conn.setDoInput(true);
-		
-		if(methodName.equalsIgnoreCase(SFHttpMethod.DELETE.toString()))
-		{
-			return;
-		}
-						
-		conn.setDoOutput(true); //POST, PUT
+		conn.setDoOutput(true); //POST, PUT, DELETE
 	}
 	
 	public static int catchIfAuthException(IOException e) throws IOException
