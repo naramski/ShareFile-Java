@@ -1,6 +1,15 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'java-library-distribution'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+String shareFileJarName = 'sharefile-api'
+String shareFileJarVersion = '3.0.0'
+String shareFilePomFileName = "$buildDir/libs/"+shareFileJarName+"-"+shareFileJarVersion+".pom"
+
+group = "com.citrix"
+version = shareFileJarVersion
 
 sourceSets {
     main {
@@ -10,12 +19,10 @@ sourceSets {
     }
 }
 
-// tag::repositories[]
 repositories {
     mavenLocal()
     mavenCentral()
 }
-// end::repositories[]
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
@@ -24,20 +31,45 @@ dependencies {
 
 distributions {
     main{
-        baseName = 'sfsdk'
-        version =  '3.0.0'
+        baseName = shareFileJarName
+        version =  shareFileJarVersion
     }
 }
 
-// tag::jar[]
 jar {
-    baseName = 'sfsdk'
-    version =  '3.0.0'
+    baseName = shareFileJarName
+    version =  shareFileJarVersion
 }
-// end::jar[]
 
-// tag::wrapper[]
 task wrapper(type: Wrapper) {
     gradleVersion = '1.11'
 }
-// end::wrapper[]
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    baseName = shareFileJarName
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    baseName = shareFileJarName
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+task writeNewPom << {
+    pom {
+        project {
+            inceptionYear '2015'
+            artifactId shareFileJarName
+        }
+    }.writeTo(shareFilePomFileName)
+}
