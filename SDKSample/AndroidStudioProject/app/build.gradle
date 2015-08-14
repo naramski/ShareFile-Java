@@ -4,6 +4,12 @@ android {
     compileSdkVersion 19
     buildToolsVersion "21.1.2"
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
     defaultConfig {
         applicationId "com.sharefile.testv3"
         minSdkVersion 14
@@ -23,6 +29,6 @@ android {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile('com.sharefile.api:sfsdk:3.0.0')
+
+    compile 'com.citrix:sharefile-api:3.0.0'
 }
