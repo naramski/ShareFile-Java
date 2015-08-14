@@ -1,6 +1,15 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'java-library-distribution'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+String shareFileJarName = 'sharefile-api'
+String shareFileJarVersion = '3.0.0'
+String shareFilePomFileName = "$buildDir/libs/"+shareFileJarName+"-"+shareFileJarVersion+".pom"
+
+group = "com.citrix"
+version = shareFileJarVersion
 
 sourceSets {
     main {
@@ -10,34 +19,77 @@ sourceSets {
     }
 }
 
-// tag::repositories[]
 repositories {
     mavenLocal()
     mavenCentral()
 }
-// end::repositories[]
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'org.apache.httpcomponents:httpcore:4.3.2'
+    compile 'org.apache.directory.studio:org.apache.commons.codec:1.6'
     compile 'com.google.code.gson:gson:2.2.4'
 }
 
 distributions {
     main{
-        baseName = 'sfsdk'
-        version =  '3.0.0'
+        baseName = shareFileJarName
+        version =  shareFileJarVersion
     }
 }
 
-// tag::jar[]
 jar {
-    baseName = 'sfsdk'
-    version =  '3.0.0'
+    baseName = shareFileJarName
+    version =  shareFileJarVersion
 }
-// end::jar[]
 
-// tag::wrapper[]
 task wrapper(type: Wrapper) {
     gradleVersion = '1.11'
 }
-// end::wrapper[]
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    baseName = shareFileJarName
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    baseName = shareFileJarName
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+task writeNewPom << {
+    pom {
+        project {
+            inceptionYear '2015'
+            artifactId shareFileJarName
+            name 'ShareFile-Api'
+            description 'ShareFile Java SDK using the V3 API'
+            url 'https://github.com/citrix/ShareFile-Java'
+
+            scm {
+                url 'https://github.com/citrix/ShareFile-Java.git'
+            }
+
+            licenses {
+                license {
+                    name 'The MIT License (MIT)'
+                    url 'https://github.com/citrix/ShareFile-Java/blob/master/LICENSE.txt'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'nileshp'
+                    name 'Nilesh Pawar'
+                    email 'nilesh.pawar@citrix.com'
+                }
+            }
+
+        }
+    }.writeTo(shareFilePomFileName)
+}
