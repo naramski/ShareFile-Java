@@ -6,6 +6,7 @@ import com.citrix.sharefile.api.interfaces.ILog;
 import com.citrix.sharefile.api.interfaces.IOAuthTokenChangeHandler;
 import com.citrix.sharefile.api.interfaces.ISFAsyncTask;
 import com.citrix.sharefile.api.interfaces.ISFAsyncTaskFactory;
+import com.citrix.sharefile.api.interfaces.ISFConnectionManager;
 import com.citrix.sharefile.api.interfaces.ISFReAuthHandler;
 import com.citrix.sharefile.api.log.Logger;
 import com.citrix.sharefile.api.utils.Utils;
@@ -93,5 +94,10 @@ public class SFSdk
     public static ISFAsyncTask createAsyncTask()
     {
         return mAsyncTaskFactory.createNewTask();
+    }
+
+    public static void setConnectionMgr(ISFConnectionManager newConnMgr)
+    {
+        SFConnectionManager.setInstance(newConnMgr);
     }
 }

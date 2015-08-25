@@ -570,7 +570,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		
 		if(mLink!=null)
 		{
-			ret = (SFProvider.PROVIDER_TYPE_SF == SFProvider.getProviderType(mLink));
+			ret = (SFProvider.PROVIDER_TYPE_SF.equalsIgnoreCase(SFProvider.getProviderType(mLink)));
 		}
 		
 		return ret;
