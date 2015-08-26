@@ -98,7 +98,7 @@ public enum SFV3ElementType
 	Group("Models.Group@Element",SFGroup.class),
 	Item("Models.Item@Element",SFItem.class),
 	ItemInfo("Models.ItemInfo",SFItemInfo.class),
-	ItemDlpInfo("Models.ItemDlpInfo@Element",SFItemDlpInfo.class),
+	ItemDlpInfo("Models.ItemDlpInfo",SFItemDlpInfo.class),
 	ItemProtocolLink("Models.ItemProtocolLink@Element",SFItemProtocolLink.class),
 	Link("Models.Link@Element",SFLink.class),
 	Metadata("Models.Metadata@Element",SFMetadata.class),
