@@ -1,5 +1,7 @@
 package com.citrix.sharefile.api.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -119,4 +121,10 @@ public class Utils
 
         return uri;
     }
+
+	public static URI getURIFromString(String urlSpec) throws UnsupportedEncodingException, URISyntaxException, MalformedURLException {
+
+		return new URI(urlSpec.trim().replace(" ", "%20")); //trim spaces and replace middle spaces by url-encoded spaces
+		//Don't break the URI in components. On a certain ZK zones we are getting h-params during upload.
+	}
 }
