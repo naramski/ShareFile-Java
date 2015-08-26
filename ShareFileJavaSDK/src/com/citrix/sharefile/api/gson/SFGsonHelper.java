@@ -1,9 +1,12 @@
 package com.citrix.sharefile.api.gson;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import com.citrix.sharefile.api.utils.Utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -130,13 +133,13 @@ public class SFGsonHelper
     		{
     			try 
     			{
-					ret = new URI(urlspec);
+					return Utils.getURIFromString(urlspec);
 				} 
-    			catch (URISyntaxException e) 
+    			catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e)
     			{					
 					Logger.e(TAG,e);
 				}
-    		}    				
+			}
     	}
     	
     	return ret;

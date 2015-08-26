@@ -1,11 +1,14 @@
 package com.citrix.sharefile.api.gson.auto;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.citrix.sharefile.api.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -105,9 +108,9 @@ public class SFDefaultGsonParser
 			{											
 				try 
 				{
-					return new URI (arg0.getAsString().trim());
+					return Utils.getURIFromString(arg0.getAsString());
 				} 
-				catch (URISyntaxException e) 
+				catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e)
 				{
 					throw new JsonParseException(e);
 				}				

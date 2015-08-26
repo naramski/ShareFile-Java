@@ -26,6 +26,7 @@ import com.citrix.sharefile.api.models.SFFolder;
 import com.citrix.sharefile.api.models.SFGenericConfig;
 import com.citrix.sharefile.api.models.SFGroup;
 import com.citrix.sharefile.api.models.SFItem;
+import com.citrix.sharefile.api.models.SFItemDlpInfo;
 import com.citrix.sharefile.api.models.SFItemInfo;
 import com.citrix.sharefile.api.models.SFItemProtocolLink;
 import com.citrix.sharefile.api.models.SFLink;
@@ -97,6 +98,7 @@ public enum SFV3ElementType
 	Group("Models.Group@Element",SFGroup.class),
 	Item("Models.Item@Element",SFItem.class),
 	ItemInfo("Models.ItemInfo",SFItemInfo.class),
+	ItemDlpInfo("Models.ItemDlpInfo",SFItemDlpInfo.class),
 	ItemProtocolLink("Models.ItemProtocolLink@Element",SFItemProtocolLink.class),
 	Link("Models.Link@Element",SFLink.class),
 	Metadata("Models.Metadata@Element",SFMetadata.class),

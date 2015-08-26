@@ -34,6 +34,10 @@ public class SFFile extends SFItem {
 	private Boolean HasPreview;
 	@SerializedName("VirusStatus")
 	private SFSafeEnum<SFFileVirusStatus> VirusStatus;
+	@SerializedName("DlpInfo")
+	private SFItemDlpInfo DlpInfo;
+	@SerializedName("Info")
+	private SFItemInfo Info;
 	@SerializedName("LockedBy")
 	private SFUser LockedBy;
 	@SerializedName("FileLockInfo")
@@ -98,6 +102,32 @@ public class SFFile extends SFItem {
 		*/
 	public void setVirusStatus(SFSafeEnum<SFFileVirusStatus> virusstatus) {
 		this.VirusStatus = virusstatus;
+	}
+		/**
+		* Data Loss Prevention information for this file.
+		*/
+	public SFItemDlpInfo getDlpInfo() {
+		return this.DlpInfo;
+	}
+
+		/**
+		* Data Loss Prevention information for this file.
+		*/
+	public void setDlpInfo(SFItemDlpInfo dlpinfo) {
+		this.DlpInfo = dlpinfo;
+	}
+		/**
+		* Effective Access Control permissions for this file
+		*/
+	public SFItemInfo getInfo() {
+		return this.Info;
+	}
+
+		/**
+		* Effective Access Control permissions for this file
+		*/
+	public void setInfo(SFItemInfo info) {
+		this.Info = info;
 	}
 		/**
 		* Indicates the user that has locked the file
