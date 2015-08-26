@@ -9,6 +9,7 @@ import com.citrix.sharefile.api.models.SFCapabilityName;
 import com.citrix.sharefile.api.models.SFConnectorGroupKind;
 import com.citrix.sharefile.api.models.SFDeviceActionInitiatorRole;
 import com.citrix.sharefile.api.models.SFDeviceLogEntryAction;
+import com.citrix.sharefile.api.models.SFDlpStatus;
 import com.citrix.sharefile.api.models.SFESignatureDocumentStatus;
 import com.citrix.sharefile.api.models.SFEnsEventType;
 import com.citrix.sharefile.api.models.SFFileVirusStatus;
@@ -88,7 +89,8 @@ public class SafeEnumHelpers
         new EnumClassNames("SFTreeMode",SFTreeMode.class),
         new EnumClassNames("SFUploadMethod",SFUploadMethod.class),
         new EnumClassNames("SFUserRole",SFUserRole.class),
-        new EnumClassNames("SFUXMode",SFUXMode.class)
+        new EnumClassNames("SFUXMode",SFUXMode.class),
+		new EnumClassNames("SFDlpStatus",SFDlpStatus.class)
 	};
 		
 	public static Class getEnumClass(String className, boolean useEnumWithFlags)
