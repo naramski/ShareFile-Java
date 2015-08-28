@@ -26,7 +26,7 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler , ISFEntities
             throws SFServerException, SFInvalidStateException,
             SFNotAuthorizedException, SFOAuthTokenRenewException,SFOtherException;
 
-    public InputStream executeQuery(SFQueryStream query)
+    public InputStream executeQueryEx(SFQueryStream query)
             throws SFServerException, SFInvalidStateException,
             SFNotAuthorizedException, SFOAuthTokenRenewException,SFOtherException;
 

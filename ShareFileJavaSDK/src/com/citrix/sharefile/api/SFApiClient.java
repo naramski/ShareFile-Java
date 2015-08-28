@@ -248,7 +248,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	}
 
     @Override
-    public InputStream executeQuery(SFQueryStream query) throws
+    public InputStream executeQueryEx(SFQueryStream query) throws
             SFServerException, SFInvalidStateException,
             SFNotAuthorizedException, SFOAuthTokenRenewException ,SFOtherException
     {
