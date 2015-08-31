@@ -111,6 +111,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
     }
 
+    private boolean closeTheConnection = true;
     private InputStream getInputStream(URLConnection connection, int httpErrorCode) throws IOException
     {
         // normally, 3xx is redirect
@@ -143,7 +144,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             }
         }
 
-        return null;
+        closeTheConnection = false;
+        return connection.getInputStream();
     }
 
     private T executeQueryWithReAuthentication() throws SFServerException,
@@ -292,7 +294,9 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             }
             finally
             {
-                SFHttpsCaller.disconnect(connection);
+                if(closeTheConnection) {
+                    SFHttpsCaller.disconnect(connection);
+                }
             }
         }
 	}
