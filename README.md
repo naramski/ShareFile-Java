@@ -28,11 +28,12 @@ with an authorization response.
 The SDK is a pure Java code and you can build it using the Eclipse IDE (Kepler or higher) or using the Android Studio IDE. Simply point your IDE's import functionality to the SDK folder and it should be able to import the projects correctly. Make sure you have Java-7 JDK atleast.  You could either generate `.jar` files from the SDK and use them in your application projects or directly include the SDK Module in your Android application Project or Eclipse Workspace of the application.
 
 Alternatively you can use the SDK without building the SDK code, if you are using Gradle or Maven, you can directly add the dependency as follows:
+(Always check for the latest version on mavenCentral() since we keep posting enhancements and bug fixes)
 
 * Gradle Dependency:
 
 		dependencies {	
-		    compile 'com.citrix:sharefile-api:3.0.0'
+		    compile 'com.citrix:sharefile-api:3.0.4'
 		}
 	
 	Gradle on Android might need the addional :
@@ -54,7 +55,7 @@ Alternatively you can use the SDK without building the SDK code, if you are usin
 		    <dependency>
 	    		<groupId>com.citrix</groupId>
 	    		<artifactId>sharefile-api</artifactId>
-	    		<version>3.0.0</version>
+	    		<version>3.0.4</version>
     		</dependency>
     	 
 

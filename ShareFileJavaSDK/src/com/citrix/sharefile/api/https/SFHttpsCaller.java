@@ -126,23 +126,47 @@ public class SFHttpsCaller
 		
 		return ret;
 	}
-	
-	public static void setMethod(URLConnection conn,String methodName) throws ProtocolException
+
+	/**
+	 * DELETE does not support setOutputTrue on Android. Use POST as surrogate instead on all systems.
+	 */
+	private static final boolean overrideDeleteMethod(URLConnection conn,String methodName, String optionalBody)
+	{
+		boolean ret = false;
+
+		//Only use POST surrogates for DELETE which have non-empty BODY
+		if(methodName.equalsIgnoreCase(SFHttpMethod.DELETE.toString()) && !Utils.isEmpty(optionalBody))
+		{
+			conn.setRequestProperty(SFKeywords.HTTP_METHOD_OVERRIDE, SFHttpMethod.DELETE.toString());
+
+			ret = true;
+		}
+
+		return ret;
+	}
+
+	public static void setMethod(URLConnection conn,String methodName, String optionalBody) throws ProtocolException
 	{		
 		if(overridePatchMethod(conn, methodName))
 		{
 			methodName = SFHttpMethod.POST.toString();
 		}
-		
+
+		if(overrideDeleteMethod(conn, methodName,optionalBody))
+		{
+			methodName = SFHttpMethod.POST.toString();
+		}
+
 		setRequestMethod(conn, methodName);
 				 
-		if(methodName.equalsIgnoreCase(SFHttpMethod.GET.toString()))
+		if(methodName.equalsIgnoreCase(SFHttpMethod.GET.toString()) ||
+		   methodName.equalsIgnoreCase(SFHttpMethod.DELETE.toString()))
 		{
 			return;
 		}
 		
 		conn.setDoInput(true);
-		conn.setDoOutput(true); //POST, PUT, DELETE
+		conn.setDoOutput(true); //POST, PUT (DELETE with a body will be converted to POST)
 	}
 	
 	public static int catchIfAuthException(IOException e) throws IOException

@@ -128,7 +128,7 @@ public class SFOAuthService implements ISFOAuthService
             Logger.v(TAG, "Get AccessToken from: " + url);
             conn = (HttpsURLConnection) url.openConnection();
 
-            SFHttpsCaller.setMethod(conn, "POST");
+            SFHttpsCaller.setMethod(conn, "POST",null);
 
             List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
             nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, clientId));

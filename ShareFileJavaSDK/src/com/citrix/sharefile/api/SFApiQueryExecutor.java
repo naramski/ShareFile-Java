@@ -200,7 +200,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                 URL url = new URL(urlstr);
                 connection = SFHttpsCaller.getURLConnection(url);
-                SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod());
+                SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod(),mQuery.getBody());
                 mAppSpecificConfig.setAddtionalHeaders(connection);
 
                 SFHttpsCaller.addAuthenticationHeader(connection, mSFApiClient.getOAuthToken(),

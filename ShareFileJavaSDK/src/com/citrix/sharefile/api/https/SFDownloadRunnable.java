@@ -78,7 +78,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			
 			URL url = new URL(mUrl);
 			connection = SFHttpsCaller.getURLConnection(url);		
-			SFHttpsCaller.setMethod(connection, SFHttpMethod.GET.toString());
+			SFHttpsCaller.setMethod(connection, SFHttpMethod.GET.toString(),null);
 			SFHttpsCaller.setAcceptLanguage(connection);
 			SFHttpsCaller.addAuthenticationHeader(connection,mApiClient.getOAuthToken(),mUsername,mPassword,mCookieManager);
 			
