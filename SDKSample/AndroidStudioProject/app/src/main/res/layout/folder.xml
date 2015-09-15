@@ -59,7 +59,6 @@
         android:id="@+id/folder_searchBoxContainer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:layout_below="@+id/Folder_title_container"
         android:background="@color/folder_search_bg">
         <ImageView
             android:id="@+id/folder_searchBoxIcon"
@@ -92,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/folder_searchBoxContainer"
-        android:layout_above="@+id/folderAction" >
+        >
 
         <TextView
             android:id="@+id/Folder_sortHeader"

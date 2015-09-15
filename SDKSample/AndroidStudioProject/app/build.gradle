@@ -29,6 +29,6 @@ android {
 }
 
 dependencies {
-
-    compile 'com.citrix:sharefile-api:3.0.0'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.citrix:sharefile-api:3.0.5'
 }
