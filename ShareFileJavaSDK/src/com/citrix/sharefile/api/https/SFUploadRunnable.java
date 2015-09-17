@@ -1,5 +1,6 @@
 package com.citrix.sharefile.api.https;
 
+import com.citrix.sharefile.api.SFConnectionManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -292,14 +293,14 @@ public class SFUploadRunnable extends TransferRunnable
 			String append = getAppendParams(mDestinationFileName, mTotalBytes,isLast?1:0, isLast, md5ToString(md));
 			final String finalURL = mUploadSpecification.getChunkUri() + append;
 
-			conn = (HttpsURLConnection)(new URL(finalURL)).openConnection();					
+			conn = (HttpsURLConnection) SFConnectionManager.openConnection(new URL(finalURL));
 			SFHttpsCaller.addAuthenticationHeader(conn, mApiClient.getOAuthToken(), mUsername,mPassword,mCookieManager);										
 			conn.setUseCaches(false);
 			conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_OCTET_STREAM);															
 			conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+chunkLength);
 			conn.setFixedLengthStreamingMode(chunkLength);
 			SFHttpsCaller.setPostMethod(conn);
-			conn.connect();
+			SFConnectionManager.connect(conn);
 			
 			//small buffer between the chunk and the stream so we can interrupt and kill task quickly
 			final byte[] buffer = new byte[1024];

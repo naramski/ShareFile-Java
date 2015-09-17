@@ -52,13 +52,7 @@ public class SFHttpsCaller
 		writer.close();
 		os.close();
 	}
-			
-	public static URLConnection getURLConnection(URL url) throws IOException
-	{
-		//trustAll();
-		return url.openConnection();
-	}
-		
+
 	/**     
      grant_type=authorization_code&code=CvJ4LMgMDHuZGLXgJgJdDYR17Hd3b5&client_id=xyz&client_secret=abc
 	 */
