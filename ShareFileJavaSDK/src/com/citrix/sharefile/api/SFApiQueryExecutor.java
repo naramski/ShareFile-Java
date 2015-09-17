@@ -140,12 +140,12 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                 SFConnectionManager.connect(connection);
 
-                return connection.getInputStream();
+                return SFConnectionManager.getInputStream(connection);
             }
         }
 
         closeTheConnection = false;
-        return connection.getInputStream();
+        return SFConnectionManager.getInputStream(connection);
     }
 
     private T executeQueryWithReAuthentication() throws SFServerException,

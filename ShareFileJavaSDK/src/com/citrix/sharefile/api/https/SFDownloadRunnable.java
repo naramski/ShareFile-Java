@@ -97,7 +97,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			switch (httpErrorCode)
 			{
                 case HttpsURLConnection.HTTP_OK:
-                    fis = connection.getInputStream();
+                    fis = SFConnectionManager.getInputStream(connection);
 
                     byte[] buffer = new byte[1024 * 1024];
 

@@ -1,6 +1,7 @@
 package com.citrix.sharefile.api.https;
 
 
+import com.citrix.sharefile.api.SFConnectionManager;
 import com.citrix.sharefile.api.authentication.SFOAuth2Token;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
@@ -246,7 +247,7 @@ public class SFHttpsCaller
 	{
 		StringBuilder sb = new StringBuilder();
 				
-		InputStream is = conn.getInputStream();
+		InputStream is = SFConnectionManager.getInputStream(conn);
 		
 		BufferedReader urlstream = new BufferedReader(new InputStreamReader(is));
 		String inputLine;
