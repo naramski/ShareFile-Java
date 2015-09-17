@@ -135,4 +135,8 @@ public interface ISFQuery<T>
      * Get tag set by the setTag function.
     */
     Object getTag();
+
+    String getStringResponse();
+
+    void setStringResponse(String response);
 }

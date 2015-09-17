@@ -228,6 +228,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     case HttpsURLConnection.HTTP_OK:
                     {
                         responseString = SFHttpsCaller.readResponse(connection);
+                        mQuery.setStringResponse(responseString);
                         Logger.v(TAG, responseString);
 
                         T ret = callSuccessResponseParser(responseString);

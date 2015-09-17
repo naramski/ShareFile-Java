@@ -38,6 +38,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	private static final String TAG = "SFApiQuery";
     private ISFApiClient apiClient;
 	private Object mTag;
+	private String mServerResponse;
 	
 	/**
 	 * https://server/provider/version/entity(id)
@@ -807,5 +808,15 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 	public Object getTag()
 	{
 		return mTag;
+	}
+
+	@Override
+	public String getStringResponse() {
+		return mServerResponse;
+	}
+
+	@Override
+	public void setStringResponse(String response) {
+		mServerResponse = response;
 	}
 }
