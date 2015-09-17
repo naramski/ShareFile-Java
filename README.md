@@ -73,6 +73,14 @@ To fix these set the follow settings depend on your IDE:
 
 * Eclipse : `File->Properties->JavaCompiler->Compiler Compliance level to 1.7`
 
+## Proguard Settings ##
+
+If you are using pro-guard, make sure to set the following in the configuration file.
+    
+    	-keepattributes Signature
+    	-keepattributes *Annotation*
+    	-keep class com.sharefile.api.** { *; }
+    
 
 ## Initialise the SDK ##
 		
