@@ -97,8 +97,6 @@ public enum SFV3FeedType
 	GenericConfig("$metadata#GenericConfig",SFGenericConfig.class),
 	Group("$metadata#Group",SFGroup.class),
 	Groups("$metadata#Groups",SFGroup.class),
-	Item("$metadata#Item",SFItem.class),
-    Items("$metadata#Items",SFItem.class),
 	ItemInfo("$metadata#ItemInfo",SFItemInfo.class),
 	ItemProtocolLink("$metadata#ItemProtocolLinks",SFItemProtocolLink.class),
 	ItemDlpInfo("$metadata#ItemDlpInfo",SFItemDlpInfo.class),
@@ -141,7 +139,9 @@ public enum SFV3FeedType
 	OutlookInformation("$metadata#OutlookInformation",SFOutlookInformation.class),
 	OutlookInformationOptionBool("$metadata#OutlookInformationOptionBool",SFOutlookInformationOptionBool.class),
 	OutlookInformationOptionInt("$metadata#OutlookInformationOptionInt",SFOutlookInformationOptionInt.class),
-	OutlookInformationOptionString("$metadata#OutlookInformationOptionString",SFOutlookInformationOptionString.class);
+	OutlookInformationOptionString("$metadata#OutlookInformationOptionString",SFOutlookInformationOptionString.class),
+	Item("$metadata#Item",SFItem.class),
+	Items("$metadata#Items",SFItem.class);
 		
 	private final static String TAG = SFKeywords.TAG + "-SFV3FeedType";
 	private final String mToString;

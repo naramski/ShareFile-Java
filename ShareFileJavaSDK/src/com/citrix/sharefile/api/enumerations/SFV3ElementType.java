@@ -100,6 +100,7 @@ public enum SFV3ElementType
 	ItemInfo("Models.ItemInfo",SFItemInfo.class),
 	ItemDlpInfo("Models.ItemDlpInfo",SFItemDlpInfo.class),
 	ItemProtocolLink("Models.ItemProtocolLink@Element",SFItemProtocolLink.class),
+	ItemProtocolLink2("Models.ItemProtocolLink",SFItemProtocolLink.class),
 	Link("Models.Link@Element",SFLink.class),
 	Metadata("Models.Metadata@Element",SFMetadata.class),
 	MobileSecuritySettings("Models.MobileSecuritySettings@Element",SFMobileSecuritySettings.class),
