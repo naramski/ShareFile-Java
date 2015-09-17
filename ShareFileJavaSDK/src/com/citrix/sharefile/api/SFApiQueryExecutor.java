@@ -130,7 +130,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                 Logger.d(TAG, "Redirect to: "+ newUrl);
 
-                connection = SFHttpsCaller.getURLConnection(new URL(newUrl));
+                connection = SFConnectionManager.openConnection(new URL(newUrl));
 
                 SFHttpsCaller.addAuthenticationHeader(connection,
                         mSFApiClient.getOAuthToken(),
@@ -138,14 +138,14 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                         mQuery.getPassword(),
                         mCookieManager);
 
-                connection.connect();
+                SFConnectionManager.connect(connection);
 
-                return connection.getInputStream();
+                return SFConnectionManager.getInputStream(connection);
             }
         }
 
         closeTheConnection = false;
-        return connection.getInputStream();
+        return SFConnectionManager.getInputStream(connection);
     }
 
     private T executeQueryWithReAuthentication() throws SFServerException,
@@ -201,8 +201,8 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 setCurrentUri(urlstr);
 
                 URL url = new URL(urlstr);
-                connection = SFHttpsCaller.getURLConnection(url);
-                SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod(),mQuery.getBody());
+                connection = SFConnectionManager.openConnection(url);
+                SFHttpsCaller.setMethod(connection, mQuery.getHttpMethod(), mQuery.getBody());
                 mAppSpecificConfig.setAddtionalHeaders(connection);
 
                 SFHttpsCaller.addAuthenticationHeader(connection, mSFApiClient.getOAuthToken(),
@@ -212,7 +212,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                 Logger.d(TAG, mQuery.getHttpMethod() + " " + urlstr);
 
-                connection.connect();
+                SFConnectionManager.connect(connection);
 
                 httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);
 
@@ -228,6 +228,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     case HttpsURLConnection.HTTP_OK:
                     {
                         responseString = SFHttpsCaller.readResponse(connection);
+                        mQuery.setStringResponse(responseString);
                         Logger.v(TAG, responseString);
 
                         T ret = callSuccessResponseParser(responseString);

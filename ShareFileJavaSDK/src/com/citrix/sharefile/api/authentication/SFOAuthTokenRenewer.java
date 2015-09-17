@@ -1,5 +1,6 @@
 package com.citrix.sharefile.api.authentication;
 
+import com.citrix.sharefile.api.SFConnectionManager;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -115,7 +116,7 @@ public class SFOAuthTokenRenewer
 		{									
 			URL url = new URL(buildWebLoginTokenUrl(mOldAccessToken.getApiCP(), mOldAccessToken.getSubdomain()));
 				  						
-			URLConnection conn = SFHttpsCaller.getURLConnection(url);
+			URLConnection conn = SFConnectionManager.openConnection(url);
 			SFHttpsCaller.setPostMethod(conn);
 			SFHttpsCaller.setAcceptLanguage(conn);
 											

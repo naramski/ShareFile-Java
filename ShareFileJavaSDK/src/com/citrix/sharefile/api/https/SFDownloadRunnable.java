@@ -1,6 +1,7 @@
 package com.citrix.sharefile.api.https;
 
 import com.citrix.sharefile.api.SFApiClient;
+import com.citrix.sharefile.api.SFConnectionManager;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.constants.SFSdkGlobals;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
@@ -77,7 +78,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			Logger.d(TAG, "GET " + mUrl);
 			
 			URL url = new URL(mUrl);
-			connection = SFHttpsCaller.getURLConnection(url);		
+			connection = SFConnectionManager.openConnection(url);
 			SFHttpsCaller.setMethod(connection, SFHttpMethod.GET.toString(),null);
 			SFHttpsCaller.setAcceptLanguage(connection);
 			SFHttpsCaller.addAuthenticationHeader(connection,mApiClient.getOAuthToken(),mUsername,mPassword,mCookieManager);
@@ -87,7 +88,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 				connection.setRequestProperty(SFKeywords.Range, "bytes="+mResumeFromByteIndex+"-");
 			}
 																				
-			connection.connect();
+			SFConnectionManager.connect(connection);
 			
 			httpErrorCode = SFHttpsCaller.safeGetResponseCode(connection);			
 						
@@ -96,7 +97,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 			switch (httpErrorCode)
 			{
                 case HttpsURLConnection.HTTP_OK:
-                    fis = connection.getInputStream();
+                    fis = SFConnectionManager.getInputStream(connection);
 
                     byte[] buffer = new byte[1024 * 1024];
 

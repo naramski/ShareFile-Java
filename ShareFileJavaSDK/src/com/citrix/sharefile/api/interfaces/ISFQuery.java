@@ -124,4 +124,19 @@ public interface ISFQuery<T>
             SFNotAuthorizedException,SFOAuthTokenRenewException, SFOtherException;
 
     void executeAsync(ISFApiResultCallback<T> callback) throws SFInvalidStateException;
+
+    /**
+    * This will allow the consumer apps to preserve identification information related to queries.
+    * The SDK itself never uses this.
+    */
+    void setTag(Object tag);
+
+    /**
+     * Get tag set by the setTag function.
+    */
+    Object getTag();
+
+    String getStringResponse();
+
+    void setStringResponse(String response);
 }

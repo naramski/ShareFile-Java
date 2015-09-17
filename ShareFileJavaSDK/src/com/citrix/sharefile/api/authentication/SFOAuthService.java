@@ -1,5 +1,6 @@
 package com.citrix.sharefile.api.authentication;
 
+import com.citrix.sharefile.api.SFConnectionManager;
 import com.citrix.sharefile.api.SFSdk;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
@@ -64,13 +65,13 @@ public class SFOAuthService implements ISFOAuthService
             nvPairs.add(new BasicNameValuePair(SFKeywords.PASSWORD,password));
             String body = SFHttpsCaller.getBodyForWebLogin(nvPairs);
 
-            connection = (HttpsURLConnection) grantUrl.openConnection();
+            connection = (HttpsURLConnection)SFConnectionManager.openConnection(grantUrl);
             connection.setRequestMethod(SFHttpMethod.POST.toString());
             connection.setRequestProperty(SFKeywords.CONTENT_LENGTH, "" + body.length());
             connection.addRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_FORM_URLENCODED);
 
             connection.setDoOutput(true);
-            connection.connect();
+            SFConnectionManager.connect(connection);
 
             SFHttpsCaller.postBody(connection,body);
 

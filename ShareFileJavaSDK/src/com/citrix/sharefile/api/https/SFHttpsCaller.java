@@ -1,6 +1,7 @@
 package com.citrix.sharefile.api.https;
 
 
+import com.citrix.sharefile.api.SFConnectionManager;
 import com.citrix.sharefile.api.authentication.SFOAuth2Token;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
@@ -52,13 +53,7 @@ public class SFHttpsCaller
 		writer.close();
 		os.close();
 	}
-			
-	public static URLConnection getURLConnection(URL url) throws IOException
-	{
-		//trustAll();
-		return url.openConnection();
-	}
-		
+
 	/**     
      grant_type=authorization_code&code=CvJ4LMgMDHuZGLXgJgJdDYR17Hd3b5&client_id=xyz&client_secret=abc
 	 */
@@ -252,7 +247,7 @@ public class SFHttpsCaller
 	{
 		StringBuilder sb = new StringBuilder();
 				
-		InputStream is = conn.getInputStream();
+		InputStream is = SFConnectionManager.getInputStream(conn);
 		
 		BufferedReader urlstream = new BufferedReader(new InputStreamReader(is));
 		String inputLine;
