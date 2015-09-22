@@ -209,7 +209,7 @@ public class SFHttpsCaller
 	 * @throws IOException 
 	 * 
 	 */
-	public static synchronized int safeGetResponseCode(URLConnection conn) throws IOException
+	public static int safeGetResponseCode(URLConnection conn) throws IOException
 	{
 		int httpErrorCode;
 		
@@ -235,7 +235,7 @@ public class SFHttpsCaller
 	}
 
 
-    public static synchronized void getAndStoreCookies(URLConnection conn, URL url,SFCookieManager cookieManager) throws IOException
+    public static void getAndStoreCookies(URLConnection conn, URL url,SFCookieManager cookieManager) throws IOException
 	{
 		if(cookieManager!=null)
 		{						
