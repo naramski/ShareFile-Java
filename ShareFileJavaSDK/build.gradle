@@ -5,7 +5,7 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 String shareFileJarName = 'sharefile-api'
-String shareFileJarVersion = '3.0.8'
+String shareFileJarVersion = '3.0.9'
 String shareFilePomFileName = "$buildDir/libs/"+shareFileJarName+"-"+shareFileJarVersion+".pom"
 
 group = "com.citrix"

@@ -27,6 +27,7 @@ import com.citrix.sharefile.api.log.Logger;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -628,13 +629,38 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		return allowRedirection;
 	}
 
+	/*
+	  For ZK redirection the server is sending back our original query parameters after url decoding.
+	  So our search for previous query parameters need to be done using our original format
+	  and even the decoded format.
+	*/
+	private boolean containsDecodedParams(String oldQueryParams,String newQueryParams)
+	{
+		if(oldQueryParams == null || newQueryParams == null)
+		{
+			return false;
+		}
+
+		try
+		{
+			String decodedString = URLDecoder.decode(oldQueryParams,SFKeywords.UTF_8);
+			return newQueryParams.contains(decodedString);
+		}
+		catch (Throwable e)
+		{
+
+		}
+
+		return false;
+	}
+
 	@Override
 	public ISFQuery<T> setLinkAndAppendPreviousParameters(URI newuri) throws URISyntaxException, UnsupportedEncodingException
 	{	
 		String newQueryParams = newuri.getQuery();
         String oldQueryParms = buildQueryParameters();
 		
-		if(newQueryParams !=null && newQueryParams.contains(oldQueryParms))
+		if(newQueryParams !=null && (newQueryParams.contains(oldQueryParms) || containsDecodedParams(oldQueryParms,newQueryParams)))
 		{
 			setFullyParametrizedLink(newuri);
 			return this;
