@@ -1,9 +1,6 @@
 package com.citrix.sharefile.api.interfaces;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 
 import com.citrix.sharefile.api.enumerations.SFV3ElementType;
 import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
@@ -12,6 +9,11 @@ import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.citrix.sharefile.api.exceptions.SFOtherException;
 import com.citrix.sharefile.api.exceptions.SFServerException;
 import com.citrix.sharefile.api.models.SFODataObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 public interface ISFQuery<T>
 {
@@ -33,9 +35,13 @@ public interface ISFQuery<T>
 
     ISFQuery<T>  addActionIds(String id);
 
+    ISFQuery<T>  addActionIds(Integer id);
+
     ISFQuery<T>  addQueryString(String string, ArrayList<String> ids);
 
     ISFQuery<T>  addSubAction(String string);
+
+    ISFQuery<T>  addSubAction(String subaction, SFSafeEnum extras);
 
 	URI getLink();
 
@@ -120,10 +126,10 @@ public interface ISFQuery<T>
      */
     ISFQuery<T>  setBaseLink(URI uri) throws URISyntaxException;
 
-    public T execute() throws SFInvalidStateException, SFServerException,
+    T execute() throws SFInvalidStateException, SFServerException,
             SFNotAuthorizedException,SFOAuthTokenRenewException, SFOtherException;
 
-    void executeAsync(ISFApiResultCallback<T> callback) throws SFInvalidStateException;
+    void executeAsync(ISFApiResultCallback<T> callback);
 
     /**
     * This will allow the consumer apps to preserve identification information related to queries.

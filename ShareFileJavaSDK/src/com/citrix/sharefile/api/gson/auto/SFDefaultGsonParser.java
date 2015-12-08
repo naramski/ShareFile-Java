@@ -15,20 +15,14 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 import com.citrix.sharefile.api.models.SFItem;
-import com.citrix.sharefile.api.models.SFItemInfo;
 import com.citrix.sharefile.api.models.SFODataFeed;
 import com.citrix.sharefile.api.models.SFODataObject;
 import com.citrix.sharefile.api.models.SFPrincipal;
-import com.citrix.sharefile.api.models.SFShare;
-import com.citrix.sharefile.api.models.SFStorageCenter;
 import com.citrix.sharefile.api.utils.SFDateFormat;
-import com.citrix.sharefile.api.utils.SafeEnumHelpers;
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
@@ -117,4 +111,21 @@ public class SFDefaultGsonParser
 			}
 		});		
 	}		
+
+	private static final String[] needGsonRouter = new String[]
+	{
+		"Principal", "Item"
+	};
+
+	public static void routeSpecialClasses(String originalClassName,Class newClass)
+	{
+		for(String str: needGsonRouter)
+		{
+			if(needGsonRouter.equals(originalClassName))
+			{
+				mGsonBuilder.registerTypeAdapter(newClass, new SFGsonRouter());
+				break;
+			}
+		}
+	}
 }
