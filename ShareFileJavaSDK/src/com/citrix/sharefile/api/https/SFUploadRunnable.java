@@ -1,13 +1,8 @@
 package com.citrix.sharefile.api.https;
 
-import com.citrix.sharefile.api.SFConnectionManager;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.citrix.sharefile.api.SFApiClient;
-import com.citrix.sharefile.api.SFQueryBuilder;
+import com.citrix.sharefile.api.SFConnectionManager;
 import com.citrix.sharefile.api.SFSDKDefaultAccessScope;
-
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.constants.SFSdkGlobals;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
@@ -20,10 +15,13 @@ import com.citrix.sharefile.api.exceptions.SFSDKException;
 import com.citrix.sharefile.api.exceptions.SFServerException;
 import com.citrix.sharefile.api.gson.SFGsonHelper;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
+import com.citrix.sharefile.api.log.Logger;
 import com.citrix.sharefile.api.models.SFUploadMethod;
 import com.citrix.sharefile.api.models.SFUploadRequestParams;
 import com.citrix.sharefile.api.models.SFUploadSpecification;
-import com.citrix.sharefile.api.log.Logger;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.Closeable;
@@ -131,7 +129,7 @@ public class SFUploadRunnable extends TransferRunnable
 		try 
 		{
 			Date now = new Date();
-			ISFQuery<SFUploadSpecification> uploadQuery = SFQueryBuilder.ITEMS.upload(new URI(mV3Url)
+			ISFQuery<SFUploadSpecification> uploadQuery = mApiClient.items().upload(new URI(mV3Url)
 					,new SFSafeEnum<SFUploadMethod>(SFUploadMethod.Streamed),
 					true,
 					mDestinationFileName,

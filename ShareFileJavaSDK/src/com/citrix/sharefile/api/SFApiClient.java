@@ -22,7 +22,6 @@ import com.citrix.sharefile.api.interfaces.ISFApiResultCallback;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 import com.citrix.sharefile.api.interfaces.ISFReAuthHandler;
 import com.citrix.sharefile.api.log.Logger;
-import com.citrix.sharefile.api.models.SFClientCapability;
 import com.citrix.sharefile.api.models.SFFile;
 import com.citrix.sharefile.api.models.SFFolder;
 import com.citrix.sharefile.api.models.SFODataObject;
@@ -276,7 +275,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         // calculate download URL
         String url;
         try  {
-            ISFQuery<InputStream> downloadQuery = SFQueryBuilder.ITEMS.download(new URI(v3Url), true);//SFItemsEntity.download();
+            ISFQuery<InputStream> downloadQuery = items().download(new URI(v3Url), true);//SFItemsEntity.download();
             downloadQuery.setLink(v3Url);
             String server = mOAuthToken.get().getApiServer();
             url = downloadQuery.buildQueryUrlString(server);
