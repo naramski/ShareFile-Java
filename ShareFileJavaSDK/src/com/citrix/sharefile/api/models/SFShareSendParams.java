@@ -50,6 +50,8 @@ public class SFShareSendParams extends SFODataObject {
 	private Boolean IsViewOnly;
 	@SerializedName("MaxDownloads")
 	private Integer MaxDownloads;
+	@SerializedName("UsesStreamIDs")
+	private Boolean UsesStreamIDs;
 
 	public ArrayList<String> getItems() {
 		return this.Items;
@@ -134,6 +136,21 @@ public class SFShareSendParams extends SFODataObject {
 
 	public void setMaxDownloads(Integer maxdownloads) {
 		this.MaxDownloads = maxdownloads;
+	}
+		/**
+		* When enabled the items are identified by stream IDs instead of item IDs.
+		* Applies to Send Shares only. (FINRA enabled accounts cannot use this)
+		*/
+	public Boolean getUsesStreamIDs() {
+		return this.UsesStreamIDs;
+	}
+
+		/**
+		* When enabled the items are identified by stream IDs instead of item IDs.
+		* Applies to Send Shares only. (FINRA enabled accounts cannot use this)
+		*/
+	public void setUsesStreamIDs(Boolean usesstreamids) {
+		this.UsesStreamIDs = usesstreamids;
 	}
 
 }

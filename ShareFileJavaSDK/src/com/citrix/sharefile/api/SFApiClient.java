@@ -16,9 +16,9 @@ import com.citrix.sharefile.api.https.SFDownloadRunnable;
 import com.citrix.sharefile.api.https.SFUploadRunnable;
 import com.citrix.sharefile.api.https.TransferRunnable;
 import com.citrix.sharefile.api.interfaces.IOAuthTokenChangeHandler;
-import com.citrix.sharefile.api.interfaces.ISFApiResultCallback;
 import com.citrix.sharefile.api.interfaces.ISFApiClient;
 import com.citrix.sharefile.api.interfaces.ISFApiExecuteQuery;
+import com.citrix.sharefile.api.interfaces.ISFApiResultCallback;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 import com.citrix.sharefile.api.interfaces.ISFReAuthHandler;
 import com.citrix.sharefile.api.log.Logger;
@@ -27,7 +27,6 @@ import com.citrix.sharefile.api.models.SFFolder;
 import com.citrix.sharefile.api.models.SFODataObject;
 import com.citrix.sharefile.api.models.SFSession;
 import com.citrix.sharefile.api.models.SFUploadRequestParams;
-import com.citrix.sharefile.api.models.SFUploadSpecification;
 import com.citrix.sharefile.api.utils.Utils;
 
 import java.io.InputStream;
@@ -276,7 +275,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         // calculate download URL
         String url;
         try  {
-            ISFQuery<InputStream> downloadQuery = SFQueryBuilder.ITEMS.download(new URI(v3Url), true);//SFItemsEntity.download();
+            ISFQuery<InputStream> downloadQuery = items().download(new URI(v3Url), true);//SFItemsEntity.download();
             downloadQuery.setLink(v3Url);
             String server = mOAuthToken.get().getApiServer();
             url = downloadQuery.buildQueryUrlString(server);

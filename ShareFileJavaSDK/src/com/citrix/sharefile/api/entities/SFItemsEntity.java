@@ -12,9 +12,8 @@
 
 package com.citrix.sharefile.api.entities;
 
-import com.citrix.sharefile.api.SFQueryStream;
-import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
-import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.entities.*;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
@@ -24,10 +23,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
-
+ 
+import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
 
-public class SFItemsEntity extends SFODataEntityBase
+public class SFItemsEntity extends SFEntitiesBase
 {
 	public SFItemsEntity(ISFApiClient client) {
 		super(client);
@@ -36,12 +39,12 @@ public class SFItemsEntity extends SFODataEntityBase
 	/**
 	* Get HomeFolder for Current User
 	* Returns home folder for current user.
-	* Note that home folders are not available for apiClient users, or if the account doesn't have the "My Files & Folders" feature enabled.
+	* Note that home folders are not available for client users, or if the account doesn't have the "My Files & Folders" feature enabled.
 	* @return home folder for current user
 	*/
 	public ISFQuery<SFItem> get()	{
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -59,7 +62,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* @param includeDeleted  (default: false)	 	
 	* @return a single Item
 	*/
-	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted) throws InvalidOrMissingParameterException {
+	public ISFQuery<SFItem> get(URI url, Boolean includeDeleted) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
@@ -67,7 +70,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("includeDeleted");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
@@ -91,7 +94,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -130,7 +133,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileBox");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("treeMode", treeMode);
@@ -169,7 +172,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("canCreateRootFolder");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("treeMode", treeMode);
@@ -203,7 +206,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sourceId");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("treeMode", treeMode);
@@ -226,7 +229,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(parentUrl);
@@ -253,7 +256,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("includeDeleted");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Stream");
 		sfApiQuery.addIds(url);
@@ -277,7 +280,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Stream");
 		sfApiQuery.addIds(url);
@@ -288,7 +291,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	/**
 	* Get Item by Path
 	* Retrieves an item from its path. The path is of format /foldername/foldername/filename
-	* This call may redirect the apiClient to another API provider, if the path
+	* This call may redirect the client to another API provider, if the path
 	* contains a symbolic link.
 	* @param path 	 	
 	* @return An item identified by a path
@@ -298,7 +301,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("path");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ByPath");
 		sfApiQuery.addQueryString("path", path);
@@ -310,7 +313,7 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Get Item by relative Path from ID
 	* Retrieves an item from its path, relative to the provided ID.
 	* The path is of format /foldername/foldername/filename
-	* This call may redirect the apiClient to another API provider, if the path
+	* This call may redirect the client to another API provider, if the path
 	* contains a symbolic link.
 	* @param url 	 	
 	* @param path 	 	
@@ -324,7 +327,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("path");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ByPath");
 		sfApiQuery.addIds(url);
@@ -344,7 +347,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Parent");
 		sfApiQuery.addIds(url);
@@ -369,7 +372,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("includeDeleted");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
@@ -391,7 +394,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
@@ -411,10 +414,41 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFItemInfo> sfApiQuery = new SFApiQuery<SFItemInfo>(this.apiClient);
+		SFApiQuery<SFItemInfo> sfApiQuery = new SFApiQuery<SFItemInfo>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Info");
 		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Download Item Content
+	* Initiate the download operation for an item. It will return 302 redirection to the
+	* actual download link. For Folders, the download link will retrieve a ZIP archive
+	* with the contents of the Folder.
+	* @param url 	 	
+	* @param redirect  (default: true)	 	
+	* @param includeAllVersions  (default: false)	 	
+	* @return the download link for the provided item content.
+	*/
+	public ISFQuery<InputStream> download(URI url, Boolean redirect, Boolean includeAllVersions) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (redirect == null) {
+			throw new InvalidOrMissingParameterException("redirect");
+		}
+		if (includeAllVersions == null) {
+			throw new InvalidOrMissingParameterException("includeAllVersions");
+		}
+
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Download");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("redirect", redirect);
+		sfApiQuery.addQueryString("includeAllVersions", includeAllVersions);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -436,7 +470,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(url);
@@ -458,7 +492,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Download");
 		sfApiQuery.addIds(url);
@@ -487,7 +521,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDownload");
 		sfApiQuery.addIds(parentUrl);
@@ -514,7 +548,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("ids");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDownload");
 		sfApiQuery.addIds(parentUrl);
@@ -555,7 +589,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("passthrough");
 		}
 
-		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.apiClient);
+		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Folder");
 		sfApiQuery.addIds(parentUrl);
@@ -594,7 +628,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("overwrite");
 		}
 
-		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.apiClient);
+		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Folder");
 		sfApiQuery.addIds(parentUrl);
@@ -628,7 +662,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("folder");
 		}
 
-		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.apiClient);
+		SFApiQuery<SFFolder> sfApiQuery = new SFApiQuery<SFFolder>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Folder");
 		sfApiQuery.addIds(parentUrl);
@@ -656,7 +690,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("note");
 		}
 
-		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.apiClient);
+		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
 		sfApiQuery.addIds(parentUrl);
@@ -685,7 +719,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("link");
 		}
 
-		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.apiClient);
+		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
 		sfApiQuery.addIds(parentUrl);
@@ -729,7 +763,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("overwrite");
 		}
 
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addIds(parentUrl);
@@ -770,7 +804,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("symlink");
 		}
 
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addIds(parentUrl);
@@ -804,7 +838,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("overwrite");
 		}
 
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.client);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
@@ -835,12 +869,71 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("symlink");
 		}
 
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.client);
 		sfApiQuery.setFrom("ConnectorGroups");
 		sfApiQuery.setAction("Children");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(symlink);
 		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update Item
+    * {
+    * "Name":"Name",
+    * "FileName":"FileName",
+    * "Description":"Description",
+    * "ExpirationDate": "date",
+    * "Parent": { "Id": "parentid" },
+    * "Zone": { "Id": "zoneid" }
+    * }
+	* Updates an Item object. Please note that for a Folder, the Name and FileName properties must be consistent.
+	* If a new Name is provided, the FileName will also be updated with the new name, and viceversa.
+	* If both Name and FileName are provided, FileName is disregarded and Name will be used to update both properties.
+	* @param url 	 	
+	* @param item 	 	
+	* @param forceSync  (default: false)	 	
+	* @param notify  (default: false)	 	
+	* @return A modified Item object. If the item Zone or Parent Zone is modified, then this method will return an Asynchronous operation record instead. Note: the parameters listed in the body of the request are the only parameters that can be updated through this call.
+	*/
+	public ISFQuery<SFItem> update(URI url, SFItem item, String batchid, Long batchSizeInBytes, Boolean forceSync, Boolean scheduleAsync, Boolean resolveFolderNameConflict, Boolean notify) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (item == null) {
+			throw new InvalidOrMissingParameterException("item");
+		}
+		if (batchid == null) {
+			throw new InvalidOrMissingParameterException("batchid");
+		}
+		if (batchSizeInBytes == null) {
+			throw new InvalidOrMissingParameterException("batchSizeInBytes");
+		}
+		if (forceSync == null) {
+			throw new InvalidOrMissingParameterException("forceSync");
+		}
+		if (scheduleAsync == null) {
+			throw new InvalidOrMissingParameterException("scheduleAsync");
+		}
+		if (resolveFolderNameConflict == null) {
+			throw new InvalidOrMissingParameterException("resolveFolderNameConflict");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("batchid", batchid);
+		sfApiQuery.addQueryString("batchSizeInBytes", batchSizeInBytes);
+		sfApiQuery.addQueryString("forceSync", forceSync);
+		sfApiQuery.addQueryString("scheduleAsync", scheduleAsync);
+		sfApiQuery.addQueryString("resolveFolderNameConflict", resolveFolderNameConflict);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.setBody(item);
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 
@@ -885,7 +978,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("resolveFolderNameConflict");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
@@ -936,7 +1029,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("scheduleAsync");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
@@ -983,7 +1076,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("forceSync");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
@@ -1025,7 +1118,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchSizeInBytes");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
@@ -1063,7 +1156,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchid");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("batchid", batchid);
@@ -1097,7 +1190,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("item");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(item);
@@ -1130,7 +1223,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.apiClient);
+		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
 		sfApiQuery.addActionIds(id);
@@ -1161,7 +1254,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("link");
 		}
 
-		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.apiClient);
+		SFApiQuery<SFLink> sfApiQuery = new SFApiQuery<SFLink>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Link");
 		sfApiQuery.addActionIds(id);
@@ -1194,7 +1287,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.apiClient);
+		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
 		sfApiQuery.addActionIds(id);
@@ -1224,7 +1317,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("note");
 		}
 
-		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.apiClient);
+		SFApiQuery<SFNote> sfApiQuery = new SFApiQuery<SFNote>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Note");
 		sfApiQuery.addActionIds(id);
@@ -1253,7 +1346,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("symlink");
 		}
 
-		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.apiClient);
+		SFApiQuery<SFSymbolicLink> sfApiQuery = new SFApiQuery<SFSymbolicLink>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("SymbolicLink");
 		sfApiQuery.addActionIds(id);
@@ -1280,7 +1373,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("forceSync");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singleversion", singleversion);
@@ -1303,7 +1396,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("singleversion");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("singleversion", singleversion);
@@ -1321,7 +1414,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -1332,12 +1425,14 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Delete Multiple Items
     * ["id1","id2",...]
 	* All items in bulk delete must be children of the same parent, identified in the URI
+	* @param parentUrl 	 	
+	* @param ids 	 	
 	* @param forceSync  (default: false)	 	
 	* @param deletePermanently  (default: false)	 	
 	*/
-	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	public ISFQuery bulkDelete(URI parentUrl, ArrayList<String> ids, Boolean forceSync, Boolean deletePermanently) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 		if (ids == null) {
 			throw new InvalidOrMissingParameterException("ids");
@@ -1349,10 +1444,10 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("deletePermanently");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDelete");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("forceSync", forceSync);
 		sfApiQuery.addQueryString("deletePermanently", deletePermanently);
 		sfApiQuery.setBody(ids);
@@ -1364,11 +1459,13 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Delete Multiple Items
     * ["id1","id2",...]
 	* All items in bulk delete must be children of the same parent, identified in the URI
+	* @param parentUrl 	 	
+	* @param ids 	 	
 	* @param forceSync  (default: false)	 	
 	*/
-	public ISFQuery bulkDelete(URI url, ArrayList<String> ids, Boolean forceSync) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	public ISFQuery bulkDelete(URI parentUrl, ArrayList<String> ids, Boolean forceSync) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 		if (ids == null) {
 			throw new InvalidOrMissingParameterException("ids");
@@ -1377,10 +1474,10 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("forceSync");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDelete");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("forceSync", forceSync);
 		sfApiQuery.setBody(ids);
 		sfApiQuery.setHttpMethod("POST");
@@ -1391,19 +1488,21 @@ public class SFItemsEntity extends SFODataEntityBase
 	* Delete Multiple Items
     * ["id1","id2",...]
 	* All items in bulk delete must be children of the same parent, identified in the URI
+	* @param parentUrl 	 	
+	* @param ids 	 	
 	*/
-	public ISFQuery bulkDelete(URI url, ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	public ISFQuery bulkDelete(URI parentUrl, ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 		if (ids == null) {
 			throw new InvalidOrMissingParameterException("ids");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDelete");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setBody(ids);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
@@ -1428,7 +1527,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("redirect");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Thumbnail");
 		sfApiQuery.addIds(url);
@@ -1453,7 +1552,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("size");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Thumbnail");
 		sfApiQuery.addIds(url);
@@ -1473,7 +1572,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFQueryStream sfApiQuery = new SFQueryStream(this.apiClient);
+		SFQueryStream sfApiQuery = new SFQueryStream(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Thumbnail");
 		sfApiQuery.addIds(url);
@@ -1498,7 +1597,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("path");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Breadcrumbs");
 		sfApiQuery.addIds(url);
@@ -1520,7 +1619,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Breadcrumbs");
 		sfApiQuery.addIds(url);
@@ -1549,7 +1648,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("overwrite");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Copy");
 		sfApiQuery.addIds(url);
@@ -1576,7 +1675,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("targetid");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Copy");
 		sfApiQuery.addIds(url);
@@ -1596,48 +1695,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -1733,7 +1834,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("expirationDays");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1774,48 +1875,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -1908,7 +2011,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("clientModifiedDateUTC");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -1948,48 +2051,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -2078,7 +2183,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("clientCreatedDateUTC");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2117,48 +2222,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -2243,7 +2350,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2281,48 +2388,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -2403,7 +2512,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("responseFormat");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2440,48 +2549,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -2558,7 +2669,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("threadCount");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2594,48 +2705,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -2708,7 +2821,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("opid");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2743,48 +2856,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -2853,7 +2968,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sendGuid");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -2887,48 +3002,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -2993,7 +3110,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("isSend");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3026,48 +3143,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3128,7 +3247,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("details");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3160,48 +3279,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3258,7 +3379,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("title");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3289,48 +3410,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3383,7 +3506,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("overwrite");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3413,48 +3536,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3503,7 +3628,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("tool");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3532,48 +3657,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3618,7 +3745,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("unzip");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3646,48 +3773,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3728,7 +3857,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("startOver");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3755,48 +3884,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3833,7 +3964,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("canResume");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3859,48 +3990,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -3933,7 +4066,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchLast");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -3958,48 +4091,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -4028,7 +4163,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("batchId");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -4052,48 +4187,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -4118,7 +4255,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileSize");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -4141,48 +4278,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -4203,7 +4342,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("fileName");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -4225,48 +4364,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @param raw  (default: false)	 	
@@ -4283,7 +4424,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("raw");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -4304,48 +4445,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @param method  (default: Standard)	 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
@@ -4358,7 +4501,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("method");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -4378,48 +4521,50 @@ public class SFItemsEntity extends SFODataEntityBase
     * }
 	* Prepares the links for uploading files to the target Folder.
 	* This method returns an Upload Specification object. The fields are
-	* populated based on the upload method, provider, and resume parameters passed to the
+	* populated based on the upload method, provider, and canResume parameters passed to the
 	* upload call.
 	* The Method determines how the URLs must be called.
 	* 
-	* There are two different URL's to upload: /sf/v3/Items(id)/Upload? accepts the upload parameters
-	* through a query URL string, while /sf/v3/Items(id)/Upload2 does it through the HTTP POST message body.
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
 	* If using 'Upload2', the parameters must be capitalized.
 	* 
 	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
 	* the response. All other fields will be empty. Standard uploads do not support Resume.
 	* 
-	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. The apiClient must
-	* append the parameters index, offset and hash to the end of the ChunkUri address. Index
-	* is a sequential number representing the data block (zero-based); Offset represents the
-	* byte offset for the block; and hash contains the MD5 hash of the block. The last HTTP
-	* POST must also contain finish=true parameter.
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
 	* 
 	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
-	* threads issuing blocks in parallel. Clients must append index, offset and hash to
-	* the end of ChunkUri, as explained in Streamed. After all chunks were sent, the apiClient
-	* must call the FinishUri provided in this spec.
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
 	* 
-	* If using the Threaded Uploader, you can attach the argument fmt=json to each ChunkUri
-	* to indicate you wish to retrieve the Item ID of the file after the upload is completed.
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
 	* 
-	* For all uploaders, the contents of the POST Body can either be "raw", if the "Raw" parameter
-	* was provided to the Uploader, or use MIME multi-part form encoding otherwise. Raw uploads
-	* simply put the block content in the POST body - Content-Length specifies the size. Multi-part
-	* form encoding has to pass the File as a Form parameter named "File1".
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
 	* 
-	* For streamed and threaded, if Resume options were provided to the Upload call, then the
-	* fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash MAY be populated. If they are,
-	* it indicates that the server has identified a partial upload with that specification, and is
-	* ready to resume on the provided parameters. The clients can then verify the ResumeFileHash to
-	* ensure the file has not been modified; and continue issuing ChunkUri calls from the ResumeIndex
-	* ResumeOffset parameters. If the apiClient decides to restart, it should simply ignore the resume
-	* parameters and send the blocks from Index 0.
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
 	* 
-	* For all uploaders: the result code for the HTTP POST calls to Chunk and Finish Uri can either
-	* be a 401 - indicating authentication is required; 4xx/5xx indicating some kind of error; or
-	* 200 with a Content Body of format 'ERROR:message'. Successful calls will return either a 200
-	* response with no Body, or with Body of format 'OK'.
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
 	* @param url 	 	
 	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
 	*/
@@ -4428,7 +4573,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload");
 		sfApiQuery.addIds(url);
@@ -4447,7 +4592,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("expirationDays");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);
@@ -4465,7 +4610,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("uploadParams");
 		}
 
-		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.apiClient);
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Upload2");
 		sfApiQuery.addIds(url);
@@ -4489,7 +4634,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("message");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckIn");
 		sfApiQuery.addIds(url);
@@ -4509,7 +4654,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckIn");
 		sfApiQuery.addIds(url);
@@ -4522,7 +4667,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckOut");
 		sfApiQuery.addIds(url);
@@ -4535,7 +4680,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("DiscardCheckOut");
 		sfApiQuery.addIds(url);
@@ -4566,7 +4711,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("homeFolderOnly");
 		}
 
-		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
@@ -4596,7 +4741,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("skip");
 		}
 
-		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
@@ -4621,7 +4766,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("maxResults");
 		}
 
-		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
@@ -4641,7 +4786,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("query");
 		}
 
-		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.apiClient);
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Search");
 		sfApiQuery.addQueryString("query", query);
@@ -4682,7 +4827,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("simpleSearchQuery");
 		}
 
-		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>(this.apiClient);
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AdvancedSimpleSearch");
 		sfApiQuery.setBody(simpleSearchQuery);
@@ -4723,7 +4868,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("searchQuery");
 		}
 
-		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>(this.apiClient);
+		SFApiQuery<SFAdvancedSearchResults> sfApiQuery = new SFApiQuery<SFAdvancedSearchResults>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AdvancedSearch");
 		sfApiQuery.setBody(searchQuery);
@@ -4742,7 +4887,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("WebView");
 		sfApiQuery.addIds(url);
@@ -4763,7 +4908,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("platform");
 		}
 
-		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItemProtocolLink>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItemProtocolLink>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("ProtocolLinks");
 		sfApiQuery.addIds(url);
@@ -4783,7 +4928,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Redirection");
 		sfApiQuery.addIds(url);
@@ -4803,7 +4948,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("DeletedChildren");
 		sfApiQuery.addIds(url);
@@ -4820,7 +4965,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zone");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("UserDeletedItems");
 		sfApiQuery.addQueryString("userid", userid);
@@ -4834,7 +4979,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("userid");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("UserDeletedItems");
 		sfApiQuery.addQueryString("userid", userid);
@@ -4844,7 +4989,7 @@ public class SFItemsEntity extends SFODataEntityBase
 
 	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems()	{
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("UserDeletedItems");
 		sfApiQuery.setHttpMethod("GET");
@@ -4860,7 +5005,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("ids");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkRestore");
 		sfApiQuery.setBody(ids);
@@ -4877,7 +5022,7 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("ids");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("BulkDeletePermanently");
 		sfApiQuery.setBody(ids);
@@ -4895,10 +5040,78 @@ public class SFItemsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("WebAppLink");
 		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Remove folder template association from folder
+	* @param url 	 	
+	*/
+	public ISFQuery removeTemplateAssociation(URI url, String id) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("RemoveTemplateAssociation");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Check if template is already part of an existing template structure
+	* @param url 	 	
+	*/
+	public ISFQuery checkTemplateOwned(URI url, String id) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("CheckTemplateOwned");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Check if a versioning change would result in file deletions
+	* @param url 	 	
+	* @param newMaxVersions 	 	
+	*/
+	public ISFQuery checkVersioningViolation(URI url, String id, Integer newMaxVersions) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (newMaxVersions == null) {
+			throw new InvalidOrMissingParameterException("newMaxVersions");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("CheckVersioningViolation");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("parentid", id);
+		sfApiQuery.addQueryString("newMaxVersions", newMaxVersions);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}

@@ -33,6 +33,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -277,7 +278,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     }
                 }
             }
-            catch (ConnectException ex)
+            catch (ConnectException | UnknownHostException ex)
             {
                 Logger.e(TAG,ex);
                 throw new SFConnectionException(ex);

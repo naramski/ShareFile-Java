@@ -38,6 +38,8 @@ public class SFDevice extends SFODataObject {
 	private String ToolVersion;
 	@SerializedName("JustRegistered")
 	private Boolean JustRegistered;
+	@SerializedName("IsRemoteWipeReady")
+	private Boolean IsRemoteWipeReady;
 
 	public SFSafeEnum<SFSFTool> getTool() {
 		return this.Tool;
@@ -80,6 +82,13 @@ public class SFDevice extends SFODataObject {
 
 	public void setJustRegistered(Boolean justregistered) {
 		this.JustRegistered = justregistered;
+	}
+	public Boolean getIsRemoteWipeReady() {
+		return this.IsRemoteWipeReady;
+	}
+
+	public void setIsRemoteWipeReady(Boolean isremotewipeready) {
+		this.IsRemoteWipeReady = isremotewipeready;
 	}
 
 }

@@ -43,7 +43,6 @@ import com.sharefile.testv3.Core.Core;
 import com.sharefile.testv3.upload.UploadInfo;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -274,14 +273,7 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
                         ISFApiResultCallback listener,
                         ISFReAuthHandler reauthHandler)
     {
-        try
-        {
-            query.executeAsync(listener);
-        }
-        catch (SFInvalidStateException e)
-        {
-            Log.e(TAG,"",e);
-        }
+        query.executeAsync(listener);
     }
 
 
@@ -424,19 +416,11 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 
         showBusy(true);
 
-		try 
-		{
-            Core.getApiClient()
-                    .items()
-                    .get(getUriFromLink(link),false)
-                    .expand(SFKeywords.CHILDREN)
-                    .expand(SFKeywords.REDIRECTION).executeAsync(getContentsListener);
-		} 
-		catch (SFInvalidStateException e) 
-		{							
-			showBusy(false);
-			showToast("Exception "+ e.getLocalizedMessage());
-		}
+		Core.getApiClient()
+				.items()
+				.get(getUriFromLink(link),false)
+				.expand(SFKeywords.CHILDREN)
+				.expand(SFKeywords.REDIRECTION).executeAsync(getContentsListener);
 	}
 		
 	ISFApiResultCallback<SFItem> getContentsListener = new ISFApiResultCallback<SFItem>()

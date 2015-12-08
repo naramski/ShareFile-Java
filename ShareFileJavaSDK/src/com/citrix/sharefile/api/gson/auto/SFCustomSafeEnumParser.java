@@ -3,14 +3,12 @@ package com.citrix.sharefile.api.gson.auto;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.utils.SafeEnumHelpers;
-import com.citrix.sharefile.api.utils.Utils;
 
 import java.lang.reflect.Type;
 
@@ -27,7 +25,7 @@ public class SFCustomSafeEnumParser implements JsonDeserializer<SFSafeEnum>, Jso
 	{
         SFSafeEnum safeEnum = new SFSafeEnum();
 
-        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString(),false);
+        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString());
 
         String value = jsonElement.getAsString();
 

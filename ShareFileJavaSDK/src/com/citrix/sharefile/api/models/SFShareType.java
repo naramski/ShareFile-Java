@@ -18,5 +18,6 @@ import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFShareType {
 	Request,
-	Send
+	Send,
+	Both
 }

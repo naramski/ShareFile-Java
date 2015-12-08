@@ -6,6 +6,7 @@ public final class SFKeywords
 	
 	//SFOdataObject related keywords
 	public static final String ODATA_METADATA = "odata.metadata";
+	public static final String ODATA_TYPE = "odata.type";
 	public static final String ODATA_COUNT = "odata.count";
 	public static final String ODATA_NEXTLINK = "odata.nextLink";
 	
@@ -24,6 +25,8 @@ public final class SFKeywords
 	public static final String DEVICE_USER = "DEVICE_USER";
 	public static final String Description = "Description";
 	public static final String Zone = "Zone";
+	public static final String LOCKED_BY = "LockedBy";
+	public static final String FILE_LOCK_INFO = "FileLockInfo";
 	
 	public static final String CODE = "code";
 	public static final String VALUE = "value";
@@ -37,6 +40,8 @@ public final class SFKeywords
     public static final String CHILDREN_FAVORITE_FOLDER = CHILDREN + "/" + FAVORITE_FOLDER;
     public static final String CHILDREN_PARENT = CHILDREN + "/" + PARENT;
     public static final String CHILDREN_PREVIEW_PLATFORMS_SUPPORTED = CHILDREN + "/" + PREVIEW_PLATFORMS_SUPPORTED;
+	public static final String CHILDREN_LOCKED_BY = CHILDREN + "/" + LOCKED_BY;
+	public static final String CHILDREN_FILE_LOCK_INFO = CHILDREN + "/" + FILE_LOCK_INFO;
 			
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";
@@ -106,4 +111,5 @@ public final class SFKeywords
     public static final String UNKNOWN_ERROR = "Unknown Error";
     public static final String SF_OAUTH_TOKEN_PATH = "/oauth/token";
     public static final String UN_AUTHORIZED = "UnAuthorized(401)";
+	public static final String CLIENT_CAPABILITIES_HEADER = "X-SF-ClientCapabilities";
 }

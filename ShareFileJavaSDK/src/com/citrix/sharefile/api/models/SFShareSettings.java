@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -16,12 +16,25 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
 import java.util.Date;
- 
-import com.google.gson.annotations.SerializedName;
-import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import java.util.Map;
+import java.util.HashMap;
 
-public enum SFBillingCycleMonths {
-	Month,
-	Quarter,
-	Year
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.enumerations.*;
+import com.citrix.sharefile.api.models.*;
+
+public class SFShareSettings extends SFODataObject {
+
+	@SerializedName("NotifyOnUse")
+	private Boolean NotifyOnUse;
+
+	public Boolean getNotifyOnUse() {
+		return this.NotifyOnUse;
+	}
+
+	public void setNotifyOnUse(Boolean notifyonuse) {
+		this.NotifyOnUse = notifyonuse;
+	}
+
 }

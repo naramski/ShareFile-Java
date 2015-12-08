@@ -12,16 +12,25 @@
 
 package com.citrix.sharefile.api.entities;
 
-import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
-import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.entities.*;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
 
-public class SFUsersEntity extends SFODataEntityBase
+public class SFUsersEntity extends SFEntitiesBase
 {
 	public SFUsersEntity(ISFApiClient client) {
 		super(client);
@@ -42,7 +51,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("emailAddress");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.addQueryString("emailAddress", emailAddress);
@@ -61,7 +70,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("id");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("id", id);
 		sfApiQuery.setHttpMethod("GET");
@@ -75,14 +84,14 @@ public class SFUsersEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFUser> get()	{
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
 	/**
-	* Create Customer
+	* Create Client User
     * {
     * "Email":"user.one@domain.com",
     * "FirstName":"Name",
@@ -99,7 +108,68 @@ public class SFUsersEntity extends SFODataEntityBase
     * "Id":"zoneid"
     * }
     * }
-	* Creates a new Customer User and associates it to an Account
+	* Creates a new Client User and associates it to an Account
+	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
+	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
+	* @param user 	 	
+	* @param pushCreatorDefaultSettings  (default: false)	 	
+	* @param addshared  (default: false)	 	
+	* @param notify  (default: false)	 	
+	* @param ifNecessary  (default: false)	 	
+	* @param addPersonal  (default: false)	 	
+	* @return The new user
+	*/
+	public ISFQuery<SFUser> create(SFUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary, Boolean addPersonal) throws InvalidOrMissingParameterException 	{
+		if (user == null) {
+			throw new InvalidOrMissingParameterException("user");
+		}
+		if (pushCreatorDefaultSettings == null) {
+			throw new InvalidOrMissingParameterException("pushCreatorDefaultSettings");
+		}
+		if (addshared == null) {
+			throw new InvalidOrMissingParameterException("addshared");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+		if (ifNecessary == null) {
+			throw new InvalidOrMissingParameterException("ifNecessary");
+		}
+		if (addPersonal == null) {
+			throw new InvalidOrMissingParameterException("addPersonal");
+		}
+
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
+		sfApiQuery.addQueryString("addshared", addshared);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("ifNecessary", ifNecessary);
+		sfApiQuery.addQueryString("addPersonal", addPersonal);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create Client User
+    * {
+    * "Email":"user.one@domain.com",
+    * "FirstName":"Name",
+    * "LastName":"Last Name",
+    * "Company":"Company",
+    * "Password":"password",
+    * "Preferences":
+    * {
+    * "CanResetPassword":true,
+    * "CanViewMySettings":true
+    * },
+    * "DefaultZone":
+    * {
+    * "Id":"zoneid"
+    * }
+    * }
+	* Creates a new Client User and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
 	* @param user 	 	
@@ -126,7 +196,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("ifNecessary");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
 		sfApiQuery.addQueryString("addshared", addshared);
@@ -138,7 +208,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
 	/**
-	* Create Customer
+	* Create Client User
     * {
     * "Email":"user.one@domain.com",
     * "FirstName":"Name",
@@ -155,7 +225,7 @@ public class SFUsersEntity extends SFODataEntityBase
     * "Id":"zoneid"
     * }
     * }
-	* Creates a new Customer User and associates it to an Account
+	* Creates a new Client User and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
 	* @param user 	 	
@@ -178,7 +248,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
 		sfApiQuery.addQueryString("addshared", addshared);
@@ -189,7 +259,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
 	/**
-	* Create Customer
+	* Create Client User
     * {
     * "Email":"user.one@domain.com",
     * "FirstName":"Name",
@@ -206,7 +276,7 @@ public class SFUsersEntity extends SFODataEntityBase
     * "Id":"zoneid"
     * }
     * }
-	* Creates a new Customer User and associates it to an Account
+	* Creates a new Client User and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
 	* @param user 	 	
@@ -225,7 +295,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("addshared");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
 		sfApiQuery.addQueryString("addshared", addshared);
@@ -235,7 +305,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
 	/**
-	* Create Customer
+	* Create Client User
     * {
     * "Email":"user.one@domain.com",
     * "FirstName":"Name",
@@ -252,7 +322,7 @@ public class SFUsersEntity extends SFODataEntityBase
     * "Id":"zoneid"
     * }
     * }
-	* Creates a new Customer User and associates it to an Account
+	* Creates a new Client User and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
 	* @param user 	 	
@@ -267,7 +337,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("pushCreatorDefaultSettings");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
 		sfApiQuery.setBody(user);
@@ -276,7 +346,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	}
 
 	/**
-	* Create Customer
+	* Create Client User
     * {
     * "Email":"user.one@domain.com",
     * "FirstName":"Name",
@@ -293,7 +363,7 @@ public class SFUsersEntity extends SFODataEntityBase
     * "Id":"zoneid"
     * }
     * }
-	* Creates a new Customer User and associates it to an Account
+	* Creates a new Client User and associates it to an Account
 	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
 	* DefaultZone, Password, Preferences.CanResetPassword and Preferences.CanViewMySettingsOther parameters are ignored
 	* @param user 	 	
@@ -304,7 +374,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("user");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setBody(user);
 		sfApiQuery.setHttpMethod("POST");
@@ -371,7 +441,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("ifNecessary");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
@@ -439,7 +509,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
@@ -502,7 +572,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("addshared");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
@@ -560,7 +630,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("pushCreatorDefaultSettings");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
@@ -613,7 +683,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("user");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.setBody(user);
@@ -652,7 +722,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("user");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(user);
@@ -686,7 +756,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("user");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
 		sfApiQuery.addIds(parentUrl);
@@ -721,7 +791,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("user");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Roles");
 		sfApiQuery.addIds(parentUrl);
@@ -763,7 +833,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("user");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AccountUser");
 		sfApiQuery.addActionIds(id);
@@ -783,7 +853,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("HomeFolder");
 		sfApiQuery.addIds(url);
@@ -796,12 +866,12 @@ public class SFUsersEntity extends SFODataEntityBase
 	* @param url 	 	
 	* @return User's Top Folders
 	*/
-	public ISFQuery<SFODataFeed<SFItem>> topFolders(URI url) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFODataFeed<SFItem>> getTopFolders(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("TopFolders");
 		sfApiQuery.addIds(url);
@@ -819,7 +889,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Box");
 		sfApiQuery.addIds(url);
@@ -837,7 +907,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.apiClient);
+		SFApiQuery<SFItem> sfApiQuery = new SFApiQuery<SFItem>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FileBox");
 		sfApiQuery.addIds(url);
@@ -857,7 +927,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>(this.apiClient);
+		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Preferences");
 		sfApiQuery.addIds(url);
@@ -885,7 +955,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("preferences");
 		}
 
-		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>(this.apiClient);
+		SFApiQuery<SFUserPreferences> sfApiQuery = new SFApiQuery<SFUserPreferences>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Preferences");
 		sfApiQuery.addIds(parentUrl);
@@ -906,7 +976,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFUserSecurity> sfApiQuery = new SFApiQuery<SFUserSecurity>(this.apiClient);
+		SFApiQuery<SFUserSecurity> sfApiQuery = new SFApiQuery<SFUserSecurity>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Security");
 		sfApiQuery.addIds(url);
@@ -942,7 +1012,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("notify");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResetPassword");
 		sfApiQuery.addIds(url);
@@ -976,7 +1046,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("properties");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResetPassword");
 		sfApiQuery.addIds(url);
@@ -999,7 +1069,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("resetOnMobile");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ForgotPassword");
 		sfApiQuery.addQueryString("email", email);
@@ -1018,7 +1088,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ForgotPassword");
 		sfApiQuery.addQueryString("email", email);
@@ -1036,7 +1106,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("ResendWelcome");
 		sfApiQuery.addIds(url);
@@ -1058,7 +1128,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("completely");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("completely", completely);
@@ -1076,7 +1146,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -1090,7 +1160,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFItem>> getAllSharedFolders()	{
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("AllSharedFolders");
 		sfApiQuery.setHttpMethod("GET");
@@ -1106,7 +1176,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFItem>> getTopFolders()	{
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("TopFolders");
 		sfApiQuery.setHttpMethod("GET");
@@ -1120,7 +1190,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFItem>> networkShareConnectors()	{
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("NetworkShareConnectors");
 		sfApiQuery.setHttpMethod("GET");
@@ -1134,7 +1204,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFItem>> sharepointConnectors()	{
 
-		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("SharepointConnectors");
 		sfApiQuery.setHttpMethod("GET");
@@ -1148,6 +1218,8 @@ public class SFUsersEntity extends SFODataEntityBase
     * "LastName":"",
     * "Company":"",
     * "Password":"",
+    * "SecurityQuestion":"",
+    * "SecurityQuestionAnswer":"",
     * "DayLightName":"",
     * "UTCOffset":"",
     * "DateFormat":"",
@@ -1162,7 +1234,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("settings");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Confirm");
 		sfApiQuery.setBody(settings);
@@ -1176,7 +1248,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFUserInfo> getInfo()	{
 
-		SFApiQuery<SFUserInfo> sfApiQuery = new SFApiQuery<SFUserInfo>(this.apiClient);
+		SFApiQuery<SFUserInfo> sfApiQuery = new SFApiQuery<SFUserInfo>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("Info");
 		sfApiQuery.setHttpMethod("GET");
@@ -1193,7 +1265,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("DeleteEmailAddress");
 		sfApiQuery.addQueryString("email", email);
@@ -1211,7 +1283,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.apiClient);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("MakePrimary");
 		sfApiQuery.addQueryString("email", email);
@@ -1229,7 +1301,7 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("SendConfirmationEmail");
 		sfApiQuery.addQueryString("email", email);
@@ -1243,7 +1315,7 @@ public class SFUsersEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFRedirection> webAppLink()	{
 
-		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.apiClient);
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("WebAppLink");
 		sfApiQuery.setHttpMethod("POST");
@@ -1260,9 +1332,93 @@ public class SFUsersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFInboxMetadata> sfApiQuery = new SFApiQuery<SFInboxMetadata>(this.apiClient);
+		SFApiQuery<SFInboxMetadata> sfApiQuery = new SFApiQuery<SFInboxMetadata>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("InboxMetadata");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Inbox for Recipient
+	* Retrieve all outstanding Shares in the inbox.User identifier
+	* @return List of Shares created by the authenticated user
+	*/
+	public ISFQuery<SFODataFeed<SFShare>> getInbox(URI url, SFSafeEnum<SFShareType> type, Boolean archived) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (type == null) {
+			throw new InvalidOrMissingParameterException("type");
+		}
+		if (archived == null) {
+			throw new InvalidOrMissingParameterException("archived");
+		}
+
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Inbox");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("type", type);
+		sfApiQuery.addQueryString("archived", archived);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Inbox for Recipient
+	* Retrieve all outstanding Shares in the inbox.User identifier
+	* @return List of Shares created by the authenticated user
+	*/
+	public ISFQuery<SFODataFeed<SFShare>> getInbox(URI url, SFSafeEnum<SFShareType> type) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (type == null) {
+			throw new InvalidOrMissingParameterException("type");
+		}
+
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Inbox");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("type", type);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Inbox for Recipient
+	* Retrieve all outstanding Shares in the inbox.User identifier
+	* @return List of Shares created by the authenticated user
+	*/
+	public ISFQuery<SFODataFeed<SFShare>> getInbox(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Inbox");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Sent Messages
+	* Returns sent messages for the given user.User identifier
+	* @return Feed of Shares
+	*/
+	public ISFQuery<SFODataFeed<SFShare>> sentMessages(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("SentMessages");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

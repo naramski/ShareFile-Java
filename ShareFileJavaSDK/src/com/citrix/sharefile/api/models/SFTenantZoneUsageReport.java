@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,20 +20,21 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
 
-public class SFAzureSBTopicsResponse extends SFODataObject {
+public class SFTenantZoneUsageReport extends SFODataObject {
 
-	@SerializedName("Success")
-	private String Success;
+	@SerializedName("TenantsToZones")
+	private Map<String, SFZoneUsageBreakdown> TenantsToZones;
 
-	public String getSuccess() {
-		return this.Success;
+	public Map<String, SFZoneUsageBreakdown> getTenantsToZones() {
+		return this.TenantsToZones;
 	}
 
-	public void setSuccess(String success) {
-		this.Success = success;
+	public void setTenantsToZones(Map<String, SFZoneUsageBreakdown> tenantstozones) {
+		this.TenantsToZones = tenantstozones;
 	}
 
 }

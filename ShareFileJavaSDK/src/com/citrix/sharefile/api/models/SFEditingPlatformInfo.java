@@ -20,29 +20,30 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
 
-public class SFPlanAddonUser extends SFODataObject {
+public class SFEditingPlatformInfo extends SFODataObject {
 
-	@SerializedName("User")
-	private SFUser User;
-	@SerializedName("SpecialUserRole")
-	private ArrayList<SFSafeEnum<SFMobileUserRole>> SpecialUserRole;
+	@SerializedName("EditingPlatform")
+	private SFSafeEnum<SFEditingPlatform> EditingPlatform;
+	@SerializedName("ItemProtocolLink")
+	private SFItemProtocolLink ItemProtocolLink;
 
-	public SFUser getUser() {
-		return this.User;
+	public SFSafeEnum<SFEditingPlatform> getEditingPlatform() {
+		return this.EditingPlatform;
 	}
 
-	public void setUser(SFUser user) {
-		this.User = user;
+	public void setEditingPlatform(SFSafeEnum<SFEditingPlatform> editingplatform) {
+		this.EditingPlatform = editingplatform;
 	}
-	public ArrayList<SFSafeEnum<SFMobileUserRole>> getSpecialUserRole() {
-		return this.SpecialUserRole;
+	public SFItemProtocolLink getItemProtocolLink() {
+		return this.ItemProtocolLink;
 	}
 
-	public void setSpecialUserRole(ArrayList<SFSafeEnum<SFMobileUserRole>> specialuserrole) {
-		this.SpecialUserRole = specialuserrole;
+	public void setItemProtocolLink(SFItemProtocolLink itemprotocollink) {
+		this.ItemProtocolLink = itemprotocollink;
 	}
 
 }

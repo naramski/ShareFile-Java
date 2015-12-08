@@ -12,19 +12,25 @@
 
 package com.citrix.sharefile.api.entities;
 
-import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
-import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.entities.*;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
-
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
 
-public class SFZonesEntity extends SFODataEntityBase
+public class SFZonesEntity extends SFEntitiesBase
 {
 	public SFZonesEntity(ISFApiClient client) {
 		super(client);
@@ -47,7 +53,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("includeDisabled");
 		}
 
-		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addQueryString("services", services);
 		sfApiQuery.addQueryString("includeDisabled", includeDisabled);
@@ -68,7 +74,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("services");
 		}
 
-		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addQueryString("services", services);
 		sfApiQuery.setHttpMethod("GET");
@@ -84,7 +90,7 @@ public class SFZonesEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFZone>> get()	{
 
-		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFZone>> sfApiQuery = new SFApiQuery<SFODataFeed<SFZone>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -105,7 +111,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("secret");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("secret", secret);
@@ -125,7 +131,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -147,7 +153,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zone");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setBody(zone);
 		sfApiQuery.setHttpMethod("POST");
@@ -174,7 +180,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("zone");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(zone);
@@ -193,7 +199,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("newDefaultZoneId");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
@@ -210,7 +216,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("force");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("force", force);
@@ -223,7 +229,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -244,11 +250,110 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.apiClient);
+		SFApiQuery<SFZone> sfApiQuery = new SFApiQuery<SFZone>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("ResetSecret");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get the tenants of a multi-tenant zone
+	* @param parentUrl 	 	
+	* @return List of tenant accounts, not including the zone admin account.
+	*/
+	public ISFQuery<SFODataFeed<SFAccount>> getTenants(URI parentUrl) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("Tenants");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Add a tenant account to a multi-tenant zone
+	* @param parentUrl 	 	
+	* @param accountId 	 	
+	*/
+	public ISFQuery<SFAccount> createTenants(URI parentUrl, String accountId) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (accountId == null) {
+			throw new InvalidOrMissingParameterException("accountId");
+		}
+
+		SFApiQuery<SFAccount> sfApiQuery = new SFApiQuery<SFAccount>(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("Tenants");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addQueryString("accountId", accountId);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Remove a tenant from a multi-tenant zone
+	* @param parentUrl 	 	
+	* @param id 	 	
+	* @param newDefaultZoneId 	 	
+	* @param expireItems  (default: false)	 	
+	*/
+	public ISFQuery deleteTenants(URI parentUrl, String id, String newDefaultZoneId, Boolean expireItems) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (newDefaultZoneId == null) {
+			throw new InvalidOrMissingParameterException("newDefaultZoneId");
+		}
+		if (expireItems == null) {
+			throw new InvalidOrMissingParameterException("expireItems");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("Tenants");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.addQueryString("newDefaultZoneId", newDefaultZoneId);
+		sfApiQuery.addQueryString("expireItems", expireItems);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Remove a tenant from a multi-tenant zone
+	* @param parentUrl 	 	
+	* @param id 	 	
+	* @param newDefaultZoneId 	 	
+	*/
+	public ISFQuery deleteTenants(URI parentUrl, String id, String newDefaultZoneId) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
+		}
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
+		}
+		if (newDefaultZoneId == null) {
+			throw new InvalidOrMissingParameterException("newDefaultZoneId");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Zones");
+		sfApiQuery.setAction("Tenants");
+		sfApiQuery.addIds(parentUrl);
+		sfApiQuery.addActionIds(id);
+		sfApiQuery.addQueryString("newDefaultZoneId", newDefaultZoneId);
+		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
@@ -263,7 +368,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -291,7 +396,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("metadata");
 		}
 
-		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);
@@ -315,7 +420,7 @@ public class SFZonesEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("name");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Zones");
 		sfApiQuery.setAction("Metadata");
 		sfApiQuery.addIds(url);

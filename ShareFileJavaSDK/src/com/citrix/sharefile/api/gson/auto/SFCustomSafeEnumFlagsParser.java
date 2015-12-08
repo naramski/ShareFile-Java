@@ -7,7 +7,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 import com.citrix.sharefile.api.utils.SafeEnumHelpers;
 
@@ -24,7 +23,7 @@ public class SFCustomSafeEnumFlagsParser implements JsonDeserializer<SFSafeEnumF
 	@Override
 	public SFSafeEnumFlags deserialize(JsonElement jsonElement, Type typeOfObject,JsonDeserializationContext desContext) throws JsonParseException
 	{
-        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString(),true);
+        Class enumClass = SafeEnumHelpers.getEnumClass(typeOfObject.toString());
 
         String value = jsonElement.getAsString();
 

@@ -1,7 +1,6 @@
 package com.citrix.sharefile.api;
 
 import com.citrix.sharefile.api.async.SFAsyncHelper;
-import com.citrix.sharefile.api.async.SFAsyncTaskFactory;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.constants.SFQueryParams;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
@@ -11,23 +10,21 @@ import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
 import com.citrix.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.citrix.sharefile.api.exceptions.SFOtherException;
-import com.citrix.sharefile.api.exceptions.SFToDoReminderException;
 import com.citrix.sharefile.api.exceptions.SFServerException;
+import com.citrix.sharefile.api.exceptions.SFToDoReminderException;
 import com.citrix.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.citrix.sharefile.api.interfaces.ISFApiClient;
 import com.citrix.sharefile.api.interfaces.ISFApiResultCallback;
 import com.citrix.sharefile.api.interfaces.ISFAsyncTask;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
+import com.citrix.sharefile.api.log.Logger;
 import com.citrix.sharefile.api.models.SFODataObject;
-import com.citrix.sharefile.api.models.SFQuery;
 import com.citrix.sharefile.api.models.SFSearchResults;
 import com.citrix.sharefile.api.utils.Utils;
-import com.citrix.sharefile.api.log.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,6 +79,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
      for the apiClient to add them. so that the apiClient can call query.expand("somevalue1").expand("somevalue2")....expand("somevaluen") etc
      */
     private final ArrayList<String> mExpansionParameters = new ArrayList<String>(){};
+	private final ArrayList<String> mSelectParameters = new ArrayList<String>(){};
     private final SFFilterParam mFilter = new SFFilterParam();
 
     public SFApiQuery(ISFApiClient client)
@@ -252,6 +250,13 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		mActionId = actionid;
         return this;
 	}
+
+	@Override
+	public final ISFQuery<T>  addActionIds(Integer actionid)
+	{
+		mActionId = actionid.toString();
+		return this;
+	}
 	
 	public final ISFQuery<T>  addActionIds(SFSafeEnum actionId)
 	{
@@ -261,6 +266,13 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 
     @Override
 	public final ISFQuery<T>  addSubAction(String subaction)
+	{
+		mSubAction = subaction;
+        return this;
+	}
+
+	@Override
+	public final ISFQuery<T>  addSubAction(String subaction, SFSafeEnum extras)
 	{
 		mSubAction = subaction;
         return this;
@@ -501,6 +513,14 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
         }
     }
 
+	private void addSelectParams()
+	{
+		if(mSelectParameters.size()>0)
+		{
+			addQueryStringInternal(SFQueryParams.SELECT, mSelectParameters);
+		}
+	}
+
     private void addFilterParams()
     {
         String filters = mFilter.get();
@@ -514,6 +534,7 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
     private void addAllQueryParams()
     {
         addExpansionParams();
+		addSelectParams();
         addFilterParams();
     }
 
@@ -643,8 +664,13 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 
 		try
 		{
-			String decodedString = URLDecoder.decode(oldQueryParams,SFKeywords.UTF_8);
-			return newQueryParams.contains(decodedString);
+			HashMap<String, String> oldQS = splitQuery(oldQueryParams);
+			HashMap<String, String> newQS = splitQuery(newQueryParams);
+			for(String key : oldQS.keySet())
+			{
+				if(!newQS.containsKey(key)) return false;
+			}
+			return true;
 		}
 		catch (Throwable e)
 		{
@@ -652,6 +678,20 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 		}
 
 		return false;
+	}
+
+	private static HashMap<String, String> splitQuery(String qs)
+	{
+		final HashMap<String, String> query_pairs = new HashMap<String, String>();
+		final String[] pairs = qs.split("&");
+		for (String pair : pairs)
+		{
+			String[] keyValue = pair.split("=");
+			if(keyValue.length<2) continue;
+			query_pairs.put(keyValue[0], keyValue[1]);
+		}
+
+		return query_pairs;
 	}
 
 	@Override
@@ -747,9 +787,15 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
     }
 
     @Override
-    public ISFQuery select(String name)
+    public ISFQuery select(String selectParam)
     {
-        addQueryString(SFQueryParams.SELECT,name);
+		if(Utils.isEmpty(selectParam))
+		{
+			return this;
+		}
+
+		mSelectParameters.add(selectParam);
+
         return this;
     }
 
@@ -799,17 +845,17 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
     }
 
     @Override
-    public void executeAsync(ISFApiResultCallback<T> callback) throws
-            SFInvalidStateException
+    public void executeAsync(ISFApiResultCallback<T> callback)
     {
+		if(callback == null)
+		{
+			throw new RuntimeException("Need to set listener to gather Async Result");
+		}
+
         if(apiClient==null)
         {
-            throw new SFInvalidStateException("No valid client object set for query");
-        }
-
-        if(callback == null)
-        {
-            throw new SFInvalidStateException("Need to set listener to gather Async Result");
+			callback.onError(new SFInvalidStateException("No valid client object set for query"), this);
+			return;
         }
 
         SFAsyncHelper asyncHelper = new SFAsyncHelper(apiClient, this, callback);
@@ -818,7 +864,8 @@ public class SFApiQuery<T extends SFODataObject> implements ISFQuery<T>
 
         if(asyncTask == null)
         {
-            throw new SFInvalidStateException("Need to set AsyncFactory as per your system");
+			callback.onError(new SFInvalidStateException("Need to set AsyncFactory as per your system"), this);
+			return;
         }
 
         asyncTask.start(asyncHelper);

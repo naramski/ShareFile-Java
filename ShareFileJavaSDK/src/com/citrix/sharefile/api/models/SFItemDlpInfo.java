@@ -20,7 +20,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.annotations.SerializedName;
-import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.enumerations.*;
+import com.citrix.sharefile.api.models.*;
 
 public class SFItemDlpInfo extends SFODataObject {
 

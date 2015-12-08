@@ -42,6 +42,8 @@ public class SFZone extends SFPrincipal {
 	private SFSafeEnumFlags<SFZoneService> ZoneServices;
 	@SerializedName("IsHIPAAZone")
 	private Boolean IsHIPAAZone;
+	@SerializedName("IsMultiTenant")
+	private Boolean IsMultiTenant;
 	@SerializedName("StorageCenters")
 	private ArrayList<SFStorageCenter> StorageCenters;
 	@SerializedName("Metadata")
@@ -102,6 +104,13 @@ public class SFZone extends SFPrincipal {
 
 	public void setIsHIPAAZone(Boolean ishipaazone) {
 		this.IsHIPAAZone = ishipaazone;
+	}
+	public Boolean getIsMultiTenant() {
+		return this.IsMultiTenant;
+	}
+
+	public void setIsMultiTenant(Boolean ismultitenant) {
+		this.IsMultiTenant = ismultitenant;
 	}
 	public ArrayList<SFStorageCenter> getStorageCenters() {
 		return this.StorageCenters;

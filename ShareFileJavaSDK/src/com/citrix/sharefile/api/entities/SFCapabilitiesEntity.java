@@ -12,12 +12,25 @@
 
 package com.citrix.sharefile.api.entities;
 
-import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.entities.*;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 
-public class SFCapabilitiesEntity extends SFODataEntityBase
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
+
+public class SFCapabilitiesEntity extends SFEntitiesBase
 {
 	public SFCapabilitiesEntity(ISFApiClient client) {
 		super(client);
@@ -32,12 +45,12 @@ public class SFCapabilitiesEntity extends SFODataEntityBase
 	* may be created, clients must not assume any particular string.Version specifies the API version - currently at V3. Any backward incompatible
 	* changes will be performed on a different version identifier, to avoid breaking
 	* existing clients.The Capability document is used to indicate to clients that certain features
-	* are not available on a given provider - allowing the apiClient to suppress UX controls
+	* are not available on a given provider - allowing the client to suppress UX controls
 	* and avoid "Not Implemented" exceptions to the end-user.
 	*/
 	public ISFQuery<SFODataFeed<SFCapability>> get()	{
 
-		SFApiQuery<SFODataFeed<SFCapability>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCapability>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFCapability>> sfApiQuery = new SFApiQuery<SFODataFeed<SFCapability>>(this.client);
 		sfApiQuery.setFrom("Capabilities");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;

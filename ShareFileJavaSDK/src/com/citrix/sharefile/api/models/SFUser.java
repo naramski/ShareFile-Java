@@ -74,6 +74,8 @@ public class SFUser extends SFPrincipal {
 	private ArrayList<SFSafeEnum<SFUserRole>> Roles;
 	@SerializedName("Info")
 	private SFUserInfo Info;
+	@SerializedName("AffiliatedPartnerUserId")
+	private String AffiliatedPartnerUserId;
 
 	public SFAccount getAccount() {
 		return this.Account;
@@ -242,6 +244,13 @@ public class SFUser extends SFPrincipal {
 
 	public void setInfo(SFUserInfo info) {
 		this.Info = info;
+	}
+	public String getAffiliatedPartnerUserId() {
+		return this.AffiliatedPartnerUserId;
+	}
+
+	public void setAffiliatedPartnerUserId(String affiliatedpartneruserid) {
+		this.AffiliatedPartnerUserId = affiliatedpartneruserid;
 	}
 
 }

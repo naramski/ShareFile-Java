@@ -12,17 +12,25 @@
 
 package com.citrix.sharefile.api.entities;
 
-import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
-import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.entities.*;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
 
-public class SFGroupsEntity extends SFODataEntityBase
+public class SFGroupsEntity extends SFEntitiesBase
 {
 	public SFGroupsEntity(ISFApiClient client) {
 		super(client);
@@ -35,7 +43,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 	*/
 	public ISFQuery<SFODataFeed<SFGroup>> get()	{
 
-		SFApiQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGroup>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGroup>>(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -52,7 +60,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.apiClient);
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -69,7 +77,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
@@ -92,7 +100,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("group");
 		}
 
-		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.apiClient);
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setBody(group);
 		sfApiQuery.setHttpMethod("POST");
@@ -120,7 +128,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("group");
 		}
 
-		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.apiClient);
+		SFApiQuery<SFGroup> sfApiQuery = new SFApiQuery<SFGroup>(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(group);
@@ -139,7 +147,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);
@@ -164,7 +172,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("contacts");
 		}
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);
@@ -194,7 +202,7 @@ public class SFGroupsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("contacts");
 		}
 
-		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFContact>> sfApiQuery = new SFApiQuery<SFODataFeed<SFContact>>(this.client);
 		sfApiQuery.setFrom("Groups");
 		sfApiQuery.setAction("Contacts");
 		sfApiQuery.addIds(url);
