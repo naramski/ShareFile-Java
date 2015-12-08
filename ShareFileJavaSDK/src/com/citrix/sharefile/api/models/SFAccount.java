@@ -176,6 +176,8 @@ public class SFAccount extends SFODataObject {
 	private ArrayList<SFToolInformation> ToolInformation;
 	@SerializedName("BillingInformation")
 	private SFBillingInfo BillingInformation;
+	@SerializedName("AccountSubType")
+	private SFSafeEnum<SFAccountSubType> AccountSubType;
 
 	public String getCompanyName() {
 		return this.CompanyName;
@@ -700,17 +702,29 @@ public class SFAccount extends SFODataObject {
 	public void setProductDefaults(SFProductDefaults productdefaults) {
 		this.ProductDefaults = productdefaults;
 	}
+		/**
+		* Primary (first) subdomain
+		*/
 	public String getSubdomain() {
 		return this.Subdomain;
 	}
 
+		/**
+		* Primary (first) subdomain
+		*/
 	public void setSubdomain(String subdomain) {
 		this.Subdomain = subdomain;
 	}
+		/**
+		* All subdomains assigned to account
+		*/
 	public ArrayList<String> getSubdomains() {
 		return this.Subdomains;
 	}
 
+		/**
+		* All subdomains assigned to account
+		*/
 	public void setSubdomains(ArrayList<String> subdomains) {
 		this.Subdomains = subdomains;
 	}
@@ -797,6 +811,13 @@ public class SFAccount extends SFODataObject {
 
 	public void setBillingInformation(SFBillingInfo billinginformation) {
 		this.BillingInformation = billinginformation;
+	}
+	public SFSafeEnum<SFAccountSubType> getAccountSubType() {
+		return this.AccountSubType;
+	}
+
+	public void setAccountSubType(SFSafeEnum<SFAccountSubType> accountsubtype) {
+		this.AccountSubType = accountsubtype;
 	}
 
 }

@@ -16,20 +16,9 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
-public enum SFZoneService {
-	None,
-	StorageZone,
-	NetworkShareConnector,
-	SharepointConnector,
-	AzureStorageZone,
-	SharePointOnlineConnector,
-	BoxConnector,
-	DropboxConnector,
-	OneDriveConnector,
-	GoogleDriveConnector,
-	ExchangeConnector,
-	GenericConnector,
-	OneDriveBusinessConnector,
-	ShareConnectConnector,
-	Preview
+public enum SFReportRunStatus {
+	Pending,
+	Running,
+	Success,
+	Failed
 }

@@ -12,16 +12,25 @@
 
 package com.citrix.sharefile.api.entities;
 
-import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
-import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.entities.*;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
 
-public class SFFavoriteFoldersEntity extends SFODataEntityBase
+public class SFFavoriteFoldersEntity extends SFEntitiesBase
 {
 	public SFFavoriteFoldersEntity(ISFApiClient client) {
 		super(client);
@@ -38,7 +47,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFFavoriteFolder>> sfApiQuery = new SFApiQuery<SFODataFeed<SFFavoriteFolder>>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -60,7 +69,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("userid");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(itemUrl);
@@ -80,7 +89,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("FavoriteFolder");
 		sfApiQuery.addIds(parentUrl);
@@ -98,7 +107,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
 		sfApiQuery.setFrom("FavoriteFolders");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -124,7 +133,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("folder");
 		}
 
-		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.apiClient);
+		SFApiQuery<SFFavoriteFolder> sfApiQuery = new SFApiQuery<SFFavoriteFolder>(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -146,7 +155,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemid");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);
@@ -163,7 +172,7 @@ public class SFFavoriteFoldersEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("itemId");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.setAction("FavoriteFolders");
 		sfApiQuery.addIds(url);

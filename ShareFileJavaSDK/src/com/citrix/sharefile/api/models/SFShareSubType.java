@@ -18,5 +18,6 @@ import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFShareSubType {
 	None,
-	Email
+	Email,
+	Connector
 }

@@ -49,5 +49,17 @@ public enum SFCapabilityName {
 	UploadWithRequestParams,
 	SoftLock,
 	HardLock,
-	DownloadByStream
+	DownloadByStream,
+	BulkDelete,
+	BulkDownload,
+	FolderDownload,
+	FolderSend,
+	SendByStream,
+	SharingRequest,
+	SharingSend,
+	AnonymousSharingRequest,
+	AnonymousSharingSend,
+	Copy,
+	Move,
+	UnZipFileUploads
 }

@@ -6,24 +6,18 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2014 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
 package com.citrix.sharefile.api.models;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.net.URI;
-import java.util.Date;
  
 import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
-public enum SFQueueStatus {
-	Created,
-	Scheduled,
-	Success,
-	Failed,
-	Canceled
+public enum SFVersioning {
+	Default,
+	Enabled,
+	Disabled
 }

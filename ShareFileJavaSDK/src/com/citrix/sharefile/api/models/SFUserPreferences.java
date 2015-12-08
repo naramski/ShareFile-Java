@@ -76,6 +76,8 @@ public class SFUserPreferences extends SFODataObject {
 	private Boolean EnableShareConnect;
 	@SerializedName("ReceiveBouncedEmailNotifications")
 	private Boolean ReceiveBouncedEmailNotifications;
+	@SerializedName("EnablePromotions")
+	private Boolean EnablePromotions;
 
 	public Boolean getEnableFlashUpload() {
 		return this.EnableFlashUpload;
@@ -251,6 +253,13 @@ public class SFUserPreferences extends SFODataObject {
 
 	public void setReceiveBouncedEmailNotifications(Boolean receivebouncedemailnotifications) {
 		this.ReceiveBouncedEmailNotifications = receivebouncedemailnotifications;
+	}
+	public Boolean getEnablePromotions() {
+		return this.EnablePromotions;
+	}
+
+	public void setEnablePromotions(Boolean enablepromotions) {
+		this.EnablePromotions = enablepromotions;
 	}
 
 }

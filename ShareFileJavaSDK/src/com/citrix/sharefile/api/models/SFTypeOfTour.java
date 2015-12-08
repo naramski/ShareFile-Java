@@ -28,5 +28,6 @@ public enum SFTypeOfTour {
 	NewEmployee,
 	TFA,
 	GetApp,
-	ScanSnap
+	ScanSnap,
+	CheckInCheckOut
 }

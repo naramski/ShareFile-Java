@@ -34,6 +34,8 @@ public class SFDownloadSpecification extends SFODataObject {
 	private URI DownloadUrl;
 	@SerializedName("DownloadPrepStartURL")
 	private URI DownloadPrepStartURL;
+	@SerializedName("DownloadPrepStatusURL")
+	private URI DownloadPrepStatusURL;
 
 	public String getDownloadToken() {
 		return this.DownloadToken;
@@ -62,6 +64,13 @@ public class SFDownloadSpecification extends SFODataObject {
 
 	public void setDownloadPrepStartURL(URI downloadprepstarturl) {
 		this.DownloadPrepStartURL = downloadprepstarturl;
+	}
+	public URI getDownloadPrepStatusURL() {
+		return this.DownloadPrepStatusURL;
+	}
+
+	public void setDownloadPrepStatusURL(URI downloadprepstatusurl) {
+		this.DownloadPrepStatusURL = downloadprepstatusurl;
 	}
 
 }

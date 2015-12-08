@@ -72,40 +72,40 @@ public class SFUploadSpecification extends SFODataObject {
 		this.PrepareUri = prepareuri;
 	}
 		/**
-		* Specifies the URI the apiClient must send the file data to
+		* Specifies the URI the client must send the file data to
 		*/
 	public URI getChunkUri() {
 		return this.ChunkUri;
 	}
 
 		/**
-		* Specifies the URI the apiClient must send the file data to
+		* Specifies the URI the client must send the file data to
 		*/
 	public void setChunkUri(URI chunkuri) {
 		this.ChunkUri = chunkuri;
 	}
 		/**
-		* If provided, specifies the final call the apiClient must perform to finish the upload process
+		* If provided, specifies the final call the client must perform to finish the upload process
 		*/
 	public URI getFinishUri() {
 		return this.FinishUri;
 	}
 
 		/**
-		* If provided, specifies the final call the apiClient must perform to finish the upload process
+		* If provided, specifies the final call the client must perform to finish the upload process
 		*/
 	public void setFinishUri(URI finishuri) {
 		this.FinishUri = finishuri;
 	}
 		/**
-		* Allows the apiClient to check progress of standard uploads
+		* Allows the client to check progress of standard uploads
 		*/
 	public String getProgressData() {
 		return this.ProgressData;
 	}
 
 		/**
-		* Allows the apiClient to check progress of standard uploads
+		* Allows the client to check progress of standard uploads
 		*/
 	public void setProgressData(String progressdata) {
 		this.ProgressData = progressdata;

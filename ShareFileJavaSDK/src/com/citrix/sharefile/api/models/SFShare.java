@@ -92,6 +92,10 @@ public class SFShare extends SFODataObject {
 	private SFRedirection Redirection;
 	@SerializedName("ShareSubType")
 	private SFSafeEnum<SFShareSubType> ShareSubType;
+	@SerializedName("ShareItemHistory")
+	private ArrayList<SFShareItemHistory> ShareItemHistory;
+	@SerializedName("Settings")
+	private SFShareSettings Settings;
 
 		/**
 		* When a Share is sent to multiple users, with RequireLogin or RequireUserInfo set, then a different
@@ -285,10 +289,16 @@ public class SFShare extends SFODataObject {
 	public void setMaxDownloads(Integer maxdownloads) {
 		this.MaxDownloads = maxdownloads;
 	}
+		/**
+		* Total number of times a share has been downloaded by a user.
+		*/
 	public Integer getTotalDownloads() {
 		return this.TotalDownloads;
 	}
 
+		/**
+		* Total number of times a share has been downloaded by a user.
+		*/
 	public void setTotalDownloads(Integer totaldownloads) {
 		this.TotalDownloads = totaldownloads;
 	}
@@ -341,17 +351,29 @@ public class SFShare extends SFODataObject {
 	public void setLastDateSent(Date lastdatesent) {
 		this.LastDateSent = lastdatesent;
 	}
+		/**
+		* Indicates whether or not this Share has been downloaded
+		*/
 	public Boolean getIsConsumed() {
 		return this.IsConsumed;
 	}
 
+		/**
+		* Indicates whether or not this Share has been downloaded
+		*/
 	public void setIsConsumed(Boolean isconsumed) {
 		this.IsConsumed = isconsumed;
 	}
+		/**
+		* Indicates whether the contents of this share have been viewed by a valid, authenticated recipient
+		*/
 	public Boolean getIsRead() {
 		return this.IsRead;
 	}
 
+		/**
+		* Indicates whether the contents of this share have been viewed by a valid, authenticated recipient
+		*/
 	public void setIsRead(Boolean isread) {
 		this.IsRead = isread;
 	}
@@ -457,14 +479,14 @@ public class SFShare extends SFODataObject {
 		this.HasRemoteChildren = hasremotechildren;
 	}
 		/**
-		* Redirection endpoint for this Item.
+		* Redirection endpoint for this Share.
 		*/
 	public SFRedirection getRedirection() {
 		return this.Redirection;
 	}
 
 		/**
-		* Redirection endpoint for this Item.
+		* Redirection endpoint for this Share.
 		*/
 	public void setRedirection(SFRedirection redirection) {
 		this.Redirection = redirection;
@@ -475,6 +497,32 @@ public class SFShare extends SFODataObject {
 
 	public void setShareSubType(SFSafeEnum<SFShareSubType> sharesubtype) {
 		this.ShareSubType = sharesubtype;
+	}
+		/**
+		* Shared item history.
+		*/
+	public ArrayList<SFShareItemHistory> getShareItemHistory() {
+		return this.ShareItemHistory;
+	}
+
+		/**
+		* Shared item history.
+		*/
+	public void setShareItemHistory(ArrayList<SFShareItemHistory> shareitemhistory) {
+		this.ShareItemHistory = shareitemhistory;
+	}
+		/**
+		* Current Settings for the Share
+		*/
+	public SFShareSettings getSettings() {
+		return this.Settings;
+	}
+
+		/**
+		* Current Settings for the Share
+		*/
+	public void setSettings(SFShareSettings settings) {
+		this.Settings = settings;
 	}
 
 }

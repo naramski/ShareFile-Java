@@ -68,6 +68,8 @@ public class SFSearchResult extends SFODataObject {
 	private Boolean CanDownload;
 	@SerializedName("CanView")
 	private Boolean CanView;
+	@SerializedName("CanDelete")
+	private Boolean CanDelete;
 	@SerializedName("ParentSemanticPath")
 	private String ParentSemanticPath;
 	@SerializedName("Path")
@@ -223,6 +225,13 @@ public class SFSearchResult extends SFODataObject {
 
 	public void setCanView(Boolean canview) {
 		this.CanView = canview;
+	}
+	public Boolean getCanDelete() {
+		return this.CanDelete;
+	}
+
+	public void setCanDelete(Boolean candelete) {
+		this.CanDelete = candelete;
 	}
 	public String getParentSemanticPath() {
 		return this.ParentSemanticPath;

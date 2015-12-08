@@ -24,23 +24,17 @@ import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
 
-public class SFItemDlpInfo extends SFODataObject {
+public class SFZoneUsageBreakdown extends SFODataObject {
 
-	@SerializedName("Status")
-	private SFSafeEnum<SFDlpStatus> Status;
+	@SerializedName("ZonesToUsage")
+	private Map<String, SFAccountZoneUsage> ZonesToUsage;
 
-		/**
-		* File scan status
-		*/
-	public SFSafeEnum<SFDlpStatus> getStatus() {
-		return this.Status;
+	public Map<String, SFAccountZoneUsage> getZonesToUsage() {
+		return this.ZonesToUsage;
 	}
 
-		/**
-		* File scan status
-		*/
-	public void setStatus(SFSafeEnum<SFDlpStatus> status) {
-		this.Status = status;
+	public void setZonesToUsage(Map<String, SFAccountZoneUsage> zonestousage) {
+		this.ZonesToUsage = zonestousage;
 	}
 
 }

@@ -18,5 +18,6 @@ import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFLockType {
 	SoftLock,
-	HardLock
+	HardLock,
+	CoauthLock
 }

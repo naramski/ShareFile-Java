@@ -34,6 +34,10 @@ public class SFUserConfirmationSettings extends SFODataObject {
 	private String Company;
 	@SerializedName("Password")
 	private String Password;
+	@SerializedName("SecurityQuestion")
+	private String SecurityQuestion;
+	@SerializedName("SecurityQuestionAnswer")
+	private String SecurityQuestionAnswer;
 	@SerializedName("DayLightName")
 	private String DayLightName;
 	@SerializedName("UTCOffset")
@@ -72,6 +76,20 @@ public class SFUserConfirmationSettings extends SFODataObject {
 
 	public void setPassword(String password) {
 		this.Password = password;
+	}
+	public String getSecurityQuestion() {
+		return this.SecurityQuestion;
+	}
+
+	public void setSecurityQuestion(String securityquestion) {
+		this.SecurityQuestion = securityquestion;
+	}
+	public String getSecurityQuestionAnswer() {
+		return this.SecurityQuestionAnswer;
+	}
+
+	public void setSecurityQuestionAnswer(String securityquestionanswer) {
+		this.SecurityQuestionAnswer = securityquestionanswer;
 	}
 	public String getDayLightName() {
 		return this.DayLightName;

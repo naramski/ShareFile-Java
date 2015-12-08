@@ -44,6 +44,8 @@ public class SFFile extends SFItem {
 	private SFFileLock FileLockInfo;
 	@SerializedName("Version")
 	private Float Version;
+	@SerializedName("ESignatureDocument")
+	private SFESignature ESignatureDocument;
 
 		/**
 		* Represents the Object Storage Identifier for this File. This field is
@@ -167,6 +169,19 @@ public class SFFile extends SFItem {
 		*/
 	public void setVersion(Float version) {
 		this.Version = version;
+	}
+		/**
+		* Electronic signature object associated with this item
+		*/
+	public SFESignature getESignatureDocument() {
+		return this.ESignatureDocument;
+	}
+
+		/**
+		* Electronic signature object associated with this item
+		*/
+	public void setESignatureDocument(SFESignature esignaturedocument) {
+		this.ESignatureDocument = esignaturedocument;
 	}
 
 }

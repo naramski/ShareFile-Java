@@ -24,23 +24,26 @@ import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
 
-public class SFItemDlpInfo extends SFODataObject {
+public class SFNotifyUsersParams extends SFODataObject {
 
-	@SerializedName("Status")
-	private SFSafeEnum<SFDlpStatus> Status;
+	@SerializedName("UserIds")
+	private ArrayList<String> UserIds;
+	@SerializedName("CustomMessage")
+	private String CustomMessage;
 
-		/**
-		* File scan status
-		*/
-	public SFSafeEnum<SFDlpStatus> getStatus() {
-		return this.Status;
+	public ArrayList<String> getUserIds() {
+		return this.UserIds;
 	}
 
-		/**
-		* File scan status
-		*/
-	public void setStatus(SFSafeEnum<SFDlpStatus> status) {
-		this.Status = status;
+	public void setUserIds(ArrayList<String> userids) {
+		this.UserIds = userids;
+	}
+	public String getCustomMessage() {
+		return this.CustomMessage;
+	}
+
+	public void setCustomMessage(String custommessage) {
+		this.CustomMessage = custommessage;
 	}
 
 }

@@ -12,16 +12,25 @@
 
 package com.citrix.sharefile.api.entities;
 
-import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
-import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.*;
+import com.citrix.sharefile.api.entities.*;
 import com.citrix.sharefile.api.models.*;
 import com.citrix.sharefile.api.SFApiQuery;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 
 
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.net.URI;
+import java.util.Date;
+ 
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+import com.citrix.sharefile.api.interfaces.ISFApiClient;
+import com.citrix.sharefile.api.exceptions.InvalidOrMissingParameterException;
 
-public class SFAccessControlsEntity extends SFODataEntityBase
+public class SFAccessControlsEntity extends SFEntitiesBase
 {
 	public SFAccessControlsEntity(ISFApiClient client) {
 		super(client);
@@ -37,7 +46,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
@@ -55,7 +64,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>(this.apiClient);
+		SFApiQuery<SFODataFeed<SFAccessControl>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccessControl>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -101,7 +110,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("message");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -147,7 +156,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("sendDefaultNotification");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -188,7 +197,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("recursive");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -224,7 +233,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControl");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -262,7 +271,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("recursive");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -297,7 +306,7 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("accessControl");
 		}
 
-		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.apiClient);
+		SFApiQuery<SFAccessControl> sfApiQuery = new SFApiQuery<SFAccessControl>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("AccessControls");
 		sfApiQuery.addIds(url);
@@ -316,10 +325,217 @@ public class SFAccessControlsEntity extends SFODataEntityBase
 			throw new InvalidOrMissingParameterException("url");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.apiClient);
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("AccessControls");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create or Update multiple AccessControls for a given Item
+    * {
+    * "NotifyUser":true,
+    * "NotifyMessage":"msg",
+    * 
+    * "AccessControlParams":
+    * [
+    * {
+    * "AccessControl":
+    * {
+    * "Principal" : { "Id":"existing_user_id" },
+    * "CanUpload" : true,
+    * "CanDownload" : false,
+    * "CanView" : true
+    * },
+    * "NotifyUser":false
+    * },
+    * {
+    * "AccessControl":
+    * {
+    * "Principal" : { "Id":"group_id" },
+    * "CanUpload" : false,
+    * "CanDownload" : true,
+    * "CanView" : true
+    * },
+    * "Recursive":true
+    * },
+    * {
+    * "AccessControl":
+    * {
+    * "Principal" : { "Email":"new_or_existing_user@a.com" },
+    * "CanUpload" : false,
+    * "CanDownload" : true,
+    * "CanView" : true
+    * }
+    * }
+    * ]
+    * }
+	* All the AccessControls are created or updated for a single Item identified by the Item id in the URI. AccessControl.Item Ids are not allowed.
+	* If an AccessControl doesn't specify NotifyUser or NotifyMessage property their values are inherited from the corresponding
+	* top-level properties.
+	* The Principal can be identified by Id or Email (Users). If a User with the specified email does not exist it will be created.
+	* Defaults for NotifyUser and Recursive are false.
+	* See AccessControlsBulkParams for other details.
+	* @param url 	 	
+	* @param bulkParams 	 	
+	* @return AccessControlBulkResult
+	*/
+	public ISFQuery<SFAccessControlBulkResult> bulkSet(URI url, SFAccessControlsBulkParams bulkParams) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (bulkParams == null) {
+			throw new InvalidOrMissingParameterException("bulkParams");
+		}
+
+		SFApiQuery<SFAccessControlBulkResult> sfApiQuery = new SFApiQuery<SFAccessControlBulkResult>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AccessControls");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addSubAction("BulkSet");
+		sfApiQuery.setBody(bulkParams);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update multiple access controls for a single principal
+    * {
+    * "NotifyUser":true,
+    * "NotifyMessage":"msg",
+    * 
+    * "AccessControlParams":
+    * [
+    * {
+    * "AccessControl":
+    * {
+    * "Item": { "Id": "item-id-1" },
+    * "Principal" : { "Id":"existing_user_id" },
+    * "CanUpload" : true,
+    * "CanDownload" : false,
+    * "CanView" : true
+    * },
+    * "NotifyUser":false
+    * },
+    * {
+    * "AccessControl":
+    * {
+    * "Item": { "Id": "item-id-3" },
+    * "Principal" : { "Id":"group_id" },
+    * "CanUpload" : false,
+    * "CanDownload" : true,
+    * "CanView" : true
+    * },
+    * "Recursive":true
+    * },
+    * {
+    * "AccessControl":
+    * {
+    * "Item": { "Id": "item-id-2" },
+    * "Principal" : { "Email":"new_or_existing_user@a.com" },
+    * "CanUpload" : false,
+    * "CanDownload" : true,
+    * "CanView" : true
+    * }
+    * }
+    * ]
+    * }
+	* @param principalId 	 	
+	* @param bulkParams 	 	
+	* @return AccessControlBulkResult
+	*/
+	public ISFQuery<SFAccessControlBulkResult> bulkSetForPrincipal(SFAccessControlsBulkParams bulkParams, String principalId) throws InvalidOrMissingParameterException 	{
+		if (bulkParams == null) {
+			throw new InvalidOrMissingParameterException("bulkParams");
+		}
+		if (principalId == null) {
+			throw new InvalidOrMissingParameterException("principalId");
+		}
+
+		SFApiQuery<SFAccessControlBulkResult> sfApiQuery = new SFApiQuery<SFAccessControlBulkResult>(this.client);
+		sfApiQuery.setFrom("AccessControls");
+		sfApiQuery.setAction("BulkSetForPrincipal");
+		sfApiQuery.addQueryString("principalId", principalId);
+		sfApiQuery.setBody(bulkParams);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete multiple access controls
+    * ["id1","id2",...]
+	* @param folderUrl 	 	
+	* @param principalIds 	 	
+	*/
+	public ISFQuery bulkDelete(URI folderUrl, ArrayList<String> principalIds) throws InvalidOrMissingParameterException 	{
+		if (folderUrl == null) {
+			throw new InvalidOrMissingParameterException("folderUrl");
+		}
+		if (principalIds == null) {
+			throw new InvalidOrMissingParameterException("principalIds");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AccessControls");
+		sfApiQuery.addIds(folderUrl);
+		sfApiQuery.addSubAction("BulkDelete");
+		sfApiQuery.setBody(principalIds);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete multiple access controls for principal
+    * ["id1","id2",...]
+	* @param principalId 	 	
+	* @param folderIds 	 	
+	*/
+	public ISFQuery bulkDeleteForPrincipal(ArrayList<String> folderIds, String principalId) throws InvalidOrMissingParameterException 	{
+		if (folderIds == null) {
+			throw new InvalidOrMissingParameterException("folderIds");
+		}
+		if (principalId == null) {
+			throw new InvalidOrMissingParameterException("principalId");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("AccessControls");
+		sfApiQuery.setAction("BulkDeleteForPrincipal");
+		sfApiQuery.addQueryString("principalId", principalId);
+		sfApiQuery.setBody(folderIds);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Notify users that they have access to the parent folder
+    * [
+    * {
+    * UserIds: ["id1", "id2"],
+    * CustomMessage: "Message content goes here"
+    * }
+    * ]
+	* All users should have access to the parent folder
+	* @param folderUrl 	 	
+	* @param notifyUsersParams 	 	
+	*/
+	public ISFQuery notifyUsers(URI folderUrl, SFNotifyUsersParams notifyUsersParams) throws InvalidOrMissingParameterException 	{
+		if (folderUrl == null) {
+			throw new InvalidOrMissingParameterException("folderUrl");
+		}
+		if (notifyUsersParams == null) {
+			throw new InvalidOrMissingParameterException("notifyUsersParams");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("AccessControls");
+		sfApiQuery.addIds(folderUrl);
+		sfApiQuery.addSubAction("NotifyUsers");
+		sfApiQuery.setBody(notifyUsersParams);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

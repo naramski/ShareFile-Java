@@ -40,6 +40,8 @@ public class SFContact extends SFPrincipal {
 	private String EmailShort;
 	@SerializedName("IsConfirmed")
 	private Boolean IsConfirmed;
+	@SerializedName("Count")
+	private Integer Count;
 
 	public SFUser getUser() {
 		return this.User;
@@ -89,6 +91,13 @@ public class SFContact extends SFPrincipal {
 
 	public void setIsConfirmed(Boolean isconfirmed) {
 		this.IsConfirmed = isconfirmed;
+	}
+	public Integer getCount() {
+		return this.Count;
+	}
+
+	public void setCount(Integer count) {
+		this.Count = count;
 	}
 
 }

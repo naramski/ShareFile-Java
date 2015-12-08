@@ -36,6 +36,8 @@ public class SFUserSecurity extends SFODataObject {
 	private Date LastWebAppLogin;
 	@SerializedName("LastAnyLogin")
 	private Date LastAnyLogin;
+	@SerializedName("FirstAnyLogin")
+	private Date FirstAnyLogin;
 	@SerializedName("UserIPRestrictions")
 	private String UserIPRestrictions;
 	@SerializedName("DisableLoginBefore")
@@ -91,6 +93,13 @@ public class SFUserSecurity extends SFODataObject {
 
 	public void setLastAnyLogin(Date lastanylogin) {
 		this.LastAnyLogin = lastanylogin;
+	}
+	public Date getFirstAnyLogin() {
+		return this.FirstAnyLogin;
+	}
+
+	public void setFirstAnyLogin(Date firstanylogin) {
+		this.FirstAnyLogin = firstanylogin;
 	}
 	public String getUserIPRestrictions() {
 		return this.UserIPRestrictions;

@@ -28,16 +28,42 @@ public class SFEntityTypeMap {
             _entityTypeMap.put("AccessControlsBulkParamss", SFAccessControlsBulkParams.class);
             _entityTypeMap.put("AccessControlParam", SFAccessControlParam.class);
             _entityTypeMap.put("AccessControlParams", SFAccessControlParam.class);
+            _entityTypeMap.put("EditingPlatformInfo", SFEditingPlatformInfo.class);
+            _entityTypeMap.put("EditingPlatformInfos", SFEditingPlatformInfo.class);
+            _entityTypeMap.put("NotifyUsersParams", SFNotifyUsersParams.class);
+            _entityTypeMap.put("NotifyUsersParamss", SFNotifyUsersParams.class);
+            _entityTypeMap.put("RemoteUpload", SFRemoteUpload.class);
+            _entityTypeMap.put("RemoteUploads", SFRemoteUpload.class);
+            _entityTypeMap.put("AccountZoneUsage", SFAccountZoneUsage.class);
+            _entityTypeMap.put("AccountZoneUsages", SFAccountZoneUsage.class);
+            _entityTypeMap.put("AccessControlBulkResult", SFAccessControlBulkResult.class);
+            _entityTypeMap.put("AccessControlBulkResults", SFAccessControlBulkResult.class);
+            _entityTypeMap.put("AccessControlFailedEntry", SFAccessControlFailedEntry.class);
+            _entityTypeMap.put("AccessControlFailedEntrys", SFAccessControlFailedEntry.class);
+            _entityTypeMap.put("ItemDlpInfo", SFItemDlpInfo.class);
+            _entityTypeMap.put("ItemDlpInfos", SFItemDlpInfo.class);
+            _entityTypeMap.put("ShareItemHistory", SFShareItemHistory.class);
+            _entityTypeMap.put("ShareItemHistorys", SFShareItemHistory.class);
             _entityTypeMap.put("InboxMetadata", SFInboxMetadata.class);
             _entityTypeMap.put("InboxMetadatas", SFInboxMetadata.class);
             _entityTypeMap.put("FolderTemplate", SFFolderTemplate.class);
             _entityTypeMap.put("FolderTemplates", SFFolderTemplate.class);
             _entityTypeMap.put("FolderTemplateItem", SFFolderTemplateItem.class);
             _entityTypeMap.put("FolderTemplateItems", SFFolderTemplateItem.class);
+            _entityTypeMap.put("ShareSettings", SFShareSettings.class);
+            _entityTypeMap.put("ShareSettingss", SFShareSettings.class);
+            _entityTypeMap.put("TenantZoneUsageReport", SFTenantZoneUsageReport.class);
+            _entityTypeMap.put("TenantZoneUsageReports", SFTenantZoneUsageReport.class);
+            _entityTypeMap.put("ZoneUsageBreakdown", SFZoneUsageBreakdown.class);
+            _entityTypeMap.put("ZoneUsageBreakdowns", SFZoneUsageBreakdown.class);
+            _entityTypeMap.put("UserConfirmRequirement", SFUserConfirmRequirement.class);
+            _entityTypeMap.put("UserConfirmRequirements", SFUserConfirmRequirement.class);
             _entityTypeMap.put("UserUsage", SFUserUsage.class);
             _entityTypeMap.put("UserUsages", SFUserUsage.class);
             _entityTypeMap.put("DiskSpace", SFDiskSpace.class);
             _entityTypeMap.put("DiskSpaces", SFDiskSpace.class);
+            _entityTypeMap.put("ReportRecord", SFReportRecord.class);
+            _entityTypeMap.put("ReportRecords", SFReportRecord.class);
             _entityTypeMap.put("BillingInfo", SFBillingInfo.class);
             _entityTypeMap.put("BillingInfos", SFBillingInfo.class);
             _entityTypeMap.put("UploadRequestParams", SFUploadRequestParams.class);
@@ -60,6 +86,8 @@ public class SFEntityTypeMap {
             _entityTypeMap.put("ConnectorGroupZones", SFConnectorGroupZone.class);
             _entityTypeMap.put("ConnectorGroupAccessControl", SFConnectorGroupAccessControl.class);
             _entityTypeMap.put("ConnectorGroupAccessControls", SFConnectorGroupAccessControl.class);
+            _entityTypeMap.put("Report", SFReport.class);
+            _entityTypeMap.put("Reports", SFReport.class);
             _entityTypeMap.put("Principal", SFPrincipal.class);
             _entityTypeMap.put("Principals", SFPrincipal.class);
             _entityTypeMap.put("PreviewPlatformInfo", SFPreviewPlatformInfo.class);
@@ -194,7 +222,7 @@ public class SFEntityTypeMap {
 	}
         
     /**
-     * put putitional models to the type map.
+     * Add additional models to the type map.
      */
     public static void addEntity(String key, Class value) {
         synchronized (mapLock) {

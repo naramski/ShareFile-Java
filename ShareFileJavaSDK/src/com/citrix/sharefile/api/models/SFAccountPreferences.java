@@ -158,10 +158,14 @@ public class SFAccountPreferences extends SFODataObject {
 	private String AllowedSpecialCharacters;
 	@SerializedName("EnableWebDAV")
 	private Boolean EnableWebDAV;
+	@SerializedName("WebDAVServerName")
+	private String WebDAVServerName;
 	@SerializedName("EnableFTP")
 	private Boolean EnableFTP;
 	@SerializedName("EnableSFTP")
 	private Boolean EnableSFTP;
+	@SerializedName("FtpServerName")
+	private String FtpServerName;
 	@SerializedName("DisableMarketing")
 	private Boolean DisableMarketing;
 	@SerializedName("VDRDocViewerURL")
@@ -172,8 +176,6 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnablePersonalCloudConnectors;
 	@SerializedName("AccountID")
 	private String AccountID;
-	@SerializedName("EnableGetApp")
-	private Boolean EnableGetApp;
 	@SerializedName("EnableStorageZoneConnector")
 	private Boolean EnableStorageZoneConnector;
 	@SerializedName("HasAnyConnectorZones")
@@ -192,6 +194,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer ENSMaxNotificationSyncWaitCount;
 	@SerializedName("TrustedDomains")
 	private String TrustedDomains;
+	@SerializedName("UseWebPopAsWebAppLogin")
+	private Boolean UseWebPopAsWebAppLogin;
 	@SerializedName("EnableReportingV3")
 	private Boolean EnableReportingV3;
 	@SerializedName("EnableEncryptedEmailForOutlookPlugin")
@@ -210,6 +214,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean IsPremier;
 	@SerializedName("DisableShareConnectForAccount")
 	private Boolean DisableShareConnectForAccount;
+	@SerializedName("DisablePrintToShareFile")
+	private Boolean DisablePrintToShareFile;
 	@SerializedName("EnableWebAppConnectorBrowsing")
 	private Boolean EnableWebAppConnectorBrowsing;
 	@SerializedName("EnableStrictCrossdomainPolicy")
@@ -222,6 +228,10 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableAntiVirus;
 	@SerializedName("EnableFileLocking")
 	private Boolean EnableFileLocking;
+	@SerializedName("DisableWebAppAccess")
+	private Boolean DisableWebAppAccess;
+	@SerializedName("EnableCWC")
+	private Boolean EnableCWC;
 	@SerializedName("EnableIntegrations")
 	private Boolean EnableIntegrations;
 	@SerializedName("IntegrationProviders")
@@ -230,14 +240,54 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableBouncedEmailNotifications;
 	@SerializedName("ShowDownloadLinkInUploadNotification")
 	private Boolean ShowDownloadLinkInUploadNotification;
+	@SerializedName("AllowDownloadNotificationsWithoutAdmin")
+	private Boolean AllowDownloadNotificationsWithoutAdmin;
 	@SerializedName("EnableUserInvitations")
 	private Boolean EnableUserInvitations;
 	@SerializedName("EnableClickTrails")
 	private Boolean EnableClickTrails;
+	@SerializedName("EnableFolderTemplates")
+	private Boolean EnableFolderTemplates;
+	@SerializedName("EnableFileDrops")
+	private Boolean EnableFileDrops;
+	@SerializedName("SpamEmailThreshold")
+	private Integer SpamEmailThreshold;
+	@SerializedName("EnableExternalEmailArchiving")
+	private Boolean EnableExternalEmailArchiving;
+	@SerializedName("CreatorCanDelete")
+	private Boolean CreatorCanDelete;
 	@SerializedName("CanStoreItemsInShareFile")
 	private Boolean CanStoreItemsInShareFile;
 	@SerializedName("EnableHomeFolders")
 	private Boolean EnableHomeFolders;
+	@SerializedName("EnableCustomBrandingUsesS3")
+	private Boolean EnableCustomBrandingUsesS3;
+	@SerializedName("EnablePromotions")
+	private Boolean EnablePromotions;
+	@SerializedName("CanCreateMultiTenantZones")
+	private Boolean CanCreateMultiTenantZones;
+	@SerializedName("EnableDLP")
+	private Boolean EnableDLP;
+	@SerializedName("EnableOfficeOnlinePreviews")
+	private Boolean EnableOfficeOnlinePreviews;
+	@SerializedName("EnableOfficeOnlineEditing")
+	private Boolean EnableOfficeOnlineEditing;
+	@SerializedName("RecycleBinDays")
+	private Integer RecycleBinDays;
+	@SerializedName("SyncConcurrentTransferThreadsLimit")
+	private Integer SyncConcurrentTransferThreadsLimit;
+	@SerializedName("HasPHI")
+	private Boolean HasPHI;
+	@SerializedName("EnableCitrixManagedStorageZones")
+	private Boolean EnableCitrixManagedStorageZones;
+	@SerializedName("PrimaryStorageBasePath")
+	private String PrimaryStorageBasePath;
+	@SerializedName("EnableSharingConnectorItems")
+	private Boolean EnableSharingConnectorItems;
+	@SerializedName("EnableSingleIdentity")
+	private Boolean EnableSingleIdentity;
+	@SerializedName("EnableDriveMapping")
+	private Boolean EnableDriveMapping;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -701,6 +751,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableWebDAV(Boolean enablewebdav) {
 		this.EnableWebDAV = enablewebdav;
 	}
+	public String getWebDAVServerName() {
+		return this.WebDAVServerName;
+	}
+
+	public void setWebDAVServerName(String webdavservername) {
+		this.WebDAVServerName = webdavservername;
+	}
 	public Boolean getEnableFTP() {
 		return this.EnableFTP;
 	}
@@ -714,6 +771,13 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableSFTP(Boolean enablesftp) {
 		this.EnableSFTP = enablesftp;
+	}
+	public String getFtpServerName() {
+		return this.FtpServerName;
+	}
+
+	public void setFtpServerName(String ftpservername) {
+		this.FtpServerName = ftpservername;
 	}
 	public Boolean getDisableMarketing() {
 		return this.DisableMarketing;
@@ -749,13 +813,6 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setAccountID(String accountid) {
 		this.AccountID = accountid;
-	}
-	public Boolean getEnableGetApp() {
-		return this.EnableGetApp;
-	}
-
-	public void setEnableGetApp(Boolean enablegetapp) {
-		this.EnableGetApp = enablegetapp;
 	}
 	public Boolean getEnableStorageZoneConnector() {
 		return this.EnableStorageZoneConnector;
@@ -820,6 +877,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setTrustedDomains(String trusteddomains) {
 		this.TrustedDomains = trusteddomains;
 	}
+	public Boolean getUseWebPopAsWebAppLogin() {
+		return this.UseWebPopAsWebAppLogin;
+	}
+
+	public void setUseWebPopAsWebAppLogin(Boolean usewebpopaswebapplogin) {
+		this.UseWebPopAsWebAppLogin = usewebpopaswebapplogin;
+	}
 	public Boolean getEnableReportingV3() {
 		return this.EnableReportingV3;
 	}
@@ -883,6 +947,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setDisableShareConnectForAccount(Boolean disableshareconnectforaccount) {
 		this.DisableShareConnectForAccount = disableshareconnectforaccount;
 	}
+	public Boolean getDisablePrintToShareFile() {
+		return this.DisablePrintToShareFile;
+	}
+
+	public void setDisablePrintToShareFile(Boolean disableprinttosharefile) {
+		this.DisablePrintToShareFile = disableprinttosharefile;
+	}
 	public Boolean getEnableWebAppConnectorBrowsing() {
 		return this.EnableWebAppConnectorBrowsing;
 	}
@@ -925,6 +996,20 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableFileLocking(Boolean enablefilelocking) {
 		this.EnableFileLocking = enablefilelocking;
 	}
+	public Boolean getDisableWebAppAccess() {
+		return this.DisableWebAppAccess;
+	}
+
+	public void setDisableWebAppAccess(Boolean disablewebappaccess) {
+		this.DisableWebAppAccess = disablewebappaccess;
+	}
+	public Boolean getEnableCWC() {
+		return this.EnableCWC;
+	}
+
+	public void setEnableCWC(Boolean enablecwc) {
+		this.EnableCWC = enablecwc;
+	}
 	public Boolean getEnableIntegrations() {
 		return this.EnableIntegrations;
 	}
@@ -953,6 +1038,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setShowDownloadLinkInUploadNotification(Boolean showdownloadlinkinuploadnotification) {
 		this.ShowDownloadLinkInUploadNotification = showdownloadlinkinuploadnotification;
 	}
+	public Boolean getAllowDownloadNotificationsWithoutAdmin() {
+		return this.AllowDownloadNotificationsWithoutAdmin;
+	}
+
+	public void setAllowDownloadNotificationsWithoutAdmin(Boolean allowdownloadnotificationswithoutadmin) {
+		this.AllowDownloadNotificationsWithoutAdmin = allowdownloadnotificationswithoutadmin;
+	}
 	public Boolean getEnableUserInvitations() {
 		return this.EnableUserInvitations;
 	}
@@ -967,6 +1059,41 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableClickTrails(Boolean enableclicktrails) {
 		this.EnableClickTrails = enableclicktrails;
 	}
+	public Boolean getEnableFolderTemplates() {
+		return this.EnableFolderTemplates;
+	}
+
+	public void setEnableFolderTemplates(Boolean enablefoldertemplates) {
+		this.EnableFolderTemplates = enablefoldertemplates;
+	}
+	public Boolean getEnableFileDrops() {
+		return this.EnableFileDrops;
+	}
+
+	public void setEnableFileDrops(Boolean enablefiledrops) {
+		this.EnableFileDrops = enablefiledrops;
+	}
+	public Integer getSpamEmailThreshold() {
+		return this.SpamEmailThreshold;
+	}
+
+	public void setSpamEmailThreshold(Integer spamemailthreshold) {
+		this.SpamEmailThreshold = spamemailthreshold;
+	}
+	public Boolean getEnableExternalEmailArchiving() {
+		return this.EnableExternalEmailArchiving;
+	}
+
+	public void setEnableExternalEmailArchiving(Boolean enableexternalemailarchiving) {
+		this.EnableExternalEmailArchiving = enableexternalemailarchiving;
+	}
+	public Boolean getCreatorCanDelete() {
+		return this.CreatorCanDelete;
+	}
+
+	public void setCreatorCanDelete(Boolean creatorcandelete) {
+		this.CreatorCanDelete = creatorcandelete;
+	}
 	public Boolean getCanStoreItemsInShareFile() {
 		return this.CanStoreItemsInShareFile;
 	}
@@ -980,6 +1107,104 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableHomeFolders(Boolean enablehomefolders) {
 		this.EnableHomeFolders = enablehomefolders;
+	}
+	public Boolean getEnableCustomBrandingUsesS3() {
+		return this.EnableCustomBrandingUsesS3;
+	}
+
+	public void setEnableCustomBrandingUsesS3(Boolean enablecustombrandingusess3) {
+		this.EnableCustomBrandingUsesS3 = enablecustombrandingusess3;
+	}
+	public Boolean getEnablePromotions() {
+		return this.EnablePromotions;
+	}
+
+	public void setEnablePromotions(Boolean enablepromotions) {
+		this.EnablePromotions = enablepromotions;
+	}
+	public Boolean getCanCreateMultiTenantZones() {
+		return this.CanCreateMultiTenantZones;
+	}
+
+	public void setCanCreateMultiTenantZones(Boolean cancreatemultitenantzones) {
+		this.CanCreateMultiTenantZones = cancreatemultitenantzones;
+	}
+	public Boolean getEnableDLP() {
+		return this.EnableDLP;
+	}
+
+	public void setEnableDLP(Boolean enabledlp) {
+		this.EnableDLP = enabledlp;
+	}
+	public Boolean getEnableOfficeOnlinePreviews() {
+		return this.EnableOfficeOnlinePreviews;
+	}
+
+	public void setEnableOfficeOnlinePreviews(Boolean enableofficeonlinepreviews) {
+		this.EnableOfficeOnlinePreviews = enableofficeonlinepreviews;
+	}
+	public Boolean getEnableOfficeOnlineEditing() {
+		return this.EnableOfficeOnlineEditing;
+	}
+
+	public void setEnableOfficeOnlineEditing(Boolean enableofficeonlineediting) {
+		this.EnableOfficeOnlineEditing = enableofficeonlineediting;
+	}
+	public Integer getRecycleBinDays() {
+		return this.RecycleBinDays;
+	}
+
+	public void setRecycleBinDays(Integer recyclebindays) {
+		this.RecycleBinDays = recyclebindays;
+	}
+	public Integer getSyncConcurrentTransferThreadsLimit() {
+		return this.SyncConcurrentTransferThreadsLimit;
+	}
+
+	public void setSyncConcurrentTransferThreadsLimit(Integer syncconcurrenttransferthreadslimit) {
+		this.SyncConcurrentTransferThreadsLimit = syncconcurrenttransferthreadslimit;
+	}
+	public Boolean getHasPHI() {
+		return this.HasPHI;
+	}
+
+	public void setHasPHI(Boolean hasphi) {
+		this.HasPHI = hasphi;
+	}
+	public Boolean getEnableCitrixManagedStorageZones() {
+		return this.EnableCitrixManagedStorageZones;
+	}
+
+	public void setEnableCitrixManagedStorageZones(Boolean enablecitrixmanagedstoragezones) {
+		this.EnableCitrixManagedStorageZones = enablecitrixmanagedstoragezones;
+	}
+	public String getPrimaryStorageBasePath() {
+		return this.PrimaryStorageBasePath;
+	}
+
+	public void setPrimaryStorageBasePath(String primarystoragebasepath) {
+		this.PrimaryStorageBasePath = primarystoragebasepath;
+	}
+	public Boolean getEnableSharingConnectorItems() {
+		return this.EnableSharingConnectorItems;
+	}
+
+	public void setEnableSharingConnectorItems(Boolean enablesharingconnectoritems) {
+		this.EnableSharingConnectorItems = enablesharingconnectoritems;
+	}
+	public Boolean getEnableSingleIdentity() {
+		return this.EnableSingleIdentity;
+	}
+
+	public void setEnableSingleIdentity(Boolean enablesingleidentity) {
+		this.EnableSingleIdentity = enablesingleidentity;
+	}
+	public Boolean getEnableDriveMapping() {
+		return this.EnableDriveMapping;
+	}
+
+	public void setEnableDriveMapping(Boolean enabledrivemapping) {
+		this.EnableDriveMapping = enabledrivemapping;
 	}
 
 }

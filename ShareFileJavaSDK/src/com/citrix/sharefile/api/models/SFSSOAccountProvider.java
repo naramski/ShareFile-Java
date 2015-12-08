@@ -42,6 +42,8 @@ public class SFSSOAccountProvider extends SFODataObject {
 	private String EntityID;
 	@SerializedName("SFEntityID")
 	private String SFEntityID;
+	@SerializedName("SSOProvidersToAccountsID")
+	private String SSOProvidersToAccountsID;
 	@SerializedName("SPInitatedAuthContext")
 	private String SPInitatedAuthContext;
 	@SerializedName("SPInitatedAuthMethod")
@@ -50,6 +52,8 @@ public class SFSSOAccountProvider extends SFODataObject {
 	private Boolean UseWebAuthentication;
 	@SerializedName("IsActive")
 	private Boolean IsActive;
+	@SerializedName("IsDefault")
+	private Boolean IsDefault;
 	@SerializedName("ProviderID")
 	private String ProviderID;
 	@SerializedName("DebugMode")
@@ -113,6 +117,13 @@ public class SFSSOAccountProvider extends SFODataObject {
 	public void setSFEntityID(String sfentityid) {
 		this.SFEntityID = sfentityid;
 	}
+	public String getSSOProvidersToAccountsID() {
+		return this.SSOProvidersToAccountsID;
+	}
+
+	public void setSSOProvidersToAccountsID(String ssoproviderstoaccountsid) {
+		this.SSOProvidersToAccountsID = ssoproviderstoaccountsid;
+	}
 	public String getSPInitatedAuthContext() {
 		return this.SPInitatedAuthContext;
 	}
@@ -140,6 +151,13 @@ public class SFSSOAccountProvider extends SFODataObject {
 
 	public void setIsActive(Boolean isactive) {
 		this.IsActive = isactive;
+	}
+	public Boolean getIsDefault() {
+		return this.IsDefault;
+	}
+
+	public void setIsDefault(Boolean isdefault) {
+		this.IsDefault = isdefault;
 	}
 	public String getProviderID() {
 		return this.ProviderID;
