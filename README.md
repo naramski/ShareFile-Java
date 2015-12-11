@@ -33,7 +33,7 @@ Alternatively you can use the SDK without building the SDK code, if you are usin
 * Gradle Dependency:
 
 		dependencies {	
-		    compile 'com.citrix:sharefile-api:3.0.7'
+		    compile 'com.citrix:sharefile-api:3.1.0'
 		}
 	
 	Gradle on Android might need the addional :
@@ -55,7 +55,7 @@ Alternatively you can use the SDK without building the SDK code, if you are usin
 		    <dependency>
 	    		<groupId>com.citrix</groupId>
 	    		<artifactId>sharefile-api</artifactId>
-	    		<version>3.0.7</version>
+	    		<version>3.1.0</version>
     		</dependency>
     	 
 
@@ -79,7 +79,7 @@ If you are using pro-guard, make sure to set the following in the configuration 
     
     	-keepattributes Signature
     	-keepattributes *Annotation*
-    	-keep class com.sharefile.api.** { *; }
+    	-keep class com.citrix.sharefile.api.** { *; }
     
 
 ## Initialise the SDK ##
