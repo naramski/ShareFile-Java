@@ -28,7 +28,7 @@ with an authorization response.
 The SDK is a pure Java code and you can build it using the Eclipse IDE (Kepler or higher) or using the Android Studio IDE. Simply point your IDE's import functionality to the SDK folder and it should be able to import the projects correctly. Make sure you have Java-7 JDK atleast.  You could either generate `.jar` files from the SDK and use them in your application projects or directly include the SDK Module in your Android application Project or Eclipse Workspace of the application.
 
 Alternatively you can use the SDK without building the SDK code, if you are using Gradle or Maven, you can directly add the dependency as follows:
-(Always check for the latest version on mavenCentral() since we keep posting enhancements and bug fixes. Altrenative use 3.+ as the version code in dependencies.)
+(Always check for the latest version [http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22sharefile-api%22](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22sharefile-api%22 "here on mavenCentral")   since we keep posting enhancements and bug fixes. Alternatively use 3.+ as the version code in dependencies.)
 
 * Gradle Dependency:
 
