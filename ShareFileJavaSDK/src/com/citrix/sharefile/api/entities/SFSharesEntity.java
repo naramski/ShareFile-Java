@@ -114,9 +114,19 @@ public class SFSharesEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFShareAlias> createRecipients(URI url, String Email, String FirstName, String LastName, String Company) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	/**
+	* Create Recipient for a Share
+	* Creates a Recipient User for a Share that requires user information
+	* @param parentUrl 	 	
+	* @param Email  (default: null)	 	
+	* @param FirstName  (default: null)	 	
+	* @param LastName  (default: null)	 	
+	* @param Company  (default: null)	 	
+	* @return A Share Alias representing a single recipient of the Share
+	*/
+	public ISFQuery<SFShareAlias> createRecipients(URI parentUrl, String Email, String FirstName, String LastName, String Company) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 		if (Email == null) {
 			throw new InvalidOrMissingParameterException("Email");
@@ -134,7 +144,7 @@ public class SFSharesEntity extends SFEntitiesBase
 		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.addQueryString("FirstName", FirstName);
 		sfApiQuery.addQueryString("LastName", LastName);
@@ -143,9 +153,18 @@ public class SFSharesEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFShareAlias> createRecipients(URI url, String Email, String FirstName, String LastName) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	/**
+	* Create Recipient for a Share
+	* Creates a Recipient User for a Share that requires user information
+	* @param parentUrl 	 	
+	* @param Email  (default: null)	 	
+	* @param FirstName  (default: null)	 	
+	* @param LastName  (default: null)	 	
+	* @return A Share Alias representing a single recipient of the Share
+	*/
+	public ISFQuery<SFShareAlias> createRecipients(URI parentUrl, String Email, String FirstName, String LastName) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 		if (Email == null) {
 			throw new InvalidOrMissingParameterException("Email");
@@ -160,7 +179,7 @@ public class SFSharesEntity extends SFEntitiesBase
 		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.addQueryString("FirstName", FirstName);
 		sfApiQuery.addQueryString("LastName", LastName);
@@ -168,9 +187,17 @@ public class SFSharesEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFShareAlias> createRecipients(URI url, String Email, String FirstName) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	/**
+	* Create Recipient for a Share
+	* Creates a Recipient User for a Share that requires user information
+	* @param parentUrl 	 	
+	* @param Email  (default: null)	 	
+	* @param FirstName  (default: null)	 	
+	* @return A Share Alias representing a single recipient of the Share
+	*/
+	public ISFQuery<SFShareAlias> createRecipients(URI parentUrl, String Email, String FirstName) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 		if (Email == null) {
 			throw new InvalidOrMissingParameterException("Email");
@@ -182,16 +209,23 @@ public class SFSharesEntity extends SFEntitiesBase
 		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.addQueryString("FirstName", FirstName);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFShareAlias> createRecipients(URI url, String Email) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	/**
+	* Create Recipient for a Share
+	* Creates a Recipient User for a Share that requires user information
+	* @param parentUrl 	 	
+	* @param Email  (default: null)	 	
+	* @return A Share Alias representing a single recipient of the Share
+	*/
+	public ISFQuery<SFShareAlias> createRecipients(URI parentUrl, String Email) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 		if (Email == null) {
 			throw new InvalidOrMissingParameterException("Email");
@@ -200,21 +234,27 @@ public class SFSharesEntity extends SFEntitiesBase
 		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.addQueryString("Email", Email);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFShareAlias> createRecipients(URI url) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	/**
+	* Create Recipient for a Share
+	* Creates a Recipient User for a Share that requires user information
+	* @param parentUrl 	 	
+	* @return A Share Alias representing a single recipient of the Share
+	*/
+	public ISFQuery<SFShareAlias> createRecipients(URI parentUrl) throws InvalidOrMissingParameterException 	{
+		if (parentUrl == null) {
+			throw new InvalidOrMissingParameterException("parentUrl");
 		}
 
 		SFApiQuery<SFShareAlias> sfApiQuery = new SFApiQuery<SFShareAlias>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Recipients");
-		sfApiQuery.addIds(url);
+		sfApiQuery.addIds(parentUrl);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -3790,9 +3830,9 @@ public class SFSharesEntity extends SFEntitiesBase
 	* Retrieve all outstanding Shares in the inbox.User identifier
 	* @return List of Shares created by the authenticated user
 	*/
-	public ISFQuery<SFODataFeed<SFShare>> getInbox(String id, SFSafeEnum<SFShareType> type, Boolean archived) throws InvalidOrMissingParameterException 	{
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
+	public ISFQuery<SFODataFeed<SFShare>> getInbox(String userId, SFSafeEnum<SFShareType> type, Boolean archived) throws InvalidOrMissingParameterException 	{
+		if (userId == null) {
+			throw new InvalidOrMissingParameterException("userId");
 		}
 		if (type == null) {
 			throw new InvalidOrMissingParameterException("type");
@@ -3804,7 +3844,7 @@ public class SFSharesEntity extends SFEntitiesBase
 		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Inbox");
-		sfApiQuery.addActionIds(id);
+		sfApiQuery.addActionIds(userId);
 		sfApiQuery.addQueryString("type", type);
 		sfApiQuery.addQueryString("archived", archived);
 		sfApiQuery.setHttpMethod("GET");
@@ -3816,9 +3856,9 @@ public class SFSharesEntity extends SFEntitiesBase
 	* Retrieve all outstanding Shares in the inbox.User identifier
 	* @return List of Shares created by the authenticated user
 	*/
-	public ISFQuery<SFODataFeed<SFShare>> getInbox(String id, SFSafeEnum<SFShareType> type) throws InvalidOrMissingParameterException 	{
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
+	public ISFQuery<SFODataFeed<SFShare>> getInbox(String userId, SFSafeEnum<SFShareType> type) throws InvalidOrMissingParameterException 	{
+		if (userId == null) {
+			throw new InvalidOrMissingParameterException("userId");
 		}
 		if (type == null) {
 			throw new InvalidOrMissingParameterException("type");
@@ -3827,7 +3867,7 @@ public class SFSharesEntity extends SFEntitiesBase
 		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Inbox");
-		sfApiQuery.addActionIds(id);
+		sfApiQuery.addActionIds(userId);
 		sfApiQuery.addQueryString("type", type);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
@@ -3838,15 +3878,15 @@ public class SFSharesEntity extends SFEntitiesBase
 	* Retrieve all outstanding Shares in the inbox.User identifier
 	* @return List of Shares created by the authenticated user
 	*/
-	public ISFQuery<SFODataFeed<SFShare>> getInbox(String id) throws InvalidOrMissingParameterException 	{
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
+	public ISFQuery<SFODataFeed<SFShare>> getInbox(String userId) throws InvalidOrMissingParameterException 	{
+		if (userId == null) {
+			throw new InvalidOrMissingParameterException("userId");
 		}
 
 		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Inbox");
-		sfApiQuery.addActionIds(id);
+		sfApiQuery.addActionIds(userId);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

@@ -13,13 +13,15 @@ public class SFSdkGlobals
 	private static final String API_SERVER_DEV = "sf-apidev.com";
 	private static final String API_SERVER_PRODUCTION = "sf-api.com";
 	private static final String API_SERVER_PRODUCTION_EU = "sf-api.eu";
+	private static final String API_SERVER_STAGING = "sf-apistaging.com";
 		
-	private static final String[] mApiServer = {API_SERVER_PRODUCTION, API_SERVER_DEV,API_SERVER_TEST,API_SERVER_PRODUCTION_EU};
+	private static final String[] mApiServer = {API_SERVER_PRODUCTION, API_SERVER_DEV,API_SERVER_TEST,API_SERVER_PRODUCTION_EU,API_SERVER_STAGING};
 		
 	private static final int HOST_INDEX_PRODUCTION = 0;
 	private static final int HOST_INDEX_DEV 		  = 1;
 	private static final int HOST_INDEX_TEST 	  = 2;
 	private static final int HOST_INDEX_PRODUCTION_EU 	  = 3;
+	private static final int HOST_INDEX_STAGING 	  = 4;
 		
 	public static final int getHostIndex(final String hostName)
 	{
@@ -36,6 +38,10 @@ public class SFSdkGlobals
 		else if(hostName.endsWith(".eu"))
 		{
 			index = HOST_INDEX_PRODUCTION_EU;
+		}
+		else if(hostName.endsWith("staging.com"))
+		{
+			index = HOST_INDEX_STAGING;
 		}
 		
 		return index;

@@ -47,5 +47,6 @@ public enum SFExceptionReason {
 	LoginBlacklistViolation,
 	UpdateSecurityQuestionError,
 	InvalidPassword,
-	ServiceUnavailable
+	ServiceUnavailable,
+	UnsupportedVosWithImgFileType
 }

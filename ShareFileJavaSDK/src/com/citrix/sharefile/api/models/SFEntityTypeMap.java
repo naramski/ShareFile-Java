@@ -28,12 +28,18 @@ public class SFEntityTypeMap {
             _entityTypeMap.put("AccessControlsBulkParamss", SFAccessControlsBulkParams.class);
             _entityTypeMap.put("AccessControlParam", SFAccessControlParam.class);
             _entityTypeMap.put("AccessControlParams", SFAccessControlParam.class);
+            _entityTypeMap.put("AccessControlsCloneParams", SFAccessControlsCloneParams.class);
+            _entityTypeMap.put("AccessControlsCloneParamss", SFAccessControlsCloneParams.class);
             _entityTypeMap.put("EditingPlatformInfo", SFEditingPlatformInfo.class);
             _entityTypeMap.put("EditingPlatformInfos", SFEditingPlatformInfo.class);
             _entityTypeMap.put("NotifyUsersParams", SFNotifyUsersParams.class);
             _entityTypeMap.put("NotifyUsersParamss", SFNotifyUsersParams.class);
             _entityTypeMap.put("RemoteUpload", SFRemoteUpload.class);
             _entityTypeMap.put("RemoteUploads", SFRemoteUpload.class);
+            _entityTypeMap.put("Service", SFService.class);
+            _entityTypeMap.put("Services", SFService.class);
+            _entityTypeMap.put("ServicesCollection", SFServicesCollection.class);
+            _entityTypeMap.put("ServicesCollections", SFServicesCollection.class);
             _entityTypeMap.put("AccountZoneUsage", SFAccountZoneUsage.class);
             _entityTypeMap.put("AccountZoneUsages", SFAccountZoneUsage.class);
             _entityTypeMap.put("AccessControlBulkResult", SFAccessControlBulkResult.class);

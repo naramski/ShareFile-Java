@@ -801,6 +801,40 @@ public class SFUsersEntity extends SFEntitiesBase
 	}
 
 	/**
+	* Remove Roles
+    * {
+    * [ "CanManageUsers", "CanSelectFolderZone" ]
+    * }
+	* Removes the roles for user.
+	* The following roles can be removed from user through this call (depending on User type):
+	* CanCreateFolders,
+	* CanSelectFolderZone,
+	* CanUseFileBox,
+	* CanManageUsers,
+	* AdminSharedAddressBook,
+	* CanChangePassword,
+	* CanManageMySettings
+	* @param userUrl 	 	
+	* @param userRoles 	 	
+	*/
+	public ISFQuery removeRoles(URI userUrl, ArrayList<SFSafeEnum<SFUserRole>> userRoles) throws InvalidOrMissingParameterException 	{
+		if (userUrl == null) {
+			throw new InvalidOrMissingParameterException("userUrl");
+		}
+		if (userRoles == null) {
+			throw new InvalidOrMissingParameterException("userRoles");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("RemoveRoles");
+		sfApiQuery.addIds(userUrl);
+		sfApiQuery.setBody(userRoles);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Update Employee or Promote Customer
     * {
     * "FirstName":"FirstName",

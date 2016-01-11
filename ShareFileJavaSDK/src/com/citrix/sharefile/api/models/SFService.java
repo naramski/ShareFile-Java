@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -24,26 +24,26 @@ import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
 
-public class SFItemProtocolLink extends SFODataObject {
+public class SFService extends SFODataObject {
 
-	@SerializedName("Link")
-	private String Link;
-	@SerializedName("Redirection")
-	private SFRedirection Redirection;
+	@SerializedName("AddOnCode")
+	private String AddOnCode;
+	@SerializedName("Licenses")
+	private Integer Licenses;
 
-	public String getLink() {
-		return this.Link;
+	public String getAddOnCode() {
+		return this.AddOnCode;
 	}
 
-	public void setLink(String link) {
-		this.Link = link;
+	public void setAddOnCode(String addoncode) {
+		this.AddOnCode = addoncode;
 	}
-	public SFRedirection getRedirection() {
-		return this.Redirection;
+	public Integer getLicenses() {
+		return this.Licenses;
 	}
 
-	public void setRedirection(SFRedirection redirection) {
-		this.Redirection = redirection;
+	public void setLicenses(Integer licenses) {
+		this.Licenses = licenses;
 	}
 
 }

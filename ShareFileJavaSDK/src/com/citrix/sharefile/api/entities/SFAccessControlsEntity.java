@@ -463,6 +463,34 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 	}
 
 	/**
+	* Recursively clones multiple access controls for a multiple users
+    * {
+    * "FolderId":"top-level-folder-id",
+    * "UserId":"source-user-id",
+    * "CloneUserIds":
+    * [
+    * "clone-user-id-1",
+    * "clone-user-id-2",
+    * "clone-user-id-3"
+    * ]
+    * }
+	* @param accessControlsCloneParams 	 	
+	* @return Cloned access controls
+	*/
+	public ISFQuery<SFAccessControlBulkResult> clone(SFAccessControlsCloneParams accessControlsCloneParams) throws InvalidOrMissingParameterException 	{
+		if (accessControlsCloneParams == null) {
+			throw new InvalidOrMissingParameterException("accessControlsCloneParams");
+		}
+
+		SFApiQuery<SFAccessControlBulkResult> sfApiQuery = new SFApiQuery<SFAccessControlBulkResult>(this.client);
+		sfApiQuery.setFrom("AccessControls");
+		sfApiQuery.setAction("Clone");
+		sfApiQuery.setBody(accessControlsCloneParams);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
 	* Delete multiple access controls
     * ["id1","id2",...]
 	* @param folderUrl 	 	
