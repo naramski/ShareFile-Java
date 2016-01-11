@@ -113,9 +113,9 @@ public interface ISFQuery<T>
 
     ISFQuery<T> filter(String filterValue);
 
-    ISFQuery is(SFV3ElementType type);
+    ISFQuery<T> is(SFV3ElementType type);
 
-    ISFQuery select(String name);
+    ISFQuery<T> select(String name);
 
     /**
      This function takes any uri and stores only its base part along with the provider

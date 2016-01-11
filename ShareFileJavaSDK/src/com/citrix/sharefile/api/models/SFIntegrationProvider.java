@@ -17,5 +17,6 @@ import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFIntegrationProvider {
-	RightSignature
+	RightSignature,
+	RightSignature4
 }

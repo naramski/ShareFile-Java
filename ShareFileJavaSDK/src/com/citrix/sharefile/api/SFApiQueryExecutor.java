@@ -199,6 +199,10 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                 String server = mSFApiClient.getOAuthToken().getApiServer();
                 String urlstr = mQuery.buildQueryUrlString(server);
 
+                if(!SFCapabilityService.getInternal().providerCapabilitiesLoaded(urlstr)) {
+                    SFCapabilityService.getInternal().getCapabilities(urlstr,mSFApiClient);
+                }
+
                 setCurrentUri(urlstr);
 
                 URL url = new URL(urlstr);
@@ -372,8 +376,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
     //https://crashlytics.com/citrix2/android/apps/com.citrix.sharefile.mobile.tablet/issues/5486913f65f8dfea154945c8/sessions/54834f7502e400013d029118062ebeab
     private boolean alreadyRenewedToken = false;
-    private void logMultipleTokenRenewals()
-    {
+    private void logMultipleTokenRenewals() throws SFNotAuthorizedException {
           if(!alreadyRenewedToken)
           {
               alreadyRenewedToken = true;
@@ -384,6 +387,9 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
           Logger.e(TAG, "!!Multiple token renewals in same query. Might lead to stack overflow " +
                   "\n mCurrentUri =  " + mCurrentUri
                   + "\nmLink = " + mQuery.getLink());
+
+        throw new SFNotAuthorizedException("Account not authorized");
+
     }
 
 	private T executeQueryAfterTokenRenew() throws

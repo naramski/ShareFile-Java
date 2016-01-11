@@ -31,5 +31,6 @@ public enum SFZoneService {
 	GenericConnector,
 	OneDriveBusinessConnector,
 	ShareConnectConnector,
-	Preview
+	Preview,
+	HighConcurrency
 }

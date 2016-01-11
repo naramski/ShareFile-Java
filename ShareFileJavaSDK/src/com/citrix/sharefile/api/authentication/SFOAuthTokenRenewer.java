@@ -1,9 +1,6 @@
 package com.citrix.sharefile.api.authentication;
 
 import com.citrix.sharefile.api.SFConnectionManager;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.citrix.sharefile.api.SFSdk;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.constants.SFSdkGlobals;
@@ -11,11 +8,13 @@ import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.citrix.sharefile.api.gson.SFGsonHelper;
 import com.citrix.sharefile.api.https.SFHttpsCaller;
 import com.citrix.sharefile.api.log.Logger;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -44,37 +43,6 @@ public class SFOAuthTokenRenewer
 		mOldAccessToken = oldtoken;
 		mWebLoginClientID = clientID;
 		mWebLoginClientSecret = clientSecret;
-	}
-	
-	private final String buildWebLoginTokenUrl(String controlplane,String subdomain)
-	{
-		String strDot = controlplane.startsWith(".")?"":".";
-		
-		return  "https://"+subdomain+strDot+controlplane+"/oauth/token";
-	}
-
-	private String getBodyForWebLogin(List<NameValuePair> params) throws UnsupportedEncodingException
-	{
-	    StringBuilder result = new StringBuilder();
-	    boolean first = true;
-
-	    for (NameValuePair pair : params)
-	    {
-	        if (first)
-	        {
-	            first = false;
-	        }
-	        else
-	        {
-	            result.append("&"); 
-	        }
-
-	        result.append(pair.getName());
-	        result.append("=");
-	        result.append(pair.getValue());
-	    }
-
-	    return result.toString();
 	}
 
     private String parseError(String serverRespString,int serverHttpCode)
@@ -114,7 +82,7 @@ public class SFOAuthTokenRenewer
 		
 		try 
 		{									
-			URL url = new URL(buildWebLoginTokenUrl(mOldAccessToken.getApiCP(), mOldAccessToken.getSubdomain()));
+			URL url = new URL(SFAuthUtils.buildWebLoginTokenUrl(mOldAccessToken.getApiCP(), mOldAccessToken.getSubdomain()));
 				  						
 			URLConnection conn = SFConnectionManager.openConnection(url);
 			SFHttpsCaller.setPostMethod(conn);
@@ -126,7 +94,7 @@ public class SFOAuthTokenRenewer
 			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_ID, mWebLoginClientID));
 			nvPairs.add(new BasicNameValuePair(SFKeywords.CLIENT_SECRET, mWebLoginClientSecret));		
 			
-			String body = getBodyForWebLogin(nvPairs);
+			String body = SFAuthUtils.getBodyForWebLogin(nvPairs);
 			
 			conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.length());			
 			conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_FORM_URLENCODED);

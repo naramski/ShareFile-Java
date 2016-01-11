@@ -178,6 +178,8 @@ public class SFAccount extends SFODataObject {
 	private SFBillingInfo BillingInformation;
 	@SerializedName("AccountSubType")
 	private SFSafeEnum<SFAccountSubType> AccountSubType;
+	@SerializedName("Services")
+	private SFServicesCollection Services;
 
 	public String getCompanyName() {
 		return this.CompanyName;
@@ -818,6 +820,19 @@ public class SFAccount extends SFODataObject {
 
 	public void setAccountSubType(SFSafeEnum<SFAccountSubType> accountsubtype) {
 		this.AccountSubType = accountsubtype;
+	}
+		/**
+		* The add-on services available to the account
+		*/
+	public SFServicesCollection getServices() {
+		return this.Services;
+	}
+
+		/**
+		* The add-on services available to the account
+		*/
+	public void setServices(SFServicesCollection services) {
+		this.Services = services;
 	}
 
 }

@@ -8,11 +8,16 @@ import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
 import com.citrix.sharefile.api.exceptions.SFJsonException;
 import com.citrix.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
+import com.citrix.sharefile.api.exceptions.SFOtherException;
 import com.citrix.sharefile.api.exceptions.SFSDKException;
+import com.citrix.sharefile.api.exceptions.SFServerException;
+import com.citrix.sharefile.api.gson.SFGsonHelper;
 import com.citrix.sharefile.api.https.SFHttpsCaller;
 import com.citrix.sharefile.api.interfaces.IOAuthTokenCallback;
 import com.citrix.sharefile.api.interfaces.ISFOAuthService;
 import com.citrix.sharefile.api.log.Logger;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -20,6 +25,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -308,5 +314,97 @@ public class SFOAuthService implements ISFOAuthService
         });
 
         thread.start();
+    }
+
+    /**
+     *  This function converts the SFWebAuthCode obtained from the webpop
+     *  and returns the OAuthToken from the server for that code.
+     *
+         The clientIDSecret is optional. Yf you don't pass these, the function will try to pick it up from
+         those which you set during the SFSdk.init()
+     */
+    @Override
+    public SFOAuth2Token getOAuthToken(SFWebAuthCode webAuthCode,String... clientIdSecret) throws SFServerException, SFOtherException
+    {
+        int httpErrorCode;
+        URLConnection conn = null;
+        String clientId = SFSdk.getClientId();
+        String clientSecret = SFSdk.getClientSecret();
+
+        if(clientIdSecret != null )
+        {
+            switch (clientIdSecret.length)
+            {
+                case 2:
+                {
+                    clientId = clientIdSecret[0];
+                    clientSecret = clientIdSecret[1];
+                }
+                break;
+
+                case 0:
+                    //do nothing
+                break;
+
+                default:
+                    throw new SFOtherException("You need to pass clientId/Secret ot nothing at all.\n In such case make sure to set the clientID/Secret from the SFSdk.init()");
+            }
+        }
+
+        try {
+            String urlSpec = SFAuthUtils.buildWebLoginTokenUrl(webAuthCode.mApiCp, webAuthCode.mSubDomain);
+            Logger.v(TAG, "GetOauthAuthAccessToken : " + urlSpec);
+            URL url = new URL(urlSpec);
+
+            conn = SFConnectionManager.openConnection(url);
+            SFHttpsCaller.setPostMethod(conn);
+            SFHttpsCaller.setAcceptLanguage(conn);
+
+            List<NameValuePair> nvPairs = new ArrayList<NameValuePair>();
+            nvPairs.add(new BasicNameValuePair("grant_type", "authorization_code"));
+            nvPairs.add(new BasicNameValuePair("code", webAuthCode.mCode));
+            nvPairs.add(new BasicNameValuePair("client_id", clientId));
+            nvPairs.add(new BasicNameValuePair("client_secret", clientSecret));
+
+            String body = SFAuthUtils.getBodyForWebLogin(nvPairs);
+
+            Logger.v(TAG, "POST BODY: " + body);
+
+            conn.setRequestProperty("Content-Length", "" + body.length());
+            conn.setRequestProperty("Content-Type", "" + "application/x-www-form-urlencoded");
+
+            SFHttpsCaller.postBody(conn, body);
+
+            httpErrorCode = SFHttpsCaller.safeGetResponseCode(conn);
+
+            if (httpErrorCode == HttpsURLConnection.HTTP_OK) {
+                String response = SFHttpsCaller.readResponse(conn);
+
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jsonObject = jsonParser.parse(response).getAsJsonObject();
+
+                String error = SFGsonHelper.getString(jsonObject, "error", "");
+                if (error.length() != 0) {
+                    String errorMessage = SFGsonHelper.getString(jsonObject, "errorMessage", "<unknown error>");
+                    throw new SFServerException(httpErrorCode, errorMessage);
+                }
+
+                return new SFOAuth2Token(jsonObject);
+            }
+        }
+        catch (SFServerException e)
+        {
+            throw e;
+        }
+        catch (Exception e)
+        {
+            throw new SFOtherException(e);
+        }
+        finally
+        {
+            SFHttpsCaller.disconnect(conn);
+        }
+
+        return  null;
     }
 }

@@ -70,6 +70,25 @@ public class SFReportsEntity extends SFEntitiesBase
 	/**
 	* Get recent reports
 	* Returns the last 10 reports run for the current account.
+	* @param maxReports  (default: 10)	 	
+	* @return List of reports
+	*/
+	public ISFQuery<SFODataFeed<SFReport>> getRecent(Integer maxReports) throws InvalidOrMissingParameterException 	{
+		if (maxReports == null) {
+			throw new InvalidOrMissingParameterException("maxReports");
+		}
+
+		SFApiQuery<SFODataFeed<SFReport>> sfApiQuery = new SFApiQuery<SFODataFeed<SFReport>>(this.client);
+		sfApiQuery.setFrom("Reports");
+		sfApiQuery.setAction("Recent");
+		sfApiQuery.addQueryString("maxReports", maxReports);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get recent reports
+	* Returns the most recent reports run for the current account. 10 reports are returned unless otherwise specified.
 	* @return List of reports
 	*/
 	public ISFQuery<SFODataFeed<SFReport>> getRecent()	{

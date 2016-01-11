@@ -56,4 +56,6 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler , ISFEntities
     public URI getDefaultUrl(String folderID) throws URISyntaxException;
     public URI getTopUrl();
     public URI getDeviceUrl(String deviceId) throws URISyntaxException;
+
+    public void setReAuthHandler(ISFReAuthHandler reAuthHandler);
 }

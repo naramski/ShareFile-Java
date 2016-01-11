@@ -22,6 +22,7 @@ import com.citrix.sharefile.api.interfaces.ISFApiResultCallback;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 import com.citrix.sharefile.api.interfaces.ISFReAuthHandler;
 import com.citrix.sharefile.api.log.Logger;
+import com.citrix.sharefile.api.models.SFClientCapability;
 import com.citrix.sharefile.api.models.SFFile;
 import com.citrix.sharefile.api.models.SFFolder;
 import com.citrix.sharefile.api.models.SFODataObject;
@@ -61,7 +62,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
     private final URI mDefaultTopUrl;
 
-    private final ISFReAuthHandler mReAuthHandler;
+    private ISFReAuthHandler mReAuthHandler;
 
     public boolean isClientInitialised()
 	{
@@ -106,6 +107,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 		mSfUserId = sfUserId;
 				
 		mSFAppConfig.addAcceptedLanguage(DEFAULT_ACCEPTED_LANGUAGE);
+        mSFAppConfig.addHeader(SFKeywords.CLIENT_CAPABILITIES_HEADER, SFClientCapability.HardLock.toString());
 		
 		copyOAuthToken(oauthToken);
 
@@ -419,4 +421,10 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
             mAuthTokenChangeCallback.tokenRenewFailed(apiClient,exception);
         }
     }
+
+	@Override
+	public void setReAuthHandler(ISFReAuthHandler reAuthHandler)
+	{
+		mReAuthHandler = reAuthHandler;
+	}
 }
