@@ -28,6 +28,8 @@ public class SFRemoteUpload extends SFODataObject {
 
 	@SerializedName("Name")
 	private String Name;
+	@SerializedName("Uri")
+	private String Uri;
 	@SerializedName("IsPublic")
 	private Boolean IsPublic;
 	@SerializedName("RequireUserInfo")
@@ -49,6 +51,19 @@ public class SFRemoteUpload extends SFODataObject {
 		*/
 	public void setName(String name) {
 		this.Name = name;
+	}
+		/**
+		* Uri to access the Remote Upload through the Web portal
+		*/
+	public String getUri() {
+		return this.Uri;
+	}
+
+		/**
+		* Uri to access the Remote Upload through the Web portal
+		*/
+	public void setUri(String uri) {
+		this.Uri = uri;
 	}
 		/**
 		* Indicates whether the Remote Upload is public or not.

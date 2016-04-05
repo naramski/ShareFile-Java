@@ -241,6 +241,7 @@ public class SFGsonHelper
 	private static final String SHAREFILE_MODELS_PACKAGE_NAME = "ShareFile.Api.Models.";
 	private static final String ELEMENT_TAG = "@Element";
 	private static final String METADATA_FEED_TAG = "$metadata#";
+	private static final String REDIRECTION_MODEL_TAG = SHAREFILE_MODELS_PACKAGE_NAME+"Redirection";
 
 	private static String replaceLeftSide(String tag, String original)
 	{
@@ -355,7 +356,8 @@ public class SFGsonHelper
 
 			if(odataType ==null)
 			{
-				if(metadata.endsWith(ELEMENT_TAG))
+				//if metadata ends with element tag or redirection tag, never parse it as FeedType.
+				if(metadata.endsWith(ELEMENT_TAG) || metadata.endsWith(REDIRECTION_MODEL_TAG))
 				{
 					odataType = metadata;
 				}

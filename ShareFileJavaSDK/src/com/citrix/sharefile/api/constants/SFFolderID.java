@@ -14,4 +14,14 @@ public final class SFFolderID
 		public static final String CONNECTOR_SHAREPOINT = "c-sp";
 		public static final String CONNECTOR_NETWORKSHARE = "c-cifs";
         public static final String SEARCH_RESULTS = "search_results";
+		public static final String CONNECTOR_SHARE_CONNECT = "c-shareconnect";
+		public static final String CONNECTOR_PCC = "personal_clound_connector";
+		public static final String CONNECTOR_OFFICE365 = "office_365_connector";
+		public static final String CONNECTOR_BOX = "c-Box";
+		public static final String CONNECTOR_DROPBOX = "c-Dropbox";
+		public static final String CONNECTOR_GOOGLE_DRIVE = "c-GoogleDrive";
+		public static final String CONNECTOR_ONE_DRIVE = "c-OneDrive";
+		public static final String CONNECTOR_SHAREPOINT_BUSINESS = "c-sp365";
+		public static final String CONNECTOR_ONE_DRIVE_BUSINESS = "c-odb365";
+
 }

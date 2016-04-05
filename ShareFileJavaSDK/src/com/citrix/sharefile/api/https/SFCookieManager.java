@@ -1,6 +1,7 @@
 package com.citrix.sharefile.api.https;
 
 import com.citrix.sharefile.api.SFSDKDefaultAccessScope;
+import com.citrix.sharefile.api.exceptions.SFFormsAuthenticationCookies;
 import com.citrix.sharefile.api.log.Logger;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class SFCookieManager
     private final Map<String,Map<String,Cookie>> mStore;
 
     private static final String SET_COOKIE = "Set-Cookie";
+	private static final String WWWW_AUTHENTICATE = "WWW-Authenticate";
     private static final String COOKIE_VALUE_DELIMITER = ";";
     private static final String PATH = "path";
     private static final String EXPIRES = "expires";
@@ -184,6 +186,46 @@ public class SFCookieManager
 		}
     }
  
+	/**
+	 * Retreivees the www-authentication-headers for personal cloud connectors when there is a not authorized exception
+	 * @param conn
+	 * @throws IOException
+	 */
+	@SFSDKDefaultAccessScope
+	SFFormsAuthenticationCookies readFormsAuthCookies(URLConnection conn) throws IOException
+	{
+		String headerName;
+		SFFormsAuthenticationCookies SFFormsAuthenticationCookies = null;
+		for (int i=1; (headerName = conn.getHeaderFieldKey(i)) != null; i++)
+		{
+			if (headerName.equalsIgnoreCase(WWWW_AUTHENTICATE)) {
+				if (SFFormsAuthenticationCookies == null) {
+					String headerValue = conn.getHeaderField(i);
+					String[] values = parseAuthenticationResponseHeader(headerValue);
+					if(values != null && values.length == 2) {
+						SFFormsAuthenticationCookies = new SFFormsAuthenticationCookies();
+						SFFormsAuthenticationCookies.setLoginURL(values[0]);
+						SFFormsAuthenticationCookies.setToken(values[1]);
+					}
+					return SFFormsAuthenticationCookies;
+				}
+			}
+		}
+		return SFFormsAuthenticationCookies;
+	}
+
+
+	private String[] parseAuthenticationResponseHeader(String headerValue) {
+		String[] result = new String[2];
+
+		String[] split = headerValue.split(" ");
+		if(split.length == 4) {
+			result[0] = split[1];
+			result[1] = split[3];
+			return result;
+		}
+		return null;
+	}
 
     /**
      * Prior to opening a URLConnection, calling this method will set all

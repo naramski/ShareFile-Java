@@ -422,6 +422,83 @@ public class SFUsersEntity extends SFEntitiesBase
 	* @param addshared  (default: false)	 	
 	* @param notify  (default: false)	 	
 	* @param ifNecessary  (default: false)	 	
+	* @param addPersonal  (default: false)	 	
+	* @return The new employee user
+	*/
+	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary, Boolean addPersonal) throws InvalidOrMissingParameterException 	{
+		if (user == null) {
+			throw new InvalidOrMissingParameterException("user");
+		}
+		if (pushCreatorDefaultSettings == null) {
+			throw new InvalidOrMissingParameterException("pushCreatorDefaultSettings");
+		}
+		if (addshared == null) {
+			throw new InvalidOrMissingParameterException("addshared");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+		if (ifNecessary == null) {
+			throw new InvalidOrMissingParameterException("ifNecessary");
+		}
+		if (addPersonal == null) {
+			throw new InvalidOrMissingParameterException("addPersonal");
+		}
+
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("AccountUser");
+		sfApiQuery.addQueryString("pushCreatorDefaultSettings", pushCreatorDefaultSettings);
+		sfApiQuery.addQueryString("addshared", addshared);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("ifNecessary", ifNecessary);
+		sfApiQuery.addQueryString("addPersonal", addPersonal);
+		sfApiQuery.setBody(user);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create Employee
+    * {
+    * "Email":"user.one@domain.com",
+    * "FirstName":"Name",
+    * "LastName":"Last Name",
+    * "Company":"Company",
+    * "Password":"password",
+    * "StorageQuotaLimitGB":50,
+    * "Preferences":
+    * {
+    * "CanResetPassword":true,
+    * "CanViewMySettings":true
+    * },
+    * "DefaultZone":
+    * {
+    * "Id":"zoneid"
+    * },
+    * "IsAdministrator": false,
+    * "CanCreateFolders": false,
+    * "CanUseFileBox": true,
+    * "CanManageUsers": false,
+    * "Roles": [
+    * "CanChangePassword", "CanManageMySettings",
+    * "CanUseFileBox, "CanManageUsers, "CanCreateFolders, "CanUseDropBox, "CanSelectFolderZone,
+    * "AdminAccountPolicies", "AdminBilling", "AdminBranding", "AdminChangePlan", "AdminFileBoxAccess",
+    * "AdminManageEmployees", "AdminRemoteUploadForms", "AdminReporting", "AdminSharedDistGroups",
+    * "AdminSharedAddressBook", "AdminViewReceipts", "AdminDelegate", "AdminManageFolderTemplates",
+    * "AdminEmailMessages", "AdminSSO", "AdminSuperGroup", "AdminZones", "AdminCreateSharedGroups", "AdminConnectors"
+    * ]
+    * }
+	* Creates a new Employee User (AccountUser) and associates it to an Account
+	* The following parameters from the input object are used: Email, FirstName, LastName, Company,
+	* DefaultZone, Password, IsEmployee, IsAdministrator, CanCreateFolders, CanUseFileBox, CanManageUsers,
+	* Preferences.CanResetPassword and Preferences.CanViewMySettings.
+	* Other parameters are ignoredStorageQuotaLimitGB parameter is optional. If not specified or equal to -1 the account default storage quota value will be set for the User.
+	* @param user 	 	
+	* @param pushCreatorDefaultSettings  (default: false)	 	
+	* @param addshared  (default: false)	 	
+	* @param notify  (default: false)	 	
+	* @param ifNecessary  (default: false)	 	
 	* @return The new employee user
 	*/
 	public ISFQuery<SFUser> createAccountUser(SFAccountUser user, Boolean pushCreatorDefaultSettings, Boolean addshared, Boolean notify, Boolean ifNecessary) throws InvalidOrMissingParameterException 	{
@@ -1455,6 +1532,50 @@ public class SFUsersEntity extends SFEntitiesBase
 		sfApiQuery.setAction("SentMessages");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create a one-time use login Uri for the Web App.
+	* @param url 	 	
+	* @return Redirection populated with link in Uri field
+	*/
+	public ISFQuery<SFRedirection> webAppManageUser(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("WebAppManageUser");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create a one-time use login Uri for the Web App.
+	* @return Redirection populated with link in Uri field
+	*/
+	public ISFQuery<SFRedirection> webAppManageUsers()	{
+
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("WebAppManageUsers");
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create a one-time use login Uri for the Web App.
+	* @return Redirection populated with link in Uri field
+	*/
+	public ISFQuery<SFRedirection> webAppAddEmployee()	{
+
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("WebAppAddEmployee");
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

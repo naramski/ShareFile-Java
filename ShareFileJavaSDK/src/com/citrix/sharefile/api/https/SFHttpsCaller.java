@@ -6,6 +6,7 @@ import com.citrix.sharefile.api.authentication.SFOAuth2Token;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
 import com.citrix.sharefile.api.SFProvider;
+import com.citrix.sharefile.api.exceptions.SFFormsAuthenticationCookies;
 import com.citrix.sharefile.api.utils.Utils;
 import com.citrix.sharefile.api.log.Logger;
 
@@ -22,8 +23,11 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -34,6 +38,8 @@ public class SFHttpsCaller
 	
 	private static final String NO_AUTH_CHALLENGES = "No authentication challenges found";
 	private static final String OUT_OF_MEMORY = "memory";
+	private static final String ROOT_PARAM = "root";
+	private static final String REDIRECT_URL_PARAM = "redirect_url";
 	
 	//private static CookieManager m_cookieManager = null;
 		
@@ -241,6 +247,69 @@ public class SFHttpsCaller
 		{						
 			cookieManager.readCookiesFromConnection(conn);
 		}				
+	}
+
+	public static SFFormsAuthenticationCookies getFormsAuthResponseCookies(URL url, URLConnection connection, SFCookieManager cookieManager) throws IOException
+	{
+		if(cookieManager != null) {
+			SFFormsAuthenticationCookies sfFormsAuthenticationCookies =  cookieManager.readFormsAuthCookies(connection);
+			if(sfFormsAuthenticationCookies != null) {
+				String rootParam = getRootQueryParamter(url);
+				//Adding the root parameter to the login and the token url
+				String tokenURL = getTokenURL(sfFormsAuthenticationCookies.getToken(), rootParam);
+				String loginURL = getLoginURL(sfFormsAuthenticationCookies.getLoginURL(), tokenURL, rootParam);
+
+				sfFormsAuthenticationCookies.setLoginURL(loginURL);
+				sfFormsAuthenticationCookies.setToken(tokenURL);
+				return sfFormsAuthenticationCookies;
+			}
+		}
+		return null;
+	}
+
+	private static String getTokenURL(String token, String root)
+	{
+		try {
+			return addQueryParams(token, ROOT_PARAM, root);
+		}
+		catch (URISyntaxException ex) {
+			Logger.e(TAG, "error: ", ex);
+			return null;
+		}
+	}
+
+	private static String getLoginURL(String login, String token, String root) {
+		try {
+			String loginURL = addQueryParams(login, ROOT_PARAM, root);
+			return addQueryParams(loginURL, REDIRECT_URL_PARAM, token);
+		}
+		catch (URISyntaxException ex) {
+			Logger.e(TAG, "error: ", ex);
+			return null;
+		}
+	}
+
+	private static String addQueryParams(String url, String name, String value) throws URISyntaxException {
+		URI oldUri = new URI(url);
+		String appendQuery = name + "=" + value;
+		String newQuery = oldUri.getQuery();
+		if (newQuery == null) {
+			newQuery = appendQuery;
+		} else {
+			newQuery += "&" + appendQuery;
+		}
+
+		URI newUri = new URI(oldUri.getScheme(), oldUri.getAuthority(),
+				oldUri.getPath(), newQuery, oldUri.getFragment());
+		return newUri.toString();
+	}
+
+	private static String getRootQueryParamter(URL url) {
+		String[] pairs = url.toString().split("&");
+
+		//Root is the first query parameter
+		int idx = pairs[0].indexOf("=");
+		return URLDecoder.decode(pairs[0].substring(idx + 1));
 	}
 			
 	public static String readResponse(URLConnection conn) throws IOException 

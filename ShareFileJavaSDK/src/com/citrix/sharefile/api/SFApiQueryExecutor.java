@@ -1,12 +1,12 @@
 package com.citrix.sharefile.api;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.citrix.sharefile.api.authentication.SFOAuth2Token;
 import com.citrix.sharefile.api.authentication.SFOAuthTokenRenewer;
+import com.citrix.sharefile.api.constants.SFFolderID;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
 import com.citrix.sharefile.api.exceptions.SFConnectionException;
+import com.citrix.sharefile.api.exceptions.SFFormsAuthenticationCookies;
 import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
 import com.citrix.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.citrix.sharefile.api.exceptions.SFNotFoundException;
@@ -22,8 +22,13 @@ import com.citrix.sharefile.api.interfaces.ISFQuery;
 import com.citrix.sharefile.api.interfaces.ISFReAuthHandler;
 import com.citrix.sharefile.api.log.Logger;
 import com.citrix.sharefile.api.models.SFFolder;
+import com.citrix.sharefile.api.models.SFODataFeed;
 import com.citrix.sharefile.api.models.SFRedirection;
+import com.citrix.sharefile.api.models.SFSymbolicLink;
 import com.citrix.sharefile.api.utils.Utils;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +39,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -94,15 +100,19 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		   mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.PATCH.toString()) ||
            mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.DELETE.toString())     )
 		{
-			String body = mQuery.getBody(); 
-			
-			if(body!=null && body.length()>0)
-			{
-				conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
-				conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
-				
-				SFHttpsCaller.postBody(conn, body);				
-			}
+			String body = mQuery.getBody();
+
+            // OnDesktop systems CONTENT_LENGTH is not set by default.
+            // Also setting zero content lenght and not sending anything causes server errors
+            // So set an empty JSON.
+            if(body == null || body.length() == 0)
+            {
+                body = "{}";
+            }
+
+            conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
+            conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
+            SFHttpsCaller.postBody(conn, body);
 		}
 	}			
 
@@ -172,7 +182,6 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
                     return executeBlockingQuery();
                 }
             }
-
             throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED, mReAuthContext);
         }
     }
@@ -198,10 +207,6 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             try {
                 String server = mSFApiClient.getOAuthToken().getApiServer();
                 String urlstr = mQuery.buildQueryUrlString(server);
-
-                if(!SFCapabilityService.getInternal().providerCapabilitiesLoaded(urlstr)) {
-                    SFCapabilityService.getInternal().getCapabilities(urlstr,mSFApiClient);
-                }
 
                 setCurrentUri(urlstr);
 
@@ -238,6 +243,9 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                         T ret = callSuccessResponseParser(responseString);
                         callSaveCredentialsCallback(ret);
+                        if(!SFCapabilityService.getInternal().providerCapabilitiesLoaded(urlstr)) {
+                            SFCapabilityService.getInternal().getCapabilities(urlstr,mSFApiClient);
+                        }
                         return ret;
                     }
                     //break;
@@ -254,6 +262,10 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                         callWipeCredentialsCallback();
 
+                        SFFormsAuthenticationCookies formsAuthResponseCookies = SFHttpsCaller.getFormsAuthResponseCookies(url, connection, mCookieManager);
+                        if(formsAuthResponseCookies != null) {
+                            throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED, formsAuthResponseCookies, mReAuthContext);
+                        }
                         return executeQueryWithReAuthentication();
                     }
                     //break;
@@ -301,7 +313,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             finally
             {
                 if(closeTheConnection) {
-                    SFHttpsCaller.disconnect(connection);
+                SFHttpsCaller.disconnect(connection);
                 }
             }
         }
@@ -383,10 +395,10 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
               return;
           }
 
-          //Token already renewed once before in this query. dump logs
-          Logger.e(TAG, "!!Multiple token renewals in same query. Might lead to stack overflow " +
-                  "\n mCurrentUri =  " + mCurrentUri
-                  + "\nmLink = " + mQuery.getLink());
+        //Token already renewed once before in this query. dump logs
+        Logger.e(TAG, "!!Multiple token renewals in same query. Might lead to stack overflow " +
+                "\n mCurrentUri =  " + mCurrentUri
+                + "\nmLink = " + mQuery.getLink());
 
         throw new SFNotAuthorizedException("Account not authorized");
 
@@ -416,6 +428,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             URI redirectLink = redirection.getUri();
             Logger.d(TAG,"REDIRECT TO: " + redirectLink);
             mQuery.setLinkAndAppendPreviousParameters(redirectLink);
+            if(mQuery.getBody() == null && redirection.getBody() != null) {
+                JsonParser parser = new JsonParser();
+                JsonObject bodyJson = (JsonObject)parser.parse(redirection.getBody());
+                mQuery.setBody(bodyJson);
+            }
             return executeBlockingQuery();
         }
         catch (NullPointerException e)
@@ -538,16 +555,112 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
         SFRedirection redirection = getRedirectionObject(sfobject);
 
-        if(redirection == null)
+        if(redirection != null)
         {
-            return sfobject;
-
+            return executeQueryOnRedirectedObject(redirection);
         }
 
-		return executeQueryOnRedirectedObject(redirection);
+        URI link = getShareConnectRedirectLink(sfobject);
+
+        if(link != null)
+        {
+            return executeQueryForShareConnectRead(link);
+        }
+
+        return sfobject;
 	}
-			
-	protected ISFApiResultCallback<T> getResponseListener()
+
+    private URI getFirstSymlinkChildURI(ArrayList feed)
+    {
+        if( feed!=null && feed.size()>0 && feed.get(0) instanceof SFSymbolicLink)
+        {
+            return ((SFSymbolicLink) feed.get(0)).geturl();
+        }
+
+        return null;
+    }
+
+    private static final String SHARE_CONNECT_ITEMS_QUERY_PART = "/Items("+SFFolderID.CONNECTOR_SHARE_CONNECT+")";
+
+
+    private URI getShareConnectRedirectLink(T sfobject) throws SFOtherException
+    {
+        if(!SFHttpMethod.GET.toString().equalsIgnoreCase(mQuery.getHttpMethod()) || mQuery.getLink() == null)
+        {
+            return null;
+        }
+
+        String path = mQuery.getLink().getPath();
+        if(path==null || !path.contains(SHARE_CONNECT_ITEMS_QUERY_PART))
+        {
+            return null;
+        }
+
+
+        if(sfobject instanceof SFFolder)
+        {
+            SFFolder folder = (SFFolder) sfobject;
+
+            if (SFFolderID.CONNECTOR_SHARE_CONNECT.equalsIgnoreCase(folder.getId()))
+            {
+                return getFirstSymlinkChildURI(folder.getChildren());
+            }
+
+            return null;
+        }
+
+        if(sfobject instanceof SFODataFeed)
+        {
+            URI uri = getFirstSymlinkChildURI(((SFODataFeed) sfobject).getFeed());
+            if(uri !=null)
+            {
+                //For feed type reads the url needs to have /Children in the path.
+                path = uri.getPath();
+                String uriStr = uri.toString();
+                uriStr = uriStr.replace(path,path+"/Children");
+                try
+                {
+                    return new URI(uriStr);
+                }
+                catch (URISyntaxException e)
+                {
+                    throw new SFOtherException("Invalid URI");
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private T executeQueryForShareConnectRead(URI shareConnectLink) throws
+            SFInvalidStateException, SFServerException,
+            SFOAuthTokenRenewException, SFOtherException,
+            SFNotAuthorizedException
+    {
+        try
+        {
+            Logger.d(TAG,"ShareConnect read from: " + shareConnectLink);
+            mQuery.setLinkAndAppendPreviousParameters(shareConnectLink);
+            return executeBlockingQuery();
+        }
+        catch (NullPointerException e)
+        {
+            Logger.e(TAG,e);
+            throw new SFOtherException("Server Bug: Redirection object or Uri is null");
+        }
+        catch (URISyntaxException e)
+        {
+            Logger.e(TAG,e);
+            throw new SFOtherException("Server Bug: Redirection object syntax error");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            Logger.e(TAG,e);
+            throw new SFOtherException("Server Bug: Redirection object unsupported encoding");
+        }
+    }
+
+    protected ISFApiResultCallback<T> getResponseListener()
 	{
 		return mResponseListener;
 	}			

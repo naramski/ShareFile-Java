@@ -921,5 +921,18 @@ public class SFAccountsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Create a one-time use login Uri for the Web App.
+	* @return Redirection populated with link in Uri field
+	*/
+	public ISFQuery<SFRedirection> webAppAdmin()	{
+
+		SFApiQuery<SFRedirection> sfApiQuery = new SFApiQuery<SFRedirection>(this.client);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("WebAppAdmin");
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
 }
 

@@ -44,6 +44,15 @@ public class SFRemoteUploadsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	public ISFQuery<SFRemoteUpload> getPublic()	{
+
+		SFApiQuery<SFRemoteUpload> sfApiQuery = new SFApiQuery<SFRemoteUpload>(this.client);
+		sfApiQuery.setFrom("RemoteUploads");
+		sfApiQuery.setAction("Public");
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
 	public ISFQuery<SFRemoteUpload> get(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
@@ -56,7 +65,7 @@ public class SFRemoteUploadsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, String userId, Integer expirationDays) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFRemoteUploadRequestParams uploadParams, String userId, Integer expirationDays) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
@@ -81,7 +90,7 @@ public class SFRemoteUploadsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFUploadSpecification> upload2(URI url, SFUploadRequestParams uploadParams, String userId) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFUploadSpecification> upload2(URI url, SFRemoteUploadRequestParams uploadParams, String userId) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
 		}
@@ -147,20 +156,20 @@ public class SFRemoteUploadsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
-	public ISFQuery<SFRemoteUpload> updateUsers(URI url, ArrayList<String> ids) throws InvalidOrMissingParameterException 	{
-		if (url == null) {
-			throw new InvalidOrMissingParameterException("url");
+	public ISFQuery<SFUser> validateRemoteUploadUser(String id, String email) throws InvalidOrMissingParameterException 	{
+		if (id == null) {
+			throw new InvalidOrMissingParameterException("id");
 		}
-		if (ids == null) {
-			throw new InvalidOrMissingParameterException("ids");
+		if (email == null) {
+			throw new InvalidOrMissingParameterException("email");
 		}
 
-		SFApiQuery<SFRemoteUpload> sfApiQuery = new SFApiQuery<SFRemoteUpload>(this.client);
+		SFApiQuery<SFUser> sfApiQuery = new SFApiQuery<SFUser>(this.client);
 		sfApiQuery.setFrom("RemoteUploads");
-		sfApiQuery.setAction("Users");
-		sfApiQuery.addIds(url);
-		sfApiQuery.setBody(ids);
-		sfApiQuery.setHttpMethod("PATCH");
+		sfApiQuery.setAction("ValidateRemoteUploadUser");
+		sfApiQuery.addQueryString("id", id);
+		sfApiQuery.addQueryString("email", email);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

@@ -7,6 +7,8 @@ public class SFNotAuthorizedException extends SFSDKException
 {
     private SFReAuthContext mReAuthContext;
 
+    private SFFormsAuthenticationCookies mFormsAuthenticationCookies;
+
     public SFNotAuthorizedException(String detailedMessage)
     {
         super(detailedMessage);
@@ -21,12 +23,24 @@ public class SFNotAuthorizedException extends SFSDKException
     {
         super(detailedMessage);
         mReAuthContext = reAuthContext;
+        this.mFormsAuthenticationCookies = null;
     }
 
     public SFNotAuthorizedException(Exception e, SFReAuthContext reAuthContext)
     {
         super(e);
         mReAuthContext = reAuthContext;
+        this.mFormsAuthenticationCookies = null;
+    }
+
+    public SFNotAuthorizedException(String detailedMessage, SFFormsAuthenticationCookies mFormsAuthenticationCookies, SFReAuthContext reAuthContext) {
+        super(detailedMessage);
+        this.mFormsAuthenticationCookies = mFormsAuthenticationCookies;
+        this.mReAuthContext = reAuthContext;
+    }
+
+    public SFFormsAuthenticationCookies getFormsAuthenticationCookies() {
+        return mFormsAuthenticationCookies;
     }
 
     public SFReAuthContext getReAuthContext()

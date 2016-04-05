@@ -46,7 +46,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	
 	private final AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
 	private SFSession mSession = null;	
-	private final SFCookieManager mCookieManager = new SFCookieManager(); 
+	private SFCookieManager mCookieManager = new SFCookieManager();
 	private final String mClientID;
 	private final String mClientSecret;
 	private final IOAuthTokenChangeHandler mAuthTokenChangeCallback;
@@ -127,6 +127,18 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         }
 
         mReAuthHandler = reAuthHandler;
+	}
+
+    public SFApiClient clone(){
+        try {
+            SFApiClient clonedClient = new SFApiClient(getOAuthToken(), mSfUserId, mClientID, mClientSecret, mAuthTokenChangeCallback, mReAuthHandler);
+            clonedClient.mCookieManager = mCookieManager;
+            return clonedClient;
+        }
+        catch(SFInvalidStateException ex) {
+            Logger.d(TAG, "Exception in creating a clone of the API Client");
+        }
+        return null;
 	}
 	
 	/**

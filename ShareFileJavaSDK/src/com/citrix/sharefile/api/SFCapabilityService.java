@@ -37,7 +37,7 @@ public class SFCapabilityService implements ISFCapabilityService
 
     public void getCapabilities(String providerUri, ISFApiClient client) {
         URI uriKey = getProviderUri(providerUri);
-        if(mUSerCapabilities.containsKey(providerUri))return;
+        if(mUSerCapabilities.containsKey(uriKey))return;
 
         //Since it doesn't exist, add it initially with a null entry to avoid an infinite loop.
         mUSerCapabilities.put(uriKey,null);
@@ -49,7 +49,7 @@ public class SFCapabilityService implements ISFCapabilityService
         catch(SFSDKException ex)
         {
             Logger.e(getClass().getSimpleName(), ex);
-            mUSerCapabilities.remove(providerUri);
+            mUSerCapabilities.remove(uriKey);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.citrix.sharefile.api.interfaces;
 
+import com.citrix.sharefile.api.SFApiClient;
 import com.citrix.sharefile.api.SFQueryStream;
 import com.citrix.sharefile.api.entities.ISFEntities;
 import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
@@ -58,4 +59,6 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler , ISFEntities
     public URI getDeviceUrl(String deviceId) throws URISyntaxException;
 
     public void setReAuthHandler(ISFReAuthHandler reAuthHandler);
+
+    public ISFApiClient clone();
 }

@@ -30,6 +30,8 @@ public class SFServicesCollection extends SFODataObject {
 	private SFService RightSignature;
 	@SerializedName("ShareConnect")
 	private SFService ShareConnect;
+	@SerializedName("ShareFileLegal")
+	private SFService ShareFileLegal;
 
 		/**
 		* RightSignature account service
@@ -56,6 +58,19 @@ public class SFServicesCollection extends SFODataObject {
 		*/
 	public void setShareConnect(SFService shareconnect) {
 		this.ShareConnect = shareconnect;
+	}
+		/**
+		* ShareFile Legal account service
+		*/
+	public SFService getShareFileLegal() {
+		return this.ShareFileLegal;
+	}
+
+		/**
+		* ShareFile Legal account service
+		*/
+	public void setShareFileLegal(SFService sharefilelegal) {
+		this.ShareFileLegal = sharefilelegal;
 	}
 
 }

@@ -198,7 +198,8 @@ public class SFOAuthService implements ISFOAuthService
         return url;
     }
 
-    protected SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken, String clientId,String clientSecret)
+    @Override
+    public SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken, String clientId,String clientSecret)
             throws SFOAuthTokenRenewException
     {
         SFOAuthTokenRenewer tokenRenewer = new SFOAuthTokenRenewer(oldToken,clientId,clientSecret);
@@ -293,6 +294,34 @@ public class SFOAuthService implements ISFOAuthService
     }
 
     @Override
+    public void authenticateAsync(final String subDomain,
+                                  final String apiControlPlane,
+                                  final String clientId,
+                                  final String clientSecret,
+                                  final String samlAssertion,
+                                  final IOAuthTokenCallback callback)
+    {
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    SFOAuth2Token token = authenticate(subDomain,apiControlPlane,clientId,clientSecret,samlAssertion);
+                    callback.onSuccess(token);
+                }
+                catch (SFSDKException e)
+                {
+                    callback.onError(e);
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+    @Override
     public void refreshOAuthTokenAsync(final SFOAuth2Token oldToken,
                                        final IOAuthTokenCallback callback)
     {
@@ -304,6 +333,31 @@ public class SFOAuthService implements ISFOAuthService
                 try
                 {
                     SFOAuth2Token token = refreshOAuthToken(oldToken);
+                    callback.onSuccess(token);
+                }
+                catch (SFSDKException e)
+                {
+                    callback.onError(e);
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+
+    @Override
+    public void refreshOAuthTokenAsync(final SFOAuth2Token oldToken, final String clientId, final String clientSecret,
+                                       final IOAuthTokenCallback callback)
+    {
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    SFOAuth2Token token = refreshOAuthToken(oldToken,clientId,clientSecret);
                     callback.onSuccess(token);
                 }
                 catch (SFSDKException e)

@@ -42,8 +42,6 @@ public final class SFKeywords
     public static final String CHILDREN_PREVIEW_PLATFORMS_SUPPORTED = CHILDREN + "/" + PREVIEW_PLATFORMS_SUPPORTED;
 	public static final String CHILDREN_LOCKED_BY = CHILDREN + "/" + LOCKED_BY;
 	public static final String CHILDREN_FILE_LOCK_INFO = CHILDREN + "/" + FILE_LOCK_INFO;
-			
-	public static final String CONSOLIDATED_NOTIFICATION = "ConsolidatedNotification";
 
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";

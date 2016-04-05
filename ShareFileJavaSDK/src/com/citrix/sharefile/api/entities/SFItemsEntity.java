@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -245,6 +245,8 @@ public class SFItemsEntity extends SFEntitiesBase
 	* For example, when users upload or modify an existing file, a new Item
 	* is created with the same StreamID. All default Item enumerations return only the latest version of a given stream.
 	* Use this method to retrieve previous versions of a given stream.
+	* This method carries a default OData $top parameter of 20. If more versions are required, specify the $top query
+	* option with the desired parameter.
 	* @param url 	 	
 	* @param includeDeleted  (default: false)	 	
 	*/
@@ -273,6 +275,8 @@ public class SFItemsEntity extends SFEntitiesBase
 	* For example, when users upload or modify an existing file, a new Item
 	* is created with the same StreamID. All default Item enumerations return only the latest version of a given stream.
 	* Use this method to retrieve previous versions of a given stream.
+	* This method carries a default OData $top parameter of 20. If more versions are required, specify the $top query
+	* option with the desired parameter.
 	* @param url 	 	
 	*/
 	public ISFQuery<SFODataFeed<SFItem>> stream(URI url) throws InvalidOrMissingParameterException 	{
@@ -351,6 +355,37 @@ public class SFItemsEntity extends SFEntitiesBase
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("Parent");
 		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Children
+	* Handler for the Children navigation property of a given Item.
+	* A 302 redirection is returned if the folder is a SymbolicLink. The redirection
+	* will enumerate the children of the remote connector
+	* @param url 	 	
+	* @param includeDeleted  (default: false)	 	
+	* @param orderingMode  (default: Default)	 	
+	* @return the list of children under the given object ID
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getChildren(URI url, Boolean includeDeleted, SFSafeEnum<SFItemOrderingMode> orderingMode) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (includeDeleted == null) {
+			throw new InvalidOrMissingParameterException("includeDeleted");
+		}
+		if (orderingMode == null) {
+			throw new InvalidOrMissingParameterException("orderingMode");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Children");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("includeDeleted", includeDeleted);
+		sfApiQuery.addQueryString("orderingMode", orderingMode);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}

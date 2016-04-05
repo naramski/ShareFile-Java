@@ -32,10 +32,10 @@ public class SFAccessControlsCloneParams extends SFODataObject {
 	private String NotifyMessage;
 	@SerializedName("FolderId")
 	private String FolderId;
-	@SerializedName("UserId")
-	private String UserId;
-	@SerializedName("CloneUserIds")
-	private ArrayList<String> CloneUserIds;
+	@SerializedName("PrincipalId")
+	private String PrincipalId;
+	@SerializedName("ClonePrincipalIds")
+	private ArrayList<String> ClonePrincipalIds;
 
 		/**
 		* Defines whether the cloned users should receieve a notice on the permission grant.
@@ -81,28 +81,28 @@ public class SFAccessControlsCloneParams extends SFODataObject {
 		/**
 		* This user's permissions will be used as the source for all cloned users.
 		*/
-	public String getUserId() {
-		return this.UserId;
+	public String getPrincipalId() {
+		return this.PrincipalId;
 	}
 
 		/**
 		* This user's permissions will be used as the source for all cloned users.
 		*/
-	public void setUserId(String userid) {
-		this.UserId = userid;
+	public void setPrincipalId(String principalid) {
+		this.PrincipalId = principalid;
 	}
 		/**
 		* List of existing users that will receive cloned permissions.
 		*/
-	public ArrayList<String> getCloneUserIds() {
-		return this.CloneUserIds;
+	public ArrayList<String> getClonePrincipalIds() {
+		return this.ClonePrincipalIds;
 	}
 
 		/**
 		* List of existing users that will receive cloned permissions.
 		*/
-	public void setCloneUserIds(ArrayList<String> cloneuserids) {
-		this.CloneUserIds = cloneuserids;
+	public void setClonePrincipalIds(ArrayList<String> cloneprincipalids) {
+		this.ClonePrincipalIds = cloneprincipalids;
 	}
 
 }

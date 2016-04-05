@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -78,6 +78,8 @@ public class SFUserPreferences extends SFODataObject {
 	private Boolean ReceiveBouncedEmailNotifications;
 	@SerializedName("EnablePromotions")
 	private Boolean EnablePromotions;
+	@SerializedName("UserNotificationLocale")
+	private SFSafeEnum<SFNotificationLocale> UserNotificationLocale;
 
 	public Boolean getEnableFlashUpload() {
 		return this.EnableFlashUpload;
@@ -260,6 +262,13 @@ public class SFUserPreferences extends SFODataObject {
 
 	public void setEnablePromotions(Boolean enablepromotions) {
 		this.EnablePromotions = enablepromotions;
+	}
+	public SFSafeEnum<SFNotificationLocale> getUserNotificationLocale() {
+		return this.UserNotificationLocale;
+	}
+
+	public void setUserNotificationLocale(SFSafeEnum<SFNotificationLocale> usernotificationlocale) {
+		this.UserNotificationLocale = usernotificationlocale;
 	}
 
 }

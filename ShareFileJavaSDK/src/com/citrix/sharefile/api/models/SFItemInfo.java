@@ -74,6 +74,8 @@ public class SFItemInfo extends SFODataObject {
 	private Boolean CanManagePermissions;
 	@SerializedName("CanEditFolderOpts")
 	private Boolean CanEditFolderOpts;
+	@SerializedName("CanEditRetentionPolicy")
+	private Boolean CanEditRetentionPolicy;
 	@SerializedName("FolderPayID")
 	private String FolderPayID;
 	@SerializedName("ShowFolderPayBuyButton")
@@ -272,6 +274,13 @@ public class SFItemInfo extends SFODataObject {
 
 	public void setCanEditFolderOpts(Boolean caneditfolderopts) {
 		this.CanEditFolderOpts = caneditfolderopts;
+	}
+	public Boolean getCanEditRetentionPolicy() {
+		return this.CanEditRetentionPolicy;
+	}
+
+	public void setCanEditRetentionPolicy(Boolean caneditretentionpolicy) {
+		this.CanEditRetentionPolicy = caneditretentionpolicy;
 	}
 	public String getFolderPayID() {
 		return this.FolderPayID;

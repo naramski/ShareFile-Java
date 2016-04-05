@@ -27,11 +27,17 @@ public interface ISFOAuthService
 
     public void authenticateAsync(String subDomain, String apiControlPlane, String samlAssertion, IOAuthTokenCallback callback);
 
+    public void authenticateAsync(String subDomain, String apiControlPlane, String clientId, String clientSecret, String samlAssertion, IOAuthTokenCallback callback);
+
     public void refreshOAuthTokenAsync(SFOAuth2Token oldToken, IOAuthTokenCallback callback);
+
+    public void refreshOAuthTokenAsync(SFOAuth2Token oldToken, String clientId,String clientSecret,IOAuthTokenCallback callback);
 
     /**
         The clientID Secret is optional. Yf you don't pass these, the function will try to pick it up from
         those which you set during the SFSdk.init()
      */
     public SFOAuth2Token getOAuthToken(SFWebAuthCode webAuthCode, String... clientIdSecret) throws SFServerException, SFOtherException;
+
+    public SFOAuth2Token refreshOAuthToken(SFOAuth2Token oldToken, String clientId,String clientSecret) throws SFOAuthTokenRenewException;
 }

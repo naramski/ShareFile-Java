@@ -48,5 +48,12 @@ public enum SFExceptionReason {
 	UpdateSecurityQuestionError,
 	InvalidPassword,
 	ServiceUnavailable,
-	UnsupportedVosWithImgFileType
+	UnsupportedVosWithImgFileType,
+	EmailWhitelistViolation,
+	EmailBlacklistViolation,
+	IrmClassificationError,
+	UnsupportedIrmFileType,
+	IrmClassificationDisabled,
+	IrmClassificationNotFound,
+	DuplicateIrmClassificationName
 }

@@ -61,5 +61,8 @@ public enum SFCapabilityName {
 	AnonymousSharingSend,
 	Copy,
 	Move,
-	UnZipFileUploads
+	UnZipFileUploads,
+	RightSignature4,
+	DocumentApprovalWorkflow,
+	ShareAccessRight
 }

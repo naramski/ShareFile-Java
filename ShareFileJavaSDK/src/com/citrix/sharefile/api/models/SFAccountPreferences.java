@@ -268,6 +268,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean CanCreateMultiTenantZones;
 	@SerializedName("EnableDLP")
 	private Boolean EnableDLP;
+	@SerializedName("EnableIRM")
+	private Boolean EnableIRM;
 	@SerializedName("EnableOfficeOnlinePreviews")
 	private Boolean EnableOfficeOnlinePreviews;
 	@SerializedName("EnableOfficeOnlineEditing")
@@ -284,10 +286,20 @@ public class SFAccountPreferences extends SFODataObject {
 	private String PrimaryStorageBasePath;
 	@SerializedName("EnableSharingConnectorItems")
 	private Boolean EnableSharingConnectorItems;
+	@SerializedName("AccountMessageCode")
+	private SFAccountMessageCode AccountMessageCode;
 	@SerializedName("EnableSingleIdentity")
 	private Boolean EnableSingleIdentity;
 	@SerializedName("EnableDriveMapping")
 	private Boolean EnableDriveMapping;
+	@SerializedName("NotificationLocale")
+	private SFSafeEnum<SFNotificationLocale> NotificationLocale;
+	@SerializedName("RetentionPolicySysAdminOnly")
+	private Boolean RetentionPolicySysAdminOnly;
+	@SerializedName("EnableDocumentApprovalWorkflow")
+	private Boolean EnableDocumentApprovalWorkflow;
+	@SerializedName("EnableLocalization")
+	private Boolean EnableLocalization;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -1136,6 +1148,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableDLP(Boolean enabledlp) {
 		this.EnableDLP = enabledlp;
 	}
+	public Boolean getEnableIRM() {
+		return this.EnableIRM;
+	}
+
+	public void setEnableIRM(Boolean enableirm) {
+		this.EnableIRM = enableirm;
+	}
 	public Boolean getEnableOfficeOnlinePreviews() {
 		return this.EnableOfficeOnlinePreviews;
 	}
@@ -1192,6 +1211,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableSharingConnectorItems(Boolean enablesharingconnectoritems) {
 		this.EnableSharingConnectorItems = enablesharingconnectoritems;
 	}
+	public SFAccountMessageCode getAccountMessageCode() {
+		return this.AccountMessageCode;
+	}
+
+	public void setAccountMessageCode(SFAccountMessageCode accountmessagecode) {
+		this.AccountMessageCode = accountmessagecode;
+	}
 	public Boolean getEnableSingleIdentity() {
 		return this.EnableSingleIdentity;
 	}
@@ -1205,6 +1231,34 @@ public class SFAccountPreferences extends SFODataObject {
 
 	public void setEnableDriveMapping(Boolean enabledrivemapping) {
 		this.EnableDriveMapping = enabledrivemapping;
+	}
+	public SFSafeEnum<SFNotificationLocale> getNotificationLocale() {
+		return this.NotificationLocale;
+	}
+
+	public void setNotificationLocale(SFSafeEnum<SFNotificationLocale> notificationlocale) {
+		this.NotificationLocale = notificationlocale;
+	}
+	public Boolean getRetentionPolicySysAdminOnly() {
+		return this.RetentionPolicySysAdminOnly;
+	}
+
+	public void setRetentionPolicySysAdminOnly(Boolean retentionpolicysysadminonly) {
+		this.RetentionPolicySysAdminOnly = retentionpolicysysadminonly;
+	}
+	public Boolean getEnableDocumentApprovalWorkflow() {
+		return this.EnableDocumentApprovalWorkflow;
+	}
+
+	public void setEnableDocumentApprovalWorkflow(Boolean enabledocumentapprovalworkflow) {
+		this.EnableDocumentApprovalWorkflow = enabledocumentapprovalworkflow;
+	}
+	public Boolean getEnableLocalization() {
+		return this.EnableLocalization;
+	}
+
+	public void setEnableLocalization(Boolean enablelocalization) {
+		this.EnableLocalization = enablelocalization;
 	}
 
 }

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -16,8 +16,8 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
-public enum SFIntegrationProvider {
-	RightSignature,
-	RightSignature4,
-	DocumentApprovalWorkflow
+public enum SFShareAccessRightType {
+	ViewOnline,
+	IRM,
+	FullControl
 }

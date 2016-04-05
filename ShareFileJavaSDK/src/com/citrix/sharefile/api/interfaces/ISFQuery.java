@@ -31,6 +31,8 @@ public interface ISFQuery<T>
 
     ISFQuery<T>   setBody(ArrayList<?> sfoDataObjectsFeed);
 
+    ISFQuery<T>  setBody(Object object);
+
     ISFQuery<T>  addQueryString(String string, Object type);
 
     ISFQuery<T>  addActionIds(String id);
@@ -83,6 +85,8 @@ public interface ISFQuery<T>
     ISFQuery<T> allowRedirection(boolean value);
 
 	boolean reDirectionAllowed();
+
+    <V> ISFQuery<V> expect(Class<V> clazz);
 	
 	/**
 	 * This will append the query paremeters from previuos query to the new link. use this only
