@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.citrix.sharefile.api.SFSdk;
-import com.citrix.sharefile.api.async.SFAsyncTaskFactory;
 import com.citrix.sharefile.api.authentication.SFOAuth2Token;
 import com.citrix.sharefile.api.authentication.SFOAuthService;
 import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
@@ -28,14 +27,9 @@ public class Core
         return isInitialised;
     }
 
-    /*
-      * Please hard-code the following two strings with appropriate values you get from ShareFile API page.
-      * Dont disclose them to anyone.
-      * WEB_LOGIN_CLIENT_ID_SHAREFILE,
-      * WEB_LOGIN_CLIENT_SECRET_SHAREFILE
-    */
-    public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = null;
-    public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = null;
+    //These are specially generated for the JavaSDK Sample
+    public static final String WEB_LOGIN_CLIENT_ID_SHAREFILE = "tpB84u9E63jMkgLYS0Wdam6RiW0He0QH";
+    public static final String WEB_LOGIN_CLIENT_SECRET_SHAREFILE = "DuYf1GOSDGeBj8yBzO0ZxIMNrsYm2pkDLJSkOQOKa0WhCmez";
 
     public static final String WEB_LOGIN_REDIRECT_URL = "https://secure.sharefile.com/oauthcomplete.aspx";
     public static final String CONTROL_PLANE = "sharefile.com";

@@ -39,6 +39,7 @@ import com.citrix.sharefile.api.models.SFFolder;
 import com.citrix.sharefile.api.models.SFItem;
 import com.citrix.sharefile.api.models.SFODataFeed;
 import com.citrix.sharefile.api.models.SFSymbolicLink;
+import com.citrix.sharefile.api.models.SFUploadRequestParams;
 import com.sharefile.testv3.Core.Core;
 import com.sharefile.testv3.upload.UploadInfo;
 
@@ -183,11 +184,13 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 
         InputStream is = UploadInfo.getInputStreamFromPath(uploadInfo.getFullPathToFile(),getApplicationContext());
 
+		SFUploadRequestParams requestParams = new SFUploadRequestParams();
+		requestParams.setFileName(uploadInfo.getFilename());
+		requestParams.setDetails("");
+		requestParams.setFileSize((long) is.available());
+		requestParams.seturl(currentFolder.geturl());
         SFUploadRunnable uploader = Core.getApiClient().getUploader(
-                currentFolder,
-                uploadInfo.getFilename(),
-                "",
-                is.available(),
+                requestParams,
                 is,new TransferRunnable.IProgress() {
                     @Override
                     public void bytesTransfered(long l)
@@ -421,6 +424,7 @@ public class FoldersActivity extends Activity implements ISFReExecuteQuery
 				.get(getUriFromLink(link),false)
 				.expand(SFKeywords.CHILDREN)
 				.expand(SFKeywords.REDIRECTION).executeAsync(getContentsListener);
+
 	}
 		
 	ISFApiResultCallback<SFItem> getContentsListener = new ISFApiResultCallback<SFItem>()
