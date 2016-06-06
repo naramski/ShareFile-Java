@@ -71,6 +71,7 @@ import javax.net.ssl.HttpsURLConnection;
 class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 {
 	private static final String TAG = SFKeywords.TAG + "-SFApiThread";
+    private static final String EMPTY_JSON = "{}";
 			
 	private final ISFQuery<T> mQuery; 
 	private final ISFApiResultCallback<T> mResponseListener;
@@ -96,24 +97,37 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 		
 	private void handleHttPost(URLConnection conn) throws IOException
 	{
-		if(mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.POST.toString()) || 
-		   mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.PATCH.toString()) ||
-           mQuery.getHttpMethod().equalsIgnoreCase(SFHttpMethod.DELETE.toString())     )
-		{
+        //Don't do post for GET methods
+        if(SFHttpMethod.GET.toString().equalsIgnoreCase(mQuery.getHttpMethod()))
+        {
+            return;
+        }
+
+        //Don't do post for empty DELETE methods
+        //Certain Androids are giving errors on POST body.
+        //https://jira.ops.expertcity.com/browse/SFAND-2873
+        if(SFHttpMethod.DELETE.toString().equalsIgnoreCase(mQuery.getHttpMethod()) && Utils.isEmpty(mQuery.getBody()))
+        {
+             return;
+        }
+
 			String body = mQuery.getBody();
 
             // OnDesktop systems CONTENT_LENGTH is not set by default.
             // Also setting zero content lenght and not sending anything causes server errors
             // So set an empty JSON.
-            if(body == null || body.length() == 0)
-            {
-                body = "{}";
-            }
+        //https://community.sharefilesupport.com/citrixsharefile/topics/-content-length
+        // NOTE: by this point we have already set the HTTP method on the connection to POST
+        //       and all the other verbs: DELETE, PATCH etc are passed as an HTTP_METHOD_OVERRIDE
+        //       so this should work on all systems.
+        if(Utils.isEmpty(body))
+        {
+            body = EMPTY_JSON;
+        }
 
             conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
             conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
             SFHttpsCaller.postBody(conn, body);
-		}
 	}			
 
     private boolean shouldGetInputStream()
