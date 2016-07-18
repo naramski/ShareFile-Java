@@ -33,5 +33,9 @@ public enum SFZoneService {
 	ShareConnectConnector,
 	Preview,
 	HighConcurrency,
-	InformationRightsManagement
+	InformationRightsManagement,
+	DocumentumConnector,
+	AlfrescoConnector,
+	OpenTextConnector,
+	FileNetConnector
 }

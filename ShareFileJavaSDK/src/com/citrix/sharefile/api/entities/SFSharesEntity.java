@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -39,6 +39,24 @@ public class SFSharesEntity extends SFEntitiesBase
 	/**
 	* Get List of Shares
 	* Retrieve all outstanding Shares of the authenticated user
+	* @param includeExpired  (default: true)	 	
+	* @return List of Shares created by the authenticated user
+	*/
+	public ISFQuery<SFODataFeed<SFShare>> get(Boolean includeExpired) throws InvalidOrMissingParameterException 	{
+		if (includeExpired == null) {
+			throw new InvalidOrMissingParameterException("includeExpired");
+		}
+
+		SFApiQuery<SFODataFeed<SFShare>> sfApiQuery = new SFApiQuery<SFODataFeed<SFShare>>(this.client);
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.addQueryString("includeExpired", includeExpired);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get List of Shares
+	* Retrieve all outstanding Shares of the authenticated user
 	* @return List of Shares created by the authenticated user
 	*/
 	public ISFQuery<SFODataFeed<SFShare>> get()	{
@@ -50,11 +68,9 @@ public class SFSharesEntity extends SFEntitiesBase
 	}
 
 	/**
-	* Get Share
-	* Retrieve a single Share entity. If the Share allows anonymous access, then this method will not
-	* require authentication.
-	* @param url 	 	
-	* @return A single Share
+	* Get List of Shares
+	* Retrieve all outstanding Shares of the authenticated user
+	* @return List of Shares created by the authenticated user
 	*/
 	public ISFQuery<SFShare> get(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
@@ -854,6 +870,11 @@ public class SFSharesEntity extends SFEntitiesBase
 	* - "9999-12-31" disables share expiration.
 	* To use stream IDs as item IDs UsesStreamIDs needs to be set to true, and all the IDs in Items need to be specified
 	* as stream IDs.
+	* View Only:
+	* View Only share can be created by either setting "IsViewOnly = true" or "share.ShareAccessRight.ShareAccessRightType = ViewOnline"
+	* If both "share.IsViewOnly = true" and "share.ShareAccessRight.AccessRightType = FullControl" are passed to this method, then the "Full Control" permission takes higher priority
+	* and disables "ViewOnly" permission on the share.
+	* Only one of the two features(ViewOnly, IRM) can be enabled at a time. If you set both "IsViewOnly = true" and "share.ShareAccessRight.ShareAccessRightType = IRM", exception will be thrown
 	* @param share 	 	
 	* @param notify  (default: false)	 	
 	* @return The new Share
@@ -905,6 +926,11 @@ public class SFSharesEntity extends SFEntitiesBase
 	* - "9999-12-31" disables share expiration.
 	* To use stream IDs as item IDs UsesStreamIDs needs to be set to true, and all the IDs in Items need to be specified
 	* as stream IDs.
+	* View Only:
+	* View Only share can be created by either setting "IsViewOnly = true" or "share.ShareAccessRight.ShareAccessRightType = ViewOnline"
+	* If both "share.IsViewOnly = true" and "share.ShareAccessRight.AccessRightType = FullControl" are passed to this method, then the "Full Control" permission takes higher priority
+	* and disables "ViewOnly" permission on the share.
+	* Only one of the two features(ViewOnly, IRM) can be enabled at a time. If you set both "IsViewOnly = true" and "share.ShareAccessRight.ShareAccessRightType = IRM", exception will be thrown
 	* @param share 	 	
 	* @return The new Share
 	*/
@@ -929,6 +955,14 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Items": [ { "Id":"itemid" }, {...} ],
     * }
 	* Modifies an existing Share. If Items are specified they are added to the share.
+	* 
+	* View Only:
+	* If a share is not IRM Classified, it can be updated to ViewOnline/ViewOnly share by passing either "IsViewOnly= true" or "Share.ShareAccessRight.AccessRightType = ViewOnline"
+	* If a share is IRM Classified, then it can be updated to ViewOnline/ViewOnly share only by passing "Share.ShareAccessRight = ViewOnline". This will remove the IRMClassification on this share.
+	* Only one of the two features(ViewOnly, IRM) can be enabled at a time.
+	* 
+	* Full Control:
+	* Passing "Share.ShareAccessRight.AccessRightType = FullControl" will remove IRMClassification and ViewOnly features on the share. If you set both "IsViewOnly = true" and "share.ShareAccessRight.ShareAccessRightType = IRM", exception will be thrown
 	* @param url 	 	
 	* @param share 	 	
 	* @return The modified Share
@@ -1027,10 +1061,22 @@ public class SFSharesEntity extends SFEntitiesBase
 
 	/**
 	* Deliver Send a File Email
+    * {
+    * "Items":["itemId1", "itemId2", ...],
+    * "Emails":["email@sharefile.com", "email2@sharefile.com",...]
+    * "Subject": "Email Subject",
+    * "Body": "Email Message",
+    * "CcSender": false,
+    * "NotifyOnDownload": true,
+    * "RequireLogin": false,
+    * "MaxDownloads": 30,
+    * "ExpirationDays": -1
+    * }
 	* Sends an Email to the specified list of addresses, containing a link to the specified Items.
-	* The default number of expiration days is 30. -1 disables share expiration.
+	* The default number of expiration days is 30. Setting it to -1 disables share expiration. Note that the
+	* Emails and Items parameters expect an array of strings, rather than nested JSON objects.
 	* @param parameters 	 	
-	* @return The new Share
+	* @return Share object
 	*/
 	public ISFQuery<SFShare> createSend(SFShareSendParams parameters) throws InvalidOrMissingParameterException 	{
 		if (parameters == null) {
@@ -1047,16 +1093,34 @@ public class SFSharesEntity extends SFEntitiesBase
 
 	/**
 	* Deliver Request a File Email
-	* Sends an Email to the specified list of addresses, containing a link to files upload.
-	* The default number of expiration days is 30. -1 disables share expiration.
+    * {
+    * "FolderId":"folderId",
+    * "Emails":["email@sharefile.com", "email2@sharefile.com",...]
+    * "Subject": "Email Subject",
+    * "Body": "Email Message",
+    * "CcSender": false,
+    * "NotifyOnUpload": true,
+    * "RequireLogin": false,
+    * "ExpirationDays": -1
+    * }
+	* Sends an Email to the specified list of addresses, containing a link to upload to the specified folder.
+	* The default number of expiration days is 30. Setting it to -1 disables share expiration. Note that the
+	* Emails parameter expectd an array of strings, rather than nested JSON objects.
+	* 
+	* View Only:
+	* View Only share can be created by either setting "IsViewOnly = true" or "share.ShareAccessRight.ShareAccessRightType = ViewOnline"
+	* If both "share.IsViewOnly = true" and "share.ShareAccessRight.AccessRightType = FullControl" are passed to this method, then the "Full Control" permission takes higher priority
+	* and disables "ViewOnly" permission on the share.
+	* Only one of the two features(ViewOnly, IRM) can be enabled at a time. If you set both "IsViewOnly = true" and "share.ShareAccessRight.ShareAccessRightType = IRM", exception will be thrown
 	* @param parameters 	 	
+	* @return Share Object
 	*/
-	public ISFQuery createRequest(SFShareRequestParams parameters) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFShare> createRequest(SFShareRequestParams parameters) throws InvalidOrMissingParameterException 	{
 		if (parameters == null) {
 			throw new InvalidOrMissingParameterException("parameters");
 		}
 
-		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
 		sfApiQuery.setFrom("Shares");
 		sfApiQuery.setAction("Request");
 		sfApiQuery.setBody(parameters);
@@ -1065,8 +1129,16 @@ public class SFSharesEntity extends SFEntitiesBase
 	}
 
 	/**
-	* Deliver an existing share link to one or more recipients
-	* Sends an Email to the specified list of addresses, containing a link to a download or an upload.
+	* Re-deliver an Existing Share Link
+    * {
+    * "Recipients":["email@sharefile.com", "groupId",...]
+    * "Subject": "Email Subject",
+    * "Body": "Email Message",
+    * "CcSender": false,
+    * "NotifyOnUse": true,
+    * "ShareId": "shareId"
+    * }
+	* Resends an Email to the specified list of addresses, containing a link to a Send or Request Share
 	* @param parameters 	 	
 	* @return The updated Share
 	*/
@@ -3827,7 +3899,7 @@ public class SFSharesEntity extends SFEntitiesBase
 
 	/**
 	* Get Inbox for Recipient
-	* Retrieve all outstanding Shares in the inbox.User identifier
+	* Retrieve all outstanding Shares in the inbox.
 	* @return List of Shares created by the authenticated user
 	*/
 	public ISFQuery<SFODataFeed<SFShare>> getInbox(String userId, SFSafeEnum<SFShareType> type, Boolean archived) throws InvalidOrMissingParameterException 	{
@@ -3853,7 +3925,7 @@ public class SFSharesEntity extends SFEntitiesBase
 
 	/**
 	* Get Inbox for Recipient
-	* Retrieve all outstanding Shares in the inbox.User identifier
+	* Retrieve all outstanding Shares in the inbox.
 	* @return List of Shares created by the authenticated user
 	*/
 	public ISFQuery<SFODataFeed<SFShare>> getInbox(String userId, SFSafeEnum<SFShareType> type) throws InvalidOrMissingParameterException 	{
@@ -3875,7 +3947,7 @@ public class SFSharesEntity extends SFEntitiesBase
 
 	/**
 	* Get Inbox for Recipient
-	* Retrieve all outstanding Shares in the inbox.User identifier
+	* Retrieve all outstanding Shares in the inbox.
 	* @return List of Shares created by the authenticated user
 	*/
 	public ISFQuery<SFODataFeed<SFShare>> getInbox(String userId) throws InvalidOrMissingParameterException 	{
@@ -3893,7 +3965,7 @@ public class SFSharesEntity extends SFEntitiesBase
 
 	/**
 	* Get Inbox for Recipient
-	* Retrieve all outstanding Shares in the inbox.User identifier
+	* Retrieve all outstanding Shares in the inbox.
 	* @return List of Shares created by the authenticated user
 	*/
 	public ISFQuery<SFODataFeed<SFShare>> getInbox()	{

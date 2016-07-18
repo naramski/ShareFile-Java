@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -156,6 +156,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Integer MinimumNumeric;
 	@SerializedName("AllowedSpecialCharacters")
 	private String AllowedSpecialCharacters;
+	@SerializedName("PasswordPolicy")
+	private SFPasswordPolicy PasswordPolicy;
 	@SerializedName("EnableWebDAV")
 	private Boolean EnableWebDAV;
 	@SerializedName("WebDAVServerName")
@@ -270,6 +272,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDLP;
 	@SerializedName("EnableIRM")
 	private Boolean EnableIRM;
+	@SerializedName("EnableECMConnectors")
+	private Boolean EnableECMConnectors;
 	@SerializedName("EnableOfficeOnlinePreviews")
 	private Boolean EnableOfficeOnlinePreviews;
 	@SerializedName("EnableOfficeOnlineEditing")
@@ -300,6 +304,14 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableDocumentApprovalWorkflow;
 	@SerializedName("EnableLocalization")
 	private Boolean EnableLocalization;
+	@SerializedName("EnableSecondaryDbContacts")
+	private Boolean EnableSecondaryDbContacts;
+	@SerializedName("EnableCADPreview")
+	private Boolean EnableCADPreview;
+	@SerializedName("EnableQuotaLimit")
+	private Boolean EnableQuotaLimit;
+	@SerializedName("QuotaLimitInGB")
+	private Integer QuotaLimitInGB;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -553,17 +565,29 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setExpirationDays(Integer expirationdays) {
 		this.ExpirationDays = expirationdays;
 	}
+		/**
+		* Valid Values: string.Empty, Name, CreatorNameShort, FileSize, CreationDate
+		*/
 	public String getDefaultSortField() {
 		return this.DefaultSortField;
 	}
 
+		/**
+		* Valid Values: string.Empty, Name, CreatorNameShort, FileSize, CreationDate
+		*/
 	public void setDefaultSortField(String defaultsortfield) {
 		this.DefaultSortField = defaultsortfield;
 	}
+		/**
+		* Valid Values: string.Empty, asc, desc
+		*/
 	public String getDefaultSortOrder() {
 		return this.DefaultSortOrder;
 	}
 
+		/**
+		* Valid Values: string.Empty, asc, desc
+		*/
 	public void setDefaultSortOrder(String defaultsortorder) {
 		this.DefaultSortOrder = defaultsortorder;
 	}
@@ -756,6 +780,19 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setAllowedSpecialCharacters(String allowedspecialcharacters) {
 		this.AllowedSpecialCharacters = allowedspecialcharacters;
 	}
+		/**
+		* The password policy for the Account, specifying password strength, age, and reuse policies.
+		*/
+	public SFPasswordPolicy getPasswordPolicy() {
+		return this.PasswordPolicy;
+	}
+
+		/**
+		* The password policy for the Account, specifying password strength, age, and reuse policies.
+		*/
+	public void setPasswordPolicy(SFPasswordPolicy passwordpolicy) {
+		this.PasswordPolicy = passwordpolicy;
+	}
 	public Boolean getEnableWebDAV() {
 		return this.EnableWebDAV;
 	}
@@ -763,10 +800,20 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableWebDAV(Boolean enablewebdav) {
 		this.EnableWebDAV = enablewebdav;
 	}
+		/**
+		* ShareFile allows users on certain plans to connect with your ShareFile account through WebDAV to various clients.
+		* ShareFile WebDAV is not available for Enterprise accounts. This tool is not compatible with on-premise storage and cannot be used with company credentials.
+		* This property describes WebDAV server information. It cannot be modified.
+		*/
 	public String getWebDAVServerName() {
 		return this.WebDAVServerName;
 	}
 
+		/**
+		* ShareFile allows users on certain plans to connect with your ShareFile account through WebDAV to various clients.
+		* ShareFile WebDAV is not available for Enterprise accounts. This tool is not compatible with on-premise storage and cannot be used with company credentials.
+		* This property describes WebDAV server information. It cannot be modified.
+		*/
 	public void setWebDAVServerName(String webdavservername) {
 		this.WebDAVServerName = webdavservername;
 	}
@@ -784,10 +831,18 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableSFTP(Boolean enablesftp) {
 		this.EnableSFTP = enablesftp;
 	}
+		/**
+		* ShareFile is compatible with most well-known FTP clients, enabling you to connect to your ShareFile account directly from an FTP program.
+		* This property describes FTP server information. It cannot be modified.
+		*/
 	public String getFtpServerName() {
 		return this.FtpServerName;
 	}
 
+		/**
+		* ShareFile is compatible with most well-known FTP clients, enabling you to connect to your ShareFile account directly from an FTP program.
+		* This property describes FTP server information. It cannot be modified.
+		*/
 	public void setFtpServerName(String ftpservername) {
 		this.FtpServerName = ftpservername;
 	}
@@ -1106,10 +1161,18 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setCreatorCanDelete(Boolean creatorcandelete) {
 		this.CreatorCanDelete = creatorcandelete;
 	}
+		/**
+		* Whether the account can store items in the ShareFile control plane (as opposed to
+		* Connectors). Driven by the EnableCloudStorage and EnablePrivateZones account preferences.
+		*/
 	public Boolean getCanStoreItemsInShareFile() {
 		return this.CanStoreItemsInShareFile;
 	}
 
+		/**
+		* Whether the account can store items in the ShareFile control plane (as opposed to
+		* Connectors). Driven by the EnableCloudStorage and EnablePrivateZones account preferences.
+		*/
 	public void setCanStoreItemsInShareFile(Boolean canstoreitemsinsharefile) {
 		this.CanStoreItemsInShareFile = canstoreitemsinsharefile;
 	}
@@ -1155,6 +1218,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableIRM(Boolean enableirm) {
 		this.EnableIRM = enableirm;
 	}
+	public Boolean getEnableECMConnectors() {
+		return this.EnableECMConnectors;
+	}
+
+	public void setEnableECMConnectors(Boolean enableecmconnectors) {
+		this.EnableECMConnectors = enableecmconnectors;
+	}
 	public Boolean getEnableOfficeOnlinePreviews() {
 		return this.EnableOfficeOnlinePreviews;
 	}
@@ -1169,17 +1239,29 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableOfficeOnlineEditing(Boolean enableofficeonlineediting) {
 		this.EnableOfficeOnlineEditing = enableofficeonlineediting;
 	}
+		/**
+		* Retention period of items in the recycle bin.
+		*/
 	public Integer getRecycleBinDays() {
 		return this.RecycleBinDays;
 	}
 
+		/**
+		* Retention period of items in the recycle bin.
+		*/
 	public void setRecycleBinDays(Integer recyclebindays) {
 		this.RecycleBinDays = recyclebindays;
 	}
+		/**
+		* Maximum number of concurrent uploads and downloads a Sync client should be creating, at any one time.
+		*/
 	public Integer getSyncConcurrentTransferThreadsLimit() {
 		return this.SyncConcurrentTransferThreadsLimit;
 	}
 
+		/**
+		* Maximum number of concurrent uploads and downloads a Sync client should be creating, at any one time.
+		*/
 	public void setSyncConcurrentTransferThreadsLimit(Integer syncconcurrenttransferthreadslimit) {
 		this.SyncConcurrentTransferThreadsLimit = syncconcurrenttransferthreadslimit;
 	}
@@ -1218,31 +1300,55 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setAccountMessageCode(SFAccountMessageCode accountmessagecode) {
 		this.AccountMessageCode = accountmessagecode;
 	}
+		/**
+		* Enable use of Single Identity authentication service for this account
+		*/
 	public Boolean getEnableSingleIdentity() {
 		return this.EnableSingleIdentity;
 	}
 
+		/**
+		* Enable use of Single Identity authentication service for this account
+		*/
 	public void setEnableSingleIdentity(Boolean enablesingleidentity) {
 		this.EnableSingleIdentity = enablesingleidentity;
 	}
+		/**
+		* Enable the use of the Drive Mapper utility for this account
+		*/
 	public Boolean getEnableDriveMapping() {
 		return this.EnableDriveMapping;
 	}
 
+		/**
+		* Enable the use of the Drive Mapper utility for this account
+		*/
 	public void setEnableDriveMapping(Boolean enabledrivemapping) {
 		this.EnableDriveMapping = enabledrivemapping;
 	}
+		/**
+		* Email notification locale. Values: Invariant, English, German, Spanish, French, Dutch, Chinese, Russian, Japanese, Korean, or Portuguese
+		*/
 	public SFSafeEnum<SFNotificationLocale> getNotificationLocale() {
 		return this.NotificationLocale;
 	}
 
+		/**
+		* Email notification locale. Values: Invariant, English, German, Spanish, French, Dutch, Chinese, Russian, Japanese, Korean, or Portuguese
+		*/
 	public void setNotificationLocale(SFSafeEnum<SFNotificationLocale> notificationlocale) {
 		this.NotificationLocale = notificationlocale;
 	}
+		/**
+		* If true, only Account Admins can update a folder's retention policy
+		*/
 	public Boolean getRetentionPolicySysAdminOnly() {
 		return this.RetentionPolicySysAdminOnly;
 	}
 
+		/**
+		* If true, only Account Admins can update a folder's retention policy
+		*/
 	public void setRetentionPolicySysAdminOnly(Boolean retentionpolicysysadminonly) {
 		this.RetentionPolicySysAdminOnly = retentionpolicysysadminonly;
 	}
@@ -1253,12 +1359,46 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableDocumentApprovalWorkflow(Boolean enabledocumentapprovalworkflow) {
 		this.EnableDocumentApprovalWorkflow = enabledocumentapprovalworkflow;
 	}
+		/**
+		* Enable localization
+		*/
 	public Boolean getEnableLocalization() {
 		return this.EnableLocalization;
 	}
 
+		/**
+		* Enable localization
+		*/
 	public void setEnableLocalization(Boolean enablelocalization) {
 		this.EnableLocalization = enablelocalization;
+	}
+	public Boolean getEnableSecondaryDbContacts() {
+		return this.EnableSecondaryDbContacts;
+	}
+
+	public void setEnableSecondaryDbContacts(Boolean enablesecondarydbcontacts) {
+		this.EnableSecondaryDbContacts = enablesecondarydbcontacts;
+	}
+	public Boolean getEnableCADPreview() {
+		return this.EnableCADPreview;
+	}
+
+	public void setEnableCADPreview(Boolean enablecadpreview) {
+		this.EnableCADPreview = enablecadpreview;
+	}
+	public Boolean getEnableQuotaLimit() {
+		return this.EnableQuotaLimit;
+	}
+
+	public void setEnableQuotaLimit(Boolean enablequotalimit) {
+		this.EnableQuotaLimit = enablequotalimit;
+	}
+	public Integer getQuotaLimitInGB() {
+		return this.QuotaLimitInGB;
+	}
+
+	public void setQuotaLimitInGB(Integer quotalimitingb) {
+		this.QuotaLimitInGB = quotalimitingb;
 	}
 
 }

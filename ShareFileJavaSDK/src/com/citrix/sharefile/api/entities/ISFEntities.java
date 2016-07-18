@@ -24,6 +24,10 @@ public interface ISFEntities {
             return (SFConnectorGroupsEntity)getEntity(SFConnectorGroupsEntity.class);
         }
         @Override
+        public SFIrmClassificationsEntity irmClassifications() {
+            return (SFIrmClassificationsEntity)getEntity(SFIrmClassificationsEntity.class);
+        }
+        @Override
         public SFRemoteUploadsEntity remoteUploads() {
             return (SFRemoteUploadsEntity)getEntity(SFRemoteUploadsEntity.class);
         }
@@ -90,6 +94,7 @@ public interface ISFEntities {
     }
 
     SFConnectorGroupsEntity connectorGroups();
+    SFIrmClassificationsEntity irmClassifications();
     SFRemoteUploadsEntity remoteUploads();
     SFReportsEntity reports();
     SFFolderTemplatesEntity folderTemplates();

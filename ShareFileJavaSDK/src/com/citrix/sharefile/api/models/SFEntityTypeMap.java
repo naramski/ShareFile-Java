@@ -5,7 +5,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 package com.citrix.sharefile.api.models;
@@ -40,12 +40,17 @@ public class SFEntityTypeMap {
             _entityTypeMap.put("IrmPrimaryAccessRightParamss", SFIrmPrimaryAccessRightParams.class);
             _entityTypeMap.put("NotifyUsersParams", SFNotifyUsersParams.class);
             _entityTypeMap.put("NotifyUsersParamss", SFNotifyUsersParams.class);
+            _entityTypeMap.put("PasswordPolicy", SFPasswordPolicy.class);
             _entityTypeMap.put("RemoteUpload", SFRemoteUpload.class);
             _entityTypeMap.put("RemoteUploads", SFRemoteUpload.class);
             _entityTypeMap.put("UploadRequestParams", SFUploadRequestParams.class);
             _entityTypeMap.put("UploadRequestParamss", SFUploadRequestParams.class);
             _entityTypeMap.put("RemoteUploadRequestParams", SFRemoteUploadRequestParams.class);
             _entityTypeMap.put("RemoteUploadRequestParamss", SFRemoteUploadRequestParams.class);
+            _entityTypeMap.put("SalesTaxQuote", SFSalesTaxQuote.class);
+            _entityTypeMap.put("SalesTaxQuotes", SFSalesTaxQuote.class);
+            _entityTypeMap.put("SecurityQuestion", SFSecurityQuestion.class);
+            _entityTypeMap.put("SecurityQuestions", SFSecurityQuestion.class);
             _entityTypeMap.put("Service", SFService.class);
             _entityTypeMap.put("Services", SFService.class);
             _entityTypeMap.put("ServicesCollection", SFServicesCollection.class);

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -40,6 +40,8 @@ public class SFBillingInfo extends SFODataObject {
 	private String Country;
 	@SerializedName("Zip")
 	private String Zip;
+	@SerializedName("TaxAreaId")
+	private String TaxAreaId;
 	@SerializedName("CreditCardFirstName")
 	private String CreditCardFirstName;
 	@SerializedName("CreditCardLastName")
@@ -103,6 +105,13 @@ public class SFBillingInfo extends SFODataObject {
 
 	public void setZip(String zip) {
 		this.Zip = zip;
+	}
+	public String getTaxAreaId() {
+		return this.TaxAreaId;
+	}
+
+	public void setTaxAreaId(String taxareaid) {
+		this.TaxAreaId = taxareaid;
 	}
 	public String getCreditCardFirstName() {
 		return this.CreditCardFirstName;

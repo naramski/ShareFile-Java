@@ -18,5 +18,6 @@ import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
 public enum SFItemOrderingMode {
 	Default,
-	FoldersFirst
+	FoldersFirst,
+	UseFolderOptions
 }

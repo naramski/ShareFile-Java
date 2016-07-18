@@ -16,9 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
 import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
 
-public enum SFIntegrationProvider {
-	RightSignature,
-	RightSignature4,
-	DocumentApprovalWorkflow,
-	Image32
+public enum SFChunkType {
+	Alphanumeric,
+	Numeric
 }

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -139,6 +139,34 @@ public class SFFavoriteFoldersEntity extends SFEntitiesBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(folder);
 		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create or Update FavoriteFolders
+    * [{
+    * Folder: {
+    * "Id":"fo96aec5-d637-4124-bcc9-c86fd7301e4d"
+    * }
+    * }]
+	* Replaces existing favorite folders with the folders provided. Any exisitng folders that are not specified will be removed.
+	* @param url 	 	
+	* @param favoriteFolderList 	 	
+	*/
+	public ISFQuery patchByUser(URI url, ArrayList<SFFavoriteFolder> favoriteFolderList) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (favoriteFolderList == null) {
+			throw new InvalidOrMissingParameterException("favoriteFolderList");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("FavoriteFolders");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setBody(favoriteFolderList);
+		sfApiQuery.setHttpMethod("PUT");
 		return sfApiQuery;
 	}
 

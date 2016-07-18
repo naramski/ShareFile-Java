@@ -2,6 +2,7 @@ package com.citrix.sharefile.api.https;
 
 import com.citrix.sharefile.api.SFApiClient;
 import com.citrix.sharefile.api.SFConnectionManager;
+import com.citrix.sharefile.api.SFV3ErrorParser;
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.constants.SFSdkGlobals;
 import com.citrix.sharefile.api.enumerations.SFHttpMethod;
@@ -124,13 +125,14 @@ public class SFDownloadRunnable extends TransferRunnable {
                 break;
 
                 case HttpsURLConnection.HTTP_UNAUTHORIZED:
-                    throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED);
+					throw new SFNotAuthorizedException(SFKeywords.UN_AUTHORIZED);
                 //break;
 
                 default:
-                    responseString = SFHttpsCaller.readErrorResponse(connection);
+					responseString = SFHttpsCaller.readErrorResponse(connection);
+					SFV3ErrorParser sfV3error = new SFV3ErrorParser(httpErrorCode, responseString, null);
                     Logger.d(TAG,"Error " + responseString);
-                    throw new SFServerException(httpErrorCode,responseString);
+                    throw new SFServerException(httpErrorCode, sfV3error.errorDisplayString());
                 //break;
 			}
 		}

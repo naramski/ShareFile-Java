@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -144,6 +144,59 @@ public class SFFolderTemplatesEntity extends SFEntitiesBase
 		sfApiQuery.setFrom("FolderTemplates");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Apply folder template to folders in bulk
+	* Applies the specified folder template to all subfolders of provided folder ID
+	* @param templateUrl 	 	
+	* @param folderId 	 	
+	* @param batchSize  (default: -1)	 	
+	* @return The status of the operation: how many subfolders are left, and how many subfolders in total
+	*/
+	public ISFQuery<SFAsyncOperation> bulkApply(URI templateUrl, String folderId, Integer batchSize) throws InvalidOrMissingParameterException 	{
+		if (templateUrl == null) {
+			throw new InvalidOrMissingParameterException("templateUrl");
+		}
+		if (folderId == null) {
+			throw new InvalidOrMissingParameterException("folderId");
+		}
+		if (batchSize == null) {
+			throw new InvalidOrMissingParameterException("batchSize");
+		}
+
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.client);
+		sfApiQuery.setFrom("FolderTemplates");
+		sfApiQuery.setAction("BulkApply");
+		sfApiQuery.addIds(templateUrl);
+		sfApiQuery.addQueryString("folderId", folderId);
+		sfApiQuery.addQueryString("batchSize", batchSize);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Apply folder template to folders in bulk
+	* Applies the specified folder template to all subfolders of provided folder ID
+	* @param templateUrl 	 	
+	* @param folderId 	 	
+	* @return The status of the operation: how many subfolders are left, and how many subfolders in total
+	*/
+	public ISFQuery<SFAsyncOperation> bulkApply(URI templateUrl, String folderId) throws InvalidOrMissingParameterException 	{
+		if (templateUrl == null) {
+			throw new InvalidOrMissingParameterException("templateUrl");
+		}
+		if (folderId == null) {
+			throw new InvalidOrMissingParameterException("folderId");
+		}
+
+		SFApiQuery<SFAsyncOperation> sfApiQuery = new SFApiQuery<SFAsyncOperation>(this.client);
+		sfApiQuery.setFrom("FolderTemplates");
+		sfApiQuery.setAction("BulkApply");
+		sfApiQuery.addIds(templateUrl);
+		sfApiQuery.addQueryString("folderId", folderId);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

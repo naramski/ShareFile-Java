@@ -11,6 +11,7 @@ import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
 import com.citrix.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.citrix.sharefile.api.exceptions.SFOtherException;
+import com.citrix.sharefile.api.exceptions.SFResetUploadException;
 import com.citrix.sharefile.api.exceptions.SFSDKException;
 import com.citrix.sharefile.api.exceptions.SFServerException;
 import com.citrix.sharefile.api.gson.SFGsonHelper;
@@ -19,6 +20,7 @@ import com.citrix.sharefile.api.log.Logger;
 import com.citrix.sharefile.api.models.SFUploadMethod;
 import com.citrix.sharefile.api.models.SFUploadRequestParams;
 import com.citrix.sharefile.api.models.SFUploadSpecification;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -54,7 +56,10 @@ import javax.net.ssl.HttpsURLConnection;
 public class SFUploadRunnable extends TransferRunnable  
 {	
 	private static final String TAG = "SFUploadRunnable";
-	
+
+	//Server does not localize this error.
+	private static final String INVALID_UPLOAD_ID = "Unrecognized Upload ID";
+
 	private final long mResumeFromByteIndex;
 	private final long mTotalBytes;
 	private final InputStream mFileInputStream;
@@ -69,9 +74,26 @@ public class SFUploadRunnable extends TransferRunnable
 	private SFUploadSpecification mUploadSpecification;
 	private SFChunkUploadResponse mChunkUploadResponse=null;
 
+	public void setUploadSpec(String previousUploadSpec)
+	{
+		Gson gson = new Gson();
+		mUploadSpecification = gson.fromJson(previousUploadSpec,SFUploadSpecification.class);
+	}
+
+	public String getUploadSpec() throws SFNotAuthorizedException, SFOAuthTokenRenewException, SFOtherException, SFInvalidStateException, SFServerException
+	{
+		if(mUploadSpecification == null)
+		{
+			mUploadSpecification = getSpecification();
+		}
+
+		Gson gson = new Gson();
+		return gson.toJson(mUploadSpecification,SFUploadSpecification.class);
+	}
+
 	public SFUploadRunnable(
 		String v3Url, boolean overwrite,
-		int resumeFromByteIndex, long tolalBytes, String destinationName,
+		long resumeFromByteIndex, long tolalBytes, String destinationName,
 		InputStream inputStream, SFApiClient client, IProgress progressListener,
 		SFCookieManager cookieManager,String connUserName,String connPassword, String details
 	) {
@@ -99,7 +121,10 @@ public class SFUploadRunnable extends TransferRunnable
     {
 		try
         {
-			mUploadSpecification = getSpecification();// get spec
+			if(mUploadSpecification == null)
+			{
+				mUploadSpecification = getSpecification();// get spec
+			}
 
             abortIfCancelledRequested();
 
@@ -150,7 +175,6 @@ public class SFUploadRunnable extends TransferRunnable
 					"json",
 			false, now,now);
 
-
             uploadQuery.setCredentials(mUsername,mPassword);
 
             return mApiClient.executeQuery(uploadQuery);
@@ -190,7 +214,11 @@ public class SFUploadRunnable extends TransferRunnable
 		{
 			if(mResumeFromByteIndex > 0)
 			{
+				Logger.d(TAG,"ResumeSupp:Resuming Upload from byte: " + mResumeFromByteIndex);
 				mFileInputStream.skip(mResumeFromByteIndex);
+			}
+			else {
+				Logger.d(TAG,"ResumeSupp:Brand new upload");
 			}
 		}
 		catch(Exception e)
@@ -199,8 +227,9 @@ public class SFUploadRunnable extends TransferRunnable
 		}
 	}
 	
-	private String getAppendParams(String filename, long fileSize,int finish,boolean isbatchLast,String hash)
-    {          
+	private String getAppendParams(String filename, long fileSize,int finish,boolean isbatchLast,String hash,long index, long previousChunkTotal)
+    {
+		  Logger.d(TAG, "ResumeSupp: Uploading chunk: index" + index + " offset: " + previousChunkTotal);
           StringBuilder sb = new StringBuilder();
          
           sb.append("&filehash="); sb.append(hash);
@@ -211,7 +240,9 @@ public class SFUploadRunnable extends TransferRunnable
           }
           sb.append("&fmt=json");
           sb.append("&hash="+hash);
-          sb.append("&filesize="+fileSize);                    
+          sb.append("&filesize="+fileSize);
+		  sb.append("&index="+index);
+		  sb.append("&byteOffset="+previousChunkTotal);
          
           if(isbatchLast && mDetails!=null && mDetails.length()>0)
           {
@@ -280,7 +311,7 @@ public class SFUploadRunnable extends TransferRunnable
 			} 
 			catch (Exception e) 
 			{				
-				Logger.e(TAG,"exception parsing upload response",e);
+				Logger.e(TAG,new Exception(jsonString));
 				mWasError = true;
 				mErrorMessage = "exception parsing upload response";
 				mErrorCode = SFSdkGlobals.INTERNAL_HTTP_ERROR;
@@ -293,7 +324,7 @@ public class SFUploadRunnable extends TransferRunnable
 	 *   This tries to upload a chunk. Returns a detialed object with the httpErrorCode and the ChunkResponse from the server.
 	 *   ChunkResonse will never be null. In case of http errors or exceptions we fill the chunk response with https err response string.
 	 */
-	private long uploadChunk(byte[] fileChunk,int chunkLength,boolean isLast, MessageDigest md, long previousChunkTotal) throws SFSDKException
+	private long uploadChunk(byte[] fileChunk,int chunkLength,long index,boolean isLast, MessageDigest md, long previousChunkTotal) throws SFSDKException
 	{
 		long bytesUploaded = 0;
 		HttpsURLConnection conn = null;	
@@ -306,7 +337,7 @@ public class SFUploadRunnable extends TransferRunnable
 			md.update(fileChunk, 0, chunkLength);
 			
 			//you need the RAW param or you'll have to do HTTP multi-part post...
-			String append = getAppendParams(mDestinationFileName, mTotalBytes,isLast?1:0, isLast, md5ToString(md));
+			String append = getAppendParams(mDestinationFileName, mTotalBytes,isLast?1:0, isLast, md5ToString(md),index, previousChunkTotal);
 			final String finalURL = mUploadSpecification.getChunkUri() + append;
 
 			conn = (HttpsURLConnection) SFConnectionManager.openConnection(new URL(finalURL));
@@ -323,16 +354,15 @@ public class SFUploadRunnable extends TransferRunnable
 			final ByteArrayInputStream in = new ByteArrayInputStream(fileChunk,0,chunkLength);
 			int currentBytesRead;
 			OutputStream poster = new DataOutputStream(conn.getOutputStream());					
-						
-			int count = 0; 
+
 			while((currentBytesRead = in.read(buffer,0,1024)) >0)
 			{						
 				poster.write(buffer,0,currentBytesRead);
 				bytesUploaded+=(long)currentBytesRead;				
 				poster.flush();//needs to be here				
 				
-				// onlu send notifications every 50kb
-				if ( count++ % 50 == 0 ) updateProgress(bytesUploaded+previousChunkTotal);
+				// only send notifications every 64kb
+				if ( bytesUploaded % (64*1024) == 0 ) updateProgress(bytesUploaded+previousChunkTotal);
 				
 				abortIfCancelledRequested();
 			}
@@ -397,22 +427,32 @@ public class SFUploadRunnable extends TransferRunnable
 		try
         {
 			Logger.d(TAG, "POST " + mUploadSpecification.getChunkUri());
-			
+			boolean isZeroBytesFile = (mFileInputStream.available() == 0);
+			boolean isLast = false;
 			seekInputStream();			
 			int chunkLength;
 			final MessageDigest md = MessageDigest.getInstance("MD5");						
 			byte[] fileChunk = new byte[chunkSize];			
 			boolean done = false;
+			long index = previousChunkTotalBytes/chunkSize;
 			while(!done)
             {
-				chunkLength = mFileInputStream.read(fileChunk, 0, fileChunk.length);
-				if (chunkLength<0) {
-					Logger.d(TAG,"Chunk < 0: " + chunkLength);
-					done = true;
-					break;
+				if(isZeroBytesFile)
+				{
+					chunkLength = 0;
+					isLast = true;
+					//Don't break here so that we can get a chance to finalize the upload.
 				}
-									
-				boolean isLast = (mFileInputStream.available() == 0);
+				else {
+					chunkLength = mFileInputStream.read(fileChunk, 0, fileChunk.length);
+					if (chunkLength < 0) {
+						Logger.d(TAG, "Chunk < 0: " + chunkLength);
+						done = true;
+						break;
+					}
+
+					isLast = (mFileInputStream.available() == 0);
+				}
 
 				if(isLast)
                 {
@@ -420,7 +460,7 @@ public class SFUploadRunnable extends TransferRunnable
 					done = true;
 				}
 
-                previousChunkTotalBytes += uploadChunk(fileChunk,chunkLength,isLast,md,previousChunkTotalBytes);
+                previousChunkTotalBytes += uploadChunk(fileChunk,chunkLength, index++,isLast,md,previousChunkTotalBytes);
 
 				abortIfCancelledRequested();
 
@@ -430,6 +470,15 @@ public class SFUploadRunnable extends TransferRunnable
             {
                 mProgressListener.onComplete(mTotalBytesTransferredForThisFile);
             }
+		}
+		catch (SFServerException e)
+		{
+			if(e.getLocalizedMessage().contains(INVALID_UPLOAD_ID))
+			{
+				e = new SFResetUploadException(e);
+			}
+
+			throw e;
 		}
         catch (SFSDKException ex)
         {
@@ -465,6 +514,7 @@ public class SFUploadRunnable extends TransferRunnable
 		
 		try
 		{
+			Logger.d(TAG,"ResumeSupp: Bytes Uploaded = " + uploadedBytes);
 			mProgressListener.bytesTransfered(uploadedBytes);
 		}
 		catch(Exception e)
