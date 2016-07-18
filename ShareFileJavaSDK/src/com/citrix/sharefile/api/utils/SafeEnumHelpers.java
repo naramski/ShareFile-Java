@@ -40,10 +40,6 @@ public class SafeEnumHelpers
 
 			clazz = Class.forName(containedClassName);
 		}
-		catch (ClassNotFoundException e)
-		{
-			Logger.e(TAG,e);
-		}
 		catch (Exception e)
 		{
 			Logger.e(TAG,e);
@@ -51,20 +47,20 @@ public class SafeEnumHelpers
 
 		return clazz;
 	}
-	
+
 	public static <T extends Enum<T>> T getEnumFromString(Class<T> c, String string)
 	{
-	    if( c != null && string != null )
-	    {
-	        try
-	        {
-	            return Enum.valueOf(c, string);
-	        }
-	        catch(IllegalArgumentException ex)
-	        {
-                Logger.e("SafeEnumHelper",ex);
-	        }
-	    }	    
-	    return null;
+		if( c != null && string != null )
+		{
+			try
+			{
+				return Enum.valueOf(c, string);
+			}
+			catch(IllegalArgumentException ex)
+			{
+				Logger.d("SafeEnumHelper", ex.getLocalizedMessage());
+			}
+		}
+		return null;
 	}
 }

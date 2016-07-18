@@ -116,7 +116,7 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("recursive", recursive);
 		sfApiQuery.addQueryString("sendDefaultNotification", sendDefaultNotification);
-		accessControl.addProperty("message", message);
+		accessControl.addProperty("Message", message);
 		sfApiQuery.setBody(accessControl);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;

@@ -23,5 +23,6 @@ public final class SFFolderID
 		public static final String CONNECTOR_ONE_DRIVE = "c-OneDrive";
 		public static final String CONNECTOR_SHAREPOINT_BUSINESS = "c-sp365";
 		public static final String CONNECTOR_ONE_DRIVE_BUSINESS = "c-odb365";
+	    public static final String CONNECTOR_DOCUMENTUM = "c-documentum";
 
 }

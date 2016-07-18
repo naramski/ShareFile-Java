@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -48,6 +48,8 @@ public class SFUserConfirmationSettings extends SFODataObject {
 	private String TimeFormat;
 	@SerializedName("EmailInterval")
 	private Integer EmailInterval;
+	@SerializedName("UserNotificationLocale")
+	private SFSafeEnum<SFNotificationLocale> UserNotificationLocale;
 
 	public String getFirstName() {
 		return this.FirstName;
@@ -125,6 +127,19 @@ public class SFUserConfirmationSettings extends SFODataObject {
 
 	public void setEmailInterval(Integer emailinterval) {
 		this.EmailInterval = emailinterval;
+	}
+		/**
+		* Email notification locale. Values: Invariant, English, German, Spanish, French, Dutch, Chinese, Russian, Japanese, Korean, or Portuguese
+		*/
+	public SFSafeEnum<SFNotificationLocale> getUserNotificationLocale() {
+		return this.UserNotificationLocale;
+	}
+
+		/**
+		* Email notification locale. Values: Invariant, English, German, Spanish, French, Dutch, Chinese, Russian, Japanese, Korean, or Portuguese
+		*/
+	public void setUserNotificationLocale(SFSafeEnum<SFNotificationLocale> usernotificationlocale) {
+		this.UserNotificationLocale = usernotificationlocale;
 	}
 
 }

@@ -1,12 +1,11 @@
 package com.citrix.sharefile.api.utils;
 
+import com.citrix.sharefile.api.log.Logger;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
-
-import com.citrix.sharefile.api.log.Logger;
 
 
 public class SFDateFormat
@@ -15,27 +14,24 @@ public class SFDateFormat
 	
 	
 	//Add more ShareFile date formats if newer formats get added
-	private static final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
-	private static final  SimpleDateFormat v3SimpleDateFormat2 = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss");
-    private static final  SimpleDateFormat v3SimpleDateFormat3 = new SimpleDateFormat("EEEE, dd MMM yyyy HH:mm:ss z");
+	//Don't do zone replace. Java versions less than 8 have severe bugs and difference between Android/Desktop
+	//JodaTime is no fun either.
+	//This date format needs Zone replacement which causes erroneous dates on Java.
+	//private static final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
+	private static final  SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss");
+    private static final  SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("EEEE, dd MMM yyyy HH:mm:ss z");
 	
 	private static final SFDateFormat[] mSFDateFormats = new SFDateFormat[]
 	{
-		new SFDateFormat(v3SimpleDateFormat, "+0000"),
-		new SFDateFormat(v3SimpleDateFormat2, ""),
-        new SFDateFormat(v3SimpleDateFormat3, "")
+		new SFDateFormat(simpleDateFormat),
+        new SFDateFormat(simpleDateFormat2)
 	};	
-	
-	
+
 	private final SimpleDateFormat mFormat;
-	private final String mZoneReplace;
 
-    public static final SimpleDateFormat v1SimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-
-	public SFDateFormat(SimpleDateFormat sf,String zonereplace) 
+	public SFDateFormat(SimpleDateFormat sf)
 	{
 		mFormat = sf;
-		mZoneReplace = zonereplace;
 	}
 	
 	private static Date parse(SFDateFormat format, String str)
@@ -44,7 +40,7 @@ public class SFDateFormat
 		
 		try 
 		{			
-			ret = format.mFormat.parse(str.replace("Z", format.mZoneReplace));			
+			ret = format.mFormat.parse(str);
 		} 
 		catch (ParseException e) 
 		{				
