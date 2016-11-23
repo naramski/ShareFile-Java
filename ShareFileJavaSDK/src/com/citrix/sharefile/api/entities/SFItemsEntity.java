@@ -4697,6 +4697,12 @@ public class SFItemsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Lock File
+	* Locks a file.
+	* This operation is only implemented in Sharepoint providers (/sp)
+	* @param url 	 	
+	*/
 	public ISFQuery checkOut(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
@@ -4710,6 +4716,12 @@ public class SFItemsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Discard CheckOut
+	* Discards the existing lock on the file
+	* This operation is only implemented in Sharepoint providers (/sp)
+	* @param url 	 	
+	*/
 	public ISFQuery discardCheckOut(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
@@ -4992,6 +5004,11 @@ public class SFItemsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Get a collection of recoverable/deleted items for a user
+	* @param userid  (default: null)	 	
+	* @param zone  (default: null)	 	
+	*/
 	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems(String userid, String zone) throws InvalidOrMissingParameterException 	{
 		if (userid == null) {
 			throw new InvalidOrMissingParameterException("userid");
@@ -5009,6 +5026,10 @@ public class SFItemsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Get a collection of recoverable/deleted items for a user
+	* @param userid  (default: null)	 	
+	*/
 	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems(String userid) throws InvalidOrMissingParameterException 	{
 		if (userid == null) {
 			throw new InvalidOrMissingParameterException("userid");
@@ -5022,6 +5043,9 @@ public class SFItemsEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Get a collection of recoverable/deleted items for a user
+	*/
 	public ISFQuery<SFODataFeed<SFItem>> getUserDeletedItems()	{
 
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);

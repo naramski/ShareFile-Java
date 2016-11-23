@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -188,6 +188,13 @@ public class SFZonesEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Delete Zone
+	* Removes an existing zone
+	* @param url 	 	
+	* @param force  (default: false)	 	
+	* @param newDefaultZoneId  (default: null)	 	
+	*/
 	public ISFQuery delete(URI url, Boolean force, String newDefaultZoneId) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
@@ -208,6 +215,12 @@ public class SFZonesEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Delete Zone
+	* Removes an existing zone
+	* @param url 	 	
+	* @param force  (default: false)	 	
+	*/
 	public ISFQuery delete(URI url, Boolean force) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
@@ -224,6 +237,11 @@ public class SFZonesEntity extends SFEntitiesBase
 		return sfApiQuery;
 	}
 
+	/**
+	* Delete Zone
+	* Removes an existing zone
+	* @param url 	 	
+	*/
 	public ISFQuery delete(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");

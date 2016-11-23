@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -74,8 +74,10 @@ public class SFAsyncOperationsEntity extends SFEntitiesBase
 	}
 
 	/**
-	* Get the progress of the AsyncOperations by Opertaion Batch ID
+	* Get progress of AsyncOperations by Operation Batch ID
+	* Retrieves an AsyncOperation containing batch progress by Operation Batch ID
 	* @param id 	 	
+	* @return An Async Operation object containing batch progress
 	*/
 	public ISFQuery<SFAsyncOperation> getBatch(String id) throws InvalidOrMissingParameterException 	{
 		if (id == null) {

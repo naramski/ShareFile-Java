@@ -384,7 +384,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
      * @throws com.citrix.sharefile.api.exceptions.SFServerException
      */
     @Deprecated
-    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, int resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFServerException {
+    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, long resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFServerException {
         validateClientState();
 
         return new SFUploadRunnable(v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);

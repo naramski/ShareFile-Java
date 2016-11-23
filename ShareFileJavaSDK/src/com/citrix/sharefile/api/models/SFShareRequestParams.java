@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -47,73 +47,133 @@ public class SFShareRequestParams extends SFODataObject {
 	@SerializedName("IsViewOnly")
 	private Boolean IsViewOnly;
 
+		/**
+		* The Folder Id for this Request. Has precedence over FolderPath
+		*/
 	public String getFolderId() {
 		return this.FolderId;
 	}
 
+		/**
+		* The Folder Id for this Request. Has precedence over FolderPath
+		*/
 	public void setFolderId(String folderid) {
 		this.FolderId = folderid;
 	}
+		/**
+		* The path to the Folder for this Request
+		*/
 	public String getFolderPath() {
 		return this.FolderPath;
 	}
 
+		/**
+		* The path to the Folder for this Request
+		*/
 	public void setFolderPath(String folderpath) {
 		this.FolderPath = folderpath;
 	}
+		/**
+		* List of emails to whom this Share should be sent
+		*/
 	public ArrayList<String> getEmails() {
 		return this.Emails;
 	}
 
+		/**
+		* List of emails to whom this Share should be sent
+		*/
 	public void setEmails(ArrayList<String> emails) {
 		this.Emails = emails;
 	}
+		/**
+		* The subject of the Share email
+		*/
 	public String getSubject() {
 		return this.Subject;
 	}
 
+		/**
+		* The subject of the Share email
+		*/
 	public void setSubject(String subject) {
 		this.Subject = subject;
 	}
+		/**
+		* A message to be included in the Share email body
+		*/
 	public String getBody() {
 		return this.Body;
 	}
 
+		/**
+		* A message to be included in the Share email body
+		*/
 	public void setBody(String body) {
 		this.Body = body;
 	}
+		/**
+		* If true, the Share sender will be cc'd in the Share email
+		*/
 	public Boolean getCcSender() {
 		return this.CcSender;
 	}
 
+		/**
+		* If true, the Share sender will be cc'd in the Share email
+		*/
 	public void setCcSender(Boolean ccsender) {
 		this.CcSender = ccsender;
 	}
+		/**
+		* If true, recipients will need to login to access the Share
+		*/
 	public Boolean getRequireLogin() {
 		return this.RequireLogin;
 	}
 
+		/**
+		* If true, recipients will need to login to access the Share
+		*/
 	public void setRequireLogin(Boolean requirelogin) {
 		this.RequireLogin = requirelogin;
 	}
+		/**
+		* Number of days until access to this Share expires
+		*/
 	public Integer getExpirationDays() {
 		return this.ExpirationDays;
 	}
 
+		/**
+		* Number of days until access to this Share expires
+		*/
 	public void setExpirationDays(Integer expirationdays) {
 		this.ExpirationDays = expirationdays;
 	}
+		/**
+		* If true, the sender will receive an email notification when files are uploaded to the Share
+		*/
 	public Boolean getNotifyOnUpload() {
 		return this.NotifyOnUpload;
 	}
 
+		/**
+		* If true, the sender will receive an email notification when files are uploaded to the Share
+		*/
 	public void setNotifyOnUpload(Boolean notifyonupload) {
 		this.NotifyOnUpload = notifyonupload;
 	}
+		/**
+		* If true, the Share items can only be viewed but not downloaded. Not applicable for Request Shares
+		*/
 	public Boolean getIsViewOnly() {
 		return this.IsViewOnly;
 	}
 
+		/**
+		* If true, the Share items can only be viewed but not downloaded. Not applicable for Request Shares
+		*/
 	public void setIsViewOnly(Boolean isviewonly) {
 		this.IsViewOnly = isviewonly;
 	}

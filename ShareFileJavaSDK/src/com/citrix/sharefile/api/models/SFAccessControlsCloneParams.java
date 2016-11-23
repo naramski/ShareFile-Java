@@ -38,14 +38,14 @@ public class SFAccessControlsCloneParams extends SFODataObject {
 	private ArrayList<String> ClonePrincipalIds;
 
 		/**
-		* Defines whether the cloned users should receieve a notice on the permission grant.
+		* Defines whether the cloned principals should receieve a notice on the permission grant.
 		*/
 	public Boolean getNotifyUser() {
 		return this.NotifyUser;
 	}
 
 		/**
-		* Defines whether the cloned users should receieve a notice on the permission grant.
+		* Defines whether the cloned principals should receieve a notice on the permission grant.
 		*/
 	public void setNotifyUser(Boolean notifyuser) {
 		this.NotifyUser = notifyuser;
@@ -64,7 +64,7 @@ public class SFAccessControlsCloneParams extends SFODataObject {
 		this.NotifyMessage = notifymessage;
 	}
 		/**
-		* The source user's permissions for this folder and all subdirectories
+		* The source principal's permissions for this folder and all subdirectories
 		* will be copied into the cloned users.
 		*/
 	public String getFolderId() {
@@ -72,34 +72,34 @@ public class SFAccessControlsCloneParams extends SFODataObject {
 	}
 
 		/**
-		* The source user's permissions for this folder and all subdirectories
+		* The source principal's permissions for this folder and all subdirectories
 		* will be copied into the cloned users.
 		*/
 	public void setFolderId(String folderid) {
 		this.FolderId = folderid;
 	}
 		/**
-		* This user's permissions will be used as the source for all cloned users.
+		* This principal's permissions will be used as the source for all cloned users.
 		*/
 	public String getPrincipalId() {
 		return this.PrincipalId;
 	}
 
 		/**
-		* This user's permissions will be used as the source for all cloned users.
+		* This principal's permissions will be used as the source for all cloned users.
 		*/
 	public void setPrincipalId(String principalid) {
 		this.PrincipalId = principalid;
 	}
 		/**
-		* List of existing users that will receive cloned permissions.
+		* List of existing principals that will receive cloned permissions.
 		*/
 	public ArrayList<String> getClonePrincipalIds() {
 		return this.ClonePrincipalIds;
 	}
 
 		/**
-		* List of existing users that will receive cloned permissions.
+		* List of existing principals that will receive cloned permissions.
 		*/
 	public void setClonePrincipalIds(ArrayList<String> cloneprincipalids) {
 		this.ClonePrincipalIds = cloneprincipalids;
