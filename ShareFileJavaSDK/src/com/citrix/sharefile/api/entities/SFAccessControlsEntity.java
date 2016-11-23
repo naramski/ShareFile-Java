@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -89,7 +89,6 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 	* @param url 	 	
 	* @param accessControl 	 	
 	* @param recursive  (default: false)	 	
-	* @param message  (default: null)	 	
 	* @param sendDefaultNotification  (default: false)	 	
 	* @return the created or modified AccessControl instance
 	*/
@@ -463,15 +462,15 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 	}
 
 	/**
-	* Recursively clones multiple access controls for a multiple users
+	* Recursively clones multiple access controls for multiple principals
     * {
     * "FolderId":"top-level-folder-id",
-    * "UserId":"source-user-id",
-    * "CloneUserIds":
+    * "PrincipalId":"source-user-or-group-id",
+    * "ClonePrincipalIds":
     * [
-    * "clone-user-id-1",
-    * "clone-user-id-2",
-    * "clone-user-id-3"
+    * "clone-user-or-group-id-1",
+    * "clone-user-or-group-id-2",
+    * "clone-user-or-group-id-3"
     * ]
     * }
 	* @param accessControlsCloneParams 	 	

@@ -111,11 +111,11 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
              return;
         }
 
-			String body = mQuery.getBody();
+        String body = mQuery.getBody();
 
-            // OnDesktop systems CONTENT_LENGTH is not set by default.
-            // Also setting zero content lenght and not sending anything causes server errors
-            // So set an empty JSON.
+        // On Desktop systems CONTENT_LENGTH is not set by default.
+        // Also setting zero content length and not sending anything causes server errors
+        // So set an empty JSON.
         //https://community.sharefilesupport.com/citrixsharefile/topics/-content-length
         // NOTE: by this point we have already set the HTTP method on the connection to POST
         //       and all the other verbs: DELETE, PATCH etc are passed as an HTTP_METHOD_OVERRIDE
@@ -125,9 +125,9 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             body = EMPTY_JSON;
         }
 
-            conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
-            conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
-            SFHttpsCaller.postBody(conn, body);
+        conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
+        conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
+        SFHttpsCaller.postBody(conn, body);
 	}			
 
     private boolean shouldGetInputStream()

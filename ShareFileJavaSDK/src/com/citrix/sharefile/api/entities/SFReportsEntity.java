@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ public class SFReportsEntity extends SFEntitiesBase
 
 	/**
 	* Get recent reports
-	* Returns the last 10 reports run for the current account.
+	* Returns the most recent reports run for the current account. 10 reports are returned unless otherwise specified.
 	* @param maxReports  (default: 10)	 	
 	* @return List of reports
 	*/

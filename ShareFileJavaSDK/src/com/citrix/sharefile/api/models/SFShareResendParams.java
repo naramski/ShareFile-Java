@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -39,17 +39,29 @@ public class SFShareResendParams extends SFODataObject {
 	@SerializedName("NotifyOnUse")
 	private Boolean NotifyOnUse;
 
+		/**
+		* The ID of the existing share
+		*/
 	public String getShareId() {
 		return this.ShareId;
 	}
 
+		/**
+		* The ID of the existing share
+		*/
 	public void setShareId(String shareid) {
 		this.ShareId = shareid;
 	}
+		/**
+		* These can be email addresses or group IDs
+		*/
 	public ArrayList<String> getRecipients() {
 		return this.Recipients;
 	}
 
+		/**
+		* These can be email addresses or group IDs
+		*/
 	public void setRecipients(ArrayList<String> recipients) {
 		this.Recipients = recipients;
 	}
@@ -60,17 +72,29 @@ public class SFShareResendParams extends SFODataObject {
 	public void setSubject(String subject) {
 		this.Subject = subject;
 	}
+		/**
+		* Message included in the share notification
+		*/
 	public String getBody() {
 		return this.Body;
 	}
 
+		/**
+		* Message included in the share notification
+		*/
 	public void setBody(String body) {
 		this.Body = body;
 	}
+		/**
+		* Send a copy of the notification to the cender
+		*/
 	public Boolean getCcSender() {
 		return this.CcSender;
 	}
 
+		/**
+		* Send a copy of the notification to the cender
+		*/
 	public void setCcSender(Boolean ccsender) {
 		this.CcSender = ccsender;
 	}

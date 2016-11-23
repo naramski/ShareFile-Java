@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2015 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -36,6 +36,11 @@ public class SFConnectorGroupsEntity extends SFEntitiesBase
 		super(client);
 	}
 
+	/**
+	* Get all Connector Groups in the account
+	* Retrieves a Connector Group
+	* @return A single ConnectorGroup object matching the query
+	*/
 	public ISFQuery<SFODataFeed<SFConnectorGroup>> get()	{
 
 		SFApiQuery<SFODataFeed<SFConnectorGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFConnectorGroup>>(this.client);
@@ -45,8 +50,9 @@ public class SFConnectorGroupsEntity extends SFEntitiesBase
 	}
 
 	/**
-	* Get all Connector Groups in the account
+	* Get the Connector Group by Service ID
 	* Retrieves a Connector Group
+	* @param url 	 	
 	* @return A single ConnectorGroup object matching the query
 	*/
 	public ISFQuery<SFConnectorGroup> get(URI url) throws InvalidOrMissingParameterException 	{

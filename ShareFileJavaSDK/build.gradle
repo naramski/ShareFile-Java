@@ -11,6 +11,12 @@ String shareFilePomFileName = "$buildDir/libs/"+shareFileJarName+"-"+shareFileJa
 group = "com.citrix"
 version = shareFileJarVersion
 
+allprojects {
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
 sourceSets {
     main {
         java {
@@ -29,6 +35,9 @@ dependencies {
 //    compile 'org.apache.httpcomponents:httpcore:4.3.2'
 //    compile 'org.apache.directory.studio:org.apache.commons.codec:1.6'
 //    compile 'com.google.code.gson:gson:2.2.4'
+
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
 }
 
 distributions {
