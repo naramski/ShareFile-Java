@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -75,10 +75,16 @@ public class SFFavoriteFolder extends SFODataObject {
 	public void setFolderAlias(String folderalias) {
 		this.FolderAlias = folderalias;
 	}
+		/**
+		* Name of the favorite folder
+		*/
 	public String getFolderName() {
 		return this.FolderName;
 	}
 
+		/**
+		* Name of the favorite folder
+		*/
 	public void setFolderName(String foldername) {
 		this.FolderName = foldername;
 	}

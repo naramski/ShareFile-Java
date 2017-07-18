@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -54,45 +54,81 @@ public class SFDeviceLogEntry extends SFODataObject {
 	public void setFileName(String filename) {
 		this.FileName = filename;
 	}
+		/**
+		* File Id
+		*/
 	public String getFileID() {
 		return this.FileID;
 	}
 
+		/**
+		* File Id
+		*/
 	public void setFileID(String fileid) {
 		this.FileID = fileid;
 	}
+		/**
+		* Timestamp in milliseconds since epoch
+		*/
 	public Long getTimestamp() {
 		return this.Timestamp;
 	}
 
+		/**
+		* Timestamp in milliseconds since epoch
+		*/
 	public void setTimestamp(Long timestamp) {
 		this.Timestamp = timestamp;
 	}
+		/**
+		* Account Id
+		*/
 	public String getAccountID() {
 		return this.AccountID;
 	}
 
+		/**
+		* Account Id
+		*/
 	public void setAccountID(String accountid) {
 		this.AccountID = accountid;
 	}
+		/**
+		* User Id
+		*/
 	public String getUserID() {
 		return this.UserID;
 	}
 
+		/**
+		* User Id
+		*/
 	public void setUserID(String userid) {
 		this.UserID = userid;
 	}
+		/**
+		* Action
+		*/
 	public SFSafeEnum<SFDeviceLogEntryAction> getAction() {
 		return this.Action;
 	}
 
+		/**
+		* Action
+		*/
 	public void setAction(SFSafeEnum<SFDeviceLogEntryAction> action) {
 		this.Action = action;
 	}
+		/**
+		* Additional Info
+		*/
 	public String getAdditionalInfo() {
 		return this.AdditionalInfo;
 	}
 
+		/**
+		* Additional Info
+		*/
 	public void setAdditionalInfo(String additionalinfo) {
 		this.AdditionalInfo = additionalinfo;
 	}

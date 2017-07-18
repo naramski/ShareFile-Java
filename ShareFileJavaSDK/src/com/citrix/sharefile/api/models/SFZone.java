@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -49,80 +49,160 @@ public class SFZone extends SFPrincipal {
 	@SerializedName("Metadata")
 	private ArrayList<SFMetadata> Metadata;
 
+		/**
+		* Zone secret used for securing communications.
+		*/
 	public String getSecret() {
 		return this.Secret;
 	}
 
+		/**
+		* Zone secret used for securing communications.
+		*/
 	public void setSecret(String secret) {
 		this.Secret = secret;
 	}
+		/**
+		* Zone type
+		*/
 	public SFSafeEnum<SFZoneType> getZoneType() {
 		return this.ZoneType;
 	}
 
+		/**
+		* Zone type
+		*/
 	public void setZoneType(SFSafeEnum<SFZoneType> zonetype) {
 		this.ZoneType = zonetype;
 	}
+		/**
+		* Zone account - only set on Private zones
+		*/
 	public SFAccount getAccount() {
 		return this.Account;
 	}
 
+		/**
+		* Zone account - only set on Private zones
+		*/
 	public void setAccount(SFAccount account) {
 		this.Account = account;
 	}
+		/**
+		* Specifies how much time between heartbeats before sharefile.com will remove
+		* a Storage Center from load balancing
+		*/
 	public Integer getHeartBeatTolerance() {
 		return this.HeartBeatTolerance;
 	}
 
+		/**
+		* Specifies how much time between heartbeats before sharefile.com will remove
+		* a Storage Center from load balancing
+		*/
 	public void setHeartBeatTolerance(Integer heartbeattolerance) {
 		this.HeartBeatTolerance = heartbeattolerance;
 	}
+		/**
+		* Specifies how often sharefile.com will attempt to connect back to the Zone
+		* and determine if the zone is healthy.
+		*/
 	public Integer getPingBackInterval() {
 		return this.PingBackInterval;
 	}
 
+		/**
+		* Specifies how often sharefile.com will attempt to connect back to the Zone
+		* and determine if the zone is healthy.
+		*/
 	public void setPingBackInterval(Integer pingbackinterval) {
 		this.PingBackInterval = pingbackinterval;
 	}
+		/**
+		* Zone version - this parameter cannot be set, it is determined from the version
+		* of its storage centers. A zone version is the lowest version of a storage center
+		* in that zone
+		*/
 	public String getVersion() {
 		return this.Version;
 	}
 
+		/**
+		* Zone version - this parameter cannot be set, it is determined from the version
+		* of its storage centers. A zone version is the lowest version of a storage center
+		* in that zone
+		*/
 	public void setVersion(String version) {
 		this.Version = version;
 	}
+		/**
+		* Comma-delimited list of services enabled in this zone.
+		*/
 	public SFSafeEnumFlags<SFZoneService> getZoneServices() {
 		return this.ZoneServices;
 	}
 
+		/**
+		* Comma-delimited list of services enabled in this zone.
+		*/
 	public void setZoneServices(SFSafeEnumFlags<SFZoneService> zoneservices) {
 		this.ZoneServices = zoneservices;
 	}
+		/**
+		* Specifies if the zone is a HIPAA zone
+		*/
 	public Boolean getIsHIPAAZone() {
 		return this.IsHIPAAZone;
 	}
 
+		/**
+		* Specifies if the zone is a HIPAA zone
+		*/
 	public void setIsHIPAAZone(Boolean ishipaazone) {
 		this.IsHIPAAZone = ishipaazone;
 	}
+		/**
+		* Specifies if the zone is a multi-tenant zone
+		*/
 	public Boolean getIsMultiTenant() {
 		return this.IsMultiTenant;
 	}
 
+		/**
+		* Specifies if the zone is a multi-tenant zone
+		*/
 	public void setIsMultiTenant(Boolean ismultitenant) {
 		this.IsMultiTenant = ismultitenant;
 	}
+		/**
+		* List of Storage Centers created on this zone. A Storage Center is a stateless
+		* server that performs the zone services. Operations to this zone will be
+		* redirected to one of the storage centers - using the configured external
+		* address.
+		*/
 	public ArrayList<SFStorageCenter> getStorageCenters() {
 		return this.StorageCenters;
 	}
 
+		/**
+		* List of Storage Centers created on this zone. A Storage Center is a stateless
+		* server that performs the zone services. Operations to this zone will be
+		* redirected to one of the storage centers - using the configured external
+		* address.
+		*/
 	public void setStorageCenters(ArrayList<SFStorageCenter> storagecenters) {
 		this.StorageCenters = storagecenters;
 	}
+		/**
+		* List of metadata objects associated with this zone
+		*/
 	public ArrayList<SFMetadata> getMetadata() {
 		return this.Metadata;
 	}
 
+		/**
+		* List of metadata objects associated with this zone
+		*/
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
 		this.Metadata = metadata;
 	}

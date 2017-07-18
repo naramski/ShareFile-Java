@@ -5,7 +5,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -20,8 +20,36 @@ public interface ISFEntities {
         }
 
         @Override
+        public SFAppsEntity apps() {
+            return (SFAppsEntity)getEntity(SFAppsEntity.class);
+        }
+        @Override
+        public SFFavoritesEntity favorites() {
+            return (SFFavoritesEntity)getEntity(SFFavoritesEntity.class);
+        }
+        @Override
+        public SFWebhookClientsEntity webhookClients() {
+            return (SFWebhookClientsEntity)getEntity(SFWebhookClientsEntity.class);
+        }
+        @Override
+        public SFWebhookSubscriptionsEntity webhookSubscriptions() {
+            return (SFWebhookSubscriptionsEntity)getEntity(SFWebhookSubscriptionsEntity.class);
+        }
+        @Override
+        public SFWorkflowsEntity workflows() {
+            return (SFWorkflowsEntity)getEntity(SFWorkflowsEntity.class);
+        }
+        @Override
+        public SFPoliciesEntity policies() {
+            return (SFPoliciesEntity)getEntity(SFPoliciesEntity.class);
+        }
+        @Override
         public SFConnectorGroupsEntity connectorGroups() {
             return (SFConnectorGroupsEntity)getEntity(SFConnectorGroupsEntity.class);
+        }
+        @Override
+        public SFFileLockEntity fileLock() {
+            return (SFFileLockEntity)getEntity(SFFileLockEntity.class);
         }
         @Override
         public SFIrmClassificationsEntity irmClassifications() {
@@ -54,6 +82,14 @@ public interface ISFEntities {
         @Override
         public SFCapabilitiesEntity capabilities() {
             return (SFCapabilitiesEntity)getEntity(SFCapabilitiesEntity.class);
+        }
+        @Override
+        public SFConfigsEntity configs() {
+            return (SFConfigsEntity)getEntity(SFConfigsEntity.class);
+        }
+        @Override
+        public SFDevicesEntity devices() {
+            return (SFDevicesEntity)getEntity(SFDevicesEntity.class);
         }
         @Override
         public SFFavoriteFoldersEntity favoriteFolders() {
@@ -93,7 +129,14 @@ public interface ISFEntities {
         }
     }
 
+    SFAppsEntity apps();
+    SFFavoritesEntity favorites();
+    SFWebhookClientsEntity webhookClients();
+    SFWebhookSubscriptionsEntity webhookSubscriptions();
+    SFWorkflowsEntity workflows();
+    SFPoliciesEntity policies();
     SFConnectorGroupsEntity connectorGroups();
+    SFFileLockEntity fileLock();
     SFIrmClassificationsEntity irmClassifications();
     SFRemoteUploadsEntity remoteUploads();
     SFReportsEntity reports();
@@ -102,6 +145,8 @@ public interface ISFEntities {
     SFAccountsEntity accounts();
     SFAsyncOperationsEntity asyncOperations();
     SFCapabilitiesEntity capabilities();
+    SFConfigsEntity configs();
+    SFDevicesEntity devices();
     SFFavoriteFoldersEntity favoriteFolders();
     SFGroupsEntity groups();
     SFItemsEntity items();

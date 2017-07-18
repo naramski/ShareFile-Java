@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -59,115 +59,211 @@ public class SFOutlookInformation extends SFODataObject {
 	@SerializedName("EncryptedEmailNotifyOnRead")
 	private SFOutlookInformationOptionBool EncryptedEmailNotifyOnRead;
 
+		/**
+		* DownloadInfo Level
+		*/
 	public SFOutlookInformationOptionString getDownloadInfoLevel() {
 		return this.DownloadInfoLevel;
 	}
 
+		/**
+		* DownloadInfo Level
+		*/
 	public void setDownloadInfoLevel(SFOutlookInformationOptionString downloadinfolevel) {
 		this.DownloadInfoLevel = downloadinfolevel;
 	}
+		/**
+		* UploadInfo Level
+		*/
 	public SFOutlookInformationOptionString getUploadInfoLevel() {
 		return this.UploadInfoLevel;
 	}
 
+		/**
+		* UploadInfo Level
+		*/
 	public void setUploadInfoLevel(SFOutlookInformationOptionString uploadinfolevel) {
 		this.UploadInfoLevel = uploadinfolevel;
 	}
+		/**
+		* Notify on download of Share
+		*/
 	public SFOutlookInformationOptionBool getNotifyOnDownload() {
 		return this.NotifyOnDownload;
 	}
 
+		/**
+		* Notify on download of Share
+		*/
 	public void setNotifyOnDownload(SFOutlookInformationOptionBool notifyondownload) {
 		this.NotifyOnDownload = notifyondownload;
 	}
+		/**
+		* Notify on upload of Share
+		*/
 	public SFOutlookInformationOptionBool getNotifyOnUpload() {
 		return this.NotifyOnUpload;
 	}
 
+		/**
+		* Notify on upload of Share
+		*/
 	public void setNotifyOnUpload(SFOutlookInformationOptionBool notifyonupload) {
 		this.NotifyOnUpload = notifyonupload;
 	}
+		/**
+		* Max downloads
+		*/
 	public SFOutlookInformationOptionInt getMaxDownloads() {
 		return this.MaxDownloads;
 	}
 
+		/**
+		* Max downloads
+		*/
 	public void setMaxDownloads(SFOutlookInformationOptionInt maxdownloads) {
 		this.MaxDownloads = maxdownloads;
 	}
+		/**
+		* Link expiration
+		*/
 	public SFOutlookInformationOptionString getLinkExpiration() {
 		return this.LinkExpiration;
 	}
 
+		/**
+		* Link expiration
+		*/
 	public void setLinkExpiration(SFOutlookInformationOptionString linkexpiration) {
 		this.LinkExpiration = linkexpiration;
 	}
+		/**
+		* Default text when requesting files
+		*/
 	public SFOutlookInformationOptionString getRequestText() {
 		return this.RequestText;
 	}
 
+		/**
+		* Default text when requesting files
+		*/
 	public void setRequestText(SFOutlookInformationOptionString requesttext) {
 		this.RequestText = requesttext;
 	}
+		/**
+		* Default text when sending files
+		*/
 	public SFOutlookInformationOptionString getSendText() {
 		return this.SendText;
 	}
 
+		/**
+		* Default text when sending files
+		*/
 	public void setSendText(SFOutlookInformationOptionString sendtext) {
 		this.SendText = sendtext;
 	}
+		/**
+		* Banner HTML
+		*/
 	public SFOutlookInformationOptionString getBannerHTML() {
 		return this.BannerHTML;
 	}
 
+		/**
+		* Banner HTML
+		*/
 	public void setBannerHTML(SFOutlookInformationOptionString bannerhtml) {
 		this.BannerHTML = bannerhtml;
 	}
+		/**
+		* Use banner
+		*/
 	public SFOutlookInformationOptionBool getUseBanner() {
 		return this.UseBanner;
 	}
 
+		/**
+		* Use banner
+		*/
 	public void setUseBanner(SFOutlookInformationOptionBool usebanner) {
 		this.UseBanner = usebanner;
 	}
+		/**
+		* Auto convert
+		*/
 	public SFOutlookInformationOptionBool getAutoConvert() {
 		return this.AutoConvert;
 	}
 
+		/**
+		* Auto convert
+		*/
 	public void setAutoConvert(SFOutlookInformationOptionBool autoconvert) {
 		this.AutoConvert = autoconvert;
 	}
+		/**
+		* Auto convert
+		*/
 	public SFOutlookInformationOptionInt getConvertAbove() {
 		return this.ConvertAbove;
 	}
 
+		/**
+		* Auto convert
+		*/
 	public void setConvertAbove(SFOutlookInformationOptionInt convertabove) {
 		this.ConvertAbove = convertabove;
 	}
+		/**
+		* Attach paperclip
+		*/
 	public SFOutlookInformationOptionBool getAttachPaperclip() {
 		return this.AttachPaperclip;
 	}
 
+		/**
+		* Attach paperclip
+		*/
 	public void setAttachPaperclip(SFOutlookInformationOptionBool attachpaperclip) {
 		this.AttachPaperclip = attachpaperclip;
 	}
+		/**
+		* Encrypted Email Recipient Verification
+		*/
 	public SFOutlookInformationOptionString getEncryptedEmailRecipientVerification() {
 		return this.EncryptedEmailRecipientVerification;
 	}
 
+		/**
+		* Encrypted Email Recipient Verification
+		*/
 	public void setEncryptedEmailRecipientVerification(SFOutlookInformationOptionString encryptedemailrecipientverification) {
 		this.EncryptedEmailRecipientVerification = encryptedemailrecipientverification;
 	}
+		/**
+		* Default Encrypted Email Expiration
+		*/
 	public SFOutlookInformationOptionString getEncryptedEmailExpiration() {
 		return this.EncryptedEmailExpiration;
 	}
 
+		/**
+		* Default Encrypted Email Expiration
+		*/
 	public void setEncryptedEmailExpiration(SFOutlookInformationOptionString encryptedemailexpiration) {
 		this.EncryptedEmailExpiration = encryptedemailexpiration;
 	}
+		/**
+		* Default Encrypted Email Notify on Read
+		*/
 	public SFOutlookInformationOptionBool getEncryptedEmailNotifyOnRead() {
 		return this.EncryptedEmailNotifyOnRead;
 	}
 
+		/**
+		* Default Encrypted Email Notify on Read
+		*/
 	public void setEncryptedEmailNotifyOnRead(SFOutlookInformationOptionBool encryptedemailnotifyonread) {
 		this.EncryptedEmailNotifyOnRead = encryptedemailnotifyonread;
 	}

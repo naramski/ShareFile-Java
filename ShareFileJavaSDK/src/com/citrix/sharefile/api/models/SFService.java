@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -30,6 +30,10 @@ public class SFService extends SFODataObject {
 	private String AddOnCode;
 	@SerializedName("Licenses")
 	private Integer Licenses;
+	@SerializedName("PricePerLicense")
+	private Double PricePerLicense;
+	@SerializedName("PlanAddonBundleId")
+	private Integer PlanAddonBundleId;
 
 	public String getAddOnCode() {
 		return this.AddOnCode;
@@ -44,6 +48,26 @@ public class SFService extends SFODataObject {
 
 	public void setLicenses(Integer licenses) {
 		this.Licenses = licenses;
+	}
+		/**
+		* Unit price per license, per billing cycle
+		*/
+	public Double getPricePerLicense() {
+		return this.PricePerLicense;
+	}
+
+		/**
+		* Unit price per license, per billing cycle
+		*/
+	public void setPricePerLicense(Double priceperlicense) {
+		this.PricePerLicense = priceperlicense;
+	}
+	public Integer getPlanAddonBundleId() {
+		return this.PlanAddonBundleId;
+	}
+
+	public void setPlanAddonBundleId(Integer planaddonbundleid) {
+		this.PlanAddonBundleId = planaddonbundleid;
 	}
 
 }

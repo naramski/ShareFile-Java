@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -60,10 +60,16 @@ public class SFAccessControl extends SFODataObject {
 	public void setItem(SFItem item) {
 		this.Item = item;
 	}
+		/**
+		* Principal - User or Group - that has been granted permissions through this rule
+		*/
 	public SFPrincipal getPrincipal() {
 		return this.Principal;
 	}
 
+		/**
+		* Principal - User or Group - that has been granted permissions through this rule
+		*/
 	public void setPrincipal(SFPrincipal principal) {
 		this.Principal = principal;
 	}

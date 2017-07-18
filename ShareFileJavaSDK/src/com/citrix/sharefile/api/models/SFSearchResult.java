@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ public class SFSearchResult extends SFODataObject {
 	@SerializedName("CreatorLastName")
 	private String CreatorLastName;
 	@SerializedName("CreationDate")
-	private String CreationDate;
+	private Date CreationDate;
 	@SerializedName("Details")
 	private String Details;
 	@SerializedName("MD5")
@@ -170,11 +170,11 @@ public class SFSearchResult extends SFODataObject {
 	public void setCreatorLastName(String creatorlastname) {
 		this.CreatorLastName = creatorlastname;
 	}
-	public String getCreationDate() {
+	public Date getCreationDate() {
 		return this.CreationDate;
 	}
 
-	public void setCreationDate(String creationdate) {
+	public void setCreationDate(Date creationdate) {
 		this.CreationDate = creationdate;
 	}
 	public String getDetails() {

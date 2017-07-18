@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -23,6 +23,7 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
+import com.citrix.sharefile.api.internal.models.*;
 
 public class SFUser extends SFPrincipal {
 
@@ -38,8 +39,6 @@ public class SFUser extends SFPrincipal {
 	private String FullName;
 	@SerializedName("ReferredBy")
 	private String ReferredBy;
-	@SerializedName("Notifications")
-	private ArrayList<SFNotification> Notifications;
 	@SerializedName("DefaultZone")
 	private SFZone DefaultZone;
 	@SerializedName("FirstName")
@@ -52,6 +51,8 @@ public class SFUser extends SFPrincipal {
 	private String FullNameShort;
 	@SerializedName("Emails")
 	private ArrayList<String> Emails;
+	@SerializedName("EmailAddresses")
+	private ArrayList<SFEmailAddress> EmailAddresses;
 	@SerializedName("IsConfirmed")
 	private Boolean IsConfirmed;
 	@SerializedName("Password")
@@ -76,6 +77,14 @@ public class SFUser extends SFPrincipal {
 	private SFUserInfo Info;
 	@SerializedName("AffiliatedPartnerUserId")
 	private String AffiliatedPartnerUserId;
+	@SerializedName("Favorites")
+	private ArrayList<SFFavorite> Favorites;
+	@SerializedName("Groups")
+	private ArrayList<SFGroup> Groups;
+	@SerializedName("CanAccessConnectors")
+	private Boolean CanAccessConnectors;
+	@SerializedName("IsBillingContact")
+	private Boolean IsBillingContact;
 
 	public SFAccount getAccount() {
 		return this.Account;
@@ -105,10 +114,16 @@ public class SFUser extends SFPrincipal {
 	public void setContacted(Integer contacted) {
 		this.Contacted = contacted;
 	}
+		/**
+		* The first and last name of the user
+		*/
 	public String getFullName() {
 		return this.FullName;
 	}
 
+		/**
+		* The first and last name of the user
+		*/
 	public void setFullName(String fullname) {
 		this.FullName = fullname;
 	}
@@ -118,13 +133,6 @@ public class SFUser extends SFPrincipal {
 
 	public void setReferredBy(String referredby) {
 		this.ReferredBy = referredby;
-	}
-	public ArrayList<SFNotification> getNotifications() {
-		return this.Notifications;
-	}
-
-	public void setNotifications(ArrayList<SFNotification> notifications) {
-		this.Notifications = notifications;
 	}
 	public SFZone getDefaultZone() {
 		return this.DefaultZone;
@@ -168,6 +176,13 @@ public class SFUser extends SFPrincipal {
 	public void setEmails(ArrayList<String> emails) {
 		this.Emails = emails;
 	}
+	public ArrayList<SFEmailAddress> getEmailAddresses() {
+		return this.EmailAddresses;
+	}
+
+	public void setEmailAddresses(ArrayList<SFEmailAddress> emailaddresses) {
+		this.EmailAddresses = emailaddresses;
+	}
 	public Boolean getIsConfirmed() {
 		return this.IsConfirmed;
 	}
@@ -196,10 +211,16 @@ public class SFUser extends SFPrincipal {
 	public void setSecurity(SFUserSecurity security) {
 		this.Security = security;
 	}
+		/**
+		* This property would be deprecated in favor of the new property 'Favorites'
+		*/
 	public ArrayList<SFFavoriteFolder> getFavoriteFolders() {
 		return this.FavoriteFolders;
 	}
 
+		/**
+		* This property would be deprecated in favor of the new property 'Favorites'
+		*/
 	public void setFavoriteFolders(ArrayList<SFFavoriteFolder> favoritefolders) {
 		this.FavoriteFolders = favoritefolders;
 	}
@@ -251,6 +272,58 @@ public class SFUser extends SFPrincipal {
 
 	public void setAffiliatedPartnerUserId(String affiliatedpartneruserid) {
 		this.AffiliatedPartnerUserId = affiliatedpartneruserid;
+	}
+		/**
+		* List of Favorite items associated with the user
+		*/
+	public ArrayList<SFFavorite> getFavorites() {
+		return this.Favorites;
+	}
+
+		/**
+		* List of Favorite items associated with the user
+		*/
+	public void setFavorites(ArrayList<SFFavorite> favorites) {
+		this.Favorites = favorites;
+	}
+		/**
+		* List of Groups the user belongs. Only available when authenticated user and user match.
+		*/
+	public ArrayList<SFGroup> getGroups() {
+		return this.Groups;
+	}
+
+		/**
+		* List of Groups the user belongs. Only available when authenticated user and user match.
+		*/
+	public void setGroups(ArrayList<SFGroup> groups) {
+		this.Groups = groups;
+	}
+		/**
+		* This property is true if the user can create or has access to SymbolicLinks.
+		*/
+	public Boolean getCanAccessConnectors() {
+		return this.CanAccessConnectors;
+	}
+
+		/**
+		* This property is true if the user can create or has access to SymbolicLinks.
+		*/
+	public void setCanAccessConnectors(Boolean canaccessconnectors) {
+		this.CanAccessConnectors = canaccessconnectors;
+	}
+		/**
+		* Whether or not this user is the account's billing contact
+		*/
+	public Boolean getIsBillingContact() {
+		return this.IsBillingContact;
+	}
+
+		/**
+		* Whether or not this user is the account's billing contact
+		*/
+	public void setIsBillingContact(Boolean isbillingcontact) {
+		this.IsBillingContact = isbillingcontact;
 	}
 
 }

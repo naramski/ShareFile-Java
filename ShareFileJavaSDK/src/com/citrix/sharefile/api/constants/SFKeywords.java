@@ -9,8 +9,9 @@ public final class SFKeywords
 	public static final String ODATA_TYPE = "odata.type";
 	public static final String ODATA_COUNT = "odata.count";
 	public static final String ODATA_NEXTLINK = "odata.nextLink";
-	
+
 	public static final String URL = "url";
+	public static final String URI = "Uri";
 	public static final String Id = "Id";
 	public static final String DownloadUrl = "DownloadUrl";	
 	public static final String Range = "Range";	
@@ -27,21 +28,35 @@ public final class SFKeywords
 	public static final String Zone = "Zone";
 	public static final String LOCKED_BY = "LockedBy";
 	public static final String FILE_LOCK_INFO = "FileLockInfo";
+	public static final String INFO = "Info";
+	public static final String ITEM = "Item";
 	
 	public static final String CODE = "code";
 	public static final String VALUE = "value";
 	public static final String MESSAGE = "message";
+	public static final String REASON = "reason";
 	
+	public static final String HAS_REMOTE_CHILDREN = "HasRemoteChildren";
 	public static final String CHILDREN = "Children";
 	public static final String PARENT = "Parent";
 	public static final String REDIRECTION = "Redirection";
+	public static final String REDIRECTION_URI = "Redirection" + "/" + URI;
+	public static final String LINK = "Link";
     public static final String PREVIEW_PLATFORMS_SUPPORTED = "PreviewPlatformsSupported";
-    public static final String FAVORITE_FOLDER = "FavoriteFolder";
-    public static final String CHILDREN_FAVORITE_FOLDER = CHILDREN + "/" + FAVORITE_FOLDER;
+    public static final String FAVORITE = "Favorite";
+	public static final String FAVORITE_URL = FAVORITE + "/" + URL;
+    public static final String CHILDREN_FAVORITE = CHILDREN + "/" + FAVORITE;
     public static final String CHILDREN_PARENT = CHILDREN + "/" + PARENT;
     public static final String CHILDREN_PREVIEW_PLATFORMS_SUPPORTED = CHILDREN + "/" + PREVIEW_PLATFORMS_SUPPORTED;
 	public static final String CHILDREN_LOCKED_BY = CHILDREN + "/" + LOCKED_BY;
+	public static final String CHILDREN_ZONE = CHILDREN + "/" + Zone;
 	public static final String CHILDREN_FILE_LOCK_INFO = CHILDREN + "/" + FILE_LOCK_INFO;
+	public static final String CHILDREN_LINK = CHILDREN + "/" + LINK;
+	public static final String CHILDREN_INFO = CHILDREN + "/" + INFO;
+	public static final String CHILDREN_REDIRECTION = CHILDREN + "/" + REDIRECTION;
+	public static final String CHILDREN_FAVORITE_URL = CHILDREN_FAVORITE + "/" + URL;
+	public static final String CHILDREN_REDIRECTION_URI = CHILDREN_REDIRECTION + "/" + URI;
+
 
 	//Access token related
 	public static final String ACCESS_TOKEN = "access_token";
@@ -97,8 +112,6 @@ public final class SFKeywords
 	
 	public static final String PREFIX_PERSONAL_CONNECTOR = "c-";
 
-	public static final String INFO = "Info";
-
 	public static final String JSON = "json";
 	
 	/// StorageCenter related
@@ -108,8 +121,24 @@ public final class SFKeywords
 
 	public static final String HTTP_METHOD_OVERRIDE = "X-HTTP-Method-Override";
 
-    public static final String UNKNOWN_ERROR = "Unknown Error";
-    public static final String SF_OAUTH_TOKEN_PATH = "/oauth/token";
-    public static final String UN_AUTHORIZED = "UnAuthorized(401)";
+	public static final String UNKNOWN_ERROR = "Unknown Error";
+	public static final String SF_OAUTH_TOKEN_PATH = "/oauth/token";
+	public static final String UN_AUTHORIZED = "UnAuthorized(401)";
 	public static final String CLIENT_CAPABILITIES_HEADER = "X-SF-ClientCapabilities";
+
+	//Workflows related
+	public static final String LAST_STATUS_UPDATE = "LastStatusUpdate";
+
+	public enum DIRECTION {
+		ASC("asc"),
+		DESC("desc");
+
+		private String mStr;
+		private DIRECTION(String str) {
+			mStr = str;
+		}
+		public String toString() {
+			return mStr;
+		}
+	}
 }

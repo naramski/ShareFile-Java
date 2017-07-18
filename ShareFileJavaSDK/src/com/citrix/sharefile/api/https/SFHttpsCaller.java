@@ -47,7 +47,7 @@ public class SFHttpsCaller
 	{			
 		String combinepass = username +SFKeywords.COLON + password;
 		String basicAuth = "Basic " + new String(Base64.encodeBase64(combinepass.getBytes()));
-		conn.setRequestProperty ("Authorization", basicAuth);
+		conn.setRequestProperty("Authorization", basicAuth);
 	}
 	
 	public static void postBody(URLConnection conn, String body) throws IOException
@@ -127,7 +127,7 @@ public class SFHttpsCaller
 		
 		return ret;
 	}
-
+	
 	/**
 	 * DELETE does not support setOutputTrue on Android. Use POST as surrogate instead on all systems.
 	 */
@@ -167,7 +167,7 @@ public class SFHttpsCaller
 		}
 		
 		conn.setDoInput(true);
-		conn.setDoOutput(true); //POST, PUT (DELETE with a body will be converted to POST)
+		conn.setDoOutput(true); //POST, PUT, DELETE
 	}
 	
 	public static int catchIfAuthException(IOException e) throws IOException

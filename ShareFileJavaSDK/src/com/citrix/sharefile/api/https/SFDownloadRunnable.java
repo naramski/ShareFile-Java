@@ -120,7 +120,7 @@ public class SFDownloadRunnable extends TransferRunnable {
 
                     if(mProgressListener!=null)
                     {
-                        mProgressListener.onComplete(mTotalBytesTransferredForThisFile);
+                        mProgressListener.onComplete(mTotalBytesTransferredForThisFile, null);
                     }
                 break;
 

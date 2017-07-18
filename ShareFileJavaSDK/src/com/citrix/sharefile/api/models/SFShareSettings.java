@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -29,10 +29,16 @@ public class SFShareSettings extends SFODataObject {
 	@SerializedName("NotifyOnUse")
 	private Boolean NotifyOnUse;
 
+		/**
+		* Notify the creator when Share is used.
+		*/
 	public Boolean getNotifyOnUse() {
 		return this.NotifyOnUse;
 	}
 
+		/**
+		* Notify the creator when Share is used.
+		*/
 	public void setNotifyOnUse(Boolean notifyonuse) {
 		this.NotifyOnUse = notifyonuse;
 	}

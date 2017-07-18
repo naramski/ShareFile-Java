@@ -18,6 +18,7 @@ public interface ILog {
 
     int w(String tag, Throwable tr);
 
+    @Deprecated
     int e(String tag, String msg);
 
     int e(String tag, Throwable tr);

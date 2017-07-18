@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -76,6 +76,16 @@ public class SFItemInfo extends SFODataObject {
 	private Boolean CanEditFolderOpts;
 	@SerializedName("CanEditRetentionPolicy")
 	private Boolean CanEditRetentionPolicy;
+	@SerializedName("CanEditFolderExpirationDays")
+	private Boolean CanEditFolderExpirationDays;
+	@SerializedName("CanEditFolderExpirationDate")
+	private Boolean CanEditFolderExpirationDate;
+	@SerializedName("CanEditFolderMaxVersions")
+	private Boolean CanEditFolderMaxVersions;
+	@SerializedName("CanEditFolderVersioning")
+	private Boolean CanEditFolderVersioning;
+	@SerializedName("CanCreateOfficeDocuments")
+	private Boolean CanCreateOfficeDocuments;
 	@SerializedName("FolderPayID")
 	private String FolderPayID;
 	@SerializedName("ShowFolderPayBuyButton")
@@ -106,6 +116,8 @@ public class SFItemInfo extends SFODataObject {
 	private SFSafeEnum<SFSortField> SortField;
 	@SerializedName("SortDirection")
 	private SFSafeEnum<SFSortDirection> SortDirection;
+	@SerializedName("CanCreateRequestList")
+	private Boolean CanCreateRequestList;
 
 	public SFAccessControl getCurrentAccessControl() {
 		return this.CurrentAccessControl;
@@ -275,12 +287,53 @@ public class SFItemInfo extends SFODataObject {
 	public void setCanEditFolderOpts(Boolean caneditfolderopts) {
 		this.CanEditFolderOpts = caneditfolderopts;
 	}
+		/**
+		* Indicates whether the current user has permission to change folder retention policies (ExpirationDays)
+		*/
 	public Boolean getCanEditRetentionPolicy() {
 		return this.CanEditRetentionPolicy;
 	}
 
+		/**
+		* Indicates whether the current user has permission to change folder retention policies (ExpirationDays)
+		*/
 	public void setCanEditRetentionPolicy(Boolean caneditretentionpolicy) {
 		this.CanEditRetentionPolicy = caneditretentionpolicy;
+	}
+	public Boolean getCanEditFolderExpirationDays() {
+		return this.CanEditFolderExpirationDays;
+	}
+
+	public void setCanEditFolderExpirationDays(Boolean caneditfolderexpirationdays) {
+		this.CanEditFolderExpirationDays = caneditfolderexpirationdays;
+	}
+	public Boolean getCanEditFolderExpirationDate() {
+		return this.CanEditFolderExpirationDate;
+	}
+
+	public void setCanEditFolderExpirationDate(Boolean caneditfolderexpirationdate) {
+		this.CanEditFolderExpirationDate = caneditfolderexpirationdate;
+	}
+	public Boolean getCanEditFolderMaxVersions() {
+		return this.CanEditFolderMaxVersions;
+	}
+
+	public void setCanEditFolderMaxVersions(Boolean caneditfoldermaxversions) {
+		this.CanEditFolderMaxVersions = caneditfoldermaxversions;
+	}
+	public Boolean getCanEditFolderVersioning() {
+		return this.CanEditFolderVersioning;
+	}
+
+	public void setCanEditFolderVersioning(Boolean caneditfolderversioning) {
+		this.CanEditFolderVersioning = caneditfolderversioning;
+	}
+	public Boolean getCanCreateOfficeDocuments() {
+		return this.CanCreateOfficeDocuments;
+	}
+
+	public void setCanCreateOfficeDocuments(Boolean cancreateofficedocuments) {
+		this.CanCreateOfficeDocuments = cancreateofficedocuments;
 	}
 	public String getFolderPayID() {
 		return this.FolderPayID;
@@ -386,6 +439,19 @@ public class SFItemInfo extends SFODataObject {
 
 	public void setSortDirection(SFSafeEnum<SFSortDirection> sortdirection) {
 		this.SortDirection = sortdirection;
+	}
+		/**
+		* Info on a folder to create a request list bundle
+		*/
+	public Boolean getCanCreateRequestList() {
+		return this.CanCreateRequestList;
+	}
+
+		/**
+		* Info on a folder to create a request list bundle
+		*/
+	public void setCanCreateRequestList(Boolean cancreaterequestlist) {
+		this.CanCreateRequestList = cancreaterequestlist;
 	}
 
 }

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -42,6 +42,8 @@ public class SFESignature extends SFODataObject {
 	private String UserID;
 	@SerializedName("Status")
 	private SFSafeEnum<SFESignatureDocumentStatus> Status;
+	@SerializedName("DocumentStatusDescription")
+	private String DocumentStatusDescription;
 	@SerializedName("DateCreated")
 	private Date DateCreated;
 	@SerializedName("DateLastUpdated")
@@ -104,6 +106,13 @@ public class SFESignature extends SFODataObject {
 
 	public void setStatus(SFSafeEnum<SFESignatureDocumentStatus> status) {
 		this.Status = status;
+	}
+	public String getDocumentStatusDescription() {
+		return this.DocumentStatusDescription;
+	}
+
+	public void setDocumentStatusDescription(String documentstatusdescription) {
+		this.DocumentStatusDescription = documentstatusdescription;
 	}
 	public Date getDateCreated() {
 		return this.DateCreated;

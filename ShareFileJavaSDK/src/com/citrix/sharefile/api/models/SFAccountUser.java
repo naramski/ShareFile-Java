@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -46,6 +46,8 @@ public class SFAccountUser extends SFUser {
 	private Integer StorageQuotaPercent;
 	@SerializedName("EnableHardLimit")
 	private Boolean EnableHardLimit;
+	@SerializedName("Policies")
+	private ArrayList<SFUserPolicy> Policies;
 
 	public Boolean getIsAdministrator() {
 		return this.IsAdministrator;
@@ -116,6 +118,13 @@ public class SFAccountUser extends SFUser {
 
 	public void setEnableHardLimit(Boolean enablehardlimit) {
 		this.EnableHardLimit = enablehardlimit;
+	}
+	public ArrayList<SFUserPolicy> getPolicies() {
+		return this.Policies;
+	}
+
+	public void setPolicies(ArrayList<SFUserPolicy> policies) {
+		this.Policies = policies;
 	}
 
 }

@@ -198,6 +198,17 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
     @Override
     public final URI getLink()
     {
+        if(mLink == null)return null;
+
+        //if mLink is base link return with provider
+        if(isBaseLink(mLink)){
+            try{
+                return new URI( mLink + mProviderForUrlPath);
+            }catch(URISyntaxException e){
+                Logger.e(TAG,e);
+            }
+        }
+
         return mLink;
     }
 
@@ -288,7 +299,7 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
     @Override
     public final ISFQuery<T>  setBody(SFODataObject body)
     {
-        mBody = SFDefaultGsonParser.serialize(body.getClass(), body);
+        mBody = new SFDefaultGsonParser().serialize(body.getClass(), body);
         return this;
     }
 
@@ -496,7 +507,7 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
             }
         }
 
-        String queryParams = buildQueryParameters();
+        String queryParams = buildQueryParameters(null);
 
         if(!Utils.isEmpty(queryParams))
         {
@@ -545,7 +556,27 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
         addFilterParams();
     }
 
-    private String buildQueryParameters() throws UnsupportedEncodingException
+    private String[] getQueryParamsKeyValuePairs(String queryParams)
+    {
+        return queryParams!=null ? queryParams.split("&") : null;  //This will return an array of "Key=values" and wont contain "&".
+    }
+
+    private boolean shouldSkip(String key, String[] serverSideParameters){
+
+        if(serverSideParameters == null || serverSideParameters.length ==0 ){
+            return false;
+        }
+
+        for(String str: serverSideParameters){
+            if(str.startsWith(key)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private String buildQueryParameters(String[] serverSideParameters) throws UnsupportedEncodingException
     {
         addAllQueryParams();
 
@@ -560,6 +591,10 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
 
             for(String key:keyset)
             {
+                //If server already has included this key, skip adding from client.
+                if(shouldSkip(key,serverSideParameters)){
+                    continue;
+                }
                 String value = mQueryMap.get(key);
 
                 if(value!=null)
@@ -624,14 +659,14 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
     @Override
     public ISFQuery<T>  setBody( ArrayList<?> sfoDataObjectsFeed)
     {
-        mBody = SFDefaultGsonParser.serialize(sfoDataObjectsFeed.getClass(), sfoDataObjectsFeed);
+        mBody = new SFDefaultGsonParser().serialize(sfoDataObjectsFeed.getClass(), sfoDataObjectsFeed);
         return this;
     }
 
     @Override
     public ISFQuery<T>  setBody(Object object)
     {
-        mBody = SFDefaultGsonParser.serialize(object.getClass(), object);
+        mBody = new SFDefaultGsonParser().serialize(object.getClass(), object);
         return this;
     }
 
@@ -712,20 +747,16 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
     public ISFQuery<T> setLinkAndAppendPreviousParameters(URI newuri) throws URISyntaxException, UnsupportedEncodingException
     {
         String newQueryParams = newuri.getQuery();
-        String oldQueryParms = buildQueryParameters();
-
-        if(newQueryParams !=null && (newQueryParams.contains(oldQueryParms) || containsDecodedParams(oldQueryParms,newQueryParams)))
-        {
-            setFullyParametrizedLink(newuri);
-            return this;
-        }
+        String oldQueryParms = buildQueryParameters(getQueryParamsKeyValuePairs(newQueryParams));
+        Logger.d(TAG,"oldQparams = " + oldQueryParms);
+        Logger.d(TAG,"newQparams = " + newQueryParams);
 
         StringBuilder sb = new StringBuilder();
         sb.append(newuri.toString());
 
         if(!Utils.isEmpty(oldQueryParms))
         {
-            if(Utils.isEmpty(newQueryParams))
+            if(newQueryParams == null || newQueryParams.length() == 0)
             {
                 sb.append(SFKeywords.CHAR_QUERY);
             }
@@ -739,9 +770,11 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
 
         String strNewUrl = sb.toString();
 
-        Logger.d(TAG,"Setting new URL by appending old query parameter to: " + strNewUrl);
+        URI uri = new URI(strNewUrl);
 
-        setFullyParametrizedLink(new URI(strNewUrl));
+        Logger.d(TAG,"Setting new URI by appending old params: " + uri.getQuery());
+
+        setFullyParametrizedLink(uri);
 
         return this;
     }
@@ -777,6 +810,12 @@ abstract class AbstractSFApiQuery <T> implements ISFQuery<T>
     public ISFQuery<T> skip(int skipItems)
     {
         addQueryString(SFQueryParams.SKIP,skipItems);
+        return this;
+    }
+
+    @Override
+    public ISFQuery<T> orderBy(String orderParameter, SFKeywords.DIRECTION direction) {
+        addQueryString(SFQueryParams.ORDERBY,orderParameter + " " + direction.toString());
         return this;
     }
 

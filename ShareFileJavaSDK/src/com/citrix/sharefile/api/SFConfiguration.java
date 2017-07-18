@@ -15,6 +15,13 @@ import com.citrix.sharefile.api.constants.SFKeywords;
  */
 public class SFConfiguration 
 {
+	public static final boolean RESOLVE_LOCALE = true;
+	// SF-Locale configuration support.
+	// ?More info: http://www.oracle.com/us/technologies/java/locale-140624.html?
+	public static final boolean LOCALE_COUNTRY_SUPPORT = true;
+	public static final boolean LOCALE_VARIANT_SUPPORT = false;
+	public static final boolean LOCALE_SCRIPT_SUPPORT = false;
+
 	private final Map<String ,String> mAdditionalHttpHeaders = new HashMap<String,String>();
 		
 	public void addAcceptedLanguages(ArrayList<String> acceptedLanguages) 

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -23,6 +23,7 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
+import com.citrix.sharefile.api.internal.models.*;
 
 public class SFAccountPreferences extends SFODataObject {
 
@@ -36,6 +37,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean ShowUserListToClients;
 	@SerializedName("RequireLoginOnDownload")
 	private Boolean RequireLoginOnDownload;
+	@SerializedName("RequireLoginOnUpload")
+	private Boolean RequireLoginOnUpload;
 	@SerializedName("RequireLoginByDefault")
 	private Boolean RequireLoginByDefault;
 	@SerializedName("EnableClientSend")
@@ -234,6 +237,10 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean DisableWebAppAccess;
 	@SerializedName("EnableCWC")
 	private Boolean EnableCWC;
+	@SerializedName("EnableEnterpriseArchive")
+	private Boolean EnableEnterpriseArchive;
+	@SerializedName("EnterpriseArchiveActivationDate")
+	private Date EnterpriseArchiveActivationDate;
 	@SerializedName("EnableIntegrations")
 	private Boolean EnableIntegrations;
 	@SerializedName("IntegrationProviders")
@@ -278,6 +285,8 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableOfficeOnlinePreviews;
 	@SerializedName("EnableOfficeOnlineEditing")
 	private Boolean EnableOfficeOnlineEditing;
+	@SerializedName("EnableGoogleDriveEditing")
+	private Boolean EnableGoogleDriveEditing;
 	@SerializedName("RecycleBinDays")
 	private Integer RecycleBinDays;
 	@SerializedName("SyncConcurrentTransferThreadsLimit")
@@ -308,10 +317,62 @@ public class SFAccountPreferences extends SFODataObject {
 	private Boolean EnableSecondaryDbContacts;
 	@SerializedName("EnableCADPreview")
 	private Boolean EnableCADPreview;
+	@SerializedName("IsQuotaLimitAvailable")
+	private Boolean IsQuotaLimitAvailable;
 	@SerializedName("EnableQuotaLimit")
 	private Boolean EnableQuotaLimit;
 	@SerializedName("QuotaLimitInGB")
 	private Integer QuotaLimitInGB;
+	@SerializedName("EnableRenderLibXThumbnails")
+	private Boolean EnableRenderLibXThumbnails;
+	@SerializedName("EnableRenderAPIThumbnails")
+	private Boolean EnableRenderAPIThumbnails;
+	@SerializedName("EnablePolicyBasedAdministration")
+	private Boolean EnablePolicyBasedAdministration;
+	@SerializedName("EnableViewerComponentX")
+	private Boolean EnableViewerComponentX;
+	@SerializedName("EnableRequestList")
+	private Boolean EnableRequestList;
+	@SerializedName("CanStoreItemsWithMetadata")
+	private Boolean CanStoreItemsWithMetadata;
+	@SerializedName("EnableRemoteWipe")
+	private Boolean EnableRemoteWipe;
+	@SerializedName("EnableSharedGroupRole")
+	private Boolean EnableSharedGroupRole;
+	@SerializedName("EnableFolderPay")
+	private Boolean EnableFolderPay;
+	@SerializedName("EnableImage32")
+	private Boolean EnableImage32;
+	@SerializedName("EnableContentViewer")
+	private Boolean EnableContentViewer;
+	@SerializedName("EnableShareConnectConnector")
+	private Boolean EnableShareConnectConnector;
+	@SerializedName("DisableSecondaryEmails")
+	private Boolean DisableSecondaryEmails;
+	@SerializedName("ForceSSO")
+	private Boolean ForceSSO;
+	@SerializedName("LoginPageType")
+	private SFSafeEnum<SFLoginPageType> LoginPageType;
+	@SerializedName("HideBillingInfoExceptions")
+	private String HideBillingInfoExceptions;
+	@SerializedName("ShowBillingInfo")
+	private Boolean ShowBillingInfo;
+	@SerializedName("SuperGroupId")
+	private String SuperGroupId;
+	@SerializedName("HideSuperGroup")
+	private Boolean HideSuperGroup;
+	@SerializedName("EnablePowerTools")
+	private Boolean EnablePowerTools;
+	@SerializedName("EnableMobileFormsWorkflow")
+	private Boolean EnableMobileFormsWorkflow;
+	@SerializedName("IsArchiveAccount")
+	private Boolean IsArchiveAccount;
+	@SerializedName("EnableDesktopAppExplorerIntegration")
+	private Boolean EnableDesktopAppExplorerIntegration;
+	@SerializedName("EnableSmartFolders")
+	private Boolean EnableSmartFolders;
+	@SerializedName("EnableRemovePHIfromDICOMs")
+	private Boolean EnableRemovePHIfromDICOMs;
 
 	public Boolean getEnableViewOnly() {
 		return this.EnableViewOnly;
@@ -341,12 +402,31 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setShowUserListToClients(Boolean showuserlisttoclients) {
 		this.ShowUserListToClients = showuserlisttoclients;
 	}
+		/**
+		* Enforce RequireLogin requirement for all Send Shares
+		*/
 	public Boolean getRequireLoginOnDownload() {
 		return this.RequireLoginOnDownload;
 	}
 
+		/**
+		* Enforce RequireLogin requirement for all Send Shares
+		*/
 	public void setRequireLoginOnDownload(Boolean requireloginondownload) {
 		this.RequireLoginOnDownload = requireloginondownload;
+	}
+		/**
+		* Enforce RequireLogin requirement for all Request Shares
+		*/
+	public Boolean getRequireLoginOnUpload() {
+		return this.RequireLoginOnUpload;
+	}
+
+		/**
+		* Enforce RequireLogin requirement for all Request Shares
+		*/
+	public void setRequireLoginOnUpload(Boolean requireloginonupload) {
+		this.RequireLoginOnUpload = requireloginonupload;
 	}
 	public Boolean getRequireLoginByDefault() {
 		return this.RequireLoginByDefault;
@@ -1077,6 +1157,20 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableCWC(Boolean enablecwc) {
 		this.EnableCWC = enablecwc;
 	}
+	public Boolean getEnableEnterpriseArchive() {
+		return this.EnableEnterpriseArchive;
+	}
+
+	public void setEnableEnterpriseArchive(Boolean enableenterprisearchive) {
+		this.EnableEnterpriseArchive = enableenterprisearchive;
+	}
+	public Date getEnterpriseArchiveActivationDate() {
+		return this.EnterpriseArchiveActivationDate;
+	}
+
+	public void setEnterpriseArchiveActivationDate(Date enterprisearchiveactivationdate) {
+		this.EnterpriseArchiveActivationDate = enterprisearchiveactivationdate;
+	}
 	public Boolean getEnableIntegrations() {
 		return this.EnableIntegrations;
 	}
@@ -1239,6 +1333,13 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableOfficeOnlineEditing(Boolean enableofficeonlineediting) {
 		this.EnableOfficeOnlineEditing = enableofficeonlineediting;
 	}
+	public Boolean getEnableGoogleDriveEditing() {
+		return this.EnableGoogleDriveEditing;
+	}
+
+	public void setEnableGoogleDriveEditing(Boolean enablegoogledriveediting) {
+		this.EnableGoogleDriveEditing = enablegoogledriveediting;
+	}
 		/**
 		* Retention period of items in the recycle bin.
 		*/
@@ -1386,19 +1487,333 @@ public class SFAccountPreferences extends SFODataObject {
 	public void setEnableCADPreview(Boolean enablecadpreview) {
 		this.EnableCADPreview = enablecadpreview;
 	}
+		/**
+		* Can Account enable/disable quota limit feature
+		*/
+	public Boolean getIsQuotaLimitAvailable() {
+		return this.IsQuotaLimitAvailable;
+	}
+
+		/**
+		* Can Account enable/disable quota limit feature
+		*/
+	public void setIsQuotaLimitAvailable(Boolean isquotalimitavailable) {
+		this.IsQuotaLimitAvailable = isquotalimitavailable;
+	}
+		/**
+		* Has the account enabled the quota limit
+		*/
 	public Boolean getEnableQuotaLimit() {
 		return this.EnableQuotaLimit;
 	}
 
+		/**
+		* Has the account enabled the quota limit
+		*/
 	public void setEnableQuotaLimit(Boolean enablequotalimit) {
 		this.EnableQuotaLimit = enablequotalimit;
 	}
+		/**
+		* Quota Limit in gigabytes
+		*/
 	public Integer getQuotaLimitInGB() {
 		return this.QuotaLimitInGB;
 	}
 
+		/**
+		* Quota Limit in gigabytes
+		*/
 	public void setQuotaLimitInGB(Integer quotalimitingb) {
 		this.QuotaLimitInGB = quotalimitingb;
+	}
+		/**
+		* Enables getting thumbnails from Renderer X service
+		*/
+	public Boolean getEnableRenderLibXThumbnails() {
+		return this.EnableRenderLibXThumbnails;
+	}
+
+		/**
+		* Enables getting thumbnails from Renderer X service
+		*/
+	public void setEnableRenderLibXThumbnails(Boolean enablerenderlibxthumbnails) {
+		this.EnableRenderLibXThumbnails = enablerenderlibxthumbnails;
+	}
+		/**
+		* Enables getting thumbnails from RenderAPI service
+		*/
+	public Boolean getEnableRenderAPIThumbnails() {
+		return this.EnableRenderAPIThumbnails;
+	}
+
+		/**
+		* Enables getting thumbnails from RenderAPI service
+		*/
+	public void setEnableRenderAPIThumbnails(Boolean enablerenderapithumbnails) {
+		this.EnableRenderAPIThumbnails = enablerenderapithumbnails;
+	}
+		/**
+		* Enables Policy based administration on account
+		*/
+	public Boolean getEnablePolicyBasedAdministration() {
+		return this.EnablePolicyBasedAdministration;
+	}
+
+		/**
+		* Enables Policy based administration on account
+		*/
+	public void setEnablePolicyBasedAdministration(Boolean enablepolicybasedadministration) {
+		this.EnablePolicyBasedAdministration = enablepolicybasedadministration;
+	}
+		/**
+		* Enables getting thumbnails from Renderer X service
+		*/
+	public Boolean getEnableViewerComponentX() {
+		return this.EnableViewerComponentX;
+	}
+
+		/**
+		* Enables getting thumbnails from Renderer X service
+		*/
+	public void setEnableViewerComponentX(Boolean enableviewercomponentx) {
+		this.EnableViewerComponentX = enableviewercomponentx;
+	}
+		/**
+		* Enables Provided By Client Request List feature
+		*/
+	public Boolean getEnableRequestList() {
+		return this.EnableRequestList;
+	}
+
+		/**
+		* Enables Provided By Client Request List feature
+		*/
+	public void setEnableRequestList(Boolean enablerequestlist) {
+		this.EnableRequestList = enablerequestlist;
+	}
+		/**
+		* Whether metadata of Item can be stored
+		*/
+	public Boolean getCanStoreItemsWithMetadata() {
+		return this.CanStoreItemsWithMetadata;
+	}
+
+		/**
+		* Whether metadata of Item can be stored
+		*/
+	public void setCanStoreItemsWithMetadata(Boolean canstoreitemswithmetadata) {
+		this.CanStoreItemsWithMetadata = canstoreitemswithmetadata;
+	}
+		/**
+		* Enable remote device wipe.
+		*/
+	public Boolean getEnableRemoteWipe() {
+		return this.EnableRemoteWipe;
+	}
+
+		/**
+		* Enable remote device wipe.
+		*/
+	public void setEnableRemoteWipe(Boolean enableremotewipe) {
+		this.EnableRemoteWipe = enableremotewipe;
+	}
+		/**
+		* Enable Shared Group Role
+		*/
+	public Boolean getEnableSharedGroupRole() {
+		return this.EnableSharedGroupRole;
+	}
+
+		/**
+		* Enable Shared Group Role
+		*/
+	public void setEnableSharedGroupRole(Boolean enablesharedgrouprole) {
+		this.EnableSharedGroupRole = enablesharedgrouprole;
+	}
+		/**
+		* Enable Folder Pay
+		*/
+	public Boolean getEnableFolderPay() {
+		return this.EnableFolderPay;
+	}
+
+		/**
+		* Enable Folder Pay
+		*/
+	public void setEnableFolderPay(Boolean enablefolderpay) {
+		this.EnableFolderPay = enablefolderpay;
+	}
+		/**
+		* Enable Image32
+		*/
+	public Boolean getEnableImage32() {
+		return this.EnableImage32;
+	}
+
+		/**
+		* Enable Image32
+		*/
+	public void setEnableImage32(Boolean enableimage32) {
+		this.EnableImage32 = enableimage32;
+	}
+		/**
+		* Enable Content Viewer integration
+		*/
+	public Boolean getEnableContentViewer() {
+		return this.EnableContentViewer;
+	}
+
+		/**
+		* Enable Content Viewer integration
+		*/
+	public void setEnableContentViewer(Boolean enablecontentviewer) {
+		this.EnableContentViewer = enablecontentviewer;
+	}
+		/**
+		* Enable ShareConnect Connector
+		*/
+	public Boolean getEnableShareConnectConnector() {
+		return this.EnableShareConnectConnector;
+	}
+
+		/**
+		* Enable ShareConnect Connector
+		*/
+	public void setEnableShareConnectConnector(Boolean enableshareconnectconnector) {
+		this.EnableShareConnectConnector = enableshareconnectconnector;
+	}
+	public Boolean getDisableSecondaryEmails() {
+		return this.DisableSecondaryEmails;
+	}
+
+	public void setDisableSecondaryEmails(Boolean disablesecondaryemails) {
+		this.DisableSecondaryEmails = disablesecondaryemails;
+	}
+	public Boolean getForceSSO() {
+		return this.ForceSSO;
+	}
+
+	public void setForceSSO(Boolean forcesso) {
+		this.ForceSSO = forcesso;
+	}
+	public SFSafeEnum<SFLoginPageType> getLoginPageType() {
+		return this.LoginPageType;
+	}
+
+	public void setLoginPageType(SFSafeEnum<SFLoginPageType> loginpagetype) {
+		this.LoginPageType = loginpagetype;
+	}
+	public String getHideBillingInfoExceptions() {
+		return this.HideBillingInfoExceptions;
+	}
+
+	public void setHideBillingInfoExceptions(String hidebillinginfoexceptions) {
+		this.HideBillingInfoExceptions = hidebillinginfoexceptions;
+	}
+	public Boolean getShowBillingInfo() {
+		return this.ShowBillingInfo;
+	}
+
+	public void setShowBillingInfo(Boolean showbillinginfo) {
+		this.ShowBillingInfo = showbillinginfo;
+	}
+		/**
+		* Id of the Super User Group
+		*/
+	public String getSuperGroupId() {
+		return this.SuperGroupId;
+	}
+
+		/**
+		* Id of the Super User Group
+		*/
+	public void setSuperGroupId(String supergroupid) {
+		this.SuperGroupId = supergroupid;
+	}
+		/**
+		* Hide Super User Group
+		*/
+	public Boolean getHideSuperGroup() {
+		return this.HideSuperGroup;
+	}
+
+		/**
+		* Hide Super User Group
+		*/
+	public void setHideSuperGroup(Boolean hidesupergroup) {
+		this.HideSuperGroup = hidesupergroup;
+	}
+		/**
+		* Enable Power Tools
+		*/
+	public Boolean getEnablePowerTools() {
+		return this.EnablePowerTools;
+	}
+
+		/**
+		* Enable Power Tools
+		*/
+	public void setEnablePowerTools(Boolean enablepowertools) {
+		this.EnablePowerTools = enablepowertools;
+	}
+		/**
+		* Enable Custom Workflows
+		*/
+	public Boolean getEnableMobileFormsWorkflow() {
+		return this.EnableMobileFormsWorkflow;
+	}
+
+		/**
+		* Enable Custom Workflows
+		*/
+	public void setEnableMobileFormsWorkflow(Boolean enablemobileformsworkflow) {
+		this.EnableMobileFormsWorkflow = enablemobileformsworkflow;
+	}
+	public Boolean getIsArchiveAccount() {
+		return this.IsArchiveAccount;
+	}
+
+	public void setIsArchiveAccount(Boolean isarchiveaccount) {
+		this.IsArchiveAccount = isarchiveaccount;
+	}
+		/**
+		* Enable Use of Desktop App + Explorer Integration (Drive Mapper)
+		*/
+	public Boolean getEnableDesktopAppExplorerIntegration() {
+		return this.EnableDesktopAppExplorerIntegration;
+	}
+
+		/**
+		* Enable Use of Desktop App + Explorer Integration (Drive Mapper)
+		*/
+	public void setEnableDesktopAppExplorerIntegration(Boolean enabledesktopappexplorerintegration) {
+		this.EnableDesktopAppExplorerIntegration = enabledesktopappexplorerintegration;
+	}
+		/**
+		* Enable creation of folders which will automatically categorize files
+		*/
+	public Boolean getEnableSmartFolders() {
+		return this.EnableSmartFolders;
+	}
+
+		/**
+		* Enable creation of folders which will automatically categorize files
+		*/
+	public void setEnableSmartFolders(Boolean enablesmartfolders) {
+		this.EnableSmartFolders = enablesmartfolders;
+	}
+		/**
+		* Enables De-Identification which removes PHI information from DICOM studies when uploaded
+		*/
+	public Boolean getEnableRemovePHIfromDICOMs() {
+		return this.EnableRemovePHIfromDICOMs;
+	}
+
+		/**
+		* Enables De-Identification which removes PHI information from DICOM studies when uploaded
+		*/
+	public void setEnableRemovePHIfromDICOMs(Boolean enableremovephifromdicoms) {
+		this.EnableRemovePHIfromDICOMs = enableremovephifromdicoms;
 	}
 
 }

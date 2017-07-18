@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -44,6 +44,8 @@ public class SFUploadSpecification extends SFODataObject {
 	private Long ResumeOffset;
 	@SerializedName("ResumeFileHash")
 	private String ResumeFileHash;
+	@SerializedName("MaxNumberOfThreads")
+	private Integer MaxNumberOfThreads;
 
 		/**
 		* The Upload method that must be used for this upload
@@ -161,6 +163,19 @@ public class SFUploadSpecification extends SFODataObject {
 		*/
 	public void setResumeFileHash(String resumefilehash) {
 		this.ResumeFileHash = resumefilehash;
+	}
+		/**
+		* Specifies the max number of chunks that can be sent simultaneously for threaded uploads
+		*/
+	public Integer getMaxNumberOfThreads() {
+		return this.MaxNumberOfThreads;
+	}
+
+		/**
+		* Specifies the max number of chunks that can be sent simultaneously for threaded uploads
+		*/
+	public void setMaxNumberOfThreads(Integer maxnumberofthreads) {
+		this.MaxNumberOfThreads = maxnumberofthreads;
 	}
 
 }

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -66,6 +66,8 @@ public class SFUploadRequestParams extends SFODataObject {
 	private Date ClientCreatedDate;
 	@SerializedName("ClientModifiedDate")
 	private Date ClientModifiedDate;
+	@SerializedName("BaseFileId")
+	private String BaseFileId;
 
 	public SFSafeEnum<SFUploadMethod> getMethod() {
 		return this.Method;
@@ -206,6 +208,23 @@ public class SFUploadRequestParams extends SFODataObject {
 
 	public void setClientModifiedDate(Date clientmodifieddate) {
 		this.ClientModifiedDate = clientmodifieddate;
+	}
+		/**
+		* BaseFileId is a used to check conflict in file during File Upload.
+		* BaseFileId is passed by client and contains value of their local copy itemId.
+		* API will check if the version passed is still current or someone else has updated file since clients last read.
+		*/
+	public String getBaseFileId() {
+		return this.BaseFileId;
+	}
+
+		/**
+		* BaseFileId is a used to check conflict in file during File Upload.
+		* BaseFileId is passed by client and contains value of their local copy itemId.
+		* API will check if the version passed is still current or someone else has updated file since clients last read.
+		*/
+	public void setBaseFileId(String basefileid) {
+		this.BaseFileId = basefileid;
 	}
 
 }

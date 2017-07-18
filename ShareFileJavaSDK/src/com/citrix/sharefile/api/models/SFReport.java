@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -79,197 +79,341 @@ public class SFReport extends SFODataObject {
 	@SerializedName("EmailToNotify")
 	private String EmailToNotify;
 
+		/**
+		* The Account ID associated with this Report
+		*/
 	public String getAccountId() {
 		return this.AccountId;
 	}
 
+		/**
+		* The Account ID associated with this Report
+		*/
 	public void setAccountId(String accountid) {
 		this.AccountId = accountid;
 	}
+		/**
+		* The name the Report will appear under in the Reporting UI
+		*/
 	public String getTitle() {
 		return this.Title;
 	}
 
+		/**
+		* The name the Report will appear under in the Reporting UI
+		*/
 	public void setTitle(String title) {
 		this.Title = title;
 	}
+		/**
+		* Access, Activity, Storage, Messaging, BandwidthDetail, or BandwidthSummary
+		*/
 	public SFSafeEnum<SFReportType> getReportType() {
 		return this.ReportType;
 	}
 
+		/**
+		* Access, Activity, Storage, Messaging, BandwidthDetail, or BandwidthSummary
+		*/
 	public void setReportType(SFSafeEnum<SFReportType> reporttype) {
 		this.ReportType = reporttype;
 	}
+		/**
+		* Account, Folder, or User
+		*/
 	public SFSafeEnum<SFReportObjectType> getObjectType() {
 		return this.ObjectType;
 	}
 
+		/**
+		* Account, Folder, or User
+		*/
 	public void setObjectType(SFSafeEnum<SFReportObjectType> objecttype) {
 		this.ObjectType = objecttype;
 	}
+		/**
+		* If ObjectType is specified, this is the Id of the object to run the Report against
+		*/
 	public String getObjectId() {
 		return this.ObjectId;
 	}
 
+		/**
+		* If ObjectType is specified, this is the Id of the object to run the Report against
+		*/
 	public void setObjectId(String objectid) {
 		this.ObjectId = objectid;
 	}
+		/**
+		* (For non-Access reports) Specific, Today, Yesterday, ThisWeek, LastWeek, ThisMonth, LastMonth, or Last30Days
+		*/
 	public SFSafeEnum<SFReportDateOption> getDateOption() {
 		return this.DateOption;
 	}
 
+		/**
+		* (For non-Access reports) Specific, Today, Yesterday, ThisWeek, LastWeek, ThisMonth, LastMonth, or Last30Days
+		*/
 	public void setDateOption(SFSafeEnum<SFReportDateOption> dateoption) {
 		this.DateOption = dateoption;
 	}
+		/**
+		* (For Activity reports) A comma-delimited list of Login, LoginFail, LoginLocked, Download, View, WatermarkDownload, Upload, ZipUpload, Item_Delete, Item_Edit, Move, Item_Restore, NewFolder, NewNote, NewLink, DLP_Scan_Accept, DLP_Scan_Reject, DLP_Share_Allow, DLP_Share_Deny, Item_Archive, TFA_Login, TFA_LoginFail, TFA_InvalidCode, LoginFail_OAuthTokenExpired
+		*/
 	public String getActivityTypes() {
 		return this.ActivityTypes;
 	}
 
+		/**
+		* (For Activity reports) A comma-delimited list of Login, LoginFail, LoginLocked, Download, View, WatermarkDownload, Upload, ZipUpload, Item_Delete, Item_Edit, Move, Item_Restore, NewFolder, NewNote, NewLink, DLP_Scan_Accept, DLP_Scan_Reject, DLP_Share_Allow, DLP_Share_Deny, Item_Archive, TFA_Login, TFA_LoginFail, TFA_InvalidCode, LoginFail_OAuthTokenExpired
+		*/
 	public void setActivityTypes(String activitytypes) {
 		this.ActivityTypes = activitytypes;
 	}
 		/**
-		* The Start Date of the range the ReportRecord will be run against
+		* If Specific is the DateOption, the beginning of the date range to report on
 		*/
 	public Date getStartDate() {
 		return this.StartDate;
 	}
 
 		/**
-		* The Start Date of the range the ReportRecord will be run against
+		* If Specific is the DateOption, the beginning of the date range to report on
 		*/
 	public void setStartDate(Date startdate) {
 		this.StartDate = startdate;
 	}
 		/**
-		* The End Date of the range the ReportRecord will be run against
+		* If specific is the DateOption, the end of the data range to report on
 		*/
 	public Date getEndDate() {
 		return this.EndDate;
 	}
 
 		/**
-		* The End Date of the range the ReportRecord will be run against
+		* If specific is the DateOption, the end of the data range to report on
 		*/
 	public void setEndDate(Date enddate) {
 		this.EndDate = enddate;
 	}
+		/**
+		* The last time this Report was run
+		*/
 	public Date getLastRunDate() {
 		return this.LastRunDate;
 	}
 
+		/**
+		* The last time this Report was run
+		*/
 	public void setLastRunDate(Date lastrundate) {
 		this.LastRunDate = lastrundate;
 	}
+		/**
+		* True if the Report should run regularly
+		*/
 	public Boolean getIsRecurring() {
 		return this.IsRecurring;
 	}
 
+		/**
+		* True if the Report should run regularly
+		*/
 	public void setIsRecurring(Boolean isrecurring) {
 		this.IsRecurring = isrecurring;
 	}
+		/**
+		* Should match IsRecurring
+		*/
 	public Boolean getIsScheduled() {
 		return this.IsScheduled;
 	}
 
+		/**
+		* Should match IsRecurring
+		*/
 	public void setIsScheduled(Boolean isscheduled) {
 		this.IsScheduled = isscheduled;
 	}
+		/**
+		* If the ObjectType selected is Folder, whether or not subfolders should be included in the Report
+		*/
 	public Boolean getIncludeSubFolders() {
 		return this.IncludeSubFolders;
 	}
 
+		/**
+		* If the ObjectType selected is Folder, whether or not subfolders should be included in the Report
+		*/
 	public void setIncludeSubFolders(Boolean includesubfolders) {
 		this.IncludeSubFolders = includesubfolders;
 	}
+		/**
+		* True if the result of this Report should be directly saved to a ShareFile folder
+		*/
 	public Boolean getSaveToFolder() {
 		return this.SaveToFolder;
 	}
 
+		/**
+		* True if the result of this Report should be directly saved to a ShareFile folder
+		*/
 	public void setSaveToFolder(Boolean savetofolder) {
 		this.SaveToFolder = savetofolder;
 	}
+		/**
+		* If SaveToFolder is true, the format the Report should be saved in
+		*/
 	public String getSaveFormat() {
 		return this.SaveFormat;
 	}
 
+		/**
+		* If SaveToFolder is true, the format the Report should be saved in
+		*/
 	public void setSaveFormat(String saveformat) {
 		this.SaveFormat = saveformat;
 	}
+		/**
+		* If SaveToFolder is true, the Id of the folder the Report should be saved in
+		*/
 	public String getSaveFolderId() {
 		return this.SaveFolderId;
 	}
 
+		/**
+		* If SaveToFolder is true, the Id of the folder the Report should be saved in
+		*/
 	public void setSaveFolderId(String savefolderid) {
 		this.SaveFolderId = savefolderid;
 	}
+		/**
+		* The Item object representing the folder selected with SaveFolderId
+		*/
 	public SFItem getSaveFolder() {
 		return this.SaveFolder;
 	}
 
+		/**
+		* The Item object representing the folder selected with SaveFolderId
+		*/
 	public void setSaveFolder(SFItem savefolder) {
 		this.SaveFolder = savefolder;
 	}
+		/**
+		* The creator of the report
+		*/
 	public SFUser getCreator() {
 		return this.Creator;
 	}
 
+		/**
+		* The creator of the report
+		*/
 	public void setCreator(SFUser creator) {
 		this.Creator = creator;
 	}
+		/**
+		* The user ID of the creator of the Report
+		*/
 	public String getCreatorId() {
 		return this.CreatorId;
 	}
 
+		/**
+		* The user ID of the creator of the Report
+		*/
 	public void setCreatorId(String creatorid) {
 		this.CreatorId = creatorid;
 	}
+		/**
+		* An expandable property that includes all the ReportRecord objects associated with this Report
+		*/
 	public ArrayList<SFReportRecord> getRecords() {
 		return this.Records;
 	}
 
+		/**
+		* An expandable property that includes all the ReportRecord objects associated with this Report
+		*/
 	public void setRecords(ArrayList<SFReportRecord> records) {
 		this.Records = records;
 	}
+		/**
+		* When this Report was originally created
+		*/
 	public Date getCreateDate() {
 		return this.CreateDate;
 	}
 
+		/**
+		* When this Report was originally created
+		*/
 	public void setCreateDate(Date createdate) {
 		this.CreateDate = createdate;
 	}
+		/**
+		* If this Report is scheduled and recurring, when the Report should be run again - Once, Daily, Weekly, or Monthly
+		*/
 	public SFSafeEnum<SFReportRunFrequency> getFrequency() {
 		return this.Frequency;
 	}
 
+		/**
+		* If this Report is scheduled and recurring, when the Report should be run again - Once, Daily, Weekly, or Monthly
+		*/
 	public void setFrequency(SFSafeEnum<SFReportRunFrequency> frequency) {
 		this.Frequency = frequency;
 	}
+		/**
+		* If the Report is scheduled to run weekly, the day of the week to run on (Sunday is 0, Saturday is 6)
+		*/
 	public Integer getDayOfWeek() {
 		return this.DayOfWeek;
 	}
 
+		/**
+		* If the Report is scheduled to run weekly, the day of the week to run on (Sunday is 0, Saturday is 6)
+		*/
 	public void setDayOfWeek(Integer dayofweek) {
 		this.DayOfWeek = dayofweek;
 	}
+		/**
+		* If the Report is scheduled to run monthly, the day of the month to run on
+		*/
 	public Integer getDayOfMonth() {
 		return this.DayOfMonth;
 	}
 
+		/**
+		* If the Report is scheduled to run monthly, the day of the month to run on
+		*/
 	public void setDayOfMonth(Integer dayofmonth) {
 		this.DayOfMonth = dayofmonth;
 	}
+		/**
+		* If true, the Report will send an email when it finishes executing
+		*/
 	public Boolean getEmailNotice() {
 		return this.EmailNotice;
 	}
 
+		/**
+		* If true, the Report will send an email when it finishes executing
+		*/
 	public void setEmailNotice(Boolean emailnotice) {
 		this.EmailNotice = emailnotice;
 	}
+		/**
+		* If EmailNotice is true, the email address to notify
+		*/
 	public String getEmailToNotify() {
 		return this.EmailToNotify;
 	}
 
+		/**
+		* If EmailNotice is true, the email address to notify
+		*/
 	public void setEmailToNotify(String emailtonotify) {
 		this.EmailToNotify = emailtonotify;
 	}

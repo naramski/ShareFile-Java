@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -263,10 +263,16 @@ public class SFUserPreferences extends SFODataObject {
 	public void setEnablePromotions(Boolean enablepromotions) {
 		this.EnablePromotions = enablepromotions;
 	}
+		/**
+		* Email notification locale. Values: Invariant, English, German, Spanish, French, Dutch, Chinese, Russian, Japanese, Korean, or Portuguese
+		*/
 	public SFSafeEnum<SFNotificationLocale> getUserNotificationLocale() {
 		return this.UserNotificationLocale;
 	}
 
+		/**
+		* Email notification locale. Values: Invariant, English, German, Spanish, French, Dutch, Chinese, Russian, Japanese, Korean, or Portuguese
+		*/
 	public void setUserNotificationLocale(SFSafeEnum<SFNotificationLocale> usernotificationlocale) {
 		this.UserNotificationLocale = usernotificationlocale;
 	}

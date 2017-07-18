@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -86,6 +86,10 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 	* Creates a new Access Controls entry for a given Item. Access controls can only define a single Principal,
 	* which can be either a Group or User. The 'Principal' element is specified as an object - you should populate
 	* either the URL or the ID reference.
+	* 
+	* If CanDownload is set to true, CanView will automatically be set to true.
+	* If CanDownload is set to false, CanDelete will be set to false.
+	* In order for a user/group to be able to manage permissions, they must be able to upload, download, and delete. Otherwise it will be set to false.
 	* @param url 	 	
 	* @param accessControl 	 	
 	* @param recursive  (default: false)	 	
@@ -135,6 +139,10 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 	* Creates a new Access Controls entry for a given Item. Access controls can only define a single Principal,
 	* which can be either a Group or User. The 'Principal' element is specified as an object - you should populate
 	* either the URL or the ID reference.
+	* 
+	* If CanDownload is set to true, CanView will automatically be set to true.
+	* If CanDownload is set to false, CanDelete will be set to false.
+	* In order for a user/group to be able to manage permissions, they must be able to upload, download, and delete. Otherwise it will be set to false.
 	* @param url 	 	
 	* @param accessControl 	 	
 	* @param recursive  (default: false)	 	
@@ -180,6 +188,10 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 	* Creates a new Access Controls entry for a given Item. Access controls can only define a single Principal,
 	* which can be either a Group or User. The 'Principal' element is specified as an object - you should populate
 	* either the URL or the ID reference.
+	* 
+	* If CanDownload is set to true, CanView will automatically be set to true.
+	* If CanDownload is set to false, CanDelete will be set to false.
+	* In order for a user/group to be able to manage permissions, they must be able to upload, download, and delete. Otherwise it will be set to false.
 	* @param url 	 	
 	* @param accessControl 	 	
 	* @param recursive  (default: false)	 	
@@ -220,6 +232,10 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 	* Creates a new Access Controls entry for a given Item. Access controls can only define a single Principal,
 	* which can be either a Group or User. The 'Principal' element is specified as an object - you should populate
 	* either the URL or the ID reference.
+	* 
+	* If CanDownload is set to true, CanView will automatically be set to true.
+	* If CanDownload is set to false, CanDelete will be set to false.
+	* In order for a user/group to be able to manage permissions, they must be able to upload, download, and delete. Otherwise it will be set to false.
 	* @param url 	 	
 	* @param accessControl 	 	
 	* @return the created or modified AccessControl instance
@@ -538,12 +554,10 @@ public class SFAccessControlsEntity extends SFEntitiesBase
 
 	/**
 	* Notify users that they have access to the parent folder
-    * [
     * {
     * UserIds: ["id1", "id2"],
     * CustomMessage: "Message content goes here"
     * }
-    * ]
 	* All users should have access to the parent folder
 	* @param folderUrl 	 	
 	* @param notifyUsersParams 	 	

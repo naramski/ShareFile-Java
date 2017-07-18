@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -44,17 +44,29 @@ public class SFDownloadSpecification extends SFODataObject {
 	public void setDownloadToken(String downloadtoken) {
 		this.DownloadToken = downloadtoken;
 	}
+		/**
+		* Specifies the prepare operation for storage servers
+		*/
 	public String getPrepareXmlInfo() {
 		return this.PrepareXmlInfo;
 	}
 
+		/**
+		* Specifies the prepare operation for storage servers
+		*/
 	public void setPrepareXmlInfo(String preparexmlinfo) {
 		this.PrepareXmlInfo = preparexmlinfo;
 	}
+		/**
+		* Specifies the download URL for clients
+		*/
 	public URI getDownloadUrl() {
 		return this.DownloadUrl;
 	}
 
+		/**
+		* Specifies the download URL for clients
+		*/
 	public void setDownloadUrl(URI downloadurl) {
 		this.DownloadUrl = downloadurl;
 	}

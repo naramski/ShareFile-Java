@@ -2,15 +2,11 @@ package com.citrix.sharefile.api.enumerations;
 
 import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.exceptions.SFInvalidTypeException;
-import com.citrix.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.citrix.sharefile.api.log.Logger;
 import com.citrix.sharefile.api.models.*;
 
-import java.util.Iterator;
-import java.util.Map;
-
 public enum SFV3ElementType
-{							
+{
 	File("Models.File@Element",SFFile.class),
 	Folder("Models.Folder@Element",SFFolder.class),
 	Item("Models.Item@Element",SFItem.class),
@@ -22,7 +18,7 @@ public enum SFV3ElementType
 
 	private static final String prefix = "Models.";
 	private static final String suffix = "@Element";
-			
+
 	private static final String TAG = SFKeywords.TAG + "-SFV3ElementType";
 	private final String mToString;
 	private final Class<?> mOriginalClass;//This is the one originally intended by the SDK
@@ -131,7 +127,6 @@ public enum SFV3ElementType
 		}
 
 		SFEntityTypeMap.getEntityTypeMap().put(originalClassName,newClass);
-		SFDefaultGsonParser.routeSpecialClasses(originalClassName,newClass);
 
 		Logger.d(TAG, "Successfully registered : " + newClass.toString() + " to replace " + originalClass.toString());
 	}

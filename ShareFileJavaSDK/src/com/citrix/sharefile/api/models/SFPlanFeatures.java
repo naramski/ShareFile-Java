@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -91,220 +91,406 @@ public class SFPlanFeatures extends SFODataObject {
 	@SerializedName("EnableTopLevelView")
 	private Boolean EnableTopLevelView;
 
+		/**
+		* PlanType
+		*/
 	public String getPlanType() {
 		return this.PlanType;
 	}
 
+		/**
+		* PlanType
+		*/
 	public void setPlanType(String plantype) {
 		this.PlanType = plantype;
 	}
+		/**
+		* API
+		*/
 	public Boolean getAPI() {
 		return this.API;
 	}
 
+		/**
+		* API
+		*/
 	public void setAPI(Boolean api) {
 		this.API = api;
 	}
+		/**
+		* Outlook enabled
+		*/
 	public Boolean getOutlook() {
 		return this.Outlook;
 	}
 
+		/**
+		* Outlook enabled
+		*/
 	public void setOutlook(Boolean outlook) {
 		this.Outlook = outlook;
 	}
+		/**
+		* DriveMapping enabled
+		*/
 	public Boolean getDriveMapping() {
 		return this.DriveMapping;
 	}
 
+		/**
+		* DriveMapping enabled
+		*/
 	public void setDriveMapping(Boolean drivemapping) {
 		this.DriveMapping = drivemapping;
 	}
+		/**
+		* ShareFile CLI enabled
+		*/
 	public Boolean getCLI() {
 		return this.CLI;
 	}
 
+		/**
+		* ShareFile CLI enabled
+		*/
 	public void setCLI(Boolean cli) {
 		this.CLI = cli;
 	}
+		/**
+		* FTP access enabled
+		*/
 	public Boolean getFTP() {
 		return this.FTP;
 	}
 
+		/**
+		* FTP access enabled
+		*/
 	public void setFTP(Boolean ftp) {
 		this.FTP = ftp;
 	}
+		/**
+		* FTPS access enabled
+		*/
 	public Boolean getFTPS() {
 		return this.FTPS;
 	}
 
+		/**
+		* FTPS access enabled
+		*/
 	public void setFTPS(Boolean ftps) {
 		this.FTPS = ftps;
 	}
+		/**
+		* Sync tool enabled
+		*/
 	public Boolean getSync() {
 		return this.Sync;
 	}
 
+		/**
+		* Sync tool enabled
+		*/
 	public void setSync(Boolean sync) {
 		this.Sync = sync;
 	}
+		/**
+		* Virus scanning enabled
+		*/
 	public Boolean getAntiVirus() {
 		return this.AntiVirus;
 	}
 
+		/**
+		* Virus scanning enabled
+		*/
 	public void setAntiVirus(Boolean antivirus) {
 		this.AntiVirus = antivirus;
 	}
+		/**
+		* Require login on share downloads
+		*/
 	public Boolean getRequireLoginOnDownload() {
 		return this.RequireLoginOnDownload;
 	}
 
+		/**
+		* Require login on share downloads
+		*/
 	public void setRequireLoginOnDownload(Boolean requireloginondownload) {
 		this.RequireLoginOnDownload = requireloginondownload;
 	}
+		/**
+		* Max File Size supported in megabytes
+		*/
 	public Integer getMaxFileMB() {
 		return this.MaxFileMB;
 	}
 
+		/**
+		* Max File Size supported in megabytes
+		*/
 	public void setMaxFileMB(Integer maxfilemb) {
 		this.MaxFileMB = maxfilemb;
 	}
+		/**
+		* Max plan storage in megabytes
+		*/
 	public Integer getPlanStorMB() {
 		return this.PlanStorMB;
 	}
 
+		/**
+		* Max plan storage in megabytes
+		*/
 	public void setPlanStorMB(Integer planstormb) {
 		this.PlanStorMB = planstormb;
 	}
+		/**
+		* Max plan bandwidth in megabytes
+		*/
 	public Integer getPlanBandMB() {
 		return this.PlanBandMB;
 	}
 
+		/**
+		* Max plan bandwidth in megabytes
+		*/
 	public void setPlanBandMB(Integer planbandmb) {
 		this.PlanBandMB = planbandmb;
 	}
+		/**
+		* SystemName
+		*/
 	public String getSystemName() {
 		return this.SystemName;
 	}
 
+		/**
+		* SystemName
+		*/
 	public void setSystemName(String systemname) {
 		this.SystemName = systemname;
 	}
+		/**
+		* SystemType
+		*/
 	public String getSystemType() {
 		return this.SystemType;
 	}
 
+		/**
+		* SystemType
+		*/
 	public void setSystemType(String systemtype) {
 		this.SystemType = systemtype;
 	}
+		/**
+		* HasOutlookOptions configured
+		*/
 	public Boolean getHasOutlookOptions() {
 		return this.HasOutlookOptions;
 	}
 
+		/**
+		* HasOutlookOptions configured
+		*/
 	public void setHasOutlookOptions(Boolean hasoutlookoptions) {
 		this.HasOutlookOptions = hasoutlookoptions;
 	}
+		/**
+		* Outlook Options - SimpleMAPI
+		*/
 	public Boolean getSimpleMAPI() {
 		return this.SimpleMAPI;
 	}
 
+		/**
+		* Outlook Options - SimpleMAPI
+		*/
 	public void setSimpleMAPI(Boolean simplemapi) {
 		this.SimpleMAPI = simplemapi;
 	}
+		/**
+		* Outlook Options - Force Attach Links
+		*/
 	public Boolean getForceAttachLink() {
 		return this.ForceAttachLink;
 	}
 
+		/**
+		* Outlook Options - Force Attach Links
+		*/
 	public void setForceAttachLink(Boolean forceattachlink) {
 		this.ForceAttachLink = forceattachlink;
 	}
+		/**
+		* Current storage used in megabytes
+		*/
 	public String getUsedStorMB() {
 		return this.UsedStorMB;
 	}
 
+		/**
+		* Current storage used in megabytes
+		*/
 	public void setUsedStorMB(String usedstormb) {
 		this.UsedStorMB = usedstormb;
 	}
+		/**
+		* Last time storage used calculated.
+		*/
 	public String getUsedStorUtcTicks() {
 		return this.UsedStorUtcTicks;
 	}
 
+		/**
+		* Last time storage used calculated.
+		*/
 	public void setUsedStorUtcTicks(String usedstorutcticks) {
 		this.UsedStorUtcTicks = usedstorutcticks;
 	}
+		/**
+		* Current storage used in bytes.
+		*/
 	public String getUsedStorBytes() {
 		return this.UsedStorBytes;
 	}
 
+		/**
+		* Current storage used in bytes.
+		*/
 	public void setUsedStorBytes(String usedstorbytes) {
 		this.UsedStorBytes = usedstorbytes;
 	}
+		/**
+		* User is Employee
+		*/
 	public Boolean getIsEmployee() {
 		return this.IsEmployee;
 	}
 
+		/**
+		* User is Employee
+		*/
 	public void setIsEmployee(Boolean isemployee) {
 		this.IsEmployee = isemployee;
 	}
+		/**
+		* User is Administrator
+		*/
 	public Boolean getIsAdministrator() {
 		return this.IsAdministrator;
 	}
 
+		/**
+		* User is Administrator
+		*/
 	public void setIsAdministrator(Boolean isadministrator) {
 		this.IsAdministrator = isadministrator;
 	}
+		/**
+		* Can create root folders
+		*/
 	public Boolean getCanCreateRootFolders() {
 		return this.CanCreateRootFolders;
 	}
 
+		/**
+		* Can create root folders
+		*/
 	public void setCanCreateRootFolders(Boolean cancreaterootfolders) {
 		this.CanCreateRootFolders = cancreaterootfolders;
 	}
+		/**
+		* Can use file box
+		*/
 	public Boolean getCanUseFileBox() {
 		return this.CanUseFileBox;
 	}
 
+		/**
+		* Can use file box
+		*/
 	public void setCanUseFileBox(Boolean canusefilebox) {
 		this.CanUseFileBox = canusefilebox;
 	}
+		/**
+		* User is confirmed
+		*/
 	public Boolean getIsConfirmed() {
 		return this.IsConfirmed;
 	}
 
+		/**
+		* User is confirmed
+		*/
 	public void setIsConfirmed(Boolean isconfirmed) {
 		this.IsConfirmed = isconfirmed;
 	}
+		/**
+		* Can reset password
+		*/
 	public Boolean getCanResetPassword() {
 		return this.CanResetPassword;
 	}
 
+		/**
+		* Can reset password
+		*/
 	public void setCanResetPassword(Boolean canresetpassword) {
 		this.CanResetPassword = canresetpassword;
 	}
+		/**
+		* Password requirements as regular expression
+		*/
 	public String getPasswordRegEx() {
 		return this.PasswordRegEx;
 	}
 
+		/**
+		* Password requirements as regular expression
+		*/
 	public void setPasswordRegEx(String passwordregex) {
 		this.PasswordRegEx = passwordregex;
 	}
+		/**
+		* Can manage my settings
+		*/
 	public Boolean getCanManageMySettings() {
 		return this.CanManageMySettings;
 	}
 
+		/**
+		* Can manage my settings
+		*/
 	public void setCanManageMySettings(Boolean canmanagemysettings) {
 		this.CanManageMySettings = canmanagemysettings;
 	}
+		/**
+		* Home Folder Id
+		*/
 	public String getHomeFolder() {
 		return this.HomeFolder;
 	}
 
+		/**
+		* Home Folder Id
+		*/
 	public void setHomeFolder(String homefolder) {
 		this.HomeFolder = homefolder;
 	}
+		/**
+		* Enable Auto Update for tools
+		*/
 	public Boolean getEnableAutoUpdate() {
 		return this.EnableAutoUpdate;
 	}
 
+		/**
+		* Enable Auto Update for tools
+		*/
 	public void setEnableAutoUpdate(Boolean enableautoupdate) {
 		this.EnableAutoUpdate = enableautoupdate;
 	}

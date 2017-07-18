@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -30,6 +30,8 @@ public class SFSecurityQuestion extends SFODataObject {
 	private String Question;
 	@SerializedName("Answer")
 	private String Answer;
+	@SerializedName("IsResetRequired")
+	private Boolean IsResetRequired;
 
 	public String getQuestion() {
 		return this.Question;
@@ -44,6 +46,13 @@ public class SFSecurityQuestion extends SFODataObject {
 
 	public void setAnswer(String answer) {
 		this.Answer = answer;
+	}
+	public Boolean getIsResetRequired() {
+		return this.IsResetRequired;
+	}
+
+	public void setIsResetRequired(Boolean isresetrequired) {
+		this.IsResetRequired = isresetrequired;
 	}
 
 }

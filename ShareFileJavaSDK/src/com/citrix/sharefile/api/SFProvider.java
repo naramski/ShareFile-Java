@@ -1,12 +1,9 @@
 package com.citrix.sharefile.api;
 
 import com.citrix.sharefile.api.constants.SFKeywords;
-import com.citrix.sharefile.api.constants.SFSdkGlobals;
 import com.citrix.sharefile.api.log.Logger;
-import com.citrix.sharefile.api.models.SFLockType;
 import com.citrix.sharefile.api.utils.Utils;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -48,6 +45,10 @@ public class SFProvider
 	
 	public static String getProviderType(URI uri)
 	{
+        if(uri == null){
+            return "";
+        }
+
         String path = uri.getPath();
 
         if(path == null || path.length() < 2 ) //we check this since the path should always contain /v3/ or /upload-streaming

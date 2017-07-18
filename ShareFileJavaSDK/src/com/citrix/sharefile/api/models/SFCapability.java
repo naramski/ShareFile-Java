@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -30,6 +30,10 @@ public class SFCapability extends SFODataObject {
 	private SFSafeEnum<SFCapabilityName> Name;
 	@SerializedName("Version")
 	private String Version;
+	@SerializedName("ScopedHostsAndProviders")
+	private ArrayList<String> ScopedHostsAndProviders;
+	@SerializedName("SupportedDataTypes")
+	private ArrayList<String> SupportedDataTypes;
 
 	public SFSafeEnum<SFCapabilityName> getName() {
 		return this.Name;
@@ -44,6 +48,38 @@ public class SFCapability extends SFODataObject {
 
 	public void setVersion(String version) {
 		this.Version = version;
+	}
+		/**
+		* Indicates the list of hosts and providers with which the associated capability can operate.
+		* There are two known constants that offer a convenient way to refer to the current provider (self) and ShareFile (sf)
+		* Otherwise, values will be prefixed with https protocol.
+		*/
+	public ArrayList<String> getScopedHostsAndProviders() {
+		return this.ScopedHostsAndProviders;
+	}
+
+		/**
+		* Indicates the list of hosts and providers with which the associated capability can operate.
+		* There are two known constants that offer a convenient way to refer to the current provider (self) and ShareFile (sf)
+		* Otherwise, values will be prefixed with https protocol.
+		*/
+	public void setScopedHostsAndProviders(ArrayList<String> scopedhostsandproviders) {
+		this.ScopedHostsAndProviders = scopedhostsandproviders;
+	}
+		/**
+		* Indicates the data types are supported based on this capability. If there are no restrictions, this value will be empty or null.
+		* For backwards compatibility, for an empty list will imply only Folders are supported.
+		*/
+	public ArrayList<String> getSupportedDataTypes() {
+		return this.SupportedDataTypes;
+	}
+
+		/**
+		* Indicates the data types are supported based on this capability. If there are no restrictions, this value will be empty or null.
+		* For backwards compatibility, for an empty list will imply only Folders are supported.
+		*/
+	public void setSupportedDataTypes(ArrayList<String> supporteddatatypes) {
+		this.SupportedDataTypes = supporteddatatypes;
 	}
 
 }

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -347,6 +347,55 @@ public class SFAccountsEntity extends SFEntitiesBase
 		sfApiQuery.setAction("SSO");
 		sfApiQuery.setBody(sso);
 		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get List of Accounts for User
+    * {
+    * "password":"password"
+    * }
+	* Retrieve the list of Accounts associated with a given user
+	* All parameters to this call may be passed in the Post body as root JSON parameters, or in the URI -
+	* with the exception of password that must be provided in the POST body.
+	* This operation does not require authentication
+	* @param username 	 	
+	* @param employeesonly  (default: false)	 	
+	* @param requirehomefolders  (default: false)	 	
+	* @param singleplane  (default: false)	 	
+	* @param clientId  (default: null)	 	
+	* @return The list of Accounts associated with this username/password.
+	*/
+	public ISFQuery<SFODataFeed<SFAccount>> getByUser(SFODataObject parameters, String username, Boolean employeesonly, Boolean requirehomefolders, Boolean singleplane, String clientId) throws InvalidOrMissingParameterException 	{
+		if (parameters == null) {
+			throw new InvalidOrMissingParameterException("parameters");
+		}
+		if (username == null) {
+			throw new InvalidOrMissingParameterException("username");
+		}
+		if (employeesonly == null) {
+			throw new InvalidOrMissingParameterException("employeesonly");
+		}
+		if (requirehomefolders == null) {
+			throw new InvalidOrMissingParameterException("requirehomefolders");
+		}
+		if (singleplane == null) {
+			throw new InvalidOrMissingParameterException("singleplane");
+		}
+		if (clientId == null) {
+			throw new InvalidOrMissingParameterException("clientId");
+		}
+
+		SFApiQuery<SFODataFeed<SFAccount>> sfApiQuery = new SFApiQuery<SFODataFeed<SFAccount>>(this.client);
+		sfApiQuery.setFrom("Accounts");
+		sfApiQuery.setAction("GetByUser");
+		parameters.addProperty("username", username);
+		parameters.addProperty("employeesonly", employeesonly);
+		parameters.addProperty("requirehomefolders", requirehomefolders);
+		parameters.addProperty("singleplane", singleplane);
+		parameters.addProperty("clientId", clientId);
+		sfApiQuery.setBody(parameters);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

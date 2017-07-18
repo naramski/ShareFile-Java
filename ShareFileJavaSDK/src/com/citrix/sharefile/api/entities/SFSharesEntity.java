@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -877,6 +877,67 @@ public class SFSharesEntity extends SFEntitiesBase
 	* Only one of the two features(ViewOnly, IRM) can be enabled at a time. If you set both "IsViewOnly = true" and "share.ShareAccessRight.ShareAccessRightType = IRM", exception will be thrown
 	* @param share 	 	
 	* @param notify  (default: false)	 	
+	* @param direct  (default: false)	 	
+	* @return The new Share
+	*/
+	public ISFQuery<SFShare> create(SFShare share, Boolean notify, Boolean direct) throws InvalidOrMissingParameterException 	{
+		if (share == null) {
+			throw new InvalidOrMissingParameterException("share");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+		if (direct == null) {
+			throw new InvalidOrMissingParameterException("direct");
+		}
+
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("direct", direct);
+		sfApiQuery.setBody(share);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Create Share
+    * {
+    * "ShareType":"Send",
+    * "Title":"Sample Send Share",
+    * "Items": [ { "Id":"itemid" }, {...} ],
+    * "Recipients":[ { "User": { "Id":"userid" } }, { "User": { "Email": "user@email" } } ],
+    * "ExpirationDate": "2013-07-23",
+    * "RequireLogin": false,
+    * "RequireUserInfo": false,
+    * "MaxDownloads": -1,
+    * "UsesStreamIDs": false
+    * }
+    * {
+    * "ShareType":"Request",
+    * "Title":"Sample Request Share",
+    * "Recipients":[ { "User": { "Id":"userid" } }, { "User": { "Email": "user@email" } } ],
+    * "Parent": { "Id":"folderid" },
+    * "ExpirationDate": "2013-07-23",
+    * "RequireLogin": false,
+    * "RequireUserInfo": false,
+    * "TrackUntilDate": "2013-07-23",
+    * "SendFrequency": -1,
+    * "SendInterval": -1
+    * }
+	* Creates a new Send or Request Share.
+	* Expiration date:
+	* - if not specified the default is 30 days
+	* - "9999-12-31" disables share expiration.
+	* To use stream IDs as item IDs UsesStreamIDs needs to be set to true, and all the IDs in Items need to be specified
+	* as stream IDs.
+	* View Only:
+	* View Only share can be created by either setting "IsViewOnly = true" or "share.ShareAccessRight.ShareAccessRightType = ViewOnline"
+	* If both "share.IsViewOnly = true" and "share.ShareAccessRight.AccessRightType = FullControl" are passed to this method, then the "Full Control" permission takes higher priority
+	* and disables "ViewOnly" permission on the share.
+	* Only one of the two features(ViewOnly, IRM) can be enabled at a time. If you set both "IsViewOnly = true" and "share.ShareAccessRight.ShareAccessRightType = IRM", exception will be thrown
+	* @param share 	 	
+	* @param notify  (default: false)	 	
 	* @return The new Share
 	*/
 	public ISFQuery<SFShare> create(SFShare share, Boolean notify) throws InvalidOrMissingParameterException 	{
@@ -954,7 +1015,49 @@ public class SFSharesEntity extends SFEntitiesBase
     * "RequireLogin": false,
     * "Items": [ { "Id":"itemid" }, {...} ],
     * }
-	* Modifies an existing Share. If Items are specified they are added to the share.
+	* Modifies an existing Share. If Items are specified they are added to the share by default. If appendItemsFeed is set to false, the specified Items will replace any existing ones instead.
+	* 
+	* View Only:
+	* If a share is not IRM Classified, it can be updated to ViewOnline/ViewOnly share by passing either "IsViewOnly= true" or "Share.ShareAccessRight.AccessRightType = ViewOnline"
+	* If a share is IRM Classified, then it can be updated to ViewOnline/ViewOnly share only by passing "Share.ShareAccessRight = ViewOnline". This will remove the IRMClassification on this share.
+	* Only one of the two features(ViewOnly, IRM) can be enabled at a time.
+	* 
+	* Full Control:
+	* Passing "Share.ShareAccessRight.AccessRightType = FullControl" will remove IRMClassification and ViewOnly features on the share. If you set both "IsViewOnly = true" and "share.ShareAccessRight.ShareAccessRightType = IRM", exception will be thrown
+	* @param url 	 	
+	* @param share 	 	
+	* @param appendItemsFeed  (default: true)	 	
+	* @return The modified Share
+	*/
+	public ISFQuery<SFShare> update(URI url, SFShare share, Boolean appendItemsFeed) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (share == null) {
+			throw new InvalidOrMissingParameterException("share");
+		}
+		if (appendItemsFeed == null) {
+			throw new InvalidOrMissingParameterException("appendItemsFeed");
+		}
+
+		SFApiQuery<SFShare> sfApiQuery = new SFApiQuery<SFShare>(this.client);
+		sfApiQuery.setFrom("Shares");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("appendItemsFeed", appendItemsFeed);
+		sfApiQuery.setBody(share);
+		sfApiQuery.setHttpMethod("PATCH");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update Share
+    * {
+    * "Title": "New Title",
+    * "ExpirationDate": "2013-07-23",
+    * "RequireLogin": false,
+    * "Items": [ { "Id":"itemid" }, {...} ],
+    * }
+	* Modifies an existing Share. If Items are specified they are added to the share by default. If appendItemsFeed is set to false, the specified Items will replace any existing ones instead.
 	* 
 	* View Only:
 	* If a share is not IRM Classified, it can be updated to ViewOnline/ViewOnly share by passing either "IsViewOnly= true" or "Share.ShareAccessRight.AccessRightType = ViewOnline"
@@ -1162,7 +1265,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -1331,7 +1434,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -1496,7 +1599,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -1657,7 +1760,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -1814,7 +1917,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -1966,7 +2069,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -2113,7 +2216,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -2255,7 +2358,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -2392,7 +2495,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -2524,7 +2627,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -2651,7 +2754,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -2773,7 +2876,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -2890,7 +2993,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3002,7 +3105,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3109,7 +3212,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3211,7 +3314,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3308,7 +3411,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3400,7 +3503,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3487,7 +3590,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3569,7 +3672,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3646,7 +3749,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3718,7 +3821,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are
@@ -3785,7 +3888,7 @@ public class SFSharesEntity extends SFEntitiesBase
     * "Method":"Method",
     * "Raw": false,
     * "FileName":"FileName"
-    * "FileLength": length
+    * "FileLength": 123
     * }
 	* Prepares the links for uploading files to the target Share.
 	* This method returns an Upload Specification object. The fields are

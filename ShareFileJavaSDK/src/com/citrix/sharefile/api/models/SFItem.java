@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -98,188 +98,384 @@ public class SFItem extends SFODataObject {
 	private Boolean HasMultipleVersions;
 	@SerializedName("HasPendingAsyncOp")
 	private Boolean HasPendingAsyncOp;
+	@SerializedName("ItemOperations")
+	private SFSafeEnumFlags<SFItemOperations> ItemOperations;
 	@SerializedName("Metadata")
 	private ArrayList<SFMetadata> Metadata;
+	@SerializedName("Statuses")
+	private ArrayList<SFSFObjectItemStatus> Statuses;
+	@SerializedName("Favorite")
+	private SFFavorite Favorite;
 
+		/**
+		* Item Name
+		*/
 	public String getName() {
 		return this.Name;
 	}
 
+		/**
+		* Item Name
+		*/
 	public void setName(String name) {
 		this.Name = name;
 	}
+		/**
+		* Item File Name. ShareFile allows Items to have different Display and File names: display
+		* names are shown during client navigation, while file names are used when the item is
+		* downloaded.
+		*/
 	public String getFileName() {
 		return this.FileName;
 	}
 
+		/**
+		* Item File Name. ShareFile allows Items to have different Display and File names: display
+		* names are shown during client navigation, while file names are used when the item is
+		* downloaded.
+		*/
 	public void setFileName(String filename) {
 		this.FileName = filename;
 	}
+		/**
+		* User that Created this Item
+		*/
 	public SFUser getCreator() {
 		return this.Creator;
 	}
 
+		/**
+		* User that Created this Item
+		*/
 	public void setCreator(SFUser creator) {
 		this.Creator = creator;
 	}
+		/**
+		* Parent container of the Item. A container is usually a Folder object, with a few exceptions -
+		* the "Account" is the container of top-level folders.
+		*/
 	public SFItem getParent() {
 		return this.Parent;
 	}
 
+		/**
+		* Parent container of the Item. A container is usually a Folder object, with a few exceptions -
+		* the "Account" is the container of top-level folders.
+		*/
 	public void setParent(SFItem parent) {
 		this.Parent = parent;
 	}
+		/**
+		* List of Access Controls for this Item. This is not the effective ACL on the Item, just the
+		* ACLs directly attached to this Item. Use the "Info" reference to retrieve effective ACL
+		*/
 	public ArrayList<SFAccessControl> getAccessControls() {
 		return this.AccessControls;
 	}
 
+		/**
+		* List of Access Controls for this Item. This is not the effective ACL on the Item, just the
+		* ACLs directly attached to this Item. Use the "Info" reference to retrieve effective ACL
+		*/
 	public void setAccessControls(ArrayList<SFAccessControl> accesscontrols) {
 		this.AccessControls = accesscontrols;
 	}
+		/**
+		* The Storage Zone that contains this Item.
+		*/
 	public SFZone getZone() {
 		return this.Zone;
 	}
 
+		/**
+		* The Storage Zone that contains this Item.
+		*/
 	public void setZone(SFZone zone) {
 		this.Zone = zone;
 	}
+		/**
+		* Item Creation Date.
+		*/
 	public Date getCreationDate() {
 		return this.CreationDate;
 	}
 
+		/**
+		* Item Creation Date.
+		*/
 	public void setCreationDate(Date creationdate) {
 		this.CreationDate = creationdate;
 	}
+		/**
+		* The last modified date of this item and all of its children, recursively. This parameter
+		* is not supported in all ShareFile providers - it is always set in sharefile.com hosting, but
+		* not in some StorageZone connectors. The Capability object of the provider indicates whether
+		* the provider supports this field or not.
+		*/
 	public Date getProgenyEditDate() {
 		return this.ProgenyEditDate;
 	}
 
+		/**
+		* The last modified date of this item and all of its children, recursively. This parameter
+		* is not supported in all ShareFile providers - it is always set in sharefile.com hosting, but
+		* not in some StorageZone connectors. The Capability object of the provider indicates whether
+		* the provider supports this field or not.
+		*/
 	public void setProgenyEditDate(Date progenyeditdate) {
 		this.ProgenyEditDate = progenyeditdate;
 	}
+		/**
+		* Client device filesystem Created Date of this Item.
+		*/
 	public Date getClientCreatedDate() {
 		return this.ClientCreatedDate;
 	}
 
+		/**
+		* Client device filesystem Created Date of this Item.
+		*/
 	public void setClientCreatedDate(Date clientcreateddate) {
 		this.ClientCreatedDate = clientcreateddate;
 	}
+		/**
+		* Client device filesystem last Modified Date of this Item.
+		*/
 	public Date getClientModifiedDate() {
 		return this.ClientModifiedDate;
 	}
 
+		/**
+		* Client device filesystem last Modified Date of this Item.
+		*/
 	public void setClientModifiedDate(Date clientmodifieddate) {
 		this.ClientModifiedDate = clientmodifieddate;
 	}
+		/**
+		* Defines the Retention Policy for this Item. After this date, the item is automatically moved
+		* to recycle bin.
+		*/
 	public Date getExpirationDate() {
 		return this.ExpirationDate;
 	}
 
+		/**
+		* Defines the Retention Policy for this Item. After this date, the item is automatically moved
+		* to recycle bin.
+		*/
 	public void setExpirationDate(Date expirationdate) {
 		this.ExpirationDate = expirationdate;
 	}
+		/**
+		* Item description
+		*/
 	public String getDescription() {
 		return this.Description;
 	}
 
+		/**
+		* Item description
+		*/
 	public void setDescription(String description) {
 		this.Description = description;
 	}
+		/**
+		* Disk space limit for the Item. Define the maximum amount of bytes that this container can
+		* hold at any given time.
+		*/
 	public Integer getDiskSpaceLimit() {
 		return this.DiskSpaceLimit;
 	}
 
+		/**
+		* Disk space limit for the Item. Define the maximum amount of bytes that this container can
+		* hold at any given time.
+		*/
 	public void setDiskSpaceLimit(Integer diskspacelimit) {
 		this.DiskSpaceLimit = diskspacelimit;
 	}
+		/**
+		* Defines whether the Item has a 'hidden' flag.
+		*/
 	public Boolean getIsHidden() {
 		return this.IsHidden;
 	}
 
+		/**
+		* Defines whether the Item has a 'hidden' flag.
+		*/
 	public void setIsHidden(Boolean ishidden) {
 		this.IsHidden = ishidden;
 	}
+		/**
+		* Bandwidth limit for the Item. Define the maximum amount of bytes that can be added and
+		* retrieved from this item.
+		*/
 	public Integer getBandwidthLimitInMB() {
 		return this.BandwidthLimitInMB;
 	}
 
+		/**
+		* Bandwidth limit for the Item. Define the maximum amount of bytes that can be added and
+		* retrieved from this item.
+		*/
 	public void setBandwidthLimitInMB(Integer bandwidthlimitinmb) {
 		this.BandwidthLimitInMB = bandwidthlimitinmb;
 	}
+		/**
+		* User Owner of this Item.
+		*/
 	public SFUser getOwner() {
 		return this.Owner;
 	}
 
+		/**
+		* User Owner of this Item.
+		*/
 	public void setOwner(SFUser owner) {
 		this.Owner = owner;
 	}
+		/**
+		* ShareFile Account containing this item.
+		*/
 	public SFAccount getAccount() {
 		return this.Account;
 	}
 
+		/**
+		* ShareFile Account containing this item.
+		*/
 	public void setAccount(SFAccount account) {
 		this.Account = account;
 	}
+		/**
+		* Item size in Kilobytes. For containers, this field includes all children sizes, recursively.
+		*/
 	public Integer getFileSizeInKB() {
 		return this.FileSizeInKB;
 	}
 
+		/**
+		* Item size in Kilobytes. For containers, this field includes all children sizes, recursively.
+		*/
 	public void setFileSizeInKB(Integer filesizeinkb) {
 		this.FileSizeInKB = filesizeinkb;
 	}
+		/**
+		* Contains a ItemID path, separated by /, from the virtual root to this given file. Example
+		* /accountID/folderID/folderID/itemID
+		*/
 	public String getPath() {
 		return this.Path;
 	}
 
+		/**
+		* Contains a ItemID path, separated by /, from the virtual root to this given file. Example
+		* /accountID/folderID/folderID/itemID
+		*/
 	public void setPath(String path) {
 		this.Path = path;
 	}
+		/**
+		* First name of the user that created this item
+		*/
 	public String getCreatorFirstName() {
 		return this.CreatorFirstName;
 	}
 
+		/**
+		* First name of the user that created this item
+		*/
 	public void setCreatorFirstName(String creatorfirstname) {
 		this.CreatorFirstName = creatorfirstname;
 	}
+		/**
+		* Last name of the user that created this item
+		*/
 	public String getCreatorLastName() {
 		return this.CreatorLastName;
 	}
 
+		/**
+		* Last name of the user that created this item
+		*/
 	public void setCreatorLastName(String creatorlastname) {
 		this.CreatorLastName = creatorlastname;
 	}
+		/**
+		* Amount of days until this item expireses (see ExpirationDate)
+		*/
 	public Integer getExpirationDays() {
 		return this.ExpirationDays;
 	}
 
+		/**
+		* Amount of days until this item expireses (see ExpirationDate)
+		*/
 	public void setExpirationDays(Integer expirationdays) {
 		this.ExpirationDays = expirationdays;
 	}
+		/**
+		* Item size in bytes. For containers, this field will include all children sizes, recursively.
+		*/
 	public Long getFileSizeBytes() {
 		return this.FileSizeBytes;
 	}
 
+		/**
+		* Item size in bytes. For containers, this field will include all children sizes, recursively.
+		*/
 	public void setFileSizeBytes(Long filesizebytes) {
 		this.FileSizeBytes = filesizebytes;
 	}
+		/**
+		* Indicates whether a preview image is available for this Item.
+		* 
+		* ShareFile.com always create previews for known file types, although there is a delay from the file
+		* creation until the preview is available. Some Storage Zones Providers do not create previews, depending
+		* on version and deployment options.
+		* 
+		* Previews are not created for unknown file types
+		*/
 	public SFSafeEnumFlags<SFPreviewStatus> getPreviewStatus() {
 		return this.PreviewStatus;
 	}
 
+		/**
+		* Indicates whether a preview image is available for this Item.
+		* 
+		* ShareFile.com always create previews for known file types, although there is a delay from the file
+		* creation until the preview is available. Some Storage Zones Providers do not create previews, depending
+		* on version and deployment options.
+		* 
+		* Previews are not created for unknown file types
+		*/
 	public void setPreviewStatus(SFSafeEnumFlags<SFPreviewStatus> previewstatus) {
 		this.PreviewStatus = previewstatus;
 	}
+		/**
+		* Indicates a list of PreviewPlatforms supported for this item.
+		*/
 	public ArrayList<SFPreviewPlatformInfo> getPreviewPlatformsSupported() {
 		return this.PreviewPlatformsSupported;
 	}
 
+		/**
+		* Indicates a list of PreviewPlatforms supported for this item.
+		*/
 	public void setPreviewPlatformsSupported(ArrayList<SFPreviewPlatformInfo> previewplatformssupported) {
 		this.PreviewPlatformsSupported = previewplatformssupported;
 	}
+		/**
+		* Indicates a list of EditingPlatforms supported for this item.
+		*/
 	public ArrayList<SFEditingPlatformInfo> getEditingPlatformsSupported() {
 		return this.EditingPlatformsSupported;
 	}
 
+		/**
+		* Indicates a list of EditingPlatforms supported for this item.
+		*/
 	public void setEditingPlatformsSupported(ArrayList<SFEditingPlatformInfo> editingplatformssupported) {
 		this.EditingPlatformsSupported = editingplatformssupported;
 	}
@@ -290,24 +486,60 @@ public class SFItem extends SFODataObject {
 	public void setMaxPreviewSize(Integer maxpreviewsize) {
 		this.MaxPreviewSize = maxpreviewsize;
 	}
+		/**
+		* Indicates that the Item is pending for removal. At the next execution of the Cleanup process, the data
+		* blob associated with this item will be removed. This parameter is not used for certain Storage Zone
+		* Providers. For example, in CIFS and SharePoint connectors, removals are performed imediately. The
+		* Capability "HasRecycleBin" indicates whether this field is used or not in the provider.
+		*/
 	public Boolean getHasPendingDeletion() {
 		return this.HasPendingDeletion;
 	}
 
+		/**
+		* Indicates that the Item is pending for removal. At the next execution of the Cleanup process, the data
+		* blob associated with this item will be removed. This parameter is not used for certain Storage Zone
+		* Providers. For example, in CIFS and SharePoint connectors, removals are performed imediately. The
+		* Capability "HasRecycleBin" indicates whether this field is used or not in the provider.
+		*/
 	public void setHasPendingDeletion(Boolean haspendingdeletion) {
 		this.HasPendingDeletion = haspendingdeletion;
 	}
+		/**
+		* Folder Template reference. If set, it indicates that this Item was created from a Folder Template. Modifications
+		* to the folder template are propagated to the associated items.
+		* 
+		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
+		*/
 	public String getAssociatedFolderTemplateID() {
 		return this.AssociatedFolderTemplateID;
 	}
 
+		/**
+		* Folder Template reference. If set, it indicates that this Item was created from a Folder Template. Modifications
+		* to the folder template are propagated to the associated items.
+		* 
+		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
+		*/
 	public void setAssociatedFolderTemplateID(String associatedfoldertemplateid) {
 		this.AssociatedFolderTemplateID = associatedfoldertemplateid;
 	}
+		/**
+		* Indicates whether the item is owned by a Folder Template. If set, it indicates that this Item was created from a
+		* Folder Template. Modifications to the folder template are propagated to the associated items.
+		* 
+		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
+		*/
 	public Boolean getIsTemplateOwned() {
 		return this.IsTemplateOwned;
 	}
 
+		/**
+		* Indicates whether the item is owned by a Folder Template. If set, it indicates that this Item was created from a
+		* Folder Template. Modifications to the folder template are propagated to the associated items.
+		* 
+		* The Capability FolderTemplate indicates whether the provider supports Folder Templates.
+		*/
 	public void setIsTemplateOwned(Boolean istemplateowned) {
 		this.IsTemplateOwned = istemplateowned;
 	}
@@ -325,40 +557,119 @@ public class SFItem extends SFODataObject {
 	public void setState(Integer state) {
 		this.State = state;
 	}
+		/**
+		* Identifier for the Item stream. An Item represents a single version of a file system object. The stream identifies
+		* all versions of the same file system object. For example, when users upload or modify an existing file, a new Item
+		* is created with the same StreamID. All Item enumerations return only the latest version of a given stream. You can
+		* access the previous versions of a file using the StreamID reference.
+		*/
 	public String getStreamID() {
 		return this.StreamID;
 	}
 
+		/**
+		* Identifier for the Item stream. An Item represents a single version of a file system object. The stream identifies
+		* all versions of the same file system object. For example, when users upload or modify an existing file, a new Item
+		* is created with the same StreamID. All Item enumerations return only the latest version of a given stream. You can
+		* access the previous versions of a file using the StreamID reference.
+		*/
 	public void setStreamID(String streamid) {
 		this.StreamID = streamid;
 	}
+		/**
+		* Short version of items creator's name. E.g., J. Doe.
+		*/
 	public String getCreatorNameShort() {
 		return this.CreatorNameShort;
 	}
 
+		/**
+		* Short version of items creator's name. E.g., J. Doe.
+		*/
 	public void setCreatorNameShort(String creatornameshort) {
 		this.CreatorNameShort = creatornameshort;
 	}
+		/**
+		* Specifies whether there are other versions of this item. Not all providers support file versioning. The
+		* Capability FileVersioning indicates whether the provider supports file versions.
+		*/
 	public Boolean getHasMultipleVersions() {
 		return this.HasMultipleVersions;
 	}
 
+		/**
+		* Specifies whether there are other versions of this item. Not all providers support file versioning. The
+		* Capability FileVersioning indicates whether the provider supports file versions.
+		*/
 	public void setHasMultipleVersions(Boolean hasmultipleversions) {
 		this.HasMultipleVersions = hasmultipleversions;
 	}
+		/**
+		* Specifies whether or not an Item has a pending async operation.
+		*/
 	public Boolean getHasPendingAsyncOp() {
 		return this.HasPendingAsyncOp;
 	}
 
+		/**
+		* Specifies whether or not an Item has a pending async operation.
+		*/
 	public void setHasPendingAsyncOp(Boolean haspendingasyncop) {
 		this.HasPendingAsyncOp = haspendingasyncop;
 	}
+		/**
+		* Bitmask of operations allowed on a given Item. More granular (and often accurate, as it takes into account
+		* capabilities, account settings, file lock status, etc.) than what's on ItemInfo object.
+		*/
+	public SFSafeEnumFlags<SFItemOperations> getItemOperations() {
+		return this.ItemOperations;
+	}
+
+		/**
+		* Bitmask of operations allowed on a given Item. More granular (and often accurate, as it takes into account
+		* capabilities, account settings, file lock status, etc.) than what's on ItemInfo object.
+		*/
+	public void setItemOperations(SFSafeEnumFlags<SFItemOperations> itemoperations) {
+		this.ItemOperations = itemoperations;
+	}
+		/**
+		* List of custom metadata object associated with this item
+		*/
 	public ArrayList<SFMetadata> getMetadata() {
 		return this.Metadata;
 	}
 
+		/**
+		* List of custom metadata object associated with this item
+		*/
 	public void setMetadata(ArrayList<SFMetadata> metadata) {
 		this.Metadata = metadata;
+	}
+		/**
+		* List of external statuses associated with this Item
+		*/
+	public ArrayList<SFSFObjectItemStatus> getStatuses() {
+		return this.Statuses;
+	}
+
+		/**
+		* List of external statuses associated with this Item
+		*/
+	public void setStatuses(ArrayList<SFSFObjectItemStatus> statuses) {
+		this.Statuses = statuses;
+	}
+		/**
+		* Favorite item object associated with the item
+		*/
+	public SFFavorite getFavorite() {
+		return this.Favorite;
+	}
+
+		/**
+		* Favorite item object associated with the item
+		*/
+	public void setFavorite(SFFavorite favorite) {
+		this.Favorite = favorite;
 	}
 
 }

@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -37,6 +37,9 @@ public enum SFUserRole {
 	CreateDropboxConnectors,
 	CreateGoogleDriveConnectors,
 	CreateOneDriveBusinessConnectors,
+	CanSendDocumentsForSignature,
+	CanViewSignatureDocuments,
+	CanManageSignatureTemplates,
 	AdminAccountPolicies,
 	AdminBilling,
 	AdminBranding,
@@ -61,5 +64,7 @@ public enum SFUserRole {
 	AdminArchivedSearch,
 	AdminConnectors,
 	AdminEmailArchiver,
-	AdminCanAdministerCustomerAccount
+	AdminCanAdministerCustomerAccount,
+	AdminPolicyDefinitions,
+	AdminCustomWorkflow
 }

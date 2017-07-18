@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -31,17 +31,29 @@ public class SFToolInformation extends SFODataObject {
 	@SerializedName("Version")
 	private String Version;
 
+		/**
+		* Tool Name
+		*/
 	public String getToolName() {
 		return this.ToolName;
 	}
 
+		/**
+		* Tool Name
+		*/
 	public void setToolName(String toolname) {
 		this.ToolName = toolname;
 	}
+		/**
+		* Tool Version
+		*/
 	public String getVersion() {
 		return this.Version;
 	}
 
+		/**
+		* Tool Version
+		*/
 	public void setVersion(String version) {
 		this.Version = version;
 	}

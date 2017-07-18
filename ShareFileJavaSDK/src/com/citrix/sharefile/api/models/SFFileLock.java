@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -23,6 +23,7 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
+import com.citrix.sharefile.api.internal.models.*;
 
 public class SFFileLock extends SFODataObject {
 
@@ -34,11 +35,19 @@ public class SFFileLock extends SFODataObject {
 	private SFPrincipal Owner;
 	@SerializedName("ExpirationTimeInMinutes")
 	private Integer ExpirationTimeInMinutes;
+	@SerializedName("ExpirationDate")
+	private Date ExpirationDate;
 
+		/**
+		* Lock Id
+		*/
 	public String getLockId() {
 		return this.LockId;
 	}
 
+		/**
+		* Lock Id
+		*/
 	public void setLockId(String lockid) {
 		this.LockId = lockid;
 	}
@@ -49,19 +58,44 @@ public class SFFileLock extends SFODataObject {
 	public void setLockType(SFSafeEnum<SFLockType> locktype) {
 		this.LockType = locktype;
 	}
+		/**
+		* User who owns the Lock
+		*/
 	public SFPrincipal getOwner() {
 		return this.Owner;
 	}
 
+		/**
+		* User who owns the Lock
+		*/
 	public void setOwner(SFPrincipal owner) {
 		this.Owner = owner;
 	}
+		/**
+		* Expiration time in minutes.
+		*/
 	public Integer getExpirationTimeInMinutes() {
 		return this.ExpirationTimeInMinutes;
 	}
 
+		/**
+		* Expiration time in minutes.
+		*/
 	public void setExpirationTimeInMinutes(Integer expirationtimeinminutes) {
 		this.ExpirationTimeInMinutes = expirationtimeinminutes;
+	}
+		/**
+		* Expiration date. Takes precedence over ExpirationTimeInMinutes if both are provided
+		*/
+	public Date getExpirationDate() {
+		return this.ExpirationDate;
+	}
+
+		/**
+		* Expiration date. Takes precedence over ExpirationTimeInMinutes if both are provided
+		*/
+	public void setExpirationDate(Date expirationdate) {
+		this.ExpirationDate = expirationdate;
 	}
 
 }

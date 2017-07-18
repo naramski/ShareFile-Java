@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -184,7 +184,7 @@ public class SFConnectorGroupsEntity extends SFEntitiesBase
 	}
 
 	/**
-	* Associates a Zone to an existing Connecto Group
+	* Associates a Zone with an existing Connector Group
     * {
     * "Zone": {"Id":"ZoneId"},
     * "StorageCenter": [ { "Id":"StorageCenterId" }, { ... } ],
@@ -196,7 +196,7 @@ public class SFConnectorGroupsEntity extends SFEntitiesBase
 	* Adds a Zone to an existing Connector Group.
 	* @param url 	 	
 	* @param connectorGroupZone 	 	
-	* @return the created or modified AccessControl instance
+	* @return the created or modified ConnectorGroupZone instance
 	*/
 	public ISFQuery<SFConnectorGroupZone> createZones(URI url, SFConnectorGroupZone connectorGroupZone) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
@@ -254,7 +254,7 @@ public class SFConnectorGroupsEntity extends SFEntitiesBase
     * }
 	* @param url 	 	
 	* @param connectorGroupZone 	 	
-	* @return the created or modified AccessControl instance
+	* @return the created or modified ConnectorGroupZone instance
 	*/
 	public ISFQuery<SFConnectorGroupZone> updateZones(URI url, String zoneId, SFConnectorGroupZone connectorGroupZone) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
