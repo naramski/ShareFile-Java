@@ -23,7 +23,6 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
-import com.citrix.sharefile.api.internal.models.*;
 
 public class SFFileLock extends SFODataObject {
 

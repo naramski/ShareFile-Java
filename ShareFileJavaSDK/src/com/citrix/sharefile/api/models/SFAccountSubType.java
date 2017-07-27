@@ -12,6 +12,10 @@
 
 package com.citrix.sharefile.api.models;
  
+import com.google.gson.annotations.SerializedName;
+import com.citrix.sharefile.api.enumerations.SFSafeEnum;
+import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
+
 public enum SFAccountSubType {
 	None,
 	Partner,

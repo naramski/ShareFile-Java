@@ -23,7 +23,6 @@ import com.google.gson.annotations.SerializedName;
 import com.citrix.sharefile.api.*;
 import com.citrix.sharefile.api.enumerations.*;
 import com.citrix.sharefile.api.models.*;
-import com.citrix.sharefile.api.internal.models.*;
 
 public class SFAccount extends SFODataObject {
 
@@ -211,6 +210,8 @@ public class SFAccount extends SFODataObject {
 	private SFSafeEnum<SFCloudStorageType> CloudStorageType;
 	@SerializedName("IsSolutionOffering")
 	private Boolean IsSolutionOffering;
+	@SerializedName("SupportInfo")
+	private SFSupport SupportInfo;
 
 	public String getCompanyName() {
 		return this.CompanyName;
@@ -969,6 +970,13 @@ public class SFAccount extends SFODataObject {
 
 	public void setIsSolutionOffering(Boolean issolutionoffering) {
 		this.IsSolutionOffering = issolutionoffering;
+	}
+	public SFSupport getSupportInfo() {
+		return this.SupportInfo;
+	}
+
+	public void setSupportInfo(SFSupport supportinfo) {
+		this.SupportInfo = supportinfo;
 	}
 
 }
