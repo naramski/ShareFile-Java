@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -40,6 +40,10 @@ public class SFFolder extends SFItem {
 	private SFFavoriteFolder FavoriteFolder;
 	@SerializedName("ZoneService")
 	private SFSafeEnumFlags<SFZoneService> ZoneService;
+	@SerializedName("Bundle")
+	private SFBundle Bundle;
+	@SerializedName("SmartFolderOptions")
+	private SFSmartFolderOptions SmartFolderOptions;
 
 		/**
 		* Number of Items defined under this Folder, including sub-folder counts.
@@ -108,6 +112,7 @@ public class SFFolder extends SFItem {
 	}
 		/**
 		* Favorite Folder object associated to this item
+		* (This property would be deprecated in favor of the new 'Favorite' property under Item)
 		*/
 	public SFFavoriteFolder getFavoriteFolder() {
 		return this.FavoriteFolder;
@@ -115,6 +120,7 @@ public class SFFolder extends SFItem {
 
 		/**
 		* Favorite Folder object associated to this item
+		* (This property would be deprecated in favor of the new 'Favorite' property under Item)
 		*/
 	public void setFavoriteFolder(SFFavoriteFolder favoritefolder) {
 		this.FavoriteFolder = favoritefolder;
@@ -125,6 +131,20 @@ public class SFFolder extends SFItem {
 
 	public void setZoneService(SFSafeEnumFlags<SFZoneService> zoneservice) {
 		this.ZoneService = zoneservice;
+	}
+	public SFBundle getBundle() {
+		return this.Bundle;
+	}
+
+	public void setBundle(SFBundle bundle) {
+		this.Bundle = bundle;
+	}
+	public SFSmartFolderOptions getSmartFolderOptions() {
+		return this.SmartFolderOptions;
+	}
+
+	public void setSmartFolderOptions(SFSmartFolderOptions smartfolderoptions) {
+		this.SmartFolderOptions = smartfolderoptions;
 	}
 
 }

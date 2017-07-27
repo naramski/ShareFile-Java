@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -32,6 +32,8 @@ public class SFServicesCollection extends SFODataObject {
 	private SFService ShareConnect;
 	@SerializedName("ShareFileLegal")
 	private SFService ShareFileLegal;
+	@SerializedName("Podio")
+	private SFService Podio;
 
 		/**
 		* RightSignature account service
@@ -71,6 +73,19 @@ public class SFServicesCollection extends SFODataObject {
 		*/
 	public void setShareFileLegal(SFService sharefilelegal) {
 		this.ShareFileLegal = sharefilelegal;
+	}
+		/**
+		* Podio account service
+		*/
+	public SFService getPodio() {
+		return this.Podio;
+	}
+
+		/**
+		* Podio account service
+		*/
+	public void setPodio(SFService podio) {
+		this.Podio = podio;
 	}
 
 }

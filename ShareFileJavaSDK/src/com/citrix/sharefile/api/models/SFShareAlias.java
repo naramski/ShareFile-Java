@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -43,52 +43,94 @@ public class SFShareAlias extends SFODataObject {
 	@SerializedName("Uri")
 	private URI Uri;
 
+		/**
+		* User to whom the share is associated.
+		*/
 	public SFUser getUser() {
 		return this.User;
 	}
 
+		/**
+		* User to whom the share is associated.
+		*/
 	public void setUser(SFUser user) {
 		this.User = user;
 	}
+		/**
+		* Share
+		*/
 	public SFShare getShare() {
 		return this.Share;
 	}
 
+		/**
+		* Share
+		*/
 	public void setShare(SFShare share) {
 		this.Share = share;
 	}
+		/**
+		* Email
+		*/
 	public String getEmail() {
 		return this.Email;
 	}
 
+		/**
+		* Email
+		*/
 	public void setEmail(String email) {
 		this.Email = email;
 	}
+		/**
+		* Number of downloads
+		*/
 	public Integer getDownloads() {
 		return this.Downloads;
 	}
 
+		/**
+		* Number of downloads
+		*/
 	public void setDownloads(Integer downloads) {
 		this.Downloads = downloads;
 	}
+		/**
+		* IsConsumed
+		*/
 	public Boolean getIsConsumed() {
 		return this.IsConsumed;
 	}
 
+		/**
+		* IsConsumed
+		*/
 	public void setIsConsumed(Boolean isconsumed) {
 		this.IsConsumed = isconsumed;
 	}
+		/**
+		* IsArchived
+		*/
 	public Boolean getIsArchived() {
 		return this.IsArchived;
 	}
 
+		/**
+		* IsArchived
+		*/
 	public void setIsArchived(Boolean isarchived) {
 		this.IsArchived = isarchived;
 	}
+		/**
+		* IsRead
+		*/
 	public Boolean getIsRead() {
 		return this.IsRead;
 	}
 
+		/**
+		* IsRead
+		*/
 	public void setIsRead(Boolean isread) {
 		this.IsRead = isread;
 	}

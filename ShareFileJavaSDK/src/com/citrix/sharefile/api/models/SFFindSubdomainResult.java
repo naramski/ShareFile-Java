@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -37,38 +37,68 @@ public class SFFindSubdomainResult extends SFODataObject {
 	@SerializedName("Subdomain")
 	private String Subdomain;
 
+		/**
+		* UserId
+		*/
 	public String getUserID() {
 		return this.UserID;
 	}
 
+		/**
+		* UserId
+		*/
 	public void setUserID(String userid) {
 		this.UserID = userid;
 	}
+		/**
+		* Email
+		*/
 	public String getEmail() {
 		return this.Email;
 	}
 
+		/**
+		* Email
+		*/
 	public void setEmail(String email) {
 		this.Email = email;
 	}
+		/**
+		* AcocuntId
+		*/
 	public String getAccountID() {
 		return this.AccountID;
 	}
 
+		/**
+		* AcocuntId
+		*/
 	public void setAccountID(String accountid) {
 		this.AccountID = accountid;
 	}
+		/**
+		* Company name
+		*/
 	public String getCompanyName() {
 		return this.CompanyName;
 	}
 
+		/**
+		* Company name
+		*/
 	public void setCompanyName(String companyname) {
 		this.CompanyName = companyname;
 	}
+		/**
+		* Primary subdomain for the account.
+		*/
 	public String getSubdomain() {
 		return this.Subdomain;
 	}
 
+		/**
+		* Primary subdomain for the account.
+		*/
 	public void setSubdomain(String subdomain) {
 		this.Subdomain = subdomain;
 	}

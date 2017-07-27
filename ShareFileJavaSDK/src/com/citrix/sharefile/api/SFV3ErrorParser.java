@@ -1,5 +1,6 @@
 package com.citrix.sharefile.api;
 
+import com.citrix.sharefile.api.utils.Utils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -42,6 +43,7 @@ public class SFV3ErrorParser
     protected String code = "";
     protected String lang = null;
     protected String value = null;
+	protected String reason = null;
     
 	protected String getErrorMessageFromErroCode(int httpResponseCode)
 	{
@@ -82,7 +84,9 @@ public class SFV3ErrorParser
 			code = SFGsonHelper.getString(jsonObject, SFKeywords.CODE, "");
 			
 			JsonObject messageObject = jsonObject.getAsJsonObject(SFKeywords.MESSAGE);
-			value = SFGsonHelper.getString(messageObject, SFKeywords.VALUE, "");			
+			value = SFGsonHelper.getString(messageObject, SFKeywords.VALUE, "");
+
+			reason = SFGsonHelper.getString(jsonObject, SFKeywords.REASON, "");
 		} 
 		catch (Throwable e)
 		{										
@@ -92,9 +96,17 @@ public class SFV3ErrorParser
 
 	public String errorDisplayString()
 	{
-        if(httpResponseCode != SFSdkGlobals.INTERNAL_HTTP_ERROR && value!=null)
+        if(httpResponseCode != SFSdkGlobals.INTERNAL_HTTP_ERROR)
         {
-            return value;
+			if(!Utils.isEmpty(value))
+			{
+				return value;
+			}
+
+			if(!Utils.isEmpty(reason))
+			{
+				return reason;
+			}
         }
 
         if(httpResponseCode == SFSdkGlobals.INTERNAL_HTTP_ERROR_NETWORK_CONNECTION_PROBLEM)

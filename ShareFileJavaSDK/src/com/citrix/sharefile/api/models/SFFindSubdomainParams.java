@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -33,24 +33,42 @@ public class SFFindSubdomainParams extends SFODataObject {
 	@SerializedName("EmployeeOnly")
 	private Boolean EmployeeOnly;
 
+		/**
+		* Short reprepsetnation of the username
+		*/
 	public String getUsernameShort() {
 		return this.UsernameShort;
 	}
 
+		/**
+		* Short reprepsetnation of the username
+		*/
 	public void setUsernameShort(String usernameshort) {
 		this.UsernameShort = usernameshort;
 	}
+		/**
+		* User password
+		*/
 	public String getPassword() {
 		return this.Password;
 	}
 
+		/**
+		* User password
+		*/
 	public void setPassword(String password) {
 		this.Password = password;
 	}
+		/**
+		* Constrains request to accounts on which the user is an employee.
+		*/
 	public Boolean getEmployeeOnly() {
 		return this.EmployeeOnly;
 	}
 
+		/**
+		* Constrains request to accounts on which the user is an employee.
+		*/
 	public void setEmployeeOnly(Boolean employeeonly) {
 		this.EmployeeOnly = employeeonly;
 	}

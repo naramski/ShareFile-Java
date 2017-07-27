@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -155,18 +155,19 @@ public class SFReportsEntity extends SFEntitiesBase
 	/**
 	* Create Report
     * {
-    * "Id": "rs24f83e-b147-437e-9f28-e7d03634af42"
     * "Title": "Usage Report",
     * "ReportType": "Activity",
+    * "ActivityTypes": "Login,Upload,Download,View",
     * "ObjectType": "Account",
-    * "ObjectId": "a024f83e-b147-437e-9f28-e7d0ef634af42",
+    * "ObjectId": "accountId",
     * "DateOption": "Last30Days",
     * "SaveFormat": "Excel"
     * }
-	* Creates a new Report.
+	* Creates a new Report. The sample above is for an Account Activity Report. For more options please refer to the Report
+	* model documentation.
 	* @param report 	 	
 	* @param runOnCreate 	 	
-	* @return the created report
+	* @return Created Report
 	*/
 	public ISFQuery<SFReport> create(SFReport report, Boolean runOnCreate) throws InvalidOrMissingParameterException 	{
 		if (report == null) {

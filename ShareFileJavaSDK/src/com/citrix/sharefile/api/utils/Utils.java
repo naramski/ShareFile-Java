@@ -1,27 +1,60 @@
 package com.citrix.sharefile.api.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import com.citrix.sharefile.api.constants.SFSdkGlobals;
+import com.citrix.sharefile.api.SFConfiguration;
 import com.citrix.sharefile.api.SFProvider;
+import com.citrix.sharefile.api.constants.SFSdkGlobals;
 import com.citrix.sharefile.api.exceptions.SFSDKException;
 import com.citrix.sharefile.api.interfaces.ISFApiResultCallback;
 import com.citrix.sharefile.api.interfaces.ISFQuery;
 
-public class Utils 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Locale;
+
+public class Utils
 {
     private static final String FORMAT_GET_TOP_FOLDER = "https://%s.%s/"+ SFProvider.PROVIDER_TYPE_SF+"/v3/Items(%s)";
     private static final String FORMAT_GET_DEVICES = "https://%s.%s/"+SFProvider.PROVIDER_TYPE_SF+"/v3/Devices(%s)";
 
+	public static String getAcceptLanguageString(boolean resolveLocaleToSFApi)
+	{
+	    return getDefaultLocale(resolveLocaleToSFApi).toString().replace('_', '-') + ";q=0.8,en;q=0.6";
+	}
+
 	public static String getAcceptLanguageString()
 	{
-		Locale currentLocale = Locale.getDefault();
-	    return currentLocale.toString().replace('_', '-') + ";q=0.8,en;q=0.6";
+		return getAcceptLanguageString(SFConfiguration.RESOLVE_LOCALE);
+	}
+
+	/**
+	 * Returns default Locale resolved to the closer supported SF-API when true is passed in.
+	 * Returns the default system Locale otherwise.
+	 */
+	public static Locale getDefaultLocale(boolean resolveLocaleToSFApi)
+	{
+		return resolveLocaleToSFApi ? resolveLocale(Locale.getDefault()) : Locale.getDefault();
+	}
+
+	/**
+	 * Resolve the Locale associated to the closer Locale supported by the SF-API.
+	 * @return the closer Locale supported.
+	 */
+	public static Locale resolveLocale(Locale locale)
+	{
+		Locale.Builder localeBuilder = new Locale.Builder().setLanguage(locale.getLanguage());
+
+		if (SFConfiguration.LOCALE_COUNTRY_SUPPORT)
+			localeBuilder.setRegion(locale.getCountry());
+		if (SFConfiguration.LOCALE_VARIANT_SUPPORT)
+			localeBuilder.setVariant(locale.getVariant());
+		if (SFConfiguration.LOCALE_SCRIPT_SUPPORT)
+			localeBuilder.setScript(locale.getScript());
+
+		return localeBuilder.build();
 	}
 		
 	public static <T> void safeCallErrorListener(ISFApiResultCallback<T> mListener, SFSDKException error, ISFQuery<T> sfapiApiqueri)
@@ -124,7 +157,14 @@ public class Utils
 
 	public static URI getURIFromString(String urlSpec) throws UnsupportedEncodingException, URISyntaxException, MalformedURLException {
 
-		return new URI(urlSpec.trim().replace(" ", "%20")); //trim spaces and replace middle spaces by url-encoded spaces
+		final String trimmedUrlSpec = urlSpec.trim().replace(" ", "%20");
+		try {
+			return new URI(trimmedUrlSpec);
+		}
+		catch(URISyntaxException e) {
+			return new URI(URLEncoder.encode(trimmedUrlSpec, "UTF-8"));
+		}
+		//trim spaces and replace middle spaces by url-encoded spaces
 		//Don't break the URI in components. On a certain ZK zones we are getting h-params during upload.
 	}
 }

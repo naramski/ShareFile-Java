@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -32,34 +32,73 @@ public class SFGroup extends SFPrincipal {
 	private SFAccount Account;
 	@SerializedName("IsShared")
 	private Boolean IsShared;
+	@SerializedName("NumberOfContacts")
+	private Integer NumberOfContacts;
 	@SerializedName("Contacts")
 	private ArrayList<SFContact> Contacts;
 
+		/**
+		* The group's owner
+		*/
 	public SFUser getOwner() {
 		return this.Owner;
 	}
 
+		/**
+		* The group's owner
+		*/
 	public void setOwner(SFUser owner) {
 		this.Owner = owner;
 	}
+		/**
+		* Account
+		*/
 	public SFAccount getAccount() {
 		return this.Account;
 	}
 
+		/**
+		* Account
+		*/
 	public void setAccount(SFAccount account) {
 		this.Account = account;
 	}
+		/**
+		* Whether this group is public
+		*/
 	public Boolean getIsShared() {
 		return this.IsShared;
 	}
 
+		/**
+		* Whether this group is public
+		*/
 	public void setIsShared(Boolean isshared) {
 		this.IsShared = isshared;
 	}
+		/**
+		* Number of group contacts
+		*/
+	public Integer getNumberOfContacts() {
+		return this.NumberOfContacts;
+	}
+
+		/**
+		* Number of group contacts
+		*/
+	public void setNumberOfContacts(Integer numberofcontacts) {
+		this.NumberOfContacts = numberofcontacts;
+	}
+		/**
+		* List of group contacts
+		*/
 	public ArrayList<SFContact> getContacts() {
 		return this.Contacts;
 	}
 
+		/**
+		* List of group contacts
+		*/
 	public void setContacts(ArrayList<SFContact> contacts) {
 		this.Contacts = contacts;
 	}

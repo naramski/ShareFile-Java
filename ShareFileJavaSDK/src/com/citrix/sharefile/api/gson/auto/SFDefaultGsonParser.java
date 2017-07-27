@@ -1,131 +1,256 @@
 package com.citrix.sharefile.api.gson.auto;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.citrix.sharefile.api.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-
-import com.citrix.sharefile.api.enumerations.SFSafeEnum;
-import com.citrix.sharefile.api.enumerations.SFSafeEnumFlags;
-import com.citrix.sharefile.api.models.SFItem;
+import com.citrix.sharefile.api.constants.SFKeywords;
+import com.citrix.sharefile.api.gson.SFGsonHelper;
+import com.citrix.sharefile.api.log.Logger;
+import com.citrix.sharefile.api.models.SFEntityTypeMap;
 import com.citrix.sharefile.api.models.SFODataFeed;
 import com.citrix.sharefile.api.models.SFODataObject;
-import com.citrix.sharefile.api.models.SFPrincipal;
-import com.citrix.sharefile.api.utils.SFDateFormat;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 
 /**
  *   This class goes for the default gson parsing for most common objects. For objects 
  *   that need explicit routing to a different parser class (example the SFPrincipal class) it relies on the class specific parser     
  */
 public class SFDefaultGsonParser 
-{	
-	private static final GsonBuilder mGsonBuilder = new GsonBuilder();
-	private final Gson mGson;
-	private static SFDefaultGsonParser mInstance = null; 
+{
+	private static final String TAG = "SFGsonParser";
+	private static final String SHAREFILE_MODELS_PACKAGE_NAME = "ShareFile.Api.Models.";
+	private static final String ELEMENT_TAG = "@Element";
+	private static final String METADATA_FEED_TAG = "$metadata#";
+	private static final String REDIRECTION_MODEL_TAG = SHAREFILE_MODELS_PACKAGE_NAME+"Redirection";
+	private Gson mGson;
 	
-	SFDefaultGsonParser()
+	public SFDefaultGsonParser()
 	{
-		registerSFSpecificGsonAdapters();
-		mGson = mGsonBuilder.setDateFormat("yyyy-MM-dd").create();
+		mGson = SFGsonBuilder.build(null,this);
 	}
-	
-	public static SFDefaultGsonParser getInstance()
+
+	private void ignoreClassFromSFGsonRouter(Type classToIgnoreFromSFGsonRouting)
 	{
-		if(mInstance == null )
-		{
-			mInstance = new SFDefaultGsonParser();
-		}
-		
-		return mInstance;
+		mGson = SFGsonBuilder.build(classToIgnoreFromSFGsonRouting,this);
 	}
-			
-	public static <T> SFODataObject parse(Class<?> clazz,JsonElement jsonElement)	
+
+
+	private <T> SFODataObject parse(Class<?> clazz,JsonElement jsonElement)
 	{		
-		return (SFODataObject) getInstance().mGson.fromJson(jsonElement, clazz);		
+		return (SFODataObject) mGson.fromJson(jsonElement, clazz);
 	}	
 			
 
-	public static String serialize(Type clazz,Object src)	
+	public String serialize(Type clazz,Object src)
 	{		
-		return getInstance().mGson.toJson(src, clazz);		
+		return mGson.toJson(src, clazz);
 	}
-	
-			
-        	
-	/**
-	 *  Certain classes like SFPrincipal can't rely on the default gson parsing since we need to get the contained inner object
-	 *  in them using the odata.metatata and then handover the gson parsing to actual class contained in SFPrincipal.
-	 *  <p>This is particulalry true of objects contained inside a feed. exampple a folder feed has type ArrayList<SFItem>;
-	 *  So gson will try to parse the objects inside a feed using the parser for SFItem.class but we need them to be parsed using
-	 *  the individual SFFile,SFLink,SFFoler,SFLink etc classes. We re-pass the SFItem to SFGsonRouter. Note how we have avoided 
-	 *  self-recursion inside the SFGsonRouter.
-	 *  </p> 
-	 * 
-	 * 
-	 * V3Date Format is: ", ;//yyyy-MM-dd'T'HH:mm:ss.SSSZ
+
+	private static String replaceLeftSide(String tag, String original)
+	{
+		int tagIndex = original.lastIndexOf(tag);
+
+		if(tagIndex > -1)
+		{
+			return original.substring(tagIndex + tag.length());
+		}
+
+		return original;
+	}
+
+	/*
+	 * This function will get the bare bones class name from odata.type or odata.metadata string.
+	 *
+	 * Sample:
+	 *
+	 * odata.metadata : https://subdomain.sf-api.com/sf/v3/$metadata#Capabilities
+	 * odata.type     : ShareFile.Api.Models.Folder
+	 *
+	 * odata.metadata : https://enttest1.sf-api.com/sf/v3/$metadata#Items/ShareFile.Api.Models.Folder@Element
+	 *
+	 *
+	 * For SharePoint Feed we get the following strange combination:
+	 * odata.metadata	:	https://szqatest2.sharefiletest.com/sp/v3/$metadata#Capabilities
+	   odata.type	:	ShareFile.Api.Models.ODataFeed`1[[ShareFile.Api.Models.Capability, ShareFile.Api.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+
 	 */
-	
-	private final  SimpleDateFormat v3SimpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSSZ");
-
-	private void registerSFSpecificGsonAdapters()
+	private static String getElementName(String original)
 	{
-		mGsonBuilder.registerTypeAdapter(SFPrincipal.class, new SFGsonRouter());
-		mGsonBuilder.registerTypeAdapter(SFItem.class, new SFGsonRouter());
-		mGsonBuilder.registerTypeAdapter(SFODataFeed.class, new SFGsonRouter());
-        mGsonBuilder.registerTypeAdapter(SFSafeEnum.class, new SFCustomSafeEnumParser());
-        mGsonBuilder.registerTypeAdapter(SFSafeEnumFlags.class, new SFCustomSafeEnumFlagsParser());
+		String ret = original.replace(ELEMENT_TAG, "");
+		ret = replaceLeftSide(SHAREFILE_MODELS_PACKAGE_NAME,ret);
+		ret = replaceLeftSide(METADATA_FEED_TAG,ret);
+		return ret.trim();
+	}
 
-		mGsonBuilder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() 
-		{
-			@Override
-			public Date deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException 
-			{				
-				return SFDateFormat.parse(arg0.getAsString());
-			}
-		});
-		
-		mGsonBuilder.registerTypeAdapter(URI.class, new JsonDeserializer<URI>() 
-		{
-			@Override
-			public URI deserialize(JsonElement arg0, Type arg1,JsonDeserializationContext arg2) throws JsonParseException
-			{											
-				try 
-				{
-					return Utils.getURIFromString(arg0.getAsString());
-				} 
-				catch (URISyntaxException | MalformedURLException | UnsupportedEncodingException e)
-				{
-					throw new JsonParseException(e);
-				}				
-			}
-		});		
-	}		
-
-	private static final String[] needGsonRouter = new String[]
+	/*
+	 *  This function will get the element from the EntityTypeMap
+	 */
+	private static Class getClassFromString(String str)
 	{
-		"Principal", "Item"
-	};
-
-	public static void routeSpecialClasses(String originalClassName,Class newClass)
-	{
-		for(String str: needGsonRouter)
+		Class clazz = SFEntityTypeMap.getEntityTypeMap().get(getElementName(str));
+		if(clazz == null)
 		{
-			if(needGsonRouter.equals(originalClassName))
-			{
-				mGsonBuilder.registerTypeAdapter(newClass, new SFGsonRouter());
-				break;
+			Logger.d(TAG,"Object not in EntityMap: " + str);
+			return null;
+		}
+		return clazz;
+	}
+
+	private SFODataObject parseSFElement(Class clazz, JsonObject jsonObject)
+	{
+		return parse(clazz, jsonObject);
+	}
+
+	private SFODataObject parseJsonObject(String odata, JsonObject jsonObject, boolean isFeed, Type typeOfObjectGuessedByGson)
+	{
+		Class clazz = getClassFromString(odata);
+		if(clazz == null)
+		{
+			return null;
+		}
+
+		boolean resetGson = false;
+
+		if(SFGsonBuilder.isRegisteredForInternalGsonRouting(clazz)){
+			if(typeOfObjectGuessedByGson == clazz){
+				Logger.d(TAG, "Entity Map and Gson Guess Match. Temporary Unregister: " + typeOfObjectGuessedByGson.toString() + " from internal routing");
+				ignoreClassFromSFGsonRouter(clazz);
+				resetGson = true;
 			}
 		}
+
+		try {
+			if (!isFeed) {
+				return parseSFElement(clazz, jsonObject);
+			}
+
+			return parseFeed(clazz, jsonObject);
+		}
+		finally {
+			if(resetGson){
+				ignoreClassFromSFGsonRouter(null);
+			}
+		}
+	}
+
+	private SFODataFeed<SFODataObject> parseFeed(Class<?> clazz, JsonObject jsonObject)
+	{
+		SFODataFeed<SFODataObject> item = new SFODataFeed<SFODataObject>();
+
+		item.setMetadataUrl(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null));
+		item.seturl(SFGsonHelper.getURI(jsonObject, SFKeywords.URL, null));
+		item.setId(SFGsonHelper.getString(jsonObject, SFKeywords.Id, null));
+
+		int count = SFGsonHelper.getInt(jsonObject, SFKeywords.ODATA_COUNT, 0);
+		item.setcount(count);
+		item.setNextLink(SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_NEXTLINK, null));
+
+		ArrayList<SFODataObject> Feed = getArrayList(clazz, jsonObject, SFKeywords.VALUE, null);
+		item.setFeed(Feed);
+
+		return item;
+	}
+
+	/**
+	 *   This function finds type of SFODataObject (including feed types!!) from the metadata and then calls the default gson parser
+	 *   for the appropriate class type contained in the json string.
+	 *
+	 *   <p>This function can correctly parse only objects with a valid  "odata.metadata" that can be mapped to one of the SFV3Element or FeedTypes
+	 *   .The function will return null otherwise.
+	 */
+	public SFODataObject customParse(JsonElement jsonElement, Type typeOfObjectGuessedByGson)
+	{
+		try
+		{
+			if(jsonElement == null)
+			{
+				Logger.d(TAG,"JSON Element NULL");
+				return null;
+			}
+
+			JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+			if(jsonObject == null)
+			{
+				Logger.d(TAG,"JSON Object NULL");
+				return null;
+			}
+
+			String odataType = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_TYPE, null);
+			String metadata = SFGsonHelper.getString(jsonObject, SFKeywords.ODATA_METADATA, null);
+
+			if(odataType ==null)
+			{
+				//if metadata ends with element tag or redirection tag, never parse it as FeedType.
+				if(metadata.endsWith(ELEMENT_TAG) || metadata.endsWith(REDIRECTION_MODEL_TAG))
+				{
+					odataType = metadata;
+				}
+			}
+
+			if(odataType != null) //Element is non-feed type
+			{
+				SFODataObject ret = parseJsonObject(odataType,jsonObject,false,typeOfObjectGuessedByGson);
+
+				if(ret!=null)
+				{
+					return ret;
+				}
+
+				//Got a null object implies the server added a new type of Object which the SDK
+				//Has no idea about or we got an anomalous type like the SharePoint Capabilities feed.
+				//Before parsing this as a feed make sure that it is a FEED
+				if(metadata == null || !metadata.contains(METADATA_FEED_TAG))
+				{
+					Logger.e(TAG,"Upgrade the SDK. No object type for: " + odataType);
+					return null;
+				}
+			}
+
+			//Feed type element
+
+			return parseJsonObject(metadata, jsonObject, true,typeOfObjectGuessedByGson);
+
+		}
+		catch(Exception e)
+		{
+			Logger.e(TAG, e);
+		}
+
+		return null;
+	}
+
+	private <T> ArrayList<T> getArrayList(Class<?> clazz, JsonObject json,String memberName,ArrayList<T> defaultValue)
+	{
+		ArrayList<T> ret = defaultValue;
+
+		JsonElement element = json.get(memberName);
+
+		if(element!=null)
+		{
+			JsonArray array = element.getAsJsonArray();
+			if(array!=null)
+			{
+				ArrayList<T> retnew = new ArrayList<T>();
+
+				for(JsonElement e:array)
+				{
+					SFODataObject object = parse(clazz, e);
+					if (object==null) {
+						Logger.e(TAG, new Exception("NULL Object in feed: " + ((e!=null) ? e.toString() : "NULL element")));
+						continue;
+					}
+					retnew.add((T) object);
+				}
+
+				ret = retnew;
+			}
+		}
+
+		return ret;
 	}
 }

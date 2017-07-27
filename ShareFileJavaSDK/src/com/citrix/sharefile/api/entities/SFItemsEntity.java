@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -597,7 +597,8 @@ public class SFItemsEntity extends SFEntitiesBase
     * {
     * "Name":"Folder Name",
     * "Description":"Description",
-    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" }
+    * "Zone":{ "Id":"ZoneId" }
+    * "ExpirationDate": "9999-12-31T23:59:59.9999999Z"
     * }
 	* Creates a new Folder.
 	* The POST body must contain the serialized object.
@@ -640,7 +641,8 @@ public class SFItemsEntity extends SFEntitiesBase
     * {
     * "Name":"Folder Name",
     * "Description":"Description",
-    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" }
+    * "Zone":{ "Id":"ZoneId" }
+    * "ExpirationDate": "9999-12-31T23:59:59.9999999Z"
     * }
 	* Creates a new Folder.
 	* The POST body must contain the serialized object.
@@ -678,7 +680,8 @@ public class SFItemsEntity extends SFEntitiesBase
     * {
     * "Name":"Folder Name",
     * "Description":"Description",
-    * "Zone":{ "Id":"z014766e-8e96-4615-86aa-57132a69843c" }
+    * "Zone":{ "Id":"ZoneId" }
+    * "ExpirationDate": "9999-12-31T23:59:59.9999999Z"
     * }
 	* Creates a new Folder.
 	* The POST body must contain the serialized object.
@@ -1622,6 +1625,37 @@ public class SFItemsEntity extends SFEntitiesBase
 	* reference back to the parent account - and the Item in the feed will contain just the URL reference.
 	* @param url 	 	
 	* @param path  (default: null)	 	
+	* @param bubbleSharedPassthroughs  (default: false)	 	
+	* @return A feed containing the path of folders from the specified root to the item, in order
+	*/
+	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path, Boolean bubbleSharedPassthroughs) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (path == null) {
+			throw new InvalidOrMissingParameterException("path");
+		}
+		if (bubbleSharedPassthroughs == null) {
+			throw new InvalidOrMissingParameterException("bubbleSharedPassthroughs");
+		}
+
+		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Breadcrumbs");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("path", path);
+		sfApiQuery.addQueryString("bubbleSharedPassthroughs", bubbleSharedPassthroughs);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Get Breadcrumbs
+	* Retrieves the path from an item from the root. The return list is a Feed of Items, with the top-level
+	* folder at the first position. If this item is in a Connection path, the breadcrumbs may contain URL
+	* reference back to the parent account - and the Item in the feed will contain just the URL reference.
+	* @param url 	 	
+	* @param path  (default: null)	 	
 	* @return A feed containing the path of folders from the specified root to the item, in order
 	*/
 	public ISFQuery<SFODataFeed<SFItem>> getBreadcrumbs(URI url, String path) throws InvalidOrMissingParameterException 	{
@@ -1715,6 +1749,191 @@ public class SFItemsEntity extends SFEntitiesBase
 		sfApiQuery.setAction("Copy");
 		sfApiQuery.addIds(url);
 		sfApiQuery.addQueryString("targetid", targetid);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Upload File
+    * POST https://account.sf-api.com/sf/v3/Items(id)/Upload2
+    * {
+    * "Method":"Method",
+    * "Raw": false,
+    * "FileName":"FileName"
+    * "FileLength": length
+    * }
+	* Prepares the links for uploading files to the target Folder.
+	* This method returns an Upload Specification object. The fields are
+	* populated based on the upload method, provider, and canResume parameters passed to the
+	* upload call.
+	* The Method determines how the URLs must be called.
+	* 
+	* There are two different URLs for upload: /sf/v3/Items(id)/Upload accepts parameters
+	* through the URL query string, while /sf/v3/Items(id)/Upload2 uses the HTTP POST message body.
+	* If using 'Upload2', the parameters must be capitalized.
+	* 
+	* Standard uploads use a single HTTP POST message to the ChunkUri address provided in
+	* the response. All other fields will be empty. Standard uploads do not support Resume.
+	* 
+	* Streamed uploads use multiple HTTP POST calls to the ChunkUri address. For each call, the client
+	* must append the parameters index, byteOffset and hash to the ChunkUri address. Index is a
+	* sequential number (zero-based) identifying the position of the chunk relative to others;
+	* byteOffset represents how many bytes precede the chunk relative to the beginning of the file;
+	* and hash contains the MD5 hash of the chunk. The last HTTP POST must also include the parameters
+	* finish=true and filehash=[MD5 hash of entire file].
+	* 
+	* Threaded uploads use multiple HTTP POST calls to ChunkUri, and can have a number of
+	* threads issuing chunks in parallel. Clients must append index, byteOffset and hash to
+	* the end of ChunkUri, as explained for Streamed uploads. After all chunks are sent, the client
+	* must call the FinishUri provided in the Upload Specification response.
+	* 
+	* If using the Threaded Uploader, the client can add the parameter fmt=json to the ChunkUri
+	* to retrieve the Item ID of the file after the upload is completed.
+	* 
+	* For all uploaders, the contents of the POST Body can either be "raw" (if the parameter raw=true
+	* is provided to the Uploader) or use MIME multi-part form encoding otherwise. Raw uploads
+	* provide the chunk content directly in the POST body and the Content-Length header specifies the size.
+	* Multi-part form encoding requires passing the file as a Form parameter named "Filedata".
+	* 
+	* For Streamed and Threaded uploads, if the CanResume parameter is specified in the call to Upload,
+	* then the fields IsResume, ResumeIndex, ResumeOffset and ResumeFileHash may be populated in the
+	* Upload Specification response. If they are, it indicates that the server has identified a partial
+	* upload with that specification and is ready to resume the upload process. The client can
+	* verify the file has not been modified based on the value of ResumeFileHash, then continue issuing
+	* calls to the ChunkUri starting from the position represented by the values of ResumeIndex and
+	* ResumeOffset. If the client decides to restart the upload, it should simply ignore the resume
+	* fields and send chunks starting from Index 0.
+	* 
+	* For all upload methods, successful HTTP POST calls to ChunkUri and FinishUri will return response
+	* code 200 with either no Content Body or with a Body of 'OK'. The response code for failed calls can
+	* be 401, indicating authentication is required; 4xx/5xx, indicating some kind of error; or
+	* 200 with Content Body of format 'ERROR:[message]'.
+	* @param url 	 	
+	* @param method  (default: Standard)	 	
+	* @param raw  (default: false)	 	
+	* @param fileName  (default: null)	 	
+	* @param fileSize  (default: 0)	 	
+	* @param batchId  (default: null)	 	
+	* @param batchLast  (default: false)	 	
+	* @param canResume  (default: false)	 	
+	* @param startOver  (default: false)	 	
+	* @param unzip  (default: false)	 	
+	* @param tool  (default: "apiv3")	 	
+	* @param overwrite  (default: false)	 	
+	* @param title  (default: null)	 	
+	* @param details  (default: null)	 	
+	* @param isSend  (default: false)	 	
+	* @param sendGuid  (default: null)	 	
+	* @param opid  (default: null)	 	
+	* @param threadCount  (default: 4)	 	
+	* @param responseFormat  (default: "json")	 	
+	* @param notify  (default: false)	 	
+	* @param clientCreatedDateUTC  (default: null)	 	
+	* @param clientModifiedDateUTC  (default: null)	 	
+	* @param baseFileId  (default: "")	 	
+	* @return an Upload Specification element, containing the links for uploading, and the parameters for resume. The caller must know the protocol for sending the prepare, chunk and finish URLs returned in the spec; as well as negotiate the resume upload.
+	*/
+	public ISFQuery<SFUploadSpecification> upload(URI url, SFSafeEnum<SFUploadMethod> method, Boolean raw, String fileName, Long fileSize, String batchId, Boolean batchLast, Boolean canResume, Boolean startOver, Boolean unzip, String tool, Boolean overwrite, String title, String details, Boolean isSend, String sendGuid, String opid, Integer threadCount, String responseFormat, Boolean notify, Date clientCreatedDateUTC, Date clientModifiedDateUTC, Integer expirationDays, String baseFileId) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (method == null) {
+			throw new InvalidOrMissingParameterException("method");
+		}
+		if (raw == null) {
+			throw new InvalidOrMissingParameterException("raw");
+		}
+		if (fileName == null) {
+			throw new InvalidOrMissingParameterException("fileName");
+		}
+		if (fileSize == null) {
+			throw new InvalidOrMissingParameterException("fileSize");
+		}
+		if (batchId == null) {
+			throw new InvalidOrMissingParameterException("batchId");
+		}
+		if (batchLast == null) {
+			throw new InvalidOrMissingParameterException("batchLast");
+		}
+		if (canResume == null) {
+			throw new InvalidOrMissingParameterException("canResume");
+		}
+		if (startOver == null) {
+			throw new InvalidOrMissingParameterException("startOver");
+		}
+		if (unzip == null) {
+			throw new InvalidOrMissingParameterException("unzip");
+		}
+		if (tool == null) {
+			throw new InvalidOrMissingParameterException("tool");
+		}
+		if (overwrite == null) {
+			throw new InvalidOrMissingParameterException("overwrite");
+		}
+		if (title == null) {
+			throw new InvalidOrMissingParameterException("title");
+		}
+		if (details == null) {
+			throw new InvalidOrMissingParameterException("details");
+		}
+		if (isSend == null) {
+			throw new InvalidOrMissingParameterException("isSend");
+		}
+		if (sendGuid == null) {
+			throw new InvalidOrMissingParameterException("sendGuid");
+		}
+		if (opid == null) {
+			throw new InvalidOrMissingParameterException("opid");
+		}
+		if (threadCount == null) {
+			throw new InvalidOrMissingParameterException("threadCount");
+		}
+		if (responseFormat == null) {
+			throw new InvalidOrMissingParameterException("responseFormat");
+		}
+		if (notify == null) {
+			throw new InvalidOrMissingParameterException("notify");
+		}
+		if (clientCreatedDateUTC == null) {
+			throw new InvalidOrMissingParameterException("clientCreatedDateUTC");
+		}
+		if (clientModifiedDateUTC == null) {
+			throw new InvalidOrMissingParameterException("clientModifiedDateUTC");
+		}
+		if (expirationDays == null) {
+			throw new InvalidOrMissingParameterException("expirationDays");
+		}
+		if (baseFileId == null) {
+			throw new InvalidOrMissingParameterException("baseFileId");
+		}
+
+		SFApiQuery<SFUploadSpecification> sfApiQuery = new SFApiQuery<SFUploadSpecification>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Upload");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("method", method);
+		sfApiQuery.addQueryString("raw", raw);
+		sfApiQuery.addQueryString("fileName", fileName);
+		sfApiQuery.addQueryString("fileSize", fileSize);
+		sfApiQuery.addQueryString("batchId", batchId);
+		sfApiQuery.addQueryString("batchLast", batchLast);
+		sfApiQuery.addQueryString("canResume", canResume);
+		sfApiQuery.addQueryString("startOver", startOver);
+		sfApiQuery.addQueryString("unzip", unzip);
+		sfApiQuery.addQueryString("tool", tool);
+		sfApiQuery.addQueryString("overwrite", overwrite);
+		sfApiQuery.addQueryString("title", title);
+		sfApiQuery.addQueryString("details", details);
+		sfApiQuery.addQueryString("isSend", isSend);
+		sfApiQuery.addQueryString("sendGuid", sendGuid);
+		sfApiQuery.addQueryString("opid", opid);
+		sfApiQuery.addQueryString("threadCount", threadCount);
+		sfApiQuery.addQueryString("responseFormat", responseFormat);
+		sfApiQuery.addQueryString("notify", notify);
+		sfApiQuery.addQueryString("clientCreatedDateUTC", clientCreatedDateUTC);
+		sfApiQuery.addQueryString("clientModifiedDateUTC", clientModifiedDateUTC);
+		sfApiQuery.addQueryString("expirationDays", expirationDays);
+		sfApiQuery.addQueryString("baseFileId", baseFileId);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -4842,6 +5061,90 @@ public class SFItemsEntity extends SFEntitiesBase
 	}
 
 	/**
+	* Search
+	* Search for Items matching the criteria of the query parameter
+	* @param query 	 	
+	* @param maxResults  (default: 50)	 	
+	* @param skip  (default: 0)	 	
+	* @return SearchResults
+	*/
+	public ISFQuery<SFSearchResults> search(URI url, String query, Integer maxResults, Integer skip) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (query == null) {
+			throw new InvalidOrMissingParameterException("query");
+		}
+		if (maxResults == null) {
+			throw new InvalidOrMissingParameterException("maxResults");
+		}
+		if (skip == null) {
+			throw new InvalidOrMissingParameterException("skip");
+		}
+
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Search");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.addQueryString("maxResults", maxResults);
+		sfApiQuery.addQueryString("skip", skip);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Search
+	* Search for Items matching the criteria of the query parameter
+	* @param query 	 	
+	* @param maxResults  (default: 50)	 	
+	* @return SearchResults
+	*/
+	public ISFQuery<SFSearchResults> search(URI url, String query, Integer maxResults) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (query == null) {
+			throw new InvalidOrMissingParameterException("query");
+		}
+		if (maxResults == null) {
+			throw new InvalidOrMissingParameterException("maxResults");
+		}
+
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Search");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.addQueryString("maxResults", maxResults);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Search
+	* Search for Items matching the criteria of the query parameter
+	* @param query 	 	
+	* @return SearchResults
+	*/
+	public ISFQuery<SFSearchResults> search(URI url, String query) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (query == null) {
+			throw new InvalidOrMissingParameterException("query");
+		}
+
+		SFApiQuery<SFSearchResults> sfApiQuery = new SFApiQuery<SFSearchResults>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Search");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("query", query);
+		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
 	* Advanced Simple Search
     * {
     * "Query":{
@@ -4987,19 +5290,15 @@ public class SFItemsEntity extends SFEntitiesBase
 	* Get a collection of recoverable/deleted items in a folder
 	* @param url 	 	
 	*/
-	public ISFQuery<SFODataFeed<SFItem>> getDeletedChildren(URI url, String id) throws InvalidOrMissingParameterException 	{
+	public ISFQuery<SFODataFeed<SFItem>> getDeletedChildren(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
-		}
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
 		}
 
 		SFApiQuery<SFODataFeed<SFItem>> sfApiQuery = new SFApiQuery<SFODataFeed<SFItem>>(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("DeletedChildren");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("parentid", id);
 		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
@@ -5091,6 +5390,7 @@ public class SFItemsEntity extends SFEntitiesBase
 
 	/**
 	* Create a one-time use login Uri for the Web App.
+	* The user will be logged in and routed to the parent folder of the Item.If the Item is a Folder, the user will be routed to that Folder.
 	* @param url 	 	
 	* @return Redirection populated with link in Uri field
 	*/
@@ -5111,19 +5411,15 @@ public class SFItemsEntity extends SFEntitiesBase
 	* Remove folder template association from folder
 	* @param url 	 	
 	*/
-	public ISFQuery removeTemplateAssociation(URI url, String id) throws InvalidOrMissingParameterException 	{
+	public ISFQuery removeTemplateAssociation(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
-		}
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
 		}
 
 		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("RemoveTemplateAssociation");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("parentid", id);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -5132,19 +5428,15 @@ public class SFItemsEntity extends SFEntitiesBase
 	* Check if template is already part of an existing template structure
 	* @param url 	 	
 	*/
-	public ISFQuery checkTemplateOwned(URI url, String id) throws InvalidOrMissingParameterException 	{
+	public ISFQuery checkTemplateOwned(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
-		}
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
 		}
 
 		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckTemplateOwned");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("parentid", id);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
@@ -5154,12 +5446,9 @@ public class SFItemsEntity extends SFEntitiesBase
 	* @param url 	 	
 	* @param newMaxVersions 	 	
 	*/
-	public ISFQuery checkVersioningViolation(URI url, String id, Integer newMaxVersions) throws InvalidOrMissingParameterException 	{
+	public ISFQuery checkVersioningViolation(URI url, Integer newMaxVersions) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
 			throw new InvalidOrMissingParameterException("url");
-		}
-		if (id == null) {
-			throw new InvalidOrMissingParameterException("id");
 		}
 		if (newMaxVersions == null) {
 			throw new InvalidOrMissingParameterException("newMaxVersions");
@@ -5169,7 +5458,6 @@ public class SFItemsEntity extends SFEntitiesBase
 		sfApiQuery.setFrom("Items");
 		sfApiQuery.setAction("CheckVersioningViolation");
 		sfApiQuery.addIds(url);
-		sfApiQuery.addQueryString("parentid", id);
 		sfApiQuery.addQueryString("newMaxVersions", newMaxVersions);
 		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;

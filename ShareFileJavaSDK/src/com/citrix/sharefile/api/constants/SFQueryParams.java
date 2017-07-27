@@ -7,4 +7,5 @@ public class SFQueryParams
 	public static final String TOP = "$top";
 	public static final String SKIP = "$skip";
 	public static final String FILTER = "$filter";
+	public static final String ORDERBY = "$orderby";
 }

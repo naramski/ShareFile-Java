@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -405,7 +405,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "CanManageUsers": false,
     * "Roles": [
     * "CanChangePassword", "CanManageMySettings",
-    * "CanUseFileBox, "CanManageUsers, "CanCreateFolders, "CanUseDropBox, "CanSelectFolderZone,
+    * "CanUseFileBox", "CanManageUsers", "CanCreateFolders", "CanUseDropBox", "CanSelectFolderZone",
     * "AdminAccountPolicies", "AdminBilling", "AdminBranding", "AdminChangePlan", "AdminFileBoxAccess",
     * "AdminManageEmployees", "AdminRemoteUploadForms", "AdminReporting", "AdminSharedDistGroups",
     * "AdminSharedAddressBook", "AdminViewReceipts", "AdminDelegate", "AdminManageFolderTemplates",
@@ -482,7 +482,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "CanManageUsers": false,
     * "Roles": [
     * "CanChangePassword", "CanManageMySettings",
-    * "CanUseFileBox, "CanManageUsers, "CanCreateFolders, "CanUseDropBox, "CanSelectFolderZone,
+    * "CanUseFileBox", "CanManageUsers", "CanCreateFolders", "CanUseDropBox", "CanSelectFolderZone",
     * "AdminAccountPolicies", "AdminBilling", "AdminBranding", "AdminChangePlan", "AdminFileBoxAccess",
     * "AdminManageEmployees", "AdminRemoteUploadForms", "AdminReporting", "AdminSharedDistGroups",
     * "AdminSharedAddressBook", "AdminViewReceipts", "AdminDelegate", "AdminManageFolderTemplates",
@@ -554,7 +554,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "CanManageUsers": false,
     * "Roles": [
     * "CanChangePassword", "CanManageMySettings",
-    * "CanUseFileBox, "CanManageUsers, "CanCreateFolders, "CanUseDropBox, "CanSelectFolderZone,
+    * "CanUseFileBox", "CanManageUsers", "CanCreateFolders", "CanUseDropBox", "CanSelectFolderZone",
     * "AdminAccountPolicies", "AdminBilling", "AdminBranding", "AdminChangePlan", "AdminFileBoxAccess",
     * "AdminManageEmployees", "AdminRemoteUploadForms", "AdminReporting", "AdminSharedDistGroups",
     * "AdminSharedAddressBook", "AdminViewReceipts", "AdminDelegate", "AdminManageFolderTemplates",
@@ -621,7 +621,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "CanManageUsers": false,
     * "Roles": [
     * "CanChangePassword", "CanManageMySettings",
-    * "CanUseFileBox, "CanManageUsers, "CanCreateFolders, "CanUseDropBox, "CanSelectFolderZone,
+    * "CanUseFileBox", "CanManageUsers", "CanCreateFolders", "CanUseDropBox", "CanSelectFolderZone",
     * "AdminAccountPolicies", "AdminBilling", "AdminBranding", "AdminChangePlan", "AdminFileBoxAccess",
     * "AdminManageEmployees", "AdminRemoteUploadForms", "AdminReporting", "AdminSharedDistGroups",
     * "AdminSharedAddressBook", "AdminViewReceipts", "AdminDelegate", "AdminManageFolderTemplates",
@@ -683,7 +683,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "CanManageUsers": false,
     * "Roles": [
     * "CanChangePassword", "CanManageMySettings",
-    * "CanUseFileBox, "CanManageUsers, "CanCreateFolders, "CanUseDropBox, "CanSelectFolderZone,
+    * "CanUseFileBox", "CanManageUsers", "CanCreateFolders", "CanUseDropBox", "CanSelectFolderZone",
     * "AdminAccountPolicies", "AdminBilling", "AdminBranding", "AdminChangePlan", "AdminFileBoxAccess",
     * "AdminManageEmployees", "AdminRemoteUploadForms", "AdminReporting", "AdminSharedDistGroups",
     * "AdminSharedAddressBook", "AdminViewReceipts", "AdminDelegate", "AdminManageFolderTemplates",
@@ -740,7 +740,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "CanManageUsers": false,
     * "Roles": [
     * "CanChangePassword", "CanManageMySettings",
-    * "CanUseFileBox, "CanManageUsers, "CanCreateFolders, "CanUseDropBox, "CanSelectFolderZone,
+    * "CanUseFileBox", "CanManageUsers", "CanCreateFolders", "CanUseDropBox", "CanSelectFolderZone",
     * "AdminAccountPolicies", "AdminBilling", "AdminBranding", "AdminChangePlan", "AdminFileBoxAccess",
     * "AdminManageEmployees", "AdminRemoteUploadForms", "AdminReporting", "AdminSharedDistGroups",
     * "AdminSharedAddressBook", "AdminViewReceipts", "AdminDelegate", "AdminManageFolderTemplates",
@@ -778,7 +778,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "Security":
     * {
     * "IsDisabled":false
-    * }
+    * },
     * "DefaultZone":
     * {
     * "Id":"newzoneid"
@@ -881,9 +881,8 @@ public class SFUsersEntity extends SFEntitiesBase
 
 	/**
 	* Remove Roles
-    * {
+    * 
     * [ "CanManageUsers", "CanSelectFolderZone" ]
-    * }
 	* Removes the roles for user.
 	* The following roles can be removed from user through this call (depending on User type):
 	* CanCreateFolders,
@@ -924,7 +923,7 @@ public class SFUsersEntity extends SFEntitiesBase
     * "Security":
     * {
     * "IsDisabled":false
-    * }
+    * },
     * "DefaultZone":
     * {
     * "Id":"newzoneid"
@@ -1213,6 +1212,29 @@ public class SFUsersEntity extends SFEntitiesBase
 	* Send Welcome Email
 	* Resends the 'welcome' email to the given user
 	* @param url 	 	
+	* @param customMessage  (default: null)	 	
+	*/
+	public ISFQuery resendWelcome(URI url, String customMessage) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (customMessage == null) {
+			throw new InvalidOrMissingParameterException("customMessage");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("ResendWelcome");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("customMessage", customMessage);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Send Welcome Email
+	* Resends the 'welcome' email to the given user
+	* @param url 	 	
 	*/
 	public ISFQuery resendWelcome(URI url) throws InvalidOrMissingParameterException 	{
 		if (url == null) {
@@ -1224,6 +1246,65 @@ public class SFUsersEntity extends SFEntitiesBase
 		sfApiQuery.setAction("ResendWelcome");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete User
+	* Removes an user
+	* @param url 	 	
+	* @param completely  (default: false)	 	
+	* @param itemsReassignTo  (default: null)	 	
+	* @param groupsReassignTo  (default: null)	 	
+	*/
+	public ISFQuery delete(URI url, Boolean completely, String itemsReassignTo, String groupsReassignTo) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (completely == null) {
+			throw new InvalidOrMissingParameterException("completely");
+		}
+		if (itemsReassignTo == null) {
+			throw new InvalidOrMissingParameterException("itemsReassignTo");
+		}
+		if (groupsReassignTo == null) {
+			throw new InvalidOrMissingParameterException("groupsReassignTo");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("completely", completely);
+		sfApiQuery.addQueryString("itemsReassignTo", itemsReassignTo);
+		sfApiQuery.addQueryString("groupsReassignTo", groupsReassignTo);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete User
+	* Removes an user
+	* @param url 	 	
+	* @param completely  (default: false)	 	
+	* @param itemsReassignTo  (default: null)	 	
+	*/
+	public ISFQuery delete(URI url, Boolean completely, String itemsReassignTo) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (completely == null) {
+			throw new InvalidOrMissingParameterException("completely");
+		}
+		if (itemsReassignTo == null) {
+			throw new InvalidOrMissingParameterException("itemsReassignTo");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.addIds(url);
+		sfApiQuery.addQueryString("completely", completely);
+		sfApiQuery.addQueryString("itemsReassignTo", itemsReassignTo);
+		sfApiQuery.setHttpMethod("DELETE");
 		return sfApiQuery;
 	}
 
@@ -1263,6 +1344,74 @@ public class SFUsersEntity extends SFEntitiesBase
 		sfApiQuery.setFrom("Users");
 		sfApiQuery.addIds(url);
 		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete multiple client users
+    * 
+    * ["id1","id2",...]
+	* Removes a list of client users. The list should not exceed 100 client user ids.
+	* @param clientIds 	 	
+	*/
+	public ISFQuery deleteClients(ArrayList<String> clientIds) throws InvalidOrMissingParameterException 	{
+		if (clientIds == null) {
+			throw new InvalidOrMissingParameterException("clientIds");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Clients");
+		sfApiQuery.setBody(clientIds);
+		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Delete multiple client users
+    * {
+    * UserIds: ["id1", "id2", ...]
+    * }
+	* Removes a list of client users. The list should not exceed 100 client user ids.
+	* @param deleteRequest 	 	
+	* @return 204 if successful
+	*/
+	public ISFQuery bulkDeleteClients(SFUserBulkOperationRequest deleteRequest) throws InvalidOrMissingParameterException 	{
+		if (deleteRequest == null) {
+			throw new InvalidOrMissingParameterException("deleteRequest");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Clients");
+		sfApiQuery.addSubAction("BulkDelete");
+		sfApiQuery.setBody(deleteRequest);
+		sfApiQuery.setHttpMethod("POST");
+		return sfApiQuery;
+	}
+
+	/**
+	* Downgrade multiple employee users to clients
+    * {
+    * UserIds: ["id1", "id2", ...],
+    * ReassignItemsToId: "id3",
+    * ReassignGroupsToId: "id3"
+    * }
+	* Downgrades a list of employee users to clients. The list should not exceed 100 employee user ids.
+	* @param downgradeRequest 	 	
+	* @return 204 if successful
+	*/
+	public ISFQuery downgradeEmployees(SFUserBulkDowngradeRequest downgradeRequest) throws InvalidOrMissingParameterException 	{
+		if (downgradeRequest == null) {
+			throw new InvalidOrMissingParameterException("downgradeRequest");
+		}
+
+		SFApiQuery sfApiQuery = new SFApiQuery(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Employees");
+		sfApiQuery.addSubAction("Downgrade");
+		sfApiQuery.setBody(downgradeRequest);
+		sfApiQuery.setHttpMethod("POST");
 		return sfApiQuery;
 	}
 

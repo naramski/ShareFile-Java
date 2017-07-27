@@ -13,7 +13,6 @@ import com.citrix.sharefile.api.exceptions.SFNotFoundException;
 import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.citrix.sharefile.api.exceptions.SFOtherException;
 import com.citrix.sharefile.api.exceptions.SFServerException;
-import com.citrix.sharefile.api.gson.SFGsonHelper;
 import com.citrix.sharefile.api.https.SFCookieManager;
 import com.citrix.sharefile.api.https.SFHttpsCaller;
 import com.citrix.sharefile.api.interfaces.ISFApiExecuteQuery;
@@ -127,6 +126,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
         conn.setRequestProperty(SFKeywords.CONTENT_LENGTH, ""+body.getBytes().length);
         conn.setRequestProperty(SFKeywords.CONTENT_TYPE, SFKeywords.APPLICATION_JSON);
+        Logger.d(TAG, "Posting body = " + body);
         SFHttpsCaller.postBody(conn, body);
 	}			
 
@@ -301,6 +301,14 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
 
                     default:
                     {
+                        if(retryDeleteWithPostOverride(httpErrorCode))
+                        {
+                            mQuery.setBody(EMPTY_JSON);
+                            //This wont cause infinite recursion since retryDeleteWithPostOverride returns false for empty String ""
+                            //and for the retry we have set the body to and empty json "{}".
+                            return executeBlockingQuery();
+                        }
+
                         responseString = SFHttpsCaller.readErrorResponse(connection);
                         Logger.v(TAG, responseString);
                         SFV3ErrorParser sfV3error = new SFV3ErrorParser(httpErrorCode, responseString, null);
@@ -332,6 +340,33 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
             }
         }
 	}
+
+	//On certain connectors , the DELETE verb is not accepted by the server.
+    //We need to pass the DELETE as POST override for them.
+	private boolean retryDeleteWithPostOverride(int httpErrorCode)
+    {
+        //Retry with POST only for DELETE methods if we receive BadMethod from server.
+        if(httpErrorCode != HttpsURLConnection.HTTP_BAD_METHOD || !SFHttpMethod.DELETE.toString().equalsIgnoreCase(mQuery.getHttpMethod()))
+        {
+            return false;
+        }
+
+        //For non-empty Bodies we anyway use POST.
+        if(!Utils.isEmpty(mQuery.getBody()))
+        {
+            return false;
+        }
+
+        //Apply only to non-SF providers. ShareFile server always supports DELETE.
+        if(SFProvider.PROVIDER_TYPE_SF.equalsIgnoreCase(SFProvider.getProviderType(mQuery.getLink())))
+        {
+            return false;
+        }
+
+        Logger.d(TAG, "DELETE method not accepted. Use POST override.");
+
+        return true;
+    }
 
     private void callSaveCredentialsCallback(T sfobject)
     {
@@ -565,7 +600,7 @@ class SFApiQueryExecutor<T> implements ISFApiExecuteQuery
     {
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement =jsonParser.parse(responseString);
-		T sfobject = (T)SFGsonHelper.customParse(jsonElement);
+		T sfobject = (T)mSFApiClient.customParse(jsonElement,null);
 
         SFRedirection redirection = getRedirectionObject(sfobject);
 

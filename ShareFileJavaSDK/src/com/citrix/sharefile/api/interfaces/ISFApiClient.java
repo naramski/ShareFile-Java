@@ -1,6 +1,5 @@
 package com.citrix.sharefile.api.interfaces;
 
-import com.citrix.sharefile.api.SFApiClient;
 import com.citrix.sharefile.api.SFQueryStream;
 import com.citrix.sharefile.api.entities.ISFEntities;
 import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
@@ -8,8 +7,9 @@ import com.citrix.sharefile.api.exceptions.SFNotAuthorizedException;
 import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.citrix.sharefile.api.exceptions.SFOtherException;
 import com.citrix.sharefile.api.exceptions.SFServerException;
+import com.citrix.sharefile.api.extensions.SFCapabilitiesEntityEx;
 import com.citrix.sharefile.api.https.SFDownloadRunnable;
-import com.citrix.sharefile.api.https.SFUploadRunnable;
+import com.citrix.sharefile.api.https.upload.SFUploadRunnable;
 import com.citrix.sharefile.api.https.TransferRunnable;
 import com.citrix.sharefile.api.models.SFFile;
 import com.citrix.sharefile.api.models.SFFolder;
@@ -46,12 +46,12 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler , ISFEntities
                                         String destinationName,
                                         String details,long fileSizeInBytes,
                                         InputStream inputStream,
-                                        TransferRunnable.IProgress progressListener)
+                                        SFUploadRunnable.IUploadProgress progressListener)
             throws SFInvalidStateException, SFServerException;
 
     public SFUploadRunnable getUploader(SFUploadRequestParams uploadRequestParams,
                                         InputStream inputStream,
-                                        TransferRunnable.IProgress progressListener)
+                                        SFUploadRunnable.IUploadProgress progressListener)
             throws SFInvalidStateException, SFServerException;
 
     public URI getDefaultUrl(String folderID) throws URISyntaxException;
@@ -61,4 +61,7 @@ public interface ISFApiClient extends IOAuthTokenChangeHandler , ISFEntities
     public void setReAuthHandler(ISFReAuthHandler reAuthHandler);
 
     public ISFApiClient clone();
+
+    SFCapabilitiesEntityEx capabilitiesEx();
+
 }

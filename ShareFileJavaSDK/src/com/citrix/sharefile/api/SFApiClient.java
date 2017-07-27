@@ -11,9 +11,11 @@ import com.citrix.sharefile.api.exceptions.SFOAuthTokenRenewException;
 import com.citrix.sharefile.api.exceptions.SFOtherException;
 import com.citrix.sharefile.api.exceptions.SFSDKException;
 import com.citrix.sharefile.api.exceptions.SFServerException;
+import com.citrix.sharefile.api.extensions.SFCapabilitiesEntityEx;
+import com.citrix.sharefile.api.gson.auto.SFDefaultGsonParser;
 import com.citrix.sharefile.api.https.SFCookieManager;
 import com.citrix.sharefile.api.https.SFDownloadRunnable;
-import com.citrix.sharefile.api.https.SFUploadRunnable;
+import com.citrix.sharefile.api.https.upload.SFUploadRunnable;
 import com.citrix.sharefile.api.https.TransferRunnable;
 import com.citrix.sharefile.api.interfaces.IOAuthTokenChangeHandler;
 import com.citrix.sharefile.api.interfaces.ISFApiClient;
@@ -29,10 +31,12 @@ import com.citrix.sharefile.api.models.SFODataObject;
 import com.citrix.sharefile.api.models.SFSession;
 import com.citrix.sharefile.api.models.SFUploadRequestParams;
 import com.citrix.sharefile.api.utils.Utils;
+import com.google.gson.JsonElement;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,11 +50,11 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	
 	private final AtomicReference<SFOAuth2Token> mOAuthToken = new AtomicReference<SFOAuth2Token>(null);
 	private SFSession mSession = null;	
-	private SFCookieManager mCookieManager = new SFCookieManager();
-	private final String mClientID;
-	private final String mClientSecret;
-	private final IOAuthTokenChangeHandler mAuthTokenChangeCallback;
-	private String mSfUserId;
+	protected SFCookieManager mCookieManager = new SFCookieManager();
+	protected final String mClientID;
+	protected final String mClientSecret;
+	protected final IOAuthTokenChangeHandler mAuthTokenChangeCallback;
+	protected String mSfUserId;
 	
 	private static final String DEFAULT_ACCEPTED_LANGUAGE = Utils.getAcceptLanguageString();
 	
@@ -62,7 +66,9 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
     private final URI mDefaultTopUrl;
 
-    private ISFReAuthHandler mReAuthHandler;
+    protected ISFReAuthHandler mReAuthHandler;
+
+	private final SFDefaultGsonParser gsonParser = new SFDefaultGsonParser();
 
     public boolean isClientInitialised()
 	{
@@ -108,8 +114,8 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 				
 		mSFAppConfig.addAcceptedLanguage(DEFAULT_ACCEPTED_LANGUAGE);
         mSFAppConfig.addHeader(SFKeywords.CLIENT_CAPABILITIES_HEADER, SFClientCapability.HardLock.toString());
-		
-		copyOAuthToken(oauthToken);
+		mSFAppConfig.addHeader(SFKeywords.CLIENT_CAPABILITIES_HEADER, SFClientCapability.ItemFavorites.toString());
+        copyOAuthToken(oauthToken);
 
         try
         {
@@ -129,9 +135,13 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
         mReAuthHandler = reAuthHandler;
 	}
 
+	protected SFApiClient newInstance() throws SFInvalidStateException {
+		return new SFApiClient(getOAuthToken(), mSfUserId, mClientID, mClientSecret, mAuthTokenChangeCallback, mReAuthHandler);
+	}
+
     public SFApiClient clone(){
         try {
-            SFApiClient clonedClient = new SFApiClient(getOAuthToken(), mSfUserId, mClientID, mClientSecret, mAuthTokenChangeCallback, mReAuthHandler);
+            SFApiClient clonedClient = newInstance();
             clonedClient.mCookieManager = mCookieManager;
             return clonedClient;
         }
@@ -139,7 +149,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
             Logger.d(TAG, "Exception in creating a clone of the API Client");
         }
         return null;
-	}
+    }
 	
 	/**
 	 *   This function can be called only on clients which were previously initialized. 
@@ -217,6 +227,10 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	public String getUserId() 
 	{		
 		return mSfUserId;
+	}
+
+	public void removeCookieStartsWith(URI uri, String key){
+		mCookieManager.removeCookieStartsWith(uri,key);
 	}
 		
 	public void setCookie(String urlStr, String cookieString) 
@@ -331,7 +345,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
     public SFUploadRunnable getUploader(SFFolder parentFolder,String destinationName, String details,long fileSizeInBytes,
                                         InputStream inputStream,
-                                        TransferRunnable.IProgress progressListener)
+                                        SFUploadRunnable.IUploadProgress progressListener)
     throws SFInvalidStateException, SFServerException
     {
         validateClientState();
@@ -349,7 +363,7 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 
     public SFUploadRunnable getUploader(SFUploadRequestParams uploadRequestParams,
                                         InputStream inputStream,
-                                        TransferRunnable.IProgress progressListener)
+                                        SFUploadRunnable.IUploadProgress progressListener)
             throws SFInvalidStateException, SFServerException
     {
         validateClientState();
@@ -384,11 +398,20 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
      * @throws com.citrix.sharefile.api.exceptions.SFServerException
      */
     @Deprecated
-    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, long resumeFromByteIndex, long tolalBytes,  InputStream inputStream, TransferRunnable.IProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFServerException {
+    public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, long resumeFromByteIndex, long tolalBytes,
+										  InputStream inputStream, SFUploadRunnable.IUploadProgress progressListener, String connUserName,String connPassword) throws SFInvalidStateException, SFServerException {
         validateClientState();
 
         return new SFUploadRunnable(v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details);
     }
+
+	public SFUploadRunnable prepareUpload(String destinationName, String details, String v3Url, boolean overwrite, long resumeFromByteIndex, long tolalBytes,
+										  InputStream inputStream, SFUploadRunnable.IUploadProgress progressListener, String connUserName,String connPassword,
+										  String localFilePath, boolean canUseMultiThreaded) throws SFInvalidStateException, SFServerException {
+		validateClientState();
+
+		return new SFUploadRunnable(v3Url, overwrite, resumeFromByteIndex, tolalBytes, destinationName, inputStream, this, progressListener, mCookieManager, connUserName, connPassword, details, localFilePath, canUseMultiThreaded);
+	}
 
     public URI getDefaultUrl(String folderID) throws URISyntaxException
     {
@@ -439,4 +462,15 @@ public class SFApiClient extends ISFEntities.Implementation implements ISFApiCli
 	{
 		mReAuthHandler = reAuthHandler;
 	}
+
+	public SFODataObject customParse(JsonElement jsonElement, Type typeOfObjectGuessedByGson){
+		return gsonParser.customParse(jsonElement,typeOfObjectGuessedByGson);
+	}
+
+	@Override
+	public SFCapabilitiesEntityEx capabilitiesEx() {
+		return (SFCapabilitiesEntityEx)getEntity(SFCapabilitiesEntityEx.class);
+	}
+
+
 }

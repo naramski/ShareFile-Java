@@ -1,7 +1,7 @@
 package com.citrix.sharefile.api.interfaces;
 
+import com.citrix.sharefile.api.constants.SFKeywords;
 import com.citrix.sharefile.api.enumerations.SFSafeEnum;
-
 import com.citrix.sharefile.api.enumerations.SFV3ElementType;
 import com.citrix.sharefile.api.exceptions.SFInvalidStateException;
 import com.citrix.sharefile.api.exceptions.SFNotAuthorizedException;
@@ -114,6 +114,8 @@ public interface ISFQuery<T>
     ISFQuery<T> top(int topItems);
 
     ISFQuery<T> skip(int skipItems);
+
+    ISFQuery<T> orderBy(String orderParameter,SFKeywords.DIRECTION direction);
 
     ISFQuery<T> filter(String filterValue);
 

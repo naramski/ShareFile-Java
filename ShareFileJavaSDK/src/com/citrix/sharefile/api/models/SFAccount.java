@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -36,6 +36,10 @@ public class SFAccount extends SFODataObject {
 	private SFUser TechnicalContact;
 	@SerializedName("TechnicalContactId")
 	private String TechnicalContactId;
+	@SerializedName("MasterAdminId")
+	private String MasterAdminId;
+	@SerializedName("MasterAdmin")
+	private SFUser MasterAdmin;
 	@SerializedName("AccountManager")
 	private SFUser AccountManager;
 	@SerializedName("AccountManagerId")
@@ -82,6 +86,8 @@ public class SFAccount extends SFODataObject {
 	private Integer DiskSpaceMax;
 	@SerializedName("DiskSpace")
 	private SFDiskSpace DiskSpace;
+	@SerializedName("Bandwidth")
+	private SFBandwidth Bandwidth;
 	@SerializedName("BandwidthMax")
 	private Integer BandwidthMax;
 	@SerializedName("HasPowerTools")
@@ -132,6 +138,8 @@ public class SFAccount extends SFODataObject {
 	private String AdvancedCustomBrandingFolderName;
 	@SerializedName("BrandingStyles")
 	private Map<String, String> BrandingStyles;
+	@SerializedName("BrandingLinks")
+	private SFBrandingLinks BrandingLinks;
 	@SerializedName("LogoURL")
 	private String LogoURL;
 	@SerializedName("RootItem")
@@ -182,8 +190,28 @@ public class SFAccount extends SFODataObject {
 	private SFBillingInfo BillingInformation;
 	@SerializedName("AccountSubType")
 	private SFSafeEnum<SFAccountSubType> AccountSubType;
+	@SerializedName("CanConvertFreeTrial")
+	private Boolean CanConvertFreeTrial;
+	@SerializedName("CanChangePlan")
+	private Boolean CanChangePlan;
+	@SerializedName("CanChangeBilling")
+	private Boolean CanChangeBilling;
+	@SerializedName("CanCancel")
+	private Boolean CanCancel;
+	@SerializedName("ConversionType")
+	private String ConversionType;
+	@SerializedName("AccountFeatures")
+	private ArrayList<SFSafeEnum<SFAccountFeatures>> AccountFeatures;
 	@SerializedName("Services")
 	private SFServicesCollection Services;
+	@SerializedName("BillingAddons")
+	private ArrayList<SFBillingAddOn> BillingAddons;
+	@SerializedName("CloudStorageType")
+	private SFSafeEnum<SFCloudStorageType> CloudStorageType;
+	@SerializedName("IsSolutionOffering")
+	private Boolean IsSolutionOffering;
+	@SerializedName("SupportInfo")
+	private SFSupport SupportInfo;
 
 	public String getCompanyName() {
 		return this.CompanyName;
@@ -220,6 +248,20 @@ public class SFAccount extends SFODataObject {
 	public void setTechnicalContactId(String technicalcontactid) {
 		this.TechnicalContactId = technicalcontactid;
 	}
+	public String getMasterAdminId() {
+		return this.MasterAdminId;
+	}
+
+	public void setMasterAdminId(String masteradminid) {
+		this.MasterAdminId = masteradminid;
+	}
+	public SFUser getMasterAdmin() {
+		return this.MasterAdmin;
+	}
+
+	public void setMasterAdmin(SFUser masteradmin) {
+		this.MasterAdmin = masteradmin;
+	}
 	public SFUser getAccountManager() {
 		return this.AccountManager;
 	}
@@ -241,10 +283,16 @@ public class SFAccount extends SFODataObject {
 	public void setAccountType(String accounttype) {
 		this.AccountType = accounttype;
 	}
+		/**
+		* Basic, Professional, Enterprise
+		*/
 	public String getPlanName() {
 		return this.PlanName;
 	}
 
+		/**
+		* Basic, Professional, Enterprise
+		*/
 	public void setPlanName(String planname) {
 		this.PlanName = planname;
 	}
@@ -262,17 +310,29 @@ public class SFAccount extends SFODataObject {
 	public void setPlanTrackEnum(String plantrackenum) {
 		this.PlanTrackEnum = plantrackenum;
 	}
+		/**
+		* Credit Card, Invoice, Comp
+		*/
 	public String getBillingType() {
 		return this.BillingType;
 	}
 
+		/**
+		* Credit Card, Invoice, Comp
+		*/
 	public void setBillingType(String billingtype) {
 		this.BillingType = billingtype;
 	}
+		/**
+		* Monthly, Quarterly, Annually
+		*/
 	public String getBillingCycle() {
 		return this.BillingCycle;
 	}
 
+		/**
+		* Monthly, Quarterly, Annually
+		*/
 	public void setBillingCycle(String billingcycle) {
 		this.BillingCycle = billingcycle;
 	}
@@ -290,66 +350,120 @@ public class SFAccount extends SFODataObject {
 	public void setBaseBillingRate(Double basebillingrate) {
 		this.BaseBillingRate = basebillingrate;
 	}
+		/**
+		* Bandwidth included in plan in megabytes
+		*/
 	public Integer getBaseBandwidth() {
 		return this.BaseBandwidth;
 	}
 
+		/**
+		* Bandwidth included in plan in megabytes
+		*/
 	public void setBaseBandwidth(Integer basebandwidth) {
 		this.BaseBandwidth = basebandwidth;
 	}
+		/**
+		* Disk space included in megabytes
+		*/
 	public Integer getBaseDiskSpace() {
 		return this.BaseDiskSpace;
 	}
 
+		/**
+		* Disk space included in megabytes
+		*/
 	public void setBaseDiskSpace(Integer basediskspace) {
 		this.BaseDiskSpace = basediskspace;
 	}
+		/**
+		* Users included in plan
+		*/
 	public Integer getBaseUsers() {
 		return this.BaseUsers;
 	}
 
+		/**
+		* Users included in plan
+		*/
 	public void setBaseUsers(Integer baseusers) {
 		this.BaseUsers = baseusers;
 	}
+		/**
+		* Additional bandwidth purchased for account
+		*/
 	public Integer getAdditionalBandwidth() {
 		return this.AdditionalBandwidth;
 	}
 
+		/**
+		* Additional bandwidth purchased for account
+		*/
 	public void setAdditionalBandwidth(Integer additionalbandwidth) {
 		this.AdditionalBandwidth = additionalbandwidth;
 	}
+		/**
+		* Additional disk space purchased for account
+		*/
 	public Integer getAdditionalDiskSpace() {
 		return this.AdditionalDiskSpace;
 	}
 
+		/**
+		* Additional disk space purchased for account
+		*/
 	public void setAdditionalDiskSpace(Integer additionaldiskspace) {
 		this.AdditionalDiskSpace = additionaldiskspace;
 	}
+		/**
+		* Additional users purchased for account
+		*/
 	public Integer getAdditionalUsers() {
 		return this.AdditionalUsers;
 	}
 
+		/**
+		* Additional users purchased for account
+		*/
 	public void setAdditionalUsers(Integer additionalusers) {
 		this.AdditionalUsers = additionalusers;
 	}
+		/**
+		* Additional rate for extra bandwidth. NOTE: This is specified in gigbytes, not megabytes.
+		*/
 	public Double getAdditionalBandwidthRate() {
 		return this.AdditionalBandwidthRate;
 	}
 
+		/**
+		* Additional rate for extra bandwidth. NOTE: This is specified in gigbytes, not megabytes.
+		*/
 	public void setAdditionalBandwidthRate(Double additionalbandwidthrate) {
 		this.AdditionalBandwidthRate = additionalbandwidthrate;
 	}
+		/**
+		* Additional rate for extra diskspace. NOTE: This is specified in gigbytes, not megabytes.
+		*/
 	public Double getAdditionalDiskSpaceRate() {
 		return this.AdditionalDiskSpaceRate;
 	}
 
+		/**
+		* Additional rate for extra diskspace. NOTE: This is specified in gigbytes, not megabytes.
+		*/
 	public void setAdditionalDiskSpaceRate(Double additionaldiskspacerate) {
 		this.AdditionalDiskSpaceRate = additionaldiskspacerate;
 	}
+		/**
+		* Additional rate for extra users
+		*/
 	public Double getAdditionalUserRate() {
 		return this.AdditionalUserRate;
 	}
 
+		/**
+		* Additional rate for extra users
+		*/
 	public void setAdditionalUserRate(Double additionaluserrate) {
 		this.AdditionalUserRate = additionaluserrate;
 	}
@@ -367,10 +481,16 @@ public class SFAccount extends SFODataObject {
 	public void setUserUsage(SFUserUsage userusage) {
 		this.UserUsage = userusage;
 	}
+		/**
+		* Maximum disk space for the account in megabtyes
+		*/
 	public Integer getDiskSpaceMax() {
 		return this.DiskSpaceMax;
 	}
 
+		/**
+		* Maximum disk space for the account in megabtyes
+		*/
 	public void setDiskSpaceMax(Integer diskspacemax) {
 		this.DiskSpaceMax = diskspacemax;
 	}
@@ -381,10 +501,23 @@ public class SFAccount extends SFODataObject {
 	public void setDiskSpace(SFDiskSpace diskspace) {
 		this.DiskSpace = diskspace;
 	}
+	public SFBandwidth getBandwidth() {
+		return this.Bandwidth;
+	}
+
+	public void setBandwidth(SFBandwidth bandwidth) {
+		this.Bandwidth = bandwidth;
+	}
+		/**
+		* Maximum bandwidth for the account in megabtyes
+		*/
 	public Integer getBandwidthMax() {
 		return this.BandwidthMax;
 	}
 
+		/**
+		* Maximum bandwidth for the account in megabtyes
+		*/
 	public void setBandwidthMax(Integer bandwidthmax) {
 		this.BandwidthMax = bandwidthmax;
 	}
@@ -402,17 +535,29 @@ public class SFAccount extends SFODataObject {
 	public void setHasEncryption(Boolean hasencryption) {
 		this.HasEncryption = hasencryption;
 	}
+		/**
+		* Additional rate for adding PowerTools.
+		*/
 	public Double getPowerToolsRate() {
 		return this.PowerToolsRate;
 	}
 
+		/**
+		* Additional rate for adding PowerTools.
+		*/
 	public void setPowerToolsRate(Double powertoolsrate) {
 		this.PowerToolsRate = powertoolsrate;
 	}
+		/**
+		* Additional rate for stored file encryption
+		*/
 	public Double getEncryptionRate() {
 		return this.EncryptionRate;
 	}
 
+		/**
+		* Additional rate for stored file encryption
+		*/
 	public void setEncryptionRate(Double encryptionrate) {
 		this.EncryptionRate = encryptionrate;
 	}
@@ -556,6 +701,13 @@ public class SFAccount extends SFODataObject {
 	public void setBrandingStyles(Map<String, String> brandingstyles) {
 		this.BrandingStyles = brandingstyles;
 	}
+	public SFBrandingLinks getBrandingLinks() {
+		return this.BrandingLinks;
+	}
+
+	public void setBrandingLinks(SFBrandingLinks brandinglinks) {
+		this.BrandingLinks = brandinglinks;
+	}
 	public String getLogoURL() {
 		return this.LogoURL;
 	}
@@ -626,17 +778,29 @@ public class SFAccount extends SFODataObject {
 	public void setProductDefaults(SFProductDefaults productdefaults) {
 		this.ProductDefaults = productdefaults;
 	}
+		/**
+		* Primary (first) subdomain
+		*/
 	public String getSubdomain() {
 		return this.Subdomain;
 	}
 
+		/**
+		* Primary (first) subdomain
+		*/
 	public void setSubdomain(String subdomain) {
 		this.Subdomain = subdomain;
 	}
+		/**
+		* All subdomains assigned to account
+		*/
 	public ArrayList<String> getSubdomains() {
 		return this.Subdomains;
 	}
 
+		/**
+		* All subdomains assigned to account
+		*/
 	public void setSubdomains(ArrayList<String> subdomains) {
 		this.Subdomains = subdomains;
 	}
@@ -731,12 +895,88 @@ public class SFAccount extends SFODataObject {
 	public void setAccountSubType(SFSafeEnum<SFAccountSubType> accountsubtype) {
 		this.AccountSubType = accountsubtype;
 	}
+	public Boolean getCanConvertFreeTrial() {
+		return this.CanConvertFreeTrial;
+	}
+
+	public void setCanConvertFreeTrial(Boolean canconvertfreetrial) {
+		this.CanConvertFreeTrial = canconvertfreetrial;
+	}
+	public Boolean getCanChangePlan() {
+		return this.CanChangePlan;
+	}
+
+	public void setCanChangePlan(Boolean canchangeplan) {
+		this.CanChangePlan = canchangeplan;
+	}
+	public Boolean getCanChangeBilling() {
+		return this.CanChangeBilling;
+	}
+
+	public void setCanChangeBilling(Boolean canchangebilling) {
+		this.CanChangeBilling = canchangebilling;
+	}
+	public Boolean getCanCancel() {
+		return this.CanCancel;
+	}
+
+	public void setCanCancel(Boolean cancancel) {
+		this.CanCancel = cancancel;
+	}
+	public String getConversionType() {
+		return this.ConversionType;
+	}
+
+	public void setConversionType(String conversiontype) {
+		this.ConversionType = conversiontype;
+	}
+	public ArrayList<SFSafeEnum<SFAccountFeatures>> getAccountFeatures() {
+		return this.AccountFeatures;
+	}
+
+	public void setAccountFeatures(ArrayList<SFSafeEnum<SFAccountFeatures>> accountfeatures) {
+		this.AccountFeatures = accountfeatures;
+	}
+		/**
+		* The add-on services available to the account
+		*/
 	public SFServicesCollection getServices() {
 		return this.Services;
 	}
 
+		/**
+		* The add-on services available to the account
+		*/
 	public void setServices(SFServicesCollection services) {
 		this.Services = services;
+	}
+	public ArrayList<SFBillingAddOn> getBillingAddons() {
+		return this.BillingAddons;
+	}
+
+	public void setBillingAddons(ArrayList<SFBillingAddOn> billingaddons) {
+		this.BillingAddons = billingaddons;
+	}
+	public SFSafeEnum<SFCloudStorageType> getCloudStorageType() {
+		return this.CloudStorageType;
+	}
+
+	public void setCloudStorageType(SFSafeEnum<SFCloudStorageType> cloudstoragetype) {
+		this.CloudStorageType = cloudstoragetype;
+	}
+	public Boolean getIsSolutionOffering() {
+		return this.IsSolutionOffering;
+	}
+
+	public void setIsSolutionOffering(Boolean issolutionoffering) {
+		this.IsSolutionOffering = issolutionoffering;
+	}
+	public SFSupport getSupportInfo() {
+		return this.SupportInfo;
+	}
+
+	public void setSupportInfo(SFSupport supportinfo) {
+		this.SupportInfo = supportinfo;
 	}
 
 }

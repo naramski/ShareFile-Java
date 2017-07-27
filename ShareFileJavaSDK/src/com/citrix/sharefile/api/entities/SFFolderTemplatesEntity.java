@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -65,7 +65,7 @@ public class SFFolderTemplatesEntity extends SFEntitiesBase
 	* Create Folder Template
     * {
     * "Name": "Client Folder",
-    * "Description": "For all client folders created in 2014 or after"
+    * "Description": "For all client folders created in 2014 or after",
     * "Items": [
     * {
     * "Name": "Folder 1",

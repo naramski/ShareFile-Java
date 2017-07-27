@@ -45,6 +45,7 @@ public class Logger {
         return logInstance.w(tag, tr);
     }
 
+    @Deprecated
     public static int e(String tag, String msg) {
         return logInstance.e(tag, msg);
     }

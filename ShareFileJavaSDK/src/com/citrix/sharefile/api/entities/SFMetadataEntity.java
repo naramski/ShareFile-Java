@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -154,6 +154,36 @@ public class SFMetadataEntity extends SFEntitiesBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(metadata);
 		sfApiQuery.setHttpMethod("GET");
+		return sfApiQuery;
+	}
+
+	/**
+	* Update Item Metadata
+    * [{
+    * "Value":"metadata value"
+    * },{
+    * "Value":"metadata value"
+    * },
+    * ...]
+	* Update the item corresponding to the supplied id with the provided key-value Metadata models.
+	* If a metadata key is not already associated with the item, the item is updated with the new key-value pair.
+	* @param url 	 	
+	* @return The updated Metadata list for the given object ID.
+	*/
+	public ISFQuery<SFODataFeed<SFMetadata>> updateItem(URI url, ArrayList<SFMetadata> metadata) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+		if (metadata == null) {
+			throw new InvalidOrMissingParameterException("metadata");
+		}
+
+		SFApiQuery<SFODataFeed<SFMetadata>> sfApiQuery = new SFApiQuery<SFODataFeed<SFMetadata>>(this.client);
+		sfApiQuery.setFrom("Items");
+		sfApiQuery.setAction("Metadata");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setBody(metadata);
+		sfApiQuery.setHttpMethod("PATCH");
 		return sfApiQuery;
 	}
 

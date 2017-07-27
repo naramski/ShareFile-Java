@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -50,81 +50,151 @@ public class SFUserConfirmationSettings extends SFODataObject {
 	private Integer EmailInterval;
 	@SerializedName("UserNotificationLocale")
 	private SFSafeEnum<SFNotificationLocale> UserNotificationLocale;
+	@SerializedName("OAuthClientId")
+	private String OAuthClientId;
+	@SerializedName("Email")
+	private String Email;
 
+		/**
+		* First Name
+		*/
 	public String getFirstName() {
 		return this.FirstName;
 	}
 
+		/**
+		* First Name
+		*/
 	public void setFirstName(String firstname) {
 		this.FirstName = firstname;
 	}
+		/**
+		* Last Name
+		*/
 	public String getLastName() {
 		return this.LastName;
 	}
 
+		/**
+		* Last Name
+		*/
 	public void setLastName(String lastname) {
 		this.LastName = lastname;
 	}
+		/**
+		* Company
+		*/
 	public String getCompany() {
 		return this.Company;
 	}
 
+		/**
+		* Company
+		*/
 	public void setCompany(String company) {
 		this.Company = company;
 	}
+		/**
+		* Password
+		*/
 	public String getPassword() {
 		return this.Password;
 	}
 
+		/**
+		* Password
+		*/
 	public void setPassword(String password) {
 		this.Password = password;
 	}
+		/**
+		* Security Question
+		*/
 	public String getSecurityQuestion() {
 		return this.SecurityQuestion;
 	}
 
+		/**
+		* Security Question
+		*/
 	public void setSecurityQuestion(String securityquestion) {
 		this.SecurityQuestion = securityquestion;
 	}
+		/**
+		* Answer for Security Question
+		*/
 	public String getSecurityQuestionAnswer() {
 		return this.SecurityQuestionAnswer;
 	}
 
+		/**
+		* Answer for Security Question
+		*/
 	public void setSecurityQuestionAnswer(String securityquestionanswer) {
 		this.SecurityQuestionAnswer = securityquestionanswer;
 	}
+		/**
+		* DayLightName
+		*/
 	public String getDayLightName() {
 		return this.DayLightName;
 	}
 
+		/**
+		* DayLightName
+		*/
 	public void setDayLightName(String daylightname) {
 		this.DayLightName = daylightname;
 	}
+		/**
+		* UTC Offset
+		*/
 	public String getUTCOffset() {
 		return this.UTCOffset;
 	}
 
+		/**
+		* UTC Offset
+		*/
 	public void setUTCOffset(String utcoffset) {
 		this.UTCOffset = utcoffset;
 	}
+		/**
+		* Preferred Date Format
+		*/
 	public String getDateFormat() {
 		return this.DateFormat;
 	}
 
+		/**
+		* Preferred Date Format
+		*/
 	public void setDateFormat(String dateformat) {
 		this.DateFormat = dateformat;
 	}
+		/**
+		* Preferred Time Format
+		*/
 	public String getTimeFormat() {
 		return this.TimeFormat;
 	}
 
+		/**
+		* Preferred Time Format
+		*/
 	public void setTimeFormat(String timeformat) {
 		this.TimeFormat = timeformat;
 	}
+		/**
+		* Email notification interval for activities
+		*/
 	public Integer getEmailInterval() {
 		return this.EmailInterval;
 	}
 
+		/**
+		* Email notification interval for activities
+		*/
 	public void setEmailInterval(Integer emailinterval) {
 		this.EmailInterval = emailinterval;
 	}
@@ -140,6 +210,32 @@ public class SFUserConfirmationSettings extends SFODataObject {
 		*/
 	public void setUserNotificationLocale(SFSafeEnum<SFNotificationLocale> usernotificationlocale) {
 		this.UserNotificationLocale = usernotificationlocale;
+	}
+		/**
+		* Webpop ClientId
+		*/
+	public String getOAuthClientId() {
+		return this.OAuthClientId;
+	}
+
+		/**
+		* Webpop ClientId
+		*/
+	public void setOAuthClientId(String oauthclientid) {
+		this.OAuthClientId = oauthclientid;
+	}
+		/**
+		* Email address of the user
+		*/
+	public String getEmail() {
+		return this.Email;
+	}
+
+		/**
+		* Email address of the user
+		*/
+	public void setEmail(String email) {
+		this.Email = email;
 	}
 
 }

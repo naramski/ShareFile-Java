@@ -13,12 +13,13 @@ public abstract class TransferRunnable extends Thread
     protected final IProgress mProgressListener;
     protected final SFCookieManager mCookieManager;
     protected long mTotalBytesTransferredForThisFile;
+    protected String mItemId;
 
     //credentials for connectors
     protected final String mUsername;
     protected final String mPassword;
 
-    TransferRunnable(SFApiClient client,IProgress progressListener, SFCookieManager cookieManager,
+    protected TransferRunnable(SFApiClient client,IProgress progressListener, SFCookieManager cookieManager,
                      String userName,String password)
     {
         mApiClient = client;
@@ -28,11 +29,11 @@ public abstract class TransferRunnable extends Thread
         mPassword = password;
     }
 
-	public interface IProgress {
-		public void bytesTransfered(long byteCount);
+    public interface IProgress {
+        public void bytesTransfered(long byteCount);
         public void onError(SFSDKException exception, long bytesTransfered);
-        public void onComplete(long bytesTransfered);
-	};
+        public void onComplete(long bytesTransfered, String itemId);
+    };
 
 
     protected abstract void runInThisThread() throws SFSDKException;

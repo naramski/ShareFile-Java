@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -36,6 +36,10 @@ public class SFUserConfirmRequirement extends SFODataObject {
 	private String ADUserName;
 	@SerializedName("TempPassword")
 	private String TempPassword;
+	@SerializedName("IsUnlicensedUser")
+	private Boolean IsUnlicensedUser;
+	@SerializedName("ClientUpgradeWeb")
+	private SFClientUpgradeWeb ClientUpgradeWeb;
 	@SerializedName("User")
 	private SFUser User;
 
@@ -73,6 +77,20 @@ public class SFUserConfirmRequirement extends SFODataObject {
 
 	public void setTempPassword(String temppassword) {
 		this.TempPassword = temppassword;
+	}
+	public Boolean getIsUnlicensedUser() {
+		return this.IsUnlicensedUser;
+	}
+
+	public void setIsUnlicensedUser(Boolean isunlicenseduser) {
+		this.IsUnlicensedUser = isunlicenseduser;
+	}
+	public SFClientUpgradeWeb getClientUpgradeWeb() {
+		return this.ClientUpgradeWeb;
+	}
+
+	public void setClientUpgradeWeb(SFClientUpgradeWeb clientupgradeweb) {
+		this.ClientUpgradeWeb = clientupgradeweb;
 	}
 	public SFUser getUser() {
 		return this.User;

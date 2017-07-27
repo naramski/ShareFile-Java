@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -29,10 +29,16 @@ public class SFRequireWebPopResult extends SFODataObject {
 	@SerializedName("RequireWebPop")
 	private Boolean RequireWebPop;
 
+		/**
+		* Indicates if WebPop is required for authentication.
+		*/
 	public Boolean getRequireWebPop() {
 		return this.RequireWebPop;
 	}
 
+		/**
+		* Indicates if WebPop is required for authentication.
+		*/
 	public void setRequireWebPop(Boolean requirewebpop) {
 		this.RequireWebPop = requirewebpop;
 	}

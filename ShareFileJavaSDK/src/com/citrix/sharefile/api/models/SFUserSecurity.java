@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -58,6 +58,8 @@ public class SFUserSecurity extends SFODataObject {
 	private String LastFailedLoginIP;
 	@SerializedName("FailedLoginCount")
 	private Integer FailedLoginCount;
+	@SerializedName("UserAuthenticationType")
+	private SFSafeEnum<SFUserAuthenticationType> UserAuthenticationType;
 
 	public Boolean getIsDisabled() {
 		return this.IsDisabled;
@@ -170,6 +172,19 @@ public class SFUserSecurity extends SFODataObject {
 
 	public void setFailedLoginCount(Integer failedlogincount) {
 		this.FailedLoginCount = failedlogincount;
+	}
+		/**
+		* Calculated value for how the user should authenticate
+		*/
+	public SFSafeEnum<SFUserAuthenticationType> getUserAuthenticationType() {
+		return this.UserAuthenticationType;
+	}
+
+		/**
+		* Calculated value for how the user should authenticate
+		*/
+	public void setUserAuthenticationType(SFSafeEnum<SFUserAuthenticationType> userauthenticationtype) {
+		this.UserAuthenticationType = userauthenticationtype;
 	}
 
 }

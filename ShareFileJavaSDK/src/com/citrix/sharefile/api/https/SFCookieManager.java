@@ -3,20 +3,21 @@ package com.citrix.sharefile.api.https;
 import com.citrix.sharefile.api.SFSDKDefaultAccessScope;
 import com.citrix.sharefile.api.exceptions.SFFormsAuthenticationCookies;
 import com.citrix.sharefile.api.log.Logger;
+import com.citrix.sharefile.api.utils.SFDateFormat;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
+
 
 public class SFCookieManager 
 {
@@ -42,19 +43,16 @@ public class SFCookieManager
     private static final String COOKIE_VALUE_DELIMITER = ";";
     private static final String PATH = "path";
     private static final String EXPIRES = "expires";
-    private static final String DATE_FORMAT = "EEE, dd-MMM-yyyy hh:mm:ss z";
     private static final String SET_COOKIE_SEPARATOR="; ";
     private static final String COOKIE = "Cookie";
 
     private static final char NAME_VALUE_SEPARATOR = '=';
     private static final char DOT = '.';
     
-    private final DateFormat dateFormat;
 
     public SFCookieManager() 
     {
 		mStore = new HashMap<String,Map<String, Cookie>>();
-		dateFormat = new SimpleDateFormat(DATE_FORMAT,Locale.US);
     }
     
     public synchronized void clearAllCookies()
@@ -139,7 +137,7 @@ public class SFCookieManager
             }
 
             // value pair
-            String name = token.substring(0, index).toLowerCase(Locale.US);
+            String name = token.substring(0, index);
             String value = token.substring(index + 1);
 
             if ( cookie==null ) {
@@ -147,9 +145,11 @@ public class SFCookieManager
                 domainStore.put(name, cookie);
             }
 
-            if ( EXPIRES.equals(name) ) {
+            //Use instead of ignorecase() for locale consistency
+			String nameLower = name.toLowerCase(Locale.US).trim();
+            if ( EXPIRES.equals(nameLower) ) {
                 cookie.expires = value;
-            } else if ( PATH.equals(name) ) {
+            } else if ( PATH.equals(nameLower) ) {
                 cookie.path = value;
             }
             /*else
@@ -185,7 +185,7 @@ public class SFCookieManager
 		    }
 		}
     }
- 
+
 	/**
 	 * Retreivees the www-authentication-headers for personal cloud connectors when there is a not authorized exception
 	 * @param conn
@@ -292,16 +292,16 @@ public class SFCookieManager
     {
 		if (cookieExpires == null) return true;
 		Date now = new Date();
-		try 
-		{
-			return (now.compareTo(dateFormat.parse(cookieExpires))) <= 0;
-		} 
-		catch (java.text.ParseException pe) 
-		{
-			Logger.e(TAG,pe);
-			return false;
+
+		Date expireDate = SFDateFormat.parse(cookieExpires);
+
+		if(expireDate==null){
+			//parse will fail if using unknown date formats Lets be safe and say it is good.
+			return true;
 		}
-    }
+
+		return now.compareTo(expireDate) <= 0;
+	}
 
     private boolean comparePaths(String cookiePath, String targetPath) 
     {
@@ -330,10 +330,32 @@ public class SFCookieManager
     {
     	mStore.remove(domain);
     }
-        
-    /**
-     *  removes all cookies for the domain in the given URI
-     */
+
+	/**
+	 * Removes a specific cookie for the domain.
+	 * This is needed to support legacy connectors
+	 * Ideally the platform should send us back cookies with unique paths
+	 * @param uri
+	 * @param key
+	 */
+	public void removeCookieStartsWith(URI uri, String key) {
+		Map<String,Cookie> domainStore = getDomainStoreFromHost(uri.getHost());
+
+		//do this to avoid concurrent issues
+		HashSet<String> keySet = new HashSet<>();
+		keySet.addAll(domainStore.keySet());
+
+		for (String entry : keySet)
+		{
+			if(entry.startsWith(key)){
+				domainStore.remove(entry);
+			}
+		}
+	}
+
+	/**
+	 *  removes all cookies for the domain in the given URI
+	 */
     public void removeCookies(URI uri)
     {
     	removeCookiesForDomain(getDomainFromHost(uri.getHost()));    	

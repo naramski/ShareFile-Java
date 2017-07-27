@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -28,10 +28,32 @@ public class SFPowerTools extends SFODataObject {
 
 	@SerializedName("EnableDesktopToolsPage")
 	private Boolean EnableDesktopToolsPage;
-	@SerializedName("EnableMobileApps")
-	private Boolean EnableMobileApps;
 	@SerializedName("ShowMobileTools")
 	private Boolean ShowMobileTools;
+	@SerializedName("ShowApps")
+	private Boolean ShowApps;
+	@SerializedName("EnableShareConnect")
+	private Boolean EnableShareConnect;
+	@SerializedName("EnableCLI")
+	private Boolean EnableCLI;
+	@SerializedName("EnableOutlook")
+	private Boolean EnableOutlook;
+	@SerializedName("EnableRightSignature")
+	private Boolean EnableRightSignature;
+	@SerializedName("EnableFTP")
+	private Boolean EnableFTP;
+	@SerializedName("EnableSFTP")
+	private Boolean EnableSFTP;
+	@SerializedName("EnableSync")
+	private Boolean EnableSync;
+	@SerializedName("EnableSyncAutoUpdate")
+	private Boolean EnableSyncAutoUpdate;
+	@SerializedName("EnableDriveMapping")
+	private Boolean EnableDriveMapping;
+	@SerializedName("EnableWebDAV")
+	private Boolean EnableWebDAV;
+	@SerializedName("SyncOverrideKey")
+	private String SyncOverrideKey;
 
 	public Boolean getEnableDesktopToolsPage() {
 		return this.EnableDesktopToolsPage;
@@ -40,19 +62,170 @@ public class SFPowerTools extends SFODataObject {
 	public void setEnableDesktopToolsPage(Boolean enabledesktoptoolspage) {
 		this.EnableDesktopToolsPage = enabledesktoptoolspage;
 	}
-	public Boolean getEnableMobileApps() {
-		return this.EnableMobileApps;
-	}
-
-	public void setEnableMobileApps(Boolean enablemobileapps) {
-		this.EnableMobileApps = enablemobileapps;
-	}
 	public Boolean getShowMobileTools() {
 		return this.ShowMobileTools;
 	}
 
 	public void setShowMobileTools(Boolean showmobiletools) {
 		this.ShowMobileTools = showmobiletools;
+	}
+		/**
+		* This gives the ability to access Apps page in web app.
+		*/
+	public Boolean getShowApps() {
+		return this.ShowApps;
+	}
+
+		/**
+		* This gives the ability to access Apps page in web app.
+		*/
+	public void setShowApps(Boolean showapps) {
+		this.ShowApps = showapps;
+	}
+		/**
+		* Access your computer files and apps on your tablet.
+		*/
+	public Boolean getEnableShareConnect() {
+		return this.EnableShareConnect;
+	}
+
+		/**
+		* Access your computer files and apps on your tablet.
+		*/
+	public void setEnableShareConnect(Boolean enableshareconnect) {
+		this.EnableShareConnect = enableshareconnect;
+	}
+		/**
+		* SFCLI is a command-line interface to ShareFile. It can be used with a task scheduler to make regular backups or scheduled uploads to ShareFile.
+		*/
+	public Boolean getEnableCLI() {
+		return this.EnableCLI;
+	}
+
+		/**
+		* SFCLI is a command-line interface to ShareFile. It can be used with a task scheduler to make regular backups or scheduled uploads to ShareFile.
+		*/
+	public void setEnableCLI(Boolean enablecli) {
+		this.EnableCLI = enablecli;
+	}
+		/**
+		* The ShareFile Outlook Plug-in integrates with Outlook 2007, 2010, 2013 and 2016 to provide an easy interface to ShareFile, allowing you to quickly send and request files through e-mail.
+		*/
+	public Boolean getEnableOutlook() {
+		return this.EnableOutlook;
+	}
+
+		/**
+		* The ShareFile Outlook Plug-in integrates with Outlook 2007, 2010, 2013 and 2016 to provide an easy interface to ShareFile, allowing you to quickly send and request files through e-mail.
+		*/
+	public void setEnableOutlook(Boolean enableoutlook) {
+		this.EnableOutlook = enableoutlook;
+	}
+		/**
+		* Using Right Signature, you can send documents for signature online.
+		*/
+	public Boolean getEnableRightSignature() {
+		return this.EnableRightSignature;
+	}
+
+		/**
+		* Using Right Signature, you can send documents for signature online.
+		*/
+	public void setEnableRightSignature(Boolean enablerightsignature) {
+		this.EnableRightSignature = enablerightsignature;
+	}
+		/**
+		* FTP Access allows you to connect to your ShareFile account and upload and download using a typical FTP client, useful if you have clients already familiar with FTP, or business processes scheduled to run over FTP.
+		*/
+	public Boolean getEnableFTP() {
+		return this.EnableFTP;
+	}
+
+		/**
+		* FTP Access allows you to connect to your ShareFile account and upload and download using a typical FTP client, useful if you have clients already familiar with FTP, or business processes scheduled to run over FTP.
+		*/
+	public void setEnableFTP(Boolean enableftp) {
+		this.EnableFTP = enableftp;
+	}
+		/**
+		* FTPS Access allows you to use FTP with SSL/TLS encryption, for an extra layer of security. If FTPS is enabled but regular FTP Access is disabled, you can ensure that transfers over FTP will always be encrypted.
+		* Note: Connections using should be made using 'Implicit SSL/TLS' mode over Port 990.
+		*/
+	public Boolean getEnableSFTP() {
+		return this.EnableSFTP;
+	}
+
+		/**
+		* FTPS Access allows you to use FTP with SSL/TLS encryption, for an extra layer of security. If FTPS is enabled but regular FTP Access is disabled, you can ensure that transfers over FTP will always be encrypted.
+		* Note: Connections using should be made using 'Implicit SSL/TLS' mode over Port 990.
+		*/
+	public void setEnableSFTP(Boolean enablesftp) {
+		this.EnableSFTP = enablesftp;
+	}
+		/**
+		* Enables sync access.
+		*/
+	public Boolean getEnableSync() {
+		return this.EnableSync;
+	}
+
+		/**
+		* Enables sync access.
+		*/
+	public void setEnableSync(Boolean enablesync) {
+		this.EnableSync = enablesync;
+	}
+		/**
+		* Enables sync auto update.
+		*/
+	public Boolean getEnableSyncAutoUpdate() {
+		return this.EnableSyncAutoUpdate;
+	}
+
+		/**
+		* Enables sync auto update.
+		*/
+	public void setEnableSyncAutoUpdate(Boolean enablesyncautoupdate) {
+		this.EnableSyncAutoUpdate = enablesyncautoupdate;
+	}
+		/**
+		* ShareFile Drive Mapper allows Employee users to connect their account as a mapped drive on the Windows file system, without performing a full sync of account content.
+		*/
+	public Boolean getEnableDriveMapping() {
+		return this.EnableDriveMapping;
+	}
+
+		/**
+		* ShareFile Drive Mapper allows Employee users to connect their account as a mapped drive on the Windows file system, without performing a full sync of account content.
+		*/
+	public void setEnableDriveMapping(Boolean enabledrivemapping) {
+		this.EnableDriveMapping = enabledrivemapping;
+	}
+		/**
+		* WebDAV access allows you to connect to your ShareFile account through a WebDAV client on your computer or mobile device. Depending on the client, these files can then be edited, and directly saved back into ShareFile.
+		*/
+	public Boolean getEnableWebDAV() {
+		return this.EnableWebDAV;
+	}
+
+		/**
+		* WebDAV access allows you to connect to your ShareFile account through a WebDAV client on your computer or mobile device. Depending on the client, these files can then be edited, and directly saved back into ShareFile.
+		*/
+	public void setEnableWebDAV(Boolean enablewebdav) {
+		this.EnableWebDAV = enablewebdav;
+	}
+		/**
+		* Provide or generate key to override Sync access control.
+		*/
+	public String getSyncOverrideKey() {
+		return this.SyncOverrideKey;
+	}
+
+		/**
+		* Provide or generate key to override Sync access control.
+		*/
+	public void setSyncOverrideKey(String syncoverridekey) {
+		this.SyncOverrideKey = syncoverridekey;
 	}
 
 }

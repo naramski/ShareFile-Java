@@ -6,7 +6,7 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 //     
-//	   Copyright (c) 2016 Citrix ShareFile. All rights reserved.
+//	   Copyright (c) 2017 Citrix ShareFile. All rights reserved.
 // </auto-generated>
 // ------------------------------------------------------------------------------
 
@@ -208,6 +208,25 @@ public class SFGroupsEntity extends SFEntitiesBase
 		sfApiQuery.addIds(url);
 		sfApiQuery.setBody(contacts);
 		sfApiQuery.setHttpMethod("DELETE");
+		return sfApiQuery;
+	}
+
+	/**
+	* Retrieve Groups associated with a User
+	* Returns all groups the user is associated. This is currently limited to the authenticated user.
+	* @param url 	 	
+	* @return Feed of Groups
+	*/
+	public ISFQuery<SFODataFeed<SFGroup>> getByUser(URI url) throws InvalidOrMissingParameterException 	{
+		if (url == null) {
+			throw new InvalidOrMissingParameterException("url");
+		}
+
+		SFApiQuery<SFODataFeed<SFGroup>> sfApiQuery = new SFApiQuery<SFODataFeed<SFGroup>>(this.client);
+		sfApiQuery.setFrom("Users");
+		sfApiQuery.setAction("Groups");
+		sfApiQuery.addIds(url);
+		sfApiQuery.setHttpMethod("GET");
 		return sfApiQuery;
 	}
 
