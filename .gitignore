@@ -8,3 +8,7 @@ build
 .idea
 /ShareFileJavaSDK/local.properties
 .gradle
+/target/
+.classpath
+.settings
+.project
